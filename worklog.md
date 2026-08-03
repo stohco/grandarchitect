@@ -88,13 +88,25 @@ Phase 3 (Reference Plugins): **NEXT**
 - Lint: clean
 - Committed: be53c33
 
-### Next: Phase 3 — Reference Plugins
-Priority order:
-1. `ga:renderer` — Three.js adapter behind RenderBackend interface
-2. `ga:physics` — physics adapter (Jolt or Rapier)
-3. `ga:terrain` — voxel density field
-4. `ga:animation` — state graph + blend trees
-5. `ga:vfx` — composable effect framework
-6. `ga:assets` — registry + import pipeline
-7. `ga:persistence` — save/load
-8. `ga:content-schema` — definition/template/rule system
+### Iteration 2 — 2026-08-04 (Phase 2: Reference Plugins — persistence + content-schema)
+- Implemented ga:persistence plugin (save/load, plugin state slices, branches, checkpoint hashing)
+  - 5 capabilities: persistence.save, persistence.load, persistence.checkpoint, persistence.slice, persistence.branch
+  - Uses determinism hash service for save envelope hashing
+  - In-memory implementation (no IndexedDB/OPFS yet)
+- Implemented ga:content-schema plugin (definition graph, templates, rules)
+  - 3 capabilities: content-schema.definitions, content-schema.templates, content-schema.rules
+  - Indexes all 37 frozen definitions into queryable graph
+  - Supports: get, list (by kind/tags/hooks/prefix), queryRelations, queryReverseRelations, hasHook, listByHook, traverse, kinds, relationTypes
+  - Template CRUD and Rule CRUD
+- Wrote conformance test: 90/90 PASS
+- All existing tests still pass: 37/37 kernel + 113/113 architect + 90/90 reference = 240 total
+- Lint: clean
+- Committed: cab3521
+
+### Next: Phase 2 continued — remaining reference plugins
+Priority:
+1. `ga:renderer` — RenderBackend interface + headless test stub
+2. `ga:physics` — PhysicsBackend interface + headless stub
+3. `ga:terrain` — TerrainBackend interface + headless stub
+4. `ga:animation` — AnimationBackend interface + headless stub
+5. `ga:vfx` — VFXBackend interface + headless stub
