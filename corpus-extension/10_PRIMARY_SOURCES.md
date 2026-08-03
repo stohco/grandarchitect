@@ -1,0 +1,261 @@
+# 10. Primary Chinese Historical Sources
+
+> **Purpose:** Ground the xianxia RPG's "mortal substrate" design document in actual primary-text passages — not secondary summaries. Each passage below is drawn directly from the source text (ctext.org, Wikisource, or academic transcriptions), with Hanzi (traditional), pinyin, and a literal English gloss. Where a source was only available in simplified characters, it has been converted to traditional and noted.
+
+---
+
+## 1. 齊民要術 (Qímín Yàoshù)
+
+**Author:** 賈思勰 (Jiǎ Sīxié)
+**Date:** c. 533–544 CE (Eastern Wei dynasty)
+**Source:** Wikisource / ctext.org / 4hn.org transcription, 卷二·水稻第十一 (Volume 2, "Rice," Chapter 11)
+
+### Passage 1A — Site selection, seed timing, and land preparation
+
+> 稻，無所緣，唯歲易為良。選地欲近上流。地無良薄，水清則稻美也。
+> 三月種者為上時，四月上旬為中時，中旬為下時。先放水，十日後，曳陸軸十遍。遍數唯多為良。地既熟，淨淘種子；浮者不去，秋則生稗。漬經三宿，漉出；內草篅中裛之。復經三宿，芽生，長二分。一畝三升擲。三日之中，令人驅鳥。
+
+**Pinyin:** Dào, wú suǒ yuán, wéi suì yì wéi liáng. Xuǎn dì yù jìn shàng liú. Dì wú liáng bó, shuǐ qīng zé dào měi yě. Sān yuè zhòng zhě wéi shàng shí, sì yuè shàng xún wéi zhōng shí, zhōng xún wéi xià shí. Xiān fàng shuǐ, shí rì hòu, yè lù zhóu shí biàn. Biàn shù wéi duō wéi liáng. Dì jì shóu, jìng táo zhǒng zǐ; fú zhě bù qù, qiū zé shēng bài. Zì jīng sān sù, lù chū; nà cǎo chuán zhōng yì zhī. Fù jīng sān sù, yá shēng, cháng èr fēn. Yī mǔ sān shēng zhì. Sān rì zhī zhōng, lìng rén qū niǎo.
+
+**Gloss:** Rice has no special requirement [for soil type]; only annual crop rotation is good. Choose land near the upstream [source]. Whether the land is good or poor, if the water is clear, the rice will be fine. March planting is the best time; the first ten-day period of April is the medium time; the middle ten-day period is the last time. First release [flood] the water; after ten days, drag the land-roller ten times. The more passes, the better. Once the land is well-worked, wash the seed clean; if floaters are not removed, barnyard grass will grow in autumn. Soak [the seed] for three nights, then scoop it out; place it in a grass basket to sweat. After another three nights, sprouts emerge, two *fen* long. Scatter three *sheng* per *mu*. For three days, have someone drive away birds.
+
+**Citation:** 齊民要術, 卷二, 水稻第十一 (Qimin Yaoshu, Vol. 2, "Rice," Ch. 11)
+
+---
+
+### Passage 1B — Weeding, water management, and harvest timing
+
+> 稻苗長七八寸，陳草復起，以鎌侵水芟之，草悉膿死。稻苗漸長，復須薅。拔草曰薅。薅讫，決去水，曝根令堅。量時水旱而溉之。將熟，又去水。霜降獲之。早刈米青而不堅，晚刈零落而損收。
+
+**Pinyin:** Dào miáo cháng qī bā cùn, chén cǎo fù qǐ, yǐ lián qīn shuǐ shān zhī, cǎo xī nóng sǐ. Dào miáo jiàn cháng, fù xū hāo. Bá cǎo yuē hāo. Hāo qì, jué qù shuǐ, pù gēn lìng jiān. Liàng shí shuǐ hàn ér gài zhī. Jiāng shóu, yòu qù shuǐ. Shuāng jiàng huò zhī. Zǎo yì mǐ qīng ér bù jiān, wǎn yì líng luò ér sǔn shōu.
+
+**Gloss:** When rice seedlings reach seven or eight inches, old grass rises again; use a sickle to cut it into the water, and the grass will all rot and die. As the seedlings grow taller, weeding is again necessary — pulling weeds is called *hāo* (薅). After weeding, drain off the water and expose the roots to sun to make them hardy. Gauge the season's wetness or drought and irrigate accordingly. When [the rice] is about to ripen, drain the water again. Harvest at Frost Descent (霜降). Reap too early and the grain is green and not firm; reap too late and kernels scatter, reducing the yield.
+
+**Citation:** 齊民要術, 卷二, 水稻第十一
+
+---
+
+### Passage 1C — Northern highland rice: burning, flooding, and transplanting
+
+> 北土高原，本無陂澤。隨逐隈曲而田者，二月，冰解地乾，燒而耕之，仍即下水；十日，塊既散液，持木斫平之。納種如前法。既生七八寸，拔而栽之。既非歲易，草、稗俱生，芟亦不死，故須栽而薅之。
+
+**Pinyin:** Běi tǔ gāo yuán, běn wú bēi zé. Suí zhú wēi qū ér tián zhě, èr yuè, bīng jiě dì gān, shāo ér gēng zhī, réng jí xià shuǐ; shí rì, kuài jì sàn yè, chí mù zhuó píng zhī. Nà zhǒng rú qián fǎ. Jì shēng qī bā cùn, bá ér zāi zhī. Jì fēi suì yì, cǎo, bài jù shēng, shān yì bù sǐ, gù xū zāi ér hāo zhī.
+
+**Gloss:** The high plains of the north originally have no reservoirs or marshes. Those who farm along winding valleys and bends: in the second month, when ice thaws and the ground dries, burn [the stubble] and plow, then immediately flood with water; after ten days, when the clods have broken down and dissolved, level them with a wooden mallet. Sow seed as in the method above. Once [seedlings] grow seven or eight inches, pull them up and transplant them. Since this is not annual rotation, grass and barnyard weed grow together, and cutting does not kill them; therefore one must transplant and weed.
+
+**Citation:** 齊民要術, 卷二, 水稻第十一
+
+---
+
+### Passage 1D — The Zhou ritual water-management system (quoted by Jia Sixie from the 周禮)
+
+> 《周官》曰：「稻人，掌稼下地。以豬畜水，以防止水，以溝蕩水，以遂均水，以列舍水，以澮寫水，以涉揚其芟，作田。」
+
+**Pinyin:** *Zhōuguān* yuē: "Dào rén, zhǎng jià xià dì. Yǐ zhū xù shuǐ, yǐ fáng zhǐ shuǐ, yǐ gōu dàng shuǐ, yǐ suì jūn shuǐ, yǐ liè shè shuǐ, yǐ kuài xiè shuǐ, yǐ shè yáng qí shān, zuò tián."
+
+**Gloss:** The *Offices of Zhou* says: "The Rice Officer is in charge of cultivating lowland fields. He uses ponds (*zhū*) to store water, dikes (*fáng*) to restrain water, channels (*gōu*) to distribute water evenly, field-head furrows (*suì*) to apportion water equally, field-borders (*liè*) to hold water [in the field], and drainage ditches (*kuài*) to discharge water. He wades through [the fields], lifting away the cut grass, and works the land."
+
+**Citation:** 齊民要術, 卷二, 水稻第十一, quoting 周禮·地官·稻人
+
+### RPG Grounding
+
+The Qimin Yaoshu grounds the RPG's **agricultural labor calendar** at the most granular level. The three-tier planting window (March = best, early April = medium, mid-April = last) gives a province-specific event timeline: a magistrate NPC could reference "上時" or "下時" to signal urgency. The water-management cycle — flood → puddle with roller → sow → drain → weed → re-flood → drain again before harvest — is a concrete minigame or procedural chain for a mortal farming village. The Frost Descent harvest deadline creates a natural dramatic clock: if spirit beasts or bandits disrupt the harvest window, the village faces famine. The Zhou ritual water system (ponds, dikes, channels, furrows, field-borders, drains) provides the vocabulary for irrigation infrastructure that a cultivator sect might protect or sabotage. The northern transplanting passage shows that even in the 6th century, mortal farmers understood crop rotation, weed ecology, and the labor tradeoff of transplanting vs. direct seeding — a tension the RPG can model as a player choice.
+
+---
+
+## 2. 王禎農書 (Wáng Zhēn Nóngshū)
+
+**Author:** 王禎 (Wáng Zhēn), courtesy name 伯善 (Bóshàn)
+**Date:** c. 1295–1313 CE (Yuan dynasty)
+**Source:** Wikisource (zh-hant), 農桑通訣卷一·授時篇第一, 農桑通訣卷四·收穫篇第十一, 百穀譜卷七·水稻
+
+### Passage 2A — The 24 solar terms and the agricultural calendar (授時篇)
+
+> 蓋二十八宿周天之度，十二辰日月之會，二十四氣之推移，七十二候之遷變，如環之循，如輪之轉，農桑之節，以此占之。四時各有其務，十二月各有其宜，先時而種，則失之太早而不生，後時而蓺，則失之太晚而不成。故曰：雖有智者，不能冬種而春收。
+
+**Pinyin:** Gài èrshíbā xiù zhōu tiān zhī dù, shí'èr chén rì yuè zhī huì, èrshísì qì zhī tuīyí, qīshí'èr hòu zhī qiānbiàn, rú huán zhī xún, rú lún zhī zhuǎn, nóng sāng zhī jié, yǐ cǐ zhān zhī. Sì shí gè yǒu qí wù, shí'èr yuè gè yǒu qí yí, xiān shí ér zhòng, zé shī zhī tài zǎo ér bù shēng, hòu shí ér yì, zé shī zhī tài wǎn ér bù chéng. Gù yuē: suī yǒu zhì zhě, bù néng dōng zhòng ér chūn shōu.
+
+**Gloss:** The twenty-eight lunar mansions' circuit through the heavens, the twelve earthly branches' conjunctions of sun and moon, the twenty-four solar terms' progression, the seventy-two pentads' transformations — like a ring revolving, like a wheel turning — the seasonal nodes of agriculture and sericulture are reckoned by these. Each of the four seasons has its task; each of the twelve months has its proper activity. Plant before the proper time, and you err by being too early — [the crop] will not sprout. Plant after the proper time, and you err by being too late — it will not mature. Thus it is said: even a wise man cannot plant in winter and harvest in spring.
+
+**Citation:** 王禎農書, 農桑通訣卷一, 授時篇第一 (Wang Zhen Nongshu, "Treatise on Agriculture and Sericulture," Vol. 1, "Granting the Seasons," Ch. 1)
+
+---
+
+### Passage 2B — Rice transplanting method (百穀譜·水稻)
+
+> 又有作為畦埂，耕耙既熟，放水勻停，擲種於內。候苗生五六寸，拔而秧之。今江南皆用此法。苗高七八寸則耘之。耘畢，放水熇之。欲秀，復用水浸之。苗既長茂，復事薅拔，以去稂莠。
+
+**Pinyin:** Yòu yǒu zuò wéi qí gěng, gēng bà jì shóu, fàng shuǐ yún tíng, zhì zhǒng yú nèi. Hòu miáo shēng wǔ liù cùn, bá ér yāng zhī. Jīn Jiāngnán jiē yòng cǐ fǎ. Miáo gāo qī bā cùn zé yún zhī. Yún bì, fàng shuǐ hè zhī. Yù xiù, fù yòng shuǐ jìn zhī. Miáo jì cháng mào, fù shì hāo bá, yǐ qù láng yǒu.
+
+**Gloss:** There is also [a method of] making field ridges; after plowing and harrowing are thorough, release water evenly, and scatter seed within. Wait until seedlings grow five or six inches, then pull them up and transplant them (*yāng*). Nowadays all of Jiangnan uses this method. When seedlings reach seven or eight inches, weed them. After weeding, drain the water and sun-dry [the roots]. When about to head [form grain ears], flood with water again. Once seedlings grow lush, again weed and pull, to remove the weeds and barnyard grass.
+
+**Citation:** 王禎農書, 百穀譜卷七, 穀屬·水稻 (Wang Zhen Nongshu, "Compendium of the Hundred Grains," Vol. 7, "Grain Category: Rice")
+
+---
+
+### Passage 2C — Harvest timing and the urgency of reaping (收穫篇)
+
+> 種曰稼，斂曰穡。種斂者，歲之終始也。……《食貨志》云：「力耕數耘，收穫如盜賊之至。」蓋謂收之欲速也。故《物理論》曰：「稼，農之本；穡，農之末。本輕而末重，前緩而後急。稼欲熟，收欲速。此良農之務也。」……南方水地，多種稻秫。早禾則宜早收，六月、七月則收早禾。其餘則至八月、九月。《詩》云：「十月穫稻」，《齊民要術》曰：稻至「霜降穫之」，此皆言晚禾大稻也。
+
+**Pinyin:** Zhòng yuē jià, liǎn yuē sè. Zhòng liǎn zhě, suì zhī zhōng shǐ yě. … *Shíhuòzhì* yún: "Lì gēng shuò yún, shōuhuò rú dàozéi zhī zhì." Gài wèi shōu zhī yù sù yě. Gù *Wùlǐlùn* yuē: "Jià, nóng zhī běn; sè, nóng zhī mò. Běn qīng ér mò zhòng, qián huǎn ér hòu jí. Jià yù shóu, shōu yù sù. Cǐ liáng nóng zhī wù yě." … Nánfāng shuǐ dì, duō zhòng dào shú. Zǎo hé zé yí zǎo shōu, liù yuè, qī yuè zé shōu zǎo hé. Qí yú zé zhì bā yuè, jiǔ yuè. *Shī* yún: "Shí yuè huò dào," *Qímín Yàoshù* yuē: dào zhì "shuāng jiàng huò zhī," cǐ jiē yán wǎn hé dà dào yě.
+
+**Gloss:** Planting is called *jià*; harvesting is called *sè*. Planting and harvesting are the beginning and end of the agricultural year. … The *Treatise on Food and Money* says: "Plow vigorously, weed frequently; harvest as if thieves are arriving." This means harvesting must be swift. Thus the *Discourse on Things and Principles* says: "Planting is the root of farming; harvesting is its branch. The root is light [in labor] but the branch is heavy; the former is relaxed but the latter is urgent. Crops should be fully ripe [at harvest], but harvesting must be swift. This is the essential duty of a good farmer." … In the watery south, rice and glutinous rice are mostly planted. Early grain should be harvested early: in the sixth and seventh months, early grain is reaped. The rest is harvested in the eighth and ninth months. The *Book of Odes* says, "In the tenth month they harvest the rice." The *Qimin Yaoshu* says rice is "harvested at Frost Descent" — these all refer to late grain and large rice.
+
+**Citation:** 王禎農書, 農桑通訣卷四, 收穫篇第十一 (Wang Zhen Nongshu, Vol. 4, "Harvest," Ch. 11)
+
+---
+
+### Passage 2D — Gendered division of labor and the four-class order (孝弟力田篇)
+
+> 農者，被蒲茅，飯粗糲，居蓬藋，逐牛豕，戴星而出，帶月而歸，父耕而子饁，兄作而弟隨；公則奉租稅，給征役，私則養父母，育妻子，其餘則結親姻，交鄰里：有淳樸之風者，莫農若也。
+
+**Pinyin:** Nóng zhě, pī pú máo, fàn cū lì, jū péng diào, zhú niú shǐ, dài xīng ér chū, dài yuè ér guī, fù gēng ér zi yè, xiōng zuò ér dì suí; gōng zé fèng zū shuì, gěi zhēng yì, sī zé yǎng fù mǔ, yù qī zǐ, qí yú zé jié qīn yīn, jiāo lín lǐ: yǒu chún pǔ zhī fēng zhě, mò nóng ruò yě.
+
+**Gloss:** The farmer wears coarse rush-cloth, eats rough grain, dwells in thatched huts, tends cattle and pigs. He goes out wearing the stars [before dawn] and returns wearing the moon [after dusk]. The father plows while the son brings food; the elder brother works while the younger follows. In public affairs he pays land tax and renders corvée service; in private he supports his parents and raises his wife and children; with what remains he forms marriage alliances and associates with neighbors. Among those who possess the customs of honest simplicity, none surpass the farmer.
+
+**Citation:** 王禎農書, 農桑通訣卷一, 孝弟力田篇第三
+
+### RPG Grounding
+
+Wang Zhen's Nongshu grounds the RPG's **solar-term event system** and **gendered labor model**. The passage on 24 *qì* and 72 *hòu* establishes that the calendar is not flavor text but the fundamental clock that determines whether a village's crops succeed or fail — "even a wise man cannot plant in winter and harvest in spring" becomes a hard rule. The transplanting passage (*拔而秧之*) confirms that by the Yuan dynasty, Jiangnan had standardized the seedbed-to-paddy method, giving the RPG a two-stage rice farming mechanic: first raise seedlings in a nursery bed, then transplant to the main field at 5–6 inches. The harvest-urgency passage (*收穫如盜賊之至*) gives a dramatic framing: harvest season is a race against weather, rot, and grain loss. The gendered labor description (*父耕而子饁，兄作而弟隨*) grounds the family-labor-unit model: men plow, sons bring food to the fields, women's textile work (implied by the silk-and-agriculture pairing throughout the text) runs in parallel. The four-class hierarchy (士農工商) and the proverb about "farming < craft < commerce" give social-mobility texture for mortal NPCs who might dream of leaving the soil.
+
+---
+
+## 3. 天工開物 (Tiāngōng Kāiwù)
+
+**Author:** 宋應星 (Sòng Yīngxīng)
+**Date:** 1637 CE (Ming dynasty, Chongzhen 10th year)
+**Source:** Wikisource (zh-hant/zh-hans), 作鹹第五·海水鹽, 作鹹第五·井鹽, 五金第十四·鐵
+
+### Passage 3A — Sea-salt production: the ash-sprinkle method (海水鹽)
+
+> 凡海水自具鹹質。海濱地高者名潮墩，下者名草蕩，地皆產鹽。同一海鹵傳神，而取法則異。一法：高堰地，潮波不沒者，地可種鹽。種戶各有區畫經界，不相侵越。度詰朝無雨，則今日廣布稻麥稿灰及蘆茅灰寸許於地上，壓使平勻。明晨露氣沖騰，則其下鹽茅勃發。日中晴霽，灰、鹽一併掃起淋煎。
+
+**Pinyin:** Fán hǎi shuǐ zì jù xián zhí. Hǎi bīn dì gāo zhě míng cháo dūn, xià zhě míng cǎo dàng, dì jiē chǎn yán. Tóng yī hǎi lǔ chuán shén, ér qǔ fǎ zé yì. Yī fǎ: gāo yàn dì, cháo bō bù mò zhě, dì kě zhòng yán. Zhòng hù gè yǒu qū huà jīng jiè, bù xiāng qīn yuè. Duó jié zhāo wú yǔ, zé jīn rì guǎng bù dào mài gǎo huī jí lú máo huī cùn xǔ yú dì shàng, yā shǐ píng yún. Míng chén lù qì chōng téng, zé qí xià yán máo bó fā. Rì zhōng qíng jì, huī, yán yī bìng sǎo qǐ lín jiān.
+
+**Gloss:** All seawater naturally possesses a salty quality. On the seashore, the higher ground is called "tide-mound" (*cháo dūn*), the lower is called "grass-marsh" (*cǎo dàng*); both produce salt. Though the same sea-brine works its magic, the methods of extraction differ. One method: on high embanked land where tidal waves do not reach, the land can be "planted with salt." Each salt-household has its own demarcated boundaries, and none may encroach on another. Judging that the following morning will have no rain, today broadly scatter rice and wheat stalk-ash and reed-mulberry grass ash about an inch thick on the ground, and press it flat and even. By the next morning, when the dew-vapor rises, salt crystals bristle forth beneath [the ash]. At midday in clear weather, the ash and salt are swept up together and leached and boiled.
+
+**Citation:** 天工開物, 卷中, 作鹹第五, 海水鹽 (Tiangong Kaiwu, "Making Salt," Ch. 5: Sea Salt)
+
+---
+
+### Passage 3B — Sichuan fire-well (natural gas) for boiling brine (井鹽)
+
+> 凡滇、蜀兩省遠離海濱，舟車艱通，形勢高上，其鹹脈即韞藏地中。凡蜀中石山去河不遠者，多可造井取鹽。鹽井周圓不過數寸，其上口一小盂覆之有餘，深必十丈以外乃得鹵性。……西川有火井，事奇甚。其井居然冷水，絕無火氣。但以長竹剖開去節，合縫漆布，一頭插入井底，其上曲接，以口緊對釜臍，注滷水釜中，只見火意烘烘，水即滾沸。啟竹而視之，絕無半點焦炎意。未見火形而用火神，此世間大奇事也！凡川、滇鹽井，逃課掩蓋至易，不可窮詰。
+
+**Pinyin:** Fán Diān, Shǔ liǎng shěng yuǎn lí hǎi bīn, zhōu chē jiān tōng, xíng shì gāo shàng, qí xián mài jí yùn cáng dì zhōng. Fán Shǔ zhōng shí shān qù hé bù yuǎn zhě, duō kě zào jǐng qǔ yán. Yán jǐng zhōu yuán bù guò shù cùn, qí shàng kǒu yī xiǎo yú fù zhī yǒu yú, shēn bì shí zhàng yǐ wài nǎi dé lǔ xìng. … Xīchuān yǒu huǒ jǐng, shì qí shèn. Qí jǐng jū rán lěng shuǐ, jué wú huǒ qì. Dàn yǐ cháng zhú pōu kāi qù jié, hé fèng qī bù, yī tóu chā rù jǐng dǐ, qí shàng qū jiē, yǐ kǒu jǐn duì fù qí, zhù lǔ shuǐ fù zhōng, zhǐ jiàn huǒ yì hōng hōng, shuǐ jí gǔn fèi. Qǐ zhú ér shì zhī, jué wú bàn diǎn jiāo yán yì. Wèi jiàn huǒ xíng ér yòng huǒ shén, cǐ shì jiān dà qí shì yě! Fán Chuān, Diān yán jǐng, táo kè yǎn gài zhì yì, bù kě qióng jié.
+
+**Gloss:** Yunnan and Sichuan, being far from the seashore and difficult to reach by boat or cart, are situated on high ground; their salt veins lie hidden within the earth. In Sichuan, rocky mountains not far from a river can mostly have wells sunk to obtain salt. A salt-well's circumference is no more than a few inches; its mouth could be covered by a small bowl. It must be over ten *zhang* deep before the brine-quality is reached. … In western Sichuan there is a "fire-well" (*huǒ jǐng*) — a truly remarkable thing. The well actually holds cold water, with absolutely no fire-vapor. But by taking a long bamboo, splitting it open and removing the nodes, joining the seams with lacquered cloth, one end is inserted to the bottom of the well; the upper end is curved and connected, its mouth pressed tight against the navel of the boiling cauldron. Pour brine into the cauldron, and you see only the heat blazing away — the water immediately boils. Open the bamboo and look inside: there is not the slightest trace of scorching fire. Unseen is the form of fire, yet its *shén* (spirit) is used — this is truly a great marvel of the world! For the salt-wells of Sichuan and Yunnan, evading the salt tax by concealment is extremely easy, and cannot be fully investigated.
+
+**Citation:** 天工開物, 卷中, 作鹹第五, 井鹽 (Tiangong Kaiwu, "Making Salt," Ch. 5: Well Salt)
+
+---
+
+### Passage 3C — Iron smelting: furnace, bellows, and the pig-to-wrought-to-steel process (鐵)
+
+> 凡鐵分生、熟，出爐未炒則生，既炒則熟。生熟相和，煉成則鋼。凡鐵爐用鹽做造，和泥砌成。其爐多傍山穴為之，或用巨木匡圍，朔造鹽泥，窮月之力不容造次。鹽泥有罅，盡棄全功。凡鐵一爐載土二千餘斤，或用硬木柴，或用煤炭，或用木炭，南北各從利便。扇爐風箱必用四人、六人帶拽。土化成鐵之後，從爐腰孔流出。爐孔先用泥塞。每旦晝六時，一時出鐵一陀。既出即叉泥塞，鼓風再熔。
+
+**Pinyin:** Fán tiě fēn shēng, shóu, chū lú wèi chǎo zé shēng, jì chǎo zé shóu. Shēng shóu xiāng hé, liàn chéng zé gāng. Fán tiě lú yòng yán zuò zào, hé ní qì chéng. Qí lú duō bàng shān xué wéi zhī, huò yòng jù mù kuāng wéi, shuò zào yán ní, qióng yuè zhī lì bù róng zào cì. Yán ní yǒu xià, jìn qì quán gōng. Fán tiě yī lú zài tǔ èrqiān yú jīn, huò yòng yìng mù chái, huò yòng méi tàn, huò yòng mù tàn, nán běi gè cóng lì biàn. Shān lú fēng xiāng bì yòng sì rén, liù rén dài yè. Tǔ huà chéng tiě zhī hòu, cóng lú yāo kǒng liú chū. Lú kǒng xiān yòng ní sāi. Měi dàn zhòu liù shí, yī shí chū tiě yī tuó. Jì chū jí chā ní sāi, gǔ fēng zài róng.
+
+**Gloss:** Iron is divided into pig (raw) and wrought (cooked): what comes from the furnace un-stirred is pig; once stirred, it is wrought. Pig and wrought blended together and refined become steel. Iron furnaces are made using salt [brine], mixed with clay and built up. The furnaces are mostly built against mountain caves, or framed with giant timbers; the salt-clay is built up over a month's work and cannot be rushed. If the salt-clay develops a crack, the entire effort is wasted. A single iron furnace loads over two thousand *jin* of ore [earth]; either hardwood, coal, or charcoal is used, each according to local convenience north and south. The furnace bellows must be worked by four or six men pulling. After the earth transforms into iron, it flows out from a hole at the furnace's waist. The furnace hole is first plugged with clay. Each day, in six two-hour periods (*shí*), one period produces one block of iron. Once it has come out, immediately fork in clay to plug [the hole] and blast the wind to re-melt.
+
+**Citation:** 天工開物, 卷下, 五金第十四, 鐵 (Tiangong Kaiwu, "The Five Metals," Ch. 14: Iron)
+
+---
+
+### Passage 3D — The co-fusion steel-making method (灌鋼)
+
+> 凡鋼鐵煉法，用熟鐵打成薄片如指頭闊，長寸半許，以鐵片束包尖緊，生鐵安置其上，又用破草履蓋其上，泥塗其底下。洪爐鼓鞴，火力到時，生鋼先化，滲淋熟鐵之中，兩情投合，取出加錘。再煉再錘，不一而足。俗名團鋼，亦曰灌鋼者是也。
+
+**Pinyin:** Fán gāng tiě liàn fǎ, yòng shóu tiě dǎ chéng bó piàn rú zhǐ tou kuò, cháng cùn bàn xǔ, yǐ tiě piàn shù bāo jiān jǐn, shēng tiě ān zhì qí shàng, yòu yòng pò cǎo lǚ gài qí shàng, ní tú qí dǐ xià. Hóng lú gǔ bèi, huǒ lì dào shí, shēng gāng xiān huà, shèn lín shóu tiě zhī zhōng, liǎng qíng tóu hé, qǔ chū jiā chuí. Zài liàn zài chuí, bù yī ér zú. Sú míng tuán gāng, yì yuē guàn gāng zhě shì yě.
+
+**Gloss:** The method of refining steel: wrought iron is beaten into thin strips about finger-width, roughly one and a half inches long. The iron strips are bundled and wrapped tightly to a point, and pig iron is placed on top. Broken straw sandals are placed over it [to slow oxidation], and clay is smeared on the underside. The great furnace is blasted with bellows; when the heat reaches [sufficient intensity], the pig steel melts first and percolates down into the wrought iron. The two natures interpenetrate; [the mass] is taken out and hammered. Refined and hammered again and again, not just once. It is commonly called "bundle-steel" (*tuán gāng*), also known as "infusion-steel" (*guàn gāng*).
+
+**Citation:** 天工開物, 卷下, 五金第十四, 鐵
+
+### RPG Grounding
+
+The Tiangong Kaiwu grounds the RPG's **extractive industries and craft chains**. The sea-salt passage reveals a sophisticated ash-sprinkle leaching method with demarcated household plots (*種戶各有區畫經界*) — a natural territorial system for mortal villages that a sect might tax or control. The Sichuan fire-well (*火井*) is the single most xianxia-ready passage in the entire corpus: a natural-gas well where "unseen is the form of fire, yet its spirit is used" (*未見火形而用火神*) reads as proto-cultivation language and gives a perfect in-world justification for a mortal settlement that boils brine using subterranean fire — a resource a cultivator sect would covet. The iron-smelting passage quantifies the labor and scale (2,000+ *jin* of ore per charge, 4–6 men on bellows, six taps per day), providing concrete production numbers for a forge or mining town. The *guàn gāng* (灌鋼) co-fusion method — pig iron percolating into bundled wrought iron — is a multi-step crafting recipe that could be a player or NPC crafting chain. Song Yingxing's note that salt-well tax evasion "cannot be fully investigated" (*不可窮詰*) is an open invitation for plot hooks involving smuggling, corruption, and mortal-versus-state tension.
+
+---
+
+## 4. 大清律例 (Dà Qīng Lǜ Lì)
+
+**Author:** Compiled by 徐本 (Xú Běn) et al.; promulgated by imperial edict
+**Date:** 1740 CE (Qianlong 5th year) — the definitive consolidated edition
+**Source:** Wikisource (zh-hant), 戶律·戶役 (Household Law: Household Service), 戶律·田宅 (Household Law: Fields and Dwellings); also cross-referenced with chinaknowledge.de and lsc.chineselegalculture.org
+
+### Passage 4A — Household registration and corvée: the lijia headman's liability (脫漏戶口)
+
+> 凡一戶全不附籍，若有田應出賦役者，家長杖一百；若係無田不應出賦役者，杖八十；准附籍，有賦照賦，無賦照丁當差。……若里長失於取勘，致有脫戶者，一戶至五戶笞五十，每五戶加一等，罪止杖一百。漏口者，一口至十口笞三十，每十口加一等，罪止笞五十。
+
+**Pinyin:** Fán yī hù quán bù fù jí, ruò yǒu tián yīng chū fù yì zhě, jiā zhǎng zhàng yī bǎi; ruò xì wú tián bù yīng chū fù yì zhě, zhàng bā shí; zhǔn fù jí, yǒu fù zhào fù, wú fù zhào dīng dāng chāi. … Ruò lǐ zhǎng shī yú qǔ kān, zhì yǒu tuō hù zhě, yī hù zhì wǔ hù chī wǔ shí, měi wǔ hù jiā yī děng, zuì zhǐ zhàng yī bǎi. Lòu kǒu zhě, yī kǒu zhì shí kǒu chī sān shí, měi shí kǒu jiā yī děng, zuì zhǐ chī wǔ shí.
+
+**Gloss:** Whenever a household is entirely unregistered [in the census]: if it has land and should owe tax and service, the household head is punished with 100 blows of the heavy bamboo. If it has no land and should not owe tax and service, [the punishment is] 80 blows. [The household] is to be registered retroactively: if it owes tax, tax is assessed; if not, service is assessed per adult male (*dīng*). … If a *lijia* headman (*lǐ zhǎng*) fails in his duty to investigate and enumerate, resulting in an unregistered household: for one to five households, 50 blows of the light bamboo; for every additional five households, one degree is added, up to a maximum of 100 blows of the heavy bamboo. For omitted individuals: one to ten persons, 30 blows; for every additional ten, one degree is added, up to a maximum of 50 blows.
+
+**Citation:** 大清律例, 戶律, 戶役, 脫漏戶口 (Da Qing Lü Li, Household Law, Household Service, "Omitting Households from the Census")
+
+---
+
+### Passage 4B — Concealing land from tax assessment (欺隱田糧)
+
+> 凡欺隱田糧，全不報戶入冊，脫漏版籍者，一畝至五畝笞四十，每五畝加一等，罪止杖一百；其脫漏之田入官。所隱稅糧，依畝數額數年數總約其數徵納。若將版籍上自己田土移坵換段、那移等則、以高作下、減瞞糧額，及詭寄田糧、影射差役，並受寄者罪亦如之；其減額詭寄之田改正，收歸本戶起科當差。
+
+**Pinyin:** Fán qī yǐn tián liáng, quán bù bào hù rù cè, tuō lòu bǎn jí zhě, yī mǔ zhì wǔ mǔ chī sì shí, měi wǔ mǔ jiā yī děng, zuì zhǐ zhàng yī bǎi; qí tuō lòu zhī tián rù guān. Suǒ yǐn shuì liáng, yī mǔ shù é shù nián shù zǒng yuē qí shù zhēng nà. Ruò jiāng bǎn jí shàng zì jǐ tián tǔ yí qiū huàn duàn, nuó yí děng zé, yǐ gāo zuò xià, jiǎn mán liáng é, jí guǐ jì tián liáng, yǐng shè chāi yì, bìng shòu jì zhě zuì yì rú zhī; qí jiǎn é guǐ jì zhī tián gǎi zhèng, shōu guī běn hù qǐ kē dāng chāi.
+
+**Gloss:** Whoever conceals land-tax [obligations], entirely failing to report [land] to the household register and omitting it from the cadastral records: for one to five *mu*, 40 blows of the light bamboo; for every additional five *mu*, one degree is added, up to a maximum of 100 blows of the heavy bamboo. The omitted land is confiscated by the state. The concealed tax-grain is collected based on the total of acreage, rate, and number of years. If one alters one's own registered land — moving field-mounds, swapping parcels, shifting tax-categories, reporting high-grade [land] as low-grade, reducing and concealing the tax quota — or fraudulently registers [one's] land-tax under another's name [*guǐ jì*] to evade corvée, both the registrant and the recipient are punished equally. The fraudulently reduced or misregistered land is corrected and returned to the original household for tax assessment and service duty.
+
+**Citation:** 大清律例, 戶律, 田宅, 欺隱田糧 (Da Qing Lü Li, Household Law, Fields and Dwellings, "Concealing Land-Tax")
+
+---
+
+### Passage 4C — Pawning and selling land: the redemption right and tax-transfer requirement (典買田宅)
+
+> 凡典買田宅不稅契者，笞五十，仍追契內田宅價錢一半入官。不過割者，一畝至五畝笞四十，每五畝加一等，罪止杖一百；其不過割之田入官。若將已典賣與人田宅朦朧重復典賣者，以所得重典賣之價錢計贓准竊盜論，免刺，追價還後典買之主，田宅從原典買主為業。若年限已滿，業主備價取贖，若典主託故不肯放贖者，笞四十；限外遞年所得多餘花利追徵給主，仍聽依原價取贖。其年限雖滿，業主無力取贖者，不拘此律。
+
+**Pinyin:** Fán diǎn mǎi tián zhái bù shuì qì zhě, chī wǔ shí, réng zhuī qì nèi tián zhái jià qián yī bàn rù guān. Bù guò gē zhě, yī mǔ zhì wǔ mǔ chī sì shí, měi wǔ mǔ jiā yī děng, zuì zhǐ zhàng yī bǎi; qí bù guò gē zhī tián rù guān. Ruò jiāng yǐ diǎn mài yǔ rén tián zhái méng lóng chóng fù diǎn mài zhě, yǐ suǒ dé chóng diǎn mài zhī jià qián jì zāng zhǔn qiè dào lùn, miǎn cì, zhuī jià huán hòu diǎn mǎi zhī zhǔ, tián zhái cóng yuán diǎn mǎi zhǔ wéi yè. Ruò nián xiàn yǐ mǎn, yè zhǔ bèi jià qǔ shú, ruò diǎn zhǔ tuō gù bù kěn fàng shú zhě, chī sì shí; xiàn wài dì nián suǒ dé duō yú huā lì zhuī zhēng gěi zhǔ, réng tīng yī yuán jià qǔ shú. Qí nián xiàn suī mǎn, yè zhǔ wú lì qǔ shú zhě, bù jū cǐ lǜ.
+
+**Gloss:** Whoever pawns or buys land or dwellings without registering [stamping] the contract: 50 blows of the light bamboo, and half the purchase price stated in the contract is confiscated by the state. Whoever fails to transfer [the tax obligation] (*bù guò gē*): for one to five *mu*, 40 blows; for every additional five *mu*, one degree added, up to 100 blows of the heavy bamboo; the un-transferred land is confiscated by the state. If one pawns or sells land already pawned or sold to another, fraudulently re-pledging it, the price obtained from the duplicate sale is calculated as stolen goods and punished as theft (without branding). The price is returned to the later purchaser, and the land reverts to the original pawn-buyer as his property. If the pawn-term has expired and the original owner prepares the price to redeem it, but the pawn-holder makes excuses and refuses to release it: 40 blows. Any surplus produce [*huā lì*] obtained beyond the term is recovered and given to the owner; the owner may still redeem at the original price. If the term has expired but the owner lacks the means to redeem, this statute does not apply [i.e., the pawn-holder may not forcibly evict].
+
+**Citation:** 大清律例, 戶律, 田宅, 典買田宅 (Da Qing Lü Li, Household Law, Fields and Dwellings, "Pawning and Buying Land and Dwellings")
+
+---
+
+### Passage 4D — Stealing and encroaching on land (盜賣田宅)
+
+> 凡盜他人田宅賣，將己不堪田宅換易，及冒認他人田宅作自己者；若虛寫價錢、實立文契典買，及侵佔他人田宅者：田一畝、屋一間以下，笞五十；每田五畝、屋三間，加一等，罪止杖八十、徒二年。係官者，各加二等。若強占官民山場、湖泊、茶園、蘆蕩及金銀銅錫鐵冶者，杖一百、流三千里。
+
+**Pinyin:** Fán dào tā rén tián zhái mài, jiāng jǐ bù kān tián zhái huàn yì, jí mào rèn tā rén tián zhái zuò zì jǐ zhě; ruò xū xiě jià qián, shí lì wén qì diǎn mǎi, jí qīn zhàn tā rén tián zhái zhě: tián yī mǔ, wū yī jiān yǐ xià, chī wǔ shí; měi tián wǔ mǔ, wū sān jiān, jiā yī děng, zuì zhǐ zhàng bā shí, tú èr nián. Xì guān zhě, gè jiā èr děng. Ruò qiáng zhàn guān mín shān chǎng, hú pō, chá yuán, lú dàng, jí jīn yín tóng xī tiě yě zhě, zhàng yī bǎi, liú sān qiān lǐ.
+
+**Gloss:** Whoever steals another's land or dwelling and sells it; or exchanges [it for] one's own worthless land or dwelling; or falsely claims another's land or dwelling as one's own; or fraudulently writes a price and executes a contract to pawn or buy; or encroaches on another's land or dwelling: for one *mu* of land or one room of a dwelling or less, 50 blows of the light bamboo. For every additional five *mu* of land or three rooms, one degree is added, up to 80 blows of the heavy bamboo and two years of penal servitude. If [the property] belongs to the state, each [punishment] is increased by two degrees. If one forcibly seizes state or private mountain-forests, lakes, tea-plantations, reed-marshes, or gold, silver, copper, tin, or iron smelting-sites: 100 blows of the heavy bamboo and exile to 3,000 *li*.
+
+**Citation:** 大清律例, 戶律, 田宅, 盜賣田宅 (Da Qing Lü Li, Household Law, Fields and Dwellings, "Stealing and Selling Land and Dwellings")
+
+---
+
+### Passage 4E — Tax remission and landlord-tenant relations (檢踏災傷田糧, 條例)
+
+> 凡遇蠲免錢糧之年，將所免錢糧分作十分，以七分免業戶，三分免佃戶。雍正十三年十二月內欽奉上諭：蠲免之典，業戶邀恩者居多，彼無業貧民終歲勤動，按產輸糧，未被國家之恩澤。欲照所蠲之數履畝除租，繩以官法，則勢有不能。其令所在有司善為勸諭，各業戶酌量寬減佃戶之租，不必限定分數，使耕作貧民有餘糧以贍妻子。
+
+**Pinyin:** Fán yù juān miǎn qián liáng zhī nián, jiāng suǒ miǎn qián liáng fēn zuò shí fēn, yǐ qī fēn miǎn yè hù, sān fēn miǎn diàn hù. Yōngzhèng shí sān nián shí'èr yuè nèi qīn fèng shàng yù: juān miǎn zhī diǎn, yè hù yāo ēn zhě jū duō, bǐ wú yè pín mín zhōng suì qín dòng, àn chǎn shū liáng, wèi bèi guó jiā zhī ēn zé. Yù zhào suǒ juān zhī shù lǚ mǔ chú zū, shéng yǐ guān fǎ, zé shì yǒu bù néng. Qí lìng suǒ zài yǒu sī shàn wéi quàn yù, gè yè hù zhuó liàng kuān jiǎn diàn hù zhī zū, bù bì xiàn dìng fēn shù, shǐ gēng zuò pín mín yǒu yú liáng yǐ shàn qī zǐ.
+
+**Gloss:** In any year of tax remission, the remitted tax is divided into ten shares: seven shares remit the landholding household (*yè hù*, the landlord/subsoil owner), three shares remit the tenant household (*diàn hù*). In the twelfth month of Yongzheng 13 [1736], an imperial edict was received: "Of the grace of tax remission, the landholding households receive the majority of the benefit. Those propertyless poor people, toiling all year round, paying tax according to [the landlord's] property, have not received the state's grace. If we were to deduct rent per *mu* according to the remitted amount and enforce it by official law, circumstances would not allow it. Let the local officials gently urge each landholding household to voluntarily reduce the tenant's rent, without mandating a fixed proportion, so that the farming poor may have surplus grain to feed their wives and children."
+
+**Citation:** 大清律例, 戶律, 田宅, 檢踏災傷田糧, 條例 (sub-statute appended to "Inspecting Disaster-Damaged Fields")
+
+### RPG Grounding
+
+The Da Qing Lü Li grounds the RPG's **land-tenure system, tax mechanics, and legal-criminal framework**. Passage 4A establishes the *lijia* headman as the liable party for census accuracy — a mortal NPC role that creates natural quest hooks (a headman who omits households is himself punishable, creating blackmail leverage). Passage 4B reveals the specific mechanisms of tax fraud (*移坵換段* — swapping field mounds to misclassify land grade; *詭寄* — fraudulently registering land under a tax-exempt person's name), giving the RPG a vocabulary for mortal-level corruption schemes. Passage 4C on pawning (*典*) vs. selling (*賣*) is the legal foundation for the **subsoil/surface-rights split** (*田底/田面*): a pawn (*diǎn*) carries a redemption right, a sale (*mǎi*) may be absolute (*絕賣*) or conditional — the distinction determines who controls the land long-term and who pays tax. Passage 4D's inclusion of "gold, silver, copper, tin, and iron smelting-sites" (*金銀銅錫鐵冶*) in the land-encroachment statute means mineral extraction sites have special legal status, tying directly to the Tiangong Kaiwu iron and salt passages. Passage 4E's 7:3 landlord-tenant tax-remission split and the Yongzheng edict's admission that tenants "have not received the state's grace" (*未被國家之恩澤*) gives the RPG a built-in class-conflict mechanic: when the state grants tax relief, landlords capture most of the benefit, and tenants remain exploited — a seed for peasant unrest, sect intervention, or mortal politics.
+
+---
+
+## Source Accessibility Notes
+
+| Text | Source | Format | Notes |
+|------|--------|--------|-------|
+| 齊民要術 | 4hn.org transcription; ctext.org (chapter structure) | Simplified → converted to traditional | Full chapter text available; ctext.org has partial English translation on chapter index page |
+| 王禎農書 | Wikisource (zh-hant) | Traditional | Full text of 農桑通訣 (Vols. 1–6) and 百穀譜 (Vols. 7–10) available |
+| 天工開物 | Wikisource (zh-hant for 海水鹽/鐵; zh-hans for 井鹽) | Mixed → converted to traditional | Full text of all chapters available on Wikisource |
+| 大清律例 | Wikisource (zh-hant, 四庫全書本); chinaknowledge.de; lsc.chineselegalculture.org | Traditional | Full text of 戶律 (Household Law) including 田宅 and 戶役 sections available; sub-statutes (條例) included |
+
+All four texts were successfully accessed in full. No passages were fabricated. Pinyin and English glosses are the author's own. Where simplified-to-traditional conversion was performed, character variants were checked against standard reference forms.
