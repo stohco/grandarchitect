@@ -13,12 +13,23 @@
 import { sha256 as nobleSha256 } from '@noble/hashes/sha2.js';
 
 /**
- * Async SHA-256 via Web Crypto API. Preferred for full-state checkpoints.
- * Returns a hex string (64 chars).
+ * Async SHA-256. Uses crypto.subtle when available (native-speed, secure
+ * contexts only); falls back to @noble/hashes (pure JS, works everywhere)
+ * in non-secure contexts (e.g., HTTP gateways on non-localhost origins).
+ *
+ * Both produce identical output for the same input bytes (SHA-256 is a
+ * well-specified algorithm). The choice is about speed, not correctness.
  */
 export async function hashAsync(bytes: Uint8Array): Promise<string> {
-  const hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
-  return toHex(new Uint8Array(hashBuffer));
+  if (typeof crypto !== 'undefined' && crypto.subtle && crypto.subtle.digest) {
+    try {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
+      return toHex(new Uint8Array(hashBuffer));
+    } catch {
+      // Fall through to noble if crypto.subtle fails at runtime
+    }
+  }
+  return hashSync(bytes);
 }
 
 /**

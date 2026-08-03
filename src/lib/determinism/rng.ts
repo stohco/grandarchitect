@@ -61,16 +61,23 @@ export function seedFromBigInt(seed: bigint): XoshiroState {
 
 /**
  * Initialize from a SHA-256 hash of a string seed.
- * Uses crypto.subtle.digest (the fastest, most reliable browser-side hash).
+ *
+ * Uses @noble/hashes (pure JS, no secure-context requirement) as the primary
+ * path, with crypto.subtle as an optional fast path when available.
+ * crypto.subtle is undefined in non-secure HTTP contexts (e.g., when the page
+ * is served through a gateway on a non-localhost origin), so we cannot rely
+ * on it. @noble/hashes works everywhere.
  */
+import { sha256 as nobleSha256 } from '@noble/hashes/sha2.js';
+
 export async function seedFromString(seedString: string): Promise<{
   state: XoshiroState;
   seedHash: Uint8Array;
 }> {
   const encoder = new TextEncoder();
   const data = encoder.encode(seedString);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const seedHash = new Uint8Array(hashBuffer);
+  // Use @noble/hashes synchronously — works in all contexts.
+  const seedHash = nobleSha256(data);
   // Use the first 8 bytes as the 64-bit seed for splitmix64 expansion.
   let seed64 = 0n;
   for (let i = 0; i < 8; i++) {
