@@ -1,0 +1,302 @@
+     1→# 35 — Craft Content Catalog (陣法 · 符籙 · 煉丹: 名品圖譜)
+     2→
+     3→**Status:** Candidate canon. The named recipes, patterns, and layouts the prior craft-systems document (16) deferred as content artifacts. Every entry obeys the determinism contract (same inputs, same outputs) and the phase-compatibility rules (doc 16 Appendix B).
+     4→**Date:** 2026-08-03
+     5→**Authority:** Governed by `16_FORMATIONS_TALISMANS_ALCHEMY.md` (the three systems), `00_FOUNDATIONAL_DECISIONS.md` §6 (qi model), `27_CULTIVATION_SYSTEMS.md` (realms, dantian, breakthrough), `24_RECONCILIATION_AND_DECISIONS.md` §3.1 (spirit stones = 10–50 taels), `18_ECONOMY_SYSTEM.md` (production chains), `14_ECOLOGY_AND_QI.md` (spirit herbs and beasts), and `28_THE_VILLAGE_IN_MEDIAS_RES.md` (the Cangwu cache).
+     6→
+     7→---
+     8→
+     9→## 0. How to read this document
+    10→
+    11→Document 16 specified the three crafts as systems and explicitly deferred the content (the recipes, the patterns, the layouts). This document supplies that content. Every entry is reproducible: any inscriber or alchemist of the named realm, given the named inputs and following the named process, produces the named output. Variation lives in the inputs (ingredient potency, node quality, inscriber heart-mind), not in the process.
+    12→
+    13→**Terminology.** English primary, Hanzi (Traditional, following doc 16's convention) in parentheses on first use. No pinyin with tone marks.
+    14→
+    15→**Phase-compatibility reminder (doc 16 Appendix B).** A Wood inscription wants Water or Wood inputs (Metal conflicts). A Fire inscription wants Wood or Fire inputs (Water conflicts). An Earth inscription wants Fire or Earth inputs (Wood conflicts). A Metal inscription wants Earth or Metal inputs (Fire conflicts). A Water inscription wants Metal or Water inputs (Earth conflicts). Yin-yang signatures must resolve to a coherent vector independently of phase.
+    16→
+    17→**Currency.** Spirit stones are the cultivation world's currency; one spirit stone = 10–50 taels of silver (per doc 24 §3.1, the corrected rate). Cash and silver are the mortal currencies. Market values below are in spirit stones unless noted.
+    18→
+    19→---
+    20→
+    21→## 1. Named Formations
+    22→
+    23→Six formations follow. Each is a persistent qi-structure inscribed in space, with nodes, lines, a core, and a boundary (per doc 16 §2.2).
+    24→
+    25→### 1.1 Hidden-Stone Cache Lock (隱石藏鎖) — Defensive ward + utility — Earth-phase (with Metal secondary)
+    26→
+    27→**The Cangwu foothills cache.** This is the formation Xu Erniu triggers in doc 28 §2.2 — the cultivator's cache Old Chen sealed forty years ago by collapsing the entrance. The original inscriber was a Core Formation wandering cultivator of the late previous dynasty; the cache held three talismans, two pill-gourds, and a hand-copied manual. The formation persists because its Earth-phase nodes anchor to a shallow spirit-vein trace in the foothill bedrock; the vein supplies the ambient qi the formation draws.
+    28→
+    29→- **Nodes:** seven. Six are river-stone discs (Earth-phase, yin-stable) set in a hexagon of three-pace radius around the cache's interior. The seventh is a jade plate (Earth-phase with Metal-secondary) at the hexagon's center, bearing the core. Old Chen, at Qi Condensation, could not safely dismantle the core; he instead collapsed the entrance, leaving the formation intact and dormant.
+    30→- **Layout:** hexagonal. The six perimeter nodes form the boundary; the seventh, the core, sits at the center. The lines trace a six-petaled lotus — each petal a curving Earth-phase qi-current from one perimeter node to the next, the petals overlapping at the boundary.
+    31→- **Core logic:** a two-clause intent. (a) *Ward*: admit the inscriber's qi-signature (encoded at investment) and reject all others. (b) *Sustain*: when an intruder enters, drain the intruder's qi at a measured rate to replenish the cache's own ambient-qi reserve. The drain is the maintenance system Erniu's body is feeding.
+    32→- **Effect:** within the three-pace hexagonal boundary, all qi not bearing the inscriber's signature is rejected at Core Formation intensity; an intruder whose qi falls below Core Formation is drained at approximately one-tenth of a Qi Condensation reservoir per hour. The cache's stored contents remain sealed in a sub-boundary beneath the jade plate.
+    33→- **Duration:** indefinite, sustained by the spirit-vein trace. Persists centuries.
+    34→- **Qi-consumption:** passive — draws ambient qi from the vein. Under intrusion, draws from the intruder.
+    35→- **Inscriber realm:** Core Formation (simple Core Formation cores can persist after death; per doc 16 §2.7 the threshold for centuries-persistence is Core Formation with spirit-vein-anchored nodes).
+    36→- **Failure modes specific to this formation:** (1) *Vein exhaustion* — if the foothill spirit vein thins (over-harvesting of the indicator herbs on the surface, per doc 14 §4.4), the formation's qi-budget collapses; the ward falls to Qi Condensation strength; the sustain-drain reverses and begins consuming the cache's own contents to maintain the ward. (2) *Intruder drain overdose* — if a mortal enters and is drained for more than ~12 hours, the mortal's anchor (doc 00 §2) begins to destabilize; the body enters a state indistinguishable from deep coma and may, beyond ~36 hours, suffer anchor-fraying that produces bardo-onset without proper death. Erniu is at the coma threshold when the player finds him. (3) *Jade-plate fracture* — if the central node is struck hard enough to crack the jade, the core's two-clause intent becomes incoherent; the ward becomes a killing array (it begins draining *all* qi within the boundary, including ambient, until the vein is exhausted).
+    37→
+    38→### 1.2 Three-Jade Heart Ward (三玉心陣) — Defensive ward — Earth-phase (with Metal secondary)
+    39→
+    40→**The protagonist's first Foundation Establishment inscription.** A three-node ward, the simplest formation a Foundation Establishment inscriber can produce (per doc 16 §2.7). The protagonist inscribes this around their practice mat at Old Chen's hermitage after the successful breakthrough (doc 06 Scene 5), as the first act of being a maker rather than a user.
+    41→
+    42→- **Nodes:** three. Jade plates of standard quality, each invested with Earth-phase signature (yin-stable, warding intent). Each plate is the size of a clenched fist, carved with a simple ward-rune on the upper face.
+    43→- **Layout:** equilateral triangle, two paces to a side. The inscriber sits at the centroid. The lines trace three straight qi-currents along the triangle's edges, each current flowing clockwise (yin-stable direction).
+    44→- **Core logic:** a single-clause intent: *exclude hostile qi below Core Formation intensity from the boundary*. The core is the three-node pattern itself; no central node. Simplicity is the design — a three-node ward cannot encode conditional logic.
+    45→- **Effect:** within the triangular boundary (approximately 1.7 square paces), hostile qi below Core Formation intensity is excluded. The ward does not affect physical objects (a sword can pass through); it affects qi-attacks, hostile inscription, and contaminating ambient qi.
+    46→- **Duration:** approximately twenty years without re-investment, in a balanced qi-climate (per doc 16 §5.1).
+    47→- **Qi-consumption:** draws ambient qi to sustain itself; costs the inscriber one reservoir-pulse at activation, none thereafter.
+    48→- **Inscriber realm:** Foundation Establishment minimum.
+    49→- **Failure modes specific to this formation:** (1) *Collinear drift* — if any node shifts more than a finger's breadth from its surveyed position (a frost-heave, a curious animal), the triangle's geometry breaks; the ward admits what it should exclude in the direction of the drift. (2) *Earth-Wood contamination* — inscribed near a living tree root, the root's Wood-phase qi bleeds into the Earth-phase lines (Wood conquers Earth); the ward weakens within months. (3) *Central occupancy* — a second person sitting at the centroid (the inscriber's seat) while the ward is active produces a phase-resonance conflict; the ward treats the second person's qi-signature as hostile and begins excluding them, sometimes painfully.
+    50→
+    51→### 1.3 Azure-Sword Heaven-Severing Boundary (碧劍裂天界陣) — Defensive barrier + alarm — Metal-phase (with Water secondary)
+    52→
+    53→**The Azure Sword Sect's grotto-heaven boundary augmentation.** The grotto-heaven's natural boundary (per doc 19 §2.2) is maintained by the grotto-heaven's own law. This formation, inscribed by the sect's second Core Formation sect master two centuries ago, augments that natural boundary: it layers an alarm ward, a transit-gate, and a killing-array reflex onto the natural law-boundary, giving the sect warning and response time against intrusion.
+    54→
+    55→- **Nodes:** thirty-six. Jade nodes set into the grotto-heaven's interior cliff-face at the boundary's edge, at three-pace intervals. Each node is a jade disc the size of a child's palm, inscribed with the Azure Sword Sect's sword-rune (a Metal-phase cutting intent).
+    56→- **Layout:** a closed loop following the grotto-heaven's boundary perimeter. The lines trace a double helix — an outer Metal-phase current flowing clockwise (cutting intent, yang), an inner Water-phase current flowing counter-clockwise (perception intent, yin). The two currents braid but do not cross; their non-crossing is the formation's principal design feat.
+    57→- **Core logic:** three clauses. (a) *Alarm* — any being crossing the boundary whose qi-signature is not registered (the sect's disciples are registered at Foundation Establishment oath-swearing) triggers an alarm-pulse to the sect master's awareness. (b) *Transit-permit* — registered qi-signatures pass freely; the boundary's law is augmented (not violated) for them. (c) *Killing reflex* — an unregistered being whose realm exceeds Qi Condensation triggers a single Metal-phase cutting discharge along the nearest line-segment; the discharge is Foundation Establishment intensity, intended to delay not kill (a Core Formation intruder is merely scratched; a Qi Condensation intruder is severed).
+    58→- **Effect:** the boundary's volume is the entire grotto-heaven interior (a major grotto-heaven, per doc 19 §2.1, 10–1000 square kilometers). Within this volume, the three clauses hold. Duration: indefinite, sustained by the grotto-heaven's interior qi which is 10–100x mortal ambient.
+    59→- **Qi-consumption:** passive draw from the grotto-heaven's interior. The killing reflex consumes a one-time pulse per discharge, replenished over hours.
+    60→- **Inscriber realm:** Core Formation (the original inscriber was the second sect master; the formation persists after his death because the grotto-heaven's qi-density sustains it, per doc 16 §2.5).
+    61→- **Failure modes specific to this formation:** (1) *Line-crossing* — if a line-segment is broken (a jade node shatters in a siege), the helix geometry breaks; the killing reflex can discharge inward (against the sect's own disciples) rather than outward. (2) *Signature-spoofing* — a Nascent Soul intruder with sufficient skill can copy a registered disciple's qi-signature and pass the alarm clause; the killing reflex does not trigger. (3) *Boundary-law conflict* — if the grotto-heaven's own law-boundary shifts (a rare geomantic event), the formation's perimeter no longer matches the boundary; gaps open where neither the formation nor the natural law fully holds. (4) *Sect-master death* — the alarm clause routes to the sect master's awareness; if the sect master dies without succession, the alarm has no receiver and the killing reflex becomes the only active clause.
+    62→
+    63→### 1.4 Five-Phase Spirit-Gathering Array (五行聚靈陣) — Utility — balanced (all five phases)
+    64→
+    65→The standard gathering array, the foundation of every sect's cultivation chamber (per doc 16 §2.4). The Azure Sword Sect's chambers run a high-quality version; the Cangwu Sect's single chamber runs a degraded version with three nodes missing.
+    66→
+    67→- **Nodes:** five, one per phase. Wood (jade), Fire (iron), Earth (river-stone), Metal (silver disc), Water (pearl). Set in a regular pentagon.
+    68→- **Layout:** pentagonal. Lines trace a five-pointed star (the generation cycle: Wood→Fire→Earth→Metal→Water→Wood) inscribed in the pentagon. The star's interior is the gathering zone.
+    69→- **Core logic:** a single intent: *draw ambient qi into the pentagon's interior at five-phase balance*. The five phases circulate by the generation cycle; ambient qi is drawn in, phase-separated, and re-radiated into the interior at a higher density.
+    70→- **Effect:** within the pentagon's interior (~2 square paces for a personal array, larger for a chamber array), ambient qi density is 3–10x the surrounding environment. A cultivator practicing inside gains reservoir at 3–10x the normal rate.
+    71→- **Duration:** indefinite in a balanced climate; weeks to months in a qi-poor region.
+    72→- **Qi-consumption:** none, once active; it produces qi rather than consuming it.
+    73→- **Inscriber realm:** Foundation Establishment minimum for a personal array; Core Formation for a chamber array (chamber arrays have denser nodes and finer lines).
+    74→- **Failure modes:** (1) *Phase-imbalance* — if one node's phase-signature is weaker than the others (a low-quality pearl, a worn iron disc), the generation cycle stalls at that node; the array produces a phase-skewed qi that deviates the practitioner over time. (2) *Conquest-crossing* — if a line is mis-traced so that two phases cross in conquest rather than generation (e.g., Water-line crossed over Fire-line), the array begins to *quench* ambient qi rather than gather it; the interior becomes qi-poorer than the surroundings. (3) *Over-gathering* — in a qi-rich environment, a chamber array can over-pressurize the interior; practitioners experience reservoir over-pressurization (doc 27 §4.2).
+    75→
+    76→### 1.5 Lotus-Petal Killing Array (蓮瓣殺陣) — Offensive killing array — Fire-phase (with Metal secondary)
+    77→
+    78→A Core Formation killing array, the kind inscribed around a sect's treasury or a contested grotto-heaven anchor. The Azure Sword Sect inscribes a variant around its scripture pavilion.
+    79→
+    80→- **Nodes:** twelve. Iron discs (Fire-phase, yang-sharp) set in two concentric hexagons.
+    81→- **Layout:** two concentric hexagons, the outer at six-pace radius, the inner at three-pace. Lines trace twelve curving petals from the outer hexagon to the inner, each petal a Fire-phase qi-current that sharpens to a Metal-phase edge at the inner terminus.
+    82→- **Core logic:** conditional. *On intrusion into the outer hexagon, discharge the nearest petal as a Fire-phase cutting burst toward the inner hexagon's center. Repeat for each step of intrusion. The intruder is destroyed at the inner hexagon's center.*
+    83→- **Effect:** within the outer hexagon (~113 square paces), any unregistered intrusion triggers a Fire-phase discharge at Core Formation intensity, oriented toward the centroid. A Qi Condensation intruder is destroyed in one discharge; a Foundation Establishment intruder survives three or four; a Core Formation intruder tanks the array long enough to dismantle one petal-node and break the loop.
+    84→- **Duration:** indefinite in a qi-rich environment; days in a qi-poor one (offensive arrays consume ambient qi faster than defensive ones, per doc 16 §2.4).
+    85→- **Qi-consumption:** high. Each discharge draws ambient qi equivalent to one Foundation Establishment reservoir-pulse.
+    86→- **Inscriber realm:** Core Formation minimum (the conditional core requires Core Formation coherence).
+    87→- **Failure modes:** (1) *Petals crossed* — two petals' lines crossed during tracing; the array discharges inward at activation, often killing the inscriber. (2) *Qi-famine* — in a qi-poor environment, the array cannot sustain its discharges; it fires once or twice then goes dormant, leaving the treasury open. (3) *Core contamination* — if the inscriber was angry during investment (a killing intent is required, but unbalanced anger contaminates the core, per doc 16 §4.5), the array's targeting becomes indiscriminate — it discharges on *any* qi-signature including registered ones.
+    88→
+    89→### 1.6 Paired Mirror Gate (雙鏡門陣) — Transport gate — Water-phase
+    90→
+    91→The simplest transport formation: a paired gate linking two inscribed locations for direct transit. The Azure Sword Sect maintains one pair linking the sect compound to the grotto-heaven's anchor cave; the inscription is the sect's most carefully guarded asset.
+    92→
+    93→- **Nodes:** eight per gate (sixteen per pair). Six pearl nodes (Water-phase, yin-flowing) form the gate's hexagonal perimeter; two jade nodes (Earth-phase) anchor the gate's spatial coordinate.
+    94→- **Layout:** two hexagonal gates, each three paces across, inscribed at the two locations to be linked. The two gates' core-intents are synchronized: each encodes the *other* gate's spatial coordinate as its destination.
+    95→- **Core logic:** *on activation by a registered qi-signature, fold the interior of this gate onto the interior of the paired gate for one breath. Anything within the interior transits to the paired interior.*
+    96→- **Effect:** anything within the three-pace hexagon transits to the paired gate's hexagon. One transit per activation; re-activation requires a cooldown of approximately one minute.
+    97→- **Duration:** the gates persist indefinitely if maintained; the pairing-link persists as long as both gates' cores remain coherent.
+    98→- **Qi-consumption:** each transit consumes ambient qi equivalent to one Foundation Establishment reservoir-pulse, drawn from the originating gate's environment.
+    99→- **Inscriber realm:** Core Formation minimum (the spatial-coordinate encoding requires Core Formation law-perception, per doc 16 §2.4). Both gates of a pair must be inscribed by the same inscriber (or by inscribers who have synchronized their core-intent through a separate, demanding rite).
+   100→- **Failure modes:** (1) *Coordinate drift* — if one gate's jade anchors shift, the spatial coordinate drifts; transit lands the traveler at the wrong location (sometimes inside solid rock). (2) *Pairing-decoherence* — if one gate's core is disrupted (a node shattered, a line crossed), the pairing-link breaks; transit attempts discharge into raw qi-space, producing a spatial tear that injures the traveler and the gate. (3) *Simultaneous activation* — if both gates are activated simultaneously by different users, the cores conflict; one user transits, the other is shredded across the spatial fold. (4) *Phase-contamination of the link* — Water-phase is stable for spatial work; if a Fire-phase qi-source is introduced near one gate (a battle, a forge), the link attenuates and transit becomes unreliable.
+   101→
+   102→---
+   103→
+   104→## 2. Named Talismans
+   105→
+   106→Ten talismans follow. Each is a single-use qi-structure inscribed on a portable medium (per doc 16 §3.1). Activation consumes the medium (except jade, which is drained and blanked).
+   107→
+   108→### 2.1 Fireball Talisman (火球符) — Attack — Fire-phase
+   109→
+   110→- **Medium:** standard yellow talisman paper (黃紙), alum-and-beeswax treated.
+   111→- **Ink:** cinnabar ink (硃砂, Fire-phase, yang).
+   112→- **Pattern:** a central sigil — the *fire* character (火) inscribed in three strokes, the central stroke elongated and curving upward to suggest a flame. Around the sigil, four ancillary runes set at the cardinal points: range (upper), direction (right), intensity (lower), trigger (left). The pattern fills the paper's upper two-thirds; the lower third is the activation zone (where the user's qi is infused).
+   113→- **Effect:** on activation, discharges a fireball of intensity scaled to the inscriber's realm. A Qi Condensation inscription produces a Qi Condensation-intensity fireball (range ~10 paces, fixed direction). A Foundation Establishment inscription produces a Foundation Establishment-intensity fireball (range ~30 paces). The fireball ignites combustibles; it does not discriminate friend from foe.
+   114→- **Activation cost:** one-tenth of a Qi Condensation reservoir; one-twentieth of a Foundation Establishment reservoir.
+   115→- **Market value:** 0.5 spirit stones (Qi Condensation inscription); 2 spirit stones (Foundation Establishment inscription).
+   116→- **Failure modes:** (1) *敗符 (flawed pattern)* — the fireball detonates at the user's hand instead of at the target; the user is burned. (2) *逆符 (incompatible activation)* — a Water-phase cultivator activating a Fire-phase talisman: the conquest cycle quenches the pattern; the fireball fizzles to a spark. (3) *潰符 (seal collapse)* — rare; the seal collapses on activation and the talisman discharges its full charge as an omnidirectional burst.
+   117→
+   118→### 2.2 Ice-Arrow Talisman (冰箭符) — Attack — Water-phase (yin)
+   119→
+   120→- **Medium:** standard yellow paper, treated with pine-resin for Water-phase compatibility.
+   121→- **Ink:** pine-soot ink (Water-phase, yin).
+   122→- **Pattern:** a central sigil — the *water* character (水) with the central vertical stroke elongated and sharpened to an arrowhead. Three ancillary runes: range, target-lock, trigger. The pattern is finer than the fireball's (Water-phase lines are thinner).
+   123→- **Effect:** on activation, discharges a single ice-arrow of intensity scaled to the inscriber's realm. Range ~20 paces (Qi Condensation); the arrow pierces rather than ignites. Target-lock rune permits a brief tracking (the arrow curves up to 30 degrees toward the chosen target's qi-signature).
+   124→- **Activation cost:** one-eighth of a Qi Condensation reservoir (Water-phase activation is slightly costlier than Fire-phase for Fire-affinity users).
+   125→- **Market value:** 0.7 spirit stones (Qi Condensation inscription); 3 spirit stones (Foundation Establishment inscription with target-lock).
+   126→- **Failure modes:** (1) *敗符* — the arrow shatters on release, spraying ice-shards across the user's forearm. (2) *Target-lock bleed* — if the target-lock rune is imprecise, the arrow locks onto the *user's* qi-signature (the nearest Water-compatible source) and turns. (3) *逆符* — a Fire-phase cultivator activating: the arrow melts to a splash of cold water, harmless.
+   127→
+   128→### 2.3 Shield Talisman (盾符) — Defense — Earth-phase
+   129→
+   130→- **Medium:** standard yellow paper, treated with clay-slurry for Earth-phase binding.
+   131→- **Ink:** iron-gall ink (Metal-phase, compatible with Earth by the generation cycle — Metal generates Water which is dammed by Earth; the ink's Metal-phase sharpens the Earth-phase boundary).
+   132→- **Pattern:** a central sigil — the *mountain* character (山), three peaks. Around it, a hexagonal boundary-rune (six short strokes, one per side). No ancillary runes; the shield's parameters are fixed.
+   133→- **Effect:** on activation, projects a hexagonal qi-barrier approximately one pace across, oriented between the user and the last-perceived threat. The barrier absorbs one attack of up to Foundation Establishment intensity (Qi Condensation inscription) or one Core Formation intensity attack (Foundation Establishment inscription), then collapses. Duration: the barrier holds for up to ten breaths if not struck.
+   134→- **Activation cost:** one-fifth of a Qi Condensation reservoir.
+   135→- **Market value:** 0.8 spirit stones (Qi Condensation); 3 spirit stones (Foundation Establishment).
+   136→- **Failure modes:** (1) *敗符* — the barrier forms with a gap; the next attack passes through the gap. (2) *Orientation-flaw* — the barrier orients in the wrong direction (the user's perception was muddy at activation); the attack strikes the user's unprotected side. (3) *耗符 (degraded medium)* — a damp-stored talisman's barrier holds for only one or two breaths.
+   137→
+   138→### 2.4 Communication Talisman (傳音符) — Utility — Metal-phase
+   139→
+   140→- **Medium:** jade slip (a small rectangular jade tablet, the size of a thumb). Jade because the talisman must be re-chargeable (per doc 16 §3.5) — a communication talisman is reused.
+   141→- **Ink:** iron-gall ink (Metal-phase).
+   142→- **Pattern:** a central sigil — the *word* character (言) — inscribed in three strokes. Around it, two ancillary runes: destination (inscribed at crafting with the recipient's qi-signature, requiring the inscriber to have a sample of the recipient's qi) and duration (how long the message persists at the destination).
+   143→- **Effect:** on activation, the user speaks a message of up to one hundred breaths' length into the slip. The message transits along the Metal-phase link to the destination slip (the paired half of the communication pair, held by the recipient), where it plays once and then is erased. The slip is then re-chargeable.
+   144→- **Activation cost:** one-tenth of a Qi Condensation reservoir per message.
+   145→- **Market value:** 5 spirit stones per *paired* set (two slips); recharging is free (the user's own qi).
+   146→- **Failure modes:** (1) *Destination-slip lost* — if the recipient's slip is destroyed or out of Metal-phase-link range (~100 li for a Foundation Establishment inscription), the message dissipates. (2) *Qi-signature drift* — if the recipient's qi-signature has shifted since the pairing (a realm transition, a contamination), the destination rune no longer matches; the message bounces back to the sender as a discordant qi-pulse. (3) *Eavesdropping* — a Core Formation cultivator perceiving Metal-phase qi can intercept the message-transit; the contents are not private above Foundation Establishment.
+   147→
+   148→### 2.5 Storage Talisman (儲物符) — Utility — Earth-phase (with Metal secondary)
+   149→
+   150→- **Medium:** jade plaque, the size of a child's palm, three-tenths of an inch thick.
+   151→- **Ink:** cinnabar ink blended with iron-filings (Fire-Metal blend, Earth-compatible by the generation-and-conquest cycle: Fire generates Earth, Metal sharpens the spatial boundary).
+   152→- **Pattern:** a central sigil — the *vessel* character (器), four squares arranged in a larger square. Around it, eight ancillary runes encoding the spatial coordinates of the pocket, the pocket's volume, the access-trigger, and the warding against unauthorized access. The pattern is dense — the most complex Foundation Establishment inscription.
+   153→- **Effect:** on activation (by the registered qi-signature, encoded at inscription), opens a spatial pocket of approximately one cubic pace. The user can place objects into the pocket or withdraw them; the pocket holds its contents indefinitely while the talisman is sealed. The pocket weighs nothing in the user's hand (its mass is in folded space, not in the medium).
+   154→- **Activation cost:** one full Qi Condensation reservoir to open or close; negligible to withdraw a small item.
+   155→- **Market value:** 20 spirit stones (Foundation Establishment inscription). The most expensive common talisman; the precursor to a storage ring (which is a Core Formation artifact).
+   156→- **Failure modes:** (1) *Spatial-coordinate corruption* — if the inscription is flawed, the pocket's coordinates drift; objects placed inside are lost in folded space (sometimes recoverable, sometimes not). (2) *Over-loading* — exceeding the pocket's volume by more than ~10% collapses the spatial fold; the pocket's contents are ejected at high velocity in random directions, often destroying the talisman. (3) *Ward-bypass* — a Core Formation cultivator can crack the access-ward and read the pocket's contents; storage talismans are not secure against higher-realm theft.
+   157→
+   158→### 2.6 Light Talisman (光符) — Utility — Fire-phase (yang)
+   159→
+   160→The first talisman a Qi Condensation inscriber learns (per doc 16 §3.8).
+   161→
+   162→- **Medium:** standard yellow paper.
+   163→- **Ink:** cinnabar ink (Fire-phase, yang).
+   164→- **Pattern:** a single central sigil — the *sun* character (日) inscribed in four strokes within a circle. No ancillary runes; the simplest talismanic pattern.
+   165→- **Effect:** on activation, the talisman emits steady illumination equivalent to a lantern, sustained for approximately four hours (Qi Condensation inscription) or one day (Foundation Establishment inscription). The light is warm-toned (Fire-phase yang).
+   166→- **Activation cost:** negligible — one-twentieth of a Qi Condensation reservoir.
+   167→- **Market value:** 0.1 spirit stones (Qi Condensation). The cheapest talisman; sold in stacks of ten.
+   168→- **Failure modes:** (1) *敗符* — the talisman flares once and burns out (brief blinding flash, no sustained light). (2) *耗符* — a long-stored talisman's light dims to a glow. (3) *Reverse-flaw* — a rare flaw in which the talisman emits *darkness* (a yin inversion of the pattern); the area within three paces becomes deeper shadow.
+   169→
+   170→### 2.7 Concealment Talisman (隱形符) — Utility — Water-phase (yin)
+   171→
+   172→- **Medium:** standard yellow paper treated with pine-resin.
+   173→- **Ink:** pine-soot ink (Water-phase, yin).
+   174→- **Pattern:** a central sigil — the *hidden* character (隱) inscribed in fourteen strokes (the most complex Qi Condensation pattern). Around it, three ancillary runes: radius (the area of effect), duration, and qi-suppression (the strength of the concealment against perception).
+   175→- **Effect:** on activation, the user's qi-signature and physical form are concealed from perception for the duration. Qi Condensation inscription: radius two paces, duration one hour, conceals from Qi Condensation perception. Foundation Establishment inscription: radius five paces, duration four hours, conceals from Foundation Establishment perception (a Core Formation perceiver sees through it).
+   176→- **Activation cost:** one-quarter of a Qi Condensation reservoir.
+   177→- **Market value:** 1 spirit stone (Qi Condensation); 5 spirit stones (Foundation Establishment).
+   178→- **Failure modes:** (1) *敗符* — the concealment is patchy; the user is partially visible (a smudge in the air). (2) *Qi-surge bleed* — if the user routes qi aggressively while concealed (casting another talisman, fighting), the concealment ruptures; the user becomes briefly *more* visible (a flaring qi-source). (3) *逆符* — a Fire-phase cultivator activating: the Water-phase pattern is quenched; no concealment, and the user's qi-signature flares (the opposite of the intended effect).
+   179→
+   180→### 2.8 Detection Talisman (探符) — Utility — Metal-phase
+   181→
+   182→**The talisman the protagonist uses at the Cangwu cache** (doc 28 §2.2). Old Chen, recognizing the cache-formation's ward signature, gives the protagonist one of his few remaining Foundation Establishment-grade detection talismans to perceive Erniu's qi-trace inside the sealed cache before deciding whether to attempt entry.
+   183→
+   184→- **Medium:** jade slip (re-chargeable, three uses per recharge).
+   185→- **Ink:** iron-gall ink (Metal-phase), with a trace of silver-filings (Earth-secondary, for stability).
+   186→- **Pattern:** a central sigil — the *seek* character (尋) inscribed in twelve strokes. Around it, four ancillary runes: depth (how deep the perception reaches), phase-filter (which phase-signatures to admit), sensitivity (minimum qi-intensity detectable), and trigger.
+   187→- **Effect:** on activation, the user receives a brief (one-breath) perception-flash of all qi-sources within range matching the phase-filter. Foundation Establishment inscription: range 50 paces, sensitivity down to one-tenth of a Qi Condensation reservoir, phase-filter set at inscription.
+   188→- **Activation cost:** one-third of a Qi Condensation reservoir.
+   189→- **Market value:** 4 spirit stones (Foundation Establishment).
+   190→- **Failure modes:** (1) *敗符* — the perception-flash is incomplete (the user receives fragments, easily misinterpreted). (2) *Phase-filter bleed* — if the filter-rune is imprecise, the talisman admits all phases; the user is overwhelmed by ambient qi-noise (perception overload, doc 27 §4.4). (3) *Sensitivity-burnout* — a high-sensitivity talisman used in a qi-rich environment burns out the jade's pattern; the talisman is destroyed.
+   191→
+   192→### 2.9 Wound-Sealing Talisman (止創符) — Defense/utility — Wood-phase
+   193→
+   194→**The talisman Old Chen uses on the protagonist after the failed breakthrough** (doc 06 Scene 4). The protagonist's reservoir has cracked and meridians are inflamed; Old Chen presses a Wood-phase wound-sealing talisman to the protagonist's chest to halt the internal bleeding long enough for stabilization.
+   195→
+   196→- **Medium:** standard yellow paper treated with herbal-infusion (Wood-phase compatible).
+   197→- **Ink:** wood-sap ink (Wood-phase, yin-restoring), prepared from the sap of the Cangwu foothills' old-growth spirit pines.
+   198→- **Pattern:** a central sigil — the *seal* character (封) inscribed in nine strokes. Around it, two ancillary runes: target-area (where the seal holds) and duration.
+   199→- **Effect:** on activation by contact with the wounded body, the talisman's Wood-phase qi seals internal bleeding (Wood generates; the body's yin is reinforced) and reduces meridian-inflammation by half for the duration. Qi Condensation inscription: holds for two hours. Foundation Establishment inscription: holds for twelve hours.
+   200→- **Activation cost:** one-fifth of a Qi Condensation reservoir (Old Chen pays this; the recipient does not).
+   201→- **Market value:** 1.5 spirit stones (Qi Condensation); 6 spirit stones (Foundation Establishment).
+   202→- **Failure modes:** (1) *敗符* — the seal is incomplete; bleeding slows but does not stop. (2) *Wood-Metal contamination* — if the talisman is applied to a body whose meridians are Metal-phase-inflamed (a Metal-phase cultivator's injury), the Wood-phase seal is cut by the Metal-phase qi (Metal conquers Wood); the talisman is consumed without effect. (3) *Late application* — if applied more than ~30 minutes after the wound, the body's qi-system has already begun compensating in ways the seal conflicts with; the seal produces meridian-cramping.
+   203→
+   204→### 2.10 Sword-Qi Talisman (劍氣符) — Attack — Metal-phase
+   205→
+   206→A Foundation Establishment-class attack talisman, the ranged weapon of choice for sword-cultivators who cannot yet project sword-qi themselves. The Azure Sword Sect's outer disciples buy these in stacks.
+   207→
+   208→- **Medium:** standard yellow paper treated with iron-salt solution (Metal-phase binding).
+   209→- **Ink:** iron-gall ink (Metal-phase, yang-sharp).
+   210→- **Pattern:** a central sigil — the *sword* character (劍) inscribed in fifteen strokes (the longest simple-attack sigil). Around it, three ancillary runes: range, cutting-depth, and trigger. The pattern is geometrically precise — every stroke must be exact; sword-patterns are unforgiving.
+   211→- **Effect:** on activation, discharges a single Metal-phase sword-qi of intensity scaled to the inscriber's realm. Range ~40 paces (Foundation Establishment inscription). The sword-qi cuts rather than burns; it penetrates a Qi Condensation shield-talisman cleanly and wounds a Foundation Establishment cultivator through their robes.
+   212→- **Activation cost:** one-quarter of a Foundation Establishment reservoir.
+   213→- **Market value:** 4 spirit stones (Foundation Establishment). Not available at Qi Condensation inscription (the pattern is beyond Qi Condensation precision).
+   214→- **Failure modes:** (1) *敗符* — the sword-qi curves in flight, missing the target and striking whatever is to the side. (2) *Trigger-bleed* — a talisman stored near Metal-phase qi (an iron forge, a sword collection) may discharge spontaneously. (3) *Cutting-depth flaw* — an imprecise cutting-depth rune produces a sword-qi that cuts *too deep* — passing through the target without transferring energy (a clean hole, no wound-trauma) or *too shallow* (a scratch).
+   215→
+   216→---
+   217→
+   218→## 3. Named Pills
+   219→
+   220→Nine pills follow. Each is a refined medicinal product (per doc 16 §4.1) with named ingredients, a named refinement process, and named failure modes. Ingredient phase-affinities cross-reference `14_ECOLOGY_AND_QI.md` §4 (spirit herbs) and the doc 16 Foundation Pill example (§5.3).
+   221→
+   222→### 3.1 Return-Qi Pill (回氣丹) — Healing — Wood-phase (with Water secondary)
+   223→
+   224→The most common pill in the cultivation world; the alchemist's bread and butter. Restores a depleted reservoir.
+   225→
+   226→- **Ingredients:** (1) fifty-year spirit ginseng root (Wood-phase, gathered at Spring Equinox); (2) spirit-pearl powder (Water-phase, gathered at Winter Solstice); (3) dried lotus seed (Wood-phase with Water-secondary, harvested at Clear and Bright 清明). The ginseng generates (Wood), the pearl nourishes (Water generates Wood), the lotus stabilizes (Wood-Water coherence).
+   227→- **Refinement process:** clay furnace (the baseline, per doc 16 §4.4). Civil fire (文火, low, slow) for four hours; the ginseng and lotus are combined first, the pearl powder added at the second hour (Water added too early quenches the Wood's generation cycle). Congealing at the fourth hour under civil fire; the pill forms as a small green-tinged sphere. Cooling in a jade box (Wood-compatible).
+   228→- **Effect:** restores approximately one-third of a Qi Condensation reservoir over ten breaths. Potency scales with ingredient age (a hundred-year ginseng restores half; a three-hundred-year restores two-thirds). Duration: the restored qi is permanent (it is the cultivator's own reservoir, replenished). Side effects: mild warmth in the lower dantian; no contamination if refined correctly.
+   229→- **Realm requirement:** Qi Condensation alchemist to refine; any realm to consume.
+   230→- **Market value:** 0.5 spirit stones (fifty-year ingredients); 2 spirit stones (hundred-year); 8 spirit stones (three-hundred-year).
+   231→- **Failure modes:** (1) *Charred pill (火候失誤)* — too hot, too long; the ginseng's Wood-phase essence burns to a sooty residue; the pill is toxic, produces liver-qi inflammation on consumption. (2) *Pearl-addition error* — Water added too early; the phases cancel (Water conquers Fire-but-there-is-no-Fire-here, so Water quenches the Wood's generation); the result is an inert grey sphere, useless. (3) *Contamination (污丹)* — the alchemist refining while angry produces a pill that transmits a flash of the anger to the consumer (a brief, disturbing irritability, ~1 hour).
+   232→
+   233→### 3.2 Trauma Pill (療創丹) — Healing — Wood-phase (with Earth secondary)
+   234→
+   235→Accelerates wound-healing. Distinct from the Return-Qi Pill: this heals tissue, not reservoir.
+   236→
+   237→- **Ingredients:** (1) thirty-year spirit notoginseng root (Wood-phase, Earth-secondary); (2) spirit-pearl powder (Water-phase, for cleansing the wound); (3) poria fungus (Earth-phase, for stability); (4) dried sage leaf (Wood-phase, gathered at Grain in Ear 芒種). Wood generates tissue; Earth stabilizes; Water cleanses.
+   238→- **Refinement process:** clay furnace. Civil fire for two hours (Wood-essence extraction), then martial fire (武火, hot, fast) for thirty minutes (Earth-poria fusion), then civil fire for one hour (congealing). The fire transitions are the difficult step — the alchemist must shift phase-intent cleanly. Congealing as a brownish pill. Cooling in a wooden box.
+   239→- **Effect:** accelerates wound-healing by approximately 5x for six hours. A sword-cut that would normally take two weeks to heal closes in two days. Does not regenerate severed tissue; does not cure qi-injury (meridian-damage requires a different pill). Side effects: the body's metabolism accelerates (the consumer is ravenous for a day afterward); mild Earth-phase imbalance if overused.
+   240→- **Realm requirement:** Qi Condensation alchemist to refine; any realm to consume.
+   241→- **Market value:** 1 spirit stone.
+   242→- **Failure modes:** (1) *Fire-transition error* — the civil→martial→civil transition botched; the pill congeals as a Wood-Earth-conflicted mass that produces tissue-growth in the wrong place (the consumer develops bone-spurs at the wound site). (2) *Earth-excess* — too much poria; the pill over-stabilizes and the wound heals *closed over foreign matter* (dirt, cloth-fragments) that was not cleaned first; infection follows. (3) *Contamination* — the alchemist refining while grieving produces a pill that transmits a grief-flash to the consumer.
+   243→
+   244→### 3.3 Purification Pill (清污丹) — Healing — Water-phase
+   245→
+   246→Vents accumulated contamination from the qi-system (per doc 03 Station 3, venting into a sink).
+   247→
+   248→- **Ingredients:** (1) spirit-pearl core (Water-phase, gathered at Winter Solstice, peak yin); (2) rehmannia root (Water-phase, gathered at Frost's Descent 霜降); (3) kelp-ash (Water-phase with Earth-secondary, for absorption); (4) cinnabar trace (Fire-phase, refined, as a phase-bridge — Fire conquers Metal, the typical contamination phase, and is then cleansed by Water). The cinnabar is the dangerous ingredient: too much Fire conquers the Water intent and the pill becomes toxic.
+   249→- **Refinement process:** iron furnace (Metal-phase, compatible with Water by the generation cycle: Metal generates Water). Civil fire throughout, four hours. The cinnabar is added at the third hour in a precise one-grain measure. Congealing as a deep blue pill. Cooling in a porcelain vessel (Water-compatible).
+   250→- **Effect:** the consumer enters a one-hour purification state in which accumulated contamination is vented through the skin (a greyish sweat, foul-smelling). After the hour, the qi-system is approximately 60% cleaner (Qi Condensation alchemist) to 90% cleaner (Foundation Establishment alchemist). Side effects: physical exhaustion (the venting is taxing); dehydration (the sweat-loss is significant).
+   251→- **Realm requirement:** Qi Condensation alchemist to refine; any realm to consume (but a Qi Condensation consumer may faint from the exhaustion).
+   252→- **Market value:** 2 spirit stones (Qi Condensation inscription); 5 spirit stones (Foundation Establishment).
+   253→- **Failure modes:** (1) *Cinnabar excess* — too much Fire-phase; the pill's Water intent is quenched; the consumer develops Fire-deviation symptoms (heat-rash, agitation, mild hallucination) rather than purification. (2) *Congealing failure* — the mixture fails to cohere (the most common failure); the result is dross — a wet grey ash that is mildly toxic on contact. (3) *Over-purification* — a high-quality pill consumed by a cultivator with little contamination produces the opposite of the intended effect: the pill, finding nothing to vent, begins purging the cultivator's *own* qi-structure (reservoir-qi is vented as contamination); the consumer loses reservoir rather than contamination.
+   254→
+   255→### 3.4 Foundation Pill (筑基丹) — Breakthrough — Wood-phase (with Water and Fire secondary)
+   256→
+   257→The most economically valuable pill a Foundation Establishment alchemist produces (per doc 16 §4.3). Assists the Qi Condensation → Foundation Establishment breakthrough.
+   258→
+   259→- **Ingredients (per doc 16 §5.3, the canonical recipe):** (1) hundred-year spirit ginseng (Wood-phase, gathered at Spring Equinox); (2) spirit-pearl (Water-phase, gathered at Winter Solstice); (3) refined cinnabar (Fire-phase, prepared by the alchemist before refinement); (4) the inner core of a mid-tier Wood-phase spirit beast (內丹, Wood-phase, gathered by hunting). The ginseng is the body-integration (Wood generates; the body is yin and Wood-essence integrates it); the pearl is the qi-reservoir (Water nourishes Wood); the cinnabar is the activation-fire (Fire feeds back to Wood through the generation cycle); the beast-core is the anchor-bridge (the core's crystallized qi is the dense Wood-phase that the integration uses as scaffolding).
+   260→- **Refinement process:** spirit-bronze furnace (the sect-heirloom cauldron, per doc 16 §4.4 — anything less produces a contaminated pill). Civil fire for six hours (Wood-essence extraction), martial fire for one hour (Fire-activation of the cinnabar), civil fire for twelve hours (congealing — the longest congealing of any common pill). The alchemist must hold a coherent Wood-phase intent throughout; any lapse produces a flawed pill. Congealing as a deep green pill with a faint red blush (the cinnabar's Fire, properly integrated). Cooling in a jade box (Wood-compatible) for one full day before use.
+   261→- **Effect:** when consumed by a Qi Condensation cultivator whose meridian system is integrated, whose reservoir is sufficient, and whose heart-mind is stable (per doc 27 §1.4 Stage 1), the Foundation Pill produces a Foundation Establishment breakthrough with approximately 70% success (per doc 16 §5.3) and no contamination. The pill does not *force* the breakthrough — it supplies the qi-resources the breakthrough requires; the cultivator must still navigate the Confrontation stage. Duration: the pill's effect is the breakthrough itself (one rite); residual qi-resources persist for ~30 days if the breakthrough is not attempted. Side effects (when consumed by a prepared cultivator): none beyond the breakthrough's own strain. Side effects (when consumed by an unprepared cultivator): forced breakthrough, deviation, foundation collapse, or death (per doc 16 §4.3).
+   262→- **Realm requirement:** Foundation Establishment alchemist to refine; Qi Condensation cultivator at the peak (per doc 27 §1.4 Stage 1 prerequisites) to consume.
+   263→- **Market value:** 50 spirit stones. This is approximately a Qi Condensation cultivator's annual income (per doc 16 §4.3) — a single pill is the year's earnings.
+   264→- **Failure modes:** (1) *Forced breakthrough (forced attempt)* — the pill consumed by an unprepared cultivator produces a Foundation Establishment breakthrough attempt with `forced_attempt = true` (per doc 27 §1.4); the Confrontation instability is multiplied by 2.5; 心魔 onset is likely. (2) *Cinnabar-miscalibration* — too much Fire; the pill becomes a Fire-deviation pill (the consumer suffers fire-deviation: heat-stroke symptoms, meridian-inflammation, in severe cases spontaneous combustion of the lower dantian's qi-reservoir). (3) *Beast-core contamination* — the beast-core carries the spirit beast's psychospiritual residue (a slain beast's dying intent); if the alchemist does not cleanse the core before refinement, the residue transmits to the consumer as a brief 心魔 flash (the consumer perceives the beast's last moments). (4) *Congealing failure* — the most costly failure; twelve hours of fire-control lost; the dross is toxic and must be buried (not sold; per doc 16 §4.7, selling contaminated pills ruins the alchemist's reputation).
+   265→
+   266→### 3.5 Root-Developing Pill (培根丹) — Transformation — Earth-phase (with Metal secondary)
+   267→
+   268→Per doc 27 §5 (spiritual roots) and doc 16 §4.3 (transformation pills). Develops a phase-root the cultivator did not have — a controlled, costly medical procedure.
+   269→
+   270→- **Ingredients:** (1) hundred-year poria fungus (Earth-phase, gathered at Beginning of Autumn 立秋); (2) stalactite powder (Metal-phase, gathered from a metal-phase spirit vein); (3) spirit-pearl trace (Water-phase, as a phase-bridge: Metal generates Water, Water is dammed by Earth — the pearl is the medium through which Metal becomes Earth-anchored); (4) the inner core of a mid-tier Earth-phase spirit beast (the badger-core, Earth-phase); (5) cinnabar trace (Fire-phase, refined; Fire generates Earth, providing the generative impulse for the new root).
+   271→- **Refinement process:** spirit-bronze furnace. Civil fire for eight hours (Earth-extraction from poria and badger-core), martial fire for two hours (Metal-stalactite fusion), civil fire for sixteen hours (congealing). The congealing is the demanding step: the alchemist must hold a coherent Earth-with-Metal-secondary intent throughout, and must encode the *specific phase* of the root to be developed (the pill is phase-specific — a Wood-root pill is a different recipe than a Fire-root pill). Congealing as a deep ochre pill. Cooling in a clay vessel (Earth-compatible) for three days.
+   272→- **Effect:** when consumed by a Foundation Establishment cultivator (Qi Condensation consumers cannot receive the transformation — their meridian system cannot accommodate the new root, per doc 16 §4.3), the pill develops the encoded phase-root by approximately 0.3 in the sensitivity and admission components (per doc 27 §5.1). The development is permanent. Duration: the development occurs over one month; full effect at month's end. Side effects: the cultivator's phase-balance shifts (the new root tilts the five-phase profile, per doc 27 §1.4 Stage 1 — the cultivator may need to re-balance before their next breakthrough); mild Earth-excess symptoms (heaviness, lethargy) during the development month.
+   273→- **Realm requirement:** Core Formation alchemist to refine (per doc 16 §4.6 — transformation pills require Core Formation minimum); Foundation Establishment cultivator to consume.
+   274→- **Market value:** 200 spirit stones. The most expensive consumable a Core Formation alchemist produces in regular trade.
+   275→- **Failure modes:** (1) *Wrong-phase encoding* — the alchemist's intent wavers during congealing; the pill encodes a different phase than intended (the consumer develops the wrong root). The result is not directly harmful but is economically catastrophic (the consumer paid for a Fire-root and got a Water-root). (2) *Earth-excess congealing* — the Earth-phase intent over-concentrates; the pill, on consumption, develops the root *too fast* — the cultivator's meridian-system cannot accommodate the new root's phase-flow; meridian-inflammation, in severe cases meridian-rupture. (3) *Beast-core contamination* — the badger-core's residue transmits as a brief Earth-phase 心魔 (the consumer perceives the beast's burrowing, feels entombed; ~1 hour). (4) *Consumer-realm mismatch* — a Qi Condensation cultivator consuming the pill: the new root develops but the meridian-system lacks the integration to channel it; the root withers within months, leaving meridian-scarring that makes future root-development harder.
+   276→
+   277→### 3.6 Strength Pill (力丹) — Enhancement — Fire-phase (yang)
+   278→
+   279→A combat pill. Briefly boosts physical strength.
+   280→
+   281→- **Ingredients:** (1) dried ginger root (Fire-phase, gathered at Summer Solstice 夏至, peak yang); (2) cinnabar (Fire-phase, refined); (3) dried epimedium leaf (Fire-phase with Wood-secondary, gathered at Grain in Ear). Wood generates Fire; the Wood-secondary sustains the Fire boost.
+   282→- **Refinement process:** clay furnace. Martial fire for one hour (Fire-extraction), civil fire for two hours (congealing). A fast refinement — three hours total. Congealing as a small red pill. Cooling in a wooden box (Wood-compatible, feeds Fire).
+   283→- **Effect:** doubles the consumer's physical strength for ten minutes (Qi Condensation inscription) to thirty minutes (Foundation Establishment inscription). The boost is yang-aggressive — the consumer feels hot, restless, slightly euphoric. Side effects: the crash afterward (exhaustion, mild dehydration, ~2 hours); cumulative Fire-contamination with repeated use (the "pill addiction" trope, per doc 16 §4.3).
+   284→- **Realm requirement:** Qi Condensation alchemist to refine; any realm to consume.
+   285→- **Market value:** 0.3 spirit stones. Cheap; sold in stacks to mercenary cultivators.
+   286→- **Failure modes:** (1) *Over-fire* — too much martial fire; the pill's Fire-phase over-concentrates; the consumer suffers a brief Fire-deviation (heat-stroke, agitation, sometimes violence). (2) *Wood-secondary failure* — the epimedium under-potent; the boost lasts ten minutes but the crash is twice as severe. (3) *Contamination* — the alchemist refining while angry produces a pill that amplifies the consumer's anger (a brief rage-state, dangerous in combat).
+   287→
+   288→### 3.7 Perception Pill (覺丹) — Enhancement — Metal-phase
+   289→
+   290→Briefly sharpens perception. Used before breakthrough attempts (a cultivator preparing for Foundation Establishment may take one to deepen the Threshold stage's coherence perception, per doc 27 §1.4 Stage 2).
+   291→
+   292→- **Ingredients:** (1) stalactite powder (Metal-phase); (2) dried chrysanthemum flower (Metal-phase with Wood-secondary, gathered at Frost's Descent 霜降); (3) white ore (Metal-phase, refined); (4) spirit-pearl trace (Water-phase, as phase-bridge: Metal generates Water; the pearl stabilizes the Metal perception-intent).
+   293→- **Refinement process:** iron furnace (Metal-compatible). Civil fire for four hours (Metal-extraction), civil fire for two hours (congealing). The fire must be steady — Metal-perception patterns shatter under martial fire. Congealing as a small white pill. Cooling in a silver box (Metal-compatible).
+   294→- **Effect:** sharpens perception (qi-perception, environmental-perception, self-perception) by approximately 50% for one hour (Qi Condensation) to three hours (Foundation Establishment). The consumer perceives qi-flows more clearly, meridian-states more precisely, environmental signatures more sharply. Side effects: perception-overload if taken in a qi-rich environment (the cultivator cannot filter; doc 27 §4.4); mild headache after.
+   295→- **Realm requirement:** Qi Condensation alchemist to refine; any realm to consume.
+   296→- **Market value:** 1.5 spirit stones.
+   297→- **Failure modes:** (1) *Martial-fire exposure* — the fire spiked to martial at any point; the Metal-perception pattern shatters; the pill produces perception-*blunting* (the consumer cannot perceive qi at all for the duration, a dangerous state). (2) *Pearl-excess* — too much Water; the Metal intent is over-stabilized; the perception sharpens but slows (the consumer perceives everything clearly but cannot react — a frozen clarity). (3) *Contamination* — the alchemist refining while fearful produces a pill that transmits the fear as a perception-tint (the consumer perceives everything as vaguely threatening; mild paranoia for the duration).
+   298→
+   299→### 3.8 Body-Tempering Pill (淬體丹) — Transformation — Earth-phase
+   300→
+
+[showing lines 1-300 of 408; use offset=301 with limit to continue reading]

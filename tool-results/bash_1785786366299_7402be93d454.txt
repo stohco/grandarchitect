@@ -1,0 +1,200 @@
+# 35 — Craft Content Catalog (陣法 · 符籙 · 煉丹: 名品圖譜)
+
+**Status:** Candidate canon. The named recipes, patterns, and layouts the prior craft-systems document (16) deferred as content artifacts. Every entry obeys the determinism contract (same inputs, same outputs) and the phase-compatibility rules (doc 16 Appendix B).
+**Date:** 2026-08-03
+**Authority:** Governed by `16_FORMATIONS_TALISMANS_ALCHEMY.md` (the three systems), `00_FOUNDATIONAL_DECISIONS.md` §6 (qi model), `27_CULTIVATION_SYSTEMS.md` (realms, dantian, breakthrough), `24_RECONCILIATION_AND_DECISIONS.md` §3.1 (spirit stones = 10–50 taels), `18_ECONOMY_SYSTEM.md` (production chains), `14_ECOLOGY_AND_QI.md` (spirit herbs and beasts), and `28_THE_VILLAGE_IN_MEDIAS_RES.md` (the Cangwu cache).
+
+---
+
+## 0. How to read this document
+
+Document 16 specified the three crafts as systems and explicitly deferred the content (the recipes, the patterns, the layouts). This document supplies that content. Every entry is reproducible: any inscriber or alchemist of the named realm, given the named inputs and following the named process, produces the named output. Variation lives in the inputs (ingredient potency, node quality, inscriber heart-mind), not in the process.
+
+**Terminology.** English primary, Hanzi (Traditional, following doc 16's convention) in parentheses on first use. No pinyin with tone marks.
+
+**Phase-compatibility reminder (doc 16 Appendix B).** A Wood inscription wants Water or Wood inputs (Metal conflicts). A Fire inscription wants Wood or Fire inputs (Water conflicts). An Earth inscription wants Fire or Earth inputs (Wood conflicts). A Metal inscription wants Earth or Metal inputs (Fire conflicts). A Water inscription wants Metal or Water inputs (Earth conflicts). Yin-yang signatures must resolve to a coherent vector independently of phase.
+
+**Currency.** Spirit stones are the cultivation world's currency; one spirit stone = 10–50 taels of silver (per doc 24 §3.1, the corrected rate). Cash and silver are the mortal currencies. Market values below are in spirit stones unless noted.
+
+---
+
+## 1. Named Formations
+
+Six formations follow. Each is a persistent qi-structure inscribed in space, with nodes, lines, a core, and a boundary (per doc 16 §2.2).
+
+### 1.1 Hidden-Stone Cache Lock (隱石藏鎖) — Defensive ward + utility — Earth-phase (with Metal secondary)
+
+**The Cangwu foothills cache.** This is the formation Xu Erniu triggers in doc 28 §2.2 — the cultivator's cache Old Chen sealed forty years ago by collapsing the entrance. The original inscriber was a Core Formation wandering cultivator of the late previous dynasty; the cache held three talismans, two pill-gourds, and a hand-copied manual. The formation persists because its Earth-phase nodes anchor to a shallow spirit-vein trace in the foothill bedrock; the vein supplies the ambient qi the formation draws.
+
+- **Nodes:** seven. Six are river-stone discs (Earth-phase, yin-stable) set in a hexagon of three-pace radius around the cache's interior. The seventh is a jade plate (Earth-phase with Metal-secondary) at the hexagon's center, bearing the core. Old Chen, at Qi Condensation, could not safely dismantle the core; he instead collapsed the entrance, leaving the formation intact and dormant.
+- **Layout:** hexagonal. The six perimeter nodes form the boundary; the seventh, the core, sits at the center. The lines trace a six-petaled lotus — each petal a curving Earth-phase qi-current from one perimeter node to the next, the petals overlapping at the boundary.
+- **Core logic:** a two-clause intent. (a) *Ward*: admit the inscriber's qi-signature (encoded at investment) and reject all others. (b) *Sustain*: when an intruder enters, drain the intruder's qi at a measured rate to replenish the cache's own ambient-qi reserve. The drain is the maintenance system Erniu's body is feeding.
+- **Effect:** within the three-pace hexagonal boundary, all qi not bearing the inscriber's signature is rejected at Core Formation intensity; an intruder whose qi falls below Core Formation is drained at approximately one-tenth of a Qi Condensation reservoir per hour. The cache's stored contents remain sealed in a sub-boundary beneath the jade plate.
+- **Duration:** indefinite, sustained by the spirit-vein trace. Persists centuries.
+- **Qi-consumption:** passive — draws ambient qi from the vein. Under intrusion, draws from the intruder.
+- **Inscriber realm:** Core Formation (simple Core Formation cores can persist after death; per doc 16 §2.7 the threshold for centuries-persistence is Core Formation with spirit-vein-anchored nodes).
+- **Failure modes specific to this formation:** (1) *Vein exhaustion* — if the foothill spirit vein thins (over-harvesting of the indicator herbs on the surface, per doc 14 §4.4), the formation's qi-budget collapses; the ward falls to Qi Condensation strength; the sustain-drain reverses and begins consuming the cache's own contents to maintain the ward. (2) *Intruder drain overdose* — if a mortal enters and is drained for more than ~12 hours, the mortal's anchor (doc 00 §2) begins to destabilize; the body enters a state indistinguishable from deep coma and may, beyond ~36 hours, suffer anchor-fraying that produces bardo-onset without proper death. Erniu is at the coma threshold when the player finds him. (3) *Jade-plate fracture* — if the central node is struck hard enough to crack the jade, the core's two-clause intent becomes incoherent; the ward becomes a killing array (it begins draining *all* qi within the boundary, including ambient, until the vein is exhausted).
+
+### 1.2 Three-Jade Heart Ward (三玉心陣) — Defensive ward — Earth-phase (with Metal secondary)
+
+**The protagonist's first Foundation Establishment inscription.** A three-node ward, the simplest formation a Foundation Establishment inscriber can produce (per doc 16 §2.7). The protagonist inscribes this around their practice mat at Old Chen's hermitage after the successful breakthrough (doc 06 Scene 5), as the first act of being a maker rather than a user.
+
+- **Nodes:** three. Jade plates of standard quality, each invested with Earth-phase signature (yin-stable, warding intent). Each plate is the size of a clenched fist, carved with a simple ward-rune on the upper face.
+- **Layout:** equilateral triangle, two paces to a side. The inscriber sits at the centroid. The lines trace three straight qi-currents along the triangle's edges, each current flowing clockwise (yin-stable direction).
+- **Core logic:** a single-clause intent: *exclude hostile qi below Core Formation intensity from the boundary*. The core is the three-node pattern itself; no central node. Simplicity is the design — a three-node ward cannot encode conditional logic.
+- **Effect:** within the triangular boundary (approximately 1.7 square paces), hostile qi below Core Formation intensity is excluded. The ward does not affect physical objects (a sword can pass through); it affects qi-attacks, hostile inscription, and contaminating ambient qi.
+- **Duration:** approximately twenty years without re-investment, in a balanced qi-climate (per doc 16 §5.1).
+- **Qi-consumption:** draws ambient qi to sustain itself; costs the inscriber one reservoir-pulse at activation, none thereafter.
+- **Inscriber realm:** Foundation Establishment minimum.
+- **Failure modes specific to this formation:** (1) *Collinear drift* — if any node shifts more than a finger's breadth from its surveyed position (a frost-heave, a curious animal), the triangle's geometry breaks; the ward admits what it should exclude in the direction of the drift. (2) *Earth-Wood contamination* — inscribed near a living tree root, the root's Wood-phase qi bleeds into the Earth-phase lines (Wood conquers Earth); the ward weakens within months. (3) *Central occupancy* — a second person sitting at the centroid (the inscriber's seat) while the ward is active produces a phase-resonance conflict; the ward treats the second person's qi-signature as hostile and begins excluding them, sometimes painfully.
+
+### 1.3 Azure-Sword Heaven-Severing Boundary (碧劍裂天界陣) — Defensive barrier + alarm — Metal-phase (with Water secondary)
+
+**The Azure Sword Sect's grotto-heaven boundary augmentation.** The grotto-heaven's natural boundary (per doc 19 §2.2) is maintained by the grotto-heaven's own law. This formation, inscribed by the sect's second Core Formation sect master two centuries ago, augments that natural boundary: it layers an alarm ward, a transit-gate, and a killing-array reflex onto the natural law-boundary, giving the sect warning and response time against intrusion.
+
+- **Nodes:** thirty-six. Jade nodes set into the grotto-heaven's interior cliff-face at the boundary's edge, at three-pace intervals. Each node is a jade disc the size of a child's palm, inscribed with the Azure Sword Sect's sword-rune (a Metal-phase cutting intent).
+- **Layout:** a closed loop following the grotto-heaven's boundary perimeter. The lines trace a double helix — an outer Metal-phase current flowing clockwise (cutting intent, yang), an inner Water-phase current flowing counter-clockwise (perception intent, yin). The two currents braid but do not cross; their non-crossing is the formation's principal design feat.
+- **Core logic:** three clauses. (a) *Alarm* — any being crossing the boundary whose qi-signature is not registered (the sect's disciples are registered at Foundation Establishment oath-swearing) triggers an alarm-pulse to the sect master's awareness. (b) *Transit-permit* — registered qi-signatures pass freely; the boundary's law is augmented (not violated) for them. (c) *Killing reflex* — an unregistered being whose realm exceeds Qi Condensation triggers a single Metal-phase cutting discharge along the nearest line-segment; the discharge is Foundation Establishment intensity, intended to delay not kill (a Core Formation intruder is merely scratched; a Qi Condensation intruder is severed).
+- **Effect:** the boundary's volume is the entire grotto-heaven interior (a major grotto-heaven, per doc 19 §2.1, 10–1000 square kilometers). Within this volume, the three clauses hold. Duration: indefinite, sustained by the grotto-heaven's interior qi which is 10–100x mortal ambient.
+- **Qi-consumption:** passive draw from the grotto-heaven's interior. The killing reflex consumes a one-time pulse per discharge, replenished over hours.
+- **Inscriber realm:** Core Formation (the original inscriber was the second sect master; the formation persists after his death because the grotto-heaven's qi-density sustains it, per doc 16 §2.5).
+- **Failure modes specific to this formation:** (1) *Line-crossing* — if a line-segment is broken (a jade node shatters in a siege), the helix geometry breaks; the killing reflex can discharge inward (against the sect's own disciples) rather than outward. (2) *Signature-spoofing* — a Nascent Soul intruder with sufficient skill can copy a registered disciple's qi-signature and pass the alarm clause; the killing reflex does not trigger. (3) *Boundary-law conflict* — if the grotto-heaven's own law-boundary shifts (a rare geomantic event), the formation's perimeter no longer matches the boundary; gaps open where neither the formation nor the natural law fully holds. (4) *Sect-master death* — the alarm clause routes to the sect master's awareness; if the sect master dies without succession, the alarm has no receiver and the killing reflex becomes the only active clause.
+
+### 1.4 Five-Phase Spirit-Gathering Array (五行聚靈陣) — Utility — balanced (all five phases)
+
+The standard gathering array, the foundation of every sect's cultivation chamber (per doc 16 §2.4). The Azure Sword Sect's chambers run a high-quality version; the Cangwu Sect's single chamber runs a degraded version with three nodes missing.
+
+- **Nodes:** five, one per phase. Wood (jade), Fire (iron), Earth (river-stone), Metal (silver disc), Water (pearl). Set in a regular pentagon.
+- **Layout:** pentagonal. Lines trace a five-pointed star (the generation cycle: Wood→Fire→Earth→Metal→Water→Wood) inscribed in the pentagon. The star's interior is the gathering zone.
+- **Core logic:** a single intent: *draw ambient qi into the pentagon's interior at five-phase balance*. The five phases circulate by the generation cycle; ambient qi is drawn in, phase-separated, and re-radiated into the interior at a higher density.
+- **Effect:** within the pentagon's interior (~2 square paces for a personal array, larger for a chamber array), ambient qi density is 3–10x the surrounding environment. A cultivator practicing inside gains reservoir at 3–10x the normal rate.
+- **Duration:** indefinite in a balanced climate; weeks to months in a qi-poor region.
+- **Qi-consumption:** none, once active; it produces qi rather than consuming it.
+- **Inscriber realm:** Foundation Establishment minimum for a personal array; Core Formation for a chamber array (chamber arrays have denser nodes and finer lines).
+- **Failure modes:** (1) *Phase-imbalance* — if one node's phase-signature is weaker than the others (a low-quality pearl, a worn iron disc), the generation cycle stalls at that node; the array produces a phase-skewed qi that deviates the practitioner over time. (2) *Conquest-crossing* — if a line is mis-traced so that two phases cross in conquest rather than generation (e.g., Water-line crossed over Fire-line), the array begins to *quench* ambient qi rather than gather it; the interior becomes qi-poorer than the surroundings. (3) *Over-gathering* — in a qi-rich environment, a chamber array can over-pressurize the interior; practitioners experience reservoir over-pressurization (doc 27 §4.2).
+
+### 1.5 Lotus-Petal Killing Array (蓮瓣殺陣) — Offensive killing array — Fire-phase (with Metal secondary)
+
+A Core Formation killing array, the kind inscribed around a sect's treasury or a contested grotto-heaven anchor. The Azure Sword Sect inscribes a variant around its scripture pavilion.
+
+- **Nodes:** twelve. Iron discs (Fire-phase, yang-sharp) set in two concentric hexagons.
+- **Layout:** two concentric hexagons, the outer at six-pace radius, the inner at three-pace. Lines trace twelve curving petals from the outer hexagon to the inner, each petal a Fire-phase qi-current that sharpens to a Metal-phase edge at the inner terminus.
+- **Core logic:** conditional. *On intrusion into the outer hexagon, discharge the nearest petal as a Fire-phase cutting burst toward the inner hexagon's center. Repeat for each step of intrusion. The intruder is destroyed at the inner hexagon's center.*
+- **Effect:** within the outer hexagon (~113 square paces), any unregistered intrusion triggers a Fire-phase discharge at Core Formation intensity, oriented toward the centroid. A Qi Condensation intruder is destroyed in one discharge; a Foundation Establishment intruder survives three or four; a Core Formation intruder tanks the array long enough to dismantle one petal-node and break the loop.
+- **Duration:** indefinite in a qi-rich environment; days in a qi-poor one (offensive arrays consume ambient qi faster than defensive ones, per doc 16 §2.4).
+- **Qi-consumption:** high. Each discharge draws ambient qi equivalent to one Foundation Establishment reservoir-pulse.
+- **Inscriber realm:** Core Formation minimum (the conditional core requires Core Formation coherence).
+- **Failure modes:** (1) *Petals crossed* — two petals' lines crossed during tracing; the array discharges inward at activation, often killing the inscriber. (2) *Qi-famine* — in a qi-poor environment, the array cannot sustain its discharges; it fires once or twice then goes dormant, leaving the treasury open. (3) *Core contamination* — if the inscriber was angry during investment (a killing intent is required, but unbalanced anger contaminates the core, per doc 16 §4.5), the array's targeting becomes indiscriminate — it discharges on *any* qi-signature including registered ones.
+
+### 1.6 Paired Mirror Gate (雙鏡門陣) — Transport gate — Water-phase
+
+The simplest transport formation: a paired gate linking two inscribed locations for direct transit. The Azure Sword Sect maintains one pair linking the sect compound to the grotto-heaven's anchor cave; the inscription is the sect's most carefully guarded asset.
+
+- **Nodes:** eight per gate (sixteen per pair). Six pearl nodes (Water-phase, yin-flowing) form the gate's hexagonal perimeter; two jade nodes (Earth-phase) anchor the gate's spatial coordinate.
+- **Layout:** two hexagonal gates, each three paces across, inscribed at the two locations to be linked. The two gates' core-intents are synchronized: each encodes the *other* gate's spatial coordinate as its destination.
+- **Core logic:** *on activation by a registered qi-signature, fold the interior of this gate onto the interior of the paired gate for one breath. Anything within the interior transits to the paired interior.*
+- **Effect:** anything within the three-pace hexagon transits to the paired gate's hexagon. One transit per activation; re-activation requires a cooldown of approximately one minute.
+- **Duration:** the gates persist indefinitely if maintained; the pairing-link persists as long as both gates' cores remain coherent.
+- **Qi-consumption:** each transit consumes ambient qi equivalent to one Foundation Establishment reservoir-pulse, drawn from the originating gate's environment.
+- **Inscriber realm:** Core Formation minimum (the spatial-coordinate encoding requires Core Formation law-perception, per doc 16 §2.4). Both gates of a pair must be inscribed by the same inscriber (or by inscribers who have synchronized their core-intent through a separate, demanding rite).
+- **Failure modes:** (1) *Coordinate drift* — if one gate's jade anchors shift, the spatial coordinate drifts; transit lands the traveler at the wrong location (sometimes inside solid rock). (2) *Pairing-decoherence* — if one gate's core is disrupted (a node shattered, a line crossed), the pairing-link breaks; transit attempts discharge into raw qi-space, producing a spatial tear that injures the traveler and the gate. (3) *Simultaneous activation* — if both gates are activated simultaneously by different users, the cores conflict; one user transits, the other is shredded across the spatial fold. (4) *Phase-contamination of the link* — Water-phase is stable for spatial work; if a Fire-phase qi-source is introduced near one gate (a battle, a forge), the link attenuates and transit becomes unreliable.
+
+---
+
+## 2. Named Talismans
+
+Ten talismans follow. Each is a single-use qi-structure inscribed on a portable medium (per doc 16 §3.1). Activation consumes the medium (except jade, which is drained and blanked).
+
+### 2.1 Fireball Talisman (火球符) — Attack — Fire-phase
+
+- **Medium:** standard yellow talisman paper (黃紙), alum-and-beeswax treated.
+- **Ink:** cinnabar ink (硃砂, Fire-phase, yang).
+- **Pattern:** a central sigil — the *fire* character (火) inscribed in three strokes, the central stroke elongated and curving upward to suggest a flame. Around the sigil, four ancillary runes set at the cardinal points: range (upper), direction (right), intensity (lower), trigger (left). The pattern fills the paper's upper two-thirds; the lower third is the activation zone (where the user's qi is infused).
+- **Effect:** on activation, discharges a fireball of intensity scaled to the inscriber's realm. A Qi Condensation inscription produces a Qi Condensation-intensity fireball (range ~10 paces, fixed direction). A Foundation Establishment inscription produces a Foundation Establishment-intensity fireball (range ~30 paces). The fireball ignites combustibles; it does not discriminate friend from foe.
+- **Activation cost:** one-tenth of a Qi Condensation reservoir; one-twentieth of a Foundation Establishment reservoir.
+- **Market value:** 0.5 spirit stones (Qi Condensation inscription); 2 spirit stones (Foundation Establishment inscription).
+- **Failure modes:** (1) *敗符 (flawed pattern)* — the fireball detonates at the user's hand instead of at the target; the user is burned. (2) *逆符 (incompatible activation)* — a Water-phase cultivator activating a Fire-phase talisman: the conquest cycle quenches the pattern; the fireball fizzles to a spark. (3) *潰符 (seal collapse)* — rare; the seal collapses on activation and the talisman discharges its full charge as an omnidirectional burst.
+
+### 2.2 Ice-Arrow Talisman (冰箭符) — Attack — Water-phase (yin)
+
+- **Medium:** standard yellow paper, treated with pine-resin for Water-phase compatibility.
+- **Ink:** pine-soot ink (Water-phase, yin).
+- **Pattern:** a central sigil — the *water* character (水) with the central vertical stroke elongated and sharpened to an arrowhead. Three ancillary runes: range, target-lock, trigger. The pattern is finer than the fireball's (Water-phase lines are thinner).
+- **Effect:** on activation, discharges a single ice-arrow of intensity scaled to the inscriber's realm. Range ~20 paces (Qi Condensation); the arrow pierces rather than ignites. Target-lock rune permits a brief tracking (the arrow curves up to 30 degrees toward the chosen target's qi-signature).
+- **Activation cost:** one-eighth of a Qi Condensation reservoir (Water-phase activation is slightly costlier than Fire-phase for Fire-affinity users).
+- **Market value:** 0.7 spirit stones (Qi Condensation inscription); 3 spirit stones (Foundation Establishment inscription with target-lock).
+- **Failure modes:** (1) *敗符* — the arrow shatters on release, spraying ice-shards across the user's forearm. (2) *Target-lock bleed* — if the target-lock rune is imprecise, the arrow locks onto the *user's* qi-signature (the nearest Water-compatible source) and turns. (3) *逆符* — a Fire-phase cultivator activating: the arrow melts to a splash of cold water, harmless.
+
+### 2.3 Shield Talisman (盾符) — Defense — Earth-phase
+
+- **Medium:** standard yellow paper, treated with clay-slurry for Earth-phase binding.
+- **Ink:** iron-gall ink (Metal-phase, compatible with Earth by the generation cycle — Metal generates Water which is dammed by Earth; the ink's Metal-phase sharpens the Earth-phase boundary).
+- **Pattern:** a central sigil — the *mountain* character (山), three peaks. Around it, a hexagonal boundary-rune (six short strokes, one per side). No ancillary runes; the shield's parameters are fixed.
+- **Effect:** on activation, projects a hexagonal qi-barrier approximately one pace across, oriented between the user and the last-perceived threat. The barrier absorbs one attack of up to Foundation Establishment intensity (Qi Condensation inscription) or one Core Formation intensity attack (Foundation Establishment inscription), then collapses. Duration: the barrier holds for up to ten breaths if not struck.
+- **Activation cost:** one-fifth of a Qi Condensation reservoir.
+- **Market value:** 0.8 spirit stones (Qi Condensation); 3 spirit stones (Foundation Establishment).
+- **Failure modes:** (1) *敗符* — the barrier forms with a gap; the next attack passes through the gap. (2) *Orientation-flaw* — the barrier orients in the wrong direction (the user's perception was muddy at activation); the attack strikes the user's unprotected side. (3) *耗符 (degraded medium)* — a damp-stored talisman's barrier holds for only one or two breaths.
+
+### 2.4 Communication Talisman (傳音符) — Utility — Metal-phase
+
+- **Medium:** jade slip (a small rectangular jade tablet, the size of a thumb). Jade because the talisman must be re-chargeable (per doc 16 §3.5) — a communication talisman is reused.
+- **Ink:** iron-gall ink (Metal-phase).
+- **Pattern:** a central sigil — the *word* character (言) — inscribed in three strokes. Around it, two ancillary runes: destination (inscribed at crafting with the recipient's qi-signature, requiring the inscriber to have a sample of the recipient's qi) and duration (how long the message persists at the destination).
+- **Effect:** on activation, the user speaks a message of up to one hundred breaths' length into the slip. The message transits along the Metal-phase link to the destination slip (the paired half of the communication pair, held by the recipient), where it plays once and then is erased. The slip is then re-chargeable.
+- **Activation cost:** one-tenth of a Qi Condensation reservoir per message.
+- **Market value:** 5 spirit stones per *paired* set (two slips); recharging is free (the user's own qi).
+- **Failure modes:** (1) *Destination-slip lost* — if the recipient's slip is destroyed or out of Metal-phase-link range (~100 li for a Foundation Establishment inscription), the message dissipates. (2) *Qi-signature drift* — if the recipient's qi-signature has shifted since the pairing (a realm transition, a contamination), the destination rune no longer matches; the message bounces back to the sender as a discordant qi-pulse. (3) *Eavesdropping* — a Core Formation cultivator perceiving Metal-phase qi can intercept the message-transit; the contents are not private above Foundation Establishment.
+
+### 2.5 Storage Talisman (儲物符) — Utility — Earth-phase (with Metal secondary)
+
+- **Medium:** jade plaque, the size of a child's palm, three-tenths of an inch thick.
+- **Ink:** cinnabar ink blended with iron-filings (Fire-Metal blend, Earth-compatible by the generation-and-conquest cycle: Fire generates Earth, Metal sharpens the spatial boundary).
+- **Pattern:** a central sigil — the *vessel* character (器), four squares arranged in a larger square. Around it, eight ancillary runes encoding the spatial coordinates of the pocket, the pocket's volume, the access-trigger, and the warding against unauthorized access. The pattern is dense — the most complex Foundation Establishment inscription.
+- **Effect:** on activation (by the registered qi-signature, encoded at inscription), opens a spatial pocket of approximately one cubic pace. The user can place objects into the pocket or withdraw them; the pocket holds its contents indefinitely while the talisman is sealed. The pocket weighs nothing in the user's hand (its mass is in folded space, not in the medium).
+- **Activation cost:** one full Qi Condensation reservoir to open or close; negligible to withdraw a small item.
+- **Market value:** 20 spirit stones (Foundation Establishment inscription). The most expensive common talisman; the precursor to a storage ring (which is a Core Formation artifact).
+- **Failure modes:** (1) *Spatial-coordinate corruption* — if the inscription is flawed, the pocket's coordinates drift; objects placed inside are lost in folded space (sometimes recoverable, sometimes not). (2) *Over-loading* — exceeding the pocket's volume by more than ~10% collapses the spatial fold; the pocket's contents are ejected at high velocity in random directions, often destroying the talisman. (3) *Ward-bypass* — a Core Formation cultivator can crack the access-ward and read the pocket's contents; storage talismans are not secure against higher-realm theft.
+
+### 2.6 Light Talisman (光符) — Utility — Fire-phase (yang)
+
+The first talisman a Qi Condensation inscriber learns (per doc 16 §3.8).
+
+- **Medium:** standard yellow paper.
+- **Ink:** cinnabar ink (Fire-phase, yang).
+- **Pattern:** a single central sigil — the *sun* character (日) inscribed in four strokes within a circle. No ancillary runes; the simplest talismanic pattern.
+- **Effect:** on activation, the talisman emits steady illumination equivalent to a lantern, sustained for approximately four hours (Qi Condensation inscription) or one day (Foundation Establishment inscription). The light is warm-toned (Fire-phase yang).
+- **Activation cost:** negligible — one-twentieth of a Qi Condensation reservoir.
+- **Market value:** 0.1 spirit stones (Qi Condensation). The cheapest talisman; sold in stacks of ten.
+- **Failure modes:** (1) *敗符* — the talisman flares once and burns out (brief blinding flash, no sustained light). (2) *耗符* — a long-stored talisman's light dims to a glow. (3) *Reverse-flaw* — a rare flaw in which the talisman emits *darkness* (a yin inversion of the pattern); the area within three paces becomes deeper shadow.
+
+### 2.7 Concealment Talisman (隱形符) — Utility — Water-phase (yin)
+
+- **Medium:** standard yellow paper treated with pine-resin.
+- **Ink:** pine-soot ink (Water-phase, yin).
+- **Pattern:** a central sigil — the *hidden* character (隱) inscribed in fourteen strokes (the most complex Qi Condensation pattern). Around it, three ancillary runes: radius (the area of effect), duration, and qi-suppression (the strength of the concealment against perception).
+- **Effect:** on activation, the user's qi-signature and physical form are concealed from perception for the duration. Qi Condensation inscription: radius two paces, duration one hour, conceals from Qi Condensation perception. Foundation Establishment inscription: radius five paces, duration four hours, conceals from Foundation Establishment perception (a Core Formation perceiver sees through it).
+- **Activation cost:** one-quarter of a Qi Condensation reservoir.
+- **Market value:** 1 spirit stone (Qi Condensation); 5 spirit stones (Foundation Establishment).
+- **Failure modes:** (1) *敗符* — the concealment is patchy; the user is partially visible (a smudge in the air). (2) *Qi-surge bleed* — if the user routes qi aggressively while concealed (casting another talisman, fighting), the concealment ruptures; the user becomes briefly *more* visible (a flaring qi-source). (3) *逆符* — a Fire-phase cultivator activating: the Water-phase pattern is quenched; no concealment, and the user's qi-signature flares (the opposite of the intended effect).
+
+### 2.8 Detection Talisman (探符) — Utility — Metal-phase
+
+**The talisman the protagonist uses at the Cangwu cache** (doc 28 §2.2). Old Chen, recognizing the cache-formation's ward signature, gives the protagonist one of his few remaining Foundation Establishment-grade detection talismans to perceive Erniu's qi-trace inside the sealed cache before deciding whether to attempt entry.
+
+- **Medium:** jade slip (re-chargeable, three uses per recharge).
+- **Ink:** iron-gall ink (Metal-phase), with a trace of silver-filings (Earth-secondary, for stability).
+- **Pattern:** a central sigil — the *seek* character (尋) inscribed in twelve strokes. Around it, four ancillary runes: depth (how deep the perception reaches), phase-filter (which phase-signatures to admit), sensitivity (minimum qi-intensity detectable), and trigger.
+- **Effect:** on activation, the user receives a brief (one-breath) perception-flash of all qi-sources within range matching the phase-filter. Foundation Establishment inscription: range 50 paces, sensitivity down to one-tenth of a Qi Condensation reservoir, phase-filter set at inscription.
+- **Activation cost:** one-third of a Qi Condensation reservoir.
+- **Market value:** 4 spirit stones (Foundation Establishment).
+- **Failure modes:** (1) *敗符* — the perception-flash is incomplete (the user receives fragments, easily misinterpreted). (2) *Phase-filter bleed* — if the filter-rune is imprecise, the talisman admits all phases; the user is overwhelmed by ambient qi-noise (perception overload, doc 27 §4.4). (3) *Sensitivity-burnout* — a high-sensitivity talisman used in a qi-rich environment burns out the jade's pattern; the talisman is destroyed.
+
+### 2.9 Wound-Sealing Talisman (止創符) — Defense/utility — Wood-phase
+
+**The talisman Old Chen uses on the protagonist after the failed breakthrough** (doc 06 Scene 4). The protagonist's reservoir has cracked and meridians are inflamed; Old Chen presses a Wood-phase wound-sealing talisman to the protagonist's chest to halt the internal bleeding long enough for stabilization.
+
+- **Medium:** standard yellow paper treated with herbal-infusion (Wood-phase compatible).
+- **Ink:** wood-sap ink (Wood-phase, yin-restoring), prepared from the sap of the Cangwu foothills' old-growth spirit pines.
+- **Pattern:** a central sigil — the *seal* character (封) inscribed in nine strokes. Around it, two ancillary runes: target-area (where the seal holds) and duration.
+- **Effect:** on activation by contact with the wounded body, the talisman's Wood-phase qi seals internal bleeding (Wood generates; the body's yin is reinforced) and reduces meridian-inflammation by half for the duration. Qi Condensation inscription: holds for two hours. Foundation Establishment inscription: holds for twelve hours.
+- **Activation cost:** one-fifth of a Qi Condensation reservoir (Old Chen pays this; the recipient does not).
