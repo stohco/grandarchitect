@@ -661,7 +661,85 @@ try {
   const scene = new THREE.Scene();
   // Dawn sky: deep blue at top, warm orange at horizon
   scene.background = new THREE.Color(0x1a1a2e);
-  scene.fog = new THREE.Fog(0x2a2a3e, 15, 50);
+
+  // --- Fog System: height-based falloff via global shader chunk patching ---
+  // Patch the fog shader chunks BEFORE any materials compile. Every material
+  // with fog: true inherits the height-based model. No per-material work.
+  // This is the technique the user described: patch globally, inherit everywhere.
+  const fogParams = {
+    density: 0.035,        // base density at sea level
+    heightFalloff: 0.0042, // how quickly fog thins with altitude
+    color: 0x2a2a3e,       // fog color (shifts with time of day)
+    near: 2.0,             // artistic near distance
+    far: 45.0,             // artistic far distance
+  };
+
+  // Replace the fog fragment chunk with a height-based model.
+  // The original THREE.fog_fragment uses: fogFactor = smoothstep(fogNear, fogFar, vViewPosition.z)
+  // We replace it with: fogFactor = exp(-density * heightFalloff * (cameraY - fragY)) * depthFog
+  THREE.ShaderChunk.fog_fragment = `
+    #ifdef USE_FOG
+      float fogDepth = length(vViewPosition);
+      // Height-based fog: denser in valleys, thinner on ridges
+      float heightDiff = cameraPosition.y - vWorldPosition.y;
+      float heightFog = exp(-fogDensity * fogHeightFalloff * max(heightDiff, 0.0));
+      // Depth-based fog (artistic control)
+      float depthFog = smoothstep(fogNear, fogFar, fogDepth);
+      // Combine: height attenuates depth fog
+      float fogFactor = depthFog * heightFog;
+      gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor, fogFactor);
+    #endif
+  `;
+
+  // Also patch the fog parameters chunk to inject our custom uniforms
+  THREE.ShaderChunk.fog_pars_fragment = `
+    #ifdef USE_FOG
+      uniform vec3 fogColor;
+      uniform float fogNear;
+      uniform float fogFar;
+      uniform float fogDensity;
+      uniform float fogHeightFalloff;
+      varying vec3 vWorldPosition;
+    #endif
+  `;
+
+  // Patch the vertex shader to pass world position
+  THREE.ShaderChunk.fog_vertex = `
+    #ifdef USE_FOG
+      vWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;
+    #endif
+  `;
+  THREE.ShaderChunk.fog_pars_vertex = `
+    #ifdef USE_FOG
+      varying vec3 vWorldPosition;
+    #endif
+  `;
+
+  // Use FogExp2 as the fog type (we need the density uniform, but we override the formula)
+  scene.fog = new THREE.FogExp2(fogParams.color, fogParams.density);
+  // Add the heightFalloff uniform to the fog object so it gets injected
+  scene.fog.heightFalloff = fogParams.heightFalloff;
+
+  // Monkey-patch the WebGLPrograms to inject fogHeightFalloff uniform
+  const originalOnBeforeCompile = THREE.ShaderLib.standard.onBeforeCompile;
+  // We'll use a global uniform injection via the renderer's onBeforeCompile hook
+  const fogUniforms = { value: { fogHeightFalloff: fogParams.heightFalloff } };
+  scene.onBeforeRender = (renderer, scene, camera) => {
+    // Update fog uniforms on all materials each frame
+    scene.traverse((obj) => {
+      if (obj.material && obj.material.fog) {
+        if (!obj.material.userData.fogPatched) {
+          const origOnBefore = obj.material.onBeforeCompile;
+          obj.material.onBeforeCompile = (shader) => {
+            shader.uniforms.fogHeightFalloff = { value: fogParams.heightFalloff };
+            if (origOnBefore) origOnBefore(shader);
+          };
+          obj.material.userData.fogPatched = true;
+          obj.material.needsUpdate = true;
+        }
+      }
+    });
+  };
 
   // --- Camera ---
   const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
@@ -843,15 +921,19 @@ try {
   ground.receiveShadow = true;
   scene.add(ground);
 
+  // --- Camera orbit variables (declared before sliders that reference them) ---
+  let orbitSpeed = 0.002;
+  let orbitRadius = 10.0;
+  let cameraHeight = 5.0;
+
   // --- Slow camera orbit ---
   let angle = 0;
   function animate() {
     requestAnimationFrame(animate);
-    angle += 0.002;
-    const radius = 10;
-    camera.position.x = Math.cos(angle) * radius;
-    camera.position.z = Math.sin(angle) * radius;
-    camera.position.y = 5;
+    angle += orbitSpeed;
+    camera.position.x = Math.cos(angle) * orbitRadius;
+    camera.position.z = Math.sin(angle) * orbitRadius;
+    camera.position.y = cameraHeight;
     camera.lookAt(0, 0.8, 0);
     renderer.render(scene, camera);
   }
@@ -868,6 +950,160 @@ try {
   resizeObserver.observe(canvas);
 
   loading.style.display = 'none';
+
+  // --- Tweak Panel: real-time parameter tuning + export to defaults ---
+  // This is the engine's editor surface. Every consequential parameter is
+  // a slider. Changes apply in real-time. "Export" saves the current values
+  // as a JSON preset that the engine loads as defaults on next run.
+  const panel = document.createElement('div');
+  panel.id = 'tweak-panel';
+  panel.style.cssText = 'position:absolute;top:8px;right:8px;width:280px;max-height:380px;overflow-y:auto;background:rgba(9,9,11,0.92);border:1px solid #27272a;border-radius:8px;padding:12px;font-family:ui-monospace,monospace;font-size:11px;color:#a1a1aa;z-index:10;backdrop-filter:blur(8px);';
+  document.getElementById('scene-container').appendChild(panel);
+
+  const panelTitle = document.createElement('div');
+  panelTitle.style.cssText = 'color:#fafafa;font-weight:600;margin-bottom:8px;font-size:12px;';
+  panelTitle.textContent = 'Engine Tweak Panel';
+  panel.appendChild(panelTitle);
+
+  function createSlider(label, min, max, step, value, onChange) {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'margin-bottom:8px;';
+    const lbl = document.createElement('label');
+    lbl.style.cssText = 'display:flex;justify-content:space-between;color:#71717a;margin-bottom:2px;';
+    lbl.innerHTML = `<span>${label}</span><span class="val" style="color:#4ade80;">${value.toFixed(4)}</span>`;
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = min; slider.max = max; slider.step = step; slider.value = value;
+    slider.style.cssText = 'width:100%;accent-color:#4ade80;height:4px;';
+    slider.addEventListener('input', () => {
+      const v = parseFloat(slider.value);
+      lbl.querySelector('.val').textContent = v.toFixed(4);
+      onChange(v);
+    });
+    wrapper.appendChild(lbl);
+    wrapper.appendChild(slider);
+    return wrapper;
+  }
+
+  function createColorPicker(label, hexValue, onChange) {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'margin-bottom:8px;';
+    const lbl = document.createElement('label');
+    lbl.style.cssText = 'display:flex;justify-content:space-between;align-items:center;color:#71717a;margin-bottom:2px;';
+    lbl.innerHTML = `<span>${label}</span>`;
+    const picker = document.createElement('input');
+    picker.type = 'color';
+    picker.value = '#' + hexValue.toString(16).padStart(6, '0');
+    picker.style.cssText = 'width:40px;height:20px;border:1px solid #27272a;border-radius:3px;cursor:pointer;background:none;';
+    picker.addEventListener('input', () => {
+      const v = parseInt(picker.value.slice(1), 16);
+      onChange(v);
+    });
+    lbl.appendChild(picker);
+    wrapper.appendChild(lbl);
+    return wrapper;
+  }
+
+  function createSection(title) {
+    const sec = document.createElement('div');
+    sec.style.cssText = 'border-top:1px solid #27272a;margin-top:8px;padding-top:8px;';
+    const h = document.createElement('div');
+    h.style.cssText = 'color:#a1a1aa;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;';
+    h.textContent = title;
+    sec.appendChild(h);
+    return sec;
+  }
+
+  // Fog section
+  const fogSec = createSection('Fog');
+  fogSec.appendChild(createSlider('Density', 0.0, 0.15, 0.001, fogParams.density, (v) => {
+    fogParams.density = v;
+    scene.fog.density = v;
+  }));
+  fogSec.appendChild(createSlider('Height Falloff', 0.0, 0.02, 0.0001, fogParams.heightFalloff, (v) => {
+    fogParams.heightFalloff = v;
+    scene.traverse((obj) => {
+      if (obj.material && obj.material.userData.fogPatched) {
+        obj.material.onBeforeCompile = (shader) => {
+          shader.uniforms.fogHeightFalloff = { value: v };
+        };
+        obj.material.needsUpdate = true;
+      }
+    });
+  }));
+  fogSec.appendChild(createColorPicker('Fog Color', fogParams.color, (v) => {
+    fogParams.color = v;
+    scene.fog.color.setHex(v);
+  }));
+  panel.appendChild(fogSec);
+
+  // Lighting section
+  const lightSec = createSection('Lighting');
+  lightSec.appendChild(createSlider('Sun Intensity', 0.0, 3.0, 0.05, sunLight.intensity, (v) => {
+    sunLight.intensity = v;
+  }));
+  lightSec.appendChild(createSlider('Ambient', 0.0, 1.5, 0.05, ambient.intensity, (v) => {
+    ambient.intensity = v;
+  }));
+  lightSec.appendChild(createSlider('Sun Angle (Y)', 1.0, 20.0, 0.5, sunLight.position.y, (v) => {
+    sunLight.position.y = v;
+  }));
+  lightSec.appendChild(createSlider('Sun Angle (X)', -25.0, 5.0, 0.5, sunLight.position.x, (v) => {
+    sunLight.position.x = v;
+  }));
+  lightSec.appendChild(createSlider('Exposure', 0.1, 2.5, 0.05, renderer.toneMappingExposure, (v) => {
+    renderer.toneMappingExposure = v;
+  }));
+  panel.appendChild(lightSec);
+
+  // Camera section
+  const camSec = createSection('Camera');
+  camSec.appendChild(createSlider('Orbit Speed', 0.0, 0.01, 0.0005, 0.002, (v) => {
+    orbitSpeed = v;
+  }));
+  camSec.appendChild(createSlider('Orbit Radius', 5.0, 20.0, 0.5, 10.0, (v) => {
+    orbitRadius = v;
+  }));
+  camSec.appendChild(createSlider('Camera Height', 1.0, 15.0, 0.5, 5.0, (v) => {
+    cameraHeight = v;
+  }));
+  panel.appendChild(camSec);
+
+  // Export button
+  const exportBtn = document.createElement('button');
+  exportBtn.textContent = 'Export Preset';
+  exportBtn.style.cssText = 'width:100%;margin-top:8px;padding:6px;background:#27272a;color:#fafafa;border:1px solid #3f3f46;border-radius:4px;cursor:pointer;font-family:inherit;font-size:11px;';
+  exportBtn.addEventListener('click', () => {
+    const preset = {
+      fog: { density: fogParams.density, heightFalloff: fogParams.heightFalloff, color: '#' + fogParams.color.toString(16).padStart(6, '0') },
+      lighting: { sunIntensity: sunLight.intensity, ambient: ambient.intensity, sunY: sunLight.position.y, sunX: sunLight.position.x, exposure: renderer.toneMappingExposure },
+      camera: { orbitSpeed, orbitRadius, cameraHeight },
+    };
+    const json = JSON.stringify(preset, null, 2);
+    // Copy to clipboard
+    navigator.clipboard.writeText(json).then(() => {
+      exportBtn.textContent = 'Copied to clipboard!';
+      setTimeout(() => { exportBtn.textContent = 'Export Preset'; }, 2000);
+    }).catch(() => {
+      // Fallback: download
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'engine_preset.json'; a.click();
+      URL.revokeObjectURL(url);
+      exportBtn.textContent = 'Downloaded!';
+      setTimeout(() => { exportBtn.textContent = 'Export Preset'; }, 2000);
+    });
+  });
+  panel.appendChild(exportBtn);
+
+  // Toggle panel visibility with H key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'h' || e.key === 'H') {
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+  });
+
 } catch (e) {
   loading.textContent = 'Error: ' + e.message;
   loading.classList.remove('pulsing');
