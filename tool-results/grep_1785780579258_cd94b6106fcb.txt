@@ -1,0 +1,223 @@
+1-# 43 — Holy Lands and Great Sects
+2-
+3:**Status:** Candidate canon. The cultivation world's upper-tier institutions, in fulfilment of doc 20 §1.3 (3-5 holy lands per continent, 5-10 great sects per region) and doc 42 (the continents and their previews). Compliant with 24_RECONCILIATION_AND_DECISIONS §4.3 (Jade Void Holy Land: Daoist Jade Void, 2,100, Nascent Soul, 3,000 disciples, peak grotto-heaven), 31_NAMED_INSTITUTIONS_AND_HEXAGRAMS §1-2 (Cangwu Sect, Azure Sword Sect fully specified; §2.9 the Jade Void's regional position), 34_NAMED_NPCS_AND_COMPANIONS §166 (Xu Yunfeng of Jade Void, Leng Qingxue's correspondent), 35_CRAFT_CONTENT_CATALOG §3.9 (Patriarch Mu, Azure Sword alchemist), 37_COSMIC_HISTORY §6 (Pillar Dynasty, Crimson Vow Alliance), 38_THE_COURTS_OF_HEAVEN (holy lands independent but deferential; Courts' six departments), 39_THE_MAHAYANA_PANTHEON §2.5 (Yin Mu's Cangwu grotto-heaven), 42_THE_MORTAL_WORLDS_CONTINENTS (the continent geography this document populates).
+4-**Date:** 2026-08-03
+5-**Conventions:** Hanzi in parentheses on first use. No pinyin tone marks. Every named institution has a personality, a specialty, a sect master or patriarch (with realm and age), a grotto-heaven or spirit vein, and a relationship to at least one other named institution. The Cangwu Sect (doc 31 §1) is a small sect, not a great sect; it is referenced here for relational completeness but its full spec remains in doc 31.
+6-
+--
+8-
+9-## 0. Why this document exists
+10-
+11:Doc 20 §1.3 specifies that the cultivation world has 3-5 holy lands per continent and 5-10 great sects per region. Doc 24 §4.3 named one holy land (the Jade Void) and two sects (the Cangwu Sect, the Azure Sword Sect). Doc 31 fully specified those two sects. Doc 42 named the four other holy lands (Yellow Court, Skyfire, Verdant Pillar, NorthSea) and 13 great sects across the five continents, but committed only their previews. This document fully specifies the five holy lands, the 13 great sects, the grotto-heaven catalogue, the political map, and the protagonist's path through the political map across Act 2 and Act 3.
+12-
+13:The bible's political geography is now legible from the Jade Void patriarch's seat on Voidjade Peak to the Stone Lantern Sect's frontier spirit-beacon on Xi's coast. The protagonist's choices, from session 120 onward, are made against this map. The map is finite, the institutions are named, and the protagonist's path through them is committed.
+14-
+15----
+16-
+--
+18-
+19-One per continent. All patriarchs are below Tribulation Crossing (doc 38: "the holy lands' patriarchs are below Tribulation Crossing; they cannot enter the courts as peers"). All relationships to the Courts are either "independent but deferential" or "independent" (the Verdant Pillar, with its yao-foundation, and the NorthSea, with its older-than-Courts records, are the two independents).
+20-
+21:### 1.1 The Jade Void Holy Land (玉虛聖地) — Dong Continent
+22-
+23:- **Patriarch:** Daoist Jade Void (玉虛真人), Nascent Soul, age 2,100, founder and retired patriarch. **Acting head:** Elder Mu Yunfeng (穆雲峰), Nascent Soul early-stage, age 800, 17th-generation successor.
+24-- **Disciples:** 3,000 (1,800 outer, 1,200 inner, 47 Foundation Establishment elders, 3 Nascent Soul elders).
+25-- **Compound:** The Three-Courtyard Seat (三院) on Voidjade Peak (虛玉峰), Yunwu Mountains, Dong's western coast, 400 li inland from Qingyang (per doc 42 §8.3).
+26:- **Grotto-heaven:** The Jade Void Grotto-Heaven (玉虛洞天), wood-phase, time-rate 1:5.
+27-- **Spirit vein:** The Voidjade Wood Vein (虛玉木脈), Dong's largest wood-phase vein.
+28-- **Specialty:** Divination (derived from the Silent Hexagram Method fragment, doc 37 §6.3), ancestral veneration (the rotating-shrine rite in the Cangli Riverlands), library (the cultivation world's most comprehensive non-Courts repository, doc 42 §8.4).
+29:- **Personality:** Patient, withdrawn, grieving. Daoist Jade Void has outlived nineteen successor-generations of disciples. He declined Tribulation Crossing three times, on the grounds that his ancestral-veneration practice is more stable at Nascent Soul than at Mahayana, and that his continuing presence sustains the rotating-shrine rite. His grief is the grief of a patriarch who has become, in his own perception, more institution than person.
+30-- **Courts relationship:** Independent but deferential; petitions through the Records department's regional magistrates (doc 38 §2.1).
+31:- **Other holy lands:** Polite rivalry with Yellow Court (Zhong); warm scholarly collaboration with Verdant Pillar (Nan, the divided custody of the Pillar Dynasty Annals); respectful distance with NorthSea (Bei, the Jade Void defers to the NorthSea on ancestral-court matters); cool distance with Skyfire (Xi, wood-phase vs metal-phase).
+32-- **Vassal sects:** Azure Sword Sect (Zhong), Pearl-Tide Sect (Zhong), Emerald Pagoda Sect (Dong), Whale-Rider Sect (Dong, partial).
+33:- **Narrative role:** Act 2 indirect (Xu Yunfeng's correspondence with Leng Qingxue; rotating-shrine hermitage 12 li west of Wang Family Bend). Act 3 direct (Nascent Soul journey to Voidjade Peak; library access; meeting with Daoist Jade Void; primary institutional ally for Pei Liang confrontation and Transcend path).
+34-
+35-### 1.2 The Yellow Court Holy Land (黃庭聖地) — Zhong Continent
+36-
+--
+42-- **Specialty:** Earth-phase alchemy (the Foundation-Solid Pill, the Core-Stabilizing Pill, the rare Earth-Marrow Pill); the Great Yan Dynasty's traditional alchemical supplier. The Yellow Court's relationship to Patriarch Mu (Azure Sword Sect's alchemist, doc 35 §3.9) is supply-chain: the Yellow Court's outer hall provides Patriarch Mu with earth-phase reagents his region cannot grow.
+43-- **Personality:** Scholastic, hierarchical, slow. The Yellow Court operates at the tempo of a 3,400-year-old institution; the Great Yan Dynasty's succession crisis is, for Daoist Yellow Court, a brief inconvenience. The patriarch's grief is the grief of a scholastic who has watched eight predecessor dynasties rise and fall.
+44-- **Courts relationship:** Allied (the Yellow Court's alchemical tithes to the Courts' refiners are the Courts' largest external supply).
+45:- **Other holy lands:** Polite rivalry with Jade Void (influence over Zhong's middle reaches); distant cool with Skyfire (earth-phase vs metal-phase); distant cool with Verdant Pillar (wood-phase dominates earth-phase); respectful distance with NorthSea.
+46-- **Vassal sects:** Sand-Veiled Sect (Zhong), Heavenly Pivot Sect (Zhong, partial), Iron-Horse Sect (Zhong, partial — the Yellow Court provides the Iron-Horse's alchemical supply).
+47-- **Narrative role:** Act 2 distant (the Yellow Court's alchemical supply chain touches the Azure Sword Sect through Patriarch Mu). Act 3 moderate (the protagonist at Nascent Soul may visit to consult its alchemical records on the Crimson Vow Remnant's corrupted fire-phase tradition; the visit is optional).
+48-
+--
+56-- **Specialty:** Metal-phase smithing, weapon-craft, formation arrays; the Courts of Heaven's traditional weapon-supplier. Signature technique: the **Iron Sage's Nine-Fold Fold (鐵聖九折)**, a forging method that produces blades of extraordinary phase-coherence; only the patriarch and three forge-elders know it.
+57-- **Personality:** Taciturn, exacting, forge-ascetic. Patriarch Iron Sage has not spoken in council for three centuries; his silence is his law. The Skyfire's forge-elders communicate in hammer-taps and qi-modulations. The patriarch's grief is the grief of a smith who has outlived every weapon he has forged — the weapons are in other hands, the hands are dead, the weapons are rusted or broken or lost.
+58-- **Courts relationship:** Closest of the five holy lands; the only holy land patriarch who visits the Courts' Roads department in person (doc 38 §2.4).
+59:- **Other holy lands:** Cool distance with Jade Void (metal-phase vs wood-phase, metaphysically opposed); distant cool with Yellow Court; respectful distance with Verdant Pillar and NorthSea.
+60-- **Vassal sects:** Ironbone Sect (Xi); Stone Lantern Sect (Xi, partial — the Stone Lantern's frontier mission is Courts-delegated and the Stone Lantern does not tithe).
+61-- **Narrative role:** Act 2 absent. Act 3 distant (the protagonist at Spirit Severance may visit to commission a sword for the Pei Liang confrontation; the Skyfire's intelligence on the Western Spirit Wilds' Law Reaches is, in the Transcend path, the protagonist's primary source for the Law Reach venue's selection).
+62-
+--
+70-- **Specialty:** Yao cultivation (a hybrid human-yao tradition), wood-phase beast-taming, Pillar Dynasty lore (holds 5 of the 12 volumes of the Pillar Dynasty Annals and the most complete bark-strip library).
+71-- **Personality:** Hybrid, patient, ecologically-minded. The patriarch and the co-founder govern as joint-stewards — the patriarch handles human-cultivator relations, the co-founder handles the grotto's yao-ecology; the two have not disagreed in 1,700 years. The Verdant Pillar's grief is the grief of ecologists watching the Thinning (doc 39 §2.5) thin their grotto's wood-phase qi; the Pillar Root Vein Remnant is dying.
+72-- **Courts relationship:** Independent (the yao-foundation places the holy land outside the Courts' lineage-jurisdiction; the Courts respect this and the Verdant Pillar does not petition).
+73:- **Other holy lands:** Warm scholarly collaboration with Jade Void; warm with NorthSea (the two yao-respecting institutions); cool distance with Skyfire (metal cuts wood); distant cool with Yellow Court.
+74-- **Vassal sects:** Redwood Canopy Sect (Nan), Sea-Fan Sect (Nan, partial — the Sea-Fan's coastal mission is independent of the Verdant Pillar's interior focus).
+75-- **Narrative role:** Act 2 absent. Act 3 moderate (the protagonist at Nascent Soul may visit to investigate the Cangli spirit vein's connection to the Pillar Root Vein; the visit is the protagonist's primary source on the Pillar Dynasty's qi-economy and the Cangli spirit vein's cosmic-history).
+76-
+--
+84-- **Specialty:** Water-phase ice-cultivation (signature technique: the **NorthSea Stillness, 北海寂**, a meditation that brings qi-circulation to absolute zero; the Matriarch's 2,500-year-old authorship), ancestral-court preservation (the Ice-Record Hall holds the Mortal Stratum's oldest accessible ancestral-court records, predating the Courts' founding at Year ~40,000 by 8,000 years; the records are inscribed in ice on the Hall's walls, readable only by the Matriarch and two elders).
+85-- **Personality:** Cold, ancient, record-keeping. The Matriarch has spent three millennia maintaining the continent's ancestral-court records; her grief is the grief of a record-keeper whose records outlast their subjects. She speaks rarely; when she speaks, her words are the words of a being who has watched the continent's mortals die for 3,000 years and remembers each lineage's name.
+86-- **Courts relationship:** Independent peer (the NorthSea's records predate the Courts' founding; the NorthSea considers itself peer-to-the-Courts in matters of ancestral record; the Courts tolerate this and the NorthSea does not challenge the Courts' lineage-jurisdiction).
+87:- **Other holy lands:** Respectful distance with Jade Void (the Jade Void defers to the NorthSea on ancestral-court matters; the NorthSea defers to the Jade Void on divination matters); warm with Verdant Pillar; distant with Skyfire and Yellow Court.
+88-- **Vassal sects:** Snowstrider Sect (Bei); Mammoth-Bone Sect (Bei, partial — the Mammoth-Bone's yao-alliance is independent of the NorthSea's human-focused tradition).
+89-- **Narrative role:** Act 2 absent. Act 3 distant (the protagonist at Void Amalgamation may visit to consult the ancestral-court records on the Wang lineage, if the protagonist has bonded a place that allows the consultation; endgame optional content).
+90-
+--
+96-
+97-### 2.1 The Azure Sword Sect (碧劍宗) — Zhong, Cangwu Mountains
+98-
+99:Sect master **Leng Wushuang (冷無霜)**, Core Formation, age 340, appears 50. 400 disciples (300 outer, 100 inner); three spirit veins (the Azure Sword Vein, the Jade-Edge Vein, the Northern Cangwu Vein); the Jade Edge Grotto-Heaven (玉涯洞天, metal-phase, time-rate 1:3, in the western Cangwu's deep extension). **Specialty:** sword cultivation (碧劍, the jade-green sword). **Personality:** proud, inward, grieving — the sect's expansion toward the Cangli Riverlands is, per Leng Qingxue's dissent, Leng Wushuang's 80-year act of mourning for her surveyor husband, hardened into policy. The three factions (Expansionist, Isolationist, Independence; doc 31 §2.5) are the sect's internal weather; Leng Wushuang holds the balance and has not committed. **Holy land relationship:** vassal of the Jade Void (one mid-grade spirit stone per decade; the Jade Void's implicit protection). **Other relationships:** cold with the Cangwu Sect (the latent spirit vein dispute); distant with the Sand-Veiled Sect (the Yellow Court–Jade Void rivalry's downstream); warm with the Iron-Horse Sect (sword-cultivation root); cool with the Azuremist Sect (Dong, cross-continental sword-cousins who exchange outer disciples every 60 years). **Narrative role:** Act 2 central (the Cangli spirit vein dispute; Leng Qingxue's defection; the protagonist's first sect-level dilemma). Act 3 moderate (the Azure Sword's role depends on the protagonist's earlier choices). Full spec in doc 31 §2.
+100-
+101-### 2.2 The Heavenly Pivot Sect (天樞宗) — Zhong, Imperial Heartland
+102-
+--
+104-
+105-### 2.3 The Sand-Veiled Sect (沙幕宗) — Zhong, Western Interior
+106-
+107:Sect master **Patriarch Dune (沙丘老人)**, Core Formation, age 600. 350 disciples; two spirit veins (the Yumen Oasis Vein, the Sand-Veiled Desert Vein); the Sand-Veiled Grotto-Heaven (沙幕洞天, earth-fire phase, time-rate 1:3, beneath the Sand-Veiled Caravansary at Yumen). **Specialty:** desert trade-route protection, the Sand-Veiled Caravansary's neutral-ground enforcement, earth-fire alchemy. **Personality:** mercantile, neutral, durable — operates at the tempo of the desert trade; the Caravansary's no-combat rule is the sect's signature, enforced by the steward's displeasure (a bar-from-trade no western-dependent cultivator can afford). **Holy land relationship:** vassal of the Yellow Court (the Yellow Court's primary western-interior proxy). **Other relationships:** cold with the Azure Sword Sect (the Yellow Court–Jade Void rivalry's downstream); cordial with the Stone Lantern Sect (Xi, the Western Ocean Crossing's two anchors); distant with the Pearl-Tide Sect. **Narrative role:** Act 2 absent. Act 3 distant (the protagonist at Core Formation may pass through the Caravansary on the Western Ocean Crossing; optional).
+108-
+109-### 2.4 The Pearl-Tide Sect (珠潮宗) — Zhong, Eastern Coast
+110-
+111:Sect master **Matriarch Tide Pearl (潮珠道君)**, Core Formation, age 480. 500 disciples; two spirit veins (the Pearl-Tide Harbor Vein, the Eastern Coast Vein); the Pearl-Tide Grotto-Heaven (珠潮洞天, water-phase, time-rate 1:2, anchored at the harbor's mouth). **Specialty:** maritime cultivation, the Vermilion Pearl Route's Zhong-side anchor, the Pearl Archipelago Compact's Zhong-side signatory. **Personality:** maritime, mercantile, generous — operates at the tempo of the Eastern Sea's tides; the Matriarch's grief is the grief of a sea-captain who has lost 17 junks to leviathans in her 480-year lifetime and remembers each ship's name and crew. **Holy land relationship:** vassal of the Jade Void (the Jade Void's preferred Zhong-side intermediary). **Other relationships:** cordial with the Azure Sword Sect; tense with the Crystal-Tide Sect (the Eastern Sea spirit-herb beds' contest); cooperative with the Whale-Rider Sect (the Vermilion Pearl Route's two surface anchors); cold with the Sea-Fan Sect (Nan, the Southern Monsoon Run's territorial contest). **Narrative role:** Act 2 absent. Act 3 moderate (the protagonist's Nascent-Soul journey to the Jade Void runs through Haimen and the Vermilion Pearl Route; the Pearl-Tide's outer disciples staff the protagonist's spirit-junk).
+112-
+113-### 2.5 The Iron-Horse Sect (鐵馬宗) — Zhong, Northern Marches
+114-
+--
+116-
+117-### 2.6 The Emerald Pagoda Sect (翠塔宗) — Dong, Central Lowlands
+118-
+119:Sect master **Patriarch Emerald Furnace (翠爐上人)**, Core Formation late-stage, age 590. 450 disciples; three spirit veins (the Cuiping Wood Vein, the Central Lowlands Vein, the Southern Marsh Vein); the Emerald Pagoda Grotto-Heaven (翠塔洞天, wood-phase, time-rate 1:6, at the sect's nine-tier alchemy pagoda at Cuiping, 300 li south of Qingyuan). **Specialty:** wood-phase alchemy (Root-Developing Pill, Body-Tempering Pill, the rare Wood-Marrow Pill), the Jade Void's primary pill-supplier. **Personality:** scholastic, exacting, proud — operates at the tempo of the alchemical furnace; the Patriarch's grief is the grief of an alchemist watching his furnace-gardens thin under the Thinning. **Holy land relationship:** near-vassal of the Jade Void (the Jade Void supplies the manuals; the Emerald Pagoda supplies the pills; the two grotto-heavens are mutually dependent). **Other relationships:** distant professional respect with Patriarch Mu (Azure Sword Sect's alchemist, doc 35 §3.9 — the two correspond on alchemical problems across the Eastern Sea); cordial with the Azuremist Sect; cooperative with the Whale-Rider Sect. **Narrative role:** Act 2 absent. Act 3 moderate (the protagonist at Nascent Soul visits the Emerald Pagoda en route to Voidjade Peak; the visit is the protagonist's primary source for the Wood-Marrow Pill, which the protagonist may need for the Spirit Severance breakthrough).
+120-
+121-### 2.7 The Whale-Rider Sect (鯨馭宗) — Dong, Eastern Coast
+122-
+123:Sect master **Matriarch Whale-Song (鯨吟道君)**, Core Formation, age 410. 380 disciples (40 inner are beast-tamers bonded to the qi-whales); two spirit veins (the Haiqing Coast Vein, the Eastern Sea Deep Vein); the Whale-Rider Grotto-Heaven (鯨馭洞天, water-phase, time-rate 1:4, at the Haiqing harbor's deep-water shrine). **Specialty:** sea-beast taming (a pod of seventeen cultivated qi-whales bred for nine centuries), oceanic spirit-herb gathering, deep-water exploration, the Vermilion Pearl Route's Dong-side anchor. **Personality:** wild, salt-stained, faithful — the Matriarch's grief is the grief of a beast-tamer who has buried seventeen qi-whales in her 410-year lifetime, each a being she had known since it was a calf. **Holy land relationship:** partial vassal of the Jade Void (maintains the Dong-side of the Vermilion Pearl Route). **Other relationships:** cooperative with the Pearl-Tide Sect (the Route's two surface anchors); tense with the Crystal-Tide Sect (the deep-water spirit-herb beds' contest, mitigated by the Pearl Archipelago Compact); cordial with the Emerald Pagoda Sect. **Narrative role:** Act 2 absent. Act 3 moderate (the protagonist's Nascent-Soul journey's Qingyang Reach is patrolled by the Whale-Rider; the protagonist may meet a Whale-Rider patrol cultivator at the Little Pearl Island rest-stop).
+124-
+125-### 2.8 The Azuremist Sect (青嵐宗) — Dong, Central Range
+126-
+127:Sect master **Patriarch Azure-Mist (青嵐上人)**, Core Formation, age 380. 320 disciples; two spirit veins (the Cloud Forest Vein, the Central Range Vein); the Azuremist Grotto-Heaven (青嵐洞天, wood-phase, time-rate 1:5, at the sect's cloud-forest peak, 1,200 li east of Qingyuan). **Specialty:** wood-phase sword cultivation (Dong's counterpart to the Azure Sword Sect's tradition, derived from the same pre-Crimson-Vow root); the cultivation world's most demanding sword-tradition, practiced in the cloud forest's canopy where the wood-phase qi is densest and the visibility is lowest. **Personality:** ascetic, withdrawn, artful — the Patriarch's grief is the grief of a swordsman watching his tradition thin under the Thinning; the cloud forest's wood-phase qi is less dense each century. **Holy land relationship:** cool independent of the Jade Void (the Azuremist considers the Jade Void's divination-tradition a distraction from the sword; the Jade Void considers the Azuremist's sword-asceticism useful but limited). **Other relationships:** sword-cousins with the Azure Sword Sect (the two exchange outer disciples every 60 years); cordial with the Emerald Pagoda Sect; distant with the Whale-Rider Sect. **Narrative role:** Act 2 absent. Act 3 absent.
+128-
+129-### 2.9 The Ironbone Sect (鐵骨宗) — Xi, Ironbone Range
+130-
+--
+152-
+153-### 2.15 Reference: the Cangwu Sect (蒼梧派) — small sect
+154-
+155:The Cangwu Sect (doc 31 §1) is a small sect, not a great sect, referenced here only for relational completeness. Sect master **Wu Changqing (吳長青)**, Qi Condensation peak, age 52; 30 disciples; one minor spirit vein (the Green Mirror Vein); no grotto-heaven. **Relationships to the 13 great sects:** cold with the Azure Sword Sect (the latent spirit vein dispute, the imminent vassalage); distant with all other great sects (the Cangwu is too small to register on any great sect's political map). **Relationship to the Jade Void Holy Land:** indirect (the Jade Void's rotating shrine hermitage is 12 li from the Cangwu Sect's compound; the rotating elders and the Cangwu Sect master are acquaintances but not allies). Full spec in doc 31 §1.
+156-
+157----
+158-
+--
+162-
+163-| Grotto-heaven | Holder | Anchor | Size / climate | Time | Ecology & access |
+164-|---|---|---|---|---|---|
+165:| **Jade Void Grotto-Heaven (玉虛洞天)** | Jade Void Holy Land (Dong) | Voidjade Peak, Founder's Courtyard shrine | ~50 li, wood-phase, dense, mild; qi-scent of cedar | 1:5 | Spirit herbs (Silent-Heart Vine, Voidjade Moss); one songbird-yao (Qingyuan, 600). Inner disciples+; the founder's primary residence |
+166-| **Jade Edge Grotto-Heaven (玉涯洞天)** | Azure Sword Sect (Zhong) | Cave 300 li west of sect compound, western Cangwu deep extension | ~30 li, metal-phase, sharp, cold; qi-scent of iron and snow | 1:3 | Sword-Edge Grass, iron-marmots. Inner disciples+; Leng Wushuang's Nascent Soul attempts (both failed) were conducted here; central forge-lake is the sect's weapon-refinement site |
+167-| **Yellow Court Grotto-Heaven (黃庭洞天)** | Yellow Court Holy Land (Zhong) | Yellow Court Peak, patriarch's seat | ~80 li, earth-phase, dense, warm; qi-scent of clay and harvest | 1:8 | Seven alchemical garden-caves; Earth-Marrow Mushroom, Desert-Bloom Lotus. Inner disciples+; patriarch's alchemical retreat |
+168-| **Verdant Pillar Grotto-Heaven (青柱洞天)** | Verdant Pillar Holy Land (Nan) | Central highlands' earth-wood vein, holy land's central tree-shrine | ~120 li, wood-phase, dense, ancient; 30,000-year-old forest | 1:12 | Pillar Sap, Bark-Strip Moss; the seven surviving Pillar Cities' ruins and bark-strip libraries. Inner disciples+; libraries require patriarch's permission |
+169-| **Skyfire Crucible Grotto-Heaven (天火爐洞天)** | Skyfire Holy Land (Xi) | Ironbone Range central spire peak, Crucible's central forge | ~40 li, metal-fire phase, sharp, searing; qi-scent of hot iron and ash | 1:4 | Forge-Bell Flower, Iron-Sage's-Mint; forge-salamanders, iron-hawks. Inner disciples+; the patriarch has not left in nine centuries; all Core-Formation-grade weapon-refinement here |
+170-| **NorthSea Grotto-Heaven (北海洞天)** | NorthSea Holy Land (Bei) | Bei's central range glacial peak, Ice-Record Hall shrine | ~60 li, water-yin phase, cold, still; absolute zero (Matriarch's technique sustains) | 1:20 | Ice-Record Moss (the inscription-medium for the ancestral-court records); two frost-serpent-yao (Foundation Establishment) serve as record-keepers. Inner disciples+; Hall requires Matriarch's permission |
+171-| **Pearl-Tide Grotto-Heaven (珠潮洞天)** | Pearl-Tide Sect (Zhong) | Haimen harbor's mouth, sect's waterfront compound | ~20 li, water-phase, mild, briny; qi-scent of salt and kelp | 1:2 | Sea-Silk Kelp (shallow-water variant), pearl-oysters (Tide-Pearl cultivation). Inner disciples+; Matriarch's audience chamber; outer-disciple training grounds |
+172:| **Emerald Pagoda Grotto-Heaven (翠塔洞天)** | Emerald Pagoda Sect (Dong) | Cuiping, nine-tier alchemy pagoda's top floor | ~25 li, wood-phase, dense, fragrant; qi-scent of blossom and resin | 1:6 | Nine terraced gardens; Wood-Marrow Mushroom, Root-Developing Root, Body-Tempering Bark. Inner disciples+; patriarch's alchemical retreat; the Jade Void's de facto alchemical annex |
+173-
+174-### 3.1 The grotto-heaven economy
+175-
+176:The eight named grotto-heavens are the cultivation world's most contested resource. A grotto-heaven multiplies a sect's cultivation time (the slowest, the NorthSea's at 1:20, gives one year of practice for every twenty days of debt-free exterior time); it grows spirit herbs that the Mortal Stratum's surface ecology cannot support; it provides a defensible interior realm where a sect's Core Formation+ cultivators can retreat for breakthroughs. The Azure Sword Sect's two failed Nascent Soul attempts (doc 31 §2.4) were conducted in the Jade Edge Grotto-Heaven; the Jade Void's founder has spent the last 1,400 years primarily in the Jade Void Grotto-Heaven. The grotto-heaven's anchor (the surface cave or shrine where the grotto opens) is, in the cultivation world's brutal accounting, the most defensible point in a sect's territory — destroying the anchor seals the grotto (per Tu Nan's law, doc 39 §2.6) but does not destroy the grotto's interior, which means a sect whose anchor is destroyed loses access but does not lose the interior's accumulated spirit herbs or inscribed records. This is why the Azure Sword Sect's expansion targets the Cangwu Mountains' latent spirit vein (a vein that could anchor a new grotto-heaven) rather than an existing grotto-heaven anchor (which would be defended to the death).
+177-
+178:The eight grotto-heavens' time-rates range from 1:2 (the Pearl-Tide's, the fastest — the sect's mercantile mission benefits from near-real-time rate) to 1:20 (the NorthSea's, the slowest — the Matriarch's record-keeping requires the longest possible interior time per exterior day). The time-rate is a function of the grotto's anchor-vein's qi-density and the grotto's holder's cultivation; the Jade Void's 1:5 reflects the founder's 2,100-year Nascent Soul sustained by the Voidjade Wood Vein. A grotto-heaven's time-rate can be increased by the holder's cultivation (a Spirit Severance holder can deepen a grotto's time-debt) but cannot exceed the anchor-vein's capacity. The Thinning (doc 39 §2.5) is, for the grotto-heavens, a slow decline: each century, the anchor-veins' output drops slightly, and the grottos' time-rates and ecologies thin correspondingly. The Verdant Pillar's 30,000-year-old forest is dying; the NorthSea's Ice-Record Moss is thinning; the Skyfire's forge-lake's molten iron is cooling. The grotto-heavens are the Thinning's most visible manifestation at the institutional scale.
+179-
+180----
+181-
+--
+183-
+184-### 4.1 The five holy lands' balance
+185-
+186:The five holy lands form a pentagon, with the Jade Void (Dong) and the Yellow Court (Zhong) as the two most politically active, the Skyfire (Xi) as the Courts' closest ally, the Verdant Pillar (Nan) as the independent yao-respecting outlier, and the NorthSea (Bei) as the oldest and most withdrawn. The pentagon's edges:
+187-
+188:- **Jade Void ↔ Yellow Court:** polite rivalry for influence over Zhong's middle reaches. 2,000 years old, never violent; both patriarchs are below the threshold where direct conflict would be productive. Expresses through vassal-sect politics (the Azure Sword's expansion is the Jade Void's proxy-move against the Yellow Court's influence; the Yellow Court's alchemical supply to the Iron-Horse is a counter-move).
+189:- **Jade Void ↔ Verdant Pillar:** warm scholarly collaboration (the divided custody of the Pillar Dynasty Annals). The two patriarchs correspond once per century — the cultivation world's longest-running scholarly exchange.
+190:- **Jade Void ↔ NorthSea:** respectful distance (the Jade Void defers to the NorthSea on ancestral-court matters; the NorthSea defers to the Jade Void on divination matters).
+191:- **Jade Void ↔ Skyfire:** cool distance (wood-phase vs metal-phase, metaphysically opposed). No direct conflict, no direct alliance.
+192-- **Yellow Court ↔ Skyfire:** distant cool (earth-phase vs metal-phase, complementary but contested — earth generates metal, but the Yellow Court considers the Skyfire's smithing derivative, and the Skyfire considers the Yellow Court's alchemy secondary).
+193-- **Yellow Court ↔ Verdant Pillar:** distant cool (earth-phase vs wood-phase, metaphysically contested — wood dominates earth).
+194-- **Yellow Court ↔ NorthSea:** respectful distance (the two oldest patriarchs: 3,400 years to 3,000).
+--
+200-
+201-Each great sect fits into the holy-land pentagon as a vassal, a partial-vassal, or an independent. The 13 great sects' alignments:
+202-
+203:- **Jade Void vassals:** Azure Sword, Pearl-Tide (Zhong); Emerald Pagoda, Whale-Rider (Dong, partial).
+204-- **Yellow Court vassals:** Sand-Veiled, Heavenly Pivot (partial), Iron-Horse (partial) (Zhong).
+205-- **Skyfire vassals:** Ironbone (Xi); Stone Lantern (Xi, independent — Courts-delegated mission).
+206-- **Verdant Pillar vassals:** Redwood Canopy (Nan); Sea-Fan (Nan, partial).
+207-- **NorthSea vassals:** Snowstrider (Bei); Mammoth-Bone (Bei, independent — yao-alliance).
+208:- **Cross-bloc sects:** Azuremist (Dong, cool independent of the Jade Void); Redwood Canopy and Mammoth-Bone (the cross-continental yao-allied correspondence, exchanging outer disciples every 60 years).
+209-
+210-### 4.3 The Azure Sword Sect's expansionist interest
+211-
+212:The Azure Sword Sect's expansion toward the Cangli Riverlands (doc 31 §2.4) is the political map's most active fault-line. Formally, a claim on the Cangwu Mountains' latent spirit vein (which the Azure Sword needs for Leng Wushuang's third Nascent Soul attempt). Informally, the Jade Void's proxy-move against the Yellow Court's influence in Zhong's middle reaches (the Cangli region's absorption into the Azure Sword's territory extends the Jade Void's suzerainty westward).
+213-
+214-The expansion's three resistances:
+215-- **The Cangwu Sect's resistance** (the Independence faction, doc 31 §2.2): Wu Changqing's desperate bet on the protagonist. The smallest and weakest resistance.
+216:- **The Azure Sword's own Isolationist faction** (Elder Jing You, doc 31 §2.5): the internal resistance. Cites the Jade Void's goodwill as the sect's strategic anchor.
+217:- **The Jade Void's rotating-shrine elders** (Xu Yunfeng and Lin Qingzhou, doc 42 §8.5): the external resistance. The Jade Void has not yet intervened, but the founder's birthplace-claim gives the holy land a standing the Azure Sword cannot ignore.
+218-
+219-The protagonist's intervention (session ~300, doc 26 §4.2) is the Act 2 political verb that resolves (or escalates) the expansion. Three paths:
+220:- **Mediation:** negotiate a regional compact (Leng Qingxue and Xu Yunfeng's proposal, doc 34 §166) leaving the Cangwu Mountains' spirit vein under the Cangwu Sect's stewardship with Azure Sword and Jade Void as guarantors. The reformer's path.
+221-- **Alliance lobbying:** file a formal complaint with the Immortal Alliance (doc 20 §1.3) and use the alliance's slow adjudication to stall the expansion while the protagonist's power grows. The legalist's path.
+222:- **Jade Void invocation:** travel (or send a message) to the Jade Void's rotating-shrine hermitage and ask the rotating elders to invoke the holy land's birthplace-claim. The high-politician's path — the riskiest, because the Jade Void's intervention could protect the Cangwu Sect, or could absorb the Cangli region into the holy land's direct suzerainty, replacing one suzerain with another.
+223-
+224-### 4.4 The rogue cultivators and the small-sect ecology
+225-
+226-Below the 13 great sects and the five holy lands, the cultivation world has two further layers: the small sects (of which the Cangwu Sect is the named example) and the rogue cultivators (散修, per doc 20 §1.3). The small sects are the cultivation world's "towns" — single-vein institutions with 20-80 disciples, Qi Condensation sect masters, no grotto-heavens. Each small sect is, in practice, a vassal-in-waiting of the nearest great sect or holy land; the Cangwu Sect's imminent vassalage to the Azure Sword Sect (doc 31 §1.6) is the typical case. The cultivation world has perhaps 200 small sects across the five continents; they are the political map's background texture, procedural content generated against the seed.
+227-
+228:The rogue cultivators are the political map's wildcards. A rogue cultivator is a cultivator with no sect affiliation (doc 20 §1.3, §4.3); Old Chen is the named example (a retired rogue, doc 06 Scene 2). Most rogues are poor, vulnerable, and despised; a few are powerful (a rogue Nascent Soul is a force unto themselves, unbound by any sect's discipline and unaffiliated with any holy land's network). The rogue cultivator network is the cultivation world's informal intelligence-channel — rogues travel, observe, and trade information in ways that sect-bound cultivators cannot. Old Chen's old connections include a Jade Void elder (now dead) and a network of regional rogues who, in Act 2, can provide the protagonist with intelligence on Pei Liang's movements (doc 26 §3.3). The protagonist, as a former rogue (if the protagonist chooses the rogue path, doc 20 §4.3), inherits Old Chen's network and the rogues' grudging respect. The rogue cultivators' relationship to the 13 great sects is uniformly tense (the great sects consider rogues a destabilizing presence; the rogues consider the great sects predatory); the rogues' relationship to the five holy lands is uniformly distant (the holy lands do not notice individual rogues, except when a rogue reaches Nascent Soul and becomes a force the holy lands must reckon with).
+229-
+230-### 4.5 The Courts of Heaven's relationship to the political map
+231-
+232:The Courts (doc 38) are not a holy land and not a sect; they are the Precelestial institution with jurisdiction over records of the dead and heaven-sealed oaths. The Courts' relationship to the political map: the Yellow Court and the Skyfire are the two Courts-allied holy lands (alchemical tithes; weapon-supply); the Jade Void is independent but deferential (petitions through the Records department's regional magistrates); the Verdant Pillar and the NorthSea are independent; the 13 great sects' Courts-relationships are mediated through their holy-land suzerains (a vassal sect's Courts-petition passes through its holy land's intermediaries). The protagonist's Courts-relationship (Act 3, doc 26 §4.3) begins with the Cangwu Sect's failed Adjudication petition (doc 38 §2.3) and culminates, in the Transcend path, with the protagonist's Mahayana law-authorship — which requires the Courts' ratification (the bardo-harvest-loophole law amends Qiu Wuhen's bardo-window law, doc 38 §4.1, and the amendment requires Qiu Wuhen's ratification or dispersal).
+233-
+234----
+235-
+--
+243-
+244-2. **The Azure Sword Sect (session ~200, with Pei Liang's raid)** — the protagonist's first encounter is through Leng Qingxue, who is sent to investigate the raid (doc 26 §3.3). The relationship is adversarial-by-default (the Cangwu Sect's vassalage dispute) but mediated by Leng Qingxue's defection and the protagonist's romance with her (doc 34 §166). The protagonist's choice — side with Leng Wushuang's expansion, side with Leng Qingxue's dissent, or pursue a third path — is the Act 2 central political decision.
+245-
+246:3. **The Jade Void Holy Land (session ~150-300, indirect)** — encountered indirectly through three channels: (a) the rotating-shrine hermitage 12 li west of Wang Family Bend, where the protagonist may meet Xu Yunfeng at Foundation Establishment; (b) Leng Qingxue's secret correspondence with Xu Yunfeng, which the protagonist may discover (and may join); (c) Old Chen's old connections (Old Chen once delivered a message to a Jade Void elder, decades ago — the elder is now dead, but the message's content, if Old Chen reveals it, concerns the founder's birthplace-search). The protagonist does not visit Dong Continent in Act 2.
+247-
+248-4. **The Pearl-Tide Sect (session ~250-400, optional)** — the protagonist may travel to Haimen (1,200 li north) at Foundation Establishment, either to consult the Pearl-Tide's maritime intelligence on the Crimson Vow Remnant's network (the Remnant's recruiter crossed the Eastern Sea; the Pearl-Tide's outer disciples may have noticed) or to book passage on a Vermilion Pearl Route spirit-junk. Optional but enriches the Act 2 political map.
+249-
+--
+257-
+258-1. **The Azure Sword Sect (session ~500-1000, continuing)** — the Azure Sword's role depends on the protagonist's Act 2 choices. If the protagonist sided with Leng Qingxue, the Azure Sword (now under Leng Qingxue's influence, following Leng Wushuang's death or retirement) becomes the protagonist's primary Zhong-side ally. If the protagonist opposed Leng Wushuang's expansion without aligning with Leng Qingxue, the Azure Sword becomes a rival. If the protagonist mediated the regional compact, the Azure Sword is a neutral-to-friendly institution.
+259-
+260:2. **The Jade Void Holy Land (session ~1000-1100, direct)** — the protagonist, at Nascent Soul, accepts (or seeks) an invitation to Voidjade Peak. The journey is the protagonist's first cross-continental travel: the Vermilion Pearl Route by spirit-junk (30 days), then overland from Qingyang to Voidjade Peak (2 hours by flight). At Voidjade Peak, the protagonist meets Daoist Jade Void, accesses the library (the Pillar Dynasty Annals, the Crimson Vow Code fragments, the Silent Hexagram Method), and learns the founder's Cangli birth-origin and the connection between the Cangli spirit vein and the Pillar Root Vein (doc 37 §9.2). The Jade Void becomes the protagonist's primary Act 3 institutional ally.
+261-
+262-3. **The Verdant Pillar Holy Land (session ~1100-1200, optional)** — the protagonist may travel from Dong to Nan (a 14,000-li flight, 2 days at Nascent Soul speed) to investigate the Cangli spirit vein's connection to the Pillar Root Vein. At the Verdant Pillar, the protagonist meets Daoist Pillar Canopy and Old Pillar (the tree-yao co-founder), accesses the Pillar Cities' ruins and bark-strip libraries, and learns the Pillar Dynasty's qi-economy and the cosmic-history of the Cangli vein's decline. Optional but provides cosmic-history context for the Pei Liang confrontation.
+263-
+264:4. **The Yellow Court Holy Land (session ~1200-1300, optional)** — the protagonist may travel from Nan to Zhong's western interior (a 16,000-li flight, 2-3 days at Nascent Soul speed) to consult the Yellow Court's alchemical records on the Crimson Vow Remnant's corrupted fire-phase tradition. Optional but provides the alchemical-counter to the Remnant's fire-phase technique. The visit also exposes the protagonist to the Yellow Court's polite-rivalry with the Jade Void, which the protagonist must navigate carefully (the Yellow Court's patriarch is older than the Jade Void's and considers the Jade Void's Cangli birthplace-claim an overreach).
+265-
+266-5. **The Skyfire Holy Land (session ~1300-1400, optional, Spirit Severance)** — the protagonist, at Spirit Severance, may travel to Xi (a 25,000-li flight from Zhong, 3-4 days at Spirit Severance speed) to commission a sword for the Pei Liang confrontation. Optional but provides the cultivation world's highest-tier metal-phase weapon. The visit also exposes the protagonist to the Skyfire's intelligence on the Western Spirit Wilds' Law Reaches — which is, in the Transcend path, the protagonist's primary source for the Law Reach venue's selection.
+267-
+--
+271-
+272-The protagonist does **not** encounter (in any act, except by optional exploration): the Iron-Horse, Sand-Veiled, Sea-Fan, Redwood Canopy, Snowstrider, Mammoth-Bone, Ironbone, or Azuremist sects; the Crystal-Tide undersea sect; the Pearl Archipelago's Compact governance; the Abyssal Yao Council. These are worldbuilding content — the political map's background, which the protagonist perceives but does not necessarily interact with.
+273-
+274:The protagonist's path through the political map is, in summary, a spiral: the Cangwu Sect (the smallest) → the Azure Sword Sect (the regional) → the Jade Void Holy Land (the continental) → the Verdant Pillar and the Yellow Court (the cross-continental) → the Skyfire (the trans-continental) → the NorthSea (the deepest optional) → the Courts of Heaven (the cosmic). Each step widens the protagonist's horizon; each step also deepens the protagonist's 恩-debts and the political consequences of the protagonist's choices. The path is the game's political spine.
+275-
+276----
+277-
+--
+280-- The cultivation world's upper tier is now fully specified: five holy lands (one per continent), 13 great sects (across the five continents), eight named grotto-heavens (with full ecological and political specs), and the political map that connects them.
+281-- Every named institution has a personality, a specialty, a sect master or patriarch, a spirit vein or grotto-heaven, and at least one relationship to another named institution. The political map is legible from any institution's perspective.
+282-- The protagonist's path through the political map is committed across Act 2 (Foundation Establishment → Core Formation) and Act 3 (Nascent Soul → Mahayana). The path is specific: which institutions the protagonist encounters, in what order, with what consequence.
+283:- The Azure Sword Sect's expansionist interest in the Cangli Riverlands is placed in the political map's full context — the Jade Void's proxy-move against the Yellow Court, the three resistances (Cangwu Sect, Isolationist faction, Jade Void rotating-shrine elders), and the protagonist's three intervention paths.
+284:- The Courts of Heaven's relationship to the political map is specified — the Yellow Court and Skyfire as Courts-allied, the Jade Void as deferential, the Verdant Pillar and NorthSea as independent, the 13 great sects as mediated through their suzerains. The protagonist's Transcend-path relationship to the Courts is the game's final political drama.
+285:- The grotto-heaven catalogue (eight grotto-heavens) provides the cultivation world's pocket-world geography. Each grotto has a holder, an anchor location, a size, a qi-climate, a time-rate, an ecology, and an access-policy. The protagonist's Act 3 grotto-visits (the Jade Void's, the Verdant Pillar's, the Yellow Court's, the Skyfire's, optionally the NorthSea's) are concrete narrative objects.
+286-- The political map's lower tier — the small sects and the rogue cultivators — is specified in §4.4, giving the political map depth below the great-sect tier. Old Chen's rogue network, the Cangwu Sect's vassal-in-waiting status, and the protagonist's potential inheritance of Old Chen's connections are now legible against the full institutional landscape.
+287:- The five holy lands' personality-spectrum is committed: the Jade Void's patient grief, the Yellow Court's scholastic slowness, the Skyfire's forge-ascetic silence, the Verdant Pillar's hybrid patience, the NorthSea's cold record-keeping. Each patriarch is a person, not a stat block; each holy land has a grief (the Thinning's manifestation at the institutional scale) that the protagonist can perceive and, at Mahayana, can in principle address.
+288-
+289----
+290-
