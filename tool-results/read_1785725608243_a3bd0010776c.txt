@@ -1,0 +1,322 @@
+     1→# Mortal Year Atlas — Research Draft
+     2→
+     3→**Status:** pre-canon research synthesis and non-canon design proposal  
+     4→**Purpose:** establish the material, social, temporal, and systemic foundations for a playable year of mortal life before cultivation  
+     5→**Not authorized by this document:** canon lore, named cultures, exact geography, final realm rules, historical reenactment, or game code  
+     6→**Research window represented here:** deliberately mixed, with most concrete comparanda drawn from imperial and late-imperial China and with clearly identified modern survivals. No single dynasty, region, ethnicity, gender ideal, or elite text is treated as universal.
+     7→
+     8→---
+     9→
+    10→## 1. Design thesis
+    11→
+    12→The mortal year is not a tutorial that delays the “real” game. It is the first complete expression of the universe's laws at human scale.
+    13→
+    14→A convincing mortal year should let the player understand that:
+    15→
+    16→- survival is organized through households, neighbors, skills, obligations, and landscapes rather than through an isolated health bar;
+    17→- time is plural: daylight, cooking time, irrigation turns, market cycles, agricultural windows, ritual dates, debt maturities, pregnancies, injuries, mourning periods, and weather fronts overlap;
+    18→- work is neither a set of anonymous chores nor a rigid gender-class script; it is a negotiated allocation of bodies, tools, knowledge, risk, and opportunity;
+    19→- food, fuel, water, cloth, shelter, care, reputation, and legal standing are interdependent;
+    20→- failure usually changes a life before it ends one: a missed harvest can become debt, service, migration, a new craft, a household split, or a disputed tenancy;
+    21→- the supernatural may be believed, debated, performed, feared, or eventually discovered, but mortal institutions remain consequential even when no visible miracle occurs;
+    22→- later cultivation should transform relationships the player already understands—breath and fatigue, weather and harvest, kinship and inheritance, debt and power, mourning and mortality—rather than replace the mortal game with unrelated systems.
+    23→
+    24→The target fantasy is therefore: **“I lived here before I transcended it.”**
+    25→
+    26→---
+    27→
+    28→## 2. Evidence protocol: how to build an original composite without producing historical cosplay
+    29→
+    30→### 2.1 Evidence labels used in this atlas
+    31→
+    32→- **[Source finding]** A bounded claim supported by a linked academic, museum, archival, or institutional source.
+    33→- **[Inference]** A causal or experiential conclusion derived from one or more source findings. It must remain revisable.
+    34→- **[Design candidate]** An original system proposed for the game. It is not history and is not canon until separately approved.
+    35→- **[Research gap]** A question that needs more evidence before specification.
+    36→
+    37→### 2.2 Anti-flattening rules
+    38→
+    39→1. **Do not create “generic ancient China.”** The original universe may draw structural inspiration from multiple Chinese histories, but its cultures, states, religions, geography, aesthetics, languages, and metaphysics must be newly authored.
+    40→2. **Do not mistake prescription for practice.** “Men plough, women weave,” moral handbooks, law codes, agronomic treatises, and ritual manuals describe ideals or arguments as often as everyday behavior. Scholarship on Ming labor explicitly shows women working in fields, markets, healing, religious life, and fishing households beyond the slogan ([International Review of Social History](https://www.cambridge.org/core/journals/international-review-of-social-history/article/work-ethics-and-work-valuations-in-a-period-of-commercialization-ming-china-15001644/4FA7B22851A0B0D2E37700E494A6570B)).
+    41→3. **Do not mistake elite images for population statistics.** Court paintings and commissioned albums can reveal tools, gestures, sequences, and imagined social worlds, but they may beautify labor, omit coercion, or show imperial ideals. The British Museum's 1696 *Yuzhi Gengzhi tu*, for example, is useful as a visual sequence of rice and silk work while remaining an imperial production ([British Museum](https://www.britishmuseum.org/collection/object/A_1949-0709-0-1)).
+    42→4. **Do not make one ecology universal.** Long-run archaeobotanical work finds an enduring millet/wheat north and rice south pattern with gradients and mixtures rather than a single staple regime ([PLOS ONE](https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0240930)).
+    43→5. **Do not make one household universal.** Households can include kin, adoptees, spouses entering by different arrangements, hired workers, enslaved or dependent workers, lodgers, and absent migrants; their boundaries of co-residence, common consumption, production, property, and descent need not coincide ([Cambridge: household workers](https://www.cambridge.org/core/journals/international-review-of-social-history/article/status-power-and-punishments-household-workers-in-late-imperial-china/D86E44D46F198A67517AFF26FD2A306B); [Cambridge: rural Liaoning household formation](https://www.cambridge.org/core/books/abs/fate-and-fortune-in-rural-china/domestic-cycle-and-household-formation/2AFE962CF6807A43C07C5206358B0D24)).
+    44→6. **Do not assume “the week.”** Periodic rural markets could operate every few days or on days within a lunar ten-day period; gameplay should use local market cycles and appointment rhythms rather than imposing a universal seven-day weekend ([G. William Skinner, *Marketing and Social Structure in Rural China*](https://doi.org/10.4000/etudesrurales.7952)).
+    45→7. **Do not treat the household as automatically nurturing.** It can pool risk and provide care while also distributing food, education, marriage opportunity, authority, work, and punishment unequally.
+    46→8. **Do not reduce disability to a debuff.** Qing-focused disability research treats care as a relationship among family, state, material accommodation, and the agency of disabled people ([UCHRI project summary](https://uchri.org/awards/the-world-of-care-managing-disability-in-the-qing-china-1644-1911/)).
+    47→9. **Do not reduce religion to a single meter.** Household rites, funerals, temple festivals, divination, curing, monastic practice, and state ritual overlap but are not one coherent “popular religion”; Columbia's teaching resource explicitly cautions that the category can hide variation ([Living in the Chinese Cosmos](https://afe.easia.columbia.edu/cosmos/prb/whatis.htm)).
+    48→10. **Do not equate low technology with low intelligence.** Francesca Bray emphasizes that agricultural technique was highly local and judgment-intensive; neighboring districts could use different methods, and experienced farmers were recognized as experts ([British Journal for the History of Science](https://www.cambridge.org/core/journals/british-journal-for-the-history-of-science/article/science-technique-technology-passages-between-matter-and-knowledge-in-imperial-chinese-agriculture/F22BA6399312F5CCF611D66D987827F9)).
+    49→
+    50→### 2.3 Composite construction rule
+    51→
+    52→An original settlement should be generated from **compatible causal bundles**, not a bag of attractive motifs. Select and resolve, in order:
+    53→
+    54→1. watershed, elevation, soils, climate variance, and hazard regime;
+    55→2. staple and secondary foods supported by that ecology;
+    56→3. water, fuel, fodder, and building-material access;
+    57→4. labor calendar and bottleneck tasks;
+    58→5. land-use and tenure arrangements;
+    59→6. transport costs and market periodicity;
+    60→7. household strategies, care networks, and migration patterns;
+    61→8. institutions that coordinate water, credit, ritual, craft, and disputes;
+    62→9. architecture and settlement form produced by those constraints;
+    63→10. only then, visual culture, names, stories, and metaphysical interpretation.
+    64→
+    65→This produces coherence: if a place has wet paddies, silk, fishponds, cheap boat transport, and dense settlement, those facts must be connected through water control, labor scheduling, soil fertility, market demand, and disease risk. They cannot coexist merely because each looks “xianxia.”
+    66→
+    67→---
+    68→
+    69→## 3. Research-bounded ecological livelihood complexes
+    70→
+    71→These are **comparison frames**, not cultures and not proposed regions. The final world should recombine mechanisms only when the generated geology, climate, institutions, and history make the combination plausible.
+    72→
+    73→| Complex | Material logic | Characteristic bottlenecks | Likely institutions | Source boundary |
+    74→|---|---|---|---|---|
+    75→| Dryland basin or plateau | millet/wheat/legumes; wells, seasonal streams, carts or pack transport; dung, stalk, brush, or scarce wood as fuel | rainfall timing, seed retention, erosion, fodder, winter fuel | well turns, threshing exchanges, grazing boundaries, grain credit | The north–south staple divide is a broad archaeological pattern, not a precise recipe for one period ([PLOS ONE](https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0240930)). |
+    76→| Wet lowland and water town | rice or other wet crops; canals/streams; boats; fish, reeds, pond products; possible silk and market gardening | dike/canal maintenance, transplanting labor, water timing, flood, storage humidity | irrigation rotation, dike labor, boat landing, periodic market, landlord-tenant contracts | The Huzhou mulberry-dyke/fishpond system is a specific, still-living Zhejiang heritage system, not a timeless national model ([FAO GIAHS](https://www.fao.org/giahs/giahs-around-the-world/china-zhejiang-huzhou-system/en)). |
+    77→| Upland terrace and forest watershed | terraces, mixed grains, vegetables, tree crops, pigs/poultry, gathered products; gravity-fed water | slope failure, channel repair, path access, forest protection, landslides | communal channel work, forest rules, household plot allocation | UNESCO's Hani terraces show an integrated forest-village-terrace-water system belonging to a specific people and landscape ([UNESCO](https://whc.unesco.org/en/list/1111)). It is evidence for systemic coupling, not a template to copy aesthetically. |
+    78→| River corridor and canal exchange zone | grain and bulk freight, ferries, warehouses, repair yards, inns, food vending, craft specialization | water level, silt, bridges/locks, boat labor, storage, tolls, banditry | transport guilds, granaries, landing fees, water works, market authorities | The Grand Canal demonstrates the scale and duration of waterborne transport institutions ([UNESCO](https://whc.unesco.org/en/list/1443)); Song commercialization evidence is period-specific ([Columbia Asia for Educators](https://afe.easia.columbia.edu/songdynasty-module/econ-rev-commercial.html)). |
+    79→| Pastoral-agricultural margin | herding plus patches of cultivation, fodder and salt exchange, seasonal movement, hides/wool/dairy/manure | pasture access, water points, snow/drought, animal disease, border restrictions | migration compacts, water-point rules, herd partnerships, caravan markets | FAO's regional heritage list shows the diversity of nomadic, terrace, tea, rice-fish, and dryland systems; it should prevent a single “rural” model ([FAO GIAHS Asia-Pacific](https://www.fao.org/giahs/regions/asia-pacific/)). |
+    80→| Coastal, lake, or marsh settlement | fishing, aquaculture, reeds, salt or shell products, boat transport, storm exposure | weather windows, gear repair, preservation, contested access, drowning risk | landing rights, fishing crews, repair cooperatives, seasonal shrines/funerals | Requires a dedicated follow-up source pass; current evidence is strongest for integrated pond/fish systems and transport, not open-water fisheries. |
+    81→
+    82→**[Design candidate]** Every generated mortal settlement receives an “ecological contract”: a short machine-readable and writer-readable statement of what its people must know to remain there. Example categories include when water arrives, what fails first in drought, which work cannot be delayed, what travels cheaply, what cannot be stored, and which neighbor's cooperation matters. The contract constrains quests, visuals, schedules, prices, and NPC memory.
+    83→
+    84→---
+    85→
+    86→## 4. Household structures: the first playable polity
+    87→
+    88→### 4.1 What the evidence supports
+    89→
+    90→**[Source finding]** Rural Liaoning demographic research describes the household as an allocator of labor and wealth, a caregiver for young and old, and an arena in which gender, seniority, and kin position affected access to finite resources. It is a regional eighteenth- and nineteenth-century case, not a universal Chinese family model ([Cambridge](https://www.cambridge.org/core/books/abs/fate-and-fortune-in-rural-china/domestic-cycle-and-household-formation/2AFE962CF6807A43C07C5206358B0D24)).
+    91→
+    92→**[Source finding]** Kin outside the co-resident household also affected marriage, reproduction, and attainment in complex ways in the Liaoning data ([Social Science History](https://www.cambridge.org/core/journals/social-science-history/article/abs/kin-networks-marriage-and-social-mobility-in-late-imperial-china/389BF145FBD2BC143822F362C9F1467B)).
+    93→
+    94→**[Source finding]** Late-imperial legal and narrative sources document hired and enslaved “household workers” alongside kin and spouses, with asymmetric exposure to discipline and violence ([International Review of Social History](https://www.cambridge.org/core/journals/international-review-of-social-history/article/status-power-and-punishments-household-workers-in-late-imperial-china/D86E44D46F198A67517AFF26FD2A306B)). Their existence must not be romanticized or turned into decorative servants.
+    95→
+    96→### 4.2 Household model
+    97→
+    98→**[Design candidate]** Track five partially overlapping household maps:
+    99→
+   100→1. **Residence:** who sleeps under which roof or within which compound.
+   101→2. **Consumption:** who eats from which stores and who receives priority when stores shrink.
+   102→3. **Production:** who contributes labor, tools, land-use rights, animals, knowledge, or market access.
+   103→4. **Obligation:** who owes care, rent, debt, ritual labor, service, taxes, or obedience to whom.
+   104→5. **Claim:** who expects inheritance, marriage support, wages, repayment, burial, education, or the right to remain.
+   105→
+   106→The player begins embedded in all five maps. “Leaving home” is therefore not one dialogue choice: it may require replacing labor, dividing stores, settling claims, finding a guarantor, or accepting loss of support.
+   107→
+   108→### 4.3 Household states that can emerge
+   109→
+   110→- compact household pooling most production and consumption;
+   111→- stem or extended household with multiple adult generations;
+   112→- divided household that still shares tools, water, ritual duties, or debts;
+   113→- seasonal household with one or more migrants absent;
+   114→- craft household employing kin and non-kin;
+   115→- tenancy household whose right to remain depends on rent, service, improvement, or custom;
+   116→- widow-, elder-, minor-, disabled-person-, or sibling-led household, whether formally recognized or practically functioning;
+   117→- lodging or hired-service arrangement with blurred inside/outside status;
+   118→- crisis amalgamation after fire, flood, death, flight, or household division.
+   119→
+   120→These are possible generated configurations, not a claim that all were equally common in any historical population.
+   121→
+   122→### 4.4 Household play
+   123→
+   124→The household should expose:
+   125→
+   126→- a visible work and care ledger, including invisible recurring work;
+   127→- contested priorities rather than a single household inventory AI;
+   128→- personal stores, common stores, entrusted goods, borrowed tools, and items that cannot be sold unilaterally;
+   129→- knowledge held by people: a seed cannot be evaluated, a loom repaired, a contract interpreted, or a fever cared for merely because the household “unlocked” the skill;
+   130→- thresholds for fatigue, resentment, trust, obligation, fear, and perceived fairness;
+   131→- privacy and rumor: not every member knows every debt, illness, romance, bargain, or plan;
+   132→- household memory of sacrifices and betrayals, not only numerical affinity.
+   133→
+   134→**Gauntlet question:** Can the player spend one winter keeping an injured adult, an ambitious child, a resentful hireling, a dwindling fuel pile, and a maturing debt from breaking the household apart—without combat or a scripted “correct” solution?
+   135→
+   136→---
+   137→
+   138→## 5. Food, water, fuel, shelter, and cloth
+   139→
+   140→### 5.1 Food is a chain, not a hunger bar
+   141→
+   142→**[Design candidate]** Food condition should be derived from linked states:
+   143→
+   144→`land/access → seed/stock → labor window → weather/water → harvest/gather/catch → processing → storage → cooking fuel/water → allocation → health/work capacity`
+   145→
+   146→The player interacts with distinct classes of food:
+   147→
+   148→- staple grain or tuber equivalents that stabilize calories;
+   149→- legumes and oil crops that diversify fields and diets;
+   150→- vegetables, fruits, gathered plants, mushrooms, nuts, and greens with strong seasonality;
+   151→- fish, shellfish, eggs, dairy, or meat depending on ecology and household wealth;
+   152→- preserved foods whose production consumes salt, fuel, vessels, time, or smoke space;
+   153→- festival, offering, medicinal, hospitality, infant, elder, and travel foods with social functions beyond nutrition;
+   154→- seed grain and breeding stock, which are edible in crisis but damage the next cycle.
+   155→
+   156→Player-facing qualities should include quantity, contamination, pests, moisture, age, social ownership, preparation knowledge, and intended use. “Eat the seed” is a grave, intelligible decision—not an inventory mistake.
+   157→
+   158→### 5.2 Water has source, route, rights, labor, and quality
+   159→
+   160→Water must be generated as a spatial network:
+   161→
+   162→- rain capture, spring, well, river, pond, canal, cistern, ice/snow, carried water;
+   163→- drinking, cooking, washing, animals, craft use, irrigation, firefighting, and ritual use compete;
+   164→- upstream actions affect downstream quantity, silt, contamination, and trust;
+   165→- lifting, carrying, storing, boiling, settling, dredging, diking, and repairing all consume labor or fuel;
+   166→- rights may be scheduled by turn, frontage, landholding, payment, custom, or emergency rule;
+   167→- knowledge of signs—smell, color, dead fish, well depth, upstream activity—matters.
+   168→
+   169→The historic Dujiangyan system is useful evidence that irrigation is not merely a water source: it is continuous control of flow, sediment, flood risk, and maintenance ([UNESCO](https://whc.unesco.org/en/list/1001/)). The game should scale the same principle down to field ditches and village weirs.
+   170→
+   171→### 5.3 Fuel is an ecological budget
+   172→
+   173→Fuel should include wood, brush, crop residues, dung, charcoal, reeds, or other locally plausible materials. Each has competing uses and externalities:
+   174→
+   175→- residues may be fuel, fodder, bedding, roofing, fiber, or soil amendment;
+   176→- dung may heat a stove or fertilize a field;
+   177→- wood cutting changes hauling time, erosion, woodland relations, and future supply;
+   178→- wet fuel wastes time and fills interiors with smoke;
+   179→- charcoal specializes labor and can shift ecological costs away from market users;
+   180→- cooking technique and stove condition determine consumption.
+   181→
+   182→**[Inference]** A fuel shortage should not merely make winter colder. It can cause undercooked food, unsafe water, reduced craft output, missed market goods, more gathering labor, respiratory strain, conflict over commons, and dismantling of property for burning.
+   183→
+   184→### 5.4 Shelter and interiors are working systems
+   185→
+   186→The University of Washington visual sourcebook emphasizes both shared tendencies and substantial variation by region and wealth in Chinese homes; its examples include rammed earth, timber framing, courtyards, kitchens, and the northern heated *kang* ([homes introduction](https://depts.washington.edu/chinaciv/3homintr.htm), [architecture](https://depts.washington.edu/chinaciv/home/3intrhme.htm), [interiors](https://depts.washington.edu/chinaciv/thinside.htm)). The sourcebook itself warns that it is a teaching supplement, not a complete standalone history ([purpose](https://depts.washington.edu/chinaciv/tpurpose.htm)).
+   187→
+   188→**[Design candidate]** Buildings should be generated from local materials and working needs:
+   189→
+   190→- roof pitch follows precipitation and available roofing;
+   191→- wall mass, openings, hearth placement, ventilation, and sleeping platform respond to climate and fuel;
+   192→- courtyard or shared exterior space supports drying, threshing, sorting, repairs, play, cooking, animals, and social surveillance;
+   193→- thresholds distinguish guest, work, sleeping, storage, ritual, and gendered or status-sensitive space—but actual use changes under crowding and crisis;
+   194→- buildings age through leaks, pests, smoke, rot, cracking, blocked drainage, and fire risk;
+   195→- repair is seasonal and knowledge-dependent.
+   196→
+   197→### 5.5 Cloth is labor, storage, identity, and liquidity
+   198→
+   199→The UW sourcebook illustrates cotton spinning/weaving and sericulture while noting differences of class and the role of women's household and market production ([making cloth](https://depts.washington.edu/chinaciv/clothing/11embsil.htm)). Imperial agricultural/sericultural albums provide detailed idealized work sequences ([British Museum](https://www.britishmuseum.org/collection/object/A_1949-0709-0-1); [National Palace Museum](https://theme.npm.edu.tw/selection/Article.aspx?lang=2&sNo=04009305)).
+   200→
+   201→Cloth play should include fiber acquisition, cleaning, spinning, reeling, sizing, weaving, dyeing, cutting, sewing, mending, airing, washing, and remaking. A garment has warmth, durability, fit, labor history, social appropriateness, and resale/pawn value. The poor do not simply have lower-rarity outfits; they spend more of their available time keeping fewer textiles usable.
+   202→
+   203→---
+   204→
+   205→## 6. Agriculture and the seasonal labor year
+   206→
+   207→### 6.1 Local skill over universal recipe
+   208→
+   209→Bray's study of imperial Chinese agriculture argues that technique was embodied, local, and responsive: manuals often organized knowledge in localized monthly calendars, and even neighboring wet-rice districts could differ over hoeing and ploughing ([Bray](https://www.cambridge.org/core/journals/british-journal-for-the-history-of-science/article/science-technique-technology-passages-between-matter-and-knowledge-in-imperial-chinese-agriculture/F22BA6399312F5CCF611D66D987827F9)).
+   210→
+   211→Therefore:
+   212→
+   213→- there is no globally correct “plant” action;
+   214→- crop condition must be read from weather, soil, water, pests, growth stage, and local signs;
+   215→- expertise predicts and interprets rather than guaranteeing outcomes;
+   216→- copying a prestigious method into the wrong ecology can fail;
+   217→- older farmers, tenants, herders, gatherers, and craft specialists may hold knowledge absent from books;
+   218→- manuals, almanacs, and oral teaching should disagree in bounded ways.
+   219→
+   220→### 6.2 Generic four-season work skeleton
+   221→
+   222→This table is an organizational tool, not a climate calendar. Generated regions shift, split, or reverse these phases.
+   223→
+   224→| Phase | Plant/land work | Household and craft work | Social/economic pressure | Hazards and decisions |
+   225→|---|---|---|---|---|
+   226→| Cold or slack season | manure/compost movement; tree work; drainage; tool and harness repair; seed selection; limited winter crops | fuel hauling; textile work; basketry; food processing; house repair; teaching; accounts | settle or renegotiate debts; arrange labor/tenancy; marriages and visits where travel permits | fuel depletion, respiratory illness, hunger gap, ice/snow, tool investment, whether to eat reserves |
+   227→| Preparation and sowing | nursery beds; plough/hoe; irrigation repair; sow/transplant; animal care | meal and water support for field crews; fiber/silk phases where applicable; roof and storage preparation | labor exchange; seed loans; water-turn disputes; hiring | late frost, drought, seed failure, draft-animal injury, overwork, missed window |
+   228→| Growth and water management | weed; thin; stake; patrol pests; irrigate/drain; fodder and secondary crops | continuous cooking/care; gear repair; gather greens/fuel; market small goods | rent advances, food-price pressure, festivals, corvée or local works | flood, heat, insects, disease, water theft, fatigue, storm damage |
+   229→| Harvest and storage | cut/pick; carry; thresh; winnow; dry; grade; save seed; field gleaning; secondary sowing | preservation; vessel repair; sack/mat making; storage inspection | rent/tax/debt extraction, wage settlement, market sales, ritual offerings, hospitality | rain during harvest, fire, theft, pests, price manipulation, conflict over shares |
+   230→
+   231→### 6.3 Labor bottlenecks
+   232→
+   233→Agricultural challenge comes from **windows**, not from repeating animations. A household can own enough land to feed itself in theory and still fail because it cannot assemble labor, tools, draft power, water, or food for workers during a short critical period.
+   234→
+   235→**[Design candidate]** Every plot and crop exposes:
+   236→
+   237→- flexible tasks that can be delayed at a yield or quality cost;
+   238→- hard-window tasks that produce steep consequences when missed;
+   239→- tasks requiring simultaneous hands;
+   240→- tasks requiring a particular specialist, body capability, animal, tool, or water turn;
+   241→- monitoring tasks where expertise can prevent unnecessary work;
+   242→- shared works whose failure harms multiple households.
+   243→
+   244→### 6.4 Knowledge and uncertainty
+   245→
+   246→The player should be able to:
+   247→
+   248→- inspect soil moisture, plant color, pests, tracks, wind, cloud, channel flow, storage smell, and animal behavior;
+   249→- ask several people for forecasts and compare confidence and incentives;
+   250→- test a small plot before committing scarce seed;
+   251→- keep an experiential notebook if literate, or form mnemonic associations if not;
+   252→- distinguish what happened from why it happened only imperfectly;
+   253→- teach another person, with quality depending on relationship, time, demonstration, and shared language.
+   254→
+   255→**Gauntlet question:** Can two nearby settlements use visibly different but locally rational methods, and can the player learn why without one being labeled primitive or wrong?
+   256→
+   257→---
+   258→
+   259→## 7. Crafts, trade, transport, and market time
+   260→
+   261→### 7.1 Production is distributed
+   262→
+   263→The mortal economy should not divide neatly into “farmers” and “shopkeepers.” Households can combine cultivation, seasonal wage labor, fishing, textile production, vending, transport, gathering, teaching, ritual service, or repair. Ming scholarship identifies significant rural non-farm work and women acting as peddlers, midwives, nuns, textile workers, field workers, and participants in fishing households ([International Review of Social History](https://www.cambridge.org/core/journals/international-review-of-social-history/article/work-ethics-and-work-valuations-in-a-period-of-commercialization-ming-china-15001644/4FA7B22851A0B0D2E37700E494A6570B)).
+   264→
+   265→**[Design candidate]** Every durable object has a provenance chain rather than a generic shop source:
+   266→
+   267→- material origin;
+   268→- transforming craftspeople and workshops;
+   269→- transport legs;
+   270→- credit or advance arrangements;
+   271→- repair history;
+   272→- current legal/social claimant.
+   273→
+   274→This does not require simulating every hammer blow. It requires enough continuity that a broken water-lifting part creates work for a carpenter or smith, a transport need, a payment question, and perhaps a harvest risk.
+   275→
+   276→### 7.2 The periodic market
+   277→
+   278→Skinner's classic analysis describes rural markets that often ran for a few morning hours on every-third-day, every-other-day, or lunar-period schedules; mobile peddlers, artisans, letter writers, and fortune tellers followed circuits ([*Marketing and Social Structure in Rural China*](https://doi.org/10.4000/etudesrurales.7952)). The model is influential and geographically/historically bounded; it should inspire local network generation, not become a universal law.
+   279→
+   280→Paintings of itinerant peddlers show mobile sellers of food and daily goods engaging women and children, while also presenting constructed, sometimes auspicious scenes rather than candid documentary snapshots ([National Palace Museum](https://theme.npm.edu.tw/exh110/GemsofPainting/en/page-1.html)).
+   281→
+   282→The playable market cycle should include:
+   283→
+   284→- preparations one or two cycles ahead: finish goods, borrow carrying gear, learn prices, arrange care and field coverage;
+   285→- departure before dawn, route/weather/security decisions, queue and stall position;
+   286→- wholesale, retail, barter, credit, pawn, commission, advance purchase, and wage hiring;
+   287→- information exchange: letters, notices, rumor, crop reports, marriage prospects, missing people, legal summons, traveling performers and specialists;
+   288→- variable attendance caused by harvest, flood, roads, ritual dates, patrols, conflict, and disease;
+   289→- unsold goods, spoilage, debt collection, theft accusation, and return transport;
+   290→- reputation based on weights, quality, promises, discretion, and treatment of dependents.
+   291→
+   292→### 7.3 Transport has a cost geometry
+   293→
+   294→Song-period evidence indicates that water transport could be substantially cheaper than land transport and helped support commercialization, but this cannot be projected unchanged across all regions and eras ([Columbia Asia for Educators](https://afe.easia.columbia.edu/songdynasty-module/econ-rev-commercial.html)). The Grand Canal demonstrates how transport capacity depends on long-lived engineering and administration ([UNESCO](https://whc.unesco.org/en/list/1443)).
+   295→
+   296→**[Design candidate]** Generated prices and settlement specialization derive from a route graph with:
+   297→
+   298→- weight and bulk;
+   299→- perishability and fragility;
+   300→- slope, mud, ice, river current, water level, ferries, bridges, gates, locks, and portage;
+   301→- human, animal, cart, sled, raft, and boat capacities;
+   302→- food/fodder and overnight costs;
+   303→- toll, license, protection, confiscation, and bandit risk;
+   304→- empty-return or backhaul opportunity;
+   305→- seasonal closure and maintenance.
+   306→
+   307→Fast travel cannot erase this geometry. If the player later travels supernaturally, ordinary grain, patients, tenants, letters, and armies still move through mortal networks unless the world has a reason they do not.
+   308→
+   309→### 7.4 Craft quality and repair
+   310→
+   311→Craft play uses a six-part grammar:
+   312→
+   313→1. **Read:** inspect material, previous work, failure, fit, and intended load.
+   314→2. **Prepare:** dry, season, clean, sort, heat, soak, sharpen, or lay out.
+   315→3. **Shape:** perform the irreversible or risk-bearing operation.
+   316→4. **Join/finish:** fit, bind, fasten, seal, surface, tune.
+   317→5. **Test:** under partial load or controlled conditions.
+   318→6. **Maintain:** teach the user, schedule care, salvage, and record obligation.
+   319→
+   320→Mastery reduces waste and reveals options; it does not simply accelerate a progress bar. Repairs may preserve an object's remembered provenance and relationships, making a repeatedly mended tool more meaningful than a higher-tier replacement.
+
+[showing lines 1-320 of 1312; use offset=321 with limit to continue reading]

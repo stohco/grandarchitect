@@ -1,0 +1,408 @@
+     1→# Mortal-to-Cultivator Golden Scenario State Ledger — Draft v0.1
+     2→
+     3→**Status:** integration contract; pre-canon; no game code  
+     4→**Purpose:** prove that the seven golden scenarios describe one continuing life rather than seven disconnected demos  
+     5→**Consumes:** Mortal Year Atlas, Terminology & Cultivation Foundation, Qi Condensation Envelope, Identity & Death Models
+     6→
+     7→---
+     8→
+     9→## 0. Governing rule
+    10→
+    11→Every scenario reads the world produced by prior events and writes consequences that later scenarios must honor. A golden fixture may be replayed independently only from a complete pinned starting snapshot whose history is reconstructible.
+    12→
+    13→```text
+    14→Mortal life
+    15→→ teacher relationships
+    16→→ method/evidence history
+    17→→ first qi perception
+    18→→ first conflict
+    19→→ failed transition
+    20→→ first certified Qi Condensation success
+    21→```
+    22→
+    23→This is a validation path, not a mandatory main quest or universal chronology. In ordinary play, teachers may appear earlier, conflict may be avoided, the manual may never be found, the player may stop after failure, and mortal life may continue indefinitely.
+    24→
+    25→---
+    26→
+    27→## 1. Protected state families
+    28→
+    29→| State family | Minimum protected records | Never compressed into |
+    30→|---|---|---|
+    31→| Person and embodiment | `PersonContinuant` ID; `BodyInstance` ID; active time-scoped `Embodiment` relation and validity interval; body plan, health, disability, pain, fatigue, nutrition, sleep, injury, adaptation, age, senses, current location | hit points, “healthy/unhealthy,” or one merged person/body identifier |
+    32→| Household/survival network | residence, consumption, production, obligation, and claim relations; care dependents; absences; private/common stores | one party inventory |
+    33→| Material world | item/batch identity, source, maker, repair, quality, claimant, storage, contamination, damage | generic resource count where provenance matters |
+    34→| Time | world date, local cycles, deadlines, weather front, hard labor windows, recovery timers, ritual/mourning dates | paused quest timers |
+    35→| Work and competence | livelihood practices, embodied proficiency, teacher, tools, observed failures, current commitments | one occupation level |
+    36→| Relationships | affection, trust, fear, debt, grievance, care, authority, consent, promises, shared history, audience-specific reputation | global affinity |
+    37→| Knowledge and belief | observation, source, witness path, confidence, alternatives, contradiction, secrecy, memory change | player-unlocked global truth |
+    38→| Law and institutions | applicable jurisdiction, forum, office, rule revision, records, evidence, status claim, dissent, enforcement capacity | universal law meter |
+    39→| Environment | water, food, fuel, routes, weather, qi sources/sinks if admitted, contamination, ownership, replenishment, scars | decorative biome seed |
+    40→| Cultivation practice | method revision, teacher/manual provenance, attempts, signals, stop conditions, costs, injuries, recovery, certification evidence | XP bar |
+    41→| Qi state | reservoir, throughput, route, control, signature, compatibility, heat/waste, recovery debt, contribution source | mana |
+    42→| Identity and death | body/agency/memory/spirit/causal/social/legal continuity, remains, copy lineage, death state, contested judgments | respawn flag |
+    43→| Protagonist advantage | exact advantage revision, locus, privileged operation, costs, counters, traces, exposure, transfer/death, contribution | `isPlayer` bonus |
+    44→
+    45→All protected records survive save/load, area unload, S0–S4 simulation-resolution changes, rendering-LOD changes, generator migration, and scenario transitions.
+    46→
+    47→### 1.1 S0–S4 simulation-resolution contract
+    48→
+    49→Simulation resolution changes representation and scheduling frequency, never canonical law or protagonist privilege. It is orthogonal to render LOD, persistence/protection class, and causal/narrative significance as specified by the Real-Time World architecture. Earlier `F0–F4` references are migration aliases only.
+    50→
+    51→| Tier | Intended scope | State retained | Permitted resolution | Promotion/demotion obligation |
+    52→|---|---|---|---|---|
+    53→| `S0 Chronicle` | distant eras, worlds, institutions, lineages | named/unique entities; population and resource cohorts; ownership/custody; obligations; event queue; causal and generation manifests; catastrophe envelopes | event-DAG and bounded aggregate transitions only | must emit cohort composition, exceptions, uncertainty/error bound, and every named outcome needed to rehydrate |
+    54→| `S1 Strategic` | distant regions and factions | S0 plus routes, settlements, institutional actors, stocks/flows, hazards, scheduled projects | cohort movement, market/institution actions, conflict and ecology envelopes | conserve people/material/claims within declared error bounds and preserve exception ledgers |
+    55→| `S2 Regional` | current region beyond immediate interaction | S1 plus households, named agents, local infrastructure, weather/ecology cells, relationship summaries | scheduled agent decisions and regional processes at variable semantic steps | promotion materializes individuals only from signed cohort membership and history; no invented clean slate |
+    56→| `S3 Encounter` | nearby/interactable spaces | S2 plus individual bodies, inventories, observations, intentions, action queues, local geometry/topology | exact semantic actions with collision/line-of-effect and bounded local physics | demotion commits unfinished actions, injuries, witnesses, custody, traces, and schedules before aggregation |
+    57→| `S4 Immediate` | combat, precision interaction, visible catastrophe frontier | S3 plus high-frequency canonical contact/projectile/technique state and local refinement boundary conditions | fixed canonical action steps; presentation interpolation remains separate | leaving S4 stores the semantic outcome and sufficient reconstruction data; render particles/poses are not canon |
+    58→
+    59→All tiers share the same ordered semantic-event journal. Tier-equivalence tests compare protected hashes and latent-detail manifests, not presentation frames. Aggregate storage may retain bounds, but the same future canonical query or promotion must deterministically materialize the same facts from the same manifest. Promotion cannot create favorable facts; demotion cannot erase a named person, unique item, debt, death, warning, intent commitment, or unresolved player-relevant interrupt.
+    60→
+    61→---
+    62→
+    63→## 2. Scenario read/write contracts
+    64→
+    65→### A. One Mortal Year
+    66→
+    67→**Reads**
+    68→
+    69→- generated ecological livelihood complex;
+    70→- household or survival-network topology;
+    71→- body and accessibility state;
+    72→- local calendars, institutions, obligations, beliefs, and hazards;
+    73→- source-scoped authored culture once ratified.
+    74→
+    75→**Writes**
+    76→
+    77→- at least one full seasonal history of labor, care, rest, leisure, dispute, and recovery;
+    78→- changes to stores, tools, land/use claims, routes, household composition, health, debt, reputation, and institutions;
+    79→- specific relationships with memories and unfinished intentions;
+    80→- ordinary observational knowledge from work and place;
+    81→- possible ambiguous cultivation evidence, never a mandatory quest marker;
+    82→- reasons to remain, leave, change livelihood, seek cultivation, or defer the decision.
+    83→
+    84→**Forbidden reset:** beginning cultivation cannot erase the mortal-year body, obligations, skill, relationships, property, law, grief, disability, seasonal state, or world changes.
+    85→
+    86→### B. Teacher Choices
+    87→
+    88→**Reads**
+    89→
+    90→- work schedule and freedom from labor;
+    91→- care obligations and household negotiation;
+    92→- body variation, injuries, access needs, language/literacy, travel ability;
+    93→- prior clues, witnesses, rumors, and institutions;
+    94→- each candidate teacher's knowledge, capacity, motives, availability, and social position.
+    95→
+    96→**Writes**
+    97→
+    98→- disclosed and concealed information;
+    99→- teacher/student or peer relations with consent, payment/service, access, secrecy, and exit terms;
+   100→- method/manual revisions received;
+   101→- schedules displaced and people who cover them;
+   102→- trust and harm history;
+   103→- alternative paths preserved if a teacher refuses, leaves, dies, or proves wrong.
+   104→
+   105→**Forbidden reset:** changing teachers does not erase embodied learning, injury, promises, copied notes, institutional reputation, or the former teacher's agency.
+   106→
+   107→### C. Fraudulent Method or Transmission
+   108→
+   109→The golden paper manuscript is one fixture, not a required artifact class. `MethodTransmission` may be a manuscript, copied notes, oral instruction, demonstration, mnemonic verse, rumor, dream report, institutional curriculum, artifact imprint, or the actor's own explicit hypothesis. Every claim records medium, source chain, revision, intended audience, prerequisites, and confidence; `medium = none/self-hypothesis` is valid.
+   110→
+   111→**Reads**
+   112→
+   113→- literacy and specialist-language capability;
+   114→- material/craft knowledge relevant to the actual medium, if any;
+   115→- teacher doctrines and disagreements;
+   116→- prior recipient/demonstrator histories, transmitter incentives, market/law forums where applicable;
+   117→- body's current capacity and the environment assumed by the text.
+   118→
+   119→**Writes**
+   120→
+   121→- claim-level evidence rather than one true/false flag;
+   122→- transmission custody/access, annotations, copying/repetition, alteration, suppression, sale, endorsement, or public warning as applicable to the medium;
+   123→- seller, victim, teacher, institution, and witness reactions;
+   124→- any test attempt, cost, injury, residue, and conclusion with confidence;
+   125→- provenance knowledge that later changes the failed-breakthrough explanation.
+   126→
+   127→**Forbidden reset:** destroying or suppressing one carrier does not erase other copies, memories, injuries, transactions, demonstrations, or testimony; exposing a false claim does not guarantee belief.
+   128→
+   129→### D. First Qi Perception
+   130→
+   131→**Reads**
+   132→
+   133→- mundane expertise from livelihood and environment;
+   134→- body, hunger, illness, fear, fatigue, sensory differences, and attention;
+   135→- method and teacher claims;
+   136→- signal source, noise, ordinary alternatives, and any advantage contribution;
+   137→- available time, safety, witnesses, and instruments.
+   138→
+   139→**Writes**
+   140→
+   141→- located observation with channel, confidence, alternatives, and prediction;
+   142→- repeated or failed comparisons across contexts;
+   143→- sensory load and recovery;
+   144→- changed belief without automatic cosmological certainty;
+   145→- precursor evidence toward Contact certification, never certification from one event.
+   146→
+   147→**Forbidden reset:** perception cannot reveal identity, intent, morality, exact realm, hidden text, or future success unless a separate lawful interface entails it.
+   148→
+   149→### E. First Conflict
+   150→
+   151→**Reads**
+   152→
+   153→- resource/infrastructure pressure originating in mortal history;
+   154→- people harmed or tempted by the disputed method or claim transmission, if any; otherwise an independently generated resource, testimony, labor, legal, or safety conflict;
+   155→- player/opponent goals, knowledge, self-preservation, relationships, and legal position;
+   156→- terrain, bystanders, exits, tools, injuries, fatigue, witnesses, and authority;
+   157→- current pre-certification qi evidence and ordinary skills.
+   158→
+   159→**Writes**
+   160→
+   161→- negotiation, repair, flight, exposure, institutional action, injury, death, or combat results as actually chosen;
+   162→- evidence and audience-specific accounts;
+   163→- collateral, resource, route, household, and institutional consequences;
+   164→- bodily strain that may contribute to later failure;
+   165→- opponent and bystander futures rather than despawning them after resolution.
+   166→
+   167→**Forbidden reset:** defeat cannot summon an unearned rescue, combat cannot erase noncombat resolutions, and qi perception cannot become automatic targeting.
+   168→
+   169→### F. Failed Breakthrough
+   170→
+   171→**Reads**
+   172→
+   173→- exact method revision and false/uncertain claims retained from their actual provenance; a manual is optional;
+   174→- body strain/injury from previous life and conflict;
+   175→- food, sleep, sanitation, shelter, care, emotional pressure, seasonal obligations;
+   176→- teacher/observer availability and trust;
+   177→- practice attempts, signals, stop conditions, site, and qi environment;
+   178→- advantage contribution, if any, through its normal contract.
+   179→
+   180→**Writes**
+   181→
+   182→- preparation and transaction ledger;
+   183→- phase-by-phase signals, choices, intervention, and witnesses;
+   184→- clean stop, partial transition, false circuit, conduit irritation, other injury, unstable result, or death as entailed;
+   185→- remaining evidence and each observer's interpretation;
+   186→- missed work, care burden, debt, reputation, teacher responsibility, and recovery options;
+   187→- continued mortal path if cultivation is abandoned.
+   188→
+   189→**Forbidden reset:** failure grants no compensation power, hidden pity progress, free diagnosis, full healing, or guaranteed alternate path.
+   190→
+   191→### G. First Genuine Success
+   192→
+   193→**Reads**
+   194→
+   195→- complete attempt and recovery history;
+   196→- body and qi state inside Contact limits;
+   197→- corrected-enough method and evidence;
+   198→- three-day/three-context certification record;
+   199→- one false signal recognized and one stop condition deliberately honored;
+   200→- complete personal/prepared/external contribution ledger.
+   201→
+   202→**Writes**
+   203→
+   204→- ontic Contact capability state, its evidence-backed certificate under a named protocol, and audience recognition as three separate records;
+   205→- repeatable `Attend to Flow` and one simple `Route Qi` operation if their contracts pass;
+   206→- new signals, costs, recovery, responsibilities, exposure, and institutional claims;
+   207→- changed interpretations by family, teachers, employers, rivals, fraudsters, and authorities only where information travels;
+   208→- continuation of ordinary work, disability, grief, debt, hunger, law, season, relationships, and mortal skill.
+   209→
+   210→**Forbidden grant:** projection, flight, instant healing, universal diagnosis, automatic status, guaranteed lifespan, combat victory, or huge-mountain output.
+   211→
+   212→---
+   213→
+   214→## 3. Cross-scenario invariants
+   215→
+   216→1. **No mandatory order disguised as causality.** A scenario declares actual prerequisites, not episode number.
+   217→2. **No global quest knowledge.** Every actor's belief traces through perception, testimony, record, inference, or lawful supernatural access.
+   218→3. **No state laundering.** Renaming, selling, copying, transferring, unloading, abstracting, or migrating a state cannot remove costs, injuries, debts, ownership, identity, or history.
+   219→4. **No protagonist delivery system.** Opportunities arise from world history and actors; they need not wait for or select the player.
+   220→5. **No only teacher.** Every teacher may refuse, disappear, err, or die without ending all lawful paths.
+   221→6. **No only manual.** Destroying or missing one artifact cannot make the universe's cultivation ontology inaccessible forever unless that historical loss is truly generated and the game supports life after it.
+   222→7. **No only build.** Remaining mortal or stopping cultivation remains a complete life.
+   223→8. **No hidden compensation.** Loss can remain loss; continued agency comes from world relationships and possible actions, not guaranteed rewards.
+   224→9. **No copied capability credit.** Teacher, artifact, formation, ally, environment, authority, and advantage contributions remain separate from personal certification.
+   225→10. **No realm-label shortcut.** World truth derives from body/qi/practice/knowledge/realm-envelope state; institutional titles and reputation may differ.
+   226→11. **No accessibility physics change.** Control assistance changes input and presentation, never canonical capability or outcome.
+   227→12. **No death ambiguity collapse.** Death, agency, body, memory, spirit, causal descent, personhood, legal identity, and relationship succession use typed judgments.
+   228→
+   229→---
+   230→
+   231→## 4. Branch and generation ledger
+   232→
+   233→For each scenario boundary, record:
+   234→
+   235→```text
+   236→boundary identity and world time
+   237→prior snapshot/event prefix hash
+   238→canonical seed and normalized generation inputs
+   239→generator, schema, ontology, law, and action-contract versions
+   240→hierarchical random-stream IDs, branch derivation path, and consumed cursors
+   241→deterministic collection ordering rule
+   242→generated output hash and any signed migration transform
+   243→PersonContinuant ID
+   244→BodyInstance ID
+   245→active Embodiment relation and validity interval
+   246→household/survival-network revision
+   247→calendar and pending deadlines
+   248→stores, items, ownership, and obligations
+   249→health, disability, injury, fatigue, and recovery
+   250→skills, practices, attempts, certifications, and teachers
+   251→knowledge/belief observations and provenance
+   252→relationships and audience-specific reputation
+   253→institutional/legal state
+   254→environment, route, infrastructure, and scars
+   255→method/transmission/record/item identity, medium, provenance, revision, and custody
+   256→qi state and contribution ledger
+   257→advantage state if any
+   258→identity/death events and judgments
+   259→scheduled consequences and reopening conditions
+   260→```
+   261→
+   262→An independently replayed fixture must supply this full manifest or explicitly mark omitted state as non-applicable. Defaulting omitted values to “healthy, debt-free, unknown, no relationship, no consequence” is forbidden.
+   263→
+   264→Random streams are allocated hierarchically from the canonical seed and stable causal-domain/entity/process/event IDs, never from traversal order, frame count, wall-clock time, entity-array position, or branch ID alone. `BranchId` records lineage but does not globally rekey reality. A divergence event derives new streams only for processes proven causally downstream of that divergence; unaffected domains retain the parent stream identity and cursor. A harmless dialogue choice therefore cannot reroll a remote beast route, treasure, victim, weather process, or catastrophe. A migration must retain the old manifest and output hash, declare a deterministic transform, and write a new manifest; it may not silently reinterpret an old seed.
+   265→
+   266→`RNG-IRRELEVANT-COMMUTE-01` forks on an unrelated choice and requires identical unaffected-world streams and facts. `RNG-CAUSAL-DOWNSTREAM-01` changes an input that actually reaches a process and permits only its declared downstream draws to diverge. Branches cannot be scouted for a favorable unrelated cosmos.
+   267→
+   268→Every scenario-changing transaction records `TransactionId`, branch ID, read revisions, reservations, deterministic write set, child/external writes, `Prepared | Committed | Aborted | Compensating` state, and monotonic commit sequence. Replay is idempotent. Partial breakthroughs persist as committed phase transactions, not half-written parent transactions.
+   269→
+   270→---
+   271→
+   272→## 5. Counterfactual test matrix
+   273→
+   274→Replay the suite while varying one factor at a time and in risk-weighted combinations:
+   275→
+   276→- no protagonist advantage;
+   277→- each candidate advantage;
+   278→- no cultivation pursuit;
+   279→- teacher refusal, death, error, exploitation, or reassignment;
+   280→- manuscript fixture never generated, destroyed early, copied widely, or institutionally endorsed;
+   281→- no authored carrier exists: the disputed method arrives orally, by demonstration, as rumor, as curriculum, or as the actor's own hypothesis;
+   282→- first perception is a false positive;
+   283→- conflict fully avoided, socially lost, physically lost, or won at lasting cost;
+   284→- failed breakthrough ends in clean stop, injury, deviation, path abandonment, or death;
+   285→- household support, opposition, dependence, separation, or absence;
+   286→- poor, middling, and powerful starting survival networks;
+   287→- body, disability, sensory, age, gender, language, class, and legal-status variations;
+   288→- disaster during a practice window;
+   289→- save/load, area unload, fidelity transition, generator migration, and world-law boundary.
+   290→
+   291→The suite fails if changing a factor only changes dialogue while the same optimal action and normalized outcome remain.
+   292→
+   293→### 5.1 No-manual substitution matrix
+   294→
+   295→| Original fixture dependency | When no manual exists | Applicability rule |
+   296→|---|---|---|
+   297→| material authentication | authenticate speaker, demonstration conditions, teaching lineage, institutional record, or observed repeatability | substitute with medium-specific provenance tests; mark paper/ink tests `N/A` |
+   298→| fraudulent seller/victims | misleading teacher, confident peer, self-interested institution, repeated rumor, or sincere but mistaken experimenter | generate only if causal history supports one; otherwise use an independent conflict |
+   299→| annotated false claims | oral revisions, remembered sequence, witnessed corrections, curriculum versions, or self-hypothesis log | preserve claim-level versions; memory uncertainty is evidence, not a hidden canonical rewrite |
+   300→| later conflict | dispute over access, injury, resource, testimony, labor, law, or safety | the conflict must consume generated pressures; it need not involve cultivation fraud |
+   301→| failed breakthrough explanation | compare attempted method revision against body, site, timing, prerequisites, and observed evidence | false-manual residue is optional; at least one causal failure family must remain executable |
+   302→
+   303→Each scenario declares `Required | Substitute | NonApplicable` for every dependency. `NonApplicable` removes both the read and its promised payoff; it never fabricates a default artifact.
+   304→
+   305→---
+   306→
+   307→## 6. Measurable obligations
+   308→
+   309→- Every scenario read is backed by an existing state or explicitly generated prerequisite.
+   310→- Every material write appears in at least one later read, scheduled consequence, or justified terminal ledger.
+   311→- At least three mortal-year facts materially change every later scenario in the connected golden fixture.
+   312→- At least one ordinary skill remains strategically useful in each later scenario.
+   313→- At least one relationship and one obligation remain active through first certification.
+   314→- At least one world scar or institutional change persists from the mortal year.
+   315→- No scenario boundary clears injury, fatigue, debt, custody, belief, teacher capacity, witness memory, deadline, or environmental state without a causal event.
+   316→- Isomorphic NPC fixtures resolve through the same contracts.
+   317→- Removal of an advantage removes only its declared operation and downstream consequences.
+   318→- Contact certification is impossible with one lucky event, mentor-driven flow, artifact output, hidden contribution, or missing recovery proof.
+   319→- Personal Qi Condensation fails every `HugeMountainClass-H0` split predicate.
+   320→
+   321→---
+   322→
+   323→## 7. Release decision
+   324→
+   325→This ledger may become normative for the golden suite before any scenario content becomes canon. It governs continuity and attribution, not the setting's final people, culture, geography, cosmology, teacher roster, manual, or plot.
+   326→
+   327→No implementation authorization follows from this document.
+   328→
+   329→---
+   330→
+   331→## 8. Stable graph and test binding registry
+   332→
+   333→This registry is normative for the golden suite. IDs are stable; revisions change only when semantics change. Every implementation schema must bind to these IDs rather than prose headings.
+   334→
+   335→| Stable ID / rev | Protected node or edge | Owner | Authorized writers / readers | Minimum validating tests |
+   336→|---|---|---|---|---|
+   337→| `PF-PERSON-01/r2` | person, body, embodiment interval | Identity draft | death/embodiment transactions / all scenarios | `ID-COPY`, `ID-FISSION`, `TIER-PERSON` |
+   338→| `PF-SURVIVAL-01/r1` | household/survival network | Mortal Atlas | life and relationship events / A–G | `YEAR-NONRESET`, `TIER-HOUSEHOLD` |
+   339→| `PF-MATERIAL-01/r1` | items, batches, provenance, custody | Mortal Atlas | material transactions / A–G | `NO-DUPLICATE`, `CUSTODY-CHAIN` |
+   340→| `PF-TIME-01/r1` | canonical time, local phases, deadlines, event queue | Real-time architecture | committed semantic actions / all | `TIME-EQUIV`, `FIRST-INTERRUPT` |
+   341→| `PF-WORK-01/r1` | practice and embodied competence | Mortal Atlas | work/practice results / A–G | `SKILL-CARRY`, `NO-XP-RESET` |
+   342→| `PF-RELATION-01/r1` | typed relationship and consent history | Mortal Atlas + Identity | social transactions / A–G | `AUDIENCE-DIFF`, `CONSENT-WITHDRAW` |
+   343→| `PF-KNOW-01/r1` | observations, beliefs, provenance | Research graph | lawful observation/testimony / A–G | `NO-GLOBAL-TRUTH`, `BRANCH-KNOWLEDGE` |
+   344→| `PF-LAW-01/r1` | jurisdiction, rule, office, judgments | future law foundation | authorized legal events / B–G | `JURISDICTION`, `AUTHORITY-NONDUP` |
+   345→| `PF-ENV-01/r1` | ecology, routes, hazards, scars | Mortal Atlas | ecology/material/catastrophe events / A–G | `SCAR-PERSISTS`, `TIER-ECOLOGY` |
+   346→| `PF-METHOD-01/r2` | method claims and transmission provenance | Cultivation foundation | source-specific transmission events / B–G | `NO-MANUAL`, `CLAIM-VERSION` |
+   347→| `PF-QI-01/r2` | reservoir, routes, contribution, recovery | Qi draft | cultivation transactions / D–G | `STACK-*`, `QC-CONTACT` |
+   348→| `PF-IDENTITY-01/r2` | ontic resolution and continuity judgments | Identity draft | ontology resolver and institutions / A–G | `ONTIC-JUDGMENT-SPLIT`, `ID-MATRIX` |
+   349→| `PF-ADVANTAGE-01/r2` | candidate operation target/cost/trace | Qi draft | signed advantage action / A–G | `ADV-M0`, `ADV-NPC-PARITY` |
+   350→| `EDGE-A-B-01/r1` | mortal history → teacher choice | this ledger | A commit / B reader | `CARRY-A-B` |
+   351→| `EDGE-B-C-01/r2` | teaching → method/transmission dispute | this ledger | B/C commits / C–G | `NO-MANUAL`, `TEACHER-REFUSAL` |
+   352→| `EDGE-C-D-01/r2` | method evidence → perception experiment | this ledger | C/D commits / D–G | `FALSE-POSITIVE`, `PROVENANCE` |
+   353→| `EDGE-D-E-01/r1` | observations → conflict options | this ledger | D/E commits / E–G | `CONFLICT-AVOIDED`, `NO-TARGETING` |
+   354→| `EDGE-E-F-01/r2` | accumulated pressures → attempted transition | this ledger | E/F commits / F–G | `FAILURE-CAUSE`, `PARTIAL-COMMIT` |
+   355→| `EDGE-F-G-01/r2` | failure/recovery evidence → genuine success | this ledger | F/G commits / G | `QC-CONTACT`, `THREE-CONTEXT` |
+   356→
+   357→Every release predicate must cite at least one stable ID and test. Orphan prose requirements, unnamed writers, unversioned edges, and tests without protected-state assertions block release.
+   358→
+   359→### 8.1 Tier ecology fixture — `TIER-ECOLOGY-v0.1`
+   360→
+   361→**Pinned start at canonical day 0**
+   362→
+   363→```text
+   364→GeneratorManifest: GEN-ECO-01/r1, seed 0x5EED, no unconsumed branch-dependent streams
+   365→Topology: CELL-01 containing WELL-01, SOIL-01, HOUSE-01..04
+   366→People: PERSON-01..12, three assigned to each household; all alive and present
+   367→Unique item: VALVE-01/r1 installed at WELL-01, custodian PERSON-03
+   368→Stocks: WELL-01 water = 1000 water_units; communal grain = 600 grain_units
+   369→Scheduled ordinary consumption for days 1..10:
+   370→  each person = 1 water_unit/day + 0.5 grain_unit/day
+   371→Event: day 5 VALVE-FAIL-01 releases exactly 100 water_units into SOIL-01
+   372→Event: day 6 VALVE-REPAIR-01 by PERSON-03 consumes one work_shift,
+   373→       writes VALVE-01/r2 repaired, and creates one shared service debt from HOUSE-01..04 to PERSON-03
+   374→Ecology process: leaked water loses exactly 20 water_units by day 10 under CANON-NUM-v0.1;
+   375→                 remaining 80 is SOIL-01 moisture stock
+   376→No birth, death, travel, trade, weather, qi, or random event is applicable in this closed fixture.
+   377→```
+   378→
+   379→**Runs**
+   380→
+   381→- Control: remain S4 and execute the ordered semantic journal through day 10.
+   382→- Tier run: commit the day-0 snapshot, demote to S0, process through day 10, then promote exhaustively to S4.
+   383→- Permutation runs: change render LOD, processing chunks, worker count, save/reload at days 4/5/6, and promotion route; do not change canonical inputs.
+   384→
+   385→**Expected ordered canonical events**
+   386→
+   387→```text
+   388→daily consumption events in (day, PERSON-ID) order
+   389→VALVE-FAIL-01 at day 5 in its authored phase
+   390→VALVE-REPAIR-01 at day 6 in its authored phase
+   391→ECO-EVAP-01 threshold completion at day 10
+   392→```
+   393→
+   394→**Exact day-10 protected result**
+   395→
+   396→```text
+   397→PERSON-01..12 alive and embodied; household membership unchanged
+   398→WELL-01 water = 780 water_units
+   399→communal grain = 540 grain_units
+   400→SOIL-01 leaked-moisture stock = 80 water_units
+   401→VALVE-01/r2 repaired; provenance includes fail and repair events
+   402→PERSON-03 work history -= one available work_shift
+   403→four service-debt edges exist with the same terms, witnesses and reopening conditions
+   404→no additional person, item, stock, opportunity, warning, injury, claim or ecological fact
+   405→```
+   406→
+   407→The oracle canonical-serializes the input manifest, ordered events, latent-detail manifest, and expected result, then requires identical SHA-256 normalized hashes for every run. Exhaustive promotion must materialize exactly PERSON-01..12 and HOUSE-01..04; a cohort distribution, different repairer, extra item, altered stock, erased debt, or newly invented microhistory fails even if aggregate totals appear plausible.
+   408→

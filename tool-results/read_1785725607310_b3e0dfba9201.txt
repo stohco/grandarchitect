@@ -1,0 +1,402 @@
+   400→| **Conversion poisoning** | incompatible environmental/material input | nausea, temperature change, discolored trace, irregular route | efficiency loss; contaminant expresses during techniques | identify source; purge into safe sink; medicine; time |
+   401→| **Recoil trauma** | external expression pushes back through body/tool | impact injury, numb limb, broken tool | affected route locked; combat vulnerability | ordinary trauma care plus route repair |
+   402→
+   403→These are fictional systems. They must not stigmatize real illness, disability, mental health conditions, or cultural practice.
+   404→
+   405→### 6.3 Deviations are processes, not random punishment
+   406→
+   407→| Deviation | Formation process | Tempting benefit | Cost/failure | Counterplay |
+   408→|---|---|---|---|---|
+   409→| **False circuit** | a plausible but wrong route becomes easy through repetition | faster startup and a pleasant sensation | capacity plateaus; load accumulates at one junction | compare external evidence, stop, retrain slowly |
+   410→| **Cross-current** | two individually valid methods demand incompatible timing or direction | brief high output | destructive interference, loss of control | separate schedules, compatibility work, choose one under stress |
+   411→| **Route fixation** | over-specialization adapts body and attention to one pattern | exceptional efficiency in one technique | switching becomes slow/painful; predictable counter | deliberate variation and recovery, accept specialization tradeoff |
+   412→| **Borrowed signature adhesion** | repeated use of contaminated place, tool, teacher assistance, or external source | easier activation | trace reveals or biases the actor; source may influence results | cleanse, quarantine, investigate provenance, build own stable pattern |
+   413→| **Breath–motion desynchronization** | routing rhythm no longer matches movement and recovery | momentary burst | dizziness, wasted qi, delayed defense | slow forms, pacing, teacher observation, environmental cadence |
+   414→
+   415→A deviation must have a cause, early signals, discoverability path, progression if ignored, intervention window, residual consequence, and at least two recovery strategies. It cannot be a hidden dice roll labeled “qi deviation.”
+   416→
+   417→---
+   418→
+   419→## 7. Meaningful new verbs
+   420→
+   421→These are action families for testing, not final names or techniques.
+   422→
+   423→### 7.1 `Attend to Flow`
+   424→
+   425→- **Transition:** uncertain sensation/evidence → bounded qi observation with confidence and alternatives.
+   426→- **New information:** exposes route, intensity band, disturbance, or residue unavailable to mortal senses.
+   427→- **Costs:** attention, time, sensory load; movement and defense degrade.
+   428→- **Counters/failures:** ambient noise, decoy, suppression, occlusion, sensory burn, motivated interpretation.
+   429→- **Cross-system consequences:** investigation and medicine gain evidence; stealth, fraud, ecology, and testimony change.
+   430→- **Not a reskin:** it creates information rather than damage or a numeric accuracy bonus.
+   431→
+   432→### 7.2 `Route Qi`
+   433→
+   434→- **Transition:** undirected reservoir → committed path and selected bodily function.
+   435→- **New decision:** reinforce legs, hands, breath, balance, wound stabilization, or a tool interface; unchosen regions remain exposed.
+   436→- **Costs:** throughput, switching latency, route load, predictable signature.
+   437→- **Counters/failures:** feint toward an unreinforced region, disrupt a junction, exhaust reservoir, force rapid switching.
+   438→- **Cross-system consequences:** labor, climbing, healing support, crafting precision, and combat all change.
+   439→- **Not a reskin:** it changes allocation topology and vulnerability, not merely a stat.
+   440→
+   441→### 7.3 `Read Residue`
+   442→
+   443→- **Transition:** persistent physical/qi traces → partial hypothesis about direction, timing, source class, and disturbance.
+   444→- **New decision:** investigate, compare, preserve, contaminate, conceal, falsify, or testify.
+   445→- **Costs:** time, proximity, calibration sample, attention.
+   446→- **Counters/failures:** old/mixed traces, weather, deliberate contamination, unfamiliar source, confirmation bias.
+   447→- **Cross-system consequences:** law, hunting, medicine, ecology, sect security, and history become playable.
+   448→- **Not a reskin:** it operates on evidence and uncertainty, not enemy highlighting.
+   449→
+   450→### 7.4 `Anchor a Trace`
+   451→
+   452→- **Transition:** transient personal expression → a short-lived relation attached to a touched object, boundary, wound dressing, or prepared mark.
+   453→- **New decision:** maintain, release, hand off, or let the anchor decay.
+   454→- **Costs:** reserved reservoir, direct touch or prepared interface, target compatibility, ongoing target slot.
+   455→- **Counters/failures:** remove the medium, exceed range/duration, overwrite with superior control, exploit the detectable signature.
+   456→- **Cross-system consequences:** alarms, repairs, coordination, traps, custody, crafting, and teaching change.
+   457→- **Not a reskin:** it creates persistent conditional state rather than an instantaneous projectile.
+   458→
+   459→### 7.5 `Vent into a Sink`
+   460→
+   461→- **Transition:** dangerous internal heat/contamination/excess → transferred bounded aftermath in a compatible prepared sink.
+   462→- **New decision:** choose where consequence goes and who bears it.
+   463→- **Costs:** sink material, time, control, exposure, environmental liability.
+   464→- **Counters/failures:** incompatible or saturated sink, interrupted route, dishonest disposal, rebound.
+   465→- **Cross-system consequences:** medicine, waste economy, ecology, law, crafting, and social responsibility change.
+   466→- **Not a reskin:** it moves a liability; it does not erase one.
+   467→
+   468→### 7.6 `Synchronize Practice`
+   469→
+   470→- **Transition:** two consenting, separately acting practice loops → shared timing/error evidence without merged reservoirs or minds.
+   471→- **New decision:** consent, trust, lead/follow, stop conditions, disclosure, and mutual risk.
+   472→- **Costs:** attention, reduced individual output, reciprocal exposure, compatibility strain.
+   473→- **Counters/failures:** withdrawal, deception, incompatible cadence, asymmetric load, interruption.
+   474→- **Cross-system consequences:** teaching, friendship, family, sect pedagogy, disability accommodation, and sabotage change.
+   475→- **Not a reskin:** it creates a consensual coordination relation and reciprocal evidence.
+   476→
+   477→At least two of these must survive semantic-equivalence testing and appear as useful choices outside combat before Qi Condensation can pass its qualitative-realm gate.
+   478→
+   479→### 7.7 Semantic novelty normalization
+   480→
+   481→Every action family has a versioned semantic signature:
+   482→
+   483→```text
+   484→preconditions | typed targets | read set | write set | authority
+   485→conservation/contribution | range | duration | time cost
+   486→observables/evidence | failure transitions | counters | persistence/aftermath
+   487→```
+   488→
+   489→Two actions are semantic equivalents when their `SEM-NORM-v0.1` normal forms match. Animation, color, an element **label without different material/law interfaces**, damage number, numeric target-count tuning, projectile shape, or lore prose alone cannot create a new verb.
+   490→
+   491→#### `SEM-NORM-v0.1` canonicalizer
+   492→
+   493→1. Validate every field against `SemanticActionSignature-v0.1`; absent optional fields become explicit typed `null`, never implementation defaults.
+   494→2. Remove presentation, prose, audio, animation, VFX, proper nouns, and tuning-only display labels. Replace actor/target/tool/place names with role slots ordered by first typed causal use.
+   495→3. Convert unitful values to the canonical base unit through exact rational conversion. Numeric tuning values become named parameters plus exact inequality/dependency relations; changing magnitude or count alone is ignored unless it crosses a typed target, authority, range topology, persistence, failure, or consequence-class boundary.
+   496→4. Expand shorthand into typed nodes for precondition, read, decision, authority, contribution/conservation, transition, observable, failure, counter, persistence, and aftermath. Ordered action milestones remain ordered; set-like fields sort lexicographically.
+   497→5. Initial node colors are the exact tuple `(node_type, target_type, authority_type, unit_dimension, persistence_class, failure_class)`. Repeatedly refine colors from sorted incoming/outgoing typed-edge/color multisets until stable.
+   498→6. Inline every nonrecursive declared subaction into the parent semantic graph before labeling; factor boundaries and subaction names disappear. Repeated occurrences receive role-path slots derived from the parent edges. Recursive composition or an expanded graph above 128 nodes is `NON_EXECUTABLE`, not permission to compare only wrappers.
+   499→7. Multiplicity compression is permitted only for an **independent true-twin leaf set**. Every member must have the same exact typed attribute tuple; have no edge to another member; have exactly one incident edge; and connect through the same edge type, direction, and edge attributes to the same single outside anchor node. No member may carry order, identity, target, custody, authority, temporal, evidence, contribution, failure, counter, persistence, or aftermath semantics. Any stable color partition that does not meet all of those conditions remains uncompressed and proceeds to bounded individualization/refinement. Compression does not compute or retain a `canonical_subgraph_hash`. It replaces the leaves with one node serialized exactly as `{"kind":"independent_true_twin_leaves","member_attributes":<canonical-JSON exact attribute tuple>,"multiplicity":<unsigned base-10 integer>,"anchor_edge":{"direction":<in|out>,"edge_type":<UTF-8 string>,"edge_attributes":<canonical-JSON exact tuple>}}`, connected once to the same anchor; `multiplicity` semantically repeats that incident edge. Object keys use the canonical-JSON ordering from step 8, strings are NFC-normalized, and integers have no sign or leading zero. This is the only compression class in `SEM-NORM-v0.1`; it cannot erase or recursively solve internal topology because eligible members have none.
+   500→8. Run deterministic individualization/refinement on the remaining colored graph: choose the lexicographically first smallest non-singleton color partition, individualize each candidate in its current canonical attribute order, refine again, prune any branch whose serialized prefix exceeds the best complete prefix, and retain the lexicographically smallest complete UTF-8 canonical-JSON adjacency serialization.
+   501→9. The search may visit at most `1,048,576` refinement states and use at most `128 MiB` of specification-time workspace under `SEM-NORM-v0.1`. Exceeding either bound returns `NORMALIZATION_INDETERMINATE` and blocks the proposed action from canon; it never hangs, guesses equivalence, or treats a timeout as novelty.
+   502→10. Hash the serialization with SHA-256. Equivalence requires identical schema version and hash; there is no float tolerance. A schema migration compares both old and new normal forms explicitly.
+   503→
+   504→Canonical renaming therefore has one algorithm. “Normalized scale” means exact removal of tuning magnitude while retaining dimensional type, parameter dependency, thresholds that create different branches, and all downstream state topology.
+   505→
+   506→#### Executable fixtures
+   507→
+   508→| Fixture | Inputs | Expected normal-form result |
+   509→|---|---|---|
+   510→| `SEM-EQUIV-01A` | two differently named/colored projectile techniques with the same target roles, contribution source, instantaneous damage transition, miss/block failures, evidence, and no persistence; values and target-count tuning differ without crossing a consequence class | identical canonical graph/hash: **equivalent** |
+   511→| `SEM-EQUIV-01B` | the same projectile, but one fire-labeled version has a real `IgnitesCompatibleMaterial` write, fuel/oxygen reads, persistent fire process, and extinguish counter | different graph/hash: **not equivalent** |
+   512→| `SEM-EQUIV-01C` | `Read Residue` versus an enemy-highlight action that reads current target position and writes UI selection | different evidence source, temporal read, uncertainty, and write authority: **not equivalent** |
+   513→| `SEM-EQUIV-01D` | `Anchor a Trace` versus a renamed damage-over-time projectile | different persistent relation, custody, maintenance/release decision, contribution reservation, and removal counter: **not equivalent** |
+   514→| `SEM-EQUIV-01E` | one flat action versus the same action factored into three named subactions | inlining removes factor boundaries; identical canonical graph/hash: **equivalent** |
+   515→| `SEM-ADVERSARY-01` | 128 symmetric presentation-free leaf effects that are safely multiplicity-compressible | completes under cap with one multiplicity node and a pinned hash |
+   516→| `SEM-ADVERSARY-02` | a maximally symmetric identity/authority-bearing graph that cannot be safely compressed and exceeds the state cap | exact result `NORMALIZATION_INDETERMINATE`; proposal is **non-executable**, never classified as novel |
+   517→| `SEM-ADVERSARY-03` | the 16-vertex Shrikhande graph versus the non-isomorphic 16-vertex 4×4 rook graph, with each undirected edge encoded as two identically typed directed semantic edges and otherwise identical node attributes; one-dimensional color refinement cannot distinguish them | neither graph is compression-eligible because every node has internal semantic edges; bounded individualization must return different canonical serializations/hashes or `NORMALIZATION_INDETERMINATE`, never equal |
+   518→
+   519→`SEM-WITNESS-01` starts with an actor bearing exactly 10 qwu of typed contamination and one compatible empty sink. `Vent into a Sink` must move the same attributed contamination into the sink, reserve time/control, create sink saturation and custody/environmental liability, and leave actor/sink evidence. A generic damage, cleanse, heal, projectile, or resource-spend signature cannot produce that write/aftermath set. The exact state-diff is the witness.
+   520→
+   521→A proposed verb passes novelty only if it produces a distinguishing state/decision witness in at least two noncombat fixtures and the witness survives removal of presentation, proper nouns, and tuning numbers. Test harnesses retain the canonical serialization, hash, differing nodes/edges, expected state diff, and schema version.
+   522→
+   523→---
+   524→
+   525→## 8. Cross-realm conflict
+   526→
+   527→### 8.1 No scalar suppression
+   528→
+   529→Resolve each contested dimension:
+   530→
+   531→1. perception/acquisition;
+   532→2. manifestation under local law;
+   533→3. reach and timing;
+   534→4. attack interface versus relevant defense facet;
+   535→5. control and target discrimination;
+   536→6. counter window;
+   537→7. cost/recovery and residual aftermath; and
+   538→8. contribution attribution.
+   539→
+   540→### 8.2 Qi Condensation versus mortals
+   541→
+   542→- Contact and Circuit actors remain vulnerable to trained skill, missiles, numbers, ambush, sleep, poison, fire, drowning, hostage dilemmas, and law.
+   543→- Reach and Concord actors can dominate an unprepared open confrontation, but cannot watch every direction, reinforce every facet, identify every threat, or fight indefinitely.
+   544→- A cultivator who spends qi on pursuit has less for defense; a hidden cultivator may avoid deterrence because no one knows to yield.
+   545→- Killing mortals is not consequence-free. Witnesses, kin, employers, courts, sects, ecology, debt, and self-conception persist.
+   546→
+   547→### 8.3 Qi Condensation peers
+   548→
+   549→- Build identity comes from allocation, method, training, equipment, relationships, and chosen risks—not color rarity.
+   550→- Feints target routes; movement attacks attention; tools target interfaces; terrain pressures reach; testimony and law pressure status.
+   551→- A technically weaker peer can win through information, preparation, objective choice, or a genuine counter.
+   552→
+   553→### 8.4 Qi Condensation versus a higher realm
+   554→
+   555→Qi Condensation may escape, delay, deceive, expose, negotiate with, poison through a genuine vulnerability, break an external dependency, contest an institution, protect an objective, or trigger prepared/environmental leverage.
+   556→
+   557→It may not:
+   558→
+   559→- deal privileged minimum damage through an invulnerable facet;
+   560→- stunlock a target whose reaction/control envelope it cannot contest;
+   561→- hide because offscreen actors lose perception;
+   562→- win a direct output contest through player status; or
+   563→- convert artifact, patron, formation, law, ally, or terrain output into personal progression credit.
+   564→
+   565→Higher-realm resistance is also typed. No unexplained blanket immunity is permitted.
+   566→
+   567→---
+   568→
+   569→## 9. Huge-mountain proof oracle
+   570→
+   571→### 9.1 Test fixture
+   572→
+   573→For this gate only, `HugeMountainClass-H0` means a connected natural landform with all of:
+   574→
+   575→- local relief of at least 1,000 m;
+   576→- contiguous footprint of at least 25 km²;
+   577→- modeled bulk volume of at least 10 km³;
+   578→- modeled mass of at least 10¹³ kg; and
+   579→- no pre-existing throughgoing failure plane that already meets the split predicate.
+   580→
+   581→`SplitHugeMountain-H0` means the action creates, within 60 seconds:
+   582→
+   583→- a new traversable discontinuity at least 2 km long;
+   584→- mean depth at least 200 m;
+   585→- persistent open width at least 20 m;
+   586→- two independently stable major masses or an equivalent complete severance outcome;
+   587→- canonical displaced/fractured material, dust, heat, seismic, hydrological, ecological, witness, ownership, and historical aftermath; and
+   588→- no semantic relabeling of teleportation, illusion, temporary phasing, or pre-existing collapse as physical splitting.
+   589→
+   590→The H0 fixture's conservative certified requirements are:
+   591→
+   592→| Dimension | Minimum requirement |
+   593→|---|---:|
+   594→| Structural/mechanical work supplied or released | 10¹⁵ J |
+   595→| Active controlled extent | 2,000 m × 200 m discontinuity |
+   596→| Material/interface authority | rock mass and embedded materials across full cut |
+   597→| Consequence capacity | regional terrain, water, dust, habitat, settlement, and history records |
+   598→| Sustained completion window | ≤60 s for the claimed feat |
+   599→
+   600→### 9.2 Personal Qi Condensation result
+   601→
+   602→Even the exceptional personal ceiling supplies at most 100,000 qwu, or 981,000 J of certified ideal mechanical contribution before loss. It is therefore more than **one billion times short** of the H0 structural-work requirement, while also failing extent, target/control, sustained throughput, survivability, and consequence capacity.
+   603→
+   604→Result: `outside_envelope`. The action cannot commit with the description “you personally split the huge mountain.”
+   605→
+   606→### 9.3 Lawful mountain-scale outcomes
+   607→
+   608→A Qi Condensation actor may still cause a mountain-scale outcome when a certificate identifies sufficient nonpersonal sources:
+   609→
+   610→- a long-prepared formation supplied by stored material and many contributors;
+   611→- an external artifact, office, patron, domain, or sealed authority;
+   612→- redirection of an already mountain-scale natural or hostile force;
+   613→- a pre-existing catastrophic instability or narrow structural keystone; or
+   614→- a long civil-engineering project whose labor, tools, and time are recorded.
+   615→
+   616→The resulting description must distinguish:
+   617→
+   618→- “you personally split the mountain”;
+   619→- “you directed the formation that split it”;
+   620→- “you invoked the authority that split it”;
+   621→- “you caused the unstable mountain to collapse”; and
+   622→- “your community excavated a passage over many years.”
+   623→
+   624→### 9.4 Oracle exploit cases
+   625→
+   626→Reject:
+   627→
+   628→- one billion individually legal micro-hits whose cumulative heat, time, recovery, and material history were discarded;
+   629→- a one-pixel `mountain` target alias that bypasses extent;
+   630→- teleporting a surface texture while leaving bulk state unchanged;
+   631→- an illusion or temporary phase described as a physical split;
+   632→- invoking an artifact and crediting its work to personal output;
+   633→- enlarging a trivial existing crack without recording environmental work;
+   634→- moving the actor to a duplicate scene while the canonical mountain remains intact;
+   635→- causing a delayed avalanche and claiming instant personal severance; and
+   636→- suppressing dust, water, habitat, ownership, witnesses, or persistence to make the effect affordable.
+   637→
+   638→---
+   639→
+   640→## 10. NPC parity and living-world requirements
+   641→
+   642→1. Any NPC with equivalent body state, functional certification, method, knowledge, resources, opportunity, law context, and random variates receives an equivalent normalized result.
+   643→2. NPCs can perceive qi, choose teachers, question manuals, practice, stop, fail, recover, certify a band, specialize, conceal, teach, exploit, or abandon cultivation.
+   644→3. NPCs do not advance because the player entered a region. Their practice consumes scheduled time and resources and can conflict with work, care, politics, danger, and desire.
+   645→4. Institutions may misclassify or disagree about a person's band. The capability certificate remains world truth; title and reputation are social claims.
+   646→5. An NPC can discover a method before the player if evidence and opportunity support it.
+   647→6. An NPC who obtains an isomorphic protagonist advantage must pass the same advantage contract and resolver. If uniqueness forbids duplication, the test uses a noncanonical clone fixture and normalized parity rather than changing canon.
+   648→7. Offscreen resolution preserves reservoir, injuries, practice history, teachers, obligations, scarce materials, decisions, and named outcomes across simulation tiers.
+   649→8. Teachers possess finite knowledge, availability, motives, biases, debts, and error. They may refuse, leave, die, change allegiance, or be wrong without the universe withholding the only playable path.
+   650→
+   651→---
+   652→
+   653→## 11. Permanent Qi Condensation exploit suite
+   654→
+   655→### Envelope and progression
+   656→
+   657→- Max every legal modifier in every composition order; personal dimensions remain below their hard ceilings.
+   658→- Divide an over-budget feat into micro-actions; rolling load, recovery, heat, and consequence ledgers close the exploit.
+   659→- Repeat an easy practice indefinitely; adaptation, opportunity cost, resource limits, and missing qualitative evidence prevent mastery certification.
+   660→- Use an overpowered consumable; assimilation and control remain bottlenecks.
+   661→- Have a mentor push the route; the mentor's contribution prevents personal certification.
+   662→- Pass once by luck; three-day, three-context reliability gate rejects it.
+   663→- Rename damage, expand target count, change VFX, or scale numbers; semantic novelty normalization rejects the “new verb.”
+   664→
+   665→### Combat and cross-realm
+   666→
+   667→- Attack every defense facet of a higher-realm target; only genuine uncovered facets can succeed.
+   668→- Chain weak stagger effects; reaction, stability, adaptation, immunity scope, and cumulative throughput resolve without player privilege.
+   669→- Fight many mortals; attention, target discrimination, ammunition, route exposure, collateral, and exhaustion remain active.
+   670→- Sleep, suppress, ambush, poison, drown, socially constrain, or disarm a cultivator; no blanket Qi Condensation immunity appears.
+   671→- Apply control assists or difficulty settings; canonical physics and NPC outcomes remain unchanged.
+   672→
+   673→### Information and fraud
+   674→
+   675→- Present a true manual with unfamiliar wording and a false manual with polished authority; the system cannot rely on rarity color or “fake” metadata.
+   676→- Mix true and false instructions; each claim must have evidence and consequences.
+   677→- Flood qi perception with decoys, noise, mixed residue, and familiar-looking contamination.
+   678→- Ask perception for identity, intent, moral alignment, exact realm, or future success; it returns no unsupported truth.
+   679→
+   680→### Economy and preparation
+   681→
+   682→- Stockpile, duplicate, purify, or substitute cultivation inputs; provenance, assimilation, nonfungibility, contamination, and market response persist.
+   683→- Reclassify prepared energy as reservoir; contribution ledger prevents laundering.
+   684→- Build a self-feeding vent/absorption loop; conservation loss and sink saturation prevent infinite qi.
+   685→- Use allies serially to avoid target/consequence caps; coordination, authority, time, and shared aftermath remain attributed.
+   686→
+   687→### Persistence and identity
+   688→
+   689→- Save, close, reload, crash, or migrate during gathering, routing, injury, breakthrough, venting, or external invocation; transactions remain atomic.
+   690→- Copy body, memory, name, soul component, inventory, or save delta; bearer and contribution identity do not duplicate silently.
+   691→- Transfer or steal an artifact/advantage; personal certifications remain with the actor who earned them.
+   692→- Promote/demote simulation fidelity during practice or combat; protected state and outcomes remain equivalent.
+   693→
+   694→### Mountain proof
+   695→
+   696→- Run every case in §9.4 at Contact, Circuit, Reach, Concord, and exceptional caps.
+   697→- Personal contribution must fail every H0 split.
+   698→- Prepared/external/environmental cases pass only when every missing dimension is supplied, persisted, and described honestly.
+   699→
+   700→---
+   701→
+   702→## 12. Golden-scenario suite
+   703→
+   704→These are paper scenarios and oracle fixtures, not a mandatory main quest. Each can be recomposed around different mortal regions, households, cultures, bodies, livelihoods, and beliefs after those domains are researched. The golden version exists to test continuity and the full player experience.
+   705→
+   706→### Shared scenario invariants
+   707→
+   708→- Remaining mortal is a viable life, not a failure screen.
+   709→- Cultivation access is unequal but not explained by a single genetic rarity score.
+   710→- No teacher, manual, event, or advantage guarantees success.
+   711→- Every important NPC has needs, work, relationships, knowledge limits, and plans independent of the player.
+   712→- Combat is avoidable in at least half the major conflicts.
+   713→- Injury, debt, trust, evidence, time, seasons, and work persist across scenarios.
+   714→- The protagonist advantage, if one is later selected, adds decisions or feedback; it cannot replace evidence, practice, consent, resources, or risk.
+   715→
+   716→---
+   717→
+   718→## 13. Golden Scenario A — One Mortal Year
+   719→
+   720→**ID:** `GS-MORTAL-YEAR-01`  
+   721→**Purpose:** prove that mortal life is a complete systemic experience and that the eventual cultivator remains the same person in the same history.
+   722→
+   723→### 13.1 Starting fixture
+   724→
+   725→The player begins in a river-linked market settlement and its surrounding farms, woodland, ferry routes, and upland works. Names, culture, law, religion, gender roles, and political structure remain placeholders pending research.
+   726→
+   727→The generated household fixture includes:
+   728→
+   729→- two people who depend on the player's labor or care;
+   730→- one reciprocal friendship;
+   731→- one strained relationship with a repair path;
+   732→- a livelihood with a seasonal skill curve;
+   733→- a debt or obligation that cannot be solved by one combat encounter;
+   734→- one bodily strength and one limitation unrelated to cultivation aptitude;
+   735→- one private desire that may have nothing to do with immortality; and
+   736→- one conflicting community pressure.
+   737→
+   738→The player may choose among at least four viable livelihoods: food production, craft/repair, transport/trade, and care/record/service. Hunting, guarding, performance, scholarship, or illicit work may emerge from local conditions.
+   739→
+   740→### 13.2 Twelve-beat temperate fixture
+   741→
+   742→This table is one **temperate agrarian test fixture**, not a universal calendar or generator contract. Each row is stored with a generated `LocalPhaseId`, ecological trigger, livelihood deadline, and observed conditions. Other ecologies may reorder, merge, repeat, omit, or replace these beats. No generator may infer “month 4 means planting” or reuse winter/thaw/harvest labels where local ecology does not support them.
+   743→
+   744→| Fixture beat | World pressure | Player possibilities | State carried forward |
+   745→|---:|---|---|---|
+   746→| 1 | household stores and winter work | budget, mend, borrow, forage, take risky work, learn a craft | food, debt, trust, tools, fatigue |
+   747→| 2 | illness/injury or infrastructure failure | care, hire help, improvise, neglect, investigate | health, skill, resentment, evidence |
+   748→| 3 | thaw and unsafe travel | ferry, escort, repair route, trade information, remain home | access, prices, relationships, rumors |
+   749→| 4 | planting/work allocation | cooperate, compete, change livelihood, challenge allocation | land/use claims, labor obligations |
+   750→| 5 | market/festival/ritual season | socialize, worship or abstain, trade, perform, gamble, court, investigate | reputation by audience, contracts, beliefs |
+   751→| 6 | flood, drought, fire, pest, or local ecological shift | warn, reinforce, evacuate, exploit scarcity, aid rivals | terrain, ecology, injuries, gratitude/blame |
+   752→| 7 | outside caravan, officials, pilgrims, or cultivator traces | work, hide, observe, petition, trade, reject contact | new evidence and routes, institutional attention |
+   753→| 8 | peak labor and bodily limit | pace, recruit, automate simply, overwork, abandon task | adaptation, strain, household security |
+   754→| 9 | dispute over resource or testimony | mediate, investigate, take a side, refuse, fight | law, memory, faction ties, unresolved grievance |
+   755→| 10 | harvest and accounting | repay, default, share, hoard, invest, leave | wealth distribution and trust |
+   756→| 11 | death, departure, marriage, apprenticeship, or inheritance event | mourn, accept/refuse duty, contest claim, preserve memory | identity, household structure, obligations |
+   757→| 12 | winter closure and life decision | remain, travel, seek a teacher, form a group, reject cultivation | chosen trajectory, not a binary ending |
+   758→
+   759→### 13.3 Cultivation seeds, not quest markers
+   760→
+   761→At least five ordinary systems can create legitimate clues:
+   762→
+   763→- repeated temperature or sound anomaly at a waterwork;
+   764→- a healer's observation that a breathing rhythm changes recovery;
+   765→- tool wear inconsistent with known use;
+   766→- an animal avoiding a place at a particular time;
+   767→- conflicting testimony about a traveler or local practitioner;
+   768→- a ledger showing unusual material demand; or
+   769→- residue around an old repair, grave, shrine, cave, kiln, or battlefield.
+   770→
+   771→Any one clue may be mundane, fraudulent, misunderstood, or supernatural. Only comparison and consequence establish confidence.
+   772→
+   773→### 13.4 Completion oracle
+   774→
+   775→The scenario passes when:
+   776→
+   777→- the player can spend the year pursuing at least three satisfying noncombat life trajectories;
+   778→- every month changes later options without forcing a single plot;
+   779→- leaving, remaining mortal, or seeking cultivation are all intelligible outcomes;
+   780→- at least ten NPCs change state for reasons independent of the protagonist;
+   781→- ordinary skills remain useful in all later golden scenarios;
+   782→- no cultivation clue requires protagonist privilege to discover; and
+   783→- players can recount who they were, whom they owed, and what they chose before discussing “build.”
+   784→
+   785→---
+   786→
+   787→## 14. Golden Scenario B — Teacher Choices
+   788→
+   789→**ID:** `GS-TEACHERS-01`  
+   790→**Purpose:** make pedagogy a social, epistemic, economic, and bodily choice rather than a menu of objectively ranked bonuses.
+   791→
+   792→### 14.1 Candidate teachers
+   793→
+   794→| Teacher direction | What they can genuinely teach | What they cannot supply | Price and relationship |
+   795→|---|---|---|---|
+   796→| **Community bodyworker** | pacing, observation, recovery, safe stop signs, one conservative Contact exercise | projection, combat dominance, cosmological certainty | service, patience, confidentiality, care for other students |
+   797→| **Caravan warder** | movement under load, threat reading, route reinforcement, practical survival | precise diagnosis, broad theory, guaranteed availability | escort labor, shared risk, discipline, travel obligations |
+   798→| **Water-and-land surveyor** | ambient comparison, seasonal flows, trace preservation, prepared sinks | rapid bodily adaptation, sect credentials, combat doctrine | fieldwork, accurate records, duty not to endanger settlements |
+   799→| **Institutional instructor** | standardized vocabulary, peer practice, archives, examination, legal recognition | individual attention, freedom from institutional politics, proof that doctrine is complete | fees/service, rules, sponsorship, faction consequences |
+
+[showing lines 400-799 of 1199; use offset=800 with limit to continue reading]

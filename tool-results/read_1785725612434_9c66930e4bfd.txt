@@ -1,0 +1,402 @@
+     1→     1→# Qi Condensation Envelope & Mortal-to-Cultivator Golden Scenarios — Research Draft v0.1
+     2→     2→
+     3→     3→**Status:** pre-canon design hypothesis; no realm ladder, protagonist advantage, cosmology, culture, or named technique is ratified here  
+     4→     4→**Date:** 2026-08-02  
+     5→     5→**Scope:** the mortal threshold and Qi Condensation only  
+     6→     6→**Locked constraints:** the player begins genuinely mortal; Qi Condensation cannot personally split a huge mountain; all actors use the same laws; prepared and external power must be attributed honestly
+     7→     7→
+     8→     8→---
+     9→     9→
+    10→    10→## 0. What this draft is for
+    11→    11→
+    12→    12→This document gives the next research package something concrete enough to attack:
+    13→    13→
+    14→    14→- an original, multidimensional Qi Condensation capability envelope;
+    15→    15→- quantitative hypotheses that can become test oracles without turning cultivation into one power score;
+    16→    16→- functional bands that describe what an actor can reliably do, not a copied realm ladder;
+    17→    17→- costs, injuries, deviations, counters, cross-realm conflict, and NPC parity;
+    18→    18→- a precise mountain-proof oracle;
+    19→    19→- paper-designed mortal-to-cultivator golden scenarios; and
+    20→    20→- three lawful protagonist-advantage **design directions**, none selected as canon.
+    21→    21→
+    22→    22→Every number is a provisional design calibration. It must later survive combat prototyping, visual-scale tests, browser performance research, seasoned-xianxia-reader review, and consistency checks against the eventual cosmology. A number in this draft authorizes a test; it does not silently become lore.
+    23→    23→
+    24→    24→---
+    25→    25→
+    26→    26→## 1. Comparative research and originality boundary
+    27→    27→
+    28→    28→### 1.1 Lawfully accessed comparison set
+    29→    29→
+    30→    30→The draft used public descriptive or academic material, not copied chapters, game data, wiki progression tables, named techniques, or proprietary realm ladders.
+    31→    31→
+    32→    32→1. The [Stanford Encyclopedia of Philosophy entry on Religious Daoism](https://plato.stanford.edu/archives/sum2024/entries/daoism-religion/) describes qi in relation to essence, spirit, cosmos, practices, and multiple symbolic models of the body. Design implication: qi should be a relationship among body, attention, environment, and transformation—not a detached blue mana bar. It also warns against pretending one anatomical diagram is a universal Daoist body.
+    33→    33→2. Open-access scholarship on [xiuzhen/cultivation fantasy](https://doi.org/10.3390/rel11010025) identifies level-structured cultivation as a device for character development, plot progression, and world-unfolding. Design implication: advancement must change decisions and social position, not only output numbers.
+    34→    34→3. The public translation/reference page on [transformative stages in one internal-alchemy tradition](https://goldenelixir.com/jindan/wm_stages.html) illustrates that real traditions frame practice as qualitative transformation. It is context, not a template: this project does not import those stage names, sequence, claims, or religious practice as game physics.
+    35→    35→4. The licensed public synopsis of [A Record of a Mortal's Journey to Immortality](https://www.wuxiaworld.com/novel/rmji) foregrounds an ordinary village-born person, limited aptitude, sect access, caution, preparation, and survival. Design implication: mortal circumstances, information, and choices must remain meaningful.
+    36→    36→5. The official store description for [Tale of Immortal](https://store.steampowered.com/app/1468810/_Tale_of_Immortal/) presents cultivation as an open-world sandbox of choices. The official page for [Amazing Cultivation Simulator](https://store.steampowered.com/app/955900/Amazing_Cultivation_Simulator/) foregrounds sects, knowledge, artifacts, commerce, alliances, and dangers. Design implication: cultivation belongs to institutions and a living world, not an isolated combat treadmill.
+    37→    37→6. The official page for [The Matchless Kungfu](https://store.steampowered.com/app/1696440/The_Matchless_KungFu/) publicly emphasizes inner injury, social relationships, livelihoods, structures, clans, and nonphysical conflict in a martial sandbox. It is a wuxia rather than xianxia comparison. Design implication: body state and ordinary life can support play rather than merely gate combat.
+    38→    38→7. The public page for [No Mortal Space](https://store.steampowered.com/app/4279510/No_Mortal_Space/) is useful as a stated scale-fantasy benchmark. Because it remains a public product promise rather than proof of every advertised system, none of its claims are treated as feasibility evidence or copied mechanics.
+    39→    39→
+    40→    40→### 1.2 What may and may not transfer
+    41→    41→
+    42→    42→May transfer only as abstract design pressures:
+    43→    43→
+    44→    44→- mortal-to-immortal continuity;
+    45→    45→- deliberate practice and transformation;
+    46→    46→- preparation, scarcity, teachers, institutions, and consequences;
+    47→    47→- qualitative changes in perception and action;
+    48→    48→- the body and world corresponding without being identical; and
+    49→    49→- very large eventual scale whose attribution remains honest.
+    50→    50→
+    51→    51→May not transfer:
+    52→    52→
+    53→    53→- named ladders, stage counts, breakthrough recipes, techniques, artifacts, sects, characters, plots, signature interfaces, numeric balance, prose, visual identity, or source-specific causal topology;
+    54→    54→- claims that historical or living religious practices literally produce supernatural effects; or
+    55→    55→- an assumption that Daoism, medicine, folklore, Buddhism, popular religion, and modern xianxia are one interchangeable system.
+    56→    56→
+    57→    57→### 1.3 Original design thesis
+    58→    58→
+    59→    59→Qi Condensation is the first condition in which a person can **reliably form, retain, route, and deliberately express a bounded qi relation** while body, attention, and environment remain limiting partners. It is not “mortal, but with a larger damage coefficient.”
+    60→    60→
+    61→    61→The realm's central play is controlled allocation:
+    62→    62→
+    63→    63→> notice → interpret → gather → route → commit → express → read the trace → recover
+    64→    64→
+    65→    65→Skipping a link makes the action less efficient, less controlled, more legible to enemies, or more dangerous to the actor.
+    66→    66→
+    67→    67→---
+    68→    68→
+    69→    69→## 2. Two axes, never one scalar level
+    70→    70→
+    71→    71→### 2.1 Functional mastery bands within Qi Condensation
+    72→    72→
+    73→    73→These are capability certifications, not separately named canon realms. Three records must never be collapsed:
+    74→    74→
+    75→    75→- `OnticCapabilityState`: what the actor can presently and reliably do under canonical law;
+    76→    76→- `CapabilityCertificate`: the evidence-backed test result issued by a named evaluator under a versioned protocol; and
+    77→    77→- `AudienceRecognition`: what a sect, household, examiner, rival, court, or rumor network believes and is willing to recognize.
+    78→    78→
+    79→    79→An actor may become ontically capable before anyone certifies them, may hold a valid certificate that another jurisdiction rejects, or may be widely misrecognized. The following table describes the capability required by the protocol; it is not an automatic social title.
+    80→    80→
+    81→    81→| Functional band | Reliable transformation | What still fails |
+    82→    82→|---|---|---|
+    83→    83→| **Contact** | Distinguish a repeatable qi change from ordinary sensation; retain a small gathered trace; deliberately start and stop one simple internal route while still. | Cannot maintain a closed route under stress, reinforce a moving body reliably, or project beyond touch. |
+    84→    84→| **Circuit** | Maintain one closed route while walking, working, or defending; reinforce one selected bodily region; recognize gross interruption and safely vent a small excess. | Cannot sustain external expression, divide attention across complex routes, or conceal obvious use. |
+    85→    85→| **Reach** | Express a shaped effect beyond the skin; inspect or influence a nearby qi-bearing target through a lawful interface; switch between internal reinforcement and external action. | Cannot sustain flight, dominate a large battlefield, ignore hostile disruption, or maintain several independent external effects. |
+    86→    86→| **Concord** | Combine perception, routing, movement, and one or two external expressions under pressure; diagnose ordinary faults; teach or coordinate a simple shared exercise. | Cannot exceed the realm hard envelope, personally wield world law, survive major structural destruction, or substitute qi for every missing skill. |
+    87→    87→
+    88→    88→Promotion between functional bands requires demonstrated reliability, not accumulated points. A candidate performs the relevant operation:
+    89→    89→
+    90→    90→- on three separate days;
+    91→    91→- in at least three materially different contexts;
+    92→    92→- once under distraction or moderate pressure;
+    93→    93→- without concealed external contribution;
+    94→    94→- within the recovery envelope; and
+    95→    95→- with a correct account of failure signs and a deliberate stop.
+    96→    96→
+    97→    97→One lucky success, drugged overdrive, a mentor moving the candidate's qi, or an artifact performing the operation does not certify personal mastery.
+    98→    98→
+    99→    99→### 2.2 Capability-source bands
+   100→   100→
+   101→   101→Every feat independently records its source band on every required dimension.
+   102→   102→
+   103→   103→| Source band | Meaning | Credit language |
+   104→   104→|---|---|---|
+   105→   105→| **Normal personal** | Stable personal capability expected of a trained actor at the certified functional band. | “The actor did it.” |
+   106→   106→| **Exceptional personal** | Rare optimization or lawful protagonist contribution still inside Qi Condensation's personal hard ceiling. | “The actor did it through the named exception.” |
+   107→   107→| **Prepared** | Time, allies, terrain work, formations, stored material, or planned conditions supply one or more missing dimensions. | “The actor's preparation/formation/team did it.” |
+   108→   108→| **External authority** | An artifact, office, patron, domain, inheritance, decree, or stored higher-order source supplies capability the actor does not possess. | “The actor invoked/controlled the source.” |
+   109→   109→
+   110→   110→Environmental leverage is recorded alongside these bands. Triggering a pre-existing collapse can be excellent play; it is not personal mountain-splitting strength.
+   111→   111→
+   112→   112→---
+   113→   113→
+   114→   114→## 3. Measurement model
+   115→   115→
+   116→   116→### 3.1 Observable outcomes use ordinary units
+   117→   117→
+   118→   118→Use metres, seconds, kilograms, joules, watts, degrees, concentration, error radius, target count, and time-to-recover wherever the world exposes a physical outcome. Social and informational capability uses typed categories rather than fake energy equivalence.
+   119→   119→
+   120→   120→### 3.2 Qi-work unit
+   121→   121→
+   122→   122→`qwu` is an internal calibration unit, not necessarily player-facing lore.
+   123→   123→
+   124→   124→Under the standard test medium and world gravity, **one qwu certifies enough usable qi contribution to perform 9.81 joules of ideal mechanical work** before conversion loss. This does not mean qi is merely energy. A feat still requires the relevant interface, control, material compatibility, authority, range, and consequence capacity. One million qwu cannot purchase soul access or command an institution.
+   125→   125→
+   126→   126→Each action ledger records:
+   127→   127→
+   128→   128→- reservoir before/after;
+   129→   129→- peak and sustained qwu throughput;
+   130→   130→- physical conversion efficiency;
+   131→   131→- heat and waste generated;
+   132→   132→- route/control burden;
+   133→   133→- authority/interface requirements;
+   134→   134→- personal, prepared, external, allied, and environmental contributions; and
+   135→   135→- recovery debt.
+   136→   136→
+   137→   137→### 3.3 Reference actors
+   138→   138→
+   139→   139→Numbers compare against project test actors, not medical claims about real people.
+   140→   140→
+   141→   141→- **Ordinary mortal reference:** healthy adult with relevant livelihood competence but no combat specialization.
+   142→   142→- **Trained mortal reference:** conditioned guard, hunter, courier, artisan, or martial specialist with a defined skill profile.
+   143→   143→- **Qi Condensation reference:** trained mortal reference plus the certified functional band; cultivation does not erase ordinary skill differences.
+   144→   144→
+   145→   145→---
+   146→   146→
+   147→   147→## 4. Provisional Qi Condensation envelope
+   148→   148→
+   149→   149→The ranges below describe normal personal capability. The rightmost column is the exceptional **personal hard ceiling for the entire realm**, reachable only by a specialized build at severe cost. No actor may claim every rightmost value simultaneously; coupled body, reservoir, throughput, heat, control, and recovery constraints still apply.
+   150→   150→
+   151→   151→### 4.1 Body and physical output
+   152→   152→
+   153→   153→| Measure | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   154→   154→|---|---:|---:|---:|---:|---:|
+   155→   155→| Sustainable whole-body output vs. trained mortal | 1.00–1.10× | 1.15–1.50× | 1.35–1.90× | 1.60–2.40× | 3.0× for ≤30 s |
+   156→   156→| Certified peak impact or tool-delivered work, including ordinary muscular work inside the same event | 0.5–1.0 kJ | 1–6 kJ | 6–40 kJ | 40–160 kJ | 220 kJ over one specialized ≤3 s all-reserve delivery |
+   157→   157→| Mass deliberately lifted 1 m without apparatus | mortal baseline | ≤300 kg | ≤800 kg | ≤2,000 kg | 5,000 kg once, with injury risk |
+   158→   158→| Continuous heavy-output interval | ≤5 s | ≤20 s | ≤45 s | ≤120 s | 180 s below half peak |
+   159→   159→| Fine manipulation while reinforced | poor | one selected region | two coordinated regions | whole-body route plus hands | never perfect at peak output |
+   160→   160→
+   161→   161→Hard distinctions:
+   162→   162→
+   163→   163→- A peak impact is not omnidirectional durability.
+   164→   164→- Tool/material failure can cap delivered work below bodily output.
+   165→   165→- Penetration, shear, crushing, heat, vibration, and supernatural authority resolve separately.
+   166→   166→- A specialized mortal may outskill a stronger cultivator in grappling, blades, medicine, sailing, negotiation, or terrain use.
+   167→   167→
+   168→   168→### 4.2 Qi reservoir, throughput, and recovery
+   169→   169→
+   170→   170→| Measure | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   171→   171→|---|---:|---:|---:|---:|---:|
+   172→   172→| Stable personal reservoir | 50–250 qwu | 250–1,500 qwu | 1,500–8,000 qwu | 8,000–40,000 qwu | 100,000 qwu |
+   173→   173→| Safe sustained throughput | 10–50 qwu/s | 50–250 qwu/s | 250–1,200 qwu/s | 1,200–5,000 qwu/s | 10,000 qwu/s for ≤3 s |
+   174→   174→| Normal physical conversion efficiency | 10–25% | 20–40% | 30–55% | 40–70% | 75% on one specialized operation |
+   175→   175→| Recovery from 50% depletion in adequate conditions | 4–12 h | 6–18 h | 12–36 h | 18–72 h | never instant |
+   176→   176→| Safe environmental assimilation per day | 100–500 qwu | 500–3,000 qwu | 3,000–16,000 qwu | 16,000–80,000 qwu | 200,000 qwu/day specialized |
+   177→   177→
+   178→   178→Ranges describe correlated profiles: the top reservoir does not pair automatically with the lowest assimilation rate, and assimilated qi does not erase tissue/attention recovery time. Reservoir is not health. At zero usable qi, the actor remains a living person but may be exhausted, cold, shaky, inattentive, or injured depending on how depletion occurred. Food, sleep, medicine, clean air, emotional regulation, and safe shelter can matter without being reducible to qi consumables.
+   179→   179→
+   180→   180→### 4.3 Control
+   181→   181→
+   182→   182→| Measure | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   183→   183→|---|---:|---:|---:|---:|---:|
+   184→   184→| Independent internal routes | 1 simple segment | 1 closed route or 2 linked segments | 4 linked segments | 8 linked segments | 16, at reduced throughput |
+   185→   185→| Concurrent external expressions | 0 | touch only | 1 | 2 | 4 weak or 1 full-strength |
+   186→   186→| Directly discriminated targets | self | self + 1 touched target | 1–4 | 1–8 | 16; larger sets require aggregation/preparation |
+   187→   187→| Best spatial error | body-region scale | 2–5 cm internally | 5–15 cm at 10 m | 2–10 cm at 30 m | 5 cm at 100 m while stationary |
+   188→   188→| Stabilization latency after surprise | >1 s | 0.4–1.0 s | 0.2–0.5 s | 0.10–0.25 s | never zero |
+   189→   189→| Maximum personal semantic complexity | 4 primitive relations | 8 | 16 | 32 | 64 with no concurrent combat |
+   190→   190→
+   191→   191→A blast affecting many people may be one poorly discriminating field, not hundreds of independently controlled targets. Friendly-fire avoidance, persistence, moving targets, concealment, and high output all consume the same control budget.
+   192→   192→
+   193→   193→### 4.4 Perception and information
+   194→   194→
+   195→   195→| Capability | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   196→   196→|---|---|---|---|---|---|
+   197→   197→| Self-perception | gross repeatable change | route direction and blockage class | throughput, leakage, and interference | ordinary fault diagnosis | never perfect knowledge |
+   198→   198→| Ambient detection in neutral conditions | contact/within 1 m | 1–5 m | 5–30 m | 30–100 m | 250 m for a loud source in ideal conditions |
+   199→   199→| Resolution | presence/absence with confidence | broad source class | direction, intensity band, recent disturbance | partial route/signature comparison | no automatic identity, intent, morality, realm label, or exact technique |
+   200→   200→| Occlusion | blocked by ordinary confusion | one simple obstruction may blur | material and formations matter | can compare multiple paths | no x-ray vision; suppression and decoys work |
+   201→   201→| Historical trace window | none | seconds at touch | minutes to hours, condition-dependent | hours to days for strong residue | never reconstructs an event without surviving evidence |
+   202→   202→
+   203→   203→Qi perception produces evidence with confidence and possible alternatives. It cannot read UI-grade truth directly from the universe.
+   204→   204→
+   205→   205→### 4.5 Mobility
+   206→   206→
+   207→   207→| Measure | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   208→   208→|---|---:|---:|---:|---:|---:|
+   209→   209→| Sustained sprint on clear ground | trained-mortal range | 10–14 m/s | 12–18 m/s | 15–22 m/s | 25 m/s for 30 s |
+   210→   210→| Burst dash | none | 12–16 m/s for <1 s | 18–26 m/s for ≤2 s | 25–35 m/s for ≤3 s | 40 m/s for ≤2 s |
+   211→   211→| Controlled standing leap, horizontal | mortal range | 2–4 m | 4–10 m | 8–18 m | 25 m with safe landing route |
+   212→   212→| Safe actively reinforced fall in neutral terrain | mortal range | 3–5 m | 8–15 m | 15–30 m | 40 m, specialized and prepared |
+   213→   213→| Airborne control | none | body orientation | one impulse/redirection | two brief redirections | no hovering or sustained personal flight |
+   214→   214→
+   215→   215→Terrain, traction, reaction distance, visibility, load, injury, and collateral risk remain real. A 35 m/s burst through a market is not a free travel mode.
+   216→   216→
+   217→   217→### 4.6 Survivability
+   218→   218→
+   219→   219→Survivability is a facet vector, never a single defense number.
+   220→   220→
+   221→   221→| Facet | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   222→   222→|---|---|---|---|---|---|
+   223→   223→| Distributed blunt impact while correctly braced | slight reduction | survive 5–15 kJ with injury | 15–50 kJ | 50–150 kJ | 300 kJ with severe debt |
+   224→   224→| Localized cut/puncture | still mortal | modest deflection at chosen region | resist ordinary weapons only while routed | resist superior mortal weapons at selected regions | no blanket immunity; gaps remain |
+   225→   225→| Added heat load over 10 s | negligible | 2–10 kJ | 10–40 kJ | 40–150 kJ | 300 kJ specialized; breathing still matters |
+   226→   226→| Poison, disease, deprivation | ordinary vulnerability | earlier warning or slowed onset for known class | purge some compatible contaminants at cost | resist selected studied classes | never universal immunity |
+   227→   227→| Recovery | ordinary | modestly faster from minor strain | controlled clotting/qi support for ordinary wounds | stabilize serious but survivable wounds | cannot regrow organs, reverse death, or erase scars |
+   228→   228→
+   229→   229→Defense must be active, routed, and perceptible enough to counter. Surprise, sleep, qi suppression, wrong facet, depleted reserves, hostage conditions, and social constraints matter.
+   230→   230→
+   231→   231→### 4.7 Combat grammar
+   232→   232→
+   233→   233→| Functional band | Reliable combat grammar | Decisive limitations |
+   234→   234→|---|---|---|
+   235→   235→| Contact | sense gross qi use at close range; commit one reinforced strike or brace; stop an unsafe route | still loses to trained mortal skill, reach, numbers, missiles, or surprise |
+   236→   236→| Circuit | continuously choose which region to reinforce; spend qi to accelerate, brace, grip, or recover balance | uncovered regions remain mortal; switching creates windows; depletion is fast |
+   237→   237→| Reach | choose between internal advantage and one external pulse, tether, edge, or probe; perceive strong residue | projection is short-ranged, visible, lossy, and interruptible |
+   238→   238→| Concord | combine movement, perception, one maintained route, and one external action; deliberately bait or disrupt a peer's route | at most two high-load functions; hostile fields, groups, and long fights overwhelm attention/recovery |
+   239→   239→
+   240→   240→Qi Condensation combat should reward timing, route choice, terrain, deception, tool quality, reading evidence, and deciding when not to spend qi. It must not become permanent super-armor plus projectile spam.
+   241→   241→
+   242→   242→### 4.8 Social and institutional envelope
+   243→   243→
+   244→   244→The exact culture is future canon, but the capability produces predictable social pressures.
+   245→   245→
+   246→   246→| Band | Observable status pressure | Responsibilities and risks |
+   247→   247→|---|---|---|
+   248→   248→| Contact | uncertain initiate, patient, curiosity, fraud target | prove perception; avoid misdiagnosis; remain economically dependent |
+   249→   249→| Circuit | apprentice/recognized practitioner where institutions exist | register dangerous practice where law requires; teacher and household obligations; scrutiny of injuries |
+   250→   250→| Reach | credible armed cultivator and valuable specialist | weapon restrictions, escort/recovery work, recruitment, rivalry, liability for collateral |
+   251→   251→| Concord | elite low-realm practitioner, examiner, squad lead, or independent threat | duty of care, institutional claims, taxation/tribute, counter-research, political attention |
+   252→   252→
+   253→   253→No title appears magically. Status spreads through witnesses, records, demonstrations, sponsorship, rumors, and institutional decisions. A hidden cultivator may retain low apparent status but also lacks the privileges of recognition.
+   254→   254→
+   255→   255→### 4.9 Resource envelope
+   256→   256→
+   257→   257→Qi Condensation consumes a life, not only crystals.
+   258→   258→
+   259→   259→Required resource classes:
+   260→   260→
+   261→   261→- time without interruption;
+   262→   262→- adequate food, water, sleep, sanitation, and shelter;
+   263→   263→- a safe practice site and recovery place;
+   264→   264→- a correct-enough method, teacher, instrument, or accumulated evidence;
+   265→   265→- environmental qi compatible with the route;
+   266→   266→- tools or materials for prepared actions;
+   267→   267→- social permission, secrecy, or willingness to accept legal consequences; and
+   268→   268→- care after injury.
+   269→   269→
+   270→   270→Resource rules:
+   271→   271→
+   272→   272→1. Ambient qi has density, variability, contamination, ownership/access, and replenishment. It is not a universal free refill.
+   273→   273→2. Consumables may improve assimilation, stability, conversion, or recovery; none directly grants certified mastery.
+   274→   274→3. Assimilation is capped by body and route. Stockpiling a thousand doses cannot force a thousand times the throughput.
+   275→   275→4. Incompatible inputs create waste, false signals, injury, or long recovery rather than a different-colored buff.
+   276→   276→5. Prepared arrays and group practice require maintenance, calibration, trust, and interruption handling.
+   277→   277→6. The economy reacts to demand, theft, monopoly, adulteration, counterfeit goods, regulation, and ecological depletion.
+   278→   278→
+   279→   279→### 4.10 Authority and consequence capacity
+   280→   280→
+   281→   281→Qi Condensation grants no inherent right to command world law, souls, identity, ownership, oaths, institutions, weather, fate, or territory. It can operate only an already lawful technique/interface within its stated scope. Social authority still comes from relationships and institutions; supernatural authority supplied by an artifact, office, patron, domain, or decree is external-authority output.
+   282→   282→
+   283→   283→| Measure | Contact | Circuit | Reach | Concord | Realm personal hard ceiling |
+   284→   284→|---|---|---|---|---|---|
+   285→   285→| Intrinsic law-authorship clauses | 0 | 0 | 0 | 0 | 0 |
+   286→   286→| Direct physical consequence radius | self/touch | self/touch | ≤15 m | ≤40 m | 100 m specialized, low discrimination |
+   287→   287→| Personally maintained persistent qi relations | 0 | 0–1 touch relation | 1–2 anchors | 2–4 anchors | 8 weak anchors within shared control budget |
+   288→   288→| Individually discriminated dependents | self | self + 1 touched person/object | 1–4 | 1–8 | 16, already counted by control cap |
+   289→   289→| Ordinary aftermath the actor can safely manage alone | self/tool | one patient, tool, or room-scale incident | small household/worksite | small group or building-scale incident | never a settlement-scale catastrophe |
+   290→   290→
+   291→   291→Causing a larger consequence remains possible through poor judgment, accident, preparation, or external power, but the actor may be unable to control or repair it. Consequence capacity limits responsible action; it does not delete aftermath to fit the actor.
+   292→   292→
+   293→   293→---
+   294→   294→
+   295→   295→## 5. Coupled limits and stacking
+   296→   296→
+   297→   297→Every action must satisfy all required dimensions. The lowest sufficient dimension is the bottleneck. Independent table maxima are coordinate ceilings, not a legal actor build or a legal combined-feat vector.
+   298→   298→
+   299→   299→### 5.1 Normative joint-capability resolver
+   300→   300→
+   301→   301→Every actor has a versioned `CapabilityProfile` containing concrete caps rather than a choice of table maxima. Every attempted action expands into an `ActionDemandVector` with at least:
+   302→   302→
+   303→   303→```text
+   304→   304→reservoir_draw
+   305→   305→throughput over 0.25 s / 1 s / 3 s / 30 s / sustained windows
+   306→   306→body_load by affected region
+   307→   307→route_and_semantic_control
+   308→   308→attention_and_target_discrimination
+   309→   309→heat_contamination_and_recoil
+   310→   310→recovery_debt
+   311→   311→range_duration_and_consequence_capacity
+   312→   312→```
+   313→   313→
+   314→   314→The profile also supplies a calibrated four-channel coactivation vector: `flow`, `body`, `control`, and `perception`. Each action template declares nonnegative channel demand after unavoidable baseline load has been included. Combined actions add channel demands componentwise and are legal only when:
+   315→   315→
+   316→   316→```text
+   317→   317→for every typed cap and rolling window: demand <= actor cap
+   318→   318→and
+   319→   319→(flow^2 + body^2 + control^2 + perception^2) <= 1.0
+   320→   320→```
+   321→   321→
+   322→   322→This unit-sphere rule is an engineering oracle, not player-facing cosmology. It prevents simultaneous maxima while allowing designers to certify exact boundary profiles. A feat template without a demand vector is non-executable and cannot enter canon.
+   323→   323→
+   324→   324→The realm hard columns bound possible exceptional profiles. They do not define one super-profile. The initial exceptional fixtures are:
+   325→   325→
+   326→   326→| Profile fixture | Permitted boundary | Required reductions and aftermath |
+   327→   327→|---|---|---|
+   328→   328→| `QC-STRIKE-E1` | 220 kJ total delivered across a specialized three-second force commitment; qi contribution uses at most 29,765 qwu at ≤75% plus at most 1 kJ ordinary muscular/tool work; signed coactivation vector `(flow .70, body .65, control .20, perception .05)` | no concurrent external expression or fine manipulation; route count ≤2; defense outside the delivery chain remains mortal-adjacent; reservoir nearly exhausted; recoil/injury check; ≥72 h recovery debt |
+   329→   329→| `QC-RESERVOIR-E1` | 100,000 qwu stable reservoir | throughput ≤3,000 qwu/s; efficiency ≤50%; external expressions ≤1; large assimilation and recovery obligations remain |
+   330→   330→| `QC-CONTROL-E1` | 16 weak internal relations at reduced throughput | total throughput ≤2,000 qwu/s; no full-strength external expression; stationary or slow movement; high attention load |
+   331→   331→| `QC-PERCEPTION-E1` | detect one loud source at up to 250 m in ideal conditions | stationary calibration; throughput ≤1,500 qwu/s; no identity/intent truth; combat control severely reduced |
+   332→   332→
+   333→   333→At `QC-STRIKE-E1`, `29,765 qwu × 9.81 J/qwu × 0.75 ≈ 218,996 J`; adding no more than 1,000 J of ordinary muscular/tool work keeps the total just below the certified **220 kJ** boundary. The coactivation square sum is `0.70² + 0.65² + 0.20² + 0.05² = 0.955`. No personal preload store exists in this draft, so a larger instantaneous personal result is illegal. A future store would require its own charge time, leakage, custody, recoil, capacity, and attribution contract.
+   334→   334→
+   335→   335→### 5.2 Deterministic resolution order
+   336→   336→
+   337→   337→Normative composition order:
+   338→   338→
+   339→   339→1. establish actor's certified personal base;
+   340→   340→2. apply additive training/condition modifiers within the functional band;
+   341→   341→3. apply multiplicative efficiency modifiers, capped by the personal hard ceiling;
+   342→   342→4. apply replacements such as a tool's cutting interface;
+   343→   343→5. add prepared, allied, environmental, and external contributions to separate ledger columns;
+   344→   344→6. resolve law/interface eligibility;
+   345→   345→7. enforce throughput, control, heat, recovery, target, consequence, and hard-ceiling constraints; and
+   346→   346→8. sum simultaneous action vectors and test the coactivation inequality;
+   347→   347→9. test every rolling window and update heat, injury, and recovery debt; and
+   348→   348→10. produce attribution language from the final ledger.
+   349→   349→
+   350→   350→Saturation clamps are failure diagnostics, never silent success: if a modifier would exceed a cap, the excess becomes rejected input, waste, recoil, deformation, or another action-declared consequence. Equal-priority effects resolve by stable event ID, never iteration order. Prepared, allied, environmental, and external vectors remain separate and cannot expand the personal profile.
+   351→   351→
+   352→   352→### 5.3 Worked stack certificates
+   353→   353→
+   354→   354→| Test | Personal demand/result | Other contribution | Oracle |
+   355→   355→|---|---|---|---|
+   356→   356→| `STACK-NORMAL-ROUTE-01` | profile caps pass; coactivation `(0.35²+0.30²+0.45²+0.10²)=0.425` | none | legal normal personal route |
+   357→   357→| `STACK-EXCEPTION-STRIKE-01` | `QC-STRIKE-E1`; 29,765 qwu, ≤75%, ≤1 kJ muscular/tool contribution, 220 kJ total; vector `(.70,.65,.20,.05)` has square sum `.955` | none | legal once; aftermath mandatory |
+   358→   358→| `STACK-EXCEPTION-SENSE-STRIKE-01` | adding full perception vector `(.05,.05,.20,.80)` produces `(.75,.70,.40,.85)` with square sum `1.935` | none | illegal combined feat; actor must reduce force, stop sensing, or sequence actions |
+   359→   359→| `STACK-PREPARED-GATE-01` | personal actor supplies control within profile, not structural work | formation and stored source supply declared work, authority, and range | legal prepared result; never credited as personal output |
+   360→   360→| `STACK-EXTERNAL-MOUNTAIN-01` | personal contribution remains below the 220 kJ cap | external source supplies every missing H0 dimension and persists its aftermath | invocation may resolve; personal mountain-splitting claim fails |
+   361→   361→
+   362→   362→### 5.4 Anti-stack and transaction rules
+   363→   363→
+   364→   364→Anti-stack rules:
+   365→   365→
+   366→   366→- Two routes drawing from one reservoir compete; they do not duplicate it.
+   367→   367→- Two efficiency multipliers combine with diminishing returns and cannot exceed the realm efficiency cap.
+   368→   368→- Sequential micro-actions accrue heat, tissue load, attention, environmental depletion, and recovery debt in rolling windows.
+   369→   369→- A prepared reservoir does not raise personal throughput or control.
+   370→   370→- An external artifact does not grant personal survivability against its own recoil unless that contribution is separately supplied.
+   371→   371→- A specialized exceptional cap in one dimension lowers concurrent performance elsewhere unless a future canon decision explicitly prices a different coupling.
+   372→   372→
+   373→   373→Every cultivation transition is a transaction, including a deliberately persistent partial breakthrough. It records `TransactionId`, action/schema versions, read revisions, reserved inputs, deterministic write set, external contributions, and one of `Prepared | Committed | Aborted | Compensating`. Commit has one monotonic world-event sequence number. Replaying the same transaction ID is idempotent. A crash before commit releases reservations and preserves only explicitly committed precursor events; a crash after commit replays the committed write set. Irreversible writes to another actor, object, institution, or environment are separate child transactions with declared compensation or a declared non-compensable aftermath—they are never silently rolled back because the initiating technique failed.
+   374→   374→
+   375→   375→---
+   376→   376→
+   377→   377→## 6. Costs, injuries, and cultivation deviations
+   378→   378→
+   379→   379→### 6.1 Cost ledgers
+   380→   380→
+   381→   381→Each practice or technique declares:
+   382→   382→
+   383→   383→- usable qi spent and unrecoverable conversion loss;
+   384→   384→- peak/sustained route load;
+   385→   385→- body strain by region or species-appropriate conduit;
+   386→   386→- heat, pressure, contamination, and attention;
+   387→   387→- time locked into preparation and recovery;
+   388→   388→- material consumed or damaged;
+   389→   389→- social exposure and obligation; and
+   390→   390→- opportunity cost: work missed, relationship neglected, journey delayed, or safety forfeited.
+   391→   391→
+   392→   392→### 6.2 Injury classes
+   393→   393→
+   394→   394→| Class | Cause | Player-facing signs | Mechanical consequence | Recovery path |
+   395→   395→|---|---|---|---|---|
+   396→   396→| **Load strain** | output or reinforcement exceeds adapted tissue | shaking, pain, loss of fine control | reduced throughput and route precision | rest, food, ordinary care, gradual retraining |
+   397→   397→| **Conduit irritation** | repeated high flow or incompatible route | hot/cold patches, intermittent leakage, sensory noise | one route becomes costly or unstable | stop, diagnose, gentle circulation, skilled care |
+   398→   398→| **Route rupture** | forced flow through a closed or damaged path | sudden loss of reinforcement, bruising/bleeding, qi discharge | reservoir leakage; external action disabled | urgent stabilization; long recovery; possible scar |
+   399→   399→| **Sensory burn** | perception opened beyond discrimination capacity | afterimages, false positives, headache, confusion | reduced confidence and range; decoys become dangerous | quiet, sleep, low-stimulus retraining, trusted verification |
+   400→   400→| **Conversion poisoning** | incompatible environmental/material input | nausea, temperature change, discolored trace, irregular route | efficiency loss; contaminant expresses during techniques | identify source; purge into safe sink; medicine; time |
+   401→
+   402→[showing lines 1-400 of 1199; use offset=401 with limit to continue reading]

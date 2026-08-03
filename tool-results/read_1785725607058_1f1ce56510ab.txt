@@ -1,0 +1,781 @@
+     1→     1→     1→# Er Gen / Gemini Mechanics Proposal — Harsh Audit and Original Design Response v0.1
+     2→     2→     2→
+     3→     3→     3→**Status:** researched critique; spoiler-bearing; no imported canon; no game code authorized  
+     4→     4→     4→**Purpose:** separate useful interaction ideas from inaccurate source synthesis, incoherent metaphysics, unplayable power design, reductive AI, and hardware-infeasible implementation  
+     5→     5→     5→**Project rule:** Er Gen's works are comparative inspiration only. Their names, characters, ladders, techniques, cosmology, and distinctive expressions do not enter the original universe.
+     6→     6→     6→
+     7→     7→     7→---
+     8→     8→     8→
+     9→     9→     9→## 0. Verdict
+    10→    10→    10→
+    11→    11→    11→The proposal is a productive brainstorming conversation and an unreliable design bible.
+    12→    12→    12→
+    13→    13→    13→Its best instinct is correct:
+    14→    14→    14→
+    15→    15→    15→> higher cultivation should create new verbs and new kinds of agency, not merely larger damage numbers.
+    16→    16→    16→
+    17→    17→    17→Its execution repeatedly substitutes programming metaphors for world laws:
+    18→    18→    18→
+    19→    19→    19→```text
+    20→    20→    20→higher realm = engine privilege
+    21→    21→    21→law = property editor
+    22→    22→    22→Essence = state-machine control
+    23→    23→    23→transcendence = database access
+    24→    24→    24→technique = packet
+    25→    25→    25→time = rolling cache
+    26→    26→    26→reincarnation = restore snapshot
+    27→    27→    27→```
+    28→    28→    28→
+    29→    29→    29→That would produce a flashy prototype with shallow rules, absolute counters, arbitrary immunities, UI automation, fake AI reactions, save-state exploits, and catastrophic performance failure.
+    30→    30→    30→
+    31→    31→    31→The realm list is also not one authoritative Er Gen ladder. It interleaves several novels' local systems, translator comparison aids, fan mappings, poetic descriptions, late-series spoiler claims, and outright unsupported equivalences. Treat it as a list of search terms, never as source truth.
+    32→    32→    32→
+    33→    33→    33→Recommended disposition:
+    34→    34→    34→
+    35→    35→    35→- retain the desire for expressive intent, unified offensive/defensive operations, fast action controls, spatial shaping, rule-coherent loot attraction, and persistent terrain change;
+    36→    36→    36→- reject the proposed universal ladder, engine-access hierarchy, absolute law authority, generic 0-damage gaps, automatic karma economy, omniscient radar, mass kowtow response, and global voxel implementation; and
+    37→    37→    37→- rebuild the useful ideas through typed semantic actions, capability/contribution envelopes, perception and relation-specific contests, persistent aftermath, and strict real-time budgets.
+    38→    38→    38→
+    39→    39→    39→---
+    40→    40→    40→
+    41→    41→    41→## 1. Source audit: the “unified Er Gen ladder” fails
+    42→    42→    42→
+    43→    43→    43→### 1.1 What licensed chapters actually establish
+    44→    44→    44→
+    45→    45→    45→- *Renegade Immortal* uses Qi Condensation, Foundation Establishment, Core Formation, Nascent Soul, Soul Formation, Soul Transformation, and Ascendant in its early sequence. Its chapter 410 distinguishes Soul Formation from Soul Transformation rather than treating “Soul Formation / Deity Transformation” as one interchangeable label. [RI chapter 46](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-46), [RI chapter 410](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-410), [RI chapter 663](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-663)
+    46→    46→    46→- *Renegade Immortal* explicitly calls Illusory Yin and Corporeal Yang a transition between its first and second steps and ties that change to origin-soul/origin-energy transformation. It does not make them universal cross-novel bridge realms. [RI chapter 767](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-767)
+    47→    47→    47→- Its second step includes Nirvana Scryer, Nirvana Cleanser, and Nirvana Shatterer. [RI chapter 1092](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-1092)
+    48→    48→    48→- Its third-step material includes Nirvana Void, Spirit Void, Arcane Void, and Void Tribulant, but Grand Empyrean is a rank/title in a local hierarchy rather than proof that “Paragon / Grand Empyrean” is one universal realm. [RI chapter 1420](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-1420), [RI chapter 1651](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-1651), [RI chapter 1909](https://www.wuxiaworld.com/novel/renegade-immortal/rge-chapter-1909)
+    49→    49→    49→- *I Shall Seal the Heavens* explicitly gives Nascent Soul → Spirit Severing → Dao Seeking → Immortal Ascension. Mapping RI Ascendant directly to ISSTH Dao Seeking silently deletes Spirit Severing and its mechanics. [ISSTH chapter 117](https://www.wuxiaworld.com/novel/i-shall-seal-the-heavens/issth-book-2-chapter-117)
+    50→    50→    50→- ISSTH later distinguishes Immortal, Ancient, and Dao Realm. [ISSTH chapter 984](https://www.wuxiaworld.com/novel/i-shall-seal-the-heavens/issth-book-6-chapter-984)
+    51→    51→    51→- *A Will Eternal* has a local Demigod → Celestial → Archaean progression, with Daoseed/Dao Will mechanics. Those names are not synonyms for another novel's transition realms. [AWE chapter 1076](https://www.wuxiaworld.com/novel/a-will-eternal/awe-chapter-1076)
+    52→    52→    52→- A late ISSTH passage supports treating Daosource, Heaven Trampling, and Boundless Dao as comparable routes beyond Dao. “Comparable route” is still not “identical state transition and ability package.” [ISSTH chapter 1238](https://www.wuxiaworld.com/novel/i-shall-seal-the-heavens/issth-book-8-chapter-1238)
+    53→    53→    53→- *Beyond the Timescape* does contain Summer Immortals, and Xu Qing reaches that state in licensed translation. The chapter does not establish “Summer Immortal = Step 10 or Step 11,” “Highest Order,” or “multiverse supercluster deletion.” [BTT chapter 1305](https://www.wuxiaworld.com/novel/beyond-the-timescape/btt-chapter-1305)
+    54→    54→    54→
+    55→    55→    55→### 1.2 Claim classification
+    56→    56→    56→
+    57→    57→    57→| Proposal claim | Audit |
+    58→    58→    58→|---|---|
+    59→    59→    59→| one continuous shared ladder | unsupported as presented; build separate novel taxonomies and a comparability graph |
+    60→    60→    60→| Qi Condensation → Foundation → Core → Nascent Soul | valid in several local systems; still store novel, Chinese term, translation, and mechanics separately |
+    61→    61→    61→| Soul Formation / Deity Transformation / Origin Soul | conflates realm, translation, and soul ontology |
+    62→    62→    62→| Soul Transformation / Soul Conduit | cross-novel comparison presented as identity |
+    63→    63→    63→| Ascendant / Dao Seeking | misleading; omits ISSTH Spirit Severing and equates different transitions |
+    64→    64→    64→| Illusory Yin / Corporeal Yang | valid RI-local transition, not universal |
+    65→    65→    65→| Pseudo-Immortal / Demigod | unrelated local labels forced into one slot |
+    66→    66→    66→| Celestial / Archaean | AWE-local ranks, not RI second-step synonyms |
+    67→    67→    67→| Immortal / Ancient | ISSTH-local sequence, not AWE labels |
+    68→    68→    68→| Nirvana trio | valid RI-local sequence |
+    69→    69→    69→| Life Matrix / Privation / Palace | *Pursuit of the Truth*-local terminology; the translator comparison-chart note is a cross-work reading aid, not authorial identity. [PoT chapter 692 translator note](https://www.webnovel.com/book/7853880705001905/27584663245608917) |
+    70→    70→    70→| Paragon / Grand Empyrean | relative cross-story comparison at best; not one realm |
+    71→    71→    71→| Heaven Trampling / Boundless Dao / Daosource | textually comparable late routes, still mechanically distinct |
+    72→    72→    72→| Eternal as exact same step | plausible broad comparison, insufficient as exact equivalence |
+    73→    73→    73→| Tenth Bridge = fifth step | has late-*A World Worth Protecting* bridge support; “Creator / Source Realm” remains conflated labeling. [AWWP chapter 1304](https://www.webnovel.com/book/10961533705222305/64583229503497619), [1305](https://www.webnovel.com/book/10961533705222305/64583230057149531), [1306](https://www.webnovel.com/book/10961533705222305/64583230325586822) |
+    74→    74→    74→| unnamed Steps 6–9 | misleading as one settled ladder; an in-text fifth-step speaker says later steps are defined differently by different beings, which is perspective-bearing evidence rather than a universal narrator-certified taxonomy. [AWWP chapter 1290](https://www.webnovel.com/book/10961533705222305/64583223346265178) |
+    75→    75→    75→| Summer Immortal = Step 10/11 | unsupported by the located licensed text |
+    76→    76→    76→| Summer Immortal = Lower Immortal | false literal equivalence; the translation distinguishes homophonous English renderings of different Chinese terms and different tiers. [BTT chapter 983](https://www.wuxiaworld.com/novel/beyond-the-timescape/btt-chapter-983), [1182](https://www.wuxiaworld.com/novel/beyond-the-timescape/btt-chapter-1182), [1305](https://www.wuxiaworld.com/novel/beyond-the-timescape/btt-chapter-1305) |
+    77→    77→    77→| Xu Qing restructures “multiverse superclusters” | fan power-scaling vocabulary requiring an exact feat and scale audit |
+    78→    78→    78→
+    79→    79→    79→### 1.3 Correct research method
+    80→    80→    80→
+    81→    81→    81→Build six independent source graphs before one comparison graph. Every realm/step edge records:
+    82→    82→    82→
+    83→    83→    83→```text
+    84→    84→    84→novel / edition / chapter
+    85→    85→    85→Chinese term and Hanzi
+    86→    86→    86→licensed English rendering
+    87→    87→    87→narrator or speaker
+    88→    88→    88→speaker knowledge and possible bias
+    89→    89→    89→realm vs rank vs title vs technique vs path
+    90→    90→    90→entry prerequisites
+    91→    91→    91→state transition
+    92→    92→    92→new actions and lost actions
+    93→    93→    93→demonstrated feats
+    94→    94→    94→counterexamples and injuries
+    95→    95→    95→resources, environment, claim scope and support
+    96→    96→    96→death/identity implications
+    97→    97→    97→spoiler grade
+    98→    98→    98→comparison status:
+    99→    99→    99→  exact textual identity | explicitly comparable | relative band
+   100→   100→   100→  translator aid | fan inference | contradicted | unknown
+   101→   101→   101→```
+   102→   102→   102→
+   103→   103→   103→Matching English words never prove matching Chinese terms or mechanics. “Similar power” never proves the same ontology.
+   104→   104→   104→
+   105→   105→   105→### 1.4 No Mortal Space evidence boundary
+   106→   106→   106→
+   107→   107→   107→No Mortal Space is a useful **public design-promise benchmark** for mortal-to-cosmic scale escalation, destructive worlds, mining, travel, automation and spectacle. Its Steam description does not give us enough evidence to reverse-engineer its moment-to-moment controls, AI, simulation architecture, performance, continuity or final amount of gameplay. We should test our own design against the scale fantasy it advertises, never fill evidence gaps with guesses or treat an advertised feature as a proven implementation. [No Mortal Space on Steam](https://store.steampowered.com/app/4279510/No_Mortal_Space/)
+   108→   108→   108→
+   109→   109→   109→---
+   110→   110→   110→
+   111→   111→   111→## 2. What the proposal gets right
+   112→   112→   112→
+   113→   113→   113→The following are worth keeping as design goals:
+   114→   114→   114→
+   115→   115→   115→1. **New cultivation states should unlock new operation families.** A law practitioner should not feel like a mortal fireball user with six extra zeroes.
+   116→   116→   116→2. **Offense and defense should share one coherent interaction model.** Redirecting a force and using that force offensively can be applications of related knowledge.
+   117→   117→   117→3. **Doing nothing should be an intentional option.** A sufficiently protected actor may choose to accept a harmless impact rather than counterattack.
+   118→   118→   118→4. **The player should control intent.** Kill, disable, redirect, contain, warn, preserve evidence, protect bystanders, and disengage should not collapse into one damage button.
+   119→   119→   119→5. **Fast and deep controls can coexist.** Learned presets, input combinations, radial selection, and spatial gestures can serve different tempos.
+   120→   120→   120→6. **High-realm play should affect terrain, institutions, ecology, and history.** Spectacle should write persistent consequences.
+   121→   121→   121→7. **Telekinetic collection can be excellent quality of life when it follows established perception, control, ownership, and transport rules.**
+   122→   122→   122→8. **Terrain carving and cave construction belong in the sandbox.** They need material, topology, stability, custody, and performance contracts.
+   123→   123→   123→
+   124→   124→   124→Those are directions, not implementations.
+   125→   125→   125→
+   126→   126→   126→---
+   127→   127→   127→
+   128→   128→   128→## 3. Fatal conceptual errors
+   129→   129→   129→
+   130→   130→   130→### 3.1 “Higher realm = root access” destroys the fiction
+   131→   131→   131→
+   132→   132→   132→A high-realm cultivator does not edit variables, packets, state machines, or databases. Those are developer metaphors. If exposed as the actual rule, every conflict becomes a contest over whose engine privilege is higher, and every world law becomes arbitrary code access.
+   133→   133→   133→
+   134→   134→   134→Our universe instead models **relation-specific attainment and supported influence**:
+   135→   135→   135→
+   136→   136→   136→- which target relation the actor can perceive;
+   137→   137→   137→- which operation they learned;
+   138→   138→   138→- which source supports it;
+   139→   139→   139→- which target relation and scope that attainment can influence;
+   140→   140→   140→- what resists it;
+   141→   141→   141→- how long it takes;
+   142→   142→   142→- what it costs; and
+   143→   143→   143→- what remains afterward.
+   144→   144→   144→
+   145→   145→   145→### 3.2 Interact → Rewrite → Generate → Delete is too coarse
+   146→   146→   146→
+   147→   147→   147→Low-realm actors already generate patterns, change materials, and destroy objects. High-realm actors still interact physically. “Delete” is not inherently more profound than “repair,” “bind,” “separate,” “name,” “authorize,” or “sustain.”
+   148→   148→   148→
+   149→   149→   149→Cultivation should expand a multidimensional capability envelope:
+   150→   150→   150→
+   151→   151→   151→```text
+   152→   152→   152→target kinds
+   153→   153→   153→resolution
+   154→   154→   154→range
+   155→   155→   155→duration
+   156→   156→   156→concurrency
+   157→   157→   157→relation/influence depth
+   158→   158→   158→environmental compatibility
+   159→   159→   159→preparation
+   160→   160→   160→source capacity
+   161→   161→   161→counter resistance
+   162→   162→   162→consequence management
+   163→   163→   163→recovery
+   164→   164→   164→```
+   165→   165→   165→
+   166→   166→   166→No one scalar verb tier replaces those dimensions.
+   167→   167→   167→
+   168→   168→   168→### 3.3 Absolute law mastery deletes gameplay
+   169→   169→   169→
+   170→   170→   170→“Master Fire, therefore any fire attack is invalid” makes lower actors, artifacts, terrain, preparation, surprise, mixed techniques, indirect consequences, and choice irrelevant.
+   171→   171→   171→
+   172→   172→   172→Even overwhelming attainment and supported influence resolve facets:
+   173→   173→   173→
+   174→   174→   174→- Did the defender perceive it?
+   175→   175→   175→- Is it actually fire, or hot material, light, pressure, poison, soul effect, a carried oath, or mixed expression?
+   176→   176→   176→- Can the defender influence the source, manifestation, target, medium, or only one relation—and what supports that influence?
+   177→   177→   177→- Is the technique anchored elsewhere?
+   178→   178→   178→- Can the defender act inside the reaction window?
+   179→   179→   179→- What happens to heat, qi, momentum, smoke, fuel, bystanders, buildings, and evidence?
+   180→   180→   180→- Is the defense personal, prepared, territorial, or external?
+   181→   181→   181→
+   182→   182→   182→### 3.4 “Zero damage because realm gap” is scalar suppression
+   183→   183→   183→
+   184→   184→   184→An attack may genuinely fail to injure a protected body. That outcome must follow from the relevant defense facet and contribution, not from comparing two realm labels.
+   185→   185→   185→
+   186→   186→   186→It can still:
+   187→   187→   187→
+   188→   188→   188→- reveal the defender;
+   189→   189→   189→- stain or damage clothing;
+   190→   190→   190→- break a carried mortal object;
+   191→   191→   191→- ignite surroundings;
+   192→   192→   192→- interrupt concentration;
+   193→   193→   193→- transmit contamination through an uncovered interface;
+   194→   194→   194→- expose a defensive doctrine;
+   195→   195→   195→- injure a dependent; or
+   196→   196→   196→- create legal and social consequences.
+   197→   197→   197→
+   198→   198→   198→Stories may depict entrenched beliefs about higher-step invincibility, but the novels themselves use exceptional bodies, artifacts, counters, preparation, environments, and protagonists to challenge those beliefs. An RPG needs the exception surfaces explicit.
+   199→   199→   199→
+   200→   200→   200→### 3.5 Dispel cannot mean “delete the spell object”
+   201→   201→   201→
+   202→   202→   202→A manifested technique has sources and dependencies. Counterplay may:
+   203→   203→   203→
+   204→   204→   204→- sever guidance;
+   205→   205→   205→- interrupt source flow;
+   206→   206→   206→- break a formation anchor;
+   207→   207→   207→- change compatibility;
+   208→   208→   208→- dissipate organized qi into ambient heat/noise/residue;
+   209→   209→   209→- redirect momentum;
+   210→   210→   210→- contain the manifestation;
+   211→   211→   211→- outlast its support; or
+   212→   212→   212→- transform its substrate through an established compatible operation.
+   213→   213→   213→
+   214→   214→   214→Something happens to contribution and aftermath. Removing a scene object is presentation, not metaphysics.
+   215→   215→   215→
+   216→   216→   216→### 3.6 Absorption is an infinite-loop hazard
+   217→   217→   217→
+   218→   218→   218→Reclassifying attacks as “resource packets” ignores:
+   219→   219→   219→
+   220→   220→   220→- intake throughput;
+   221→   221→   221→- reservoir capacity;
+   222→   222→   222→- conversion loss;
+   223→   223→   223→- contamination and hostile structure;
+   224→   224→   224→- incompatible source signatures;
+   225→   225→   225→- claim scope, support and ownership;
+   226→   226→   226→- recoil;
+   227→   227→   227→- delayed activation;
+   228→   228→   228→- traceability; and
+   229→   229→   229→- the opponent exploiting the absorber as a delivery channel.
+   230→   230→   230→
+   231→   231→   231→Absorption is a learned transformation contract, never a generic high-level option.
+   232→   232→   232→
+   233→   233→   233→### 3.7 Karma is not reputation
+   234→   234→   234→
+   235→   235→   235→Mercy may change witnesses, gratitude, fear, political calculation, rumor, patronage, trade, ritual memory, and later behavior. It does not emit “positive Karma strings” that automatically create discounts and shrines.
+   236→   236→   236→
+   237→   237→   237→The project keeps separate:
+   238→   238→   238→
+   239→   239→   239→```text
+   240→   240→   240→causal relation
+   241→   241→   241→character knowledge
+   242→   242→   242→audience reputation
+   243→   243→   243→gratitude/debt/fear
+   244→   244→   244→religious interpretation
+   245→   245→   245→ritual commemoration
+   246→   246→   246→fate/destiny/luck
+   247→   247→   247→karma, if later ratified
+   248→   248→   248→```
+   249→   249→   249→
+   250→   250→   250→### 3.8 AI “sanity breaks, kneels, and gives inventory” is reductive
+   251→   251→   251→
+   252→   252→   252→Powerful evidence changes an NPC's belief model. Their response still depends on goals, loyalties, doctrine, dependents, coercion, pride, fear, escape, command structure, culture, prior plans, and available alternatives.
+   253→   253→   253→
+   254→   254→   254→Possible reactions include:
+   255→   255→   255→
+   256→   256→   256→- flee;
+   257→   257→   257→- freeze;
+   258→   258→   258→- protect someone else;
+   259→   259→   259→- surrender conditionally;
+   260→   260→   260→- fake surrender;
+   261→   261→   261→- bargain;
+   262→   262→   262→- record evidence;
+   263→   263→   263→- seek a patron;
+   264→   264→   264→- rally allies;
+   265→   265→   265→- conceal identity;
+   266→   266→   266→- continue from fanaticism or hostage pressure;
+   267→   267→   267→- attack a dependency instead;
+   268→   268→   268→- accept death; or
+   269→   269→   269→- kneel where that action is socially meaningful.
+   270→   270→   270→
+   271→   271→   271→Kowtowing is not a universal “Chinese NPC defeated” animation.
+   272→   272→   272→
+   273→   273→   273→---
+   274→   274→   274→
+   275→   275→   275→## 4. Our replacement: semantic technique composition
+   276→   276→   276→
+   277→   277→   277→Every executable technique compiles to a versioned contract. This is **nondiegetic engine bookkeeping**, not the metaphysics or vocabulary that cultivators necessarily understand. The eventual fiction may explain techniques through embodied practice, lineage, imagery, insight, qi transformation, methods, paths, vows, formations, domains, offices, world patterns, or other researched concepts; the schema exists only to make their described effects testable.
+   278→   278→   278→
+   279→   279→   279→```text
+   280→   280→   280→Source
+   281→   281→   281→Operation
+   282→   282→   282→TargetQuery
+   283→   283→   283→Geometry
+   284→   284→   284→MagnitudeProfile
+   285→   285→   285→TemporalProfile
+   286→   286→   286→ClaimScopeAndSupport
+   287→   287→   287→Intent
+   288→   288→   288→SafetyPolicy
+   289→   289→   289→Contributions
+   290→   290→   290→CostsAndRecovery
+   291→   291→   291→ObservablesAndEvidence
+   292→   292→   292→CountersAndInterrupts
+   293→   293→   293→FailureTransitions
+   294→   294→   294→PersistenceAndAftermath
+   295→   295→   295→```
+   296→   296→   296→
+   297→   297→   297→### 4.1 Operation families
+   298→   298→   298→
+   299→   299→   299→Candidate universal abstractions—subject to cosmology research—include:
+   300→   300→   300→
+   301→   301→   301→- attend / discriminate;
+   302→   302→   302→- gather / release;
+   303→   303→   303→- route / redirect;
+   304→   304→   304→- reinforce / inhibit;
+   305→   305→   305→- bind / unbind;
+   306→   306→   306→- separate / join;
+   307→   307→   307→- preserve / decay;
+   308→   308→   308→- transform state;
+   309→   309→   309→- instantiate a supported pattern;
+   310→   310→   310→- sustain / dismiss;
+   311→   311→   311→- admit / exclude through a learned boundary, formation, vow, domain, office, or other explicitly established support;
+   312→   312→   312→- trace / obscure;
+   313→   313→   313→- repair / corrupt; and
+   314→   314→   314→- witness / testify.
+   315→   315→   315→
+   316→   316→   316→A learned path exposes only operations it actually supports. “Water” does not automatically mean create, delete, boil blood, freeze time, heal, reflect, and control every liquid.
+   317→   317→   317→
+   318→   318→   318→### 4.2 A better water example
+   319→   319→   319→
+   320→   320→   320→Different doctrines may understand water through:
+   321→   321→   321→
+   322→   322→   322→- flow and redirection;
+   323→   323→   323→- pressure and depth;
+   324→   324→   324→- phase change;
+   325→   325→   325→- dissolution and transport;
+   326→   326→   326→- erosion over time;
+   327→   327→   327→- reflection and image;
+   328→   328→   328→- cycles, storage, rain, river and sea;
+   329→   329→   329→- yielding around force;
+   330→   330→   330→- blood or bodily fluid through a medically and ethically dangerous interface; or
+   331→   331→   331→- jurisdiction over a named watershed.
+   332→   332→   332→
+   333→   333→   333→Those paths can conflict. Mastery in river redirection need not grant supported influence over blood, ice, memory, or every ocean.
+   334→   334→   334→
+   335→   335→   335→### 4.3 Technique-interaction resolver
+   336→   336→   336→
+   337→   337→   337→When two techniques meet:
+   338→   338→   338→
+   339→   339→   339→1. acquire available evidence;
+   340→   340→   340→2. identify typed target relations with uncertainty;
+   341→   341→   341→3. establish source, claim scope, attainment and support;
+   342→   342→   342→4. reserve contributions;
+   343→   343→   343→5. compare operations against the target's relevant defense facets;
+   344→   344→   344→6. resolve timing, range, geometry, anchors, and interrupt windows;
+   345→   345→   345→7. resolve opposing claims and local pattern/medium compatibility;
+   346→   346→   346→8. commit transformation/propagation;
+   347→   347→   347→9. attribute result; and
+   348→   348→   348→10. persist evidence, loss, recoil, collateral, and recovery.
+   349→   349→   349→
+   350→   350→   350→Realm affects the actor's capability profile. It never replaces this resolver.
+   351→   351→   351→
+   352→   352→   352→### 4.4 `TECH-DAG-v0.1` composition algebra
+   353→   353→   353→
+   354→   354→   354→A technique containing more than one operation is a bounded directed acyclic graph, never an unstructured bundle:
+   355→   355→   355→
+   356→   356→   356→```text
+   357→   357→   357→TechniqueNode:
+   358→   358→   358→  operation + typed inputs/outputs
+   359→   359→   359→  read_set + predicate_read_set + write_set
+   360→   360→   360→  reservation_set + contribution_slice + attention_slice
+   361→   361→   361→  prepare/commit/settle milestones
+   362→   362→   362→  local failure and compensation edges
+   363→   363→   363→
+   364→   364→   364→TechniqueEdge:
+   365→   365→   365→  sequence | concurrent | requires | excludes | interrupts | failure-propagates
+   366→   366→   366→```
+   367→   367→   367→
+   368→   368→   368→The whole graph uses one rolling contribution/cost ledger. Splitting an operation into micro-nodes cannot refresh throughput, capacity, attention, target count, recovery, claim scope or support. Concurrent nodes reserve shared sources and targets before either commits; noncommuting nodes require an explicit order. Every committed milestone persists even if a later node fails unless a separate supported reversal/compensation operation succeeds. Save/load resumes the same graph, reservations, costs and random variates exactly once.
+   369→   369→   369→
+   370→   370→   370→The v0.1 admission limits are 64 nodes, width 8, nesting depth 4, and 256 same-instant closure evaluations. Cycles are invalid at compile time. Redirect, absorb, release, counter and doctrine-trigger edges carry a stable causal-chain identifier; revisiting the same `(chain, target relation, operation class)` in one instant is a settled loop outcome, not permission to recurse. Stable topological order uses semantic node identifiers, never worker completion or input enumeration order. Exceeding a bound fails closed before world commitment.
+   371→   371→   371→
+   372→   372→   372→Permanent fixtures permute node declaration/worker order; fuzz split and recombine operations; interrupt and save/reload every milestone; and compare an isomorphic NPC log. Named adversaries include nested dispel, two-party redirect ping-pong, absorb/re-release, self-target feedback, shared-source write skew, simultaneous target reservation and failed late-node compensation.
+   373→   373→   373→
+   374→   374→   374→---
+   375→   375→   375→
+   376→   376→   376→## 5. Real-time controls without a hotbar prison
+   377→   377→   377→
+   378→   378→   378→The interface should have four compatible layers.
+   379→   379→   379→
+   380→   380→   380→### 5.1 Immediate muscle-memory layer
+   381→   381→   381→
+   382→   382→   382→Direction + attack/modifier inputs invoke prepared techniques with authored intent presets. They are fast because the player configured them earlier, not because the technique lost its semantics.
+   383→   383→   383→
+   384→   384→   384→Examples:
+   385→   385→   385→
+   386→   386→   386→- tap: minimal expression;
+   387→   387→   387→- hold: reserve more magnitude/duration;
+   388→   388→   388→- direction + input: choose geometry or movement coupling;
+   389→   389→   389→- modifier: request an intent preference such as minimizing expected lethality, disabling a believed facet, protecting a believed location, or preserving evidence where the technique supports it; and
+   390→   390→   390→- release timing: commit now or continue preparation at rising risk.
+   391→   391→   391→
+   392→   392→   392→### 5.2 Radial intent layer
+   393→   393→   393→
+   394→   394→   394→Holding a master input opens a radial selector during the project's normal single-player hard pause or disclosed Tactical Focus. This is UI/accessibility, not a Divine Sense time power.
+   395→   395→   395→
+   396→   396→   396→The wheel shows operations the character **believes** they may attempt on the perceived target, with uncertainty:
+   397→   397→   397→
+   398→   398→   398→```text
+   399→   399→   399→ignore | evade | reinforce | disperse | contain
+   400→   400→   400→redirect | sever guidance | transform | absorb
+   401→   401→   401→preserve trace | shield bystander | warn | release
+   402→   402→   402→```
+   403→   403→   403→
+   404→   404→   404→Availability, warnings and predicted outcomes derive only from the current `AuthorizedInformationView`. Unknown anatomy, disguised media, concealed dependents, hidden defenses, target substitution or false classification can make an apparently safe option fail, kill, or cause collateral. “Nonlethal,” “protective,” and “safe” are bounded aim, magnitude and stop preferences—not guaranteed result flags. An unavailable option shows a reason only when the protagonist can know that reason; otherwise it may remain uncertain or fail on commitment without privileged disclosure.
+   405→   405→   405→
+   406→   406→   406→### 5.3 Spatial canvas layer
+   407→   407→   407→
+   408→   408→   408→Some learned techniques accept player-drawn geometry:
+   409→   409→   409→
+   410→   410→   410→- line, plane, arc, cone, ring, volume, route, boundary, knot, or anchor graph.
+   411→   411→   411→
+   412→   412→   412→The drawing is a proposed target geometry. The game validates range, topology, precision, obstacles, claim scope, contribution, collateral, and support before commitment. A line across the screen is not automatically a world-cutting command.
+   413→   413→   413→
+   414→   414→   414→### 5.4 Doctrine policy layer
+   415→   415→   415→
+   416→   416→   416→Players may preauthorize bounded automatic reactions:
+   417→   417→   417→
+   418→   418→   418→```text
+   419→   419→   419→IF perceived projectile enters range with declared confidence
+   420→   420→   420→AND protected-person relation is known
+   421→   421→   421→AND required attention/source remains
+   422→   422→   422→THEN attempt prepared deflection profile
+   423→   423→   423→ELSE warn me
+   424→   424→   424→```
+   425→   425→   425→
+   426→   426→   426→Policies use character knowledge, not omniscient faction tags. They consume perception, reaction latency, attention, target capacity, qi, durability, source availability, cooldown and recovery. Enemies can probe, deceive, saturate or exhaust them. Automatic defense creates traces and may make the protagonist predictable.
+   427→   427→   427→
+   428→   428→   428→Policy evaluation is itself a semantic action. Each policy has explicit priority, trigger confidence, arming state, hysteresis, cooldown, concurrency/target slots, response deadline and failure action. Simultaneous candidates sort by threat estimate from known evidence and then stable policy/event identifiers; priority ties never depend on frame or worker order. Conflicting policies reserve the same resources through `TECH-DAG-v0.1`, so only a compatible set commits. Recursive triggers share the causal-chain identifier and the 256-evaluation same-instant closure bound. Player and NPC policies use the same authoring and runtime contract.
+   429→   429→   429→
+   430→   430→   430→Permanent fixtures cover decoy swarms, staggered and simultaneous bursts, mutual auto-redirect, resource exhaustion, false positives, concealed threats, interruption, unloading/reloading and isomorphic player/NPC event logs.
+   431→   431→   431→
+   432→   432→   432→### 5.5 `CONTROL-SURFACE-v0.1`
+   433→   433→   433→
+   434→   434→   434→The four layers remain bounded and device-independent:
+   435→   435→   435→
+   436→   436→   436→- at most 16 immediate prepared bindings and 8 context-sensitive radial candidates appear at once in the baseline profile; banks/paging are out-of-combat or hard-paused configuration, never reflexive menu traversal;
+   437→   437→   437→- context and target selection use perceived state, explicit cycling/lock, stable salience rules and a visible uncertainty marker; the player may always override or clear the proposed target;
+   438→   438→   438→- tap, hold and release compile to canonical preparation milestones measured in scheduler time, not monitor refresh rate or key-repeat behavior;
+   439→   439→   439→- input buffering, cancel windows, commitment, interruption and refunds are declared per technique; cancel cannot erase a committed milestone;
+   440→   440→   440→- spatial gestures normalize to semantic line/plane/volume parameters before capability resolution, so mouse, stick, keyboard, eye/assist device and replayed input can request equivalent geometry while character precision still limits the result;
+   441→   441→   441→- high-realm macro-intents may delegate bounded target cohorts, formations or routes, but still expose policy, exclusions, commitment and aftermath rather than becoming one-click victory.
+   442→   442→   442→
+   443→   443→   443→Usability gates cover 1-v-many combat, newly learned techniques, 30/60/144 Hz presentation, keyboard/mouse, controller, remapping, hold/toggle alternatives, motor and timing assists, hard pause/Tactical Focus and deterministic replay of normalized input logs.
+   444→   444→   444→
+   445→   445→   445→---
+   446→   446→   446→
+   447→   447→   447→## 6. Example: an incoming weak fire technique
+   448→   448→   448→
+   449→   449→   449→Assume a much stronger protagonist perceives it. Real options include:
+   450→   450→   450→
+   451→   451→   451→| Choice | Required operation | Possible result | Residual consequence |
+   452→   452→   452→|---|---|---|---|
+   453→   453→   453→| do nothing | none | bodily defense may withstand it | clothing, carried items, terrain, witnesses and technique trace still resolve |
+   454→   454→   454→| move | mobility/perception | miss | position and opportunity change |
+   455→   455→   455→| reinforce | internal route | accept impact safely | qi/body load; unreinforced facets remain |
+   456→   456→   456→| disperse pattern | compatible disruption | organized technique collapses | heat/qi/noise/residue go somewhere |
+   457→   457→   457→| sever guidance | target the control relation | manifestation continues unguided | can still hit terrain/bystanders |
+   458→   458→   458→| redirect | supported control of trajectory/medium | new path | momentum, guidance resistance and collateral persist |
+   459→   459→   459→| contain | boundary/anchor | temporary captured hazard | upkeep, capacity, custody and later disposal |
+   460→   460→   460→| transform | learned compatible operation | another state/expression | conversion loss and new hazard |
+   461→   461→   461→| absorb | specialized intake | partial usable contribution | contamination, cap, recoil and signature |
+   462→   462→   462→| preserve trace | evidence operation | technique still must be handled separately | investigation value; control burden |
+   463→   463→   463→| protect attacker | geometry/target discrimination | counter without return damage | higher control and consequence cost |
+   464→   464→   464→
+   465→   465→   465→No option appears merely because “third step beats first step.”
+   466→   466→   466→
+   467→   467→   467→---
+   468→   468→   468→
+   469→   469→   469→## 7. Divine sense should not be radar
+   470→   470→   470→
+   471→   471→   471→ISSTH itself depicts focus, direction, range, contest, concealment, and contextual use. One passage distinguishes spreading divine sense in all directions from focusing it into a line for greater reach. This is one work's evidence, not a universal genre mechanic. [ISSTH chapter 523](https://www.wuxiaworld.com/novel/i-shall-seal-the-heavens/issth-book-4-chapter-523)
+   472→   472→   472→
+   473→   473→   473→Our perception contract includes:
+   474→   474→   474→
+   475→   475→   475→- modality and target relation;
+   476→   476→   476→- origin and propagation;
+   477→   477→   477→- focus geometry;
+   478→   478→   478→- resolution versus range;
+   479→   479→   479→- attention and concurrency;
+   480→   480→   480→- occlusion and medium;
+   481→   481→   481→- signal/noise and confidence;
+   482→   482→   482→- counter-detection and signature;
+   483→   483→   483→- false positives/decoys;
+   484→   484→   484→- historical trace window; and
+   485→   485→   485→- what it can never infer automatically.
+   486→   486→   486→
+   487→   487→   487→It must not reveal inventory labels, moral alignment, exact realm, intent, ownership, safe loot, or quest truth from proximity alone.
+   488→   488→   488→
+   489→   489→   489→---
+   490→   490→   490→
+   491→   491→   491→## 8. Automatic loot attraction: keep it, but make it rule-coherent
+   492→   492→   492→
+   493→   493→   493→This is a strong quality-of-life idea when divided into six operations:
+   494→   494→   494→
+   495→   495→   495→```text
+   496→   496→   496→detect → classify → establish collection policy
+   497→   497→   497→→ acquire path/control → transport → receive/store
+   498→   498→   498→```
+   499→   499→   499→
+   500→   500→   500→### 8.1 Collection policy
+   501→   501→   501→
+   502→   502→   502→Player presets may include:
+   503→   503→   503→
+   504→   504→   504→- retrieve my dropped/owned items;
+   505→   505→   505→- retrieve publicly unclaimed battlefield material;
+   506→   506→   506→- retrieve marked resources only;
+   507→   507→   507→- ask before unique, sealed, contaminated, living, funerary, evidentiary, claimed, or trapped targets;
+   508→   508→   508→- quarantine suspicious items;
+   509→   509→   509→- never disturb bodies/remains automatically; and
+   510→   510→   510→- permit theft, with full uncertainty, witnesses, custody, law, retaliation, and trap consequences.
+   511→   511→   511→
+   512→   512→   512→### 8.2 Physical and qi limits
+   513→   513→   513→
+   514→   514→   514→Collection requires:
+   515→   515→   515→
+   516→   516→   516→- available perception or a prepared marker;
+   517→   517→   517→- path or spatial interface;
+   518→   518→   518→- range;
+   519→   519→   519→- mass/drag/shape capacity;
+   520→   520→   520→- target discrimination slots;
+   521→   521→   521→- line/path clearance;
+   522→   522→   522→- control and attention;
+   523→   523→   523→- storage volume and compatibility;
+   524→   524→   524→- energy/qi and time; and
+   525→   525→   525→- ownership/custody consequences.
+   526→   526→   526→
+   527→   527→   527→An actor cannot “vacuum a mountain” into inventory. Broken bulk material becomes rubble, dust, sorted aggregate, selected ore, or left terrain. Large collections resolve as bounded cohorts/batches while unique items retain identity.
+   528→   528→   528→
+   529→   529→   529→The quality-of-life progression follows capability rather than an arbitrary loot unlock:
+   530→   530→   530→
+   531→   531→   531→| Capability state | Collection experience |
+   532→   532→   532→|---|---|
+   533→   533→   533→| mortal | see, reach, pick up, sort, carry, use tools/containers, ask helpers; a clearly marked post-conflict list prevents pixel hunting but does not move matter |
+   534→   534→   534→| early qi perception without remote control | detect some qi-bearing traces/items under uncertainty; still retrieve physically or with a tool |
+   535→   535→   535→| short-range perception plus fine qi control | pull a few perceived, light, unobstructed items to hand/container; each movement remains interruptible |
+   536→   536→   536→| wider perception/control and prepared storage | collect bounded cohorts along validated paths, quarantine suspicious material, and delegate sorting policies |
+   537→   537→   537→| later large-scale capability | move large masses or remote batches only with matching throughput, anchors, storage, custody and consequence management; unique items and living/remains relations never dissolve into a count |
+   538→   538→   538→
+   539→   539→   539→Thus the player earns the feeling that divine sense and control remove clerical looting while the world remains physical and socially legible.
+   540→   540→   540→
+   541→   541→   541→### 8.3 Fun default
+   542→   542→   542→
+   543→   543→   543→Once combat ends and the area is perceived with sufficient confidence, a one-button `Collect According to Policy` should gather apparently eligible targets without making the player click fifty glowing scraps. Policies classify `appears unclaimed`, `appears safe`, `unknown`, and other evidence-based states; they never read canonical ownership, life, trap or danger truth. A mistaken collection can steal, disturb remains, collect a disguised living thing, or trigger a trap without the UI first leaking why an item was skipped.
+   544→   544→   544→
+   545→   545→   545→Collection executes as `COLLECT-BATCH-v0.1`: a bounded idempotent transaction with at most 64 simultaneous unique targets per batch. It records evidence and policy revision, reserves each item/custody relation and receiving capacity, plans a physical/spatial path, then advances through `marked → control-acquired → in-transit → received/quarantined/released/failed` milestones. Moving targets, changing claims, broken paths, competing collectors and storage thresholds revalidate before each milestone. Partial receipt is valid; cancellation never duplicates, erases, or teleports an item, and save/load resumes each target exactly once. Bulk cohorts may aggregate only fungible, nonunique material after identity/custody checks.
+   546→   546→   546→
+   547→   547→   547→Permanent fixtures include hidden claims, corpse inheritance, disguised living items, traps, seals, unreachable objects, two collectors, a moving target, interruption, capacity crossing, unload/reload and a save at every milestone.
+   548→   548→   548→
+   549→   549→   549→---
+   550→   550→   550→
+   551→   551→   551→## 9. Terrain destruction and cave construction
+   552→   552→   552→
+   553→   553→   553→Global high-resolution voxels are incompatible with the intended scale and reference hardware. Terrain should be hybrid:
+   554→   554→   554→
+   555→   555→   555→- macro height/solid field for continents and mountains;
+   556→   556→   556→- geological/material strata and qi/ecology fields;
+   557→   557→   557→- persistent signed terrain-operation journal;
+   558→   558→   558→- sparse local volumetric bricks only where caves, cuts, tunnels, fractures, or close interaction require them;
+   559→   559→   559→- far-field remeshing and analytical catastrophe regions;
+   560→   560→   560→- local physics/debris promotion near the player; and
+   561→   561→   561→- canonical material/stability/route consequences separate from render mesh.
+   562→   562→   562→
+   563→   563→   563→### 9.1 Hand excavation
+   564→   564→   564→
+   565→   565→   565→As a mortal, the player can survey, dig, cut, wedge, carry spoil, shore ceilings, ventilate, drain water, light the interior, maintain tools, negotiate rights, and respond to collapse or discovery.
+   566→   566→   566→
+   567→   567→   567→### 9.2 Technique-carved blueprint
+   568→   568→   568→
+   569→   569→   569→A learned carving technique executes:
+   570→   570→   570→
+   571→   571→   571→```text
+   572→   572→   572→Survey
+   573→   573→   573→→ DraftVolume
+   574→   574→   574→→ ValidateIntersections
+   575→   575→   575→→ ReserveSourceAndWasteDestination
+   576→   576→   576→→ CutByMilestones
+   577→   577→   577→→ RemoveOrTransformSpoil
+   578→   578→   578→→ SupportAndDrain
+   579→   579→   579→→ VentHeatDustQi
+   580→   580→   580→→ FinishAndRecord
+   581→   581→   581→```
+   582→   582→   582→
+   583→   583→   583→“Nothing non-terrain blocks the way” is insufficient. Terrain itself may contain:
+   584→   584→   584→
+   585→   585→   585→- unstable layers;
+   586→   586→   586→- groundwater, gas, magma, poison, voids, or pressure;
+   587→   587→   587→- ore and rare material;
+   588→   588→   588→- qi veins/sinks;
+   589→   589→   589→- fossils, graves, ruins, seals, formation nodes, roots, nests, and living organisms;
+   590→   590→   590→- another person's tunnel or land claim;
+   591→   591→   591→- load-bearing relation to a settlement; and
+   592→   592→   592→- a catastrophe fault or protected ecosystem.
+   593→   593→   593→
+   594→   594→   594→The technique must report what the protagonist can detect, stop at protected/unknown intersection policies, create real spoil/heat/noise/vibration, and leave a persistent interior with structural history.
+   595→   595→   595→
+   596→   596→   596→`TERRAIN-TXN-v0.1` binds every carve to topology and occupancy revisions. It reserves read/write volumes plus ingress, support, drainage, ventilation and spoil routes; issues a moving-occupancy/intersection certificate at every commit milestone; and atomically revalidates people, bodies, unique objects, claims, water/gas fronts, neighboring edits and active catastrophe fronts. Cutting, shoring, drainage and ventilation may interleave according to material and hazard rather than following one unsafe fixed sequence. Every nonfungible inclusion and body retains identity; spoil receives conserved source-volume/material attribution and exact remaps. Concurrent overlapping edits use stable reservation arbitration. Abort, unload and reload are idempotent, and committed instability continues as a collapse/pressure/flow front rather than freezing with the scene.
+   597→   597→   597→
+   598→   598→   598→Any K3+ consequence, mass topology change, identity/remains remap, settlement isolation, aquifer release or self-propagating fracture joins the existing `CatastropheContract` before commitment. Fixtures cover crossing cutters, an entrant during cutting, an object/body on the boundary, aquifer and gas release, premature support failure, collapse after detail demotion, concurrent claim change and save/reload at every milestone.
+   599→   599→   599→
+   600→   600→   600→### 9.3 Higher-scale cutting
+   601→   601→   601→
+   602→   602→   602→A mountain cut is a semantic fracture operation with material, plane, extent, energy/qi, claim scope/support, stability, debris, seismic, hydrological, ecological, settlement, ownership, witness, and aftermath contracts. The render system refines the local cut; it does not voxel-simulate the entire mountain.
+   603→   603→   603→
+   604→   604→   604→---
+   605→   605→   605→
+   606→   606→   606→## 10. Time, reincarnation, and restoration
+   607→   607→   607→
+   608→   608→   608→### 10.1 Pocket time
+   609→   609→   609→
+   610→   610→   610→A time-dilated space is not a private server. It is a world region with:
+   611→   611→   611→
+   612→   612→   612→- entry/exit topology;
+   613→   613→   613→- time-rate relation;
+   614→   614→   614→- source and upkeep;
+   615→   615→   615→- boundary causality;
+   616→   616→   616→- matter/qi transport;
+   617→   617→   617→- aging, hunger, cultivation, injury and ecology;
+   618→   618→   618→- communication limits;
+   619→   619→   619→- external-world commitments; and
+   620→   620→   620→- collapse/ownership/identity consequences.
+   621→   621→   621→
+   622→   622→   622→It cannot generate free labor or resources merely because fewer outside minutes pass.
+   623→   623→   623→
+   624→   624→   624→### 10.2 Rewind
+   625→   625→   625→
+   626→   626→   626→A temporal rewind is not loading a rolling cache. It must declare the causal cone it changes. Reverting one body while keeping the attacker's memory, witnesses, consumed pill, transferred item, and causal effects creates duplication and identity contradictions.
+   627→   627→   627→
+   628→   628→   628→Possible distinct operations:
+   629→   629→   629→
+   630→   630→   630→- bodily restoration from a recorded pattern;
+   631→   631→   631→- temporal displacement;
+   632→   632→   632→- local process reversal with exported consequences excluded or reconciled;
+   633→   633→   633→- memory access to an earlier state;
+   634→   634→   634→- branch creation;
+   635→   635→   635→- illusion/reconstruction; or
+   636→   636→   636→- save reload as a non-diegetic player affordance.
+   637→   637→   637→
+   638→   638→   638→They are not synonyms.
+   639→   639→   639→
+   640→   640→   640→### 10.3 Reincarnation
+   641→   641→   641→
+   642→   642→   642→Reincarnation follows the selected identity/death ontology. It is not generic object history rollback and must not be represented as a claim about Buddhism.
+   643→   643→   643→
+   644→   644→   644→---
+   645→   645→   645→
+   646→   646→   646→## 11. Artifacts and tribulations
+   647→   647→   647→
+   648→   648→   648→### 11.1 Duplication artifact
+   649→   649→   649→
+   650→   650→   650→Useful systemic questions:
+   651→   651→   651→
+   652→   652→   652→- What exactly copies: matter, structure, qi, spirit component, office/ownership/unique relation, identity, inscription, history, or appearance?
+   653→   653→   653→- Which unique relations cannot duplicate?
+   654→   654→   654→- What source/conservation is consumed?
+   655→   655→   655→- How are copies detected and legally treated?
+   656→   656→   656→- Can contamination, defects, curses, obligations, and ownership copy?
+   657→   657→   657→- How do markets and institutions learn, respond, hoard, regulate, counterfeit, or wage conflict?
+   658→   658→   658→
+   659→   659→   659→Inflation is one possible response, not an automatic script.
+   660→   660→   660→
+   661→   661→   661→### 11.2 Artifact-triggered tribulation
+   662→   662→   662→
+   663→   663→   663→“Cosmic envy” is bad specification. A tribulation requires a selected cosmology, jurisdiction, trigger, detection mechanism, contribution, timing, target logic, intervention, aftermath, and cultural interpretation. It cannot exist solely to punish fun equipment.
+   664→   664→   664→
+   665→   665→   665→---
+   666→   666→   666→
+   667→   667→   667→## 12. Reference hardware reality
+   668→   668→   668→
+   669→   669→   669→The stated machine—GTX 1070 8 GB, i5-3570K, 8 GB DDR3—changes the engineering strategy substantially.
+   670→   670→   670→
+   671→   671→   671→### 12.1 Honest target
+   672→   672→   672→
+   673→   673→   673→Literal contemporary AAA asset density, ray-traced spectacle, planet-scale persistent high-resolution voxels, thousands of full AI agents, and continuous cosmic simulation are not simultaneously achievable in a browser on that machine.
+   674→   674→   674→
+   675→   675→   675→The attainable goal is:
+   676→   676→   676→
+   677→   677→   677→> AAA-like composition, scale cues, material discipline, animation priorities, lighting direction, systemic consequence, and authored visual identity—delivered through aggressive locality and scalability.
+   678→   678→   678→
+   679→   679→   679→### 12.2 Likely bottleneck
+   680→   680→   680→
+   681→   681→   681→The four-core/four-thread 2012 CPU and 8 GB system RAM are more restrictive for simulation/generation than the GTX 1070 is for carefully budgeted 1080p rendering. Browser and operating-system memory leave far less than 8 GB for the game.
+   682→   682→   682→
+   683→   683→   683→Therefore:
+   684→   684→   684→
+   685→   685→   685→- authoritative simulation runs in a worker;
+   686→   686→   686→- offscreen worlds use event/cohort resolution;
+   687→   687→   687→- terrain volumes are sparse and streamed;
+   688→   688→   688→- armies/forests/debris use instancing/procedural proxies;
+   689→   689→   689→- no per-frame GPU readback;
+   690→   690→   690→- no one-object-per-entity scene graph;
+   691→   691→   691→- no global voxel field;
+   692→   692→   692→- render quality adapts independently of canon;
+   693→   693→   693→- assets and history stream from bounded archives; and
+   694→   694→   694→- catastrophe detail promotes locally.
+   695→   695→   695→
+   696→   696→   696→### 12.3 First benchmark targets
+   697→   697→   697→
+   698→   698→   698→- 1080p, stable 30 fps quality floor on the reference machine;
+   699→   699→   699→- 60 fps target in ordinary local play after quality scaling;
+   700→   700→   700→- pause acknowledgement inside the real-time architecture's declared bound;
+   701→   701→   701→- no whole-region synchronous generation;
+   702→   702→   702→- no catastrophe frame that compiles every shader or promotes a planet; and
+   703→   703→   703→- deterministic canon under WebGPU, WebGL2 fallback, device loss, and renderer-disabled tests.
+   704→   704→   704→
+   705→   705→   705→Three.js currently describes `WebGPURenderer` as experimental and WebGL2-capable as a fallback, so the presentation backend cannot be allowed to own world truth. [Three.js WebGPURenderer](https://threejs.org/manual/en/webgpurenderer)
+   706→   706→   706→
+   707→   707→   707→### 12.4 “Runs in an HTML file”
+   708→   708→   708→
+   709→   709→   709→The eventual game can be a local web application, but a literal monolithic `.html` file is the wrong delivery constraint for a project with workers, modules, binary assets, saves, streaming, and WebGPU secure-context requirements. The user experience can still be one-click and offline through a local launcher/packaged shell or localhost host. Packaging is a later implementation decision.
+   710→   710→   710→
+   711→   711→   711→---
+   712→   712→   712→
+   713→   713→   713→## 13. Example original technique: inverted qi mountain
+   714→   714→   714→
+   715→   715→   715→The description “summon an upside-down mountain made of qi to attack” becomes a literal semantic contract rather than a VFX skin.
+   716→   716→   716→
+   717→   717→   717→```text
+   718→   718→   718→Operation: instantiate and sustain a shaped force/material-like qi construct
+   719→   719→   719→Geometry: inverted mountain profile with declared base, peak, volume and orientation
+   720→   720→   720→Source: personal + formation + stored source as separately attributed
+   721→   721→   721→Targeting: region/trajectory/impact plane, not automatic enemy truth
+   722→   722→   722→Manifestation: build time and visible pressure/qi signs
+   723→   723→   723→Control: acceleration, rotation, deformation, sustain, release
+   724→   724→   724→Interfaces: atmosphere, terrain, formations, bodies, other techniques
+   725→   725→   725→Counters: disrupt source, sever anchors, evade path, pierce weak region,
+   726→   726→   726→          redirect through sufficient supported control, force premature collapse
+   727→   727→   727→Costs: reservoir/throughput/control, anchors, heat/recoil, preparation
+   728→   728→   728→Failure: malformed construct, asymmetric collapse, source interruption,
+   729→   729→   729→         collision before complete manifestation
+   730→   730→   730→Aftermath: displaced air, pressure, terrain damage, debris, qi residue,
+   731→   731→   731→           witnesses, ownership, casualties, ecological and legal effects
+   732→   732→   732→```
+   733→   733→   733→
+   734→   734→   734→Scaling changes the supported capability vector. It never silently turns a Qi Condensation actor into a mountain-splitter. At low realms the same operation might form a hand-sized inverted weight or brief shaped pressure; mountain scale requires supported nonpersonal contribution or later capability.
+   735→   735→   735→
+   736→   736→   736→---
+   737→   737→   737→
+   738→   738→   738→## 14. Permanent gauntlet for expressive high-realm play
+   739→   739→   739→
+   740→   740→   740→1. Can the player choose to ignore, evade, contain, redirect, transform, absorb, preserve, return, or protect without one option dominating?
+   741→   741→   741→2. Does every option require available perception and reaction time?
+   742→   742→   742→3. Does any realm comparison skip target/interface/claim-scope/support resolution?
+   743→   743→   743→4. Can “dispel” erase contribution or aftermath?
+   744→   744→   744→5. Can absorption create infinite qi, duplicate attacks, or launder contamination?
+   745→   745→   745→6. Can a policy script read faction, intent, ownership, danger, or truth the protagonist does not know?
+   746→   746→   746→7. Can pause menus mutate canon for zero time?
+   747→   747→   747→8. Does a lower actor retain indirect, uncovered, social, environmental, or prepared counterplay?
+   748→   748→   748→9. Can terrain operations erase unique objects, bodies, graves, qi veins, water, structures, or claims?
+   749→   749→   749→10. Can auto-loot steal, harvest living entities, disturb remains, trigger traps, or exceed storage without evidence/consequence?
+   750→   750→   750→11. Does a time technique duplicate costs, memories, identity, witnesses, or branches?
+   751→   751→   751→12. Does karma collapse into reputation or moral score?
+   752→   752→   752→13. Do NPCs surrender because of beliefs and goals, or because a power-gap script stole agency?
+   753→   753→   753→14. Does the same technique resolve identically for an isomorphic NPC?
+   754→   754→   754→15. Can the reference machine run the canonical result with rendering disabled and display local spectacle without promoting the universe?
+   755→   755→   755→16. Can a composite technique evade cost/capacity by splitting nodes, depend on worker order, partially roll back committed effects, or recurse through redirect/absorb/release?
+   756→   756→   756→17. Can intent, safety warnings, radial availability, collection policy or target selection reveal hidden truth or guarantee an outcome?
+   757→   757→   757→18. Can doctrine policies react with zero latency, deadlock, oscillate, starve higher-priority protection, exceed same-instant closure or give the player automation unavailable to an isomorphic NPC?
+   758→   758→   758→19. Are immediate bindings, radial candidates, targeting, preparation milestones, buffer/cancel behavior and semantic geometry bounded and accessible across input devices and frame rates?
+   759→   759→   759→20. Can collection duplicate/erase custody through competing collectors, moving targets, partial capacity, interruption, unload or save/load?
+   760→   760→   760→21. Does each terrain milestone revalidate occupancy/topology and conserve/remap people, bodies, unique objects, material and active hazards?
+   761→   761→   761→
+   762→   762→   762→---
+   763→   763→   763→
+   764→   764→   764→## 15. Design decision
+   765→   765→   765→
+   766→   766→   766→Do not adopt the Gemini ladder or engine hierarchy.
+   767→   767→   767→
+   768→   768→   768→Advance these concepts into separate original research packages:
+   769→   769→   769→
+   770→   770→   770→1. `Semantic Technique Grammar and Intent Controls`;
+   771→   771→   771→2. `Perception, Divine Sense, Concealment, and Evidence`;
+   772→   772→   772→3. `Custody, Loot Attraction, Salvage, Remains, and Storage`;
+   773→   773→   773→4. `Hybrid Terrain, Excavation, Construction, Stability, and Catastrophic Fracture`;
+   774→   774→   774→5. `World Patterns, Fa/Methods, Daos/Paths, Domains, and Cross-Realm Contest Candidates`;
+   775→   775→   775→6. `Time Domains, Restoration, Reincarnation, and Pocket-World Boundaries`;
+   776→   776→   776→7. `Artifact Uniqueness, Duplication, Economy, and Tribulation`;
+   777→   777→   777→8. `Agent Belief, Morale, Surrender, Ritual Response, and Reputation`; and
+   778→   778→   778→9. `Reference-Hardware Performance Budget and Visual Scalability`.
+   779→   779→   779→
+   780→   780→   780→Each package must pass the cultural, technical, gameplay, exploit, persistence, NPC-parity, and real-time gauntlets before contributing to the PRD.
+   781→   781→   781→

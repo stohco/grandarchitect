@@ -1,0 +1,312 @@
+
+## 20. Failure, consequence, and recovery atlas
+
+### 20.1 Failure doctrine
+
+Failure should be:
+
+- **legible:** the player can reconstruct most contributing causes;
+- **proportional:** not every mistake destroys a life;
+- **persistent:** consequences become history rather than disappearing;
+- **socially interpreted:** people judge intention, warning, obligation, and honesty, not only outcome;
+- **recoverable through changed play:** the player often continues with altered resources, body, residence, livelihood, or relationships;
+- **non-teleological:** recovery need not restore the old state.
+
+### 20.2 Failure and recovery matrix
+
+| Setback | Immediate consequence | Secondary risk | Recovery routes | Persistent memory |
+|---|---|---|---|---|
+| Poor or lost harvest | food/seed/rent shortfall | debt, sale of assets, hunger, migration | ration, substitute food, wage work, seed aid, rent relief, collective purchase, partial relocation | changed crop mix, creditor relation, thinner livestock, story of who shared |
+| Tool/boat/loom failure | work stops; repair cost | missed window/order, injury, default | improvise, borrow/rent, repair labor exchange, salvage, subcontract, switch task | repaired object, obligation to lender, reputation of maker |
+| Injury or illness | pain, lost function, care need | lost income, debt, neglect of dependents | rest/care, adaptation, task reassignment, specialist, mutual aid, new livelihood | scar/impairment, learned practice, caregiver bond or grievance |
+| Caregiver exhaustion | mistakes, conflict, neglect | illness, household fracture | respite exchange, simplify obligations, recruit kin/neighbor, paid help, boundary setting | changed division of labor, recognition or resentment |
+| Debt default | demand, shame, collateral/service risk | tenancy loss, coercion, countersuit, flight | early renegotiation, guarantor, refinance, work plan, collective relief, legal challenge, surrender limited asset | long creditor memory, altered trust and status |
+| Tenancy/land-use loss | displacement, crop claim dispute | homelessness, job loss, household split | customary-right claim, compensation, new tenancy, service/lodging, migration, reclamation | abandoned house/plot, rival claim, diaspora tie |
+| Theft/fraud accusation | lost trust, seizure, confrontation | violence, exclusion, official case | evidence, restitution, apology, mediation, trial, counterproof, protective relocation | rumor variants, record, faction alignment |
+| Fire | shelter/store/tool loss, burns | winter exposure, debt, blame, spreading damage | bucket line, communal shelter, salvage, rebuilding compact, relief, investigation | rebuilt material, fire rules, memorial, liability |
+| Flood/drought/storm | crop, route, house, animal damage | prices, disease, migration, conflict | preparedness, rescue, public works, relief, crop switch, debt moratorium, resettlement | altered channels/fields, graves, new institution |
+| Death | grief, care/funeral labor, role vacancy | debt, inheritance, guardianship, household split | mutual aid, adaptive rite, leadership negotiation, adoption/guardianship, livelihood transfer | grave/tablet/story, anniversary, unresolved promise |
+| Public humiliation or broken promise | reputation loss | credit/work/marriage exclusion | candid account, restitution, demonstrated reliability, mediator, new network/location | relationship-specific caution; not a global permanent meter |
+| Failed apprenticeship/enterprise | sunk time/material, conflict | debt, identity loss | narrower specialty, different teacher, wage work, salvage stock, admit mismatch | practical knowledge retained, former-master relationship |
+
+### 20.3 Recovery resources
+
+Recovery capacity comes from diversified stores, skills, tools, health, kin and non-kin ties, mutual aid, reputation, legal claims, mobility, ecological knowledge, and institutions. It must not collapse into money.
+
+**[Design candidate]** Maintain a “recovery graph” invisible as a score but inspectable through the world:
+
+- people who might provide food, shelter, testimony, work, care, transport, or mediation;
+- institutions with criteria, limited stores, schedules, and political motives;
+- assets that can be repaired, pawned, divided, entrusted, or relocated;
+- skills usable under the protagonist's current body and access conditions;
+- claims that can be asserted;
+- destinations reachable before reserves run out.
+
+### 20.4 No automatic misery spiral
+
+Compounding risk is realistic; hopeless deterministic decline is not. The system should generate:
+
+- early warnings and partial interventions;
+- small reciprocities that matter;
+- creditors who prefer workable renegotiation to destruction;
+- institutions and people who sometimes help without secret malice;
+- new livelihoods emerging from crisis work;
+- migration as a complex strategy, not automatic punishment;
+- joy, humor, love, play, and dignity during hardship.
+
+Conversely, the player cannot solve structural vulnerability solely by winning minigames. Recovery may require changing a rule, building a coalition, accepting dependence, leaving, or living differently.
+
+---
+
+## 21. The playable mortal year
+
+### 21.1 Year shape
+
+The first complete year should be generated around a **household or survival-network strategy under uncertainty**, not a main quest chain. A household may contain one person; a traveler, displaced person, hermit, lodger, institutional resident, or person without stable housing still depends on explicit care, exchange, shelter, and obligation networks rather than being treated as a contentless solitary avatar.
+
+At year start, the player knows:
+
+- household members and visible roles, but not every secret or future desire;
+- residence, immediate stores, tools, access rights, debts/claims, and next deadlines;
+- their own embodied competence and a few learned routines;
+- the local route to water, fields/workplace, neighbors, and the next market;
+- several conflicting accounts of the coming weather, prices, institutions, and strange phenomena.
+
+The year provides:
+
+- one main ecological cycle with at least two hard labor windows;
+- recurring market/institution cycles;
+- a household negotiation that cannot be solved by obedience alone;
+- one care demand;
+- one meaningful opportunity to learn, specialize, migrate, or build enterprise;
+- one dispute with more than one legitimate forum;
+- ritual/festival/funeral possibilities based on generated events, not mandatory checklisting;
+- weather variance with observable signs;
+- at least one setback whose recovery changes the player's path;
+- subtle, ambiguous contact with the larger xianxia cosmos only if later cosmology research authorizes it.
+
+### 21.2 Example phase gates, not scripted chapters
+
+| Gate | What the player should understand by then | Example emergent proof |
+|---|---|---|
+| First several days | household and bodily time; food/water/fuel routes; who can ask whom | player rearranges one day's work and sees who bears the cost |
+| First local cycle | market/information/credit network | player prepares goods or service, travels, returns with changed information and obligations |
+| First hard window | ecological skill and labor coordination | weather forces a choice among field/work, care, paid obligation, and repair |
+| First public event | reputation is contextual; institutions have process | player participates in a festival, dispute, work levy, funeral, or relief effort |
+| First major setback | failure changes play rather than ending it | injury, crop damage, debt, conflict, or loss opens recovery routes |
+| End of cycle | memory and continuity | stores, landscape, debts, relationships, skills, bodies, households, and stories all differ visibly from the start |
+
+### 21.3 Mortal agency without power fantasy
+
+The player can become consequential by:
+
+- noticing earlier;
+- learning whose knowledge applies;
+- coordinating people fairly or persuasively;
+- maintaining tools and relations;
+- carrying trustworthy information;
+- creating records and procedures;
+- taking risk on behalf of someone;
+- making, repairing, healing, teaching, hosting, mediating, or organizing;
+- discovering exploitation and choosing whether and how to contest it;
+- preserving future options under uncertainty.
+
+This makes later personal power emotionally measurable. The player knows what it once cost to move a sack, heal a fracture, cross a flooded river, keep grain dry, send a letter, or defy a creditor.
+
+---
+
+## 22. Mortal-year gauntlet and review criteria
+
+Before the project may treat the mortal foundation as designed, a prototype specification or paper simulation should survive the following tests. These are review gates, not implementation instructions.
+
+### 22.1 Continuity gauntlet
+
+- Follow one water vessel from source to drinking, cooking, washing, craft use, wastewater, and downstream effect.
+- Follow one unit of grain from seed claim through labor, weather, harvest, processing, rent/debt, storage, cooking, and allocation.
+- Follow one garment from fiber through production, wear, repair, pawn, inheritance, and reuse.
+- Follow one rumor from witness through market, household, institution, contradiction, and memory.
+- Follow one injury through lost work, care labor, debt, adaptation, altered skill use, and social interpretation.
+
+**Pass condition:** no resource, fact, or consequence teleports between systems.
+
+### 22.2 One-year household gauntlet
+
+Simulate at least three starting households in the same settlement:
+
+1. a resource-thin tenant or service household;
+2. a middling mixed-livelihood household with tools but labor/care pressure;
+3. a locally powerful creditor, landlord, merchant, institutional, or office-linked household.
+
+Then simulate the same weather and market year without privileging the protagonist.
+
+**Pass condition:** the year produces unequal but causally understandable outcomes; weaker households retain agency; powerful households face coordination, legitimacy, and concentration risks; no household is a stereotype.
+
+### 22.3 Perspective gauntlet
+
+Replay or audit key events from:
+
+- different genders and ages;
+- a disabled or chronically ill person;
+- a hired/dependent worker;
+- a migrant or linguistic outsider;
+- the creditor and debtor;
+- upstream and downstream water users;
+- believer, skeptic, and ritual worker;
+- literate scribe and non-literate but numerate trader.
+
+**Pass condition:** different lives reveal different constraints, verbs, knowledge, and leverage—not merely altered dialogue or difficulty.
+
+### 22.4 Chore gauntlet
+
+Audit every recurring action after the first few repetitions.
+
+**Pass condition:** it is summarized, delegated, conditional, socially interesting, materially variable, or voluntarily embodied. No mandatory low-decision animation remains solely to advertise realism.
+
+### 22.5 Recovery gauntlet
+
+Force crop failure, injury, fire, debt default, bereavement, and wrongful accusation separately and in two plausible combinations.
+
+**Pass condition:** each has multiple recovery routes, at least one non-monetary route, persistent consequences, and no guaranteed optimal answer. At least one route leads to a genuinely different viable life rather than restoration.
+
+### 22.6 Cultural coherence gauntlet
+
+For every generated custom, object, building, institution, or festival, reviewers must be able to answer:
+
+- what ecology/material supply supports it;
+- what labor and knowledge reproduce it;
+- who pays and who benefits;
+- how it varies by household/status/body;
+- whether it is sourced mechanism, authored invention, or canon fact;
+- what historical source limits apply;
+- whether it copies a living or historical culture too directly.
+
+**Pass condition:** no feature survives on “because xianxia” alone.
+
+### 22.7 Fun gauntlet
+
+- Does the player form specific hopes for tomorrow and next season?
+- Are there at least three compelling goals that do not involve violence, wealth maximization, or entering cultivation?
+- Can skilled play consist of judgment, care, craft, persuasion, memory, logistics, or courage?
+- Do NPC initiatives regularly surprise the player while remaining explainable?
+- Can a quiet evening, successful repair, shared meal, letter, game, or resolved water turn feel like a real reward?
+- Does the year contain breathing room and beauty, not only pressure?
+
+**Pass condition:** the later signed playtest threshold for voluntary continuation in mortal life is met even when a credible cultivation path is available; feedback shows the choice arises from attachment to particular people, work, places, and unresolved possibilities rather than confusion about how to progress.
+
+---
+
+## 23. Open research questions before specification
+
+### 23.1 Highest-priority gaps
+
+1. **Comparative household evidence beyond late-imperial Han-majority records.** Commission focused research on several regions, ethnic communities, frontier conditions, and earlier periods, with living-culture sensitivity review.
+2. **Foodways by ecology and class.** Build sourced seasonal food baskets, preservation methods, kitchen fuel budgets, infant/elder foods, feast foods, famine substitutions, and food-safety risks without turning modern regional cuisines into timeless facts.
+3. **Water and sanitation at household scale.** Wells, latrines, wastewater, bathing, laundry, menstrual care, infant care, animal proximity, and seasonal contamination need precise regional studies.
+4. **Fuel and woodland regimes.** The present design logic is strong but the China-specific evidence base here is thin. Research commons, forest tenure, charcoal, crop residues, dung, transport radius, and indoor smoke across several ecologies.
+5. **Childhood and adolescence.** Research play, work, schooling, discipline, sibling care, adoption/fostering, coming-of-age, and child perspectives using sources that do not only depict elite boys.
+6. **Leisure and performance.** The current section is intentionally conservative. Research storytelling, opera/theater circuits, games, gambling, sports, songs, toys, courtship, fairs, and rest by class, gender, age, and region.
+7. **Fisheries, pastoralism, mining, salt, and mountain livelihoods.** These require their own ecological and labor calendars rather than being extensions of farming.
+8. **Pregnancy, childbirth, postpartum care, contraception, infant feeding, and reproductive loss.** Use medical-history and gender-history specialists; build robust content controls.
+9. **Disability history.** Expand beyond Qing household-care framing to material aids, work, law, poverty relief, communication, intellectual disability, mental distress, and first-person evidence where available.
+10. **Violence and safety.** Research rural policing, watches, domestic safety, refuge, banditry, feud, collective violence, enslavement, trafficking, and legal redress with ethical review.
+11. **Measures, money, prices, and accounting.** Avoid false precision across eras. Establish original-world standards and local variation from research on historical metrology and bimetallic/commodity exchange.
+12. **Ritual diversity and religious institutions.** Separate local cult, household rite, Buddhism, Daoist traditions, state cult, spirit-medium practice, Islam, Christianity, indigenous/community traditions, and skeptic positions where historically relevant; do not merge them into a fantasy soup.
+13. **Climate baselines and disaster distributions.** The fictional world's own orbital, geological, and magical laws must come first; historical events should inform response systems, not be copied as an annual event table.
+14. **Language and translation.** Determine how dialect, register, multilingual trade, literacy, names, technical vocabulary, gesture, and misunderstanding function in the original universe.
+15. **Aesthetic material study.** Architecture, vessels, tools, clothing, fields, roads, boats, lighting, wear, repair, dirt, storage, and soundscapes should be specified only after the causal settlement bundles are approved.
+
+### 23.2 Questions for the later cosmology team
+
+- Does mortal biology follow ordinary nutrition, infection, aging, pregnancy, disability, and death until cultivation changes it? Which changes are gradual, categorical, heritable, or socially supplied?
+- What is objectively detectable before formal cultivation, and with what false-positive rate?
+- Can supernatural forces alter weather, soil, water, disease, craft materials, memory, or contracts? If so, why have mortal institutions not reorganized around reliable use?
+- What costs prevent cultivators from solving every harvest, transport, medical, or disaster problem?
+- How do mortal law, taxation, religion, inheritance, and markets classify rare supernatural events without universal knowledge?
+- Which mortal skills remain valuable after cultivation and why?
+
+No answer should be inserted into the mortal simulation until it is authorized as cosmological canon.
+
+---
+
+## 24. Source ledger and use limits
+
+The links below are the evidence base for this draft. A source's presence does not make every claim on its page accepted; the “use limit” is part of the citation.
+
+| Source | Type and scope | Used for | Use limit |
+|---|---|---|---|
+| [Francesca Bray, “Science, technique, technology”](https://www.cambridge.org/core/journals/british-journal-for-the-history-of-science/article/science-technique-technology-passages-between-matter-and-knowledge-in-imperial-chinese-agriculture/F22BA6399312F5CCF611D66D987827F9) | academic article; imperial Chinese agriculture and knowledge | local expertise, monthly calendars, variation in technique, tenants/owners | intellectual/material history argument, not a complete farm manual or national survey |
+| [PLOS ONE: changing foodways](https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0240930) | open academic archaeobotanical synthesis | long-run millet/rice and wheat/barley gradients | broad and long-duration; cannot specify one village's menu or a late-imperial calendar |
+| [British Museum, *Yuzhi Gengzhi tu*](https://www.britishmuseum.org/collection/object/A_1949-0709-0-1) | museum record; Qing, 1696, 46-leaf imperial album | rice/sericulture work sequence and object provenance | commissioned imperial representation; work may be idealized and regionally framed |
+| [National Palace Museum, agriculture and sericulture](https://theme.npm.edu.tw/selection/Article.aspx?lang=2&sNo=04009305) | museum exhibition | tools, gestures, staged work sequences | art collection and curatorial interpretation, not direct observation |
+| [FAO, Huzhou mulberry-dyke and fishpond](https://www.fao.org/giahs/giahs-around-the-world/china-zhejiang-huzhou-system/en) | institutional heritage profile; living Zhejiang system | linked pond mud, mulberry, silkworm, fish, flood/drainage logic | specific living heritage system; not timeless or transferable wholesale |
+| [FAO GIAHS Asia-Pacific list](https://www.fao.org/giahs/regions/asia-pacific/) | institutional comparative index | demonstrate agricultural-system diversity | short heritage summaries; individual systems need dedicated sources |
+| [UNESCO Hani Rice Terraces](https://whc.unesco.org/en/list/1111) | World Heritage profile; specific Hani landscape | forest-water-village-terrace coupling and communal canals | culturally specific living landscape; no aesthetic or ritual borrowing without dedicated research |
+| [UNESCO Dujiangyan](https://whc.unesco.org/en/list/1001/) | World Heritage profile; long-lived irrigation work | flow/sediment/flood management and maintenance | monumental regional system, not a household-scale template |
+| [University of Washington Visual Sourcebook: purpose](https://depts.washington.edu/chinaciv/tpurpose.htm) | university teaching sourcebook | visual research method and explicit limitation | designed to supplement other history, not stand alone |
+| [UW homes introduction](https://depts.washington.edu/chinaciv/3homintr.htm) and [architecture](https://depts.washington.edu/chinaciv/home/3intrhme.htm) | teaching/visual sourcebook; mainly late-imperial material | building materials, spatial patterns, region/class variation | images and survivals span context; not a complete housing census |
+| [UW interiors](https://depts.washington.edu/chinaciv/thinside.htm) | teaching/visual sourcebook | courtyard tasks, kitchens, stoves, northern *kang*, ancestor space | region and wealth vary; later survivals cannot be back-projected automatically |
+| [UW making cloth](https://depts.washington.edu/chinaciv/clothing/11embsil.htm) | teaching/visual sourcebook | cotton and silk processes; household/market production | unit spans periods and social representations; pair with labor history |
+| [Work ethics and valuations in Ming China](https://www.cambridge.org/core/journals/international-review-of-social-history/article/work-ethics-and-work-valuations-in-a-period-of-commercialization-ming-china-15001644/4FA7B22851A0B0D2E37700E494A6570B) | academic article; Ming 1500–1644 | ideology versus practice, gendered and non-farm work | Ming-focused; examples do not establish frequency everywhere |
+| [Household workers in late-imperial China](https://www.cambridge.org/core/journals/international-review-of-social-history/article/status-power-and-punishments-household-workers-in-late-imperial-china/D86E44D46F198A67517AFF26FD2A306B) | academic article; late Ming/early Qing focus with broader legal sources | household labor, hired/enslaved outsiders, hierarchy, discipline | evidence on vulnerable groups is incomplete; must not normalize or gamify coercion |
+| [Domestic cycle and household formation](https://www.cambridge.org/core/books/abs/fate-and-fortune-in-rural-china/domestic-cycle-and-household-formation/2AFE962CF6807A43C07C5206358B0D24) | academic book chapter; rural Liaoning | household allocation, care, bargaining, birth order/gender | one region and historical demographic system |
+| [Kin networks and mobility](https://www.cambridge.org/core/journals/social-science-history/article/abs/kin-networks-marriage-and-social-mobility-in-late-imperial-china/389BF145FBD2BC143822F362C9F1467B) | academic quantitative article; Liaoning eighteenth–nineteenth centuries | extra-household kin networks and nuanced effects | regional registered population; not all kinship systems |
+| [G. William Skinner, rural marketing](https://doi.org/10.4000/etudesrurales.7952) | classic academic article; principally Qing rural market systems | periodic markets, circuits, mobile specialists | influential model with temporal/geographic limits; do not force every settlement into its hierarchy |
+| [National Palace Museum, peddlers](https://theme.npm.edu.tw/exh110/GemsofPainting/en/page-1.html) | museum exhibition of paintings | mobile vendors, goods, women/children as customers | constructed and auspicious images, not candid market ethnography |
+| [Columbia: Song commercial revolution](https://afe.easia.columbia.edu/songdynasty-module/econ-rev-commercial.html) | university teaching synthesis; Song | shops, trade, cheaper water transport | Song-specific and broad; not a baseline for all eras |
+| [UNESCO Grand Canal](https://whc.unesco.org/en/list/1443) | World Heritage profile | bulk transport, infrastructure continuity, administration | exceptional macro-infrastructure; local routes differ |
+| [Pomeranz, land markets](https://www.cambridge.org/core/journals/continuity-and-change/article/abs/land-markets-in-late-imperial-and-republican-china/CD421A384EFF7263F505B06A1C90B5F3) | academic article; late-imperial and Republican land institutions | sale/rental, tenant usufruct, custom and dispute | strongest for later periods and certain regions; full text may be access-limited |
+| [Shepherd, rethinking tenancy](https://www.cambridge.org/core/journals/comparative-studies-in-society-and-history/article/abs/rethinking-tenancy-explaining-spatial-and-temporal-variation-in-late-imperial-and-republican-china/017BA44454925C674D09D664E50A5029) | academic article; spatial/temporal comparison | reclamation, migration, management, non-monocausal tenancy | not a local contract typology |
+| [Qing local water-control finance](https://www.cambridge.org/core/journals/social-science-history/article/abs/public-interest-and-the-financing-of-local-water-control-in-qing-china-17501850/D47BD12B8D0A7996A99CDD4F9847E84F) | academic article; Qing 1750–1850 | blurred state/community finance, land-tax surcharge | specific water-control cases; not a universal public-finance system |
+| [Columbia: classics and schooling](https://www-1.gsb.columbia.edu/cosmos/irc/classics.htm) | university teaching resource | village schooling, basic literacy, narrow examination path | broad and male-centered example; access and curriculum need regional/gender study |
+| [Vivienne Lo, “The influence of nurturing life culture”](https://pmc.ncbi.nlm.nih.gov/articles/PMC3304084/) | open academic medical-history article | medical plurality, household remedies, diet/self-care, anti-essentialism | historical analysis, not medical efficacy guidance or in-game treatment recipe |
+| [UCHRI, *The World of Care*](https://uchri.org/awards/the-world-of-care-managing-disability-in-the-qing-china-1644-1911/) | research project summary; Qing disability | family/state care and disabled agency | short project description, not sufficient alone for detailed mechanics |
+| [Science Museum Guangzhou pharmacy model](https://collection.sciencemuseumgroup.org.uk/objects/co128932/model-of-pharmacy-in-guangzhou-china-1880-1883) | museum object; Guangzhou 1880–1883 | shop compounding as one late urban arrangement | too late and local to generalize |
+| [Stanford, *Civil Justice in China*](https://www.sup.org/books/asian-studies/civil-justice-china) | academic monograph description; 628 Qing civil cases | courts handling land/debt/marriage/inheritance; mediation/adjudication | Qing archive and author's interpretive framework; not all disputes reached court |
+| [Eight Qing cases](https://exeas.weai.columbia.edu/downloads/resources/pdf/eight-cases.pdf) | translated primary-source teaching packet | bounded examples of procedure, fact patterns, judgment | tiny selected set; translation/teaching context matters |
+| [Oxford/British Academy, *Delivering Justice in the Qing*](https://academic.oup.com/british-academy-scholarship-online/book/19537) | academic volume | civil trials, mediation, land/debt/marriage disputes | Qing institutional focus; local informal practice still needs separate study |
+| [Columbia: “What is popular religion?”](https://afe.easia.columbia.edu/cosmos/prb/whatis.htm) | university teaching synthesis | category caution and practice differentiation | broad cross-period synthesis |
+| [Columbia: religion in state and society](https://afe.easia.columbia.edu/cosmos/main/religion_in_state_society.pdf) | university teaching PDF | household/local offerings, festivals, life-cycle rites, almanacs | synthesizing overview; local traditions remain distinct |
+| [Columbia: soul's journey and funerals](https://afe.easia.columbia.edu/cosmos/prb/journey.htm) | university teaching synthesis | possible funeral sequence and labor/material roles | variation by region/class acknowledged; not a mandatory sequence |
+| [Watson & Rawski, *Death Ritual in Late Imperial and Modern China*](https://doi.org/10.1525/9780520910478) | academic edited volume | regional, class, and gender differentiation in death ritual | late-imperial/modern focus; chapters have different local scopes |
+| [UW Buddhism and temples](https://depts.washington.edu/chinaciv/bud/5budhism.htm) / [temple buildings](https://depts.washington.edu/chinaciv/bud/5temwood.htm) | university visual sourcebook | worship, residence, study, dining functions | spans periods and extant architecture; not a generic temple blueprint |
+| [Met, children playing in a palace garden](https://www.metmuseum.org/art/collection/search/45656) | museum object; late fourteenth–fifteenth century courtly scene | narrow evidence for represented play and toys | elite boys in an imperial garden; cannot generalize to ordinary childhood |
+| [NPM, *Celebrating Seasons*](https://theme.npm.edu.tw/exh114/CelebratingSeasons/en/page-4-1.html) | museum seasonal exhibition | overlapping agricultural, celestial, and ceremonial calendars | court collection and curatorial frame |
+| [Yuan/Ming climate-history methods](https://www.cambridge.org/core/journals/journal-of-chinese-history/article/nine-sloughs-profiling-the-climate-history-of-the-yuan-and-ming-dynasties-12601644/DA1645CAA478E868C91AB3BBEB8BC58F) | academic article | weather reconstruction and gazetteer/source bias | historical climate inference, not a fictional weather generator |
+| [Drought and famine in Northwest China](https://www.cambridge.org/core/journals/journal-of-chinese-history/article/drought-and-famine-in-northwest-china-a-late-victorian-tragedy/5693EF8F6E7B5BDAED2802E185D26F56) | academic article; nineteenth-century northwest | disaster as ecological, economic, and political chain | late, regional catastrophe; do not use as generic annual famine model |
+
+---
+
+## 25. Provisional design decisions for review
+
+These are **recommended non-canon decisions** distilled from the research. They require approval before entering a PRD or lore bible.
+
+1. Make the household or explicit survival/care network—including one-person and non-co-resident forms—the smallest complete survival economy, not an unsupported solitary avatar.
+2. Generate settlements from compatible ecology-livelihood-institution bundles.
+3. Replace “week” with locally authored overlapping cycles while preserving interface accessibility.
+4. Treat agricultural expertise as observation and local judgment, not recipe unlocking.
+5. Represent food, water, fuel, cloth, care, and storage as linked processes with competing uses.
+6. Make rent, tax, debt, wages, service, public works, and reciprocity distinct obligation types.
+7. Model literacy as domain capabilities and information as physically transmitted belief.
+8. Make disability and care alter actions, schedules, spaces, and relationships—not simply statistics.
+9. Separate metaphysical truth, personal belief, and public practice.
+10. Let norms pressure behavior while allowing historically and socially coherent variation.
+11. Give every recurring task a summarization, delegation, conditional, social, or voluntary-embodiment path.
+12. Design failure to produce recoverable life changes and lasting world memory.
+13. Require at least a full mortal-year paper simulation before cultivation progression is specified.
+14. Use the mortal-year gauntlet as a standing review suite for every later system; supernatural scale must not erase mortal continuity without a canonically justified mechanism.
+
+---
+
+## 26. Definition of research readiness
+
+This atlas is ready to become an implementation design input only when:
+
+- high-priority research gaps have assigned owners and evidence standards;
+- at least three mutually distinct ecological complexes have complete food/water/fuel/labor/market/care calendars;
+- household and life-course models have been reviewed for gender, disability, class, labor coercion, and living-culture sensitivity;
+- the original world's mortal biology, climate, geography, political institutions, and metaphysical leakage are separately authorized;
+- every proposed content bundle carries source scope, authored invention label, compatibility rules, and prohibited stereotypes;
+- a non-code paper simulation passes the continuity, household, perspective, chore, recovery, cultural-coherence, and fun gauntlets;
+- canon custodians explicitly promote selected design candidates. Silence does not do so.
+
+Until those conditions are met, this remains a research scaffold—not the mortal world's final truth.

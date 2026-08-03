@@ -1,0 +1,1257 @@
+     1→     1→# Real-Time World, Time Control, and Catastrophic Continuity — Draft v0.1
+     2→     2→
+     3→     3→**Status:** foundation architecture under review; no game code authorized  
+     4→     4→**Purpose:** make an enormous, causally persistent xianxia sandbox playable in real time without reducing the universe to nearby theater or permitting arbitrary unwinnable extinction  
+     5→     5→**Consumes:** Grand Architect Charter, Research Graph Schema, Semantic Action Contracts, Mortal Year Atlas, Identity & Death Models, Qi Condensation Envelope, and the Mortal-to-Cultivator State Ledger  
+     6→     6→**Locked product:** single-player; Three.js/WebGPU presentation target; hard pause is allowed; the protagonist receives no hidden physics exemption
+     7→     7→
+     8→     8→---
+     9→     9→
+    10→    10→## 0. Feasibility verdict
+    11→    11→
+    12→    12→The design is feasible only if “simulate the universe” means **preserve canonical causality at every scale**, not “run every person, grain, particle, conversation, and continent at frame rate.”
+    13→    13→
+    14→    14→The decisive separation is:
+    15→    15→
+    16→    16→> the CPU world model owns truth; the scheduler owns time; the event graph owns causality; the GPU owns appearance.
+    17→    17→
+    18→    18→Three.js/WebGPU can present the universe. It cannot be the authoritative universe. Scene objects, transforms, particles, shaders, deformation textures, animation clocks, physics callbacks, GPU completion order, and device-specific floating point may never decide canonical history.
+    19→    19→
+    20→    20→Four things may change with hardware:
+    21→    21→
+    22→    22→1. visual resolution;
+    23→    23→2. animation smoothness;
+    24→    24→3. how quickly accelerated simulation catches up in wall-clock time; and
+    25→    25→4. how much nonessential presentation is visible.
+    26→    26→
+    27→    27→Four things may not:
+    28→    28→
+    29→    29→1. who acted and why;
+    30→    30→2. which semantic event committed first;
+    31→    31→3. resources, injuries, deaths, obligations, identities, ownership, and world topology; and
+    32→    32→4. whether the protagonist or an isomorphic NPC lawfully survived.
+    33→    33→
+    34→    34→This draft rejects two fake solutions:
+    35→    35→
+    36→    36→- **nearby-only reality:** nothing happens until the player approaches;
+    37→    37→- **brute-force reality:** every canonical detail ticks continuously whether it can affect anything or not.
+    38→    38→
+    39→    39→The replacement is a multi-resolution, event-driven universe whose refinements are constrained by already committed history.
+    40→    40→
+    41→    41→---
+    42→    42→
+    43→    43→## 1. Canonical authority boundary
+    44→    44→
+    45→    45→### 1.1 Authoritative state
+    46→    46→
+    47→    47→`WorldState` is CPU-owned and revisioned. It contains typed entities, relations, processes, scheduled events, committed outcomes, aggregate constraints, latent-detail manifests, topology, and protected history.
+    48→    48→
+    49→    49→The canonical event journal is append-only between deterministic compaction checkpoints. Every event has:
+    50→    50→
+    51→    51→```text
+    52→    52→EventId
+    53→    53→BranchId
+    54→    54→CanonicalInstant
+    55→    55→Phase
+    56→    56→CausalParents
+    57→    57→SourceRevision
+    58→    58→ReadSetWithRevisions
+    59→    59→ReservedInputs
+    60→    60→DeterministicWriteSet
+    61→    61→RngStreamAndCursor
+    62→    62→CommitStatus
+    63→    63→ContributionAndAftermathLedger
+    64→    64→```
+    65→    65→
+    66→    66→The renderer receives immutable `RenderSnapshot` projections. Presentation interpolation may smooth between snapshots but cannot feed a transform, hit, visibility result, fracture, or GPU calculation back into canon without a separately validated CPU semantic action.
+    67→    67→
+    68→    68→### 1.2 Renderer independence
+    69→    69→
+    70→    70→Canonical hashes must match when:
+    71→    71→
+    72→    72→- the renderer is disabled;
+    73→    73→- frame rate changes among 30, 60, and 144 Hz;
+    74→    74→- WebGPU falls back to WebGL2;
+    75→    75→- visual quality changes;
+    76→    76→- the window is hidden or backgrounded;
+    77→    77→- a GPU device is lost and recreated; and
+    78→    78→- particles, decals, audio, and noncanonical debris are disabled.
+    79→    79→
+    80→    80→The current Three.js documentation describes `WebGPURenderer` as experimental and able to fall back to WebGL2. WebGPU devices may also be lost and their resources require recreation. Those facts make the authority boundary mandatory, not optional.
+    81→    81→
+    82→    82→### 1.3 No GPU-to-canon path
+    83→    83→
+    84→    84→GPU compute may accelerate disposable visual fields or produce advisory candidates, but canon accepts only deterministic CPU-validated results. Prohibited examples:
+    85→    85→
+    86→    86→- a shader deciding who was hit;
+    87→    87→- a GPU particle landing deciding where a fire starts;
+    88→    88→- an occlusion query deciding whether an NPC canonically perceived an event;
+    89→    89→- a deformation texture becoming the sole record of destroyed terrain; or
+    90→    90→- device-specific reduction order deciding catastrophe casualties.
+    91→    91→
+    92→    92→### 1.4 Canonical numeric profile — `CANON-NUM-v0.1`
+    93→    93→
+    94→    94→CPU ownership alone does not guarantee determinism. No unprofiled JavaScript `Number`, platform transcendental, physics-engine float, or tier-specific precision may decide a canonical threshold.
+    95→    95→
+    96→    96→`CANON-NUM-v0.1` requires:
+    97→    97→
+    98→    98→| Domain | Canonical representation |
+    99→    99→|---|---|
+   100→   100→| instants/durations | signed epoch plus unsigned 128-bit integer ticks; exact comparison |
+   101→   101→| counts, IDs, sequence numbers | bounded unsigned integers with declared width |
+   102→   102→| signed stocks/flows/work/distance | typed 64- or 128-bit fixed-point integers with a schema-declared unit and scale |
+   103→   103→| ratios/efficiencies | reduced rationals or fixed-point integers with exact conversion rule |
+   104→   104→| probabilities | unsigned 64-bit RNG output compared to an unsigned 64-bit threshold; no float conversion |
+   105→   105→| hierarchical coordinates | fixed/integer coordinates inside versioned reference frames |
+   106→   106→| interval bounds | closed/open endpoints using the same typed numeric profile |
+   107→   107→
+   108→   108→Normative arithmetic rules:
+   109→   109→
+   110→   110→- unit conversion uses exact reduced rational factors before one final quantization;
+   111→   111→- division and quantization round to nearest with ties to even unless an action contract explicitly requires conservative floor/ceiling;
+   112→   112→- overflow is a typed fatal validation error, never wraparound; saturation occurs only when a declared physical cap is itself the semantic result;
+   113→   113→- NaN and infinity do not exist in canonical state;
+   114→   114→- transcendental behavior uses a versioned deterministic integer/rational approximation with pinned coefficients and error interval, or remains presentation-only;
+   115→   115→- canonical integrators pin method, step/checkpoint schedule, rounding after each operation, threshold-isolation rule, and output quantization; and
+   116→   116→- S0–S4 conversion changes aggregation only, never the numeric representation or truth of a protected predicate.
+   117→   117→
+   118→   118→Every numeric schema ships cross-browser, cross-architecture, worker-count, and S-tier golden vectors containing boundary, negative, overflow, tie-rounding, interval, collision, and arrival-time cases. A result outside the approved error interval blocks commit rather than choosing whichever side of a threshold the local machine produced.
+   119→   119→
+   120→   120→---
+   121→   121→
+   122→   122→## 2. Clock hierarchy
+   123→   123→
+   124→   124→### 2.1 Typed clocks
+   125→   125→
+   126→   126→| Clock | Meaning | May change canon? |
+   127→   127→|---|---|---|
+   128→   128→| `CanonicalInstant` | exact ordered position in world history, represented by epoch plus integer units | yes; this is canonical time |
+   129→   129→| `SimulationTarget` | instant the scheduler is currently resolving toward | only through committed events |
+   130→   130→| `SemanticDuration` | authored duration and milestones of an action or process | yes |
+   131→   131→| `PresentationTime` | animation, UI, audio, cloth, particles, camera smoothing | no |
+   132→   132→| `WallTime` | performance measurement and input latency | no |
+   133→   133→
+   134→   134→Canonical time never derives from `requestAnimationFrame`, browser timers, OS time, reading speed, monitor refresh, or floating `deltaTime`. Browser animation callbacks may pause in background tabs and timers may be throttled, while xianxia chronology may span intervals that lose precision in one floating value. Canon therefore uses integer ordering with explicit epochs.
+   135→   135→
+   136→   136→### 2.2 Event order
+   137→   137→
+   138→   138→After causal dependencies are validated and the ready set is constructed, canonical events sort by:
+   139→   139→
+   140→   140→```text
+   141→   141→(CanonicalInstant, Phase, StableEventId)
+   142→   142→```
+   143→   143→
+   144→   144→Authored phases initially include:
+   145→   145→
+   146→   146→1. prior commitments arriving;
+   147→   147→2. perception and warnings;
+   148→   148→3. interruption/precondition invalidation;
+   149→   149→4. action milestones;
+   150→   150→5. damage/transformation;
+   151→   151→6. identity, legal, and ownership consequences;
+   152→   152→7. scheduling of future consequences; and
+   153→   153→8. snapshot/publication.
+   154→   154→
+   155→   155→Same-time events use stable IDs or an explicitly coupled reducer. Promise resolution, worker completion, array order, object insertion, GPU ordering, and queue partition never break ties.
+   156→   156→
+   157→   157→### 2.3 Zero-time closure
+   158→   158→
+   159→   159→An event created at the same instant must:
+   160→   160→
+   161→   161→- advance to a later authored phase;
+   162→   162→- join a declared commutative/associative reducer; or
+   163→   163→- consume a bounded closure generation and then defer or fail visibly.
+   164→   164→
+   165→   165→No reaction, formation, counter, notification, or institutional response may generate an infinite zero-time loop. Reaching the closure limit is a specification defect with a reproducible event trace, not permission to discard events.
+   166→   166→
+   167→   167→### 2.4 Live-input admission — `INPUT-BARRIER-v0.1`
+   168→   168→
+   169→   169→Live input is an external cause and therefore becomes part of history through an explicit gateway. The UI submits:
+   170→   170→
+   171→   171→```text
+   172→   172→InputIntent {
+   173→   173→  InputSeq
+   174→   174→  BasedOnSnapshotRevision
+   175→   175→  DisplayedCanonicalInstant
+   176→   176→  InputSchemaVersion
+   177→   177→  Payload
+   178→   178→  RebasePolicy
+   179→   179→}
+   180→   180→```
+   181→   181→
+   182→   182→The input gateway's `LowerBoundOnNextEvent` is always the **earliest currently open or next eligible input-commit barrier** under the current mode. A barrier becomes closed only after its input eligibility has ended and every required acknowledgement/lease rule below is satisfied.
+   183→   183→
+   184→   184→Mode-scoped schedules:
+   185→   185→
+   186→   186→- `Active`: the simulation publishes a revision at each fixed `ActiveInputBarrier` and may prepare—but not commit—past the one open live-input window. The gateway supplies `Intent | NoInput | Pause`; the accepted intent is stamped at that window's assigned barrier.
+   187→   187→- `HardPause` / `DialogueFocus`: the safe horizon is the current committed instant. A chosen action opens one explicit commit barrier; reading creates none.
+   188→   188→- `Advance`: starting Advance commits one `AdvanceAuthorizationLease` containing the standing order, authorized information view, stop policy, maximum target instant, and lease ID. Internal semantic barriers may then batch without UI acknowledgements. The gateway advertises the next deterministic `CatchUpPublicationBarrier` as the earliest eligible instant for an asynchronous `Pause | Cancel`.
+   189→   189→- When Pause/Cancel arrives during Advance, it is pending external input and is stamped at the first catch-up publication barrier not already published when receipt is registered. It is never retroactive. The stamped barrier is journaled, so replay does not consult wall time.
+   190→   190→
+   191→   191→Transport, render, or worker latency cannot move an Active intent to another barrier because the authoritative worker cannot close its one open window before acknowledgement. Advance liveness does not require one round trip per internal barrier because the authorization lease closes that input class until a deterministic catch-up publication point.
+   192→   192→
+   193→   193→Acceptance rules:
+   194→   194→
+   195→   195→- an intent based on the current published revision is accepted at that window's assigned barrier;
+   196→   196→- a stale but semantically rebaseable planning intent may move only under its declared `RebasePolicy`, with the new barrier shown to the player;
+   197→   197→- a stale reaction, target, consent, timing, or inventory mutation whose opportunity changed is rejected and the current snapshot republished;
+   198→   198→- a pause request stops at the next transaction barrier reachable from the open input window; and
+   199→   199→- the stamped intent journal—not wall-arrival timestamps—is replayed.
+   200→   200→
+   201→   201→Wall time determines when the live player supplies an external intent, just as the player's chosen command determines history; it never supplies the canonical timestamp itself. Replaying the same stamped intent log under delayed transport, different frame rates, worker counts, and render backends must produce identical event order and hashes. `MaxLiveRunAhead` in Active is one unclosed input barrier. In Advance it is the next published catch-up barrier under the signed lease; catch-up computation may prepare further immutable candidates but cannot commit past that gateway lower bound until pending input is sampled and the next bound is advertised.
+   202→   202→
+   203→   203→### 2.5 Conservative safe-time frontier
+   204→   204→
+   205→   205→Every logical process—actor, institution, continuous solver, wavefront, input gateway, generator, and external transaction—advertises a certified `LowerBoundOnNextEvent` under its current state and lookahead contract.
+   206→   206→
+   207→   207→```text
+   208→   208→GlobalSafeHorizon = minimum of every active process lower bound
+   209→   209→```
+   210→   210→
+   211→   211→The scheduler may commit only events proven earlier than the safe horizon, or events at the horizon after all capable sources certify that no smaller/equal-priority event remains. Analytical threshold intervals and wavefront arrival bounds must refine until the relevant ordering is proven before commit.
+   212→   212→
+   213→   213→Event validity requires:
+   214→   214→
+   215→   215→- every parent instant is earlier than the child, or at the same instant with a strictly earlier phase/dependency;
+   216→   216→- the dependency graph is acyclic;
+   217→   217→- same-time ready events are reduced by stable Kahn topological order, with `(Phase, StableEventId)` as the deterministic ready-set tie-break;
+   218→   218→- no process may enqueue an event earlier than or equal to the already committed frontier except a same-instant child in a still-open later phase; and
+   219→   219→- workers return immutable candidates plus a new lower-bound certificate; only the authoritative scheduler commits.
+   220→   220→
+   221→   221→A late event is a fatal, reproducible specification defect containing the process state, advertised lower bound, discovered event, and committed frontier. The engine never repairs it by rollback, event deletion, or retroactive history mutation. The live-input gateway participates as a process whose lower bound is the earliest currently open or next eligible mode-scoped input-commit barrier, never a barrier already closed.
+   222→   222→
+   223→   223→---
+   224→   224→
+   225→   225→## 3. Player-facing time modes
+   226→   226→
+   227→   227→### 3.1 Default modes
+   228→   228→
+   229→   229→| Mode | Canonical time | Default use | What the player may do |
+   230→   230→|---|---:|---|---|
+   231→   231→| `HardPause` | `Δt = 0` after current atomic barrier | pause key, menus, codex, inventory browsing, settings, safe conversation deliberation | inspect the frozen known-state snapshot, plan, adjust accessibility/presentation, choose a future commitment |
+   232→   232→| `Active` | normal semantic scheduler | movement, labor, exploration, combat | commit actions in real time; presentation follows canonical results |
+   233→   233→| `DialogueFocus` | `Δt = 0` while reading/choosing | nonhostile interaction by default | read known text and choose an utterance/action; the selected act then has canonical duration |
+   234→   234→| `TacticalFocus` | optional presentation slowdown while canonical rules remain explicit | accessibility or high-information moments | never changes actor caps, event order, or outcomes by itself |
+   235→   235→| `Advance` | scheduler resolves toward a player-selected condition/date | wait, sleep, work shift, cultivation, craft, long travel | provide standing orders, resource floors, risk tolerance, and stop conditions |
+   236→   236→
+   237→   237→Hard pause remains available even in combat because this is a single-player game. Removing pause would not make the universe more authentic; it would make input speed and accessibility part of canonical combat power.
+   238→   238→
+   239→   239→If `TacticalFocus` is retained, it slows how quickly the live input gateway closes successive canonical barriers by a disclosed rational wall-pacing factor; it does not enlarge a canonical action, change a solver step, slow only enemies, or use floating physics `timeScale`. The stamped input/event log remains replayable without wall time. Its extra deliberation is an explicit single-player accessibility/difficulty affordance, not a protagonist law ability.
+   240→   240→
+   241→   241→### 3.2 Frozen knowledge, not frozen omniscience
+   242→   242→
+   243→   243→Hard pause exposes the information the protagonist had lawfully acquired at the barrier. It does not perform new canonical sensing.
+   244→   244→
+   245→   245→Free while paused:
+   246→   246→
+   247→   247→- read previously observed inventory, techniques, relationships, maps, schedules, and evidence;
+   248→   248→- compare known facts;
+   249→   249→- change camera presentation within already revealed information;
+   250→   250→- remap controls and accessibility;
+   251→   251→- compose a planned action or dialogue response; and
+   252→   252→- save under the selected save policy.
+   253→   253→
+   254→   254→Requires a semantic commitment with time/cost:
+   255→   255→
+   256→   256→- equip or remove gear;
+   257→   257→- consume medicine or items;
+   258→   258→- begin crafting, treatment, cultivation, divination, appraisal, or formation work;
+   259→   259→- issue an order or transmit information;
+   260→   260→- search a container or inspect a newly exposed angle;
+   261→   261→- change a technique's physical configuration; and
+   262→   262→- queue movement that another actor could interrupt.
+   263→   263→
+   264→   264→If a projectile is one millisecond away, the player may think for an hour of wall time. They may not equip five treasures, drink ten pills, scan the battlefield, and reorder the body at zero canonical cost.
+   265→   265→
+   266→   266→### 3.3 Practical stillness in conversations
+   267→   267→
+   268→   268→Nonhostile dialogue defaults to hard deliberation pause. Ambient breathing, cloth, particles, or camera motion may continue in `PresentationTime`, but no actor ages, moves, attacks, completes work, starves, or receives new knowledge while the player reads.
+   269→   269→
+   270→   270→Selecting a line does not “charge seconds afterward.” It creates a semantic speech task. Only words actually delivered and heard become canonical. Fire, attack, departure, death, consent withdrawal, language delay, or catastrophe arrival may interrupt the utterance at an exact milestone.
+   271→   271→
+   272→   272→An optional continuous-conversation mode may exist for players who want it. It is not the default balance assumption.
+   273→   273→
+   274→   274→---
+   275→   275→
+   276→   276→## 4. Semantic action transaction
+   277→   277→
+   278→   278→Every canonical action, including speech, has:
+   279→   279→
+   280→   280→```text
+   281→   281→Prepare → CommitStart → ActiveMilestone[] → Complete → Recovery
+   282→   282→                     ↘ Interrupt/Abort/PartialResult
+   283→   283→```
+   284→   284→
+   285→   285→Required fields:
+   286→   286→
+   287→   287→- actor and authority;
+   288→   288→- typed targets;
+   289→   289→- start instant and duration model;
+   290→   290→- input reservations and tool/capability contributions;
+   291→   291→- preconditions revalidated at prepare and material milestones;
+   292→   292→- perception available to the actor;
+   293→   293→- interrupt sources and reaction windows;
+   294→   294→- partial-result semantics;
+   295→   295→- costs already spent versus refundable reservations;
+   296→   296→- observables, witnesses, noise, and evidence;
+   297→   297→- recovery and cooldown; and
+   298→   298→- deterministic transaction/branch IDs.
+   299→   299→
+   300→   300→Examples:
+   301→   301→
+   302→   302→- A long sentence can be cut off; only its delivered prefix is heard.
+   303→   303→- Changing robes under attack exposes the body during authored milestones.
+   304→   304→- Swallowing a pill requires taking it out, bringing it to the mouth, swallowing, and later assimilation; menu selection alone does none of these.
+   305→   305→- A five-hour cultivation session consists of preparatory choices and semantic checkpoints; it is not 18,000 one-second animation ticks.
+   306→   306→
+   307→   307→---
+   308→   308→
+   309→   309→## 5. Waiting, travel, cultivation, and accelerated time
+   310→   310→
+   311→   311→### 5.1 Acceleration changes throughput, never law
+   312→   312→
+   313→   313→Time acceleration asks the scheduler to resolve toward a later `SimulationTarget`. It omits presentation frames, not causal events. The protected result must equal ordinary semantic-event execution.
+   314→   314→
+   315→   315→Continuous processes use one of:
+   316→   316→
+   317→   317→- analytical evolution with scheduled threshold crossings;
+   318→   318→- bounded fixed-step integration whose checkpoint size is part of the contract;
+   319→   319→- discrete semantic milestones;
+   320→   320→- conservative wavefront arrival events; or
+   321→   321→- a process-specific closed-form/aggregate transition with a differential oracle.
+   322→   322→
+   323→   323→Multiplying physics `dt` by 1,000 or replaying every missed render frame are both forbidden.
+   324→   324→
+   325→   325→### 5.2 Standing orders
+   326→   326→
+   327→   327→Advance mode executes only policies the player explicitly authorizes. A standing order may state:
+   328→   328→
+   329→   329→- intended activity and destination/finish condition;
+   330→   330→- food, water, qi, health, money, and material floors;
+   331→   331→- route and shelter preferences;
+   332→   332→- accepted hazard classes and confidence threshold;
+   333→   333→- who may interrupt;
+   334→   334→- whether to aid, hide, negotiate, flee, or merely stop for ambiguous events;
+   335→   335→- cultivation stop signs;
+   336→   336→- obligations that may not be missed; and
+   337→   337→- maximum canonical duration.
+   338→   338→
+   339→   339→Automation cannot infer the player's values when two obligations conflict.
+   340→   340→
+   341→   341→### 5.3 Earliest undecided interrupt
+   342→   342→
+   343→   343→Acceleration stops at the earliest **decision-ready information barrier** visible through the standing order's `AuthorizedInformationView` that:
+   344→   344→
+   345→   345→- makes a standing-order invalidation lawfully known, or causes an attempted routine milestone to fail in an observable way;
+   346→   346→- presents a lawfully perceived materially new choice outside the authorized policy;
+   347→   347→- crosses a declared floor as measured by an authorized bodily sense, inventory check, worn instrument, companion report, scheduled inspection, or other signed monitoring interface;
+   348→   348→- is lawfully perceived by the protagonist or an authorized standing-order agent as threatening the player or protected dependents and still leaves a reachable undecided response;
+   349→   349→- delivers a warning above the chosen threshold to the protagonist or authorized agent through a canonical perception/testimony/instrument channel;
+   350→   350→- lawfully reveals a change to destination, teacher, consent, method, route, body, or legal access, or produces an observable action failure caused by that change;
+   351→   351→- completes the requested goal; or
+   352→   352→- cannot be resolved without protagonist input.
+   353→   353→
+   354→   354→The scheduler first commits the exogenous event and every causal perception/transmission event required to make the information available, then freezes before the protagonist's next response or before an authorized routine chooses outside policy. The frozen state therefore contains the warning, observed effect, changed body state, or testimony that justifies the interruption.
+   355→   355→
+   356→   356→Every predicate is evaluated over the authorized agent's canonical information state, including its uncertainty and scheduled check frequency, never omniscient `WorldState`. An objective hidden health/qi/contamination/ownership/access crossing may change ongoing processes, but it cannot halt or publish itself until a lawful symptom, instrument reading, testimony, inspection, action failure, incapacity, or death/continuation event occurs. A lawfully worn monitor may interrupt because its reading is canonical evidence; the same hidden change without that interface may not.
+   357→   357→
+   358→   358→An undetected poison, hidden assassin, unreceived warning, concealed formation failure, unseen theft/revocation, or unseen catastrophe front is **not** an Advance-mode interrupt oracle. It resolves exactly as at 1× and may first halt acceleration only through the observable channels above. Repeated short advances cannot reveal whether an interruption-free interval was secretly dangerous.
+   359→   359→
+   360→   360→### 5.4 Causal-equivalence oracle
+   361→   361→
+   362→   362→For the same branch, inputs, seed manifest, and stopping policy:
+   363→   363→
+   364→   364→```text
+   365→   365→normal semantic stepping
+   366→   366→= accelerated processing
+   367→   367→= direct advance-until-event
+   368→   368→= save/reload halfway
+   369→   369→= different work budgets and worker counts
+   370→   370→```
+   371→   371→
+   372→   372→Equality means identical protected event order, first interrupt, state hash, latent-detail manifests, and answers to every canonical query. Storage layout, processing order before the stable commit barrier, and presentation may differ; generated facts may not.
+   373→   373→
+   374→   374→Tier/acceleration equivalence is a **future-refinement bisimulation**: after any matched pair of runs, applying the same lawful observation, promotion, naming, travel, interaction, or exhaustive-refinement query must materialize the same people, casualties, owners, items, histories, and opportunities from the same manifest. “Unnamed so far” never permits execution mode to decide who later exists.
+   375→   375→
+   376→   376→---
+   377→   377→
+   378→   378→## 6. Simulation resolution is not rendering LOD
+   379→   379→
+   380→   380→The previous `F0–F4` vocabulary is retained only as a migration alias. The normative axes are separated:
+   381→   381→
+   382→   382→1. `S0–S4 SimulationResolution` — how canonical processes resolve;
+   383→   383→2. `R0–R5 RenderLOD` — how much appearance is drawn;
+   384→   384→3. `P0–P3 PersistenceClass` — which facts may never aggregate away; and
+   385→   385→4. `N0–N3 CausalSignificance` — whether an entity/process participates in named intentions, obligations, identity, or open investigations.
+   386→   386→
+   387→   387→A distant visible planet may be `S0/R5`. A hidden nearby assassin may be `S4/R0`. A centuries-old grave involved in an oath may be `S0/R0/P3/N3`.
+   388→   388→
+   389→   389→### 6.1 Simulation tiers
+   390→   390→
+   391→   391→| Tier | Resolution | Protected behavior |
+   392→   392→|---|---|---|
+   393→   393→| `S0 Chronicle` | long-horizon event graph and bounded aggregates | stable histories, major commitments, named/unique exceptions, world and catastrophe envelopes |
+   394→   394→| `S1 Strategic` | institutions, settlements, routes, resources, ecology and faction processes | conservation, territorial intent, projects, migrations, deterrence and warnings |
+   395→   395→| `S2 Regional` | households/cohorts, named agents, weather/ecology cells, local markets and conflicts | scheduled choices and individual exception ledgers |
+   396→   396→| `S3 Encounter` | individual actions, bodies, inventories, perception, navigation and local topology | exact semantic outcomes at interactable scale |
+   397→   397→| `S4 Immediate` | high-frequency canonical contacts for combat, precision work and catastrophe frontier | fixed canonical action steps; no frame-dependent truth |
+   398→   398→
+   399→   399→### 6.2 Promotion and latent detail
+   400→   400→
+   401→   401→Every coarse cell or cohort stores:
+   402→   402→
+   403→   403→- latent-detail seed and generator/schema version;
+   404→   404→- hard totals and conserved stocks;
+   405→   405→- named entities and unique objects;
+   406→   406→- observations already made;
+   407→   407→- casualties, births, claims, ownership, routes, scars, and warnings;
+   408→   408→- event history and pending commitments;
+   409→   409→- uncertainty/error bounds; and
+   410→   410→- degrees of freedom still unresolved.
+   411→   411→
+   412→   412→Promotion fills only unresolved degrees of freedom. It cannot contradict a silhouette the player saw, create loot beyond the coarse stock, resurrect aggregate casualties, invent a clear road after a recorded collapse, or erase a witness. Newly observed detail becomes pinned.
+   413→   413→
+   414→   414→Promotion uses hysteresis and prefetch rings. A catastrophe frontier never forces an entire planet to `S4`.
+   415→   415→
+   416→   416→### 6.3 Demotion
+   417→   417→
+   418→   418→Before demotion, unfinished individual actions commit their current milestone or remain as pending semantic transactions. Named bodies, injuries, intent commitments, debts, warnings, custody, traces, consent, and player-relevant interrupts become exceptions to the aggregate.
+   419→   419→
+   420→   420→### 6.4 Budget invariance
+   421→   421→
+   422→   422→Simulation work, rendering, streaming, and UI have separate wall-time budgets. Exhaustion causes the worker to yield and resume from the exact frontier. It may slow acceleration or reduce visuals; it may not delete events, reduce casualties, move a deadline, choose a cheaper algorithm with different semantics, or demote something mid-transaction.
+   423→   423→
+   424→   424→---
+   425→   425→
+   426→   426→## 7. Real-time performance contract
+   427→   427→
+   428→   428→### 7.1 Initial experience targets
+   429→   429→
+   430→   430→These are release targets to benchmark, not engine facts:
+   431→   431→
+   432→   432→| Metric | Target |
+   433→   433→|---|---|
+   434→   434→| input-to-visible acknowledgement | ≤50 ms p95 outside loading barriers |
+   435→   435→| main-thread long tasks during play | none above 50 ms in steady state |
+   436→   436→| presentation | 60 fps target; graceful 30 fps quality floor on supported minimum hardware |
+   437→   437→| canonical simulation | never blocks UI/render main thread |
+   438→   438→| pause response | acknowledgement ≤50 ms p95 and ≤100 ms maximum on supported minimum hardware; uncommitted solver work may be discarded, committed history may not |
+   439→   439→| catastrophe onset | no synchronous mass promotion or first-use shader compilation spike |
+   440→   440→| accelerated catch-up | progress visible; player may cancel at safe journal barrier; no event loss |
+   441→   441→
+   442→   442→### 7.2 Runtime shape reserved for later implementation
+   443→   443→
+   444→   444→The research architecture requires:
+   445→   445→
+   446→   446→- a dedicated authoritative simulation worker;
+   447→   447→- optional deterministic workers that compute immutable intents in parallel;
+   448→   448→- one stable sort/reduce barrier that alone commits results;
+   449→   449→- revisioned snapshot buffers sent to presentation;
+   450→   450→- structured-clone operation when shared memory is unavailable;
+   451→   451→- instanced/procedural render proxies rather than one scene object per canonical entity;
+   452→   452→- no per-frame GPU readback;
+   453→   453→- prewarmed catastrophe presentation pipelines; and
+   454→   454→- headless canonical simulation for tests.
+   455→   455→
+   456→   456→This is an architectural constraint, not permission to start coding.
+   457→   457→
+   458→   458→### 7.2.1 Cooperative work and cancellation bound
+   459→   459→
+   460→   460→“Atomic” describes commit visibility, not permission to compute forever. Every solver, generator, compactor, promotion, path query, and catastrophe reducer is resumable from a deterministic cursor.
+   461→   461→
+   462→   462→- A canonical work chunk contains at most 2,048 profiled primitive operations before storing a cursor and checking pause/cancel.
+   463→   463→- On supported minimum hardware it also yields after 4 ms of wall work if that occurs first; wall-time yielding changes only chunk boundaries, never ordering or results.
+   464→   464→- No nonpreemptible prepare/reduce/commit barrier may exceed the 50 ms long-task ceiling; oversized write sets use a prepared Merkle root and bounded deterministic commit pages whose visibility changes only at the final root swap.
+   465→   465→- Pause prevents new chunks from starting, discards or retains uncommitted candidates according to their transaction contract, and publishes the last committed barrier.
+   466→   466→- Advance cancellation stops at the next safe-horizon journal barrier and retains its exact scheduler/solver frontier.
+   467→   467→
+   468→   468→Worst-case benchmarks include million-cell fronts, world generation, S0↔S4 promotion, archive compaction, route invalidation, and world-to-remnant remapping under CPU throttling—not merely steady-state play.
+   469→   469→
+   470→   470→### 7.3 Prohibited lag traps
+   471→   471→
+   472→   472→- simulation on the UI/Three.js main loop;
+   473→   473→- one microtick per offscreen second;
+   474→   474→- one canonical object per grain, raindrop, particle, or unnamed distant victim;
+   475→   475→- synchronous whole-region procedural generation;
+   476→   476→- uncontrolled zero-duration reactions;
+   477→   477→- worker result order deciding canon;
+   478→   478→- per-frame save serialization of the entire universe;
+   479→   479→- GPU readback as routine gameplay logic;
+   480→   480→- mass scene-object creation for armies, forests, debris, or stars; and
+   481→   481→- using event-budget exhaustion as a game-rule shortcut.
+   482→   482→
+   483→   483→---
+   484→   484→
+   485→   485→## 8. Spatial continuity across extreme scale
+   486→   486→
+   487→   487→Canonical locations use hierarchical reference frames:
+   488→   488→
+   489→   489→```text
+   490→   490→cosmological domain
+   491→   491→→ sector/route complex
+   492→   492→→ system barycentric frame
+   493→   493→→ world-body frame
+   494→   494→→ region/remnant frame
+   495→   495→→ local cell
+   496→   496→→ local position
+   497→   497→```
+   498→   498→
+   499→   499→CPU canonical coordinates use the tier-independent fixed/integer hierarchical representation in `CANON-NUM-v0.1`. Aggregation never changes protected coordinate predicates. Three.js receives disposable camera-relative local floats.
+   500→   500→
+   501→   501→Destroying or dividing a world creates new remnant frames and an explicit old-to-new location map. Old coordinates remain historical anchors. “The ancestral hall was here” must remain meaningful even if “here” is now a debris trajectory rather than a surface point.
+   502→   502→
+   503→   503→---
+   504→   504→
+   505→   505→## 9. Catastrophe ontology
+   506→   506→
+   507→   507→### 9.1 Threat classes
+   508→   508→
+   509→   509→These causes must not collapse into a generic disaster roll:
+   510→   510→
+   511→   511→1. deliberate extermination;
+   512→   512→2. conquest or extraction;
+   513→   513→3. punitive strike;
+   514→   514→4. accidental transit, collision, or failed technique;
+   515→   515→5. cosmic-beast feeding, migration, nesting, or territorial behavior;
+   516→   516→6. slow ecological, qi, stellar, or infrastructural depletion; and
+   517→   517→7. civil war, sabotage, or captured authority inside existing defenses.
+   518→   518→
+   519→   519→### 9.2 Impact scale
+   520→   520→
+   521→   521→| Scale | Primary consequence envelope |
+   522→   522→|---|---|
+   523→   523→| `K0 Personal` | body, room, single vehicle/tool |
+   524→   524→| `K1 Site` | household, worksite, formation node, street |
+   525→   525→| `K2 Settlement` | village, district, town, ship/community |
+   526→   526→| `K3 Region` | watershed, province-scale route complex, ecosystem |
+   527→   527→| `K4 Continental` | continental topology, climate, polities, seas/routes |
+   528→   528→| `K5 World-body` | planet/world-body habitability or physical continuity |
+   529→   529→| `K6 System/plane` | star system, plane, world cluster, major cosmic route |
+   530→   530→| `K7 Cosmological-domain` | multiple systems/planes or ratified world-law domain |
+   531→   531→
+   532→   532→Scale is not a combat level. A K5 event may be slow, preventable, politically induced, or survivable in protected regions. A K1 soul or identity attack may be more dangerous to the protagonist than a distant K5 event.
+   533→   533→
+   534→   534→### 9.3 Catastrophe is a process
+   535→   535→
+   536→   536→A catastrophe requires:
+   537→   537→
+   538→   538→- cause and causal history;
+   539→   539→- actor/phenomenon and intent where applicable;
+   540→   540→- capability and contribution certificate;
+   541→   541→- origin, path, propagation geometry, and clocks;
+   542→   542→- observability, concealment, false positives, and warning signals;
+   543→   543→- hazard-envelope certification and arrival-time intersection calculation;
+   544→   544→- intervention windows and attainable response layers;
+   545→   545→- opponents, counterforces, deterrence, and institutional latency;
+   546→   546→- conservation and authority rules;
+   547→   547→- prepare/commit/aftermath transaction boundaries;
+   548→   548→- identity, location, ownership, route, ecology, and law consequences; and
+   549→   549→- persistent remnant/recovery state.
+   550→   550→
+   551→   551→“A hypothetical K4+-capable cultivator randomly becomes evil and deletes a continent” fails. Random variates may influence stress, timing, target choice among motivated alternatives, mistakes, or whether deterrence succeeds. They may not create world-erasing intent without goals, knowledge, opportunity, and accepted consequences.
+   552→   552→
+   553→   553→---
+   554→   554→
+   555→   555→## 10. Catastrophe contract
+   556→   556→
+   557→   557→Every K3+ event and any lower event capable of topology/identity mass change uses `CatastropheContract-v0.1`.
+   558→   558→
+   559→   559→```text
+   560→   560→CatastropheId / BranchId / SchemaVersion
+   561→   561→ThreatClass / ImpactScale
+   562→   562→SourceActorsAndPhenomena
+   563→   563→IntentCommitmentAndDecisionEvidence
+   564→   564→CapabilityAndContributionLedger
+   565→   565→Origin / StartInstant / TopologyRevision
+   566→   566→PropagationWavefronts
+   567→   567→HazardEnvelopeCertificate / IntersectionCertificate[]
+   568→   568→SignalsAndDetectionChannels
+   569→   569→WarningsDeliveredAndBelievedByAudience
+   570→   570→InterventionWindowsAndReservations
+   571→   571→Defenses / Counteractors / Deterrence
+   572→   572→PrepareHash / CommitBarrier / AbortOrDeflectionRules
+   573→   573→EntityAndLocationRemap
+   574→   574→SurvivalDeathMissingTransformationOutcomes
+   575→   575→MaterialQiMomentumAndAuthorityAccounting
+   576→   576→EcologyClimateAtmosphereOceanRouteAftermath
+   577→   577→OwnershipLawDebtOfficeRiteAndObjectiveRewrites
+   578→   578→FutureWavefronts / Recovery / Investigation / Memorial
+   579→   579→SaveBranchAndCompactionBindings
+   580→   580→```
+   581→   581→
+   582→   582→### 10.1 Hazard-envelope and intersection certificates
+   583→   583→
+   584→   584→Before source commitment, the catastrophe pins a `HazardEnvelopeCertificate`, not a frozen list of future victims:
+   585→   585→
+   586→   586→- source/topology revision and hierarchical space-time cells/routes/frames the fronts may lawfully reach;
+   587→   587→- arrival-time/intensity intervals and refinement obligations;
+   588→   588→- cohort conservation commitments and latent-detail manifests by covered range;
+   589→   589→- protected reference ranges represented by hierarchical Merkle commitments rather than one global entity hash;
+   590→   590→- shelters, gates, formations, vehicles, and custody/transport interfaces that can alter later intersection; and
+   591→   591→- confidence/error bounds for regions not yet refined.
+   592→   592→
+   593→   593→At each exact frontier arrival, an `IntersectionCertificate` resolves membership against revisioned trajectory, occupancy, birth/death, embodiment, shelter, vehicle, possession/merge/resurrection, and custody states at the declared cut instant. It records:
+   594→   594→
+   595→   595→- front/cell/topology/occupancy revisions;
+   596→   596→- deterministic boundary rule for an entity exactly on a cell, vehicle, shelter, or time edge;
+   597→   597→- entrants, exits, evacuees, births, deaths, transfers, and carried entities since the prior crossing;
+   598→   598→- named/unique entities resolved individually;
+   599→   599→- aggregate cohorts with conserved before/after counts and latent seeds;
+   600→   600→- applied defense/remap and outcome transactions; and
+   601→   601→- the Merkle range proofs touched by the intersection.
+   602→   602→
+   603→   603→An entity may intersect different front components more than once only when its trajectory and the front topology entail distinct crossings; stable crossing IDs prevent duplication. No entity disappears merely because its scene unloads, and no precommit snapshot freezes a living population in place.
+   604→   604→
+   605→   605→### 10.1.1 Topology-write recertification
+   606→   606→
+   607→   607→Every prepared topology write—opening/closing a gate, severing/creating a route, moving a boundary, forming a remnant, changing a shelter interface, or altering a law corridor—atomically queries the active-process spatial index for fronts and solvers whose reachability, travel time, attenuation, or lower bound may change.
+   608→   608→
+   609→   609→Before the topology revision can commit, each impacted process must do one of:
+   610→   610→
+   611→   611→1. invalidate and recompute its `HazardEnvelopeCertificate` and `LowerBoundOnNextEvent` against the proposed revision, extending Merkle range commitments for newly reachable cells;
+   612→   612→2. prove with a versioned nonimpact certificate that its existing envelope/bound remains valid; or
+   613→   613→3. join the topology change in one coupled interaction transaction when their same-instant effects cannot be independently ordered.
+   614→   614→
+   615→   615→The scheduler installs the topology revision and all replacement certificates in one atomic root swap. If recomputation cannot finish inside the prepared transaction, the topology write remains uncommitted and resumable; history does not advance past it. A newly opened shortcut can therefore advance a future arrival only after the safe horizon has been lowered before commit. A closed route cannot leave stale reachable cells or reservations. No topology change may reveal an event in the already committed past.
+   616→   616→
+   617→   617→### 10.2 Transaction phases
+   618→   618→
+   619→   619→```text
+   620→   620→DormantCause
+   621→   621→→ SourceIntentOrPhysicalCommitment
+   622→   622→→ ObservableApproach
+   623→   623→→ DefenseAndIntervention
+   624→   624→→ PropagationAndLocalFrontierImpactCommit[]
+   625→   625→→ LocalTopologyTransition[]
+   626→   626→→ GlobalRemnantFrameCommitWhenPredicateMet
+   627→   627→→ ImmediateAftermath
+   628→   628→→ LongRecoveryOrFinality
+   629→   629→```
+   630→   630→
+   631→   631→Source commitment means the actor/phenomenon can no longer withdraw the emitted cause without a new counterevent; it does **not** alter a distant target early. Each local impact and topology transition commits at its causal arrival/severance instant. Later fronts bind to the new topology revision. A global remnant reference frame commits only when the declared physical/topological predicate is actually met, so distant observers, travelers, warnings, and defenses can act during propagation against the then-current world.
+   632→   632→
+   633→   633→The player can save at any barrier under the save policy. Reload restores the same source commitment, seed streams, warnings, queues, hazard envelope, committed intersection certificates, and transaction phase. It cannot reroll the aggressor, duplicate evacuees, restore spent formation fuel, or create two remnant worlds sharing one identity.
+   634→   634→
+   635→   635→---
+   636→   636→
+   637→   637→## 11. Conservative catastrophe propagation
+   638→   638→
+   639→   639→### 11.1 Typed wavefront
+   640→   640→
+   641→   641→Each destructive, protective, material, qi, thermal, pressure, debris, information, or law effect travels as a typed wavefront with:
+   642→   642→
+   643→   643→- source certificate;
+   644→   644→- origin and start instant;
+   645→   645→- propagation topology and lawful speed;
+   646→   646→- energy/mass/qi/information/authority budget as applicable;
+   647→   647→- arrival time and intensity bounds per coarse cell;
+   648→   648→- attenuation, reflection, branching, occlusion, and transformation rules;
+   649→   649→- protected named targets;
+   650→   650→- local refinement boundary conditions; and
+   651→   651→- persistent aftermath fields.
+   652→   652→
+   653→   653→The solver advances frontier crossings, not particles or voxels. Named, unique, causally active, or player-adjacent entities resolve individually when the frontier reaches them. Ordinary unnamed populations/material resolve through bounded cohorts whose totals and latent seeds remain pinned.
+   654→   654→
+   655→   655→### 11.2 Overlap
+   656→   656→
+   657→   657→Two fronts meeting in one cell must be:
+   658→   658→
+   659→   659→- combined by a declared associative/commutative reducer;
+   660→   660→- ordered by causal instant and stable phase; or
+   661→   661→- promoted to one coupled-interaction event.
+   662→   662→
+   663→   663→Queue insertion order cannot decide whether fire consumes a refuge before flood arrives, whether two formations cancel, or whether debris breaches an already weakened barrier.
+   664→   664→
+   665→   665→### 11.3 Local physical spectacle
+   666→   666→
+   667→   667→Near the player, canonical frontier conditions generate detailed fracture, debris, fluid, atmosphere, terrain, technique, audio, and VFX presentation. Detail satisfies coarse boundary conditions; it does not resimulate the continent.
+   668→   668→
+   669→   669→For example, a continental rupture may canonically be represented by several evolving fault/topology regions, energy/qi ledgers, travel discontinuities, sea/atmosphere effects, casualty cohorts, and named exceptions. Only the player's current interaction cone receives contract-relevant local fracture detail.
+   670→   670→
+   671→   671→---
+   672→   672→
+   673→   673→## 12. Why inhabited mortal worlds survive
+   674→   674→
+   675→   675→Long-lived mortal civilization is evidence that annihilation is rare enough to permit it. The universe therefore needs a **layered equilibrium**, not an invisible authorial ban.
+   676→   676→
+   677→   677→### 12.1 Embodiment and compatibility burden
+   678→   678→
+   679→   679→A high-realm body, qi circulation, perception, or authority may depend on conditions absent from a mortal world. Full descent may require an anchor, stored support, capability shedding, signature exposure, or bodily risk.
+   680→   680→
+   681→   681→This is typed incompatibility, not a universal “realm suppression” field. Projections, proxies, artifacts, local collaborators, brief strikes, or compatible techniques can still be dangerous.
+   682→   682→
+   683→   683→### 12.2 Maintained world formations
+   684→   684→
+   685→   685→A `formation` is constructed qi/law infrastructure with nodes, sources, custodians, inspections, repair history, jurisdictions, response thresholds, and finite capacity.
+   686→   686→
+   687→   687→World formations may:
+   688→   688→
+   689→   689→- detect and classify coarse threats;
+   690→   690→- disperse or redirect some force;
+   691→   691→- harden selected regions;
+   692→   692→- quarantine breaches;
+   693→   693→- open limited refuges/routes;
+   694→   694→- preserve attacker evidence; and
+   695→   695→- send distress calls.
+   696→   696→
+   697→   697→They fail through maintenance debt, captured authority, sabotage, insider access, simultaneous load, false classification, exhausted sources, incompatible threats, or protecting one region at another's expense. They never have infinite coverage or output.
+   698→   698→
+   699→   699→### 12.3 Sect, clan, and lineage deterrence
+   700→   700→
+   701→   701→A sect is an organization; a clan is a kinship-political institution; a lineage is transmission/authorization. They may overlap but are not synonyms.
+   702→   702→
+   703→   703→Mortal worlds can be recruitment grounds, ancestral homes, treaty assets, archives, markets, refuges, pilgrimage sites, ecological reservoirs, or legitimacy sources. An extinction attack exposes signatures and invites retaliation against holdings, routes, students, allies, contracts, and reputation.
+   704→   704→
+   705→   705→Protection remains unequal and political. Frontier worlds, extinct protectors, disputed treaties, and exploited dependencies are real failure cases.
+   706→   706→
+   707→   707→### 12.4 Territorial balance
+   708→   708→
+   709→   709→High-order actors and cosmic species possess ranges, borders, corridors, nesting sites, rivals, and exposed assets. A strike can reveal a technique, open a rear territory, consume irreplaceable support, or provoke a coalition.
+   710→   710→
+   711→   711→Territorial claims require sensors, witnesses, response latency, and enforcement. A glowing ownership map is not enough.
+   712→   712→
+   713→   713→### 12.5 Ascension and carrying-capacity ecology
+   714→   714→
+   715→   715→`Ascension` means a specified transformation or migration, never moral promotion or plot despawning. High-realm bodies may require densities, materials, spatial pressure, ecology, or timescales a mortal world cannot support. Remaining may starve the visitor or destroy a habitat/resource they value.
+   716→   716→
+   717→   717→Upper environments also contain their own pressures and opportunities, so powerful actors have reasons not to spend eternity bullying low worlds.
+   718→   718→
+   719→   719→### 12.6 Nonmoral causal footprint
+   720→   720→
+   721→   721→If ratified, catastrophic acts leave durable, attributable signatures, maintenance burdens, route damage, hostile attention, or binding to aftermath. This is ordinary causality, not karma. It does not judge morality, guarantee justice, or strike instantly.
+   722→   722→
+   723→   723→### 12.7 Optional modules, not baseline excuses
+   724→   724→
+   725→   725→Karma, fate, destiny, Heaven, mandate, divine office, and covenant protection remain optional until their ontologies are researched and selected. None may serve as a placeholder for “the author saves the protagonist.”
+   726→   726→
+   727→   727→### 12.8 Stability calibration
+   728→   728→
+   729→   729→Long no-player simulations must measure:
+   730→   730→
+   731→   731→- inhabited-world survival distribution;
+   732→   732→- frequency and cause mix of K3–K7 events;
+   733→   733→- protection maintenance and failure rates;
+   734→   734→- false warnings and ignored warnings;
+   735→   735→- successful deterrence versus merely delayed retaliation;
+   736→   736→- evacuations, diasporas, abandoned worlds, partial ruins, and recovery;
+   737→   737→- whether high-power aggression arises from coherent objectives; and
+   738→   738→- whether the authored number and age of civilizations are statistically plausible under the generated hazard ecology.
+   739→   739→
+   740→   740→If civilizations survive only because catastrophe generation secretly stops offscreen, the model fails.
+   741→   741→
+   742→   742→---
+   743→   743→
+   744→   744→## 13. High-power actor decision contract
+   745→   745→
+   746→   746→A cultivator capable of K4+ action remains an agent, not a weather roll. A destructive decision requires:
+   747→   747→
+   748→   748→```text
+   749→   749→goal
+   750→   750→target model and uncertainty
+   751→   751→knowledge source
+   752→   752→available capability profile
+   753→   753→travel/access path
+   754→   754→preparation and opportunity
+   755→   755→expected gains
+   756→   756→resource, bodily, causal and political costs
+   757→   757→deterrents and counteractors
+   758→   758→alternatives considered
+   759→   759→commitment threshold
+   760→   760→concealment/exposure plan
+   761→   761→aftermath intentions
+   762→   762→```
+   763→   763→
+   764→   764→Power does not imply perfect knowledge, instant travel, universal compatibility, immunity from rivals, or irrational indifference to everything accumulated over a long life.
+   765→   765→
+   766→   766→Valid catastrophe motives may include survival, territorial necessity, extraction, doctrine, revenge, fear, hostage logic, error, coercion, civil war, or preventing a greater threat. None guarantees moral complexity by itself; causal specificity does.
+   767→   767→
+   768→   768→Prohibited triggers:
+   769→   769→
+   770→   770→- player entered the region;
+   771→   771→- player crossed a level threshold;
+   772→   772→- trivial insult automatically escalated to extinction;
+   773→   773→- camera observed the actor;
+   774→   774→- random “evil mood” roll; and
+   775→   775→- content director wants spectacle now.
+   776→   776→
+   777→   777→---
+   778→   778→
+   779→   779→## 14. Cosmic beasts
+   780→   780→
+   781→   781→A cosmic beast is a persistent organism/person/process complex, not an HP bar with an aggro radius.
+   782→   782→
+   783→   783→Required ecology:
+   784→   784→
+   785→   785→- origin and development;
+   786→   786→- energy/material/qi needs;
+   787→   787→- feeding substrate;
+   788→   788→- reproduction or creation;
+   789→   789→- migration and territorial signals;
+   790→   790→- senses, attention, memory, learning, and communication;
+   791→   791→- body-region topology and local wound semantics;
+   792→   792→- symbionts, parasites, disease, competitors, predators, and prey;
+   793→   793→- nesting, rest, and avoidance;
+   794→   794→- relation to routes, formations, worlds, stars, and law environments;
+   795→   795→- sapience/personhood evidence where applicable; and
+   796→   796→- response to scarcity, displacement, injury, industry, and climate.
+   797→   797→
+   798→   798→A beast brushing a planet must have a prior trajectory. Its gravitational/qi/material fields create signals at lawful propagation speeds. A damaged migration corridor, redirected food source, juvenile error, starvation, nesting cycle, upper-world industry, or pursued flight may place a world at risk.
+   799→   799→
+   800→   800→The beast neither spawns for the protagonist nor waits for them. Simulating without the player, at S0, hidden, during travel, after save/load, and at local S4 must preserve its route and evidence-dependent attention.
+   801→   801→
+   802→   802→Low-realm affordances include observe, hide, warn, evacuate, repair a corridor, redirect a dependency through preparation, bargain if sapient, preserve evidence, help a wounded dependent, flee, or accept loss. Mortal chip damage against a world-scale body is not mandatory agency.
+   803→   803→
+   804→   804→---
+   805→   805→
+   806→   806→## 15. Playability without hidden immunity
+   807→   807→
+   808→   808→### 15.1 Agency Horizon — game admission policy
+   809→   809→
+   810→   810→The recommended default campaign mode uses a signed `OpeningAgencyHorizon`. At initial-world selection, a candidate containing an already committed K4+ extinction inside the configured interval is admitted only with a finite `AdmissionProof-v0.1` for the protected starting scope; otherwise it is conservatively rejected.
+   811→   811→
+   812→   812→This is a scenario-admission rule, not fictional physics:
+   813→   813→
+   814→   814→- it applies to the starting population/region, not `isPlayer`;
+   815→   815→- it does not cancel an event after world creation;
+   816→   816→- it does not move threats away from the camera;
+   817→   817→- it does not prevent future actors from causing catastrophe;
+   818→   818→- it does not guarantee victory or permanent world survival; and
+   819→   819→- its duration is a playtested parameter, not yet canon.
+   820→   820→
+   821→   821→The policy guarantees a playable opening, not protagonist immortality.
+   822→   822→
+   823→   823→The population/region K4+ filter is supplemented by a **scale-independent starting-viewpoint admission rule**: every candidate continuant who could be selected as the opening viewpoint must have one concrete replayable witness plan that either (a) survives the opening interval, (b) enters a disclosed identity-model viewpoint continuation, or (c) permits a consequence-changing action followed by an explicitly disclosed playable successor. Merely detecting danger or choosing how to die is insufficient. If no witness exists, generation selects another starting continuant/history; it does not alter the lethal event or the actor's physics. The rule applies identically to any continuant selected as viewpoint and covers committed or uncommitted K0–K7 threats. Only an explicitly chosen `Doomed Prologue` mode may waive it, and that mode discloses the intended viewpoint transition before play.
+   824→   824→
+   825→   825→`AdmissionProof-v0.1` is deliberately finite:
+   826→   826→
+   827→   827→```text
+   828→   828→fixed opening CanonicalInstant interval
+   829→   829→fixed protected-scope IDs
+   830→   830→finite certified response-family/action vocabulary
+   831→   831→maximum decision depth and action count
+   832→   832→state-known observations available at each step
+   833→   833→one exact action/interrupt/transaction witness trace
+   834→   834→resulting survival/continuation/consequence certificate
+   835→   835→seed domains and generator attempt number
+   836→   836→```
+   837→   837→
+   838→   838→The admission evaluator never proves “all possible futures” or searches an unbounded action space. It validates one witness using the same scheduler and action contracts as play. Candidate generation has a pinned maximum attempt count and hierarchical attempt substreams. Exhaustion writes `OpeningGenerationFailure` with failed predicates and offers a new top-level seed or a disclosed mode change; it never loops forever or quietly weakens the gate.
+   839→   839→
+   840→   840→### 15.1.1 Explicit protagonist-causality modes
+   841→   841→
+   842→   842→The protagonist may receive campaign-level narrative selection without receiving different fictional physics. This must be disclosed and branch-pinned.
+   843→   843→
+   844→   844→| Mode | Catastrophe admission rule | What it does not guarantee |
+   845→   845→|---|---|---|
+   846→   846→| `Epic Protagonist` — recommended | before any not-yet-committed K4+ candidate enters the protagonist's causal horizon, the content-admission layer requires one validated finite `AdmissionProof-v0.1` witness for survival or lawful viewpoint continuation; the witness may use only state-known actions and the pinned response vocabulary/depth | warning noticed, correct choice, easy escape, retained realm/items, safety of loved ones, world survival, or numerical identity after death |
+   847→   847→| `Lawful Chronicle` | only the opening Agency Horizon is guaranteed; later lawful events may produce no survival path | continued protagonist life |
+   848→   848→| `Unbounded Cosmos` | even the special opening filter is disabled after basic character creation safety; unknowable extinction is accepted | fairness, telegraphing, or continuity |
+   849→   849→
+   850→   850→`Epic Protagonist` filters candidate histories **before intent/physical commitment**. Every later admission—including a candidate created by an emergent actor intention—runs the same bounded `AdmissionProof-v0.1` evaluator, action/depth caps, witness replay, causal-domain substreams, attempt limit, and explicit rejection/failure certificate as opening generation. Failure rejects that candidate history before commitment; it never expands search, weakens the gate, or edits the actor after commitment.
+   851→   851→
+   852→   852→The mode cannot cancel, weaken, redirect, or add an escape after commitment. It cannot relocate an unrelated offscreen catastrophe toward the player. The selected path must be expressible through ordinary world systems, and an isomorphic NPC taking it receives the same result. The player can still miss the evidence, reject the cost, arrive late through their own choices, or die.
+   853→   853→
+   854→   854→This is the honest analogue of xianxia plot armor: the chronicle follows an unusually consequential life, but every survival has a causal certificate inside the world.
+   855→   855→
+   856→   856→### 15.2 Warning eligibility
+   857→   857→
+   858→   858→Every catastrophe declares:
+   859→   859→
+   860→   860→- causal signal channels;
+   861→   861→- propagation speeds and occlusion;
+   862→   862→- which bodies, instruments, formations, animals, institutions, or practices can notice them;
+   863→   863→- confidence and false positives;
+   864→   864→- earliest detection by location;
+   865→   865→- transmission delays and trust;
+   866→   866→- lead time before each frontier; and
+   867→   867→- what remains unknowable.
+   868→   868→
+   869→   869→Warnings do not bend toward the protagonist. Their extraordinary advantage may provide one bounded extra clue only through its signed target/action contract.
+   870→   870→
+   871→   871→### 15.3 Lawful survival certificate
+   872→   872→
+   873→   873→Every survival from an otherwise lethal frontier records:
+   874→   874→
+   875→   875→```text
+   876→   876→warning/evidence actually received
+   877→   877→reaction budget
+   878→   878→chosen action
+   879→   879→body and cultivation contribution
+   880→   880→shelter/formation/artifact/ally/environment contribution
+   881→   881→transport and route
+   882→   882→failure branches/probability inputs
+   883→   883→injury, displacement, separation and loss
+   884→   884→debt, custody, authority and future obligation
+   885→   885→```
+   886→   886→
+   887→   887→Clone the full state to an NPC and normalize identity: the result must match. Remove contributions one by one; when the final sufficient source disappears, survival disappears.
+   888→   888→
+   889→   889→If no lawful source suffices, the protagonist dies under the chosen identity/death/save policy.
+   890→   890→
+   891→   891→### 15.4 Protagonist advantage during catastrophe
+   892→   892→
+   893→   893→Allowed candidate contributions:
+   894→   894→
+   895→   895→- inspect one local protection-node mismatch after ordinary access and effort;
+   896→   896→- preserve one trace or gate alignment briefly enough for another actor to diagnose it;
+   897→   897→- coordinate timing with one consenting custodian or evacuee;
+   898→   898→- preserve evidence that supports later warning, accountability, or repair; and
+   899→   899→- exploit protagonist-specific knowledge and relationships earned earlier.
+   900→   900→
+   901→   901→Forbidden:
+   902→   902→
+   903→   903→- perfect doom timer;
+   904→   904→- attacker identity/intent from no evidence;
+   905→   905→- world barrier powered by protagonist status;
+   906→   906→- private teleport generated at lethal impact;
+   907→   907→- stopped catastrophe time;
+   908→   908→- guaranteed refuge capacity;
+   909→   909→- hidden ancestor arriving at one hit point; and
+   910→   910→- cross-realm force created by a warning/coordination advantage.
+   911→   911→
+   912→   912→### 15.5 Outcome layers
+   913→   913→
+   914→   914→Player agency is not synonymous with “win the boss fight.” Depending on capability and time, the player may:
+   915→   915→
+   916→   916→1. prevent;
+   917→   917→2. deter or expose;
+   918→   918→3. deflect;
+   919→   919→4. delay;
+   920→   920→5. bargain;
+   921→   921→6. warn;
+   922→   922→7. shelter;
+   923→   923→8. evacuate;
+   924→   924→9. choose people, records, species, seeds, techniques, graves, or institutions to preserve;
+   925→   925→10. document responsibility;
+   926→   926→11. migrate;
+   927→   927→12. survive with injury/debt/displacement;
+   928→   928→13. retaliate later;
+   929→   929→14. rebuild or found a successor community; or
+   930→   930→15. accept irreversible death or world loss.
+   931→   931→
+   932→   932→Whenever a warning window exists, at least one materially distinct response must be reachable, but no favorable outcome is guaranteed. A mortal, a Qi Condensation cultivator, a higher-capability cultivation fixture, and a maximum-envelope fixture facing the same catastrophe receive different consequence radii—not different causality.
+   933→   933→
+   934→   934→### 15.6 Death and viewpoint continuity
+   935→   935→
+   936→   936→If the protagonist dies, an optional campaign may continue through a student, kin member, institution, causal successor, reincarnation, recovered record, or another generated person only under the selected Identity & Death model.
+   937→   937→
+   938→   938→Viewpoint continuity is not numerical identity. Cultivation, inventory, authority, relationships, guilt, and ownership do not silently transfer.
+   939→   939→
+   940→   940→---
+   941→   941→
+   942→   942→## 16. Planet/world destruction
+   943→   943→
+   944→   944→`WorldDestroyed = true` is forbidden. A world-body destruction is a topology transaction:
+   945→   945→
+   946→   946→```text
+   947→   947→WorldBody@revision
+   948→   948→→ RemnantBody[]
+   949→   949→+ DebrisField[]
+   950→   950→+ EscapingMatter
+   951→   951→+ Atmosphere/Ocean/QiEcology states
+   952→   952→+ survivor/death/missing/transformed states
+   953→   953→+ coordinate-frame remap
+   954→   954→+ route and jurisdiction rewrite
+   955→   955→+ ownership/history/ritual edges
+   956→   956→+ scheduled fronts and recovery
+   957→   957→```
+   958→   958→
+   959→   959→It accounts for matter, qi/energy, momentum where modeled, identity, unique objects, shelters, vehicles, obligations, graves, institutions, and causal provenance. Exact physical conservation tolerances are phenomenon-specific and recorded; authority and identity never use physical-energy substitution.
+   960→   960→
+   961→   961→Every persistent entity resolves to one of:
+   962→   962→
+   963→   963→- escaped/carried;
+   964→   964→- sheltered/sealed;
+   965→   965→- mapped to a remnant;
+   966→   966→- transformed;
+   967→   967→- dead with remains state;
+   968→   968→- missing with last evidence;
+   969→   969→- dispersed/destroyed under a typed finality rule; or
+   970→   970→- still in a scheduled unresolved frontier.
+   971→   971→
+   972→   972→Every quest/objective becomes complete, failed, transformed, inherited, suspended with a real reopening condition, or impossible with an acknowledged causal reason. No dangling coordinate or immortal objective survives by accident.
+   973→   973→
+   974→   974→The destroyed world remains history: diaspora, debris ecologies, ruins, testimony, distorted routes, resource claims, mourning, revenge, denial, archaeology, and formation fragments can shape play for ages.
+   975→   975→
+   976→   976→---
+   977→   977→
+   978→   978→## 17. Save, load, and branches
+   979→   979→
+   980→   980→### 17.1 Deterministic branch facts
+   981→   981→
+   982→   982→Reloading within a branch never rerolls:
+   983→   983→
+   984→   984→- attacker intent already committed;
+   985→   985→- cosmic-beast route and attention evidence;
+   986→   986→- catastrophe seed streams;
+   987→   987→- warnings already generated or transmitted;
+   988→   988→- hazard-envelope commitments and every already committed frontier intersection; future membership still resolves from the same revisioned trajectories/occupancy and cut rules;
+   989→   989→- hidden item/world facts already generated;
+   990→   990→- spent resources, deaths, cooldowns, and recovery; or
+   991→   991→- transaction phase.
+   992→   992→
+   993→   993→Choosing differently creates or continues a branch under the save policy. Branches never merge inventory, rewards, information-state, achievements, authority, or world history.
+   994→   994→
+   995→   995→### 17.2 Player-selectable save modes
+   996→   996→
+   997→   997→| Mode | Purpose | Rule |
+   998→   998→|---|---|---|
+   999→   999→| `Free Chronicle` | recommended accessible sandbox | manual saves and branching reloads; deterministic hidden facts; no cross-branch farming |
+  1000→  1000→| `Bound Chronicle` | consequence-focused optional mode | restricted anchors/autosaves with disclosed rules; deterministic history |
+  1001→  1001→| `Single Chronicle` | optional severe mode | one continuing branch with recovery safeguards against corruption; never required for intended balance |
+  1002→  1002→
+  1003→  1003→The codex distinguishes current-branch witnessed facts, character knowledge, disputed reports, and player memory. It never launders reloaded knowledge into what the protagonist canonically knows.
+  1004→  1004→
+  1005→  1005→---
+  1006→  1006→
+  1007→  1007→## 18. Persistence and compaction
+  1008→  1008→
+  1009→  1009→An eternal event graph cannot retain every event verbatim in active memory. Deterministic snapshot-and-segment compaction stores:
+  1010→  1010→
+  1011→  1011→- checkpoint state and hash;
+  1012→  1012→- immutable archived event segments;
+  1013→  1013→- causal-summary edges;
+  1014→  1014→- protected named-event index;
+  1015→  1015→- aggregate sufficient statistics;
+  1016→  1016→- generation manifests and latent seeds;
+  1017→  1017→- provenance required for law, identity, ownership, catastrophe, and investigation; and
+  1018→  1018→- reopening data for unresolved claims.
+  1019→  1019→
+  1020→  1020→Compaction is a versioned transaction. A compacted century and an uncompacted control must answer protected queries equivalently, including a later investigation of an old death, debt, artifact, oath, formation failure, or planetary scar.
+  1021→  1021→
+  1022→  1022→### 18.1 Protected query algebra and storage limits
+  1023→  1023→
+  1024→  1024→“Equivalent later investigation” is bounded by `HISTORY-QUERY-v0.1`, not a promise to reconstruct every discarded footstep or particle. Protected query families are:
+  1025→  1025→
+  1026→  1026→1. named/unique entity existence, identity, embodiment, copy/merge/death lineage, and last evidence;
+  1027→  1027→2. ownership, custody, transfer, debt, oath, office, law judgment, and reopening condition;
+  1028→  1028→3. named relationship/testimony/knowledge provenance;
+  1029→  1029→4. method, cultivation, artifact, and contribution provenance;
+  1030→  1030→5. catastrophe cause, warning, defense, affected intersection, survival, topology, and aftermath;
+  1031→  1031→6. generated-fact manifest, causal-domain RNG identity, and observed/pinned detail;
+  1032→  1032→7. bounded aggregate population, material, economy, ecology, migration, and casualty statistics; and
+  1033→  1033→8. event ancestry/descendancy among retained protected kernels.
+  1034→  1034→
+  1035→  1035→Every compaction schema declares sufficient statistics and retained kernels for each supported query family. A query outside the schema returns `UnavailableByDeclaredCompaction` plus checkpoint/segment commitments and retained uncertainty; it never invents detail. Anything the player or a canonical witness observed, any named/unique entity, open obligation/claim, identity event, catastrophe intersection, or unresolved investigation receives a protected kernel before source detail can be pruned.
+  1036→  1036→
+  1037→  1037→### 18.2 Quota behavior
+  1038→  1038→
+  1039→  1039→Each save declares an active-history budget, archive budget, and user-visible storage location. Exact capacities are platform/benchmark decisions, but behavior is locked:
+  1040→  1040→
+  1041→  1041→- at the warning threshold, deterministic recursive compaction begins from the oldest eligible unprotected segments;
+  1042→  1042→- compaction may replace detail only with a versioned summary plus cryptographic commitments and the `HISTORY-QUERY` sufficiency schema;
+  1043→  1043→- protected kernels and open causal chains are never silently deleted;
+  1044→  1044→- if the local archive would exceed quota after every lawful compaction, canonical advancement stops at a safe barrier and offers export, archive-location change, or explicit deletion of an entire user-selected branch/archive;
+  1045→  1045→- deleting an archive is never required to keep playing the current branch unless the user has declined all storage alternatives;
+  1046→  1046→- exported archives retain manifest, segment/checkpoint hashes, schema versions, and restore verification; and
+  1047→  1047→- repeated compaction is recursive and deterministic rather than accumulating immutable raw segments forever.
+  1048→  1048→
+  1049→  1049→Storage-cap tests run repeated centuries, forced low quotas, export/restore, schema migration, old investigations, and branch deletion. Full historical microdetail is promised only while its source segment remains archived; protected-query truth remains available through retained kernels and summaries.
+  1050→  1050→
+  1051→  1051→---
+  1052→  1052→
+  1053→  1053→## 19. Golden catastrophe scenarios
+  1054→  1054→
+  1055→  1055→### `GC-01 High-realm punitive strike`
+  1056→  1056→
+  1057→  1057→A powerful cultivator considers destroying a continental archive region after a political defeat.
+  1058→  1058→
+  1059→  1059→Test:
+  1060→  1060→
+  1061→  1061→- causal objective and target knowledge;
+  1062→  1062→- preparation, travel, compatibility, and capability certificate;
+  1063→  1063→- rivals, assets at risk, deterrence, and alternatives;
+  1064→  1064→- formation warning with false-positive history;
+  1065→  1065→- player at mortal, Qi Condensation, and high-realm fixtures;
+  1066→  1066→- negotiated, delayed, evacuation, failed defense, and destroyed-region outcomes;
+  1067→  1067→- no player-centered aggro; and
+  1068→  1068→- persistent diaspora, archive loss, evidence, law, ecology, and retaliation.
+  1069→  1069→
+  1070→  1070→### `GC-02 Cosmic-beast near transit`
+  1071→  1071→
+  1072→  1072→A displaced cosmic beast's migration envelope passes close enough to threaten a world-body.
+  1073→  1073→
+  1074→  1074→Test:
+  1075→  1075→
+  1076→  1076→- route exists before player knowledge;
+  1077→  1077→- senses/attention follow evidence;
+  1078→  1078→- coarse wavefront and local promotion agree;
+  1079→  1079→- ordinary and extraordinary warnings differ lawfully;
+  1080→  1080→- corridor repair, food-source redirection, hiding, warning, shelter, evacuation, and fatal outcomes;
+  1081→  1081→- S0 versus local S4 parity; and
+  1082→  1082→- no chip-damage boss requirement.
+  1083→  1083→
+  1084→  1084→### `GC-03 Internal formation betrayal`
+  1085→  1085→
+  1086→  1086→A custodian faction degrades or redirects world protection during a succession struggle.
+  1087→  1087→
+  1088→  1088→Test:
+  1089→  1089→
+  1090→  1090→- authority, maintenance, inspections, evidence, and insider access;
+  1091→  1091→- false warnings and politicized disbelief;
+  1092→  1092→- partial protection that sacrifices one region;
+  1093→  1093→- protagonist advantage provides bounded evidence only;
+  1094→  1094→- response continues if the protagonist is absent or dies; and
+  1095→  1095→- institutional aftermath persists.
+  1096→  1096→
+  1097→  1097→### `GC-04 Planet-to-remnant continuity`
+  1098→  1098→
+  1099→  1099→A K5 event destroys the current world while travel, dialogue, possession, inheritance, cultivation, and a funeral are pending.
+  1100→  1100→
+  1101→  1101→Test:
+  1102→  1102→
+  1103→  1103→- atomic affected set;
+  1104→  1104→- no dangling locations, persons, remains, unique items, debts, rites, objectives, or routes;
+  1105→  1105→- carried/sheltered/dead/missing/dispersed resolution;
+  1106→  1106→- save/crash/reload at every phase;
+  1107→  1107→- remnant coordinate precision; and
+  1108→  1108→- later archaeology/investigation recovers causal history from compacted records.
+  1109→  1109→
+  1110→  1110→### `GC-05 World not saved`
+  1111→  1111→
+  1112→  1112→The warnings are real, defense is insufficient, and the world is lost despite competent choices.
+  1113→  1113→
+  1114→  1114→Test:
+  1115→  1115→
+  1116→  1116→- choices still change survivors, evidence, preserved culture/ecology, injuries, displacement, blame, and future possibility;
+  1117→  1117→- no pity artifact or hidden teleport appears;
+  1118→  1118→- protagonist may die;
+  1119→  1119→- viewpoint continuation obeys identity law; and
+  1120→  1120→- loss is not only motivational scenery for the protagonist.
+  1121→  1121→
+  1122→  1122→### `GC-06 Acceleration interrupt`
+  1123→  1123→
+  1124→  1124→The player begins a year-long cultivation retreat with standing orders while an ambiguous distant warning develops into a route closure and regional catastrophe.
+  1125→  1125→
+  1126→  1126→Test:
+  1127→  1127→
+  1128→  1128→- normal stepping and direct advance stop at the same earliest undecided interrupt;
+  1129→  1129→- no routine auto-selects a value-laden response;
+  1130→  1130→- reading time does not affect canon;
+  1131→  1131→- save/load and worker budgets preserve the first interrupt; and
+  1132→  1132→- ignoring the warning lawfully changes outcome.
+  1133→  1133→
+  1134→  1134→---
+  1135→  1135→
+  1136→  1136→## 20. Release-blocking gauntlet
+  1137→  1137→
+  1138→  1138→### S0 blockers
+  1139→  1139→
+  1140→  1140→1. Renderer, GPU, wall time, frame rate, Promise order, or device type can alter canon.
+  1141→  1141→2. Accelerated and normal semantic execution differ in protected event order, first interrupt, or state hash.
+  1142→  1142→3. A K4+ event lacks a transactional affected set, topology remap, and persistent aftermath.
+  1143→  1143→4. Save/load can reroll, duplicate, erase, or merge a catastrophe commitment or reward.
+  1144→  1144→5. High-realm actors can erase stable mortal worlds effortlessly with no compatibility, cost, objective, competing interest, response, or aftermath.
+  1145→  1145→6. Any defense, warning, escape, fate, inheritance, or survival mechanism checks `isPlayer` or hides a survival guarantee.
+  1146→  1146→7. Karma, fate, Heaven, Dao, mandate, or a formation supplies unexplained/unbounded authorial protection.
+  1147→  1147→8. Death, escape, copy, reincarnation, or viewpoint continuation duplicates identity, cultivation, authority, or resources.
+  1148→  1148→
+  1149→  1149→### S1 blockers
+  1150→  1150→
+  1151→  1151→1. Pause enables zero-time canonical mutation or new sensing.
+  1152→  1152→2. Actions charge duration after success rather than resolving milestones and interruption.
+  1153→  1153→3. Simulation resolution remains conflated with render LOD, persistence, or narrative significance.
+  1154→  1154→4. Event budget exhaustion changes outcomes.
+  1155→  1155→5. Local promotion can contradict observed/coarse history.
+  1156→  1156→6. Catastrophe fronts skip cells, violate declared conservation, or depend on batch/insertion order.
+  1157→  1157→7. A protection lacks source, scope, threshold, observability, maintenance, governance, latency, failure, counter, and history.
+  1158→  1158→8. A cosmic beast lacks ecology, trajectory, attention limits, topology, or personhood analysis.
+  1159→  1159→9. Catastrophe agency means only defeating an impossible combatant.
+  1160→  1160→10. Evacuation has infinite capacity, warning is always correct, or catastrophe exists only on-screen.
+  1161→  1161→11. Acceleration becomes an optimal auto-player or opaque death trap.
+  1162→  1162→12. Astronomical coordinates use one render-space float frame as canon.
+  1163→  1163→13. Event history grows without deterministic compaction or loses evidence during compaction.
+  1164→  1164→14. Terminology conflates cultivation realm/world/plane/domain; sect/clan/lineage; Dao/world law/statute; karma/causality/reputation; or fate/destiny/luck/mandate.
+  1165→  1165→
+  1166→  1166→---
+  1167→  1167→
+  1168→  1168→## 21. Minimum executable test battery
+  1169→  1169→
+  1170→  1170→1. Arbitrary wall-time pause leaves canonical hash unchanged.
+  1171→  1171→2. One-second versus one-hour dialogue reading produces the same precommit state.
+  1172→  1172→3. Dialogue/action interruption at every milestone produces only delivered partial results.
+  1173→  1173→4. 1×, accelerated, direct catch-up, and halfway reload converge.
+  1174→  1174→5. First undecided interrupt is invariant across processing budgets.
+  1175→  1175→6. Event insertion order, worker count, Promise completion, and batch partition permutations converge.
+  1176→  1176→7. S4→S0→S4 round trips preserve protected facts and normalized outcomes.
+  1177→  1177→8. Renderer-disabled, WebGL2, WebGPU, frame-rate, resolution, and device-loss runs share canonical hashes.
+  1178→  1178→9. Wavefront causal ordering, conservation tolerance, monotonic frontier, overlap, and batch invariance pass.
+  1179→  1179→10. Million-cell catastrophe processing changes wall completion time only.
+  1180→  1180→11. Local detail promotion never contradicts prior observation or aggregate ledgers.
+  1181→  1181→12. Planet-to-remnant referential-integrity audit finds zero dangling references.
+  1182→  1182→13. Extreme-date and hierarchical-coordinate tests retain ordering and local precision.
+  1183→  1183→14. Compacted and uncompacted history answer protected queries equivalently.
+  1184→  1184→15. Long no-player eras support the authored civilization age/distribution.
+  1185→  1185→16. Every threat class crosses every defense layer, including failure and false warning.
+  1186→  1186→17. Protagonist/NPC survival parity and contribution-removal tests pass.
+  1187→  1187→18. A world can be lost while low-realm decisions remain consequential.
+  1188→  1188→19. Hidden poison, contamination, curse, theft, access revocation, assassin, and unreceived-warning fixtures have identical 1×/Advance effects and reveal no threat through acceleration alone; paired controls with a lawful worn monitor or scheduled inspection may interrupt only at the actual reading/check event.
+  1189→  1189→20. After 1×, Advance, reload, and S0 round trips, exhaustive promotion produces identical observable people, items, histories, and opportunities.
+  1190→  1190→21. Every committed/uncommitted K0–K7 lethal opening either has a lawful survival/viewpoint branch, a consequence-changing action plus disclosed playable successor, or is rejected outside `Doomed Prologue`.
+  1191→  1191→22. One stamped live-input log replays identically under transport delay, render delay, frame-rate, backend, and worker-count permutations; stale reaction inputs rebase/reject exactly as declared.
+  1192→  1192→23. Every process lower-bound certificate respects the global safe horizon; deliberately injected late events fail reproducibly before corrupting history.
+  1193→  1193→24. `CANON-NUM-v0.1` boundary, rounding, overflow, interval, integration, and coordinate vectors match across browsers, architectures, and S tiers.
+  1194→  1194→25. Moving entrants, evacuees, births, deaths, shelter boarding, custody transfers, and repeated front crossings produce exactly one correct intersection per entailed crossing.
+  1195→  1195→26. Source commitment, distant observation, local impact, severance, topology revision, and remnant-frame commit occur at causal instants; later fronts bind the correct revision.
+  1196→  1196→27. Worst-case pause/cancel tests interrupt generation, compaction, promotion, and catastrophe work inside the declared chunk/latency bounds without changing results.
+  1197→  1197→28. Repeated centuries at forced-low storage quota preserve every `HISTORY-QUERY-v0.1` answer, stop safely when required, and export/restore with matching commitments.
+  1198→  1198→29. Opening/closing a gate and severing/creating a route ahead of an in-flight front atomically recertifies envelopes, Merkle ranges, and safe-time lower bounds before the topology revision commits.
+  1199→  1199→30. Active and Advance input modes, pause/cancel during catch-up, stale intents, delayed transport, and no-input windows make forward progress without deadlock and replay from the stamped log exactly.
+  1200→  1200→
+  1201→  1201→---
+  1202→  1202→
+  1203→  1203→## 22. Terminology policy
+  1204→  1204→
+  1205→  1205→Retain standard English-reader xianxia vocabulary: qi, Dao, cultivation, cultivator, Qi Condensation, sect, spiritual roots, meridians, tribulation.
+  1206→  1206→
+  1207→  1207→Use these distinctions:
+  1208→  1208→
+  1209→  1209→- `cultivation realm` = advancement state;
+  1210→  1210→- `world`, `plane`, or ratified `domain` = cosmological location;
+  1211→  1211→- `formation` = constructed qi/law infrastructure, defined at first design use;
+  1212→  1212→- `sect` = organization; `clan` = kinship-political institution; `lineage` = transmission/authorization;
+  1213→  1213→- `Dao`, `world law`, `statute`, and `office order` are different;
+  1214→  1214→- `causality`, `karma`, and `reputation` are different;
+  1215→  1215→- `fate`, `destiny`, `luck`, `mandate`, and `lifespan` are different; and
+  1216→  1216→- `ascension` requires an explicit transformation/migration contract.
+  1217→  1217→
+  1218→  1218→Chinese text retained in research records keeps Hanzi, pinyin, context, and source scope. Player/design prose translates or glosses only niche/opaque romanization; it does not replace fluent terms such as qi or Qi Condensation with awkward literal English.
+  1219→  1219→
+  1220→  1220→---
+  1221→  1221→
+  1222→  1222→## 23. Research basis and current technical cautions
+  1223→  1223→
+  1224→  1224→Primary/current technical references used for architectural constraints:
+  1225→  1225→
+  1226→  1226→- [Three.js WebGPURenderer manual](https://threejs.org/manual/en/webgpurenderer) — WebGPU-first renderer, WebGL2 fallback, current experimental status and migration cautions.
+  1227→  1227→- [MDN: `GPUDevice.lost`](https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice/lost) — devices can be lost and resources must be recreated.
+  1228→  1228→- [MDN: `requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame) — refresh-rate coupling and pausing in background tabs.
+  1229→  1229→- [MDN: `setTimeout`](https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout) — inactive-tab throttling and delayed execution.
+  1230→  1230→- [W3C WebGPU promise ordering](https://www.w3.org/TR/webgpu/#promise-ordering) — applications cannot generally rely on promise settlement order.
+  1231→  1231→- [W3C WGSL floating-point evaluation](https://www.w3.org/TR/WGSL/#floating-point-evaluation) — implementation/precision rules reinforce the GPU-to-canon prohibition.
+  1232→  1232→- [MDN: worker cross-origin isolation](https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/crossOriginIsolated) — shared-memory availability depends on isolation; structured-clone fallback is required.
+  1233→  1233→- [Deterministic total ordering of simultaneous parallel-simulation events](https://arxiv.org/abs/2105.00069) — motivates explicit stable ordering for equal virtual times.
+  1234→  1234→
+  1235→  1235→These sources validate platform constraints, not the fictional cosmology or final implementation choice.
+  1236→  1236→
+  1237→  1237→---
+  1238→  1238→
+  1239→  1239→## 24. Open decisions for user review
+  1240→  1240→
+  1241→  1241→Not yet selected:
+  1242→  1242→
+  1243→  1243→1. opening Agency Horizon duration and whether it protects a household, settlement, region, or broader starting causal network;
+  1244→  1244→2. default save mode beyond the recommendation of `Free Chronicle`;
+  1245→  1245→3. whether `TacticalFocus` exists in addition to hard pause;
+  1246→  1246→4. which protagonist advantage, if any, advances;
+  1247→  1247→5. identity/death ontology and viewpoint-continuation policy;
+  1248→  1248→6. exact world-formation law, power sources, maintainers, and jurisdictions;
+  1249→  1249→7. whether nonmoral causal footprint becomes baseline law;
+  1250→  1250→8. any karma, fate, destiny, Heaven, mandate, office, or covenant module;
+  1251→  1251→9. catastrophe frequency distributions by cosmological ecology;
+  1252→  1252→10. maximum-realm ontology and how K7 events are bounded;
+  1253→  1253→11. canonical integer time units and extreme-date epoch scheme; and
+  1254→  1254→12. minimum supported hardware and benchmark scenes.
+  1255→  1255→
+  1256→  1256→No decision here selects final lore, cosmology, cultivation ladder, protagonist advantage, maximum realm, or implementation library beyond the user's stated presentation direction.
+  1257→  1257→

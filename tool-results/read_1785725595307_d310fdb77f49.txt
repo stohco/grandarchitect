@@ -1,0 +1,671 @@
+     1→# Identity, Death, Soul, Memory & Reincarnation Models — Research Draft
+     2→
+     3→**Package:** Cultivation Foundations & Mortal Reality v0.1  
+     4→**Status:** comparative design research; no option is canon  
+     5→**Date:** 2026-08-02  
+     6→**Purpose:** make death, survival, duplication, possession, ancestorhood, resurrection, and reincarnation executable without reducing personhood to one meter or turning death into a reload screen
+     7→
+     8→---
+     9→
+    10→## 0. Locked constraints
+    11→
+    12→1. A person is not assumed to be identical to a body, memory file, soul token, name, legal record, or reputation until the selected ontology says so.
+    13→2. Numerical identity, psychological continuity, bodily continuity, causal continuity, social recognition, legal standing, oath liability, inheritance, and cultivation continuity are separate questions.
+    14→3. “Unknown” may describe what characters know; the simulation still retains a governed ontic answer or explicitly bounded unresolved state.
+    15→4. Death has bodily, relational, economic, legal, ritual, historical, and cultivation consequences.
+    16→5. Any surviving or created consciousness receives personhood analysis. A duplicate is not disposable inventory merely because it was copied.
+    17→6. Resurrection cannot silently duplicate matter, qi, memories, authority, cultivation bases, unique artifacts, debts, names, or legal claims.
+    18→7. Save/load is not an in-world immortality power unless a later ratified mechanism explicitly makes it one.
+    19→8. The player is the protagonist but receives no hidden exemption from identity, death, possession, reincarnation, or continuity law.
+    20→9. Familiar xianxia vocabulary may remain where appropriate. Niche romanizations are translated or glossed for seasoned English-speaking readers.
+    21→10. Historical and religious models are research lenses, never proof that the original universe must adopt them.
+    22→11. Disability, unconsciousness, aphasia, memory loss, atypical cognition, transformed embodiment, or inability to demonstrate agency never by themselves remove personhood. Cultures and institutions may misjudge these states; canonical systems do not encode that prejudice as fact.
+    23→
+    24→---
+    25→
+    26→## 1. Research controls
+    27→
+    28→### 1.1 Do not invent a universal Chinese “soul system”
+    29→
+    30→K. E. Brashier’s study of early Chinese sources disputes the common modern simplification that *hun* and *po* formed one uniformly popular dual-soul doctrine. The sources show competing scholastic, medical, funerary, bodily, and ancestral models. This is a warning against converting a debated history into “three heavenly souls and seven earthly souls” as universal game physics ([Cambridge, *Han Thanatology and the Division of “Souls”*](https://www.cambridge.org/core/journals/early-china/article/abs/han-thanatology-and-the-division-of-souls/512C858E97ACE63791498AA28CA63DE3)).
+    31→
+    32→Research consequence:
+    33→
+    34→- retain `hun`/`po` only inside exact historical or fictional context;
+    35→- do not make them default project-native player terms;
+    36→- do not assume every species or culture partitions persons identically;
+    37→- distinguish scholarly model, textual claim, lived practice, in-world belief, and canonical truth; and
+    38→- treat funerary care, ancestral presence, bodily integrity, and spirit mobility as separable design variables.
+    39→
+    40→### 1.2 Ritual continuity is not identical to numerical identity
+    41→
+    42→Studies of ancestor ritual show that care, food, remembrance, effigies, tablets, graves, lineage, and ritual labor can sustain relationships with the dead without providing one uncontested metaphysical theory. Some accounts describe life as qi aggregation and death as dispersion while still treating ritual ancestor presence as meaningful ([MDPI, “Why Ancestor Is Possible”](https://www.mdpi.com/2077-1444/16/8/1025)). Ethnographic work also emphasizes ritual care and the danger of neglected dead becoming socially anonymous or hostile, but those observations are historically and regionally situated rather than universal ([Cambridge, “Care as Critique of Care”](https://www.cambridge.org/core/journals/china-quarterly/article/care-as-critique-of-care-public-services-social-security-and-ritual-responsiveness/262AF52AC3C8C6A1B8DB43338CBCF293)).
+    43→
+    44→Design consequence: ancestorhood can be a relationship, office, sustained manifestation, interpretive claim, or transformation without automatically answering whether the ancestor is numerically the deceased person.
+    45→
+    46→### 1.3 Rebirth need not transport a permanent soul object
+    47→
+    48→Buddhist philosophical traditions contain sophisticated disputes about persons, no-self, causal continuity, karma, and rebirth. A causally connected stream can model continuity without positing an unchanging substance that travels between bodies ([Stanford, *Mind in Indian Buddhist Philosophy*](https://plato.stanford.edu/entries/mind-indian-buddhism/); [Stanford, *Buddha*](https://plato.stanford.edu/entries/buddha/)). The project must not collapse these traditions into “karma points move a soul to a new avatar.”
+    49→
+    50→Design consequence: a reborn being may be numerically identical, a causal successor, an inheritor, a new person carrying imprints, or a contested case depending on the selected original ontology.
+    51→
+    52→### 1.4 Memory alone fails under gaps and branching
+    53→
+    54→Contemporary personal-identity research distinguishes bodily, psychological, and soul-based criteria and demonstrates problems involving amnesia, copying, and fission. Psychological continuity can branch to two successors even though numerical identity cannot simply become one-to-two ([Stanford, *Personal Identity*](https://plato.stanford.edu/entries/identity-personal/); [Internet Encyclopedia of Philosophy, *Personal Identity*](https://iep.utm.edu/person-i/)).
+    55→
+    56→Design consequence: memory copying never silently copies identity. Every split, merge, replacement, reincarnation, and possession event creates explicit continuity and claim records.
+    57→
+    58→### 1.5 Research boundary
+    59→
+    60→These sources supply questions and distinctions, not canon answers. The original universe must choose its own executable model and disclose where cultures misunderstand it. No historical religion becomes a skin for a loot or morality system.
+    61→
+    62→---
+    63→
+    64→## 2. Minimum executable identity ontology
+    65→
+    66→The following node families are required regardless of which metaphysical option is selected.
+    67→
+    68→| Node | Meaning |
+    69→|---|---|
+    70→| `PersonContinuant` | Stable subject used to gather identity claims and history; existence does not itself prove any identity theory. |
+    71→| `Embodiment` | Time-scoped relation between a continuant and a body, construct, projection, domain, or other vehicle. |
+    72→| `BodyInstance` | Living, dying, dead, transformed, divided, repaired, occupied, or reconstructed physical organization. |
+    73→| `AgencyProcess` | Ongoing capacity to perceive, intend, choose, learn, and act. |
+    74→| `SpiritComponent` | Optional ontology-specific nonbodily component with source, functions, continuity, divisibility, mobility, decay, and counters. |
+    75→| `MemoryTrace` | Content, perspective, encoding, provenance, confidence, accessibility, corruption, and causal source. |
+    76→| `CharacterDisposition` | Habits, attachments, values, fears, commitments, and learned response tendencies. |
+    77→| `CultivationContinuity` | Body, qi, spirit/mind, Dao-orientation, technique, injury, deviation, and authority carried through a transition. |
+    78→| `NameBearer` | Relation among an entity, name revision, language, audience, naming authority, and valid time. |
+    79→| `LegalIdentity` | Jurisdiction-specific rights, liabilities, status, records, and recognition. |
+    80→| `SocialRecognition` | Which people or institutions recognize a claimant as someone, and why. |
+    81→| `RelationshipContinuity` | Kinship, affection, apprenticeship, office, ownership, oath, debt, enmity, care, and grief after transformation. |
+    82→| `CausalLineage` | Directed provenance from earlier to later body, memory, agency, spirit, technique, or person claims. |
+    83→| `CopyLineage` | Exact event and method by which information or structure was duplicated. |
+    84→| `DeathEvent` | Time, body state, agency cessation/change, causes, witnesses, remains, records, and disputed interpretations. |
+    85→| `Remains` | Corpse, ash, bone, relic, residue, dispersed material, memorial object, or missing body, with custody and provenance. |
+    86→| `PostmortemManifestation` | Ghost, echo, ancestor presence, dream contact, record intelligence, remnant will, projection, or fraud. |
+    87→| `RebirthEvent` | Causal transition into a new life, including what crossed, what did not, latency, selection, and knowledge. |
+    88→| `ResurrectionEvent` | Attempt to restore a prior person, body, agency, or relationship after death. |
+    89→| `PossessionEvent` | Time-scoped access/control contest among body, agency, memory, and authority. |
+    90→| `IdentityClaim` | A claimant’s proposition that two stages or entities are the same person or legitimate successor. |
+    91→| `OnticResolution` | Canonical output of the selected metaphysical law for a typed continuity question; it has rule version, inputs, truth status, and physical observables but no social deciding authority. |
+    92→| `ContinuityJudgment` | Domain-specific decision with rule, evidence, authority, dissent, consequences, and appeal. |
+    93→| `FinalityState` | What forms of return remain physically, metaphysically, legally, or informationally possible. |
+    94→
+    95→### 2.1 Identity is a family of typed questions
+    96→
+    97→Never answer all of these with one `identity_score`:
+    98→
+    99→```text
+   100→NUMERICALLY_SAME_PERSON?
+   101→SAME_LIVING_ORGANISM?
+   102→SAME_AGENCY_PROCESS?
+   103→PSYCHOLOGICALLY_CONTINUOUS?
+   104→SAME_SPIRIT_CONTINUANT?
+   105→CAUSALLY_DESCENDED_FROM?
+   106→LEGALLY_THE_SAME?
+   107→SOCIALLY_RECOGNIZED_AS?
+   108→INHERITS_THIS_RELATIONSHIP?
+   109→BEARS_THIS_OATH_OR_DEBT?
+   110→OWNS_THIS_ITEM?
+   111→CONTINUES_THIS_CULTIVATION?
+   112→MAY_EXERCISE_THIS_OFFICE_OR_AUTHORITY?
+   113→MAY BE BLAMED, PUNISHED, REWARDED, OR MOURNED AS?
+   114→```
+   115→
+   116→An `OnticResolution` pins:
+   117→
+   118→- ontology and law revision;
+   119→- world time;
+   120→- candidate entities/stages;
+   121→- applicable continuity rule;
+   122→- direct evidence and missing evidence;
+   123→- branch/merge history;
+   124→- canonical answer: yes, no, indeterminate, or inapplicable;
+   125→- entailed physical/metaphysical effects; and
+   126→- observable/falsifying conditions.
+   127→
+   128→A separate legal, social, religious, cultivation, or relationship `ContinuityJudgment` pins:
+   129→
+   130→- jurisdiction, domain, and rule revision;
+   131→- evidence available to that audience rather than omniscient state;
+   132→- answer: yes, no, indeterminate, contested, or inapplicable;
+   133→- deciding authority and competence where that domain has one;
+   134→- dissenting claims;
+   135→- downstream effects; and
+   136→- reopening conditions.
+   137→
+   138→An authority can misjudge, suppress, or refuse to recognize an ontic fact; it cannot author numerical identity merely by decree. Conversely, ontic sameness does not automatically settle inheritance, guilt, office, marriage, consent, ownership, or mourning.
+   139→
+   140→### 2.2 Numerical identity remains one-to-one
+   141→
+   142→If one process branches into two independently acting persons, both may be descendants and both may retain relationships or claims. They cannot both be numerically identical to the same earlier person under ordinary one-to-one identity. The selected ontology must choose among:
+   143→
+   144→- an anchored branch remains the original and others are new;
+   145→- branching ends the original and creates multiple successors;
+   146→- the original was already a temporally extended branching structure;
+   147→- numerical identity becomes indeterminate while practical succession is adjudicated; or
+   148→- branching is metaphysically impossible and attempts create damage, suppression, fraud, or partial copies.
+   149→
+   150→The answer cannot be “whichever one the player controls.”
+   151→
+   152→### 2.3 Ontic × judgment fixture — `ONTIC-JUDGMENT-SPLIT-v0.1`
+   153→
+   154→This fixture proves that metaphysical truth and institutional recognition have separate writers and effects.
+   155→
+   156→**Pinned input manifest**
+   157→
+   158→```text
+   159→PriorStageId: PERSON-BEFORE-01
+   160→ClaimantStageId: PERSON-CLAIMANT-01
+   161→TransitionId: RESTORE-FIXTURE-01
+   162→BodyInstanceIds: BODY-OLD-01, BODY-NEW-01
+   163→OntologyRevision: ID-MODEL-FIXTURE-01
+   164→WorldInstant: 100000
+   165→LegalJurisdiction: LAW-FIXTURE-01
+   166→SocialAudience: HOUSEHOLD-FIXTURE-01
+   167→ReligiousCommunity: RITE-FIXTURE-01
+   168→EvidenceIds: EV-BODY, EV-MEMORY, EV-CAUSAL, EV-SPIRIT-IF-APPLICABLE, EV-WITNESS
+   169→```
+   170→
+   171→Three ontology variants pin the selected resolver's inputs so its expected `OnticResolution` is respectively `YES`, `NO`, or `INDETERMINATE`. For each ontic variant, each domain `D ∈ {LEGAL, SOCIAL, RELIGIOUS}` is tested with evidence/authority packets producing `J ∈ {YES, NO, CONTESTED}`. This is the complete 3×3 cross-product per domain, not a narrative sample.
+   172→
+   173→| Ontic `O` | Domain judgment `J` | Required invariant and expected writes |
+   174→|---|---|---|
+   175→| YES | YES | ontic record remains YES; domain writes recognition plus only its own downstream rights/relationships/rites |
+   176→| YES | NO | ontic record remains YES; domain writes denial, reasons, authority and appeal; denial cannot end the person or rewrite numerical identity |
+   177→| YES | CONTESTED | ontic record remains YES; domain writes competing claims, provisional effects and reopening conditions |
+   178→| NO | YES | ontic record remains NO; domain may recognize a legal successor, social continuation or ritual representative, but cannot label that recognition ontic sameness |
+   179→| NO | NO | ontic record remains NO; domain denial has its normal scoped effects only |
+   180→| NO | CONTESTED | ontic record remains NO; disagreement and appeal remain possible without changing the resolver |
+   181→| INDETERMINATE | YES | ontology remains indeterminate; domain may apply a disclosed presumption and scoped effects, never promote the presumption to cosmic fact |
+   182→| INDETERMINATE | NO | ontology remains indeterminate; domain denial records the evidence standard and reopening conditions |
+   183→| INDETERMINATE | CONTESTED | ontology remains indeterminate; competing judgments and provisional safeguards persist |
+   184→
+   185→**Writer separation**
+   186→
+   187→- `OntologyResolver` alone writes `OnticResolution {rule, inputs, O, observables, falsifiers}`.
+   188→- A domain authority/audience writes `ContinuityJudgment {domain, evidence_seen, J, competence, dissent, scoped_effects, appeal, reopen}`.
+   189→- Appeals create a new judgment revision. They never overwrite the old judgment or the ontic record.
+   190→- New metaphysical evidence schedules resolver reopening only where the selected ontology permits it; a changed ontic revision does not retroactively erase good-faith legal/social/religious history.
+   191→
+   192→The executable oracle asserts exact read/write sets, zero unauthorized cross-writes, and preservation of all 27 combinations across save/load and S4→S0→S4. `NormalizedHash = SHA-256(SEM-NORM-compatible canonical serialization of input manifest + ordered expected events)` must match the always-S4 control for each variant. A deliberate misjudgment, corrupt authority, appeal, and later reopening are mandatory event variants.
+   193→
+   194→---
+   195→
+   196→## 3. Death as a multi-domain transition
+   197→
+   198→Death is an event bundle, not a Boolean hit-point state.
+   199→
+   200→### 3.1 Required death facets
+   201→
+   202→```text
+   203→biological organization
+   204→agency and perception
+   205→qi circulation and reservoirs
+   206→spirit/mind components if any
+   207→memory accessibility
+   208→Dao/cultivation continuity
+   209→body and material custody
+   210→ownership and inheritance
+   211→oaths, debts, offices, and crimes
+   212→household labor and dependents
+   213→funerary and religious duties
+   214→records, testimony, and reputation
+   215→ecological and public-health consequences
+   216→postmortem manifestations
+   217→return possibilities and finality
+   218→```
+   219→
+   220→### 3.2 State family, not universal ladder
+   221→
+   222→The exact model remains open, but every body/person combination must express applicable states such as:
+   223→
+   224→- alive and integrated;
+   225→- dying/recoverable;
+   226→- agency absent but body maintained;
+   227→- bodily death with unresolved spirit/agency status;
+   228→- separated or displaced component;
+   229→- remains present, transformed, dispersed, consumed, sealed, or missing;
+   230→- postmortem remnant or manifestation;
+   231→- ancestor or institutionalized dead;
+   232→- resurrection/reconstruction in progress;
+   233→- reincarnated or causally succeeded;
+   234→- copied, split, merged, or contested;
+   235→- dispersed beyond ordinary recovery; and
+   236→- irreversibly final under the current laws.
+   237→
+   238→Species, paths, techniques, environments, and world laws determine which states exist. Human meridians or one human funeral grammar never become universal anatomy.
+   239→
+   240→“Agency absent” is an observed functional state, not a declaration of nonpersonhood or irreversible death. Sleep, unconsciousness, paralysis, sensory difference, dissociation, possession, sealed awareness, and communication barriers require distinct predicates, diagnostic uncertainty, and safeguards against premature burial, organ/material harvesting, abandonment, or identity seizure.
+   241→
+   242→### 3.3 Consequence scheduler
+   243→
+   244→One death may schedule:
+   245→
+   246→1. bodily change, decay, contamination, scavenging, preservation, or environmental transformation;
+   247→2. household shock: lost labor, care, food, rent, debt, guardianship, grief, and knowledge;
+   248→3. relationship transitions: widowhood, orphanhood, succession, apprenticeship, enmity, mourning, and unfinished promises;
+   249→4. custody disputes over remains, property, techniques, artifacts, names, offices, and records;
+   250→5. investigation, testimony, legal process, vengeance, concealment, or memorialization;
+   251→6. ritual choices with material labor, specialists, expense, disagreement, and possible efficacy;
+   252→7. spirit/remnant processes only if admitted by ontology and conditions;
+   253→8. ecological and political consequences; and
+   254→9. future discovery by the player, including wrong or fraudulent explanations.
+   255→
+   256→At S0–S2 simulation-resolution tiers, named identity, causal order, custody, unique objects, obligations, scheduled rites, succession, and bounded demographic/economic effects remain protected invariants. Rendering LOD is a separate axis.
+   257→
+   258→---
+   259→
+   260→## 4. Four original ontology candidates
+   261→
+   262→These are mutually distinguishable starting points. Later synthesis may select one, hybridize them only with explicit conflict resolution, or reject all four.
+   263→
+   264→### Model A — Anchored Spirit Continuant
+   265→
+   266→**Thesis:** A person has one noncopyable spirit anchor that can change embodiment while maintaining numerical identity.
+   267→
+   268→```text
+   269→living body + active agency + spirit anchor
+   270→death → anchor separation/damage/retention
+   271→resurrection → same anchor lawfully rejoins or forms an embodiment
+   272→reincarnation → same anchor begins a new embodiment under memory constraints
+   273→copy → new person; structure/memory may match, anchor does not
+   274→```
+   275→
+   276→**Strengths**
+   277→
+   278→- Clear player intuition and strong soul-threat gameplay.
+   279→- Possession, sealing, resurrection, reincarnation, and spirit injuries have concrete targets.
+   280→- Numerical identity remains one-to-one under copying.
+   281→
+   282→**Necessary limits**
+   283→
+   284→- The anchor is not a free indestructible save file.
+   285→- It has finite integrity, access, mobility, perception, memory bandwidth, and compatibility.
+   286→- A stolen anchor does not automatically grant the thief its cultivation, consent, relationships, or legal standing.
+   287→- A reconstructed body requires matter, organization, qi, time, knowledge, and authority.
+   288→
+   289→**Risks**
+   290→
+   291→- Can trivialize Buddhist-inspired traditions by implying a permanent self.
+   292→- Can make death cheap unless dispersion/finality is possible.
+   293→- Can turn soul capture into inventory slavery.
+   294→- Can reduce identity disputes to scanning an object.
+   295→
+   296→**Critical tests:** anchor duplication, forged anchor signature, partial fracture, two bodies claiming one anchor, one body hosting several anchors, anchor/body incompatibility, amnesia with same anchor, total personality replacement, final dispersion.
+   297→
+   298→### Model B — Braided Continuity
+   299→
+   300→**Thesis:** A person is a maintained braid of bodily continuity, agency, memory, dispositions, qi/spirit organization, names, relationships, and causal history. No single strand is always sufficient.
+   301→
+   302→```text
+   303→PersonContinuant = governed continuity relation across component histories
+   304→death = braid rupture with possible surviving strands
+   305→resurrection = reweaving that may succeed, fail, or create a successor
+   306→reincarnation = new braid causally inheriting selected strands
+   307→copy = branch; numerical identity follows the world's nonbranching rule
+   308→```
+   309→
+   310→**Strengths**
+   311→
+   312→- Supports rich, genuinely difficult identity cases.
+   313→- Makes families, teachers, enemies, institutions, and self-understanding mechanically relevant.
+   314→- Allows different legal/religious/cultivation traditions to disagree without all being metaphysically correct.
+   315→- Makes restoration a process rather than a consumable.
+   316→
+   317→**Necessary limits**
+   318→
+   319→- No opaque weighted identity percentage.
+   320→- Each judgment uses typed necessary/sufficient rules and preserves dissent.
+   321→- Numerical identity, relationship inheritance, liability, and cultivation continuity remain separate.
+   322→
+   323→**Risks**
+   324→
+   325→- Harder to explain and validate.
+   326→- May feel arbitrary if the player cannot investigate the deciding strands.
+   327→- Can permit institutions to deny obvious personhood unless metaphysical and legal judgments remain distinct.
+   328→
+   329→**Critical tests:** amnesia, body replacement, gradual transformation, duplicate memories, fission, merge, possession, forged social recognition, dead name, oath inheritance, cultivation deviation replacing dispositions.
+   330→
+   331→### Model C — Causal Flame / Successor Stream
+   332→
+   333→**Thesis:** No permanent soul substance persists. Momentary body/mind/qi processes cause later processes. What survives is a directed causal stream and its consequences, not a transferable self-object.
+   334→
+   335→```text
+   336→life = causally connected process stream
+   337→death = termination or transformation of one organized stream
+   338→rebirth = caused successor stream without a migrating substance
+   339→memory return = new causal access, not proof of numerical identity
+   340→resurrection = restoration of a process only if causal continuity was never completely severed
+   341→```
+   342→
+   343→**Strengths**
+   344→
+   345→- Deeply resists soul-as-loot and immortality-as-backup-file.
+   346→- Makes actions, habits, teachings, relationships, and consequences more important than essence collection.
+   347→- Rebirth can matter without giving the player perfect autobiographical continuity.
+   348→- Creates distinctive Dao-heart questions without importing a permanent ego.
+   349→
+   350→**Necessary limits**
+   351→
+   352→- This is an original world rule, not a claim that it accurately represents all Buddhism.
+   353→- Moral/legal succession needs explicit rules because numerical identity may not carry.
+   354→- Players need legible causal traces, not philosophical vagueness.
+   355→
+   356→**Risks**
+   357→
+   358→- Some players may feel that reincarnation is simply a different person.
+   359→- Personal endgame immortality becomes conceptually difficult.
+   360→- Responsibility across lives can become unjust if imposed without knowledge or agency.
+   361→
+   362→**Critical tests:** successor with no memories, perfect copy without causal descent, weak causal descent with strong copied memory, two successors, interrupted stream, retrocausal influence, inherited consequences without inherited blame.
+   363→
+   364→### Model D — Relational Ancestor Ecology
+   365→
+   366→**Thesis:** An individual has embodied agency while alive, but postmortem continuation depends on an ecology of remains, place, descendants, records, names, offerings, institutions, memories, qi residues, and possibly responsive manifestations.
+   367→
+   368→**Classification correction:** as presently written, this is a postmortem manifestation and relationship ecology, not a complete rival rule for numerical identity. It may layer over A, B, or C. It cannot be selected as the sole identity ontology unless a later revision supplies unique outputs for copying, fission, amnesia, resurrection, reincarnation, possession, and merging.
+   369→
+   370→```text
+   371→living person = embodied center in a relational network
+   372→death = loss of embodied center and redistribution of continuities
+   373→ancestor = sustained postmortem relation/manifestation under defined supports
+   374→neglected dead = decay, silence, transformation, dispersal, or dangerous remnant
+   375→return = reconstitution from sufficient lawful relations, never memory download alone
+   376→```
+   377→
+   378→**Strengths**
+   379→
+   380→- Makes mortal families, funerals, graves, temples, archives, food, place, and memory persist into high-realm play.
+   381→- Creates systemic reasons to protect or reform institutions.
+   382→- Allows afterlife gameplay without assuming every manifestation is the full deceased person.
+   383→
+   384→**Necessary limits**
+   385→
+   386→- People without descendants, wealth, institutions, or approved lineage are not ontologically lesser.
+   387→- Alternative care networks and self-chosen memorial forms must be possible.
+   388→- Ritual labor has material and emotional meaning even when supernatural efficacy fails.
+   389→- Institutional recognition cannot manufacture numerical identity.
+   390→
+   391→**Risks**
+   392→
+   393→- Can reproduce patriarchal lineage hierarchies or punish marginalized dead.
+   394→- Can turn mourning into resource upkeep.
+   395→- May make the dead dependent on NPC schedules in frustrating ways.
+   396→
+   397→**Critical tests:** anonymous death, destroyed grave, false tablet, adopted family, hostile descendants, extinct lineage, competing memorials, ancestor office without person continuity, mass casualty, displaced community, culturally mixed funeral.
+   398→
+   399→---
+   400→
+   401→## 5. Comparative decision matrix
+   402→
+   403→Scores are provisional design judgments, not source evidence.
+   404→
+   405→| Criterion | A Anchor | B Braid | C Stream | D Relational ecology |
+   406→|---|---:|---:|---:|---:|
+   407→| Immediate player legibility | 5 | 3 | 2 | 4 |
+   408→| Identity-case depth | 3 | 5 | 5 | 4 |
+   409→| Supports possession/soul combat | 5 | 4 | 2 | 3 |
+   410→| Resists soul-as-inventory | 2 | 4 | 5 | 4 |
+   411→| Keeps mortal relationships relevant | 3 | 5 | 4 | 5 |
+   412→| Clear numerical identity | 5 | 3 | 3 | 2 |
+   413→| Copy/fission robustness | 4 | 5 | 5 | 3 |
+   414→| Resurrection gameplay | 5 | 5 | 2 | 4 |
+   415→| Reincarnation gameplay | 5 | 4 | 5 | 3 |
+   416→| Cultural-flattening risk | 3 | 4 | 3 | 3 |
+   417→| Implementation/review complexity | 3 | 5 | 4 | 5 |
+   418→
+   419→Promising research direction: test **B as a continuity-analysis framework** while evaluating A, B, and C as mutually testable ontic foundations. Evaluate D as a compatible postmortem ecology or culturally held model unless it gains a distinct numerical-identity rule. This is not a recommendation to hybridize them automatically.
+   420→
+   421→### 5.1 Candidate transition truth table — `ID-MATRIX-v0.1`
+   422→
+   423→These outputs are candidate-law commitments used to make the models behaviorally identifiable; none is yet canon.
+   424→
+   425→| Fixture | A — Anchored continuant | B — Braided continuity | C — Causal stream | D — relational ecology layer |
+   426→|---|---|---|---|---|
+   427→| exact body/memory copy while source continues | source remains original through its unique anchor; copy is a new person | continuing source remains original; copy is a new causally derived person | continuing source stream remains; copied process is new and is not numerically identical | no independent numerical answer; records how each copy gains or lacks postmortem/social supports |
+   428→| symmetric fission where source organization ends | the one branch receiving the indivisible anchor continues; other branch is new, or the event fails if no lawful anchor allocation exists | original ends; two successor persons begin; neither is numerically identical | prior stream ends as one; two successor streams begin; neither is numerically identical | no independent numerical answer; supports, names, graves, and rites may divide or conflict |
+   429→| complete amnesia with uninterrupted living process | same person if the same anchor remains | same person if the ratified necessary braid strands remain despite memory loss | same ongoing stream if causal organization remains uninterrupted | living embodied center continues; relationship recognition may still rupture |
+   430→| restoration after verified bodily death | same person only if the same anchor persists and lawfully re-embodies | same only if ratified braid sufficiency and nonbranching conditions are met; otherwise successor | same only if the organized stream was not fully severed; reconstruction after complete severance is a successor | determines available reconstitution supports, not sameness by itself |
+   431→| new life with previous-life memories | same only if the unique anchor crossed; memory alone is insufficient | default causal successor, not numerically same, unless a future stricter braid rule says otherwise | causal successor, not a transported identical self | records inherited relations/manifestations; cannot declare same person alone |
+   432→| possession without merge | host and possessor remain distinct persons with typed access/control | distinct braids remain unless an explicit merge changes them | distinct processes remain while causally interacting | determines support, recognition, and postmortem consequences for each |
+   433→| irreversible merge of two persons | two anchors cannot become one identical predecessor; outcome is coexistence, destruction, or a new person under an explicit anchor rule | both predecessors end and a successor begins unless the contract preserves them as co-agencies | contributing streams end or continue only as specified; a merged successor is not numerically both | distributes memorial, relational, and institutional continuities; no sameness result alone |
+   434→
+   435→### 5.2 Observable and falsifier matrix — `ID-OBS-v0.1`
+   436→
+   437→| Candidate | Required distinguishing observables | Candidate falsified or incomplete if |
+   438→|---|---|---|
+   439→| A | a unique, noncopyable anchor has persistent provenance; transfers and damage predict identity outcomes independently of copied memory/body; anchor tests have bounded false positives | one anchor is lawfully duplicated into two numerically identical persons; identity persists across verified total anchor loss with no declared replacement rule; every anchor claim is only institutional opinion |
+   440→| B | a ratified set of typed strand rules predicts cases where changing body, memory, agency, qi organization, or causal history changes the answer; branch rule is stable | outputs are produced by an opaque score; no case distinguishes it from C; institutions can change ontic identity by recognition alone |
+   441→| C | directed causal continuity predicts sameness/succession without a transported substance; complete causal severance changes resurrection into reconstruction/succession | a numerically identical person crosses a verified total causal gap solely by copied information; an unmodeled permanent identity object is required in every transition |
+   442→| D layer | controlled changes to remains/place/records/ritual/social supports alter postmortem manifestation, access, memory, or relationship outcomes under declared laws | it is asked to answer numerical identity without a base model; marginalized or unsupported dead become nonpersons; all supports are cosmetic and yield no distinctive transition output |
+   443→
+   444→If B and C produce the same full truth table after their necessary rules are specified, they must be merged or one rejected before canon. Philosophical prose alone does not justify two implementations.
+   445→
+   446→---
+   447→
+   448→## 6. Executable transition contracts
+   449→
+   450→Every identity-altering process declares:
+   451→
+   452→```text
+   453→source entities and exact revisions
+   454→target body/vehicle/process
+   455→component read set
+   456→component write set
+   457→causal-lineage edges
+   458→copy/split/merge behavior
+   459→continuity predicates attempted
+   460→what is conserved, transformed, lost, or newly created
+   461→matter/qi/spirit/information/authority ledgers
+   462→consent and personhood status
+   463→memory provenance and viewpoint
+   464→cultivation carryover by dimension
+   465→relationship, oath, debt, ownership, and office effects
+   466→witnesses, evidence, records, and fraud surface
+   467→failure, interruption, backlash, and residue
+   468→simulation-tier behavior
+   469→save/reload/migration behavior
+   470→required identity judgments
+   471→```
+   472→
+   473→### 6.1 Resurrection
+   474→
+   475→A resurrection claim decomposes into independent predicates:
+   476→
+   477→- body repaired, replaced, regrown, or reconstructed;
+   478→- biological life restarted;
+   479→- agency present;
+   480→- memories causally restored;
+   481→- dispositions continuous;
+   482→- spirit component continuous if applicable;
+   483→- cultivation dimensions restored or relearned;
+   484→- numerical identity judgment;
+   485→- relationship and legal recognition;
+   486→- liabilities and ownership adjudicated; and
+   487→- competing continuants excluded or acknowledged.
+   488→
+   489→“Revives the dead” is prohibited unless the contract names which of these it guarantees and in what scope.
+   490→
+   491→### 6.2 Reincarnation
+   492→
+   493→Define separately:
+   494→
+   495→- successor selection or formation;
+   496→- time gap and clock domain;
+   497→- causal carrier: none, process, imprint, spirit, vow, law, place, or other;
+   498→- memory access: absent, latent, fragmentary, triggered, trained, stolen, or fabricated;
+   499→- temperament/skill/qi/Dao carryover;
+   500→- bodily and species change;
+   501→- previous-life relationship visibility;
+   502→- debt, oath, karma, law, and ownership rules where those modules exist;
+   503→- numerical identity and legal succession; and
+   504→- whether return can branch or repeat.
+   505→
+   506→Previous-life memory is evidence with provenance, not automatic omniscience or automatic identity.
+   507→
+   508→### 6.3 Possession
+   509→
+   510→Possession separates:
+   511→
+   512→- sensory access;
+   513→- motor access;
+   514→- speech access;
+   515→- attention and memory read/write;
+   516→- qi and technique access;
+   517→- identity presentation;
+   518→- consent;
+   519→- resistance and counterplay;
+   520→- shared or exclusive control;
+   521→- responsibility for acts;
+   522→- body harm and adaptation;
+   523→- detection and evidence; and
+   524→- termination/aftermath.
+   525→
+   526→“Controls the target” is not one primitive.
+   527→
+   528→### 6.4 Copying and fission
+   529→
+   530→Copy contracts specify:
+   531→
+   532→- copied structure and fidelity;
+   533→- whether source changes;
+   534→- perspective and memory cutoff;
+   535→- new stable identity allocation;
+   536→- causal/copy lineage;
+   537→- unique-item and authority nonduplication;
+   538→- relationship claims;
+   539→- legal status and personhood from first agency;
+   540→- branch-aware random seeds; and
+   541→- prohibition on inheriting already-spent costs or cooldown completion twice.
+   542→
+   543→### 6.5 Merging
+   544→
+   545→A merge cannot be a stat addition. It specifies:
+   546→
+   547→- participants and consent;
+   548→- whether persons survive, end, coexist, alternate, or create a successor;
+   549→- conflict resolution for memories, values, injuries, techniques, bodies, qi, and Dao orientations;
+   550→- conservation and loss;
+   551→- responsibility and debt;
+   552→- ownership and relationship outcomes;
+   553→- ability to reverse; and
+   554→- treatment of dissenting internal agencies.
+   555→
+   556→---
+   557→
+   558→## 7. Player-facing verbs
+   559→
+   560→### Mortal and low-realm
+   561→
+   562→- confirm breathing, warmth, responsiveness, and culturally known signs;
+   563→- call family, healer, official, priest, undertaker, teacher, or witness;
+   564→- attempt first aid, carry, guard, wash, preserve, identify, or release remains;
+   565→- notify dependents, negotiate debt, arrange labor, mourn, sit vigil, prepare food, dig, cremate, bury, record, petition, inherit, contest, or investigate;
+   566→- distinguish rumor, fraud, dream, memory, residue, ghost, and evidence;
+   567→- refuse, reform, combine, or create funerary practices within social consequences; and
+   568→- care for forgotten dead without requiring supernatural reward.
+   569→
+   570→Diagnostic actions expose uncertainty and cultural knowledge rather than a magical binary “dead/alive” indicator. A mortal may be mistaken; healers and cultivators gain better sensors only through trained, bounded perception with known false positives and failure modes.
+   571→
+   572→### Cultivator-scale
+   573→
+   574→- perceive or conceal qi/spirit residues;
+   575→- stabilize a dying integration without guaranteeing survival;
+   576→- prevent hostile possession or memory alteration;
+   577→- preserve a component while the body is repaired;
+   578→- adjudicate an identity claim with sect, family, court, ancestor, or world-law evidence;
+   579→- trace causal lineage across reincarnation or copying;
+   580→- sever unlawful control without erasing the hosted person;
+   581→- restore, reweave, or release within realm and authority limits; and
+   582→- accept finality when intervention would create a different person or violate consent.
+   583→
+   584→### High-realm
+   585→
+   586→- author scoped continuity law without retroactively changing settled identity;
+   587→- create worlds whose inhabitants have protected personhood and death semantics;
+   588→- negotiate incompatible identity laws at world boundaries;
+   589→- preserve histories without freezing persons into copies;
+   590→- prevent recursive resurrection economies and authority duplication; and
+   591→- bear responsibility for every created form of suffering, death, afterlife, and return.
+   592→
+   593→---
+   594→
+   595→## 8. Exploit and tragedy gauntlet
+   596→
+   597→### Resource exploits
+   598→
+   599→- Duplicate a cultivator and harvest both cultivation bases.
+   600→- Reincarnate repeatedly to reroll spiritual roots, bodies, talent, fate, or tribulations.
+   601→- Resurrect livestock, rare species, herbs, or cultivators for infinite matter/qi.
+   602→- Split before paying a cost; merge after receiving two rewards.
+   603→- Transfer debt, deviation, injury, or cooldown to an abandoned copy.
+   604→- Use corpse ownership to claim carried soul, memory, artifact, or technique.
+   605→- Destroy records to manufacture legal death while preserving the actor.
+   606→- Create ancestor offices or worship loops that generate unbounded authority.
+   607→
+   608→### Identity exploits
+   609→
+   610→- Perfect memory copy claims all relationships and property.
+   611→- Amnesiac original is displaced by a persuasive copy.
+   612→- Two heirs each pass a different institutional test.
+   613→- Possessor commits crimes through a host and shifts blame.
+   614→- Teacher reincarnates as student and manipulates lineage seniority.
+   615→- A sect declares inconvenient members “different persons” after deviation.
+   616→- A powerful being calls a created consciousness merely an echo to deny personhood.
+   617→- The protagonist receives favorable continuity judgments unavailable to isomorphic NPCs.
+   618→
+   619→### Persistence exploits
+   620→
+   621→- Save during death/resurrection prepare and reload after resource spend.
+   622→- Unload the area to halt decay, ritual deadlines, possession, or spirit dispersal.
+   623→- Migrate an old save across an identity-law revision and duplicate/remap continuants.
+   624→- Demote to S0 so a named death loses witnesses, unique remains, debt, or scheduled funeral.
+   625→- Cross a world boundary to shed identity, oath, or liability without an explicit compatibility rule.
+   626→
+   627→### Human tragedy tests
+   628→
+   629→- A poor household cannot afford the prestigious funeral.
+   630→- An unidentified traveler dies far from home.
+   631→- A child, elder, disabled person, stigmatized practitioner, criminal, enemy soldier, nonhuman person, and culturally mixed family each receive non-caricatured options.
+   632→- A resurrection produces a loving, psychologically continuous successor whom the law rejects.
+   633→- A returned person rejects the role and relationships others impose.
+   634→- An ancestor manifestation is real but not numerically the deceased.
+   635→- The only safe intervention preserves the world while allowing a beloved person’s final death.
+   636→
+   637→Passing requires systemic consequences, multiple defensible actions, preserved grief, and no hidden “correct morality” meter.
+   638→
+   639→---
+   640→
+   641→## 9. Golden scenario fixtures
+   642→
+   643→1. **The winter bedside:** A mortal household must decide how to allocate fuel, food, healer fees, care labor, and debt while an elder declines. No cultivation spectacle is required for meaningful play.
+   644→2. **The unclaimed body:** A stranger dies near the village with an unusual scar, inconsistent papers, and a hidden relationship. Burial, investigation, theft, fear, hospitality, law, and ritual compete.
+   645→3. **The teacher’s remnant:** After a first cultivation lesson, the teacher dies. A memory-bearing remnant offers guidance, but its identity, accuracy, motive, and personhood are uncertain.
+   646→4. **The copied confession:** Two beings remember committing the same act. Only one body was present; both carry genuine guilt. Legal and metaphysical judgments diverge.
+   647→5. **The failed return:** A costly resurrection restores body and memories but not the original agency continuity under the selected model. The result is a person, not a defective item.
+   648→6. **The rival reincarnation claims:** Two children display different causally valid traces of one dead cultivator. Fission rules, family grief, inheritance, sect politics, and the children’s autonomy matter.
+   649→7. **World-law border:** A high-realm traveler crosses into a world where their identity carrier does not exist. Compatibility must preserve personhood or refuse the crossing honestly.
+   650→
+   651→---
+   652→
+   653→## 10. Decision gate
+   654→
+   655→No model becomes canon until it passes:
+   656→
+   657→- mortal-year consequences;
+   658→- Qi Condensation observability and intervention limits;
+   659→- copy/fission/merge logic;
+   660→- resurrection and reincarnation resource conservation;
+   661→- possession consent and liability;
+   662→- personhood of created/surviving consciousness;
+   663→- family, ritual, legal, and institutional plurality;
+   664→- protagonist/NPC parity;
+   665→- S0–S4 simulation continuity independent of rendering LOD;
+   666→- save/load and migration;
+   667→- cross-world compatibility; and
+   668→- understandable player-facing explanations without overusing niche romanization.
+   669→
+   670→The next synthesis should present two or three refined options to the user with concrete mortal, low-realm, and endgame consequences. Until then, soul, reincarnation, ancestorhood, and final death remain open ontology modules.
+   671→

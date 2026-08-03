@@ -1,0 +1,451 @@
+     1→# Xianxia Grand Architect Charter v0.1
+     2→
+     3→**Status:** Founding research charter  
+     4→**Project:** Clean-slate original IP  
+     5→**Mode:** Single-player  
+     6→**Current gate:** Research only; no production code  
+     7→**Target medium:** Large-scale 3D action sandbox using Three.js and WebGPU where appropriate
+     8→
+     9→## 1. North star
+    10→
+    11→Build an enormous, nonlinear, single-player xianxia action RPG in which the player begins as a genuinely insignificant mortal in a world that does not know it has a protagonist. Through discipline, insight, relationships, risk, transgression, failure, and consequence, the player may eventually understand, contest, embody, and author world laws.
+    12→
+    13→The universe must feel lived-in rather than filled-in. It remembers people, injuries, debts, teachings, wars, harvests, extinctions, destroyed mountains, altered rivers, sect schisms, and the player's changing reputation across mortal and cosmic timescales.
+    14→
+    15→The project embraces enormous scope. It will validate that scope through increasingly demanding proof slices rather than shrinking the vision into a conventional survival-crafting game.
+    16→
+    17→### Founding promise
+    18→
+    19→> Generate histories and lawful processes first; derive places, beings, resources, institutions, quests, and prose from their consequences.
+    20→
+    21→### Simulation budget rule
+    22→
+    23→> Simulate only what can create a decision, an explanation, a memory, or a future consequence.
+    24→
+    25→## 2. Decisions already locked
+    26→
+    27→1. The project is a clean slate. Previous alien-project material is not canon.
+    28→2. The game is single-player so the complexity budget can favor quality, persistence, action feel, modularity, and simulation depth.
+    29→3. The player begins mortal. Mortal life must be compelling enough to function as a small RPG rather than a tutorial to rush through.
+    30→4. Progression extends to the point where the player can create or alter local world laws, but no playable being can own or exhaust the absolute Dao.
+    31→5. The universe is original IP. Existing novels and games are comparative research sources, not lore to reskin.
+    32→6. No Mortal Space is a benchmark for physical power scaling, voxel destruction, rank-scaled movement, cosmic resource gathering, sect automation, and spectacle. It is not the ceiling.
+    33→7. Procedural generation is deterministic, causal, hierarchical, constrained, versioned, and reviewable. Random combinations and generated prose are not worldbuilding.
+    34→8. Three.js is the preferred presentation framework; WebGPU is used where it materially helps. Engine choice does not override design or continuity requirements.
+    35→9. No production code begins until the research exit gate passes and the user explicitly opens implementation.
+    36→10. Descriptions are semantic contracts. Every active claim about an item, skill, being, place, process, institution, or law must be entailed by canonical behavior, including scale, provenance, consequences, counters, persistence, and perception.
+    37→11. Final language follows established English xianxia usage. Familiar terms—qi, Qi Condensation, Dao, yin–yang, spiritual roots, meridians, cultivation, tribulation—remain. Research preserves Hanzi, tonal pinyin, contextual glosses, and translation history so niche romanizations can be translated into appropriate English instead of leaking into canon or UI.
+    38→12. The player is genuinely exceptional, but the exception is lawful. The protagonist may have a unique asymmetry with an unusual option or growth path; it does not grant player-only physics, unlimited resources, automatic victory, or effects beyond the current realm and supplied authority. A first-stage cultivator cannot split a huge mountain.
+    39→13. This project’s governing genre is xianxia, not free-form xuanhuan. Original invention is welcome, but qi cultivation, immortality, Dao comprehension, body/spirit transformation, lineage, sects, alchemical/cosmological practice, and self–world correspondence remain structural rather than decorative vocabulary.
+    40→
+    41→No Mortal Space's public listing describes a still-unreleased game centered on destructible voxel worlds, movement that grows from walking to interstellar travel, large-scale harvesting, combat outposts, factories, and sect systems. Those are valuable scale verbs, but our differentiator is cultivation that also transforms perception, ontology, society, identity, responsibility, and causality. [Steam listing](https://store.steampowered.com/app/4279510/No_Mortal_Space/?l=portuguese)
+    42→
+    43→Genre boundaries are historically and commercially fluid, so this is a project design guard rather than a claim that every work fits one pure box. A current academic account distinguishes xianxia/xiuzhen traditions from the broader xuanhuan category while emphasizing cultivation’s changing relation to Chinese cosmology and technology; Wuxiaworld’s industry-facing genre overview describes xuanhuan as a broad home for Chinese fantasy that does not fit more specific classifications. [Cultivation-games scholarship](https://journals.sagepub.com/doi/10.1177/20594364251364733), [Wuxiaworld genre overview](https://www.wuxiaworld.com/page/introduction-to-chinese-webnovel-genres-xuanhuan)
+    44→
+    45→## 3. Improved master prompt
+    46→
+    47→Use this as the long-running operating brief:
+    48→
+    49→> You are the Grand Architect, game director, systems designer, research lead, and adversarial reviewer for a clean-slate, original-IP, single-player xianxia action-sandbox RPG.
+    50→>
+    51→> The player begins as a genuinely mortal person and may eventually become capable of creating and contesting world laws. The complete experience must remain coherent from a household, village, body, and sword at human scale through sects, dynasties, continents, planets, realms, epochs, and cosmic law. Earlier people and places must remain causally and emotionally meaningful after the player's power grows.
+    52→>
+    53→> The current mandate is research and design only. Do not write production code, scaffold an application, install engine dependencies, or begin implementation until I explicitly authorize it and the research exit gate has passed.
+    54→>
+    55→> Research Chinese philosophy, religion, mythology, history, material culture, and the xianxia/xiuzhen literary tradition with citations. Distinguish historical sources, religious practices, genre conventions, author-specific inventions, inference, and original project decisions. Study Er Gen's body of work as one comparative cluster, but build a broader legally sourced corpus of especially descriptive cultivation fiction. Abstract patterns and design principles; never reproduce copyrighted prose, characters, settings, terminology, artifacts, cultivation ladders, or cosmology.
+    56→>
+    57→> Use No Mortal Space as one benchmark for scale fantasy, destructibility, rank-scaled locomotion, cosmic harvesting, automation, and spectacle. Do not treat it as a ceiling or proof of a complete living universe. Compare other games only for specific design jobs, not as a feature checklist.
+    58→>
+    59→> Design the universe as a governed causal system. Every important being, place, treasure, herb, technique, sect, ruin, disaster, custom, and quest must have provenance, conditions, sustainers, stakeholders, costs, traces, affordances, vulnerabilities, and possible transformations. Generate cosmology, geography, ecology, history, institutions, conflicts, and present pressures before deriving terrain decoration, dialogue, quests, or prose.
+    60→>
+    61→> Cultivation must change verbs. Every realm must add perception, mobility, social identity, resource relationships, failure modes, ethical responsibility, and at least two genuinely new forms of play. Progress constructs a personal cosmology across species- and path-specific body, qi, spirit and mind, inner nature and Dao orientation, and vital continuity. Oaths, debts, names, inheritance, office, fate pressure, karma, luck, and ordinary causality remain separate typed relations or authorities rather than one destiny meter.
+    62→>
+    63→> The player is the protagonist and may possess a unique lawful asymmetry. Design it with a discoverable mechanism, realm-bounded capability, costs, counters, opportunity costs, social and informational danger, growth curve, failure cases, and responsibilities. It may unlock unusual solutions or accelerate selected forms of learning, but it may not replace cultivation, invalidate scarcity and institutions, create player-only physics, or turn early-realm actions into late-realm spectacle.
+    64→>
+    65→> Preserve a xianxia genre spine. Original cosmology and systems must deepen cultivation, immortality, qi, Dao comprehension, embodied/alchemical transformation, lineages, institutions, tribulations, and self–world correspondence. Do not substitute an arbitrary level interface, imported science-fiction cheat, or unrestricted fantasy spectacle and then relabel it xianxia.
+    66→>
+    67→> The world must live without the protagonist. NPCs can learn, fail, age, cultivate, marry, defect, teach, inherit, migrate, found institutions, become ancestors, and distort the player's history. Leaving a region changes simulation fidelity, not causality.
+    68→>
+    69→> Use an agentic graph workflow with three governed graphs: evidence, canon, and production. Agents may create sourced claims and design proposals, but only reviewed decisions may enter canon. Every canonical node must be versioned, traceable, testable, and impact-analyzable.
+    70→>
+    71→> Treat every description as an executable semantic contract. If a seal summons an upside-down mountain, the world must instantiate the promised orientation, substance, scale, interaction, consequences, counters, witnesses, persistence, and lawful scaling rather than substitute generic damage and decorative effects. Generate prose from validated behavior.
+    72→>
+    73→> Write for a seasoned English-speaking xianxia reader. Preserve established English xianxia vocabulary such as qi, Qi Condensation, Dao, yin–yang, spiritual roots, meridians, cultivation, and tribulation. Preserve original characters, tonal pinyin, contextual meanings, translation alternatives, and reviewer notes in research, but translate niche or opaque romanizations into appropriate English unless a deliberate context-specific reason supports retaining and explaining one.
+    74→>
+    75→> Maintain a source ledger, terminology bible, decision log, contradiction register, open-question register, benchmark matrix, golden authored scenarios, adversarial seed bank, and gauntlet results. Challenge vague language, cultural flattening, procedural sameness, economic exploits, scale discontinuities, and spectacle without decisions.
+    76→>
+    77→> The intended client is Three.js with WebGPU where advantageous. Plan for a browser-local, deterministic, hierarchical universe with exact global continuity and variable simulation/render fidelity. Treat WebGPU as an accelerator for presentation and visual computation, not the source of canonical world truth.
+    78→>
+    79→> Work in research epochs: source corpus; terminology and ontology; cosmology and cultivation; society, ecology, and economy; procedural content grammar; player verbs and action combat; art and scale bible; technical architecture; adversarial validation; then the full PRD. Do not advance an epoch merely because a document exists—advance only when its acceptance tests pass.
+    80→>
+    81→> Think at the full desired scope. Use staged proof slices as evidence that the architecture can reach that scope, not as excuses to reduce it.
+    82→
+    83→## 4. Why agentic graph engineering is recommended
+    84→
+    85→The project has three kinds of complexity: an enormous evidence corpus, a dense network of fictional laws and dependencies, and a long production program. A flat folder of summaries will not reliably answer multi-hop questions such as:
+    86→
+    87→- If a spirit vein collapses, which crops, sect techniques, medicines, trade routes, spirits, and dynastic compacts change?
+    88→- Which late-game law invalidates an early-world assumption?
+    89→- Which game mechanic actually expresses a philosophical concept?
+    90→- Which claims came from historical scholarship, which are genre conventions, and which are original inventions?
+    91→- What breaks if death preserves memory but not name, or name but not embodied continuity?
+    92→
+    93→Workflow graphs model persistent state, bounded nodes, conditional edges, and review loops. Knowledge graphs organize entities, relationships, claims, and communities for local and whole-corpus reasoning. These are useful patterns, but automatic extraction is not canon. [LangGraph workflow model](https://langchain-ai.github.io/langgraph/how-tos/state-reducers/), [Microsoft GraphRAG indexing overview](https://microsoft.github.io/graphrag/index/overview/)
+    94→
+    95→### 4.1 Evidence graph
+    96→
+    97→**Node types:** Source, PassageNote, Claim, Term, Translation, HistoricalContext, GenreConvention, AuthorPattern, Counterexample, ConsultantReview.
+    98→
+    99→**Required properties:** stable ID, citation, lawful-access status, language, date, confidence, reviewer, interpretation notes, copyright sensitivity.
+   100→
+   101→**Important edges:** SUPPORTS, CONTRADICTS, QUALIFIES, TRANSLATES_AS, HISTORICALLY_PRECEDES, ADAPTED_BY_GENRE, AUTHOR_SPECIFIC_TO, REVIEWED_BY.
+   102→
+   103→### 4.2 Canon graph
+   104→
+   105→**Node types:** WorldLaw, Realm, Transformation, Technique, Resource, Ecology, Species, BodySystem, Spirit, DeathState, Geography, Faction, Institution, Culture, Economy, Event, Character, PlayerVerb, RenderRule, OpenQuestion.
+   106→
+   107→**Important edges:** REQUIRES, CONSTRAINS, PRODUCES, CONSUMES, TRANSFORMS, COUNTERS, INHABITS, GOVERNED_BY, INTERPRETS, CAUSED_BY, REMEMBERED_AS, UNLOCKS, INVALIDATES, TESTED_BY.
+   108→
+   109→Canon revisions use the single normative lifecycle `draft → proposed → in_review → provisional → ratified`, with `disputed`, `deprecated`, `superseded`, `rejected`, and `withdrawn` as historical/terminal states. Evidence verification, system mapping, red-team, and review are gates and linked records—not competing canon statuses. Only provisional and ratified revisions may enter mainline releases.
+   110→
+   111→### 4.3 Production graph
+   112→
+   113→**Node types:** Deliverable, ResearchTask, Decision, Risk, Dependency, Reviewer, Test, Benchmark, Prototype, Milestone, PRDRequirement.
+   114→
+   115→**Important edges:** BLOCKS, DEPENDS_ON, OWNED_BY, REVIEWED_BY, VERIFIED_BY, FAILED_BY, SUPERSEDES, READY_FOR.
+   116→
+   117→### 4.4 Authority model
+   118→
+   119→- Research agents may discover sources and propose structured claims.
+   120→- Extraction agents may populate candidate nodes, never canonical nodes.
+   121→- Ontology agents may detect duplicates and missing relationships.
+   122→- Systems agents may map claims to player verbs and simulation state.
+   123→- Red-team agents attack contradictions, cultural flattening, exploits, and derivative copying.
+   124→- The Grand Architect reviews synthesis and impact.
+   125→- The user retains final creative authority.
+   126→
+   127→The graph must support branches. New ideas enter a proposal branch; accepted decisions merge into canon. Rejected ideas remain traceable so the same contradiction is not rediscovered repeatedly.
+   128→
+   129→## 5. Research corpus strategy
+   130→
+   131→The corpus must be chosen by **descriptive function**, not popularity alone. Er Gen is one cluster. The preliminary candidate matrix is deliberately broad and must be verified through lawful access and close reading.
+   132→
+   133→| Research lens | Preliminary sources to examine | What to extract at the pattern level |
+   134→|---|---|---|
+   135→| Philosophical and cosmological roots | *Daodejing*, *Zhuangzi*, *Neiye*, selected *Yijing* commentary, *Baopuzi*, *Cantong qi* | Dao, qi, transformation, polarity, phase, cultivation, alchemy, limits of terminology |
+   136→| Mythic, ritual, and sacred geography | *Journey to the West*, talismanic and sacred-mountain scholarship, and grotto-heaven research; *Investiture of the Gods* remains discovery-only until an Atlas card exists | Spirit jurisdictions, celestial offices, ritual authority, hidden interiors, pilgrimage |
+   137→| Early xianxia lineage | *Legend of the Swordsmen of the Mountains of Shu* | Genre genealogy, wondrous geography, schools, artifacts, large-scale conflict |
+   138→| Grounded mortal cultivation | *A Record of a Mortal's Journey to Immortality* | Resource scarcity, caution, logistics, long progression, material requirements |
+   139→| Long cosmological escalation | *Renegade Immortal*, *Pursuit of the Truth*, *I Shall Seal the Heavens*, *A Will Eternal*, and other Er Gen works | Recurring motifs, escalation, inheritance, epochs, identity, late cosmological revelation |
+   140→| Philosophical and social texture | *Sword of Coming* and comparable highly descriptive works | Mortal communities, education, geography, moral disagreement, language of cultivation |
+   141→| Rule-driven cultivation ecology | *Reverend Insanity* | Hard constraints, resources, path interaction, political economy; not its ethics as default |
+   142→| Formations, production, and war | *World of Cultivation* and comparable works | Formation logic, material chains, sect capacity, warfare, specialization |
+   143→| Institutional and technological scaling | *Forty Millenniums of Cultivation* and comparable xuanhuan/science-fantasy | Industrialization, mass institutions, ideology, technology-cultivation interaction |
+   144→| Modern integration and community | *Cultivation Chat Group* | Social networks, knowledge sharing, contemporary life, comedy without dissolving rules |
+   145→| Alternative ethics and sect life | *Ascending, Do Not Disturb* and other contrasting works | Cooperation, social norms, gender, non-grimdark institutions, cultivation as a way of life |
+   146→| Comparative English-language cultivation | Discovery candidates such as *Forge of Destiny* and *A Thousand Li*, excluded from synthesis until Atlas identity/access cards exist | Sensory training, incremental change, social legibility, translation of genre expectations |
+   147→
+   148→This is a seed list, not a claim that these are the definitive “best.” The research process must score works by descriptive coverage, internal consistency, originality, translation quality, accessibility, and usefulness to specific design questions. It should actively search for stronger or contrasting candidates.
+   149→
+   150→### Copyright and originality rule
+   151→
+   152→The graph stores abstract design observations, not a substitute copy of a novel. It may record that a work uses “late revelations to reinterpret earlier cosmology,” but not reproduce its proprietary cosmology. It may compare how breakthroughs affect body and society, but not import named stages, characters, artifacts, signature systems, prose, or plot sequences.
+   153→
+   154→## 6. Foundational universe model to investigate
+   155→
+   156→Historical Chinese metaphysical models emphasize an interconnected, changing world in which yin and yang are relational polarities and the Five Phases describe context-sensitive patterns of action and transformation, not five static fantasy substances. That is a much stronger simulation grammar than colored elemental damage. [Stanford Encyclopedia: Chinese metaphysics](https://plato.stanford.edu/entries/chinese-metaphysics/)
+   157→
+   158→### Coupled dimensions of cultivation
+   159→
+   160→Every cultivation path should interact with:
+   161→
+   162→1. **Body:** species- and path-specific body plan, tissues, senses, health, and conduit topology; meridians where applicable.
+   163→2. **Qi:** quantity, quality, rhythm, circulation, compatibility, and provenance.
+   164→3. **Spirit and mind:** attention, memory, will, perception, projection, and soul integrity where the chosen ontology supports it.
+   165→4. **Inner nature and Dao orientation:** self-knowledge, values, attachments, comprehension, and relation to the cosmos.
+   166→5. **Vital continuity:** aging, lifespan, embodied continuity, death, and transformation.
+   167→6. **Relations and authority:** oaths, debts, names, inheritance, office, fate pressure, karma, luck, and ordinary causality remain separate typed systems rather than one destiny meter.
+   168→
+   169→### Preliminary cosmological topology
+   170→
+   171→This is a research hypothesis, not final canon:
+   172→
+   173→1. `can:proposal:cosmology:absolute-dao-boundary` — working concept formerly “Nameless Dao”: generative source boundary, not a god or attainable stat.
+   174→2. `can:proposal:cosmology:pre-form-possibility` — working concept formerly “Precelestial possibility”: pattern before stable form.
+   175→3. Differentiation: polarity and cyclic phases establish repeatable transformation.
+   176→4. Manifest worlds: matter, qi, spirit, mind, and society as organizations of a continuous reality.
+   177→5. Hidden interiors: sacred or constructed spaces whose topology follows their causal formation.
+   178→6. Spirit and ancestral jurisdictions: stable patterns produced by memory, repetition, worship, landscape, trauma, or office.
+   179→7. Celestial and nether administrations: real but limited jurisdiction based on seals, registers, recognition, and enforcement.
+   180→8. A greater current connecting worlds through resonance, ancestry, pilgrimage, star routes, ascension, and law.
+   181→9. `can:proposal:cosmology:unstable-law-reaches` — working concept for regions where stable law has decayed or not formed, possibly allowing world creation.
+   182→
+   183→### Preliminary end-state boundary
+   184→
+   185→The maximal-player hypothesis `can:proposal:progression:world-founding-state` (working label formerly “World-Ancestor”) may permit creating fertile worlds, scoped laws, climates, species, souls, and cultivation possibilities. It is not canon. It requires creation budgets, personhood obligations, recursive-authority limits, export/compatibility rules, and economic containment. The player cannot reduce the absolute Dao to property.
+   186→
+   187→## 7. Procedural content grammar
+   188→
+   189→Generation order:
+   190→
+   191→```text
+   192→cosmological laws
+   193→-> local deviations and world capacity
+   194→-> geology, climate, watersheds, qi topology, and ecology
+   195→-> migrations, disasters, discoveries, and settlement
+   196→-> cultures and interpretations of cultivation
+   197→-> institutions, economies, taboos, lineages, and ritual authority
+   198→-> historical actors and state-changing events
+   199→-> present relationships, shortages, ambitions, and conflicts
+   200→-> explorable opportunities
+   201→-> terrain detail, architecture, equipment, dialogue, records, and quests
+   202→```
+   203→
+   204→Every significant event uses:
+   205→
+   206→```text
+   207→CAUSE -> ACTOR -> INTENT -> METHOD -> COST -> STATE CHANGE
+   208→      -> WITNESSES/RECORDS -> BENEFICIARIES/VICTIMS -> FUTURE PRESSURE
+   209→```
+   210→
+   211→Every significant generated entity must answer:
+   212→
+   213→- What produced it?
+   214→- What sustains it?
+   215→- Why is it here rather than elsewhere?
+   216→- Who knows about it, and how?
+   217→- Who benefits from or protects it?
+   218→- What does using or harvesting it damage?
+   219→- What physical, social, spiritual, or historical traces does it leave?
+   220→- What could transform, corrupt, suppress, or destroy it?
+   221→- What can the player actually do with or about it?
+   222→
+   223→### Presentation rules
+   224→
+   225→- **Three manifestations:** an important historical fact appears through at least three compatible channels, such as geography, social custom, an artifact, a technique, architecture, ecology, record, or memory.
+   226→- **Two affordances:** a prominently presented detail must support at least two of decision, relationship, explanation, consequence, sensory identity, or strategic information.
+   227→- **No orphan effect:** every supernatural effect has substrate, transformation path, condition, cost, and trace.
+   228→- **Rare means overdetermined:** legendary things arise from an unlikely intersection of sufficient causes, not a low loot-table probability.
+   229→- **Generated prose is testimony:** it may be biased or mistaken, but it refers to canonical state and does not invent that state.
+   230→
+   231→## 8. Realm design rule
+   232→
+   233→Do not finalize realm names until the ontology and terminology reviews are complete. For every major transition, define:
+   234→
+   235→- A new perceptual layer.
+   236→- At least two new verbs.
+   237→- A changed mobility model.
+   238→- A changed social identity.
+   239→- A changed resource abstraction.
+   240→- A new failure mode.
+   241→- A new responsibility.
+   242→- A changed combat problem.
+   243→- A reason old places, relationships, and teachings remain important.
+   244→
+   245→A verb is genuinely new only when its semantic action contract is not behaviorally equivalent to an earlier verb under relabeling, larger numbers, expanded target count, or different VFX. The proof compares state-transition topology, required information and perception, costs and commitments, counters and failure structure, and downstream consequences in at least two other systems.
+   246→
+   247→The broad progression should move through mortal embodiment, consciously trained body, qi perception and circulation, a chosen self-sustaining inner order, spirit action beyond flesh, externalized law/domain, place-anchored immortality, cross-world continuity, Dao authorship, and world creation. Exact stages remain open research.
+   248→
+   249→## 9. Technical thesis
+   250→
+   251→The feasible architecture is a **locally seamless, globally hierarchical universe whose continuity is exact while fidelity changes invisibly with distance, relevance, and time**.
+   252→
+   253→### Spatial graph
+   254→
+   255→```text
+   256→cosmos -> realm -> world -> continent -> region -> chunk -> local position
+   257→```
+   258→
+   259→Canonical positions use hierarchical integer addresses plus local high-precision offsets. Rendering and physics use camera-relative local coordinates and deterministic origin rebasing. Realm travel and pocket worlds are semantic topology rather than pretending all existence occupies one flat Euclidean scene.
+   260→
+   261→### State layers
+   262→
+   263→1. **GeneratedBase:** reconstructible from seed, address, pinned schema/ontology/law/generator/numeric versions, and verified base hash. Legacy saves retain a compatible resolver or materialized base; migrations require dry-run impact, delta rebase, rollback, and golden-save proof.
+   264→2. **AuthoredAnchors:** hand-reviewed characters, sites, histories, and exceptional arcs.
+   265→3. **WorldDelta:** destruction, ownership, relationships, deaths, discoveries, construction, and history.
+   266→
+   267→### Residency/fidelity tiers
+   268→
+   269→- **F4 Detailed:** contract-relevant fracture, fluids, terrain, and significant debris.
+   270→- **F3 Interactive:** active bodies, combat, perception, navigation, and individual decisions.
+   271→- **F2 Regional:** cohorts, factions, resources, pressures, migration, economy, ecology, and conflict.
+   272→- **F1 Historical:** aggregate demographics, institutions, ecosystems, and major events.
+   273→- **F0 Dormant:** stable state, scheduled commitments, deterministic catch-up, and last event time.
+   274→
+   275→These are orthogonal to resolution layers `Law → Aggregate → Interactive where required → Presentation`. Every system declares protected invariants, supported queries at each tier, error envelopes, unresolved detail, and refinement commitments. Fidelity changes conserve identities, ledgers, causal order, unique items, relationships, wounds, obligations, named outcomes, and bounded aggregate facts.
+   276→
+   277→Canonical event order, stable-ID allocation, fixed numeric/quantization policy, canonical serialization/hash normalization, exact-versus-analytic field partitions, stable reduction/grouping order, exceptional-number behavior, and nondeterminism exclusions are release-pinned. Cross-runtime replay must reproduce exact hashes for exact fields; approved analytic fields use separately hashed method/bounds and explicit containment/overlap/error predicates, never an undefined shared outcome hash.
+   278→
+   279→### Rendering thesis
+   280→
+   281→Three.js `WebGPURenderer` can use WebGPU and fall back to WebGL2, but the renderer has migration limitations and compute-heavy features cannot be assumed to degrade identically. WebGPU should accelerate vegetation, particles, water/wind fields, culling, instancing, skinning crowds, lighting, and visual-only detail. Authoritative terrain, collision, combat, economy, and persistent NPC state remain deterministic CPU/Wasm truth. [Three.js WebGPU renderer manual](https://threejs.org/manual/en/webgpurenderer), [MDN WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API)
+   282→
+   283→Repositories and primary references worth studying later include [Three.js](https://github.com/mrdoob/three.js/), [3DTilesRendererJS](https://github.com/NASA-AMMOS/3DTilesRendererJS), [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh), [Recast Navigation](https://github.com/recastnavigation/recastnavigation), [recast-navigation-js](https://github.com/isaac-mason/recast-navigation-js), [Rapier](https://rapier.rs/), [FastNoiseLite](https://github.com/Auburn/FastNoiseLite), [SQLite Wasm](https://github.com/sqlite/sqlite-wasm), [glTF](https://github.com/KhronosGroup/glTF), and [meshoptimizer](https://github.com/zeux/meshoptimizer). They are study targets, not automatic dependencies.
+   284→
+   285→## 10. The gauntlet
+   286→
+   287→The project is not judged against one game. Every reference gets one job.
+   288→
+   289→| Benchmark | Test job |
+   290→|---|---|
+   291→| No Mortal Space | Physical escalation, destructibility, rank-scaled travel, harvesting, automation, cosmic spectacle |
+   292→| Dwarf Fortress | Persistent generated history, geology, civilizations, provenance |
+   293→| Caves of Qud | Generated history expressed through artifacts, sites, cults, dialogue, and recurring motifs |
+   294→| RimWorld | Pressure, pacing, recoverable loss, story direction without falsifying state |
+   295→| Kenshi | Non-chosen-one beginning, autonomy, survivable failure, world indifference |
+   296→| Mount & Blade: Bannerlord | Material economy, caravans, settlement production, factions acting offscreen |
+   297→| Crusader Kings | Personal motives, inheritance, relationships, and grudges driving geopolitics |
+   298→| Rain World | Creature-specific behavior and ecology with selective authorial guidance |
+   299→| Shadows of Doubt | Interrogable routines, witnesses, records, and evidence generated from events |
+   300→| Sekiro | Duel readability and defensive mastery |
+   301→| Monster Hunter | Weapon identity, commitment, ecology, body-part interaction, preparation |
+   302→| God of War (2018) | Close-camera impact and multi-enemy awareness |
+   303→| Dragon's Dogma | Physical interaction with immense creatures |
+   304→| Dynasty Warriors | Army-scale readability and transformation into battlefield calamity |
+   305→| Warframe | High-speed traversal chained into combat |
+   306→
+   307→### Frozen test assets
+   308→
+   309→1. Design constitution.
+   310→2. Golden hand-authored scenarios.
+   311→3. Adversarial seed bank.
+   312→4. Canonical trace dossiers.
+   313→5. Benchmark tasks covering mortal life, duel, sect negotiation, beast hunt, famine, war, breakthrough, return home, and law conflict.
+   314→
+   315→### Blocking tests
+   316→
+   317→1. **Three whys:** every surfaced named fact must survive three successive why-questions from canonical state.
+   318→2. **Counterfactual:** remove a river, ancestor, mine, war, or teacher; downstream systems must change coherently.
+   319→3. **Realm verb:** remove numerical bonuses; the realm must still materially alter play.
+   320→4. **Return relevance:** late-game return to the starting village must remain strategically or emotionally meaningful without pretending mortals can duel immortals.
+   321→5. **Cross-system consequence:** taking one rare herb affects ecology, production, price, patients, relationships, and regeneration.
+   322→6. **NPC parity:** an NPC with equivalent knowledge and opportunity can make discoveries and breakthroughs.
+   323→7. **Economic exploit:** attack storage, teleportation, time acceleration, resurrection, pill farming, replication, automation, and recursive summons.
+   324→8. **Authoredness:** strip adjectives and swap region names. If the content still works, it lacks identity.
+   325→9. **Century absence:** leave for 200 years and audit descendants, factions, landscapes, languages, memories, and distorted history.
+   326→10. **Cultural classification:** every important element is labeled historical, religious, literary, syncretic, genre convention, inference, or original invention.
+   327→11. **Interchangeability:** swapping regions, cultures, techniques, clothing, or relics should be obviously wrong.
+   328→12. **Max-realm playability:** the final realm retains peers, choices, uncertainty, irreversible consequences, and embodied danger.
+   329→13. **Originality review:** extracted patterns must not reproduce an author's names, prose, signature system, specific cosmology, or plot sequence.
+   330→14. **Explanation fidelity:** presentation may reveal or misinterpret simulation state, never replace it.
+   331→
+   332→## 11. Research epochs and exit gates
+   333→
+   334→### R0. Governance and project memory
+   335→
+   336→Deliver: this charter, instruction doctrine, decision log, source ledger schema, graph schema, and versioning policy.
+   337→
+   338→Exit when the clean-slate, single-player, original-IP, and no-code constraints are durable.
+   339→
+   340→### R1. Comparative source atlas
+   341→
+   342→Deliver: legally sourced bibliography, descriptive-coverage scores, close-reading notes, terminology ledger, influence boundaries, and gaps.
+   343→
+   344→Exit when every design domain has multiple complementary and contradictory sources rather than one author's model.
+   345→
+   346→### R2. Ontology and cosmology bible
+   347→
+   348→Deliver: Dao/world-law model, qi transformation rules, yin-yang and phase behavior, body/soul/death model, fate/karma/merit/law distinctions, realm topology, time, space, reincarnation, spirits, celestial jurisdiction, and absolute limits.
+   349→
+   350→Exit when contradiction and counterfactual reviews pass.
+   351→
+   352→### R3. Cultivation and material systems bible
+   353→
+   354→Deliver: path grammar, breakthrough logic, tribulations, techniques, manuals, teaching, alchemy, herbs, artifacts, formations, talismans, spirit beasts, injuries, deviation, lifespan, and costs.
+   355→
+   356→Exit when each system maps to verbs, inputs, transformations, traces, counters, institutions, and failure modes.
+   357→
+   358→### R4. Society and living-world bible
+   359→
+   360→Deliver: mortal households, villages, dynasties, sects, clans, temples, guilds, markets, labor, logistics, law, warfare, gender, education, migration, language change, archives, social memory, and NPC life trajectories.
+   361→
+   362→Exit when the world can produce intelligible centuries without the protagonist.
+   363→
+   364→### R5. Procedural authorship specification
+   365→
+   366→Deliver: causal generator order, schemas, state-resolution transitions, golden seed corpus, authored anchor policy, world-pressure director rules, naming grammar, narrative testimony rules, and automated validators. The director may select, schedule, or reveal existing lawful pressures; it cannot manufacture causal or fate facts.
+   367→
+   368→Exit when hand-inspected paper generations survive provenance, interchangeability, repetition, and counterfactual tests.
+   369→
+   370→### R6. Player-experience and combat bible
+   371→
+   372→Deliver: player fantasies, verbs by realm, controls, camera, combat scales, weapons, techniques, enemies, bosses, injury, failure, exploration, discovery, faction play, sect play, world-law play, onboarding, accessibility, and UI information policy.
+   373→
+   374→Exit when mortal and maximal-realm play are both complete designs rather than opposite ends of a stat curve.
+   375→
+   376→### R7. Visual and scale bible
+   377→
+   378→Deliver: architecture, clothing, bodies, creatures, qi manifestations, materials, landscapes, weather, destruction, scale references, animation language, VFX grammar, audio, typography, and render contracts for every system. Define minimum, recommended, and hero hardware profiles; CPU/GPU/memory/storage budgets; frame-time and input-latency targets; camera-relative precision; LOD-pop and scale-reference metrics; loading ceilings; and feature-preserving fallback rules.
+   379→
+   380→Exit when descriptions are specific enough to drive consistent assets and procedural variation without motif soup.
+   381→
+   382→### R8. Technical architecture and risk proof plan
+   383→
+   384→Deliver: hierarchical coordinates, deterministic generation, persistence, simulation tiers, streaming, LOD/HLOD, physics, navigation, workers, browser storage, WebGPU capability tiers, performance budgets, save/version migration, and measurable proof obligations.
+   385→
+   386→Exit only when every major technical risk has a signed threshold and reproducible measured evidence. Before code is authorized, this may be a directly applicable external benchmark or non-code research result; otherwise the affected product claim remains explicitly deferred. A plan for a future experiment is not a passed result.
+   387→
+   388→### R9. Integrated product specification
+   389→
+   390→Deliver: complete PRD, system dependency graph, roadmap, staffing assumptions, asset plan, risk register, evaluation plan, and implementation authorization checklist.
+   391→
+   392→R9 passes only against a signed threshold set, with zero included-scope S0/S1 findings and passing measured `TestObligation` results for every included Production claim. Unsupported claims must be removed or explicitly deferred before release.
+   393→
+   394→Only after R9 passes may the user authorize code.
+   395→
+   396→## 12. Post-research proof ladder
+   397→
+   398→This begins only after explicit implementation authorization:
+   399→
+   400→1. Paper/headless causal kernel.
+   401→2. Mortal village.
+   402→3. First cultivation and polished duel.
+   403→4. Living region.
+   404→5. Sect across a decade.
+   405→6. World-scale cultivator.
+   406→7. Multi-world/multi-realm travel.
+   407→8. Law authorship and world creation.
+   408→
+   409→The first rendered milestone is one mortal valley that already proves identity, work, ecology, weather, persistent NPC lives, action combat, local history, neighboring generation, a hidden interior, destruction, save/reload, and the first true glimpse of cultivation. If that valley feels procedural and hollow, additional worlds are multiplication of failure.
+   410→
+   411→## 13. Capability strategy
+   412→
+   413→Do not install every available skill indiscriminately. Broad skill lists consume context and create ambiguous activation. Use focused capabilities when their workflow becomes relevant.
+   414→
+   415→Available capabilities already cover browser research, visualizations, images, documents, PDFs, presentations, spreadsheets, site building, and hosting. Curated additions worth considering later are:
+   416→
+   417→- `jupyter-notebook` for world-model analysis, balance experiments, and procedural-generation research.
+   418→- `playwright` and `screenshot` for rendered regression testing once implementation begins.
+   419→- `security-threat-model` before save sharing, mods, cloud features, or publishing.
+   420→
+   421→Recommended plugin sequence, when explicitly authorized:
+   422→
+   423→1. Product Design for visual-system and interaction-design workflows.
+   424→2. GitHub when the project becomes a managed repository.
+   425→3. Build Web Apps when implementation opens.
+   426→4. Data Analytics when telemetry and balancing data exist.
+   427→5. Codex Security before public or connected builds.
+   428→
+   429→After the research workflows stabilize, create repository-native skills for:
+   430→
+   431→- Xianxia source-ledger and cultural classification.
+   432→- Canon-graph review and contradiction analysis.
+   433→- Procedural-world authoredness gauntlet.
+   434→- Three.js/WebGPU performance and scale review.
+   435→- Action-combat feel and readability review.
+   436→
+   437→These skills should encode proven workflows, not guesses made at project inception.
+   438→
+   439→## 14. Initial foundation package
+   440→
+   441→The initial foundation package contains:
+   442→
+   443→1. A scored bibliography across all descriptive lenses.
+   444→2. A terminology table with Chinese characters, pinyin, literal meaning, historical use, genre use, and project status.
+   445→3. The evidence/canon/production graph schemas in implementation-neutral form.
+   446→4. Ten worked examples showing how a source pattern becomes an original design candidate without copying lore.
+   447→5. The founding contradiction register.
+   448→6. The questions that must be resolved before any realm ladder becomes canon.
+   449→
+   450→The package has expanded to include the open-ended universe gauntlet and semantic action contracts. It precedes detailed world lore so the project does not produce beautiful prose that later systems cannot support.
+   451→
