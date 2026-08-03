@@ -9,7 +9,7 @@
 
 The critics found that only 5 of the 31 households in Wang Family Bend are named (doc 04 §1.2) and that the village has no non-Wang social actors with agency. A village of 180 people cannot be a diorama of five named households and twenty-six anonymous ones; the player must perceive the village as a society of recognizable, interlocked people, most of whom are not Wang and most of whom have their own plans. This document names ten more households (bringing the total to 15 of 31), gives full character bibles for the three companions (Wang Meili, Liang Zhu, Leng Qingxue) and the antagonist (Pei Liang), and specifies the death schedule for every named NPC who dies across the game.
 
-All ages are at game start (the protagonist's 16th year, Jianhe 31) unless otherwise noted. Pinyin is given without tone marks. Every NPC with agency has a name, an age, a personality, and at least one relationship to another named NPC.
+All ages are at game start (the protagonist's 16th year, Jianhe 14) unless otherwise noted. Pinyin is given without tone marks. Every NPC with agency has a name, an age, a personality, and at least one relationship to another named NPC.
 
 Three retcons from earlier documents are ratified here, all in service of consistency with doc 28 (the village-in-medias-res doc, which is the most concrete):
 1. The protagonist's father is **Wang Shouzheng** (王守正, 58, the lineage head, per doc 04 §1.2 and doc 28 §3.1), superseding doc 26 §5.1's "Wang Shouyi." The protagonist is the Senior Household's third child (between Wang Zongwen and Wang Sanniang).

@@ -29,7 +29,7 @@ Three days from now is Qingming — the tomb-sweeping festival. The village will
 
 ### 2.1 The salt merchant's license
 
-Master Hu's salt license (鹽引) is up for renewal at the autumn equinox. Last week, a yamen runner from Cangli County Seat came to the village — ostensibly to check the baojia registers, but he spent an hour at Hu's warehouse, and the village saw him leave with a silk-wrapped gift. Hu has been quiet since. Lady Sun (his wife) was overheard arguing with him in the back room by Widow Xu, who was buying salt that morning and pretended not to hear.
+Master Hu's salt license (鹽引) is up for renewal at the autumn equinox. Last week, a yamen runner from Cangli County Seat came to the village — ostensibly to check the baojia registers, but he spent an hour at Hu's warehouse, and the village saw him leave with a silk-wrapped gift. Hu has been quiet since. Lady Wang (his wife) was overheard arguing with him in the back room by Widow Xu, who was buying salt that morning and pretended not to hear.
 
 The rumor (not yet confirmed, but circulating in the market town): a competing merchant from Cangli County Seat has bid for the Cangli Riverlands salt license. If Hu loses it, the village's salt supply changes hands — and the new merchant may not be as patient with credit-poor households as Hu has been. Wang Shouzheng, as li head, will have to mediate. He has no authority over the license (it's a county matter), but he has relationships — and the competing merchant's bid may be part of the eunuch faction's influence-peddling at the county level.
 
@@ -76,8 +76,8 @@ Sanniang herself has not been consulted. She has met Li Zongwen three times (at 
 ### 3.4 Master Hu (胡老爺, 47, the salt merchant)
 
 - **Secret:** He has been paying a bribe. Not to the yamen runner who visited last week — to the county magistrate's secretary, every autumn for the past six years, to ensure the salt license is renewed without competition. This year, the secretary has been replaced (the eunuch faction's doing), and the new secretary wants double. Hu cannot afford double. The competing merchant's bid is the new secretary's leverage.
-- **Grief:** His wife, Lady Sun (née Wang), has not spoken to her brother (Wang Shouzheng) in 20 years. She married Hu — a non-Wang, a merchant, a man with no land — against her brother's wishes. Shouzheng did not forbid it (he had no authority — she was already betrothed to Hu when the lineage council was consulted), but he did not attend the wedding. No Wang attended. Lady Sun has carried this exile for 20 years. She lives 200 paces from her brother's house and has not crossed his threshold in two decades. Hu has tried to mediate; she has refused. The grief is not his, but he lives with it every day.
-- **Ambition:** He wants to leave the Cangli Riverlands. Not now — in ten years, when his son (Hu Bao, 18) has taken over the business. He wants to retire to Cangli County Seat, where there are teahouses and opera and other merchants who understand what it is to build something from nothing. The village is his market, not his home. He has never said this to Lady Sun.
+- **Grief:** His wife, Lady Wang (née Wang, Wang Shouzheng's younger sister), has not spoken to her brother (Wang Shouzheng) in 20 years. She married Hu — a non-Wang, a merchant, a man with no land — against her brother's wishes. Shouzheng did not forbid it (he had no authority — she was already betrothed to Hu when the lineage council was consulted), but he did not attend the wedding. No Wang attended. Lady Wang has carried this exile for 20 years. She lives 200 paces from her brother's house and has not crossed his threshold in two decades. Hu has tried to mediate; she has refused. The grief is not his, but he lives with it every day.
+- **Ambition:** He wants to leave the Cangli Riverlands. Not now — in ten years, when his son (Hu Bao, 18) has taken over the business. He wants to retire to Cangli County Seat, where there are teahouses and opera and other merchants who understand what it is to build something from nothing. The village is his market, not his home. He has never said this to Lady Wang.
 
 ### 3.5 Old Chen (陳老, 82, the hermit)
 
@@ -99,7 +99,7 @@ This is the first verb. It is not a tutorial. It is a morning in a village where
 
 ### 4.2 Buy salt — the afternoon of the 13th day
 
-The player goes to Master Hu's warehouse at the dock to buy salt (the household is low). Hu is behind the counter, reading a letter. He folds it quickly when the player enters. He weighs the salt in silence. The player pays. As they turn to leave, Lady Sun's voice comes from the back room: "You cannot keep pretending it will be fine!" Hu's face tightens. He says, loudly enough for the player to hear: "The salt is weighed. The customer is leaving." The player leaves. Behind them, the argument resumes, muffled.
+The player goes to Master Hu's warehouse at the dock to buy salt (the household is low). Hu is behind the counter, reading a letter. He folds it quickly when the player enters. He weighs the salt in silence. The player pays. As they turn to leave, Lady Wang's voice comes from the back room: "You cannot keep pretending it will be fine!" Hu's face tightens. He says, loudly enough for the player to hear: "The salt is weighed. The customer is leaving." The player leaves. Behind them, the argument resumes, muffled.
 
 The player now knows something is wrong with the salt license. They do not know what. They can: ask Hu directly (he will deflect), tell Wang Shouzheng (he will investigate), or keep the secret (it will fester).
 

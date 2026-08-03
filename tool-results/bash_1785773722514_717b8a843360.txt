@@ -1,0 +1,167 @@
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-52-- A talisman inscribed with given ink, on given medium, with given patterns, by a cultivator of given realm, produces a specific talisman — every time.
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-53-- A pill refined from given ingredients, with given fire control, in a given furnace, by an alchemist of given realm, produces a specific pill — every time.
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-54-
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md:55:This means the crafts are **reproducible**. A recipe, a diagram, a formation layout — once known and once executed correctly — produces the same result. The craft's randomness lives in the *inputs* (the ingredients vary, the medium varies, the alchemist's heart-mind varies), not in the *process*. The doctrine's "An isomorphic NPC with the same advantage must produce the same result" oracle applies: a cultivator and an isomorphic NPC, given the same inputs, produce the same craft output.
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-56-
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-57-This is the engine of the cultivation economy. Reproducibility is what makes a recipe worth a thousand spirit stones. Reproducibility is what lets an alchemist sell a pill and a talisman artist sell a stack of fireball talismans. Reproducibility is what makes a sect's formation library an asset that can be inherited, stolen, traded, and lost.
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-58-
+--
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-115-
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-116-1. **Mortal:** Labor, kinship, obligation, mortality. The full human life.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-117-2. **Qi Induction:** Perception of qi. The world gains a new sensory layer. No new output capability — you can perceive but not yet do.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:118:3. **Qi Condensation:** Circulation. You can route qi through your body to enhance physical output within the envelope (per the mountain-proof oracle). First new verbs: *route qi*, *anchor a trace*, *vent into a sink*.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-119-4. **Foundation Establishment:** Integration. Body, qi, and spirit become one system. Lifespan extends. First new verbs: *integrate a practice*, *form a meridian*, *bear an oath of office*.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-120-5. **Core Formation:** Internal authority. You no longer need external qi to sustain yourself. First new verbs: *perceive spirit anchors*, *form a golden core*, *sustain a qi field without ambient qi*.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-121-6. **Nascent Soul:** Spirit action beyond flesh. The anchor can project, possess, and survive bodily death. First new verbs: *project spirit*, *found a lineage*, *survive bodily death*.
+--
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-195-- The advantage is **visible to the player as a UI/perception layer**, not a stat.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-196-- The advantage is **discoverable in-fiction** — the protagonist may not know they have it until a teacher notices their unusual feedback pattern.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-197-- The advantage is **transferable, losable, and stealable** under specific conditions (a Nascent Soul cultivator could attempt to seize it; this is a high-realm plot, not a low-realm mechanic).
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:198:- **An isomorphic NPC with the same advantage must produce the same result** (per the doctrine's parity oracle).
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-199-
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-200----
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-201-
+--
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md-250-
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md-251-### 5.4 The protagonist's advantage (Residual Error Sense) in combat
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md-252-
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md:253:The protagonist's Residual Error Sense (document 00 §5) enhances perception of their *own* qi-residue, not the opponent's. In combat: the protagonist can review their own committed actions post-Recovery and see exactly where their routing diverged from intent — a faster learning loop than other cultivators get. The protagonist does **not** get enhanced reads of opponents. Per the parity oracle (document 00 §5), an NPC with the same advantage gets the same self-read; the protagonist does not get a stealth combat buff. The advantage is a long-loop advantage (they learn faster across fights), not a short-loop advantage (they do not win individual fights more easily). The doctrine's "no automatic victory" test is satisfied.
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md-254-
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md-255----
+/home/z/my-project/corpus-extension/13_COMBAT_GRAMMAR.md-256-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-93-- **Inputs:** the cultivator's tracked state (phase-profile, psychospiritual-resolved vector, reservoir, meridian-stability, forced_attempt flag, world-seed-derived coin for unstable-integration).
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-94-- **Function:** the state machine above, with the player's verb choices at each Committed transition.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-95-- **Outputs:** the cultivator's new station (or reverted station with damage/deviation), the new state values, the perception set, the verb set.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:96:- **Determinism oracle:** an isomorphic NPC given the same starting state and the same player-equivalent verb choices produces the same outcome, including the same 心魔 type if any.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-97-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-98-### 1.6 Failure modes
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-99-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-156-- **Plateau function:** improvement-rate < floor → plateau flag set. Resolution condition met → plateau flag cleared.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-157-- **Wall inputs:** station, station-peak-qi-state, prerequisite-check results.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-158-- **Wall function:** all prerequisite checks pass → gate opens; else gate closed. `forced_attempt` ignores the gate but multiplies Confrontation instability.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:159:- **Determinism oracle:** two isomorphic cultivators in identical state plateau at identical times; their walls require identical prerequisites.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-160-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-161-### 2.5 Failure modes
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-162-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-208-- **Inputs:** comprehension target (domain, max intensity), cultivator's comprehension skill, attention, station, current `unintegrated_fragment_count` and `heart_mind_capacity`.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-209-- **Function:** attempt → fragment (with actual intensity rolled from skill × target-max, seeded by the world-seed and target-hash). Integration → fragment.integration += rate × time. `unintegrated_fragment_count` updated.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-210-- **Outputs:** a law-fragment (or nothing on failed attempt), updated integration state, possibly 妄信 onset.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:211:- **Determinism oracle:** two isomorphic cultivators comprehending the same target with the same skill produce the same fragment intensity.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-212-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-213-### 3.7 Failure modes
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-214-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-267-- **Inputs:** the cultivator's three-dantian state vectors (lower: volume, purity, phase-balance; middle: route-capacity, switch-speed, inflammation; upper: perception-skill, filter-capacity, injury-state), plus the practice and injury history that develops them.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-268-- **Function:** each dantian's state develops as a pure function of its inputs over time (practice → development; injury → degradation; rest → recovery). The dantian interact per §4.5.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-269-- **Outputs:** the cultivator's reservoir capacity, routing capability, perception set.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:270:- **Determinism oracle:** two isomorphic cultivators with identical dantian state and identical practice history produce identical dantian state at any future tick.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-271-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-272-### 4.8 Failure modes (summary)
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-273-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-312-- **Inputs:** the cultivator's current roots-profile (15-element vector), the practice log (which phases have been used, at what intensity, for how long), the injury log, the transformation-event log.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-313-- **Function:** each practice-tick updates the corresponding root-component by `delta = rate × intensity × (1 - current_level)`. Injuries subtract. Transformations re-architect.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-314-- **Outputs:** the updated roots-profile, which gates techniques and modifies absorption/deviation formulas.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:315:- **Determinism oracle:** two isomorphic cultivators with identical roots-profiles and identical practice histories have identical roots-profiles at any future tick.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-316-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-317-### 5.6 Failure modes
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-318-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-374-- **Inputs:** the cultivator's `minggong_level` and `xinggong_level`, the partner's levels (for dual cultivation), the consent and compatibility flags.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-375-- **Function:** asymmetry → deviation-risk multiplier. Dual-cultivation session → both partners' deviation-risk and comprehension-rate modified, for the session's duration plus decay.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-376-- **Outputs:** updated deviation-risk and comprehension-rate; updated 心魔 risk.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:377:- **Determinism oracle:** two isomorphic cultivators with identical 命/性 levels have identical deviation risk. Two isomorphic pairs have identical dual-cultivation benefits.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-378-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-379-### 6.8 Failure modes
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-380-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-445-- **Inputs:** the heart-mind state vector, the perturbation event log (each event with type and intensity), the cultivator's practice history (which develops the dimensions).
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-446-- **Function:** dimensions develop per §7.2. Perturbations are checked against capacity per §7.4. 心魔 onset is deterministic given the inputs.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-447-- **Outputs:** the heart-mind state, the 心魔 state (or none), the integration-progress on tracked attachments.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:448:- **Determinism oracle:** two isomorphic cultivators with identical heart-mind state, encountering identical perturbations, onset (or do not onset) identically.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-449-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-450-### 7.6 Failure modes
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-451-
+--
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-493-- **Confront the central tension directly:** §6 names the dual-cultivation tension (genre wants acceleration; doctrine forbids it), chooses the doctrine's side, defends it, provides a positive account (balance, not acceleration).
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-494-- **Cite the precedent:** Cultist Simulator (ascension rite), Sekiro (perilous-attack readable tell). Both named; contributions specified.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-495-- **Design for joy first:** the breakthrough is now a multi-stage long verb the player actively guides. The bottleneck is mechanically honest. The heart-mind has a real threshold function.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md:496:- **Determinism contract:** every system has one. The isomorphic-NPC oracle applies to all seven.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-497-- **Coherence with yin-yang and the alchemy chain:** every system is coherent with the ratified yin-yang of body/qi/anchor (doc 24 §2.3) and the internal-alchemy chain. The dantian chain (§4.6) and the breakthrough's coherence meters (§1.4) make the coherence explicit.
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-498-
+/home/z/my-project/corpus-extension/27_CULTIVATION_SYSTEMS.md-499-This is the cultivation bible. With it, the seven systems the critics identified as missing are mechanically complete. The prototype can begin.
+--
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-113-- **Residue shaping perception.** You can perceive not just that residue exists but how it is shaped — whether it is a trace of motion, of emotion, of intent, of violence. This is the perception that makes tracking and investigation possible.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-114-
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-115-### New verbs
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md:116:- **Route qi (運氣, *yùnqì*).** Direct qi through a specific meridian to enhance a specific physical output: strength, speed, sensory acuity, heat resistance, cold resistance. This is bounded by the envelope (per the mountain-proof oracle): a Qi Condensation cultivator can lift ~200-400 jin, sprint ~8-12 m/s, survive a fall of ~8-15m. They cannot split a mountain.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-117-- **Anchor a trace (留痕, *liúhén*).** Leave a qi-trace at a location that you (or another cultivator) can later perceive. The trace can carry intent: a warning, a marker, a message. It fades over days to weeks unless sustained.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-118-- **Vent into a sink (洩氣, *xièqì*).** Discharge excess or contaminated qi into a suitable sink: flowing water, certain minerals, a prepared formation. This is the safety valve of cultivation; without it, excess qi produces deviation.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-119-- **Read residue (讀殘, *dúcán*).** Examine a qi-residue in detail to determine its nature, age, and source. This is the investigative verb — used to track, to identify, to reconstruct events.
+--
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-126-- **Acknowledge debts.** A Qi Condensation cultivator's debts — to teachers, to sects, to lineage — are now tracked by the cultivation world, not just by the village. Defaulting has consequences beyond social disapproval.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-127-
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-128-### New constraints
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md:129:- **The envelope.** Per the mountain-proof oracle, a Qi Condensation cultivator cannot personally split a huge mountain, move a river, or survive a fall from a great height. Their output is bounded.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-130-- **Reservoir limits.** A Qi Condensation cultivator has a finite qi reservoir. Sustained output depletes it; recovery takes hours. A cultivator who exhausts their reservoir in a fight is, thereafter, as weak as a mortal.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-131-- **Contamination accumulation.** Qi absorbed from the environment carries the environment's signature. A cultivator who absorbs metal-phase qi from an ironworks may develop metal-phase imbalance; a cultivator who absorbs grief-residue from a murder scene may develop psychospiritual contamination. Venting is necessary.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-132-- **Visibility.** A Qi Condensation cultivator's qi-use is perceptible to other cultivators. They cannot hide their practice from a Core Formation or higher cultivator. Among mortals they are inconspicuous (their qi is too faint for mortals to perceive), but in the cultivation world, they are a small bright point.
+--
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md-305-
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md-306-**Player state:** lonely and seeking connection; the protagonist has perceived qi, and the perception has, in its quality of the-world-beneath-the-world, made the protagonist feel how alone they are in perceiving it. The lineage hall is full of people who do not perceive what the protagonist perceives. The protagonist wants someone who does.
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md-307-
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md:308:**Judgment text (比: 吉. 原筮, 元永貞, 无咎. 不寧方來, 後夫凶):** "Holding together. Good fortune. Inquire of the oracle again. Supreme, eternal perseverance brings no blame. Those who are uncertain gradually join. Those who come too late meet misfortune."
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md-309-
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md-310-**How it points to Old Chen:** Wang Lun reads the hexagram and his face softens. He says the hexagram names union — the holding-together of people who belong together — and that the hexagram is good. He says the protagonist is lonely, which is not a question. He says the lineage hall cannot hold the protagonist for long, because the protagonist's perception is not a lineage-hall perception. He says there is a man, on the hill above Li Family Creek, four li east, who perceives as the protagonist perceives, and who has been alone with it for thirty years and would, perhaps, no longer mind the company. He says the man's name is Old Chen. He writes the letter. He adds, as he hands it over, that the hexagram says those who come too late meet misfortune, and that the protagonist should not wait too long.
+/home/z/my-project/corpus-extension/31_NAMED_INSTITUTIONS_AND_HEXAGRAMS.md-311-
+--
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-28-| **frame** | One tick at 60 Hz = 16.67 ms | Doc 13 §2.1 |
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-29-| **attention unit** | Per doc 13 §5.2; Qi Condensation budget = 100 | Doc 13 §5.2 |
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-30-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:31:All ranges are per-station envelopes. A cultivator at a station's peak reaches the upper bound; a freshly-broken cultivator sits at the lower bound. The mountain-proof oracle (doc 00 §3 item 3; doc 03 Station 3 "New constraints") is the cross-check: a Qi Condensation cultivator cannot personally split a huge mountain, move a river, or survive a great fall. The table below must be consistent with that oracle (verified in §1.3).
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-32-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-33-### 1.2 The envelope table (all ten stations)
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-34-
+--
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-49-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-50-Notes on the table:
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-51-- **Sustained lift** is the mass a cultivator can hold overhead for 60 seconds without qi depletion (lower) or with qi routing (higher). Mortal: 60–80 jin per doc 03 Station 1. Qi Condensation: 200–400 jin per doc 03 Station 3. Foundation Establishment: 800–1200 jin per doc 03 Station 4. Above Core Formation, the body itself is reinforced beyond what "lift" measures; we record only the small-scale envelope and defer the rest to "domain-mediated" or "place-bonded" because above Spirit Severance, force is applied through law, not muscle.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:52:- **Peak strike J** is the energy at the contact point of a single committed Heavy-class strike (48–72 frames, per doc 13 §2.1), routed to Hands, peak reservoir. The progression is ~10× per station from Qi Condensation through Nascent Soul, then jumps to GJ/TJ/PJ scales because above Nascent Soul, force is law-mediated rather than muscle-mediated. The 10× rate at the lower stations is a tuning parameter; the GJ+ rates are derived from the mountain-proof calculation in §1.3.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-53-- **Reaction time** decreases ~40% per station through Nascent Soul, then approaches the simulation tick (16.67 ms). Below 16.67 ms the engine cannot resolve discrete reactions; above Spirit Severance, "reaction" is replaced by domain-awareness (perceptual simultaneity within the domain).
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-54-- **Qi reservoir** scales ~5× per station from Qi Condensation (100–300 qwu) to Nascent Soul (50 000–200 000 qwu). Foundation Establishment's ~3× Qi Condensation multiplier is from doc 13 §6.4; Core Formation's self-sustaining flag is from doc 03 Station 5; above Core Formation the reservoir is fed by domain/place/stratum/law, and the capacity figure is a tuning parameter.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-55-- **Lifespan** is per doc 00 §3 and doc 03 (Stations 4–10).
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-56-- The upper six stations (5–10) have several "tuning parameter" cells because the corpus specifies them at design resolution, not implementation resolution (per doc 13 §0). The numbers are consistent with the corpus's qualitative claims; the exact values await prototype proof at those stations.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-57-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:58:### 1.3 Mountain-proof oracle consistency check
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-59-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:60:The oracle (doc 00 §3 item 3; doc 03 Station 3 "New constraints"): a Qi Condensation cultivator cannot personally split a huge mountain, move a river, or survive a fall from a great height.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-61-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:62:**Splitting a huge mountain.** A "huge mountain" is approximated as a 1 000 m granite massif, volume ≈ 10⁹ m³, mass ≈ 2.7 × 10¹² kg. The minimum energy to cleave it (tensile fracture of granite at ~10 kJ·m⁻³ across a 10⁶ m² cross-section) is ~10¹⁰ J; realistic mechanical displacement (lifting half the mass 10 m against gravity) is ~10¹⁴ J. A Qi Condensation peak strike (5–20 kJ) is **seven to ten orders of magnitude below** the minimum cleave energy. The oracle is satisfied with enormous margin.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-63-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-64-**River-moving.** Redirecting a 100 m³·s⁻¹ river for one hour requires ~3.6 × 10⁸ J of work (lifting 3.6 × 10⁵ m³ of water by ~100 m). A Qi Condensation cultivator's daily qi budget (100–300 qwu × 1 kJ/qwu ≈ 10²–10³ kJ) is five orders below. Oracle satisfied.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-65-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:66:**Great fall.** Doc 03 Station 3 caps the survivable fall at 8–15 m. Kinetic energy at impact from 15 m: m·g·h = 60 × 9.81 × 15 ≈ 8.8 kJ. A Qi Condensation cultivator's Skin routing at peak reduces blunt force by x2–x3 (per the survivability row), and the cultivator's effective injury threshold is ~5–20 kJ for a single blow — consistent with a survivable but injurious 15 m fall. A 100 m fall would deliver ~60 kJ, well above the Qi Condensation injury threshold (per §4.1); the oracle's "great height" exclusion holds.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-67-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-68-The table's Foundation Establishment peak (50–200 kJ) and Core Formation peak (1–5 MJ) are still **five to seven orders below** the mountain-cleave minimum. Mountain-splitting becomes energetically plausible only at Spirit Severance (5–50 GJ), where the strike is law-mediated rather than muscle-mediated — and even then, a "huge mountain" is borderline. This is consistent with the doctrine's "no station trivializes the prior" (doc 00 §3).
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-69-
+--
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-349-Per AGENTS.md Part 3: "Exhibit reviewer voices; do not self-certify." All are tuning parameters, not forks:
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-350-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-351-1. **The qwu unit's exact magnitude** (§1.1). Defined here as the qi for one Qi-Condensation medium strike; the conversion to joules (1 qwu ≈ 1 kJ at the contact point) is a tuning parameter.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:352:2. **The 10× per-station strike-energy progression** (§1.2). Consistent with the mountain-proof oracle but not yet playtested. May compress (5×) or expand (15×) after the Qi Condensation duel prototype.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-353-3. **The ±30% phase matchup modifier** (§2.3). Clean wuxing-consistent value; may need ±25% or ±40% after playtesting. The cycle structure (generation 1.3 / conquest 1.3 / conquered 0.7 / child-vs-parent 0.7) is decided; only the magnitude is tunable.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-354-4. **The phase deviation onset thresholds** (§2.5). 120 frames for fire, 60 frames for water-routed trail, etc. — all tuning parameters calibrated to the Qi Condensation duel.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-355-5. **The injury onset thresholds in joules** (§4.1). Derived from §1.2's envelope but await playtesting against the procedural generator (doc 07).
+--
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-362-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-363-- **Build the engine, not just the brake:** doc 13 built the routing brake (one routing at a time, switch cost); this document builds the phase engine that the brake regulates. Doc 13 built the injury list; this document builds the injury numbers and the pain→xinmo coupling.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-364-- **Make decisions; do not defer:** the phase-routing matrix, the matchup multipliers, the per-station envelopes, and the injury thresholds are all decided. §5 are tuning parameters, not forks.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:365:- **Cite the precedent:** doc 13 (state machine, routing, frame costs), doc 03 (mountain-proof oracle, per-station envelopes), doc 27 §5 (roots formulas), doc 27 §7.4 (xinmo threshold function), doc 24 §1.8 (canonical frame budget), doc 24 §1.11 (Yielded terminal), doc 00 §6 (wuxing). Every number is either cited or marked as a tuning parameter.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-366-- **Confront the central tension directly:** the user's instruction listed "fire vs metal (generation: fire boosted)" — but strict wuxing has fire conquering metal (fire melts metal), not generating it. The matchup table in §2.3 uses the correct cycle labels (conquest for fire-metal) while preserving the user's intended effect (fire boosted against metal). The tension between the user's labeling and the sinological wuxing is named and resolved, not papered over.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-367-- **Determinism contract:** every technique and injury has specific numbers, not adjectives. Two isomorphic cultivators with identical state, given identical inputs, produce identical combat outcomes.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md:368:- **Mountain-proof oracle verified** (§1.3): the Qi Condensation envelope is seven to ten orders of magnitude below mountain-splitting energy; the oracle holds with enormous margin. Foundation Establishment and Core Formation remain below the threshold; mountain-splitting becomes energetically plausible only at Spirit Severance, where force is law-mediated. No station trivializes the prior.
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-369-
+/home/z/my-project/corpus-extension/32_POWER_SCALING_AND_PHASE_COMBAT.md-370-This document closes the phase-routing gap and the power-scaling gap. Doc 13's state machine is now phase-aware; doc 03's envelopes are now a number table; doc 27's roots system now has a direct combat effect. The combat bible is complete.

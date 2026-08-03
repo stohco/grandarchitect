@@ -1,4 +1,4 @@
-# 12 — Engine Architecture: The Plugin Host
+# 17 — Engine Architecture: The Plugin Host
 
 **Status:** Foundation architecture. The engine is a plugin host with a deterministic contract.
 **Date:** 2026-08-03

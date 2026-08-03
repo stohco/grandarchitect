@@ -248,3 +248,43 @@ This passage grounds the **heart-mind cultivation system's Chan Buddhist layer**
 The brief specified the use of `z-ai function -n web_search` and `z-ai function -n page_reader` for the research phase. Both functions were repeatedly invoked during this research (at least 8 attempts across a 90-minute window) and returned HTTP 429 ("Too many requests, please try again later") on every attempt. The function infrastructure was persistently rate-limited for the duration of the session, including attempts after 60-second and 90-second cool-down intervals. As a fallback, primary-text passages were retrieved directly from the Wikisource API (`https://zh.wikisource.org/w/api.php?action=parse&page=<title>&prop=wikitext&format=json`), which returns the raw wikitext of each source page. The ctext.org mirror was tested but blocks the sandbox network with a "use of automatic download software is strictly prohibited" ban page; Wikisource was the canonical source for all passages above. Every Hanzi passage in this document was extracted directly from the Wikisource API response and is preserved as printed (including source-side variant characters such as 无 for 無 in the Zhuangzi). No Hanzi has been fabricated or reconstructed from memory. English glosses are the author's own literal translations and follow the conventions of doc 10 (preserving technical terms in italicized transliteration where the term is itself a defined RPG-systems concept).
 
 All ten source traditions were successfully accessed. No passage was inaccessible. Where the Wikisource API rate-limited (HTTP 429 from the API endpoint, separate from the z-ai tool rate-limit), the request was retried sequentially after a 5-second delay until successful.
+
+---
+
+## 11. 論語 (Lunyu / Analects)
+
+**Author:** Confucius's disciples (compiled ~5th century BCE)
+**Source:** 論語·學而
+
+### Passage 11A — 孝 as the foundation
+
+> 有子曰：「其為人也孝弟，而好犯上者，鮮矣；不好犯上，而好作亂者，未之有也。君子務本，本立而道生。孝弟也者，其為仁之本與！」
+
+**Gloss:** Master You said: "One who is filial and fraternal but loves to oppose superiors is rare; one who does not love to oppose superiors but loves to make trouble has never existed. The gentleman works at the root; once the root is established, the Dao grows. Filial piety and fraternal duty — are they not the root of humaneness?"
+
+**Citation:** 論語 1.2 (學而篇)
+
+### RPG Grounding
+
+This passage grounds the lineage system (doc 04 §5.1, doc 12 §2) as a Confucian institution, not merely a social structure. 孝 (filial piety) is the root from which the Dao grows — meaning cultivation itself, in a Confucian frame, begins with the lineage obligation. The protagonist's grief over Wang Xiaodi (doc 26) is, in this frame, a disruption of 孝弟: the younger brother's death breaks the fraternal duty, and the protagonist's absence at the death breaks the filial duty. The "found a lineage" ending (doc 26 §7) is the restoration of the root: the protagonist returns to the lineage obligation as a cultivator, establishing the root from which a new Dao grows. This passage also grounds the academy (doc 12 §3) as a Confucian institution: the school teaches 孝弟 first, literacy second, cultivation third.
+
+---
+
+## 12. 大學 (Daxue / The Great Learning)
+
+**Author:** Confucian tradition (attributed to Zengzi, ~5th century BCE)
+**Source:** 禮記·大學 (Book of Rites, chapter 42)
+
+### Passage 12A — The investigation of things
+
+> 古之欲明明德於天下者，先治其國；欲治其國者，先齊其家；欲齊其家者，先修其身；欲修其身者，先正其心；欲正其心者，先誠其意；欲誠其意者，先致其知；致知在格物。
+
+**Gloss:** "The ancients who wished to manifest bright virtue throughout the world first governed their states; wishing to govern their states, they first regulated their households; wishing to regulate their households, they first cultivated their persons; wishing to cultivate their persons, they first rectified their heart-minds; wishing to rectify their heart-minds, they first made their intentions sincere; wishing to make their intentions sincere, they first extended their knowledge; extending knowledge lies in investigating things."
+
+**Citation:** 大學 (禮記 chapter 42), the eight steps passage
+
+### RPG Grounding
+
+This passage grounds the heart-mind cultivation system (doc 27 §7) and the comprehension system (doc 27 §3) in the Confucian tradition. The eight-step chain — investigate things → extend knowledge → make intentions sincere → rectify the heart-mind → cultivate the person → regulate the household → govern the state → manifest bright virtue — is the Confucian version of the internal-alchemy chain (煉精化氣 → 煉氣化神, doc 24 §2.3). Where the Daoist chain refines body→qi→spirit, the Confucian chain refines perception→intention→heart-mind→person→household→state. The two chains are complementary: the Daoist chain is 命功 (life-cultivation, doc 27 §6); the Confucian chain is 性功 (nature-cultivation). The dual-cultivation balance requirement (doc 27 §6.3) is grounded here: a cultivator who develops 命 without 性 becomes powerful but unstable; the Confucian chain is the 性 track.
+
+The "investigate things" (格物) step is the Confucian name for comprehension (悟道, doc 27 §3). The protagonist's Residual Error Sense — perceiving their own error-traces — is a form of 格物: investigating the consequences of their own practice. The "rectify the heart-mind" (正心) step is the Confucian name for heart-mind cultivation (doc 27 §7). The protagonist who integrates 心魔 is practicing 正心.

@@ -1,22 +1,3 @@
-# 26 — Narrative Spine
-
-**Status:** Canonical. This document specifies the narrative spine that makes the bible a game, not just a simulation. All subsequent narrative content must comply.
-**Date:** 2026-08-03
-
----
-
-## 0. What this document is and why it exists
-
-The critics identified this as the single highest-leverage missing piece: "the team has an engine and a village but no game." The prior corpus (docs 00-24) specified the cosmology, the soul model, the realm ladder, the substrate, the phenomenology, the engine, the economy, the combat grammar, the sect institutions, the grotto-heavens, the Precelestial and tribulation, the AI interaction layer, the GUI, and the reconciliation. What it did not specify was the game: the thing the player does, the reason they do it, the person who opposes them, the way it ends.
-
-The doctrine (AGENTS.md Part 3) says: "Design for joy first; the system serves the experience. Before any ontology, before any contract, before any test architecture, answer: what does the player do in the first hour, and why do they want a second hour? Session 1, session 10, session 100. The first verb. The first awe. The first failure that teaches. The loop. The thing you tell a friend. If this cannot be written, no amount of system rigor will save the project."
-
-This document answers. It commits. It names the protagonist's want, the antagonist's name, the three acts, the session beats, the loop, the endings, the companions, the romance, the side content, and Old Chen's death. Every fork is closed. If a decision is wrong, the prototype will say so — but no decision is worse than a wrong decision multiplied by every fork that depends on it.
-
-The protagonist's surname is Wang (王). The given name is player-chosen. The protagonist is 16 at game start, in the spring, three days before Qingming, Jianhe 14, in Wang Family Bend, in the Cangli Riverlands, in the Great Yan Dynasty. The protagonist's advantage is Residual Error Sense (遺錯之覺, yicuo zhi jue — doc 00 §5). Everything below follows from this.
-
----
-
 ## 1. The elevator pitch
 
 **One sentence:** You are the second child of a Wang lineage farmer in a wet-rice village at the edge of a declining empire; you perceive qi, you leave to cultivate, and the longer you live the more the village you left ages without you — until the grief of being absent becomes the central problem of your long life, and you must decide whether to retrieve the dead (the crime), to let them go (the teaching), or to rewrite the law that took them (the cost is everything).
@@ -97,7 +78,7 @@ Leng Wushuang (the Azure Sword Sect master) is a political antagonist, but she i
 
 **The five golden scenes (doc 06):**
 
-1. **Scene 1 — The First Teacher (Wang Lun's Hexagram), spring (Qingming), age 16.** The protagonist perceives qi faintly; Wang Lun (王倫, 41) notices, names it, casts a hexagram, gives the direction: seek Old Chen. Session ~5.
+1. **Scene 1 — The First Teacher (Wang Lun's Hexagram), autumn, age 16.** The protagonist perceives qi faintly; Wang Lun (王倫, 41) notices, names it, casts a hexagram, gives the direction: seek Old Chen. Session ~5.
 2. **Scene 2 — The Fraudulent Manual (Old Chen's Test), winter, age 16.** Old Chen (陳老, 82) tests the protagonist with a fraudulent manual. The protagonist must investigate before practicing. If they pass, Old Chen becomes their teacher. Session ~15.
 3. **Scene 3 — The First Duel (Zongde's Challenge), late summer, age 18.** Wang Zongde (王宗德, 24), the rival who studied with a traveling hustler, challenges the protagonist at the Autumn Equinox threshing ground. First combat. Session ~40.
 4. **Scene 4 — The Failed Breakthrough, winter, age 21.** The protagonist attempts Foundation Establishment against Old Chen's advice, driven by unprocessed grief over Wang Xiaodi. The breakthrough fails. The protagonist must mourn. Session ~70.
@@ -115,7 +96,7 @@ Leng Wushuang (the Azure Sword Sect master) is a political antagonist, but she i
 
 - **Session ~120 — The Cangwu Sect.** The protagonist joins the Cangwu Sect (the small local sect, 100 li west, doc 24 §4.3) as a junior disciple. Old Chen, who left his own sect decades ago, endorses the joining but warns: "A sect is a tool, not a home." The protagonist learns sect practice, takes on sect responsibilities, and begins to perceive the cultivation world beyond the Cangli Riverlands.
 
-- **Session ~150 — The first return (the joy of Act 2).** The protagonist returns to Wang Family Bend for the first time since Foundation Establishment. The village is the same; the people are older. **Lady Chen of the hermitage** (陳氏, Old Chen's mortal wife, ~80 at game start, now ~100, frail but alive, sustained by Old Chen's qi-care — a coincidence of surname; she is not related to the protagonist's mother) greets the protagonist at the hermitage. The protagonist's father **Wang Shouzheng** (王守正) has gray hair. The graveyard has new tablets — three, including **Wang Lun** (王倫, who died of pneumonia the previous winter at 47 — the protagonist was at the hermitage, practicing for Foundation Establishment, and did not return in time) and two infants from the cousin-branch. The protagonist perceives the qi of the place: it is denser than they remember, because their perception has sharpened. They perceive, in the lineage hall, the residue of their own childhood — fading. They weep. This is the joy of Act 2: the first return, the recognition that power costs time and the time costs love. (This is also the viral moment, §8.)
+- **Session ~150 — The first return (the joy of Act 2).** The protagonist returns to Wang Family Bend for the first time since Foundation Establishment. The village is the same; the people are older. **Lady Chen** (陳氏, Old Chen's mortal wife, ~75 at game start, now ~100, frail but alive, sustained by Old Chen's qi-care) greets the protagonist at the hermitage. The protagonist's father **Wang Shouyi** (王守義) has gray hair. The graveyard has new tablets — three, including **Wang Lun** (王倫, who died of pneumonia the previous winter at 47 — the protagonist was at the hermitage, practicing for Foundation Establishment, and did not return in time) and two infants from the cousin-branch. The protagonist perceives the qi of the place: it is denser than they remember, because their perception has sharpened. They perceive, in the lineage hall, the residue of their own childhood — fading. They weep. This is the joy of Act 2: the first return, the recognition that power costs time and the time costs love. (This is also the viral moment, §8.)
 
 - **Session ~200 — Pei Liang's introduction (§3.3).** The raid on the Cangwu Sect. The first meeting with Leng Qingxue. The protagonist enters the antagonist's orbit.
 
@@ -129,7 +110,7 @@ Leng Wushuang (the Azure Sword Sect master) is a political antagonist, but she i
 
 - **Session ~500 — Core Formation.** The protagonist forms the golden core (結丹, jiedan — doc 03 Station 5). Lifespan extends to ~500 years. The protagonist can now perceive spirit anchors. The first anchor they seek is Wang Xiaodi's. They do not find it. Then the antagonist's plan is revealed (§3.4): Wang Xiaodi's anchor is in Pei Liang's harvest-store.
 
-**Thesis:** Power costs time and the time costs love. Every realm the protagonist gains extends their lifespan and, with it, the number of mortals they will outlive. Old Chen is dead. Lady Chen of the hermitage will die soon. Wang Shouzheng will die. The protagonist will attend their funerals, perceive their anchors' fading residue, and continue. This is the genre's central tragic engine (time-debt) at the personal scale.
+**Thesis:** Power costs time and the time costs love. Every realm the protagonist gains extends their lifespan and, with it, the number of mortals they will outlive. Old Chen is dead. Lady Chen will die soon. Wang Shouyi will die. The protagonist will attend their funerals, perceive their anchors' fading residue, and continue. This is the genre's central tragic engine (time-debt) at the personal scale.
 
 **Joy:** The first return (session ~150). The recognition that the village is the same and the player is the one who changed.
 
@@ -161,7 +142,7 @@ Leng Wushuang (the Azure Sword Sect master) is a political antagonist, but she i
 
 ### 5.1 Session 1: The mortal morning
 
-The protagonist wakes on the morning of their 16th birthday in the Wang household, Wang Family Bend, three days before Qingming. The first verb (§13.1) is **carry water**: the protagonist takes the shoulder-pole and two buckets to the well, fills them, and carries them along the rutted path to the household cistern. The water is heavy; the path is muddy from the early plum rain; the spring morning mist is cold. The protagonist's mother, **Lady Chen** (陳氏, 54), is preparing congee. The protagonist's father, **Wang Shouzheng** (王守正, 58), is already at the levee, checking for winter damage. The grandfather Wang Tianlu is dead (six years); his tablet is in the lineage hall. The younger brother Wang Xiaodi is dead (two years); his tablet is also in the lineage hall.
+The protagonist wakes on the morning of their 16th birthday in the Wang household, Wang Family Bend. The first verb (§13.1) is **carry water**: the protagonist takes the shoulder-pole and two buckets to the river, fills them, and carries them up the rutted path to the household cistern. The water is heavy; the path is rutted; the autumn morning fog is cold. The protagonist's mother, **Lady Liu** (劉氏, ~38), is preparing millet porridge. The protagonist's father, **Wang Shouyi** (王守義, ~42), is already in the paddy. The grandfather Wang Tianlu is dead (six years); his tablet is in the lineage hall. The younger brother Wang Xiaodi is dead (two years); his tablet is also in the lineage hall.
 
 The protagonist, carrying water, pauses at the river. The sound of the river has a texture they cannot name. They shake their head. It fades. They carry the water home. This is the first onset (doc 05 §1.1).
 
@@ -175,7 +156,7 @@ The protagonist weeps (doc 05 §1.2). Not from sadness — from recognition. The
 
 ### 5.3 Session 100: Foundation Establishment, the first return
 
-The protagonist, having completed Scene 5 (the genuine Foundation Establishment success, autumn of age 23), returns to Wang Family Bend. The village is the same; the people are older. Lady Chen of the hermitage (陳氏, Old Chen's mortal wife, ~80 at game start — a coincidence of surname; she is not related to the protagonist's mother) is frail. Wang Shouzheng (the father, ~65) has gray hair and a stiff back. The graveyard has three new tablets: two infants from the cousin-branch, and **Wang Lun** (王倫, who died of pneumonia the previous winter at 47 — the protagonist was at the hermitage, practicing for Foundation Establishment, and did not return in time). This is the second grief of absence — the protagonist was not there for Wang Lun's death, just as they were not there for Wang Xiaodi's.
+The protagonist, having completed Scene 5 (the genuine Foundation Establishment success, autumn of age 23), returns to Wang Family Bend. The village is the same; the people are older. Lady Chen (陳氏, Old Chen's wife, now ~100) is frail. Wang Shouyi (the father, ~65) has gray hair and a stiff back. The graveyard has three new tablets: two infants from the cousin-branch, and **Wang Lun** (王倫, who died of pneumonia the previous winter at 47 — the protagonist was at the hermitage, practicing for Foundation Establishment, and did not return in time). This is the second grief of absence — the protagonist was not there for Wang Lun's death, just as they were not there for Wang Xiaodi's.
 
 The protagonist perceives the qi of the village: denser than they remember, because their perception has sharpened. They perceive, in the lineage hall, the residue of Wang Lun's last lesson — fading. They perceive, in the graveyard, the residue of Wang Xiaodi's anchor — faint, almost gone. They weep. This is the joy of Act 2 (§4.2): the first return, the recognition that power costs time and the time costs love.
 
@@ -396,7 +377,7 @@ The first return. "I left my village to cultivate for a few years, and when I ca
 
 **Reviewer B (the systems designer):** "The personal conflict (Wang Xiaodi) is too small for a 1000-hour game. The grief of one sibling's death cannot carry 1500 sessions. The player will forget Wang Xiaodi by session 200."
 
-**Response:** Wang Xiaodi is the seed, not the whole. The grief of Wang Xiaodi becomes, by Act 2, the grief of every mortal the protagonist outlives (Lady Chen of the hermitage, Wang Lun, Wang Shouzheng, Old Chen, Liang Zhu). By Act 3, it is the grief of the bardo-harvest victims — the recognition that Wang Xiaodi's anchor was harvested, and that every harvested anchor is someone's Wang Xiaodi. The personal conflict scales by accumulation, not by replacement. The player does not forget Wang Xiaodi; they perceive Wang Xiaodi in every loss. This is the Residual Error Sense's narrative function: the protagonist's advantage is perceiving their own residue, and Wang Xiaodi's trace is in that residue, permanently, as the first loss.
+**Response:** Wang Xiaodi is the seed, not the whole. The grief of Wang Xiaodi becomes, by Act 2, the grief of every mortal the protagonist outlives (Lady Chen, Wang Lun, Wang Shouyi, Old Chen, Liang Zhu). By Act 3, it is the grief of the bardo-harvest victims — the recognition that Wang Xiaodi's anchor was harvested, and that every harvested anchor is someone's Wang Xiaodi. The personal conflict scales by accumulation, not by replacement. The player does not forget Wang Xiaodi; they perceive Wang Xiaodi in every loss. This is the Residual Error Sense's narrative function: the protagonist's advantage is perceiving their own residue, and Wang Xiaodi's trace is in that residue, permanently, as the first loss.
 
 **Reviewer C (the production lead):** "Three companions, one romance, three endings, a 1500-session arc, and Mahayana law-authorship as the transcend path. This is too much. You will never ship it."
 

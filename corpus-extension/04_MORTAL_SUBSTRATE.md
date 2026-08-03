@@ -98,7 +98,7 @@ For the player's purposes, five households matter most:
 
 **Household 3: The Salt Merchant Household (鹽商, *Yánshāng*)**
 - Head: Master Hu (胡老爺, *Hú Lǎoyé*), 47, not a Wang, resident at the dock
-- Wife: Lady Sun (孫氏, 43)
+- Wife: Lady Wang (王氏, 43, née Wang, Wang Shouzheng's younger sister)
 - Children: Hu Bao (胡寶, 18, apprentice to his father), Hu Ying (胡瑩, 15, betrothed to a county clerk's son)
 - Holding: a large compound at the dock (the only two-story building in the village, the second story being a warehouse for salt and goods), a warehouse, a small boat, no farmland
 - He holds a salt license (鹽引, *yányǐn*) issued by the county, buys salt from the official depot in the market town, and sells it to villages up and down the river. He is wealthier than any Wang. He is not a Wang and has no voice in lineage affairs, but he is treated with care because he controls access to salt and to the river trade.

@@ -190,7 +190,7 @@ The critics found that no place beyond Wang Family Bend has a name. This is 15 s
 
 ### 4.1 The empire
 
-The empire is the **Great Yan Dynasty** (大燕朝, Dà Yàn Cháo), founded 247 years ago. The reigning emperor is **Yan Sizong** (燕嗣宗), the 14th emperor, in the 31st year of the **Jianhe reign** (建和三十一年). The dynasty is in middle decline: the bureaucracy is bloated, the military is stretched, the court is divided between the eunuch faction (led by the Grand Eunuch Wei Zhongxian) and the literati faction (led by Chief Grand Secretary Li Tingyun). The emperor is aging and has no designated heir; the succession crisis is the empire's open secret.
+The empire is the **Great Yan Dynasty** (大燕朝, Dà Yàn Cháo), founded 247 years ago. The reigning emperor is **Yan Sizong** (燕嗣宗), the 14th emperor, in the 14th year of the **Jianhe reign** (建和十四年). The dynasty is in middle decline: the bureaucracy is bloated, the military is stretched, the court is divided between the eunuch faction (led by the Grand Eunuch Wei Zhongxian) and the literati faction (led by Chief Grand Secretary Li Tingyun). The emperor is aging and has no designated heir; the succession crisis is the empire's open secret.
 
 ### 4.2 The region
 
