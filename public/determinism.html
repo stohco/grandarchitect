@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Determinism Verification Harness</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #09090b; color: #fafafa;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px; line-height: 1.6; padding: 16px;
+  }
+  h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #a1a1aa; margin-bottom: 12px; }
+  p { color: #a1a1aa; font-size: 13px; margin-bottom: 8px; }
+  .sub { color: #71717a; font-size: 11px; }
+  section { border: 1px solid #27272a; border-radius: 8px; padding: 16px; margin-bottom: 16px; background: #18181b; }
+  .hash { font-size: 14px; color: #4ade80; word-break: break-all; user-select: all; padding: 8px; background: #09090b; border-radius: 4px; border: 1px solid #27272a; }
+  .hash-label { font-size: 10px; color: #52525b; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  th { text-align: left; color: #71717a; border-bottom: 1px solid #27272a; padding: 6px 8px; font-weight: 500; }
+  td { padding: 6px 8px; border-bottom: 1px solid #1f1f23; color: #d4d4d8; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .ok { color: #4ade80; }
+  .warn { color: #fbbf24; }
+  .err { color: #f87171; }
+  .pulsing { animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  button { background: #27272a; color: #fafafa; border: 1px solid #3f3f46; border-radius: 4px; padding: 8px 16px; font-family: inherit; font-size: 12px; cursor: pointer; }
+  button:hover { background: #3f3f46; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  pre { font-size: 11px; color: #d4d4d8; white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; font-size: 11px; }
+  .grid div:nth-child(odd) { color: #71717a; }
+  .grid div:nth-child(even) { color: #d4d4d8; }
+  footer { text-align: center; color: #52525b; font-size: 10px; padding: 16px 0; }
+  .ua { font-size: 10px; color: #52525b; word-break: break-all; }
+</style>
+</head>
+<body>
+<h1>Determinism Verification Harness</h1>
+<p class="sub">The smallest end-to-end proof that the xianxia RPG's century-spanning deterministic stack works.</p>
+
+<section>
+  <h2>Final Hash (compare across browsers)</h2>
+  <div id="hash-section"><p class="pulsing">Running 1000 ticks...</p></div>
+  <p class="sub" style="margin-top:12px;">Open this page in Chrome, Firefox, and Safari — the sync hash must be identical in all three for the stack to be cross-engine deterministic.</p>
+</section>
+
+<section>
+  <h2>Browser / Engine</h2>
+  <p class="ua" id="ua"></p>
+  <p class="sub" style="margin-top:8px;">Identify which engine you're testing. The hash must be identical in Chrome (V8), Firefox (SpiderMonkey), and Safari (JavaScriptCore).</p>
+</section>
+
+<section>
+  <h2>Run</h2>
+  <div style="display:flex;gap:12px;align-items:center;">
+    <button id="rerun">Re-run harness</button>
+    <span id="stats" class="sub"></span>
+  </div>
+  <p class="sub" style="margin-top:8px;">Seed string: <code style="color:#a1a1aa;">xianxia-determinism-verification-v0.1.0</code></p>
+</section>
+
+<section>
+  <h2>Sanity Check (expected values)</h2>
+  <div class="grid" id="sanity"></div>
+  <p class="sub" style="margin-top:8px;">Expected: sin(0)=0, sin(π/2)=1, cos(0)=1, cos(π/2)≈0, exp(0)=1, exp(1)≈2.718, log(1)=0, log(2)≈0.693, atan2(1,1)≈0.7854=π/4, sqrt(4)=2, pow(2,10)=1024, pow(2,0.5)≈1.414=√2.</p>
+</section>
+
+<section>
+  <h2>Cross-check: det_sin vs Math.sin (ULP diff)</h2>
+  <table id="crosscheck-table">
+    <thead><tr><th>input</th><th class="num">det_sin</th><th class="num">Math.sin</th><th class="num">ULP diff</th></tr></thead>
+    <tbody id="crosscheck"></tbody>
+  </table>
+  <p class="sub" style="margin-top:8px;">ULP diff &lt; 2 means our det_sin is within 2 units of the last place of Math.sin. The ULP diff itself must be identical across browsers.</p>
+</section>
+
+<section>
+  <h2>Checkpoint Hashes (every 100 ticks)</h2>
+  <div id="checkpoints" style="max-height:200px;overflow-y:auto;"></div>
+  <p class="sub" style="margin-top:8px;">These intermediate hashes must also match across browsers. If the final hash differs but an early checkpoint matches, the divergence is in the later ticks.</p>
+</section>
+
+<section>
+  <h2>Determinism Fingerprint</h2>
+  <pre id="fingerprint"></pre>
+  <p class="sub" style="margin-top:8px;">A save from this fingerprint loads only in an engine with the same fingerprint.</p>
+</section>
+
+<section>
+  <h2>Final State (for debugging)</h2>
+  <pre id="final-state"></pre>
+</section>
+
+<section>
+  <h2>What This Proves</h2>
+  <p>If the <span class="ok">Final Hash (sync)</span> above is identical when this page is opened in Chrome, Firefox, and Safari, then the following stack is proven cross-engine deterministic:</p>
+  <ul style="margin:8px 0 8px 20px;color:#a1a1aa;font-size:12px;">
+    <li><span style="color:#d4d4d8;">xoshiro256** + splitmix64</span> RNG (BigInt-backed)</li>
+    <li><span style="color:#d4d4d8;">Cody-Waite + minimax</span> transcendentals (det_sin, det_cos, det_tan, det_atan2, det_exp, det_log, det_pow, det_sqrt)</li>
+    <li><span style="color:#d4d4d8;">Q32.32 fixed-point</span> accumulation (BigInt-backed)</li>
+    <li><span style="color:#d4d4d8;">CBOR RFC 8949 deterministic</span> serialization</li>
+    <li><span style="color:#d4d4d8;">SHA-256</span> hashing (both sync and async paths)</li>
+  </ul>
+  <p>This is the single highest-risk piece of the xianxia RPG's technical thesis. If it passes, the century-spanning deterministic vision is feasible. If it fails, the project must descope to a non-deterministic single-realm game.</p>
+</section>
+
+<footer>xianxia determinism verification harness v0.1.0 · run in 3 browsers · compare hashes</footer>
+
+<!-- ====================================================================== -->
+<!-- The entire determinism stack, inlined. No external dependencies.       -->
+<!-- This is the same code as src/lib/determinism/*.ts, hand-ported to      -->
+<!-- plain JS for a single self-contained HTML file.                        -->
+<!-- ====================================================================== -->
+
+<script>
+// ============================================================================
+// SHA-256 (from @noble/hashes, inlined — pure JS, no secure-context needed)
+// ============================================================================
+const SHA256_K = new Uint32Array([
+  0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+]);
+function rotr(x, n) { return (x >>> n) | (x << (32 - n)); }
+function sha256(data) {
+  const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+  const W = new Uint32Array(64);
+  const padding = new Uint8Array(64);
+  padding[0] = 0x80;
+  const totalLen = data.length;
+  const padded = new Uint8Array(((totalLen + 9 + 63) >> 6) << 6);
+  padded.set(data);
+  padded[totalLen] = 0x80;
+  const bitLen = BigInt(totalLen) * 8n;
+  const dv = new DataView(padded.buffer);
+  dv.setUint32(padded.length - 4, Number(bitLen & 0xFFFFFFFFn), false);
+  dv.setUint32(padded.length - 8, Number(bitLen >> 32n & 0xFFFFFFFFn), false);
+  for (let i = 0; i < padded.length; i += 64) {
+    for (let j = 0; j < 16; j++) W[j] = dv.getUint32(i + j * 4, false);
+    for (let j = 16; j < 64; j++) {
+      const s0 = rotr(W[j-15], 7) ^ rotr(W[j-15], 18) ^ (W[j-15] >>> 3);
+      const s1 = rotr(W[j-2], 17) ^ rotr(W[j-2], 19) ^ (W[j-2] >>> 10);
+      W[j] = (W[j-16] + s0 + W[j-7] + s1) | 0;
+    }
+    let [a,b,c,d,e,f,g,h] = H;
+    for (let j = 0; j < 64; j++) {
+      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const ch = (e & f) ^ (~e & g);
+      const t1 = (h + S1 + ch + SHA256_K[j] + W[j]) | 0;
+      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const maj = (a & b) ^ (a & c) ^ (b & c);
+      const t2 = (S0 + maj) | 0;
+      h=g; g=f; f=e; e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0;
+    }
+    H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0; H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0;
+    H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+  }
+  const out = new Uint8Array(32);
+  const odv = new DataView(out.buffer);
+  for (let i = 0; i < 8; i++) odv.setUint32(i*4, H[i], false);
+  return out;
+}
+function toHex(bytes) {
+  let h = '';
+  for (const b of bytes) h += b.toString(16).padStart(2, '0');
+  return h;
+}
+function hashSync(bytes) { return toHex(sha256(bytes)); }
+async function hashAsync(bytes) {
+  if (typeof crypto !== 'undefined' && crypto.subtle && crypto.subtle.digest) {
+    try {
+      const buf = await crypto.subtle.digest('SHA-256', bytes);
+      return toHex(new Uint8Array(buf));
+    } catch (e) {}
+  }
+  return hashSync(bytes);
+}
+
+// ============================================================================
+// RNG: xoshiro256** + splitmix64 (BigInt-backed)
+// ============================================================================
+const MASK64 = 0xFFFFFFFFFFFFFFFFn;
+const SPLITMIX_GAMMA = 0x9E3779B97F4A7C15n;
+function splitmix64_next(state) {
+  state.z = (state.z + SPLITMIX_GAMMA) & MASK64;
+  let z = state.z;
+  z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & MASK64;
+  z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & MASK64;
+  z = z ^ (z >> 31n);
+  return z;
+}
+function seedFromBigInt(seed) {
+  const z0 = { z: seed & MASK64 };
+  return { s0: splitmix64_next(z0), s1: splitmix64_next(z0), s2: splitmix64_next(z0), s3: splitmix64_next(z0) };
+}
+function seedFromString(s) {
+  const data = new TextEncoder().encode(s);
+  const seedHash = sha256(data);
+  let seed64 = 0n;
+  for (let i = 0; i < 8; i++) seed64 = (seed64 << 8n) | BigInt(seedHash[i]);
+  return { state: seedFromBigInt(seed64), seedHash };
+}
+function rotl(x, k) { return ((x << k) | (x >> (64n - k))) & MASK64; }
+function xoshiro_next(state) {
+  const result = (rotl((state.s1 * 5n) & MASK64, 7n) * 9n) & MASK64;
+  const t = (state.s1 << 17n) & MASK64;
+  state.s2 = (state.s2 ^ state.s0) & MASK64;
+  state.s3 = (state.s3 ^ state.s1) & MASK64;
+  state.s1 = (state.s1 ^ state.s2) & MASK64;
+  state.s0 = (state.s0 ^ state.s3) & MASK64;
+  state.s2 = (state.s2 ^ t) & MASK64;
+  state.s3 = rotl(state.s3, 45n) & MASK64;
+  return result;
+}
+const INV_2_POW_53 = 1.1102230246251565e-16;
+function nextDouble(state) {
+  const x = xoshiro_next(state);
+  return Number(x >> 11n) * INV_2_POW_53;
+}
+function nextIntRange(state, min, max) {
+  return min + Math.floor(nextDouble(state) * (max - min + 1));
+}
+function nextBoolean(state, p) { return nextDouble(state) < p; }
+function snapshotState(state) {
+  const toHex = (x) => x.toString(16).padStart(16, '0');
+  return { s0: toHex(state.s0), s1: toHex(state.s1), s2: toHex(state.s2), s3: toHex(state.s3) };
+}
+
+// ============================================================================
+// Transcendentals: Cody-Waite + minimax (pinned constants, pure JS)
+// ============================================================================
+const PI = 3.141592653589793;
+const PI_OVER_2 = 1.5707963267948966;
+const LN2 = 0.6931471805599453;
+const INV_LN2 = 1.4426950408889634;
+function ipow(base, n) {
+  if (n === 0) return 1;
+  if (n < 0) return 1 / ipow(base, -n);
+  let r = 1, b = base, e = n;
+  while (e > 0) { if (e & 1) r = r * b; e = e >>> 1; if (e > 0) b = b * b; }
+  return r;
+}
+const PIO2_C1 = 1.5707963267341256, PIO2_C2 = 6.077100506506192e-11;
+function reduceSinCos(x) {
+  const xn = x * (2 / PI);
+  const kFloat = Math.floor(xn + 0.5);
+  const k = kFloat | 0;
+  let r = x - kFloat * PIO2_C1;
+  r = r - kFloat * PIO2_C2;
+  return { k, r };
+}
+const SIN_S2=-1.66666666666666324348e-01, SIN_S3=8.33333333332248946124e-03, SIN_S4=-1.98412698298579493134e-04, SIN_S5=2.75573137070700676789e-06, SIN_S6=-2.50507602534068634195e-08, SIN_S7=1.58969099521155010221e-10;
+const COS_C1=4.16666666666666019037e-02, COS_C2=-1.38888888888741095749e-03, COS_C3=2.48015872894767294128e-05, COS_C4=-2.75573143513906633035e-07, COS_C5=2.08757232129817482790e-09, COS_C6=-1.13596475577881948265e-11;
+function sinR_cosR(r) {
+  const r2 = r * r;
+  let sp = SIN_S7; sp = SIN_S6 + r2*sp; sp = SIN_S5 + r2*sp; sp = SIN_S4 + r2*sp; sp = SIN_S3 + r2*sp; sp = SIN_S2 + r2*sp;
+  const sinR = r + r * r2 * sp;
+  let cp = COS_C6; cp = COS_C5 + r2*cp; cp = COS_C4 + r2*cp; cp = COS_C3 + r2*cp; cp = COS_C2 + r2*cp; cp = COS_C1 + r2*cp;
+  const cosR = 1 - 0.5 * r2 + r2 * r2 * cp;
+  return { sinR, cosR };
+}
+function det_sin(x) {
+  if (x !== x) return NaN;
+  if (x === Infinity || x === -Infinity) return NaN;
+  if (x === 0) return x;
+  const { k, r } = reduceSinCos(x);
+  const { sinR, cosR } = sinR_cosR(r);
+  const km = ((k % 4) + 4) % 4;
+  return km === 0 ? sinR : km === 1 ? cosR : km === 2 ? -sinR : -cosR;
+}
+function det_cos(x) {
+  if (x !== x) return NaN;
+  if (x === Infinity || x === -Infinity) return NaN;
+  if (x === 0) return 1;
+  const { k, r } = reduceSinCos(x);
+  const { sinR, cosR } = sinR_cosR(r);
+  const km = ((k % 4) + 4) % 4;
+  return km === 0 ? cosR : km === 1 ? -sinR : km === 2 ? -cosR : sinR;
+}
+function det_tan(x) {
+  if (x !== x) return NaN;
+  if (x === Infinity || x === -Infinity) return NaN;
+  if (x === 0) return x;
+  const s = det_sin(x), c = det_cos(x);
+  if (c === 0) return x > 0 ? Infinity : -Infinity;
+  return s / c;
+}
+const ATAN_A=[3.33333333333329318027e-01,-1.99999999998764832476e-01,1.42857142725034468824e-01,-1.11111104054623557880e-01,9.09088713343650689149e-02,-7.69187620504482999495e-02,6.66107313738753120669e-02,-5.83357013379057348645e-02,4.97687799461593236017e-02,-3.65315727442169155370e-02,1.62858201153657823623e-02];
+function atan_poly(r) {
+  const r2 = r * r;
+  let p = ATAN_A[10];
+  for (let i = 9; i >= 0; i--) p = ATAN_A[i] + r2 * p;
+  return r - r * r2 * p;
+}
+function det_atan2(y, x) {
+  if (x !== x || y !== y) return NaN;
+  if (y === 0) return x > 0 || x === 0 ? y : PI;
+  if (x === 0) return y > 0 ? PI_OVER_2 : -PI_OVER_2;
+  if (x === Infinity) { if (y === Infinity) return 0.7853981633974483; if (y === -Infinity) return -0.7853981633974483; return y > 0 ? 0 : -0; }
+  if (x === -Infinity) { if (y === Infinity) return 2.356194490192345; if (y === -Infinity) return -2.356194490192345; return y > 0 ? PI : -PI; }
+  if (y === Infinity) return PI_OVER_2;
+  if (y === -Infinity) return -PI_OVER_2;
+  const absX = x < 0 ? -x : x, absY = y < 0 ? -y : y;
+  let r, swap;
+  if (absY <= absX) { r = absY / absX; swap = false; } else { r = absX / absY; swap = true; }
+  let angle = atan_poly(r);
+  if (swap) angle = PI_OVER_2 - angle;
+  if (x < 0) angle = PI - angle;
+  if (y < 0) angle = -angle;
+  return angle;
+}
+function det_exp(x) {
+  if (x !== x) return NaN;
+  if (x === Infinity) return Infinity;
+  if (x === -Infinity) return 0;
+  if (x === 0) return 1;
+  if (x > 709.782712893383973096) return Infinity;
+  if (x < -745.1332191019412221065) return 0;
+  const kFloat = Math.floor(x * INV_LN2 + 0.5);
+  const k = kFloat | 0;
+  const LN2_HI = 6.93147180369123816490e-01, LN2_LO = 1.90821492927058770002e-10;
+  let r = x - kFloat * LN2_HI;
+  r = r - kFloat * LN2_LO;
+  // Taylor: 1 + r + r^2/2! + ... + r^8/8!
+  const F = [2.4801587301587302e-05, 1.9841269841269841e-04, 1.3888888888888889e-03, 8.3333333333333332e-03, 4.1666666666666664e-02, 1.6666666666666667e-01, 0.5];
+  let poly = F[0];
+  for (let i = 1; i < F.length; i++) poly = F[i] + r * poly;
+  const expR = 1 + r * (1 + r * poly);
+  if (k === 0) return expR;
+  return expR * ipow(2, k);
+}
+function decomposeFloat64(x) {
+  if (x <= 0) return { mantissa: x, exponent: 0 };
+  const buf = new ArrayBuffer(8);
+  const dv = new DataView(buf);
+  dv.setFloat64(0, x, true);
+  const lo = dv.getUint32(0, true), hi = dv.getUint32(4, true);
+  const expBits = (hi >>> 20) & 0x7FF;
+  const mantHigh = hi & 0xFFFFF;
+  if (expBits === 0) { const r = decomposeFloat64(x * 18014398509481984); return { mantissa: r.mantissa, exponent: r.exponent - 54 }; }
+  const newHi = (hi & 0x80000000) | (1023 << 20) | mantHigh;
+  dv.setUint32(4, newHi, true); dv.setUint32(0, lo, true);
+  return { mantissa: dv.getFloat64(0, true), exponent: expBits - 1023 };
+}
+function det_log(x) {
+  if (x !== x) return NaN;
+  if (x < 0) return NaN;
+  if (x === 0) return -Infinity;
+  if (x === Infinity) return Infinity;
+  if (x === 1) return 0;
+  const { mantissa, exponent } = decomposeFloat64(x);
+  const SQRT2 = 1.4142135623730951;
+  let m = mantissa, extraExp = 0;
+  if (m >= SQRT2) { m = m * 0.5; extraExp = 1; }
+  const s = (m - 1) / (m + 1);
+  const s2 = s * s;
+  const T = [1/15, 1/13, 1/11, 1/9, 1/7, 1/5, 1/3];
+  let p = T[0];
+  for (let i = 1; i < T.length; i++) p = T[i] + s2 * p;
+  const logM = 2 * (s + s * s2 * p);
+  return (exponent + extraExp) * LN2 + logM;
+}
+function det_pow(x, y) {
+  if (x !== x || y !== y) return NaN;
+  if (y === 0) return 1;
+  if (x === 0) return y > 0 ? 0 : Infinity;
+  if (y === Math.floor(y) && y >= -1023 && y <= 1023) {
+    if (x > 0 || (y | 0) === y) return ipow(x, y | 0);
+  }
+  if (x < 0) return NaN;
+  return det_exp(y * det_log(x));
+}
+function det_sqrt(x) { return Math.sqrt(x); }
+
+// ============================================================================
+// Fixed-point Q32.32 (BigInt-backed)
+// ============================================================================
+const FP_SCALE = 1n << 32n;
+const FP_SCALE_F = 4294967296;
+function fpFromDouble(x) {
+  if (x !== x) return 0n;
+  if (x === Infinity) return 0x7FFFFFFFFFFFFFFFFFFFn;
+  if (x === -Infinity) return -0x8000000000000000n;
+  const scaled = x * FP_SCALE_F;
+  let rounded = scaled >= 0 ? Math.floor(scaled + 0.5) : Math.ceil(scaled - 0.5);
+  rounded = Math.max(-9223372036854775808, Math.min(9223372036854775807, rounded));
+  return BigInt(rounded);
+}
+function fpAdd(a, b) { return a + b; }
+function fpMul(a, b) {
+  const raw = a * b;
+  const bias = 1n << 31n;
+  if (raw >= 0n) return (raw + bias) >> 32n;
+  return -(((-raw) + bias) >> 32n);
+}
+function fpSnapshot(x) {
+  return (x < 0n ? (x + (1n << 64n)) : x).toString(16).padStart(16, '0');
+}
+
+// ============================================================================
+// CBOR deterministic encoding (minimal — enough for our state objects)
+// ============================================================================
+// We only need to encode: null, numbers, strings, arrays, plain objects (as maps).
+// CBOR deterministic: shortest int encoding, sorted map keys, canonical floats.
+function cborEncode(value) {
+  const parts = [];
+  function encode(v) {
+    if (v === null) { parts.push(0xf6); return; }
+    if (typeof v === 'boolean') { parts.push(v ? 0xf5 : 0xf4); return; }
+    if (typeof v === 'number') { encodeNumber(v); return; }
+    if (typeof v === 'string') {
+      const utf8 = new TextEncoder().encode(v);
+      encodeHead(3, utf8.length);
+      for (const b of utf8) parts.push(b);
+      return;
+    }
+    if (Array.isArray(v)) {
+      encodeHead(4, v.length);
+      for (const item of v) encode(item);
+      return;
+    }
+    if (typeof v === 'object') {
+      const keys = Object.keys(v).sort();
+      encodeHead(5, keys.length);
+      for (const k of keys) {
+        const utf8 = new TextEncoder().encode(k);
+        encodeHead(3, utf8.length);
+        for (const b of utf8) parts.push(b);
+        encode(v[k]);
+      }
+      return;
+    }
+    throw new Error('CBOR: unsupported type ' + typeof v);
+  }
+  function encodeNumber(n) {
+    if (Number.isInteger(n) && n >= -0x100000000 && n < 0x100000000) {
+      // uint32 or negative int32
+      if (n >= 0) encodeHead(0, n);
+      else encodeHead(1, -1 - n);
+      return;
+    }
+    // For simplicity, encode all non-integer/small-int numbers as float64.
+    // CBOR float64: 0xfb followed by 8 bytes big-endian.
+    parts.push(0xfb);
+    const buf = new ArrayBuffer(8);
+    new DataView(buf).setFloat64(0, n, false);
+    const bytes = new Uint8Array(buf);
+    for (const b of bytes) parts.push(b);
+  }
+  function encodeHead(major, value) {
+    if (value < 24) { parts.push((major << 5) | value); }
+    else if (value < 0x100) { parts.push((major << 5) | 24, value); }
+    else if (value < 0x10000) { parts.push((major << 5) | 25, (value >> 8) & 0xff, value & 0xff); }
+    else if (value < 0x100000000) { parts.push((major << 5) | 26, (value>>24)&0xff,(value>>16)&0xff,(value>>8)&0xff,value&0xff); }
+    else { parts.push((major << 5) | 27, Number((BigInt(value)>>56n)&0xffn),Number((BigInt(value)>>48n)&0xffn),Number((BigInt(value)>>40n)&0xffn),Number((BigInt(value)>>32n)&0xffn),(value>>24)&0xff,(value>>16)&0xff,(value>>8)&0xff,value&0xff); }
+  }
+  encode(value);
+  return new Uint8Array(parts);
+}
+
+// ============================================================================
+// The harness
+// ============================================================================
+const HARNESS_SEED = 'xianxia-determinism-verification-v0.1.0';
+const HARNESS_TICKS = 1000;
+const CHECKPOINT_INTERVAL = 100;
+const TWO_PI = 6.283185307179586;
+
+function sanityCheck() {
+  return {
+    'sin(0)': det_sin(0),
+    'sin(π/2)': det_sin(1.5707963267948966),
+    'cos(0)': det_cos(0),
+    'cos(π/2)': det_cos(1.5707963267948966),
+    'exp(0)': det_exp(0),
+    'exp(1)': det_exp(1),
+    'log(1)': det_log(1),
+    'log(2)': det_log(2),
+    'atan2(1,1)': det_atan2(1, 1),
+    'sqrt(4)': det_sqrt(4),
+    'pow(2,10)': det_pow(2, 10),
+    'pow(2,0.5)': det_pow(2, 0.5),
+  };
+}
+function crossCheckVsMath() {
+  const inputs = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.14159];
+  return inputs.map(x => {
+    const ds = det_sin(x), ms = Math.sin(x);
+    const ulp = Math.abs(ms) * 2.220446049250313e-16 || 5e-324;
+    return { input: x, det_sin: ds, math_sin: ms, ulp_diff: Math.abs(ds - ms) / ulp };
+  });
+}
+
+async function runHarness() {
+  const t0 = performance.now();
+  const { state: rng } = seedFromString(HARNESS_SEED);
+  let posX = fpFromDouble(0), posY = fpFromDouble(0);
+  let angleAccum = 0, energyAccum = 1.0;
+  let eventsFired = 0, decisionsTrue = 0;
+  let lastSin=0,lastCos=0,lastAtan2=0,lastExp=0,lastLog=0,lastPow=0,lastSqrt=0;
+  const checkpoints = [];
+  for (let tick = 1; tick <= HARNESS_TICKS; tick++) {
+    const r1 = nextDouble(rng);
+    const r2 = nextIntRange(rng, 0, 359);
+    const r3 = nextBoolean(rng, 0.3);
+    const angleRad = (r2 / 360) * TWO_PI;
+    lastSin = det_sin(angleRad);
+    lastCos = det_cos(angleRad);
+    lastAtan2 = det_atan2(lastSin, lastCos);
+    lastExp = det_exp(r1 * 2 - 1);
+    lastLog = det_log(r1 + 0.5);
+    lastPow = det_pow(2, r1 * 4);
+    lastSqrt = det_sqrt(r1 + 1);
+    posX = fpAdd(posX, fpMul(fpFromDouble(lastSin * 0.01), fpFromDouble(1.0)));
+    posY = fpAdd(posY, fpMul(fpFromDouble(lastCos * 0.01), fpFromDouble(1.0)));
+    angleAccum += lastAtan2 * 0.001;
+    energyAccum *= lastExp;
+    if (r3) eventsFired++;
+    if (nextBoolean(rng, 0.5)) decisionsTrue++;
+    if (tick % CHECKPOINT_INTERVAL === 0) {
+      const state = { tick, rngState: snapshotState(rng), posX: fpSnapshot(posX), posY: fpSnapshot(posY), angleAccum, energyAccum, eventsFired, decisionsTrue, lastSin, lastCos, lastAtan2, lastExp, lastLog, lastPow, lastSqrt };
+      checkpoints.push({ tick, hash: hashSync(cborEncode(state)) });
+    }
+  }
+  const finalState = { tick: HARNESS_TICKS, rngState: snapshotState(rng), posX: fpSnapshot(posX), posY: fpSnapshot(posY), angleAccum, energyAccum, eventsFired, decisionsTrue, lastSin, lastCos, lastAtan2, lastExp, lastLog, lastPow, lastSqrt };
+  const finalBytes = cborEncode(finalState);
+  const finalHashSync = hashSync(finalBytes);
+  const finalHashAsync = await hashAsync(finalBytes);
+  return { finalState, finalHashSync, finalHashAsync, checkpoints, durationMs: performance.now() - t0 };
+}
+
+// ============================================================================
+// Render
+// ============================================================================
+document.getElementById('ua').textContent = navigator.userAgent;
+
+function renderSanity() {
+  const s = sanityCheck();
+  const el = document.getElementById('sanity');
+  for (const [k, v] of Object.entries(s)) {
+    const d1 = document.createElement('div'); d1.textContent = k + ' =';
+    const d2 = document.createElement('div'); d2.textContent = String(v);
+    el.appendChild(d1); el.appendChild(d2);
+  }
+}
+function renderCrossCheck() {
+  const rows = crossCheckVsMath();
+  const el = document.getElementById('crosscheck');
+  for (const r of rows) {
+    const tr = document.createElement('tr');
+    const cls = r.ulp_diff < 2 ? 'ok' : 'warn';
+    tr.innerHTML = `<td>${r.input}</td><td class="num">${r.det_sin}</td><td class="num">${r.math_sin}</td><td class="num ${cls}">${r.ulp_diff.toFixed(2)}</td>`;
+    el.appendChild(tr);
+  }
+}
+function renderResult(r) {
+  const sec = document.getElementById('hash-section');
+  sec.innerHTML = '';
+  const l1 = document.createElement('div'); l1.className = 'hash-label'; l1.textContent = 'SHA-256 (sync, @noble/sha256 inlined):';
+  const h1 = document.createElement('div'); h1.className = 'hash'; h1.textContent = r.finalHashSync;
+  sec.appendChild(l1); sec.appendChild(h1);
+  const l2 = document.createElement('div'); l2.className = 'hash-label'; l2.style.marginTop = '8px'; l2.textContent = 'SHA-256 (async, crypto.subtle if available):';
+  const h2 = document.createElement('div'); h2.className = 'hash'; h2.style.fontSize = '12px'; h2.textContent = r.finalHashAsync;
+  sec.appendChild(l2); sec.appendChild(h2);
+  document.getElementById('stats').textContent = `${HARNESS_TICKS} ticks in ${r.durationMs.toFixed(2)} ms`;
+  const cpEl = document.getElementById('checkpoints');
+  cpEl.innerHTML = '';
+  for (const cp of r.checkpoints) {
+    const d = document.createElement('div'); d.style.cssText = 'display:flex;gap:8px;font-size:11px;margin-bottom:4px;';
+    d.innerHTML = `<span style="color:#52525b;width:60px;">tick ${cp.tick}:</span><span style="color:#d4d4d8;word-break:break-all;user-select:all;">${cp.hash}</span>`;
+    cpEl.appendChild(d);
+  }
+  document.getElementById('final-state').textContent = JSON.stringify(r.finalState, null, 2);
+  document.getElementById('fingerprint').textContent = JSON.stringify({
+    schemaVersion: '0.1.0',
+    rng: { algorithm: 'xoshiro256** + splitmix64 (BigInt-backed)', version: '0.1.0' },
+    transcendentals: { method: 'Cody-Waite + minimax (fdlibm-derived), pure JS', version: '0.1.0' },
+    fixedPoint: { method: 'Q32.32 fixed-point, BigInt-backed', version: '0.1.0' },
+    serialization: { format: 'CBOR RFC 8949 deterministic (manual encoder)', version: '0.1.0' },
+    hash: { algorithm: 'SHA-256', libraries: 'inlined pure-JS + crypto.subtle if available' },
+    generatedAt: new Date().toISOString(),
+  }, null, 2);
+}
+
+async function run() {
+  renderSanity();
+  renderCrossCheck();
+  const r = await runHarness();
+  renderResult(r);
+}
+
+document.getElementById('rerun').addEventListener('click', async () => {
+  const btn = document.getElementById('rerun');
+  btn.disabled = true;
+  const sec = document.getElementById('hash-section');
+  sec.innerHTML = '<p class="pulsing">Running 1000 ticks...</p>';
+  await run();
+  btn.disabled = false;
+});
+
+run();
+</script>
+</body>
+</html>
