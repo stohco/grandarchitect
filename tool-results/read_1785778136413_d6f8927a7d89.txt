@@ -1,0 +1,237 @@
+     1→    25→1. **The Nameless Origin (無名之始)** — the generative source boundary. Not a god, not a stat, not an attainable state. It is the condition that makes generation possible. No being can become it, own it, or speak its true name. This is the project's "absolute Dao boundary" — the limit that prevents any cultivator, including the protagonist, from becoming omnipotent.
+     2→    26→
+     3→    27→   - *Primary source:* 道德经第一章 "道可道，非常道；名可名，非常名。无名，天地之始；有名，万物之母。" (The Dao that can be spoken is not the eternal Dao; the name that can be named is not the eternal name. The nameless is the beginning of heaven and earth; the named is the mother of all things.)
+     4→    28→   - *Procedural implication:* The Nameless Origin is the seed of the world generator. It is never instantiated as an object. It is the function that produces the seed.
+     5→    29→
+     6→    30→2. **The Three Strata (三重)** — the cosmos divides into three qi-density strata, each denser and more lawfully structured than the one below:
+     7→    31→
+     8→    32→   - **Precelestial Stratum (先天境, *xiāntiān jìng*)** — the highest, where qi is undifferentiated and laws are not yet fixed. Time here is slow relative to the mortal world (1 day here ≈ 1 year below). Spirits, ancestral courts, and the courts of Heaven (天庭, *tiāntíng*) exist here, but they are not omnipotent — they are governed by the laws this stratum supports. This stratum is the source of tribulation (天劫, *tiānjié*), which is not a moral judgment but a lawful response to boundary violation.
+     9→    33→   - **Acquired Stratum (后天境, *hòutiān jìng*)** — the middle, where qi differentiates into the five phases (五行, *wǔxíng*: wood, fire, earth, metal, water) and yin-yang polarity (陰陽, *yīnyáng*). This is where most cultivation happens. Most spirit beasts, sacred mountains, grotto-heavens (洞天, *dòngtiān*), and sects exist here. Time runs at the mortal rate.
+    10→    34→   - **Mortal Stratum (凡尘境, *fánchén jìng*)** — the lowest and densest, where qi is thin and most beings are mortal. This is where the player begins. It is not a tutorial zone; it is a complete world with its own ecology, politics, and depth.
+    11→    35→
+    12→    36→   - *Primary source:* 道德经第四十二章 "道生一，一生二，二生三，三生万物。万物负阴而抱阳，冲气以为和。" (The Dao gives birth to one; one gives birth to two; two gives birth to three; three gives birth to all things. All things carry yin and embrace yang, and the blending qi makes harmony.)
+    13→    37→   - *Genre precedent:* The "three realms" (三界 — desire, form, formless) is Buddhist cosmology; the "heaven-earth-human" triad is Confucian. This project's three strata are original but genealogically descended from both, distinguished by qi-density rather than moral-soteriological state.
+    14→    38→   - *Procedural implication:* Each stratum is a separate time-domain (per the `TIME-DOMAIN-v0.1` contract in the corpus). Travel between strata is lawful but requires realm capability. The Precelestial's 1:365 time ratio is the genre's "one day upstairs = one year downstairs" trope, now with an executable contract.
+    15→    39→   - *Player-facing consequence:* A cultivator who retreats to the Precelestial to train for a month returns to find a mortal village aged 30 years. This is not a bug; it is the central dramatic engine of the genre.
+    16→    40→
+    17→    41→3. **The Mortal World (凡尘)** — one finite planet-scale world within the Mortal Stratum, with geography, climate, watersheds, qi topology, ecology, and human cultures generated lawfully from the seed. The player begins in one region of this world: the Cangli Riverlands (沧篱江乡). See document 04.
+    18→    42→
+    19→    43→4. **Grotto-Heavens and Blessed Lands (洞天福地, *dòngtiān fúdì*)** — pocket worlds nested within the Acquired Stratum, accessible through specific geographic anchors (a cave behind a waterfall, a crack in a cliff, a sealed gate). Each has its own qi climate, ecology, and laws. They are finite, discoverable, and consequential. They are not instanced dungeons; they are persistent places that other cultivators can also find and contest.
+    20→    44→
+    21→    45→### What this commits to
+    22→    46→
+    23→    47→- The cosmos is **finite and knowable**. A cultivator can, in principle, map every grotto-heaven, every spirit vein, every ancestral court. This is intentional: infinite cosmos destroys scarcity, and scarcity is the engine of cultivation.
+    24→    48→- The cosmos is **not anthropocentric**. The three strata predate humanity. Spirits, beasts, and ecological processes have their own relationships to qi that do not depend on human perception.
+    25→    49→- **Tribulation (天劫) is lawful, not moral.** It is the Precelestial Stratum's response to a cultivator violating or completing a boundary condition (a realm transition, a law edit, an unnatural accumulation). It is not Heaven judging good vs. evil. A wicked cultivator who stays within their realm's laws will not be tribulated; a righteous cultivator who pushes a boundary will.
+    26→    50→- **No "Heaven is one judging person."** The courts of Heaven (天庭) are an institution within the Precelestial, not its source. They have jurisdiction over specific matters (records of the dead, enforcement of certain oaths) and no jurisdiction over others. They can be wrong, corrupt, or contested.
+    27→    51→
+    28→    52→### What this forbids
+    29→    53→
+    30→    54→- No multiverse. One cosmos. "Other worlds" are grotto-heavens or stratum-travel, not parallel dimensions.
+    31→    55→- No time travel. The `TIME-DOMAIN` contract permits non-uniform time rates but forbids closed timelike curves, retroactive edits, or branches that exchange resources with their own past.
+    32→    56→- No being becomes the Nameless Origin. The endgame is world-law authorship within the Acquired Stratum, not apotheosis to the source.
+    33→    57→
+    34→    58→---
+    35→    59→
+    36→    60→## 2. Soul model: Anchored Spirit Continuant
+    37→    61→
+    38→    62→### The decision
+    39→    63→
+    40→    64→The soul model is **Model A from the Identity Death draft — the Anchored Spirit Continuant.** One noncopyable spirit anchor (靈樞, *língshū*) persists across embodiment changes. It is the only thing that cannot be copied. Everything else — body, memory, name, relationships, debts, ownership — can be transferred, lost, or duplicated, and the question of "is this the same person?" is answered by the persistence of the anchor.
+    41→    65→
+    42→    66→### Why this one
+    43→    67→
+    44→    68→It is the only model in the prior corpus with a distinct state topology. Models B and C were reskins (the draft admitted this). Model D was a layer, not a rival. Model A is the only one that produces real stakes for possession, reincarnation, and resurrection: if the anchor cannot be copied, then duplication always produces a *new person*, never a *transported self*.
+    45→    69→
+    46→    70→### What the anchor is
+    47→    71→
+    48→    72→- **Noncopyable.** Any attempt to duplicate it fails, or produces a new anchor (a new person) rather than a copy.
+    49→    73→- **Persistent across death.** When the body dies, the anchor enters a **bardo state** (中陰, *zhōngyīn*) — an intermediate state between death and rebirth — that lasts a bounded, lawful time. During bardo, the anchor can be retrieved, summoned, lost, or claimed.
+    50→    74→- **The carrier of karmic continuity** (if karma is ratified as a module — see §6 below). The anchor bears the trace of oaths, debts, and certain acts. It does not bear a moral score.
+    51→    75→- **Invisible to ordinary perception.** A Qi Condensation cultivator cannot perceive another's anchor. Perception of anchors requires Core Formation (金丹) or higher.
+    52→    76→
+    53→    77→### What this commits to
+    54→    78→
+    55→    79→- **Possession (奪舍, *duóshè*)** is the act of displacing one anchor and inserting another into a body. It is possible, costly, and criminal under most jurisdictions. The displaced anchor enters bardo; the possessor's original body becomes an empty vessel (a *walking corpse* 走尸, *zǒushī*) unless sustained by other means.
+    56→    80→- **Reincarnation (轉世, *zhuǎnshì*)** is the anchor entering a new body after bardo, typically with no conscious memory of the prior life. Memories may surface as intuition, dreams, or under specific cultivation conditions. The anchor carries karmic trace (if ratified) but not a skill sheet.
+    57→    81→- **Resurrection (還魂, *huánhún*)** is the act of returning an anchor from bardo to its original body (if the body is recoverable) or to a new body (possession-by-consent). It is rare, costly, and bounded by the bardo time limit.
+    58→    82→- **Final death (寂滅, *jìmiè*)** occurs when the anchor is dispersed — a lawful outcome of certain high-realm conflicts, certain tribulations, or the natural expiry of the bardo window. A dispersed anchor cannot be recovered by any means. This is the project's "final death" — the one true end.
+    59→    83→- **The protagonist is not exempt.** If the protagonist's anchor is dispersed, the game ends. There is no respawn. Save/reload is a meta-game mechanic, not an in-world power (per the doctrine's "save/load is not an in-world immortality power").
+    60→    84→
+    61→    85→### Player-facing consequence
+    62→    86→
+    63→    87→Death is real. A player who dies in combat loses the body, enters bardo, and must either be retrieved (by a teacher, ally, or their own cultivated skill) or be reincarnated (losing the body's cultivation progress, retaining only karmic trace and anchor persistence). This is the genre's "cultivator death" made mechanically honest.
+    64→    88→
+    65→    89→---
+    66→    90→
+    67→    91→## 3. Realm ladder: The Ten Stations
+    68→    92→
+    69→    93→### The decision
+    70→    94→
+    71→    95→The realm ladder is **ten stations**, named with genre-familiar terms, each with distinct verbs, perceptions, responsibilities, constraints, and failure modes. This is a candidate ladder, ratifiable after prototype proof of the first three stations. The upper seven are specified enough to design against but not yet playtested.
+    72→    96→
+    73→    97→### The ladder
+    74→    98→
+    75→    99→| # | Station | Hanzi | Pinyin | One-line essence |
+    76→   100→|---:|---|---|---|---|
+    77→   101→| 1 | Mortal | 凡人 | *fánrén* | An ordinary human with no cultivation. Life is short, labor is hard, death is final. |
+    78→   102→| 2 | Qi Induction | 引气 | *yǐnqì* | First perception and circulation of qi. The world reveals a layer you didn't know was there. |
+    79→   103→| 3 | Qi Condensation | 凝气 | *níngqì* | First self-sustaining inner order. You can do things mortals cannot, but you are not yet a cultivator by sect reckoning. |
+    80→   104→| 4 | Foundation Establishment | 筑基 | *zhūjī* | Body, qi, and spirit integrate into one coherent system. You are recognized as a cultivator. Lifespan extends to ~200 years. |
+    81→   105→| 5 | Core Formation | 金丹 | *jīndān* | A self-contained internal authority forms. Your qi does not need external replenishment. You can perceive spirit anchors. Lifespan extends to ~500 years. |
+    82→   106→| 6 | Nascent Soul | 元婴 | *yuányīng* | The spirit can act beyond the flesh. You can survive bodily death if the anchor is preserved. You can project, possess (lawfully or not), and found a lineage. Lifespan extends to ~1000 years. |
+    83→   107→| 7 | Spirit Severance | 化神 | *huàshén* | The cultivator externalizes their law as a domain (領域, *lǐngyù*). Within the domain, their will is partially authoritative. This is the threshold of "great power." Lifespan extends to ~2000 years. |
+    84→   108→| 8 | Void Amalgamation | 合虚 | *héxū* | The cultivator becomes place-anchored — bonded to a grotto-heaven, a sacred mountain, or a region. They cannot be easily killed while the place stands; if the place falls, they fall. This is the "earth immortal" (地仙, *dìxiān*) station. Lifespan extends to ~5000 years. |
+    85→   109→| 9 | Tribulation Crossing | 渡劫 | *dùjié* | The cultivator must cross a tribulation to ascend from the Acquired to the Precelestial Stratum. Most die. Those who succeed become "heavenly immortals" (天仙, *tiānxiān*) and can travel between strata. Lifespan extends to ~10000 years. |
+    86→   110→| 10 | Mahayana | 大乘 | *dàchéng* | The cultivator can author scoped world-laws within the Acquired Stratum. They cannot rewrite the Nameless Origin, cannot own the absolute Dao, and cannot create new strata. This is the endgame: the player becomes a world-law author, with all the responsibility and constraint that entails. |
+    87→   111→
+    88→   112→### What each station adds (the doctrine's "verbs not numbers" test)
+    89→   113→
+    90→   114→Full per-station specifications are in document 03. Here is the summary of what each station *adds* — the thing that makes it a different experience, not a bigger number:
+    91→   115→
+    92→   116→1. **Mortal:** Labor, kinship, obligation, mortality. The full human life.
+    93→   117→2. **Qi Induction:** Perception of qi. The world gains a new sensory layer. No new output capability — you can perceive but not yet do.
+    94→   118→3. **Qi Condensation:** Circulation. You can route qi through your body to enhance physical output within the envelope (per the mountain-proof oracle). First new verbs: *route qi*, *anchor a trace*, *vent into a sink*.
+    95→   119→4. **Foundation Establishment:** Integration. Body, qi, and spirit become one system. Lifespan extends. First new verbs: *integrate a practice*, *form a meridian*, *bear an oath of office*.
+    96→   120→5. **Core Formation:** Internal authority. You no longer need external qi to sustain yourself. First new verbs: *perceive spirit anchors*, *form a golden core*, *sustain a qi field without ambient qi*.
+    97→   121→6. **Nascent Soul:** Spirit action beyond flesh. The anchor can project, possess, and survive bodily death. First new verbs: *project spirit*, *found a lineage*, *survive bodily death*.
+    98→   122→7. **Spirit Severance:** Externalized law. The cultivator's will becomes partially authoritative within a bounded domain. First new verbs: *open a domain*, *enforce a local law*, *contest another's domain*.
+    99→   123→8. **Void Amalgamation:** Place-bonding. The cultivator bonds to a place and draws power from it. First new verbs: *bond to a place*, *draw on place-qi*, *fall when the place falls*.
+   100→   124→9. **Tribulation Crossing:** Stratum-travel. The cultivator can cross from Acquired to Precelestial. First new verbs: *cross a tribulation*, *travel between strata*, *enter the Precelestial*.
+   101→   125→10. **Mahayana:** Law authorship. The cultivator can write scoped laws within the Acquired Stratum. First new verbs: *author a law*, *ratify a law*, *contest a law*, *bear the consequences of a law*.
+   102→   126→
+   103→   127→### What this commits to
+   104→   128→
+   105→   129→- **The ladder is qualitative, not scalar.** Each station adds perceptions and verbs, not just numbers. A Core Formation cultivator is not "a Qi Condensation cultivator with bigger stats"; they can perceive spirit anchors, which a Qi Condensation cultivator cannot.
+   106→   130→- **Lifespan extends per station,** but not infinitely. A Mahayana cultivator lives ~10000 years — long, but not eternal. Final death is always possible.
+   107→   131→- **The protagonist begins at Mortal** and may, over a real-time playthrough of months or years, reach Foundation Establishment. Reaching Core Formation is a late-game achievement. Reaching Mahayana is the theoretical endgame, not the expected one.
+   108→   132→- **No station trivializes the prior.** A Foundation Establishment cultivator returning to their mortal village finds it changed, their kin aged or dead, their obligations persistent. This is the doctrine's "leaving a place changes simulation fidelity, not causality" made mechanical.
+   109→   133→
+   110→   134→---
+   111→   135→
+   112→   136→## 4. Base culture: The Cangli Riverlands (沧篱江乡)
+   113→   137→
+   114→   138→### The decision
+   115→   139→
+   116→   140→The base region is the **Cangli Riverlands** — a wet-rice lowland in the lower reaches of a major river, culturally descended from late-imperial Jiangnan (江南) but original in its specifics. It is the region where the player begins. It is not "generic ancient China"; it is a specific place with a specific ecology, political economy, and religious life, generated lawfully from the world seed.
+   117→   141→
+   118→   142→### Why this base
+   119→   143→
+   120→   144→The prior corpus claimed "clean-slate original IP" while operationally being a late-imperial Han-majority synthesis with the names filed off. This document names the base honestly: the Cangli Riverlands is wet-rice lowland Jiangnan-inspired, engaging the primary agricultural, legal, and social sources that substrate requires (齊民要術, 王禎農書, 天工開物, 大清律例, 地方志, 族譜). The originality is in the specifics — the named households, the named lineage, the named salt merchant, the named festival calendar — not in the pretense of deriving from no historical source.
+   121→   145→
+   122→   146→### What this commits to
+   123→   147→
+   124→   148→The Cangli Riverlands has, at minimum, the following material substrate, all of which the procedural generator must produce and all of which the player can interact with:
+   125→   149→
+   126→   150→- **Patrilineal lineages (宗族, *zōngzú*)** as corporate actors with halls (祠堂, *cítáng*), genealogies (族譜, *zúpǔ*), lineage fields (族田, *zútián*), lineage rules (族規, *zúguī*), and lineage schools (義學, *yìxué*). The Wang lineage (王氏) is the dominant lineage in the starting village.
+   127→   151→- **Two-tier land tenure (田底/田面, *tiándǐ / tiánmiàn*)** — subsoil rights (who owns the land) and surface rights (who farms it) are separable and tradable. Tenants can hold permanent, inheritable cultivation rights distinct from the landlord's subsoil right.
+   128→   152→- **Tax and corvée (田賦, 徭役)** — the state extracts land tax and labor service. The Single Whip reform (一條鞭法) commutes corvée to silver, which means peasants must sell grain for silver to pay tax, which means they are exposed to silver price fluctuations.
+   129→   153→- **Salt monopoly (鹽法, *yánfǎ*)** — salt is a state monopoly. The salt merchant (鹽商, *yánshāng*) at the river dock is one of the wealthiest people in the region. Salt smuggling is a real crime with real consequences.
+   130→   154→- **Night-soil economy (糞業, *fènyè*)** — human and animal waste is systematically collected, fermented, and applied to fields. This is the nitrogen-maintenance practice that makes intensive wet-rice agriculture possible. The pigsty-latrine (豬廁, *zhūcè*) combination is a standard village feature.
+   131→   155→- **The 24 solar terms (二十四節氣, *èrshísì jiéqì*)** — the agricultural calendar: Lichun (立春, Beginning of Spring), Jingzhe (驚蟄, Awakening of Insects), Qingming (清明, Clear and Bright), Mangzhong (芒種, Grain in Ear), Xiazhi (夏至, Summer Solstice), Liqiu (立秋, Beginning of Autumn), Bailu (白露, White Dew), Shuangjiang (霜降, Frost's Descent), Dongzhi (冬至, Winter Solstice), etc. Each term has agricultural, ritual, and cultivation implications.
+   132→   156→- **Wet-rice agriculture (水稻, *shuǐdào*)** — transplanting, puddling, water-level management, the gendered transplanting teams, the schistosomiasis exposure. This is fundamentally different from dryland millet/wheat and structures the labor calendar.
+   133→   157→- **Marriage as economic system** — betrothal gifts (聘禮, *pìnlǐ*), dowry (嫁妝, *jiàzhuāng*), uxorilocal marriage (招贅, *zhāozhuì* — groom enters bride's family), the "bare stick" (光棍, *guānggùn*) problem of men who cannot marry.
+   134→   158→- **Child mortality** — 30–50% of live births die before age 5. This is not a debuff; it is the demographic reality that shapes household decisions, emotional life, and the value of children.
+   135→   159→- **Festival calendar** — Spring Festival (春節), Lantern (元宵), Qingming tomb-sweeping (清明掃墓), Dragon Boat (端午), Mid-Autumn (中秋), Double Ninth (重陽), Winter Solstice (冬至), Laba (臘八). Each is a ritual and economic event.
+   136→   160→
+   137→   161→Full specification in document 04. The point of this list is: every item is a procedural generator input, every item is a player-facing verb or constraint, and every item is cited to a primary or qualified secondary source.
+   138→   162→
+   139→   163→---
+   140→   164→
+   141→   165→## 5. Protagonist advantage: Residual Error Sense (遺錯之覺, *yícuò zhī jué*)
+   142→   166→
+   143→   167→### The decision
+   144→   168→
+   145→   169→The protagonist's lawful asymmetry is **Residual Error Sense** — the ability to perceive, more faithfully than ordinary cultivators, the qi-residue traces of their own past attempts at a practice. This gives them unusual learning feedback (they can see where their last attempt diverged from the intended route) but no power, no speed, no survival, and no output beyond their realm's envelope.
+   146→   170→
+   147→   171→### Why this one
+   148→   172→
+   149→   173→It is the "Discern" operation from the Protagonist Operation Landscape, advanced. It passes every test in the doctrine's rejection set:
+   150→   174→
+   151→   175→- **No player-only physics.** The traces exist for everyone; the protagonist just perceives them more faithfully.
+   152→   176→- **No automatic victory.** Perceiving your error does not correct it; you still have to practice the correction.
+   153→   177→- **No unlimited output.** The advantage is informational, not energetic.
+   154→   178→- **Realm-bounded.** At Mortal, you can perceive errors in physical labor. At Qi Induction, errors in qi perception. At Qi Condensation, errors in circulation. Each realm's advantage is bounded to that realm's practices.
+   155→   179→- **Costly.** Reading your own residue requires attention that cannot be spent on other perception. Fixating on error can cause you to miss what's happening around you.
+   156→   180→- **Counterable.** Adversaries can contaminate traces, manipulate your model, or exploit your fixation.
+   157→   181→- **Fail-able.** The evidence may be precise but uninterpretable; multiple causes may produce the same mismatch.
+   158→   182→
+   159→   183→### What it feels like
+   160→   184→
+   161→   185→The player, after attempting a practice (a qi circulation route, a sword form, a formation inscription), can choose to "review" the attempt. The world shows them — visually, in the qi-residue layer — where their attempt diverged from the intended route. This is not a replay; it is a perception of persistent qi-traces that fade over hours or days. Ordinary cultivators perceive these traces dimly and unreliably; the protagonist perceives them clearly and faithfully.
+   162→   186→
+   163→   187→The advantage is *not*:
+   164→   188→- Seeing others' traces (that requires Core Formation and is a different perception).
+   165→   189→- Knowing the correct route (the advantage shows divergence, not correction).
+   166→   190→- Learning faster in general (it only helps with practices that leave traceable residue).
+   167→   191→
+   168→   192→### What this commits to
+   169→   193→
+   170→   194→- The protagonist is **exceptional at learning from their own mistakes**, not at anything else.
+   171→   195→- The advantage is **visible to the player as a UI/perception layer**, not a stat.
+   172→   196→- The advantage is **discoverable in-fiction** — the protagonist may not know they have it until a teacher notices their unusual feedback pattern.
+   173→   197→- The advantage is **transferable, losable, and stealable** under specific conditions (a Nascent Soul cultivator could attempt to seize it; this is a high-realm plot, not a low-realm mechanic).
+   174→   198→- **An isomorphic NPC with the same advantage must produce the same result** (per the doctrine's parity oracle).
+   175→   199→
+   176→   200→---
+   177→   201→
+   178→   202→## 6. Operational status of doctrine-listed terms
+   179→   203→
+   180→   204→### Yin-yang (陰陽, *yīnyáng*)
+   181→   205→
+   182→   206→**Operational.** Yin-yang is the fundamental polarity of qi. Every qi state has a yin-yang signature: cold/hot, dark/light, still/moving, internal/external, condensing/dispersing. Cultivation practices interact with yin-yang explicitly — a "yang-dominant" practice produces heat, agitation, and outward movement; a "yin-dominant" practice produces cold, stillness, and inward gathering. Imbalance produces deviation (see §8 below).
+   183→   207→
+   184→   208→- *Primary source:* 道德经第四十二章 "萬物負陰而抱陽，沖氣以為和" (All things carry yin and embrace yang; the blending qi makes harmony.)
+   185→   209→- *Procedural implication:* Every qi state in the simulation carries a yin-yang vector. Practices modify the vector. Environmental qi (a hot spring, a cold cave, a noon sun, a midnight moon) modifies the vector. The generator must produce yin-yang signatures for every qi-bearing entity and environment.
+   186→   210→
+   187→   211→### Wuxing / Five Phases (五行, *wǔxíng*)
+   188→   212→
+   189→   213→**Operational.** The five phases — Wood (木), Fire (火), Earth (土), Metal (金), Water (水) — are not "five elements" (a mistranslation) but five *patterns of action and transformation*: generating, flaring, stabilizing, cutting, flowing. Every qi state has a phase-affinity. Phases interact in generation cycles (wood feeds fire, fire makes earth, earth bears metal, metal channels water, water nourishes wood) and conquest cycles (wood parts earth, earth dams water, water quenches fire, fire melts metal, metal chops wood).
+   190→   214→
+   191→   215→- *Primary source:* 尚書·洪範 (Book of Documents, Great Plan) — the earliest attestation of wuxing as five patterns: "水曰潤下，火曰炎上，木曰曲直，金曰從革，土爰稼穡" (Water is moistening and descending; fire is flaming and ascending; wood is bending and straightening; metal is yielding and reforming; earth is sowing and reaping.)
+   192→   216→- *Scholarly grounding:* Sivin, Graham, Unschuld — the "Five Phases" translation is the consensus sinological rendering, not "Five Elements."
+   193→   217→- *Procedural implication:* Every qi state carries a phase-affinity. Practices, environments, herbs, formations, and spirit beasts have phase-affinities. Compatibility matters: a Fire-phase practice in a Water-phase environment is attenuated; a Metal-phase herb consumed by a Wood-phase cultivator may injure them. The generator must produce phase-affinities and resolve their interactions lawfully.
+   194→   218→
+   195→   219→### Spiritual roots (靈根, *línggēn*)
+   196→   220→
+   197→   221→**Operational, redefined.** Spiritual roots are not a birth-lottery aptitude score. They are a **developing topology of access and discrimination** — the specific ways a cultivator can perceive, admit, and convert qi. A person with "strong fire-phase roots" perceives fire-phase qi more readily, admits it more efficiently, and converts it with less loss. A person with "weak roots" in all phases is not unable to cultivate; they cultivate more slowly, with more loss, and may need specific practices or environments to compensate.
+   198→   222→
+   199→   223→- *Genre precedent:* 靈根 appears in 西遊記 chapter 1 title ("靈根育孕源流出") and in modern genre as the standard aptitude concept.
+   200→   224→- *Project redefinition:* Roots are not fixed at birth. They develop through practice, injury, and transformation. A cultivator can, through specific practices, develop a root they did not have. This preserves genre recognition while breaking the determinism that ruins most xianxia progression.
+   201→   225→- *Procedural implication:* Every character has a roots-profile (a vector of phase-affinities with sensitivity, admission, and conversion rates). The profile develops over time. The generator must produce initial profiles (seeded) and development rules (lawful).
+   202→   226→
+   203→   227→### Aging and lifespan
+   204→   228→
+   205→   229→**Operational.** Lifespan extends per realm (see §3). Aging is not cosmetic; it affects the body's qi-capacity, recovery rate, and injury threshold. A 200-year-old Foundation Establishment cultivator is not a 20-year-old with white hair; they are a body that has accumulated two centuries of wear, adaptation, and qi-residue.
+   206→   230→
+   207→   231→- *Procedural implication:* Every character has an age-state (chronological age, bodily wear, qi-residue accumulation) that develops lawfully. Aging affects capability. The generator must produce age-states and their development.
+   208→   232→
+   209→   233→### Deviation (走火入魔, *zǒuhuǒ rùmó*)
+   210→   234→
+   211→   235→**Operational, with psychospiritual dimension.** Deviation is not a random punishment. It is a lawful consequence of qi imbalance, practice error, or psychospiritual disturbance. There are two classes:
+   212→   236→
+   213→   237→1. **Somatic deviation** — false circuit (假周天), cross-current (逆流), route fixation (路執), borrowed signature adhesion (借氣附著), breath-motion desynchronization (息動失調). These are physical failures of the qi-system, with formation process, tempting benefit, cost, and counterplay. (Per the Qi Condensation draft §6.3.)
+   214→   238→
+   215→   239→2. **Psychospiritual deviation (心魔, *xīnmó*)** — the mind breaks. Obsession, compulsion, hallucination, personality fragmentation, delusional conviction. These are failures of the heart-mind (心, *xīn*), caused by: practicing while emotionally disturbed, comprehending a fragment of Dao without the stabilizing context, witnessing something the cultivator is not ready for, or accumulating psychospiritual residue from killed beings (if the killing was unlawful or traumatic).
+   216→   240→
+   217→   241→   - *Genre precedent:* 心魔 is a standard xianxia trope — the "inner demon" that haunts a cultivator, often a fragment of a defeated enemy's will or a manifestation of the cultivator's own unresolved attachments.
+   218→   242→   - *Primary source:* The term 走火入魔 originally refers specifically to internal-alchemy misfire — the "fire" (火) is the firing process (火候) of inner alchemy, and "entering demon" (入魔) is the psychospiritual break that follows.
+   219→   243→   - *Procedural implication:* Every cultivator has a heart-mind state (attention, will, emotional balance, unresolved attachments). Practices, experiences, and traumas modify the state. Sufficient disturbance produces 心魔, which is a persistent condition with its own verbs (contend, suppress, integrate, be consumed by).
+   220→   244→
+   221→   245→---
+   222→   246→
+   223→   247→## 7. What this document does not decide
+   224→   248→
+   225→   249→- **The exact cosmology of the Precelestial courts.** The courts exist; their internal politics are specified only as needed for plot. This is a deferred detail, not a deferred fork.
+   226→   250→- **The full roster of grotto-heavens.** Grotto-heavens exist; their specific contents are generated lawfully from the seed. This is procedural content, not a decision.
+   227→   251→- **The protagonist's specific origin within the Cangli Riverlands.** This is specified in document 04 (the starting village) and document 06 (the golden scenes).
+   228→   252→- **Karma (業, *yè*).** Karma is an optional module. This document commits to the anchor carrying karmic trace *if karma is ratified*, but does not ratify karma itself. That decision is deferred to a later document, with a deadline: karma must be ratified or rejected before the protagonist reaches Core Formation, because Core Formation is when karma becomes mechanically relevant.
+   229→   253→
+   230→   254→---
+   231→   255→
+   232→   256→## 8. How to use this document
+   233→   257→
+   234→   258→Every subsequent document in the corpus-extension must comply with these decisions. If a subsequent document contradicts a decision here, the contradiction is a defect to be repaired, not a fork to be deferred.
+   235→   259→
+   236→   260→If a decision here proves wrong in prototype, the prototype's evidence overrides this document, and this document is revised — not appended with a "candidate alternative." The doctrine says: "Make architectural decisions for the long term. Do not accept a stopgap that only works for now and is meant to be replaced later." This document obeys that.
+   237→   261→

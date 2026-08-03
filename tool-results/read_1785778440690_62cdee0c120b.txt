@@ -1,0 +1,215 @@
+   201→
+   202→**Reachable via:** Confront path, if the protagonist wins and survives. Also reachable without confronting Pei Liang, if the protagonist chooses to abandon the pursuit and stay (a valid but harder choice — the grief of Wang Xiaodi's anchor remaining in Pei Liang's store is unresolved).
+   203→
+   204→**What happens:** The protagonist, at Core Formation or Nascent Soul, returns to Wang Family Bend (or to Old Chen's hermitage at Li Family Creek) and founds the Wang lineage's cultivation school. The first disciple is **Wang Meili** (王美麗, the cousin, §9), who has by now reached Foundation Establishment herself. The protagonist teaches the next generation: the village children who perceive qi, the cousin-branch's grandchildren, Wang Meili's own students. The protagonist watches them grow, age, and (if they do not cultivate) die. The protagonist watches their students' students grow. The protagonist's Residual Error Sense, extended by teaching, perceives the residue of their own teaching in their students' practice — the traces of the protagonist's corrections, fading in the students' qi as they internalize them. This is the deepest form of the first awe: the world's continuation through teaching.
+   205→
+   206→The protagonist's last act: writing, in the Wang lineage genealogy (族譜, zupu), the character 修 (xiu, "cultivate") next to their own name. The protagonist dies of old age at ~500 (Core Formation lifespan). Their anchor enters bardo and is reborn, lawfully, into the lineage they founded. The cycle continues. The game's final image: the lineage hall, generations later, the protagonist's tablet among the ancestors, a child perceiving qi for the first time.
+   207→
+   208→### 7.2 Ending 2: Cross the tribulation (Precelestial, time-debt)
+   209→
+   210→**Reachable via:** Transcend path only. Requires reaching Tribulation Crossing (doc 03 Station 9) and crossing the tribulation (most die). If the protagonist succeeds and authors the law (Mahayana, doc 03 Station 10), they become a law-author in the Precelestial's Law Reaches (doc 24 §1.1).
+   211→
+   212→**What happens:** The protagonist, having authored the law that closes the bardo-harvest loophole, perceives Wang Xiaodi's anchor disperse lawfully — into the cosmos's law-substrate, going to its next rebirth. The protagonist recognizes, in the dispersal, the residue of the infant they practiced near. They weep — not from grief this time, but from recognition.
+   213→
+   214→Then the time-debt becomes absolute. The protagonist is in the Precelestial, where 1 day = 1 year below (doc 00 §1). The protagonist returns to the Mortal Stratum only briefly, every century or so, and finds it aged. The Great Yan Dynasty falls. A new dynasty rises. The Cangli Riverlands change. Wang Family Bend becomes a memory, then a name, then nothing. The protagonist, alone in the Precelestial, perceives the qi of a mortal world they no longer belong to. The game's final image: the protagonist, in the Law Reaches, perceiving the law they authored — the bardo-harvest loophole closed, the anchors of the Cangli Riverlands going to their lawful rebirths — and, in the law's texture, the faint residue of Wang Xiaodi's dispersal, permanent now, written into the world's law.
+   215→
+   216→### 7.3 Ending 3: Final death
+   217→
+   218→**Reachable via:** Confront path, if the protagonist loses. Accommodate path, via karmic tribulation. Transcend path, if the protagonist fails the Tribulation Crossing or fails the law-authorship (the law is contested and fails, costing the protagonist's anchor — doc 24 §1.1).
+   219→
+   220→**The specific scene:** The protagonist's anchor is dispersed (寂滅, jimie — doc 00 §2). The scene is the same in all three variants: the protagonist perceives their own anchor beginning to dissolve. The world does not end; the simulation continues. The companion who survives (Wang Meili, if she is present; Leng Qingxue, if she is) returns to Wang Family Bend and reports the death. A tablet is added to the lineage hall. The game's final image: a slow zoom out from the empty practice room — Old Chen's hermitage, or the Wang household, or the Cangwu Sect hall — the village continuing, the river flowing, the qi-residue of the protagonist's practice fading over the following days and weeks, then gone. The world goes on. The protagonist is not in it.
+   221→
+   222→### 7.4 Which is "true"
+   223→
+   224→**Ending 1 (found a lineage) is the true ending.**
+   225→
+   226→The game's thesis (doc 05 §4.3) is that cultivation is becoming less limited. The least limited ending is not the one where the protagonist leaves the world (Ending 2) or the one where the protagonist ends (Ending 3). It is the one where the protagonist becomes part of the world's continuation — perceiving the lineage as a flowing thing (the dead, the living, the yet-to-be-born, connected by the qi-residue of teaching and love), and adding their own perception to it.
+   227→
+   228→Ending 1 is also the most genre-subversive. The genre says ascension is the goal; this game says no — the goal is to stay, to teach, to be present. This is the doctrine's "confront the central tension directly" (AGENTS.md Part 3): we forbid power acceleration (the protagonist does not ascend), and we give the player something else (the continuation of the lineage through teaching).
+   229→
+   230→Ending 1 resolves the central conflict (the grief over Wang Xiaodi) by sublimating it: the protagonist cannot retrieve Wang Xiaodi's anchor (that is the antagonist's crime), but they can ensure the next Wang Xiaodi doesn't die of a fever while the cultivator is away. They do this by founding the lineage, training a healer-track cultivator (Wang Meili, and her students), and being present. The protagonist's grief becomes the lineage's first teaching.
+   231→
+   232→Endings 2 and 3 are valid, playable, and meaningful. They are not true. Ending 2 is the genre-conventional ending (ascension), which this game respects but does not endorse. Ending 3 is the tragic ending, which this game honors but does not celebrate. Ending 1 is the ending the game is built to deliver.
+   233→
+   234→---
+   235→
+   236→## 8. The thing you tell a friend
+   237→
+   238→**The viral moment: the first return (session ~100).**
+   239→
+   240→You leave Wang Family Bend at 16 to study with Old Chen. You come back at 23, a Foundation Establishment cultivator. Seven years for you; seven years for the village. Your father has gray hair. The graveyard has three new tablets. Wang Lun — the school teacher who first named what you were perceiving — is dead. You were at the hermitage, practicing for your breakthrough, and you didn't come back in time. Again.
+   241→
+   242→You stand at the graveyard at dusk. You perceive the qi of the place — denser than you remember, because your perception has sharpened. You perceive, in the lineage hall, the residue of Wang Lun's last lesson, fading. You perceive, at the tablet of Wang Xiaodi, the faint residue of an anchor that is almost gone. You weep.
+   243→
+   244→**The screenshot:** the village graveyard at dusk, the new tablets among the old, the qi-perception layer showing the residue of the recently-dead still hanging in the air, fading. The protagonist's silhouette, still, facing the tablets.
+   245→
+   246→**The thing you tell a friend:** "I left my village to cultivate for a few years, and when I came back, my teacher was dead, my father had gray hair, and there were three new tablets in the graveyard. I could perceive the qi of the dead, still faintly there. I wept at a videogame. It was the best thing I've played in years."
+   247→
+   248→This is the moment that makes someone want to play. It is reachable in the first ~100 sessions (the first ~50 hours, at a session length of ~30 minutes). It is the engine's proof.
+   249→
+   250→---
+   251→
+   252→## 9. The companion system
+   253→
+   254→**In scope. Three companions.**
+   255→
+   256→The doctrine (AGENTS.md Part 3) says "Design for joy first." Companions are joy: they are the people who witness the protagonist's long life alongside them, who age differently (faster or slower), who grieve with and against the protagonist, who can be lost. The genre's central tragic engine (time-debt) needs witnesses — without them, the protagonist's long life is solitary, and the grief is private. Companions make the grief shared, which makes it bearable, which makes the game playable.
+   257→
+   258→### 9.1 Wang Meili (王美麗) — the lineage bridge
+   259→
+   260→**Relation:** The protagonist's cousin (father's brother's daughter).
+   261→**Realm at introduction (session ~50):** Qi Induction, ~22 years old.
+   262→**Realm at endgame:** Foundation Establishment (if she survives), appearing ~30 at age ~120.
+   263→**Arc:** Wang Meili is the protagonist's childhood playmate and the first person in their generation to perceive qi (after the protagonist). She does not study with Old Chen (her father, the protagonist's uncle, distrusts Old Chen); she studies at the Cangwu Sect, on the healer-track. She is the lineage bridge: she ages with the village (slower than mortals, faster than the protagonist), she keeps the protagonist tied to the family, she is the one who greets the protagonist on every return. In Act 2, she becomes a companion. In Act 3, she is the protagonist's first disciple in the "found a lineage" ending (§7.1). Her arc is the arc of the lineage itself: she is the next generation, and her students will be the one after.
+   264→
+   265→**Her death (if it occurs):** Wang Meili can die in Act 3 if the protagonist chooses the Accommodate path — Pei Liang, learning of the protagonist's attachment, harvests her anchor as leverage. This is the cruelest possible outcome and the strongest deterrent to the Accommodate path.
+   266→
+   267→### 9.2 Liang Zhu (梁柱) — the first peer
+   268→
+   269→**Relation:** None (rogue cultivator, met at Qinghe Market Town).
+   270→**Realm at introduction (session ~250):** Foundation Establishment, ~80, appears ~40.
+   271→**Realm at death (session ~800):** Foundation Establishment (he never breaks through to Core Formation), ~110, appears ~50.
+   272→**Arc:** Liang Zhu is the protagonist's first peer and friend outside the sect and the village. He chose the rogue path over sect politics; he plays the *xiao* (簫, vertical bamboo flute) at taverns for spirit stones; he is irreverent, kind, and weary. He joins the protagonist's pursuit of Pei Liang in Act 2. In Act 3, he dies in Pei Liang's ambush — killed protecting the protagonist's retreat. His anchor disperses (final death). This is the second grief that mirrors the first (Wang Xiaodi's): the protagonist, again, was not enough to save someone they loved. The difference: this time, the protagonist was present. The grief is different — not the guilt of absence but the grief of presence. Liang Zhu's death is the engine of the protagonist's Nascent Soul breakthrough (the protagonist, in grief, integrates the loss and crosses the realm).
+   273→
+   274→**His death scene:** Liang Zhu, mortally wounded, plays one last note on the *xiao*. The note is a qi-residue trace — a technique he developed, leaving his signature in the qi of the place. The protagonist, perceiving it, recognizes it as Liang Zhu's teaching: a final lesson, in the form of a sound. The protagonist carries the residue-trace for the rest of the game. This is the Residual Error Sense's deepest use: perceiving the teaching of the dead.
+   275→
+   276→### 9.3 Leng Qingxue (冷清雪) — the sect dissident and romance
+   277→
+   278→**Relation:** Daughter of Leng Wushuang (Azure Sword Sect master). Romance option (§10).
+   279→**Realm at introduction (session ~200):** Core Formation, ~120, appears ~30.
+   280→**Realm at endgame:** Nascent Soul (if she survives), ~300, appears ~35.
+   281→**Arc:** Leng Qingxue is sent by the Azure Sword Sect to investigate Pei Liang's raid on the Cangwu Sect (§3.3). She is the protagonist's first contact with the great-sect world. She is also the protagonist's political opposite: her mother wants the Cangli spirit vein; Leng Qingxue believes the expansion is wrong. Her arc is the arc of principle: she must choose, in Act 3, between her sect (her mother, her lineage, her duty) and her principles (the protagonist, the Cangli Riverlands, the law). She chooses principle — but the choice costs her the sect. In the "found a lineage" ending, she leaves the Azure Sword Sect and co-founds the Wang lineage school with the protagonist (not as a disciple — she is senior — but as a co-teacher). In the "cross the tribulation" ending, she stays in the mortal world and continues the protagonist's work. In the "final death" ending, she is the one who reports the protagonist's death to Wang Family Bend.
+   282→
+   283→### 9.4 Why three and not more
+   284→
+   285→Three companions is the threshold at which the protagonist's social world feels populated without becoming a party-based RPG. The genre (xianxia) is fundamentally solitary; the protagonist's long life is, in the end, alone. Three companions — one lineage (Wang Meili), one peer (Liang Zhu), one romance (Leng Qingxue) — is enough to witness the life without diluting the solitude. More would turn the game into a party-RPG; fewer would make the life uninhabitable. The precedent is Baldur's Gate 3's companion count (party of four, three companions) for the social-density threshold, and Disco Elysium's lone protagonist for the solitude ceiling. This game sits between: three companions, but the protagonist is always the point of view.
+   286→
+   287→---
+   288→
+   289→## 10. Romance
+   290→
+   291→**In scope. One love interest. One courtship verb.**
+   292→
+   293→### 10.1 The love interest: Leng Qingxue (冷清雪)
+   294→
+   295→See §9.3. Leng Qingxue is the romance option. She is the protagonist's political opposite, the sect dissident, the Core Formation cultivator who chooses principle over lineage. The romance is not a reward; it is a relationship that develops over hundreds of sessions, through conflict and shared grief, and that becomes load-bearing in Act 3 (she is the one who gives the protagonist the Azure Sword Sect's intelligence on Pei Liang; she is the one who must choose between sect and protagonist).
+   296→
+   297→### 10.2 The courtship verb: the Exchange of Cuts (交劍, jiaojian)
+   298→
+   299→**The mechanic:** Two cultivators spar. The loser owes the winner a truthful answer to one question. The questions cannot be about combat; they must be about the self. Three bouts (three questions, three answers) = courtship acknowledged. Seven bouts = betrothal. Either party may decline a bout; declining three times ends the courtship.
+   300→
+   301→**The thematic load:** The Exchange of Cuts makes courtship a kind of cultivation. You learn the other's qi through their sword. You learn the other's self through their answers. The truth-debt mechanic enforces honesty — you cannot lie in the answer, because the answer is owed. The courtship is, in this way, the opposite of the antagonist's crime: Pei Liang harvests anchors without consent; the Exchange of Cuts exchanges truth with consent. The courtship verb and the antagonist's crime are the two poles of the game's moral spectrum.
+   302→
+   303→**The precedent:** The Exchange of Cuts is calibrated against Bushido Blade's (1997) one-cut dueling (one exchange resolves the bout; there is no health bar) and against the courtship-by-duel conventions of wuxia literature (Jin Yong's *The Return of the Condor Heroes* — the duel as love-language). It is not a "dating sim" mechanic; it is a combat-and-dialogue hybrid that uses the combat grammar (doc 13) and the dialogue system (doc 22) together. The truth-debt is enforced by the simulation: a lie in an answer registers as a karmic trace (doc 24 §2.1) and is perceivable, at Core Formation, by the wronged party.
+   304→
+   305→**The arc:** The first bout (session ~300, after the Cangli spirit vein dispute) is antagonistic — Leng Qingxue wins, asks the protagonist "Why did you join the Cangwu Sect?", the protagonist must answer truthfully. The second bout (session ~400) is competitive — the protagonist wins, asks "Why do you oppose your mother?". The third bout (session ~500, after Core Formation) is the courtship acknowledgment — they spar to a draw, exchange no questions, and sit in silence. The subsequent bouts (sessions ~700-1200) develop the relationship toward betrothal, culminating in the seventh bout before the final confrontation with Pei Liang. The seventh bout's question, asked by whichever party the player is not, is: "Will you come back?" The answer, whatever it is, is the truth.
+   306→
+   307→### 10.3 Why Leng Qingxue and not Wang Meili
+   308→
+   309→Wang Meili is the protagonist's cousin. Romance with her is out of scope (the Cangli Riverlands culture, per doc 00 §4, follows late-imperial Jiangnan exogamy norms; cousin marriage within the patrilineal clan is forbidden). More importantly, Wang Meili's narrative function is the lineage bridge (§9.1), not the romance. Leng Qingxue's function is the political and personal opposite who becomes the partner. The two functions are distinct; conflating them would weaken both.
+   310→
+   311→---
+   312→
+   313→## 11. Side content
+   314→
+   315→### 11.1 The structure: generated opportunities from world-state, not scripted quest-givers
+   316→
+   317→There are no quest-givers with exclamation marks. There is no quest log in the conventional sense. Instead, the simulation generates **resonances** — situations where the protagonist's current capabilities intersect with the world's current state — and the protagonist perceives them and chooses whether to act.
+   318→
+   319→**The mechanism:** At each solar term (二十四節氣 — doc 00 §4), the simulation samples world-state: qi tides, sect movements, beast migrations, lineage events (births, deaths, marriages), market shortages, weather, festivals, road conditions, magistrate edicts, spirit-vein fluctuations. It cross-references these with the protagonist's current realm, capabilities, relationships, and residue-traces. It produces 3-7 **resonances** — situations the protagonist could plausibly perceive and plausibly act on. Examples:
+   320→
+   321→- A Qi Condensation protagonist, returning from the Cangwu Sect, perceives a beast-migration warning at Qinghe Market Town; a local hunter offers spirit stones for escort. (Capability: combat. World-state: beast migration. Resonance: escort.)
+   322→- A Foundation Establishment protagonist, attending the Spring Festival at Wang Family Bend, perceives a qi-anomaly in the lineage hall's incense; investigation reveals a decaying ancestral tablet. (Capability: qi perception. World-state: festival. Resonance: investigation.)
+   323→- A Core Formation protagonist, traveling through the Cangwu Mountains, perceives a faint anchor-residue in a cave; investigation reveals a decades-old murder. (Capability: anchor perception. World-state: seed-generated cave. Resonance: cold-case.)
+   324→
+   325→**The loop:** Each session, the protagonist perceives the available resonances (via the qi-perception layer and the dialogue system). They pick one (or none — they can always just practice). The simulation generates the situation lawfully from world-state and seed. The situation resolves based on the protagonist's actions. The resolution feeds back into world-state (the beast migration is redirected; the tablet is repaired; the murder is solved or not), which generates the next session's resonances.
+   326→
+   327→**The precedent:** This structure is calibrated against Dwarf Fortress's emergent situations (world-state-driven, not scripted), against Crusader Kings' character-driven events (generated from character traits and relationships), and against Stardew Valley's seasonal rhythm (the calendar as content engine). It is explicitly *not* calibrated against MMO quest-hubs or Skyrim's radiant quests, which are scripted and repetitive. The resonances are generated, but they are generated from a lawful world-state, so they are specific to this seed, this protagonist, this moment.
+   328→
+   329→### 11.2 What this commits to
+   330→
+   331→- No quest-givers. No exclamation marks. No quest log of "go here, kill this, return."
+   332→- Resonances are perceived, not assigned. The protagonist must be in the right place, at the right time, with the right capabilities, to perceive them.
+   333→- Resonances are optional. The protagonist can ignore all of them and just practice. The world continues regardless.
+   334→- Resonances feed back into world-state. The protagonist's actions (or inactions) shape the next session's resonances.
+   335→- The main narrative (§4) is *not* a series of resonances. The main narrative is a smaller set of scripted beats (the golden scenes, the key Act 2 and Act 3 beats) that emerge from the same world-state but are flagged, in the simulation, as narrative-critical. The protagonist encounters them by playing; they are not assigned.
+   336→
+   337→---
+   338→
+   339→## 12. Old Chen's death
+   340→
+   341→### 12.1 When
+   342→
+   343→Session ~450. The protagonist is ~130 years old (Foundation Establishment, appears ~45). Old Chen is ~165 (extended by his partial Foundation Establishment integration, decades ago, which left him at Qi Condensation peak but granted some lifespan — doc 24 §1.3). Old Chen appears ~95.
+   344→
+   345→### 12.2 How
+   346→
+   347→Old Chen dies in his sleep, at his hermitage on the hill above Li Family Creek. It is the winter solstice (冬至, Dongzhi — doc 00 §4). Lady Chen (陳氏, his mortal wife) died years before (at ~105, when Old Chen was ~140; her death was the second great grief of his long life, after his failed Foundation Establishment). Old Chen, alone in the hermitage, goes to sleep and does not wake. The protagonist, traveling to consult him about Pei Liang's traces (the protagonist has been perceiving Pei Liang's corrupted qi-signature in the region and wants Old Chen's assessment), arrives the next morning. The hermitage is cold. Old Chen is in his bed, still, the breath stopped. The protagonist perceives, with Foundation Establishment perception, the faint residue of Old Chen's last practice — a slow Qi Condensation circulation route, the one Old Chen practiced every morning for sixty years, traced in the qi of the practice room, fading.
+   348→
+   349→The protagonist cannot perceive Old Chen's anchor (anchor perception requires Core Formation). This is the engine: the protagonist wants to perceive Old Chen's anchor one last time, and this desire — combined with the desire to perceive Wang Xiaodi's — drives the protagonist toward Core Formation.
+   350→
+   351→### 12.3 What it means
+   352→
+   353→Old Chen's death is the genre's central tragic engine (time-debt) at the personal scale. The protagonist's teacher — the one who taught them to perceive qi, to investigate teachings, to mourn before integrating — is gone. The protagonist has outlived him. The protagonist will outlive everyone they love who does not cultivate, and most of those who do.
+   354→
+   355→The death is also the protagonist's final exam. Old Chen's last practice route, fading in the qi of the practice room, is a teaching: the protagonist, using Residual Error Sense, can perceive the route's residue and read, in it, Old Chen's last circulation — steady, balanced, complete. Old Chen died whole. This is the teacher's last lesson: a whole death, after a long life, is the cultivation the teacher never achieved in realm but achieved in fact. The protagonist, perceiving it, understands that Old Chen's failed Foundation Establishment was not a failure. It was a different path — the path of the teacher, whose wholeness is in the student.
+   356→
+   357→### 12.4 The aftermath
+   358→
+   359→The protagonist buries Old Chen next to Lady Chen, on the hill above Li Family Creek, overlooking the river. The protagonist performs the rites (the mourning rites of the Cangli Riverlands, per doc 04). The protagonist adds Old Chen's tablet to a small shrine in the hermitage — not the Wang lineage hall (Old Chen is not a Wang), but the hermitage's own shrine, where Old Chen kept his own ancestors' tablets. The protagonist, in the months after, cleans the hermitage, repairs the garden, and — in a moment that the player may or may not choose — takes up residence. This is the seed of the "found a lineage" ending (§7.1): the protagonist, at Old Chen's hermitage, becomes the teacher.
+   360→
+   361→Old Chen's anchor enters bardo. The bardo window is bounded and lawful (doc 00 §2). The protagonist, at Core Formation (session ~500), perceives Old Chen's anchor one last time, in bardo, before it disperses (or is reborn — the protagonist cannot determine which). This is the protagonist's first act of anchor-perception: not Wang Xiaodi's anchor (which they seek and do not find) but Old Chen's. The teacher's anchor is the first the protagonist perceives, and the first the protagonist lets go.
+   362→
+   363→---
+   364→
+   365→## 13. The five doctrine demands
+   366→
+   367→The doctrine (AGENTS.md Part 3) says: "Design for joy first; the system serves the experience. Before any ontology... answer: what does the player do in the first hour, and why do they want a second hour? Session 1, session 10, session 100. The first verb. The first awe. The first failure that teaches. The loop. The thing you tell a friend."
+   368→
+   369→### 13.1 The first verb
+   370→
+   371→**Carry water.** Session 1, morning. The protagonist takes the shoulder-pole and two buckets to the well, fills them, carries them up the rutted path to the household cistern. The water is heavy; the path is rutted; the spring morning mist is cold. This is the substrate verb (doc 04), the first verb of a life, not a tutorial. The verb is the through-line: the protagonist carries water as a mortal (heavy, slow), routes qi to carry water as a Qi Condensation cultivator (lighter, faster), and at Foundation Establishment can lift the cistern itself (the verb transforms, but it is the same verb). At the end of the game, in the "found a lineage" ending, the protagonist watches a student carry water — and perceives, in the student's residue, the traces of their own teaching.
+   372→
+   373→### 13.2 The first awe
+   374→
+   375→Session 10. The third qi perception (doc 05 §4). The world reveals its hidden layer. The protagonist weeps. (See §5.2, §4.1.)
+   376→
+   377→### 13.3 The first failure that teaches
+   378→
+   379→Session ~70. Scene 4: the failed breakthrough (doc 06 Scene 4). The protagonist attempts Foundation Establishment against Old Chen's advice, driven by unprocessed grief over Wang Xiaodi. The breakthrough fails. The protagonist learns: cultivation is about wholeness, not power; grief unprocessed becomes 心魔; a teacher's caution is not obstruction but love. (See §4.1.)
+   380→
+   381→### 13.4 The loop
+   382→
+   383→Tomorrow you return because the world has moved and your practice has left new traces to read. (See §6.)
+   384→
+   385→### 13.5 The thing you tell a friend
+   386→
+   387→The first return. "I left my village to cultivate for a few years, and when I came back, my teacher was dead, my father had gray hair, and there were three new tablets in the graveyard. I could perceive the qi of the dead, still faintly there. I wept at a videogame." (See §8.)
+   388→
+   389→---
+   390→
+   391→## 14. Reviewer voices (per the doctrine: "Exhibit reviewer voices; do not self-certify")
+   392→
+   393→**Reviewer A (the genre traditionalist):** "The 'found a lineage' ending as the true ending is a betrayal of the genre. Xianxia is about ascension. The player who reaches Core Formation and chooses to stay in the village has, by genre standards, failed. You are substituting your aesthetic preference for the genre's telos."
+   394→
+   395→**Response:** The doctrine (AGENTS.md Part 3) says "Confront the central tension directly. Name the tension, choose a side, defend the choice." The genre's telos (ascension) is the power-acceleration endpoint. The doctrine forbids power acceleration. We chose the side: we forbid it, and we give the player something else (perception, teaching, lineage). The "found a lineage" ending is the doctrine's required positive account. It is not a betrayal; it is the confrontation. The player who reaches Core Formation and chooses to stay has not failed; they have chosen the game's thesis over the genre's telos. This is the point.
+   396→
+   397→**Reviewer B (the systems designer):** "The personal conflict (Wang Xiaodi) is too small for a 1000-hour game. The grief of one sibling's death cannot carry 1500 sessions. The player will forget Wang Xiaodi by session 200."
+   398→
+   399→**Response:** Wang Xiaodi is the seed, not the whole. The grief of Wang Xiaodi becomes, by Act 2, the grief of every mortal the protagonist outlives (Lady Chen of the hermitage, Wang Lun, Wang Shouzheng, Old Chen, Liang Zhu). By Act 3, it is the grief of the bardo-harvest victims — the recognition that Wang Xiaodi's anchor was harvested, and that every harvested anchor is someone's Wang Xiaodi. The personal conflict scales by accumulation, not by replacement. The player does not forget Wang Xiaodi; they perceive Wang Xiaodi in every loss. This is the Residual Error Sense's narrative function: the protagonist's advantage is perceiving their own residue, and Wang Xiaodi's trace is in that residue, permanently, as the first loss.
+   400→
+   401→**Reviewer C (the production lead):** "Three companions, one romance, three endings, a 1500-session arc, and Mahayana law-authorship as the transcend path. This is too much. You will never ship it."
+   402→
+   403→**Response:** The doctrine says "Authorize the smallest end-to-end thing that works" and "Ship the working thing before the perfect thing." The smallest shippable version is Act 1 (sessions 1-100, the five golden scenes, Mortal to Foundation Establishment). This is shippable as a vertical slice. Act 2 (sessions 100-500) is shippable as the first expansion. Act 3 (sessions 500+) is shippable as the endgame expansion. The companions, romance, and endings are scoped per act: Wang Meili and the Cangwu Sect are Act 2; Leng Qingxue and the romance are Act 2-3; the final confrontation and endings are Act 3. The document commits to the full arc so the spine is intact, but the shipping plan is incremental. No one ships a 1500-session game on day one; everyone ships Act 1.
+   404→
+   405→---
+   406→
+   407→## 15. What this document enables
+   408→
+   409→Every narrative fork is closed. The central conflict is personal (the grief over Wang Xiaodi; the law that forbids retrieval; the antagonist who breaks the law). The antagonist is Pei Liang, the third-generation inheritor of Zhou Wugui's anchor-harvesting technique, enabled by Scribe Yan's corruption in the Courts of Heaven. The three acts are specified, with theses and joys per act. The session beats are committed (sessions 1, 10, 100, 500, with the full arc through ~1500+). The loop is one sentence. The endings are three (found a lineage / cross the tribulation / final death), and the true ending is "found a lineage." The viral moment is the first return. The companions are three (Wang Meili the lineage bridge, Liang Zhu the first peer, Leng Qingxue the sect dissident and romance). The romance is Leng Qingxue, courted via the Exchange of Cuts. The side content is generated resonances from world-state, not scripted quest-givers. Old Chen dies at session ~450, in his sleep, at the hermitage, and his death is the engine of the protagonist's Core Formation.
+   410→
+   411→The bible is now a game. The engine has a purpose; the village has a future; the cultivation world has a conflict; the protagonist has a want, an antagonist, and an ending. The remaining documents — Cultivation Systems, The Village In Medias Res, Cultivation Primary Sources — can now be written on a narrative foundation, with no forks to defer and no spine to invent.
+   412→
+   413→The doctrine's test: "If this cannot be written, no amount of system rigor will save the project." It is written. The project is saved.
+
+[showing lines 201-413 of 414; use offset=414 with limit to continue reading]

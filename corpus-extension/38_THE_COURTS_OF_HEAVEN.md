@@ -1,0 +1,531 @@
+# 38 — The Courts of Heaven
+
+**Status:** Candidate canon. The full institutional content for the Courts of Heaven (天庭), converting doc 15 §2's specification into named geography, named personnel, named factions, named history, and a named political crisis. Compliant with 00_FOUNDATIONAL_DECISIONS §1 (cosmology); 15_PRECELESTIAL_AND_TRIBULATION §2 (courts' jurisdiction, hierarchy, politics); 24_RECONCILIATION_AND_DECISIONS §1.1 (Mahayana dual-authorship); 25_FOLK_RELIGION_METAPHYSICS §6 (the Underworld as courts sub-jurisdiction); 26_NARRATIVE_SPINE §2.3, §3, §4, §7 (Scribe Yan, Pei Liang, the three endings); 30_REALMS_EXPANDED Station 9 (Tribulation Crossing) and Station 10 (Mahayana); 31_NAMED_INSTITUTIONS_AND_HEXAGRAMS §2.9 (the Azure Sword Sect's distant courts-relationship); 34_NAMED_NPCS_AND_COMPANIONS §3 (Pei Liang's harvest-store, Scribe Yan's four-century corruption).
+**Date:** 2026-08-03
+**Conventions:** Hanzi in parentheses on first use. Pinyin without tone marks. Every named being has a personality, an ambition, and at least one named relationship.
+
+---
+
+## 0. Why this document exists
+
+Doc 15 §2 specified the courts as an institution — jurisdiction, hierarchy, the "illustrative" faction list, the slow-corruption mechanism — and explicitly deferred (doc 15 §10) "the specific roster of factions within the courts," "the courts' founding history," and "the specific Precelestial encounters."
+
+Doc 26 named Scribe Yan but did not characterize him. Doc 30 specified Station 9's tribulation but not what the cultivator finds on the other side.
+
+This document fills those deferrals with named, particular content: the courts' geography, six Ministers, five blocs, four Mahayana councilors, a founding compact, a named antagonist in Scribe Yan, and a named structural crisis the protagonist's Act 3 intersects.
+
+The courts must feel like a real institution — vast, ancient, bureaucratic, flawed, necessary — because the Transcend ending requires the player to believe the institution is worth reforming rather than abandoning.
+
+---
+
+## 1. The courts' geography
+
+The Courts of Heaven occupy a coherent territory in the upper Precelestial, roughly three hundred li in diameter (measured in Acquired-stratum units; Precelestial distances are perceptual rather than metric, but the comparison holds). The territory is bounded on three sides by the Spirit Wilds and on the fourth by the nearest Law Reach.
+
+The boundaries are not walls; they are thresholds of law-density. A cultivator walking outward from the Council Hall perceives the courts' qi-authority thinning like morning fog, until at the territory's edge the maintained roads end, the qi ceases to be patterned, and the wild's indifferent substrate begins.
+
+The boundary is contested in places. The Defense department's border garrisons hold the line where the wilds press inward; the Foreign Affairs department's pavilions mark the spots where the wild's yao powers have been granted formal audience. The boundary with the Law Reach is sharper and quieter: the substrate-law itself thins, the courts' qi-authority simply stops, and beyond the watchposts there is no law at all.
+
+### 1.1 The institutional complexes
+
+The courts' interior is organized around six institutional complexes, one per department, joined by the Garth of Roads (道院) at the territory's center.
+
+The **Garth of Roads** is the busiest place in the courts. The maintained roads converge here, minor officials queue for travel permits, and the newly-crossed heavenly immortal is first received. The Garth is paved with pale jade-veined stone that hums faintly with the courts' enforcement authority; the hum is the sound of lawful qi in motion, and a cultivator standing in the Garth for any length of time perceives it as a pressure behind the ears.
+
+From the Garth, the **Halls of Adjudication (判堂)** rise northward — a descending series of seven judicial chambers, the lowest and largest for the magistrates' daily caseload, the highest and smallest for the Council's contested hearings. The Halls are the courts' public face; petitioners and supplicants (the few Acquired-stratum cultivators who reach the courts) are received here, and the magistrates' daily rhythm of case-hearing gives the Halls a perpetual murmur of formal speech.
+
+Eastward lie the **Archives of the Dead (生死簿庫)** — the Records department's main archive, a vast jade-tablet library whose shelves extend past perception in every direction. The Archives are the courts' largest single structure; a minor official assigned to the Archives' outer shelves may walk for a day (Precelestial time) without reaching the inner stacks. The air in the Archives is denser than the rest of the courts, weighted with the accumulated law-inscriptions of every recorded death.
+
+Beneath the Archives, accessed by a descending road, lies the **Underworld (地府)** — the Records department's bardo-processing arm, dim and yin-dominant and quiet, described in full in doc 25 §6. The Underworld is where Scribe Yan works; it is where the protagonist's law (Transcend path) makes its first intervention.
+
+Southward stands the **Hall of Oaths (天誓堂)** — a single white-jade chamber, the most sacred space in the courts, where heaven-sealed oaths are registered and where the air itself hums with the weight of four millennia of sworn contracts. The Hall is small (it holds perhaps fifty beings at standing room) and unornamented; its sacredness is its function, not its decoration.
+
+Westward sprawls the **Bastion of Defense (衛城)** — a fortified complex facing the Spirit Wilds, garrisoned and watchful. The Bastion is the only courts' structure built for violence; its walls are inscribed with defensive law-inscriptions that have not been tested in three thousand years but that the Defense department maintains with the grim patience of a garrison that expects to be tested eventually.
+
+South-west, the **Pavilion of Foreign Affairs (番館)** — an eclectic, multi-architectural complex whose buildings imitate (sometimes accurately, sometimes grotesquely) the styles of the yao courts and the ancestral halls the department treats with. The Pavilion is the courts' strangest structure; a visitor walking its corridors passes through a feathered-serpent yao audience hall, a stone-singing ancestor-chamber, and a serpentine courtyard garden in the space of a hundred paces.
+
+The **Council Hall (議會堂)** stands at the Garth's center, smaller than a visitor expects: a single octagonal room, jade-floored, where the Ministers and the Mahayana councilors sit. The Council Hall's smallness is intentional — the founders (see §5) built it for seven, and the Council has grown to ten only by adding standing-screens for the junior Ministers.
+
+The **Ministers' Quarters (卿府)** surround the Council Hall — six private palaces, each in the style of its Minister's origin. Yan Jue's is a severe nine-court courtyard in the manner of the Yan clan's ancestral estate; Shen Yixuan's is a single white-jade pavilion modeled on the Hall of Oaths; Tao Jingxi's is a modest scholar's garden with a perpetually overflowing qi-distillate jar; Kang Shu's is a small efficient house with an unusually large map-room; Gao Tieshan's is a fortified compound that mirrors the Bastion in miniature; Lin Huaiyu's is the largest and strangest, with rooms in three different yao architectural traditions and a small menagerie.
+
+### 1.2 The sky
+
+The courts' sky has no sun. The light is uniform, sourceless, and undifferentiated — a pale gold-white that does not change with any diurnal cycle (the courts' time is too slow for day and night).
+
+The courts' tradition, recorded in the Archives, calls this the **Court Light (庭光)** and holds that it is the Nameless Origin's generative function filtered through the Precelestial's substrate. The Court Light is not the Precelestial's general quality of unsaturated color (doc 15 §1.7); it is denser, more patterned, the way a city's night-sky is denser than a desert's. The courts' law-inscriptions amplify the substrate's light the way a lens amplifies the sun's.
+
+The mortal tradition's "false sun" — a term that appears in some Acquired-stratum eschatologies — is a projection of the lower world's solar habit onto an upper-stratum phenomenon that has no solar source. There is no sun in the courts; there is no sun in the Precelestial; the Court Light is the Origin, filtered, and the courts' law is the filter.
+
+The Court Light dims only in the Underworld, where the yin-dominant qi-climate darkens it to a perpetual twilight. It brightens in the Hall of Oaths, where the accumulated oath-light amplifies it to a clear noon. There are no stars. There is no weather except in the border zones, where the wild's qi-storms sometimes lap against the territory's edge and the Defense garrisons must disperse them.
+
+### 1.3 The first sight
+
+A newly-ascended heavenly immortal, having crossed the tribulation (doc 30 Station 9), enters the courts through a stratum-crossing gate that opens onto the Garth of Roads.
+
+The first sight is **order** — the qi is dense and patterned, hummed into lawful shape by the roads' maintenance. After the wild undifferentiated qi of the wider Precelestial, the courts' qi feels almost Acquired; the newcomer's meridians, freshly re-tuned to undifferentiated qi, must re-adjust to the courts' law-patterned density.
+
+The second sight is **scale** — the territory extends past the newcomer's perception, and the Archives' shelves fade into a dimness that suggests no end. A Tribulation Crossing cultivator's perception range is stratum-spanning (doc 30 Station 9), and the courts are not, in fact, larger than that range; but the law-inscriptions on every surface create a perceptual interference that makes the territory feel larger than it is.
+
+The third sight is **age** — every wall is inscribed with the qi-authority of millennia of recorded decisions, and the weight of that inscription is palpable as a pressure on the newcomer's own anchor. The newcomer perceives, for the first time, what it means to stand in a place that has been lawfully inhabited for twelve thousand years.
+
+The fourth sight is **familiarity** — the Garth resembles, in its structure and its quiet, every magistrate's office and lineage hall and library the newcomer has ever known (doc 25 §6.4). The courts are not alien; they are the lower world's institutions, aged and amplified and made Precelestial.
+
+The fifth sight is **dissonance** — the newcomer grew up in a mortal world whose tradition describes Heaven as a paradise of jade pavilions and immortal sages; the courts are not a paradise, they are a government, and the dissonance is the newcomer's first Precelestial grief. The courts' tradition has a name for this grief: **the first disappointment** (初望), and the Roads department's receiving clerks are trained to recognize it and to offer the newcomer a cup of qi-damp tea and a place to sit.
+
+The Roads department's receiving clerk — typically a minor official who has held the post for a century or two — meets the newcomer with a form to fill out, a jade token of peerage, and the formula: "Welcome, celestial peer. Your name is recorded. Your office awaits your choice."
+
+---
+
+## 2. The six departments
+
+Per doc 15 §2.2, the courts have six departments. Each is headed by a Minister (卿) at Tribulation Crossing peak; each has a jurisdiction, a current dispute, an alliance pattern, and a protagonist-interaction arc across the three acts. The order below follows the Council's traditional seniority, oldest to youngest department.
+
+### 2.1 Records (生死簿)
+
+**Minister:** Yan Jue (閻玦), 5,200 years old, Tribulation Crossing peak. Born into the Yan clan, which has held Records-department posts for nine thousand years — the clan's claim predates the courts' founding compact (see §5).
+
+Personality: cold, precise, slow to speak, slower to apologize. His patience is the patience of a being who has outlived every rival he has ever had. He has not manifested a flesh-body in eight hundred years; he conducts the department's business from a jade chair in the Archives' outer office, his qi-body outlined in the dim archive-light.
+
+Ambition: to maintain the Yan clan's monopoly on Records posts, which he considers the courts' only legitimate succession tradition. He has trained ninety-three Yan-clan cultivators to Tribulation Crossing over the millennia, each of whom took a Records post; the clan's internal discipline is the department's de facto hiring process.
+
+Corruption level: high — not personally on the take, but actively protective of his clansmen. He has buried three previous complaints against Scribe Yan, the most recent six hundred years ago, because exposure would end the Yan clan's claim. His defense, when challenged, is procedural: the Records department audits itself; external audit violates the founding compact's separation of powers. Bai Lihe, the constitutionalist, considers this defense dubious.
+
+Relationship to other named beings: distant clansman of Scribe Yan (third cousin, eight generations removed); clansman and political ally of Yan Qingshi (the Mahayana councilor); rival of Tao Jingxi on the audit question; he finds Lin Huaiyu's menagerie vulgar and has said so at Council.
+
+**Jurisdiction:** Records of the dead (the 生死簿 register), bardo-processing (through the Underworld sub-jurisdiction, doc 25 §6), reincarnation-tracking, contested inheritance claims, resurrection-claim verification. The Minister does not control: heaven-sealed oaths (those are Oaths), the adjudication of record-disputes (those are Adjudication).
+
+**Current dispute:** Adjudication has petitioned for an audit of the Underworld's bardo-dispersal logs every century for eight hundred years; the Minister has blocked each petition on jurisdictional grounds. The audit Scribe Yan fears most is the audit the Minister has prevented for eight centuries.
+
+**Protagonist interaction:** Act 1 — none. Act 2 — the protagonist learns from Liang Zhu (the rogue companion, doc 26 §9.2) that the underworld market has a supplier, "a clerk in the courts' records who can extend a dead anchor's window"; the protagonist does not yet know the clerk's name. Act 3 — the protagonist petitions the Council to compel the audit; the Minister blocks; the protagonist's law-authorship (Transcend path) bypasses the Records department's jurisdiction by making the bardo-records self-auditing, which exposes Scribe Yan without the Minister's cooperation.
+
+### 2.2 Oaths (天誓)
+
+**Minister:** Shen Yixuan (沈怡瑄), 2,900 years old, Tribulation Crossing. Personality: theatrical, devout, inflexible. She speaks in formal cadence even in private and considers informality a small oath-violation. Her personal practice is the most disciplined in the courts; she has not missed a dawn-rite in twenty-seven hundred years.
+
+Ambition: to formalize the oath-system into a complete law of cosmic contracts — every Acquired-stratum promise, however small, registered and enforced. She considers the current system (only oaths sworn through the proper ritual are heaven-sealed) a dangerous loophole, and she has drafted (but never introduced) a Council motion to extend oath-jurisdiction to verbal promises.
+
+Corruption level: low — the Oaths department is the least corrupt because its function is the most directly tied to the Precelestial's boundary-enforcement. Corruption here would be felt immediately and catastrophically (an unenforced oath-violation tribulation would fire on its own schedule, doc 15 §6.2, regardless of the courts' will).
+
+Relationship to other named beings: rival of Lin Huaiyu on cross-border oaths (she refuses to recognize oaths sworn to yao powers); ally of Gao Tieshan on Conservative issues; she finds Tao Jingxi's qi-alcoholism distasteful and has said so at Council, which Tao Jingxi considers the only honest thing she has ever said.
+
+**Jurisdiction:** Registration and enforcement of heaven-sealed oaths (天誓), identification of oath-violations, transmission of the boundary-violation signal to the Precelestial's lawful response. Does not control: the tribulation's form or intensity (those are the Precelestial's, not the courts').
+
+**Current dispute:** Foreign Affairs has been negotiating cross-border oaths with three Spirit Wilds yao courts without Oaths department review; the Minister refuses to recognize the oaths and has filed a formal objection with the Council, which has been blocked by the same deadlock that blocks the Records audit (see §8).
+
+**Protagonist interaction:** Act 1 — none. Act 2 — the Cangwu Sect master mentions, in an offhand lesson on oath-magic, that the Azure Sword Sect's previous master once registered an oath with the courts; this is the protagonist's first awareness that the courts have an Oaths function. Act 3 — the protagonist's law-authorship requires oath-registration (the law-oath that binds the author to their law's consequences, doc 30 Station 10 承法); the Minister must be persuaded or compelled to register. Shen Yixuan, who considers the protagonist's law an amendment to a four-thousand-year-old oath (Qiu Wuhen's bardo-window law was oath-registered), is the second-hardest vote after Yan Qingshi.
+
+### 2.3 Adjudication (判)
+
+**Minister:** Tao Jingxi (陶敬熙), 4,400 years old, Tribulation Crossing peak. Personality: principled, exhausted, qi-alcoholic. He sustains himself on a fermented grain-qi distillate the courts tolerate because the alternative is the Minister's collapse; his breath smells faintly of sorghum at every Council session, and Shen Yixuan's disgust is one of the Council's running private jokes.
+
+Ambition: to clear the backlog of inter-lineage disputes before his next tribulation kills him. He has delayed the tribulation for twelve hundred years and knows the next will be the last; the backlog has three thousand seven hundred cases, and he clears roughly twenty per century.
+
+Corruption level: low but compromised. He has accepted the Lineage Bloc's vote-trading to clear cases faster, which means his judgments are individually just but systematically favor the older lineages. He knows this; he considers it the price of clearing any cases at all.
+
+Relationship to other named beings: rival of Yan Jue on the audit (he has filed every petition); ally of Kang Shu on Reform issues; the only Minister who will speak civilly to Lin Huaiyu in public; he considers Gao Tieshan's militarism a fossil and says so, which Gao Tieshan returns with interest.
+
+**Jurisdiction:** Adjudication of inter-lineage disputes that cannot be settled otherwise (doc 15 §2.2); binding judgments within the courts' recognized territories; persuasive (non-binding) judgments outside. Does not control: the enforcement of those judgments (that is Roads, for territorial judgments, or Defense, for judgments requiring force).
+
+**Current dispute:** The eight-century Records audit petition is his; he has also been mediating the Cangli spirit vein dispute (doc 26 §2.3, doc 31 §2.4) between the Azure Sword Sect and the Cangwu Sect for the past sixty years, to no resolution, because neither sect will yield and the courts' judgment would be merely persuasive (the Cangli Riverlands are outside the courts' territorial jurisdiction). The vein dispute is the protagonist's first direct (failed) interaction with the courts as an institution.
+
+**Protagonist interaction:** Act 1 — none. Act 2 — the Cangwu Sect, after Pei Liang's raid (doc 26 §3.3), considers petitioning Adjudication; the petition is filed and goes nowhere for sixty years, by which point the protagonist has outgrown the need for it. Act 3 — the protagonist's petition to compel the Records audit goes through Adjudication; Tao Jingxi is the protagonist's most powerful ally in the courts, and the most compromised (his vote-trading with the Lineage Bloc means his support costs the protagonist political capital with the Reform Bloc).
+
+### 2.4 Roads (道)
+
+**Minister:** Kang Shu (康姝), 1,800 years old, Tribulation Crossing — the youngest Minister by two millennia. Personality: efficient, ironic, secretly Reform Bloc. She keeps a private archive of every Minister's pedantry and reads from it at dinner parties; Yan Jue has not spoken to her socially in three hundred years, which she considers a benefit.
+
+Ambition: to extend the maintained roads into the Spirit Wilds' border zones — a project she has pushed for six hundred years and which the Wild Suppression Bloc opposes as too aggressive, the Conservative Bloc opposes as too expensive, and the Lineage Bloc opposes because the border-zone roads would bypass several ancestral courts' private toll-roads.
+
+Corruption level: very low — the Roads department is small, transparent, and hard to corrupt because every road's maintenance is publicly visible. A road that is not maintained is a road everyone notices, and Kang Shu's clerks are the only courts' officials who are genuinely proud of their work.
+
+Relationship to other named beings: rival of Gao Tieshan on road-allocation (Defense has been diverting maintenance qi-authority to the border garrisons); ally of Tao Jingxi on Reform issues; the first court official the protagonist meets at Tribulation Crossing.
+
+**Jurisdiction:** Construction and maintenance of the maintained roads (官道) in the Precelestial; issuance of travel permits; oversight (advisory only) of the Acquired-stratum sect roads. Does not control: the border garrisons (those are Defense), the cross-border negotiations (those are Foreign Affairs).
+
+**Current dispute:** The Defense department's diversion of road-maintenance qi-authority, mentioned above. She has refused to release the next cycle's allocation until Defense accounts for the previous diversion, which has slowed road-maintenance across the courts' territory and produced the first queues at the Garth in three centuries. The queues are a political weapon — the minor officials who staff them are Kang Shu's constituents, and their complaints are her evidence.
+
+**Protagonist interaction:** Act 1 — none. Act 2 — the protagonist travels the Acquired-stratum roads between the Cangwu Sect and the Azure Sword Sect (doc 31 §1.7), which are technically under the Roads department's advisory oversight; the protagonist does not know this. Act 3 — the protagonist's entry to the courts at Tribulation Crossing goes through a road Kang Shu maintains; she is the first court official the protagonist meets, and her irony ("Welcome, celestial peer. We have been expecting you for sixty years — your sect filed a petition when you were Qi Condensation") is the protagonist's first taste of the courts' institutional memory.
+
+### 2.5 Defense (衛)
+
+**Minister:** Gao Tieshan (高鐵山), 6,800 years old, Tribulation Crossing peak — the oldest active Minister. Personality: militaristic, suspicious, patient in the way of a general waiting for an enemy that has not yet arrived. He speaks in clipped clauses and considers eloquence a form of dishonesty.
+
+Ambition: to convince the Council to authorize the Wild Suppression campaign. He has advocated for it for four thousand years and been defeated each time, by cost. The campaign's last attempt (twelve hundred years ago) cost the courts three Tribulation Crossing cultivators and one Mahayana dispersal; Gao Tieshan commanded the attempt and has not forgiven the Council for refusing the second.
+
+Corruption level: medium — not personally corrupt, but the Defense department's garrisons are staffed by ancestral-court-appointed officers whose primary loyalty is to their lineage, and the Minister tolerates this because the alternative (replacing them with court-loyal officers) would trigger a constitutional crisis the Conservative Bloc would win.
+
+Relationship to other named beings: rival of Lin Huaiyu on the yao negotiations (he considers them treasonous); ally of Shen Yixuan on Conservative issues; he finds Tao Jingxi's qi-alcoholism a disgrace and has said so at Council.
+
+**Jurisdiction:** The border garrisons along the Spirit Wilds boundary; the courts' internal security (the Magistrates' Marshals, who execute the courts' warrants); the defense of the territory against wild incursion. Does not control: the wild itself (the courts claim advisory jurisdiction only; see §7).
+
+**Current dispute:** The road-allocation dispute with Kang Shu; the yao-negotiation dispute with Lin Huaiyu; and the four-millennium Wild Suppression campaign, which the Council has defeated again last century and which Gao Tieshan has re-filed for the next session.
+
+**Protagonist interaction:** Act 1 — none. Act 2 — the protagonist, pursuing Pei Liang across the Cangwu Mountains' border zones (doc 26 §4.3), crosses Defense department patrol-areas without knowing it; Pei Liang hides in the wild's edge, where the garrisons cannot pursue. Act 3 — the Defense department is the protagonist's natural ally on the bardo-harvest issue (bardo-harvest is a form of demonic cultivation that Defense is sworn to suppress), but Gao Tieshan will not act without Council authorization, which the Council will not give (see §8). His support for the protagonist's law is conditional and reluctant; he will vote with the protagonist only if the protagonist commits to support the next Wild Suppression filing, which the protagonist will not.
+
+### 2.6 Foreign Affairs (番)
+
+**Minister:** Lin Huaiyu (林懷瑜), 2,200 years old, Tribulation Crossing. Personality: cosmopolitan, ironic, fluent in yao-speech and three ancestor-dialects. He keeps a private menagerie of wild-spirit gifts (a feathered serpent, a singing stone, a yao envoy's daughter who chose to stay) that the Conservative Bloc considers scandalous and that the Reform Bloc considers the only interesting thing in the courts.
+
+Ambition: to formalize a treaty with the three largest Spirit Wilds yao courts — the project the Wild Suppression Bloc considers treasonous and the Conservative Bloc considers premature. He has been negotiating for nine hundred years and has produced three draft treaties, each rejected by the Oaths department.
+
+Corruption level: medium — his negotiators accept yao "gifts" as part of the negotiation culture, and the courts' anti-corruption rules do not clearly cover this. He is the most vocal advocate for updating the rules, which has made him enemies in the Conservative Bloc.
+
+Relationship to other named beings: rival of Gao Tieshan and Shen Yixuan; ally of Tao Jingxi on Reform issues; he finds Kang Shu's irony refreshing and is the only Minister who will dine with her privately.
+
+**Jurisdiction:** Negotiation and treaty with non-courts powers — the yao courts of the Spirit Wilds, the ancestral courts (in their foreign-policy capacity), the occasional rogue coalition. Does not control: the recognition of cross-border oaths (that is Oaths), the use of force in foreign disputes (that is Defense).
+
+**Current dispute:** The cross-border oath dispute with Shen Yixuan (above); the treason accusation from Gao Tieshan; and the negotiation itself, which has stalled because the yao courts will not sign a treaty the Oaths department refuses to register.
+
+**Protagonist interaction:** Act 1 — none. Act 2 — the protagonist, through Liang Zhu, hears fragmentary accounts of the Foreign Affairs department's yao negotiations; Liang Zhu, who has traveled the wild paths, considers the negotiations hopeless and says so. Act 3 — the protagonist's law (Transcend path) requires Foreign Affairs review (because the law touches the bardo-jurisdiction, which is technically cross-stratum); Lin Huaiyu is the protagonist's most sophisticated ally on the Council — he understands what the protagonist is trying to do, even if he does not entirely approve.
+
+---
+
+## 3. The five political blocs
+
+Doc 15 §2.4 named five blocs as "illustrative, not exhaustive." This document makes them canonical. The blocs are issue-coalitions, not parties; a Minister may sit in two or three blocs simultaneously. Council votes are cast by individual conscience, but bloc discipline holds on most procedural questions.
+
+### 3.1 The Lineage Bloc
+
+Led by Yan Jue (Minister of Records) and Yan Qingshi (Mahayana councilor).
+
+Program: the ancestral courts' authority over their lineage's dead is sovereign within the lineage's territory; the courts' Records department should serve the ancestral courts, not supervise them. The Yan clan's nine-thousand-year claim to Records posts is the bloc's flagship precedent — if it falls, every lineage's traditional claim falls.
+
+Power base: the Records department (through the Yan clan); the ancestral courts of the older lineages (who supply the garrison officers Defense depends on); the Lineage Bloc's vote-trading network with Adjudication.
+
+Crisis position: the bloc opposes the bardo-records audit on principle (lineage sovereignty) and the protagonist's law on precedent (it amends a clan-authored law without the clan's ratification).
+
+### 3.2 The Reform Bloc
+
+Led by Duan Mutian (Mahayana councilor); Tao Jingxi (Minister of Adjudication); Kang Shu (Minister of Roads); Lin Huaiyu (Minister of Foreign Affairs) on procedural issues.
+
+Program: the courts are corrupt and must be reformed from within. The corruption is symptomatic of structural drift; the Records audit is the first reform; the protagonist's law is the second. The bloc has been trying to pass the audit for eight hundred years and has been blocked by the Lineage-Conservative coalition.
+
+Power base: Adjudication, Roads, the younger ancestral courts (whose ancestors are still coherent and who chafe at the older lineages' precedence), the majority of minor officials (who are not clan-affiliated and who see the clan-monopolies as the corruption the Reform Bloc names).
+
+Crisis position: the bloc supports the protagonist's law and considers the Conservative contest the courts' last chance at legitimacy. They are correct about the legitimacy and perpetually disappointed about the reform.
+
+### 3.3 The Conservative Bloc
+
+Led by Shen Yixuan (Minister of Oaths); Gao Tieshan (Minister of Defense, on most issues); Yan Qingshi (Mahayana councilor) on clan issues.
+
+Program: the courts are working as designed and any change is dangerous. The bardo-window law has held for four thousand years; amending it sets a precedent for amendment that the courts cannot afford (every law becomes contestable; the cascade destabilizes the records system). They are not always wrong — the cascade risk is real.
+
+Power base: Oaths, Defense, the older ancestral courts (whose precedence the Reform Bloc threatens), the procedural habit of the courts' senior officials.
+
+Crisis position: the bloc contests the protagonist's law. The contest, if it succeeds, disperses the protagonist; if it fails, it disperses the contesting Mahayana cultivator (most likely Yan Qingshi, whose records-integrity law would be the next to fall).
+
+### 3.4 The Rogue Outreach Bloc
+
+Led by Lin Huaiyu (Minister of Foreign Affairs).
+
+Program: the courts should incorporate rogues rather than marginalize them. Every rogue incorporated is one less rogue on the wild paths; every rogue on the wild paths is a potential Scribe Yan (a corrupt official is a rogue who took office; a rogue is a potential official who refused). The bloc is small — Lin Huaiyu is its only Minister — but its influence is disproportionate because the courts' rogue-population is the largest it has been in three thousand years.
+
+Power base: Foreign Affairs; the rogue communities themselves (who supply Lin Huaiyu with intelligence the Defense department cannot acquire); the Reform Bloc's procedural sympathy.
+
+Crisis position: the bloc sees Scribe Yan's corruption as proof of the Rogue Outreach thesis (a marginalized rogue became a corrupt official because the courts refused to incorporate him lawfully). They support the protagonist's law as a structural reform but want the law paired with a rogue-amnesty provision the Reform Bloc considers politically impossible.
+
+### 3.5 The Wild Suppression Bloc
+
+Led by Gao Tieshan (Minister of Defense).
+
+Program: the Spirit Wilds should be brought under court jurisdiction by force. The four-thousand-year campaign has been defeated each time by cost — the wilds are vast, the wild's ecology does not follow the five-phase model (doc 15 §4.3), and the campaign's last attempt cost the courts three Tribulation Crossing cultivators and one Mahayana dispersal. The bloc has re-filed for every Council session since.
+
+Power base: Defense; the border-garrison officers (who see the wilds' dangers daily); the Conservative Bloc's strategic sympathy (the wilds' continued independence is, in the Conservative view, a failure of the courts' founding mandate).
+
+Crisis position: the bloc is indifferent to the bardo-harvest loophole (they consider it a Records problem, not a Defense problem) and will trade their vote on the protagonist's law for the protagonist's support of the next Wild Suppression filing. The protagonist, who has no interest in the campaign, declines; the bloc abstains.
+
+---
+
+## 4. The Heavenly Court Council
+
+The Heavenly Court Council (天庭議會, doc 15 §2.3) is the senior body. The six Ministers sit; four Mahayana councilors sit as senior advisors. Decisions require a simple majority of those present, but laws that amend existing Mahayana-authored law require the ratification (or dispersal) of the original law's author — a procedural rule that is the source of the current deadlock (see §8).
+
+The four Mahayana councilors, in order of age:
+
+### 4.1 Qiu Wuhen (丘無痕)
+
+~14,000 years old; the oldest living being in the courts. Authored the **bardo-window law** four thousand years ago, which regularized the previously-variable bardo window into a fixed forty-nine-day window (doc 30 Station 10, "What it feels like").
+
+Personality: ancient, detached, weighing her own dispersal the way a sculptor weighs a nearly-finished stone — she has been preparing for two thousand years and has not yet chosen the moment. She speaks rarely at Council; when she does, the chamber silences.
+
+Ambition: to complete her **Withdrawal** (the courts' term for a Mahayana cultivator's chosen dispersal) without leaving her law unmaintained. The Withdrawal is the only act she has not yet performed in her fourteen millennia; she is, she says, "practicing."
+
+Philosophy: "The Dao is the cosmos's metabolism; law is the digestion. What cannot be digested must be dispersed."
+
+Current project: choosing between ratifying the protagonist's amendment (which would commit her remaining persistence-budget to the new law's stability) and dispersing (which would free the amendment to proceed without her ratification but would leave her law's maintenance to whatever successor the Council appoints).
+
+Relationship to the protagonist: the protagonist's **predecessor** — the protagonist's bardo-harvest-loophole law amends Qiu Wuhen's bardo-window law, and the amendment requires either her ratification or her dispersal. Her choice is the Act 3 political turning point. Her relationship to Shang Zhenkong: ancient ally; he has been modeling her Withdrawal for two thousand years and considers it overdue.
+
+### 4.2 Shang Zhenkong (商真空)
+
+~8,500 years old. Authored the **realm-boundary law** six thousand years ago — the law that says killing a being above your realm triggers tribulation (doc 15 §6.2).
+
+Personality: impartial, slow, mathematical. He speaks in conditional clauses and considers certainty a form of intellectual dishonesty. His personal practice is the modeling of law-paradox compatibility; he has been modeling continuously for six thousand years and is roughly halfway through the courts' accumulated law-architecture.
+
+Ambition: to model the law-paradox compatibility of every proposed law before the Council votes — a project he expects to complete in another six thousand years, if the courts' law-architecture does not grow faster than he can model it (it is growing faster).
+
+Philosophy: "The Dao is the boundary; what crosses it is tested."
+
+Current project: modeling the compatibility of the protagonist's proposed bardo-harvest-loophole law against existing Acquired and Precelestial law. His preliminary finding is that the law is compatible with the substrate-law but incompatible with the records-integrity law (Yan Qingshi's), which means the law's survival requires either Yan Qingshi's ratification or Yan Qingshi's dispersal.
+
+Relationship to the protagonist: the **judge** — his modeling will determine whether the protagonist's law survives its tribulation. He is not yet convinced; he is also not yet unconvinced. His relationship to Qiu Wuhen: ally and friend of seven millennia; he has been quietly urging her Withdrawal because he believes her continued presence is what holds the deadlock.
+
+### 4.3 Duan Mutian (段慕天)
+
+~6,200 years old. The courts' most prolific contemporary law-author; authored the **place-spirit jurisdiction law** sixteen hundred years ago (doc 30 Station 10), which bounded place-spirits' jurisdiction to their place.
+
+Personality: prolific, ambitious, generous. He has ratified more junior cultivators' laws than any other sitting Mahayana, and his coalition-building is the reason the Reform Bloc has any Council presence at all. He is also vain — he keeps a private catalog of his ratified laws and reads from it when melancholic.
+
+Ambition: to ratify a coalition of new laws (the Reform Bloc's program) that collectively modernize the courts' four-thousand-year-old law-architecture.
+
+Philosophy: "The Dao is what we agree to obey; without agreement, there is no law, only power."
+
+Current project: drafting his own version of the bardo-harvest-loophole amendment — a version he has been working on for three hundred years and which the protagonist's law would supersede. His draft is, by Shang Zhenkong's preliminary modeling, marginally more compatible with the records-integrity law than the protagonist's; the difference is whether the Yan clan's monopoly is ended outright (the protagonist's law) or suspended pending audit (Duan Mutian's draft).
+
+Relationship to the protagonist: the **ally-rival** — he sees the protagonist's law as the precedent his Reform Bloc needs, and he also wants to author the amendment himself. The tension between ally and rival is the Act 3 Council drama: Duan Mutian's ratification is the protagonist's strongest political asset, and Duan Mutian's rival draft is the protagonist's strongest political threat.
+
+### 4.4 Yan Qingshi (閻清時)
+
+~4,800 years old. A Mahayana cultivator of the Yan clan; authored the **records-integrity law** two thousand years ago, which formalized the Records department's internal discipline and made the Yan clan's nine-thousand-year claim a matter of cosmic law rather than institutional custom.
+
+Personality: defensive, sharp, clan-loyal. She considers every attack on the Yan clan's Records monopoly an attack on the records system itself, and she is not entirely wrong (the Yan clan's discipline, however compromised, is the only discipline the outer offices receive). She speaks less than Yan Jue but more pointedly; her interventions at Council are feared by the junior Ministers.
+
+Ambition: to protect the Yan clan's claim and, through it, the records system's stability. She has been training Yan-clan successors for two thousand years and has appointed three Yan-clan magistrates to the Underworld's processing arm; one of those magistrates is Scribe Yan's direct supervisor (who has not noticed the corruption, which Yan Qingshi considers a personal failure but not a clan failure).
+
+Philosophy: "The Dao is the record; what is not recorded did not happen."
+
+Current project: defending her records-integrity law against the Reform Bloc's audit proposal and, now, against the protagonist's amendment.
+
+Relationship to the protagonist: the **obstacle** — the protagonist's law, by amending the bardo-window law, also amends the records-integrity law (because the bardo-window is part of the records system), and Yan Qingshi's ratification is required. She will not ratify. The protagonist must either persuade her (very difficult; she is defending her clan), override her (constitutional crisis, which Bai Lihe would rule against), or wait for her dispersal (which is not imminent; she is four thousand years from her natural span).
+
+Her relationship to Yan Jue: clanswoman and ally; she has defended his Ministership for two thousand years and considers his patience the Yan clan's greatest institutional virtue. Her relationship to Scribe Yan: distant clansman; she has not personally protected him (she did not know of his corruption until the protagonist's petition), but her records-integrity law is the legal structure that made his protection possible. Her relationship to Duan Mutian: rival of three centuries; she considers his Reform program a slow-motion coup.
+
+---
+
+## 5. The courts' founding history
+
+The courts were founded **twelve thousand years ago** (Precelestial time; roughly 4.4 million years Acquired) by seven Mahayana cultivators in the aftermath of the **Sundering** (破裂).
+
+The Sundering was a cosmic conflict in which two Mahayana cultivators attempted to create a fourth stratum (forbidden by doc 00 §1) and were destroyed by the resulting law-paradox. Their destruction destabilized the Precelestial's substrate-law for several centuries and created the Law Reaches — the regions where the substrate-law was thinned by the war's paradoxes (doc 15 §5). The two cultivators are named in the courts' archives as **Ming Kongsang** (明空桑) and **Wei Duchuan** (魏渡川); their names are recorded so that the courts do not forget the cost of the temptation they embodied.
+
+The seven founders organized the courts to administer the substrate-law's recovery, to process the dead (the Sundering had killed billions of anchors and overwhelmed the natural bardo-processing), and to enforce the boundary-laws the war had revealed to be insufficient. Qiu Wuhen is the only founder still sitting; the other six dispersed across the subsequent eight millennia, by choice, by contest, or by natural span.
+
+### 5.1 The founding compact
+
+The compact set the courts' original jurisdiction: (1) records of the dead, (2) enforcement of heaven-sealed oaths, (3) adjudication of inter-lineage disputes that could not be settled otherwise.
+
+The compact explicitly excluded: moral judgment of cultivators (the founders had seen what the moral-judgment temptation had done to the Sundering's losers — they had justified their stratum-creation as a moral imperative); selection of who crosses tribulation (the founders agreed the cosmos's boundary-enforcement was sovereign); and appointment of Mahayana cultivators (the founders agreed that law-authorship was self-legitimating — a Mahayana cultivator is whoever has authored a law, regardless of the courts' recognition).
+
+The compact was oath-registered by all seven founders; the oath-record is the oldest object in the Hall of Oaths. The oath's terms bind the courts to the original jurisdiction; the three expansions (below) are, strictly speaking, violations of the compact, ratified by Council votes the Conservative Bloc considers unconstitutional and the Reform Bloc considers long-overdue.
+
+### 5.2 The three expansions
+
+The **First Expansion** (~10,000 years ago) established the Underworld as a courts sub-jurisdiction, formalizing bardo-processing as a function of the Records department rather than the Precelestial's natural law. Before the First Expansion, bardo-processing was automatic — anchors were processed by the substrate-law itself, without institutional mediation. The First Expansion was driven by the Sundering's aftermath: the war's anchor-dispersals had overwhelmed the natural process, and the founders organized the Underworld to clear the backlog. The backlog cleared in three centuries; the Underworld remained.
+
+The **Second Expansion** (~6,000 years ago) established the maintained roads and the Defense department's border garrisons, formalizing the Precelestial's geography. Before the Second Expansion, the Precelestial's geography was informal — paths existed where cultivators had walked them repeatedly. The Second Expansion was driven by the Spirit Wilds' growing population (the wild's yao powers, doc 25 §4, had begun to organize into the three courts that now negotiate with Foreign Affairs) and by the courts' need to defend their territory against wild incursion. The Second Expansion is the legal basis for the Wild Suppression campaign — the Conservative Bloc argues that the expansion's mandate included the wilds' subjugation, which the Reform Bloc considers a willful misreading.
+
+The **Third Expansion** (~2,000 years ago) claimed advisory jurisdiction over the Spirit Wilds (the Foreign Affairs department's mandate). The Third Expansion is the youngest and the most contested; the Wild Suppression Bloc considers it insufficient (advisory, not enforceable), the Rogue Outreach Bloc considers it premature (the wilds were not yet organized enough to negotiate with), and the Conservative Bloc considers it the source of the current Foreign Affairs-Oaths dispute.
+
+Yan Qingshi's records-integrity law (also ~2,000 years ago) is sometimes called the **Fourth Expansion** by the Reform Bloc, because it converted the Yan clan's customary claim into cosmic law without a Council vote — the bloc considers this an overreach and the legal basis for the audit.
+
+### 5.3 The Sundering's long shadow
+
+The Sundering's impact persists. The Law Reaches are the Sundering's scars — the regions where the substrate-law was thinned and has not recovered. The courts' current crisis (see §8) is, in part, the long-delayed consequence of the Sundering's unresolved damage: the bardo-window law (Qiu Wuhen's, four thousand years ago) was the courts' attempt to regularize the bardo-processing the Sundering had destabilized, and the law's age and the corruption it has accrued are the price of that regularization.
+
+The courts' central institutional failure mode (doc 15 §2.5) is the slow corruption of power over millennia. The specific corruption, named: **clan-capture** (族佔). The Records department, originally a public institution staffed by merit, has been captured by the Yan clan over nine thousand years of gradual succession-tradition. The Yan clan's discipline, originally the department's internal hygiene, has become the department's only discipline, and the Yan clan's interests have become the department's interests.
+
+Scribe Yan is the symptom; the clan-capture is the disease. The protagonist's law (Transcend path) treats the symptom (closes the bardo-harvest loophole) but does not cure the disease (the clan-capture persists, and the Yan clan's Records monopoly will outlast the protagonist's amendment by millennia). The Reform Bloc's audit, if it ever passes, would treat the disease; the protagonist's law does not. This is the Reform Bloc's ambivalence about the protagonist's law: it is the most they can get, and it is not enough.
+
+---
+
+## 6. Scribe Yan
+
+**Full name:** Yan Wenzhong (閻文仲). Called Scribe Yan (閻吏) in the courts and in the canon (doc 26 §2.3).
+
+**Realm:** Tribulation Crossing, low to mid — he crossed eight hundred years ago and has not advanced since; his practice stalled three centuries ago at a plateau he cannot break.
+
+**Age:** 2,400 years old; appears (in flesh-body, which he rarely manifests) ~50.
+
+**Department:** Records, Underworld processing arm; one of approximately six hundred scribes in the bardo-dispersal division. The Minister of Records has never met him.
+
+### 6.1 Personality and ambition
+
+Personality: timid, meticulous, guiltily corrupt. He keeps a private tally of every anchor whose dispersal he has delayed (the tally is in a jade tablet he carries in his sleeve, against the day someone notices); he has not added to the tally in forty years because Pei Liang's demands have grown beyond what his guilt can track.
+
+He drinks the same qi-damp tea the Underworld's twilight encourages and considers it the taste of his post. He has not manifested a flesh-body in three centuries; he lives entirely in his qi-body, in the Underworld's dim archive, surrounded by the jade tablets of the dead he is failing to process lawfully.
+
+Ambition: to cross to Mahayana. He cannot do it lawfully — his practice has stalled, his next tribulation would kill him, and the Underworld's dim qi-climate is hostile to the kind of practice a Mahayana breakthrough requires. The harvested anchors, sold to Pei Liang through an underworld-market broker, pay Scribe Yan in a fraction of each dispersed anchor's law-energy — a currency the courts cannot trace, because it is technically a byproduct of a process the courts authorized (bardo-dispersal).
+
+Scribe Yan has been using the harvested law-energy to supplement his stalled practice for forty years. He has not succeeded; he is closer; he believes one more decade will do it. He is wrong — his plateau is structural (his heart-mind cannot sustain Mahayana integration), and no quantity of harvested law-energy will bridge it. This is the tragedy of his corruption: the goal he corrupted himself to reach is unreachable, and the corruption persists past the goal's failure.
+
+### 6.2 The specific corruption
+
+Scribe Yan falsifies bardo-dispersal records. When an anchor's forty-nine-day window closes (per Qiu Wuhen's law), the anchor should be dispersed (assigned to its rebirth-path, doc 25 §6.3 step 4) or, in rare cases, retrieved by a lineage rite.
+
+Scribe Yan, for the anchors Pei Liang's broker selects, records a "dispersal" that did not occur — he marks the anchor as dispersed in the jade register, but in fact delays the actual dispersal, holding the anchor in a concealed processing-queue from which Pei Liang's broker retrieves it.
+
+The anchor, in Pei Liang's harvest-store, is technically "past its window" (because the register says it was dispersed), which makes the harvest lawful-seeming (doc 34 §3.6: "the anchors were 'already past their window,' technically, even though Scribe Yan had artificially extended the window").
+
+The corruption has run for forty years. Approximately two hundred anchors have been harvested through it (doc 34 §3.1), including Wang Xiaodi's.
+
+### 6.3 Recruitment
+
+Pei Liang did not recruit Scribe Yan directly. The underworld-market broker — a rogue named **Xue Qingshi** (薛清石, a Tribulation Crossing cultivator who went rogue rather than take office, two thousand years old, whose personality is garrulous and whose ambition is to retire to a grotto-heaven he has been building for a millennium) — found Scribe Yan through the broker's network of discontented minor officials.
+
+Xue Qingshi offered Scribe Yan the law-energy supplement as a way to break his plateau; Scribe Yan, desperate, accepted. Pei Liang, two centuries later, became Xue Qingshi's largest customer, and the broker's arrangement with Scribe Yan became the foundation of Pei Liang's harvest operation.
+
+Scribe Yan has never met Pei Liang and does not know his name; he knows only the broker's order-form, which specifies the anchor-signature to be delayed. He has, however, inferred from the order-patterns that the customer is a demonic cultivator of considerable power; he has not investigated further because investigating would mean knowing, and knowing would make the corruption harder to continue.
+
+### 6.4 Exposure and its consequences
+
+What exposure would mean: Scribe Yan's exposure would not end the bardo-harvest (Pei Liang's technique persists independent of Scribe Yan's corruption), but it would end the lawful-seeming cover the corruption provides — Pei Liang's harvests would become unambiguously criminal, the Azure Sword Sect's intervention would become lawful, and the courts would be compelled to prosecute.
+
+More consequentially, Scribe Yan's exposure would expose the Yan clan's protective pattern (the three previous complaints Yan Jue buried), which would end the Yan clan's Records monopoly and trigger the audit the Reform Bloc has sought for eight centuries. The exposure is the Reform Bloc's most powerful political weapon, which is why the protagonist's law (which makes the bardo-records self-auditing) is so threatening to the Conservative Bloc.
+
+### 6.5 The protagonist's discovery and confrontation
+
+Act 2 — the protagonist, at Core Formation (session ~500), perceives the residue-trace of Wang Xiaodi's anchor in Pei Liang's harvest-store (doc 26 §3.4); the trace carries Scribe Yan's falsified-dispersal signature, which the protagonist's Residual Error Sense (doc 00 §5) registers as a *wrongness* — a record that says "dispersed" over an anchor that is not dispersed.
+
+The protagonist, at Nascent Soul, extends the perception (doc 30 Station 6: bardo perception) and confirms the falsification. The protagonist does not yet know Scribe Yan's name; the trace carries only the Yan clan's records-signature.
+
+Act 3 — the protagonist, having crossed the tribulation (Transcend path), enters the courts and petitions the Council to compel the audit. The petition is blocked. The protagonist, rather than fight the political battle, authors the bardo-harvest-loophole law (立法, doc 30 Station 10), which has the side-effect of making the bardo-records self-auditing — every falsified dispersal becomes, upon the law's taking effect, perceptible to every Tribulation Crossing cultivator in the courts.
+
+Scribe Yan's eight hundred years of falsifications surface simultaneously. Scribe Yan, exposed, attempts to flee to the Spirit Wilds through a border gate the Foreign Affairs department maintains; the protagonist, with Kang Shu's assistance (the Roads department controls the gates), intercepts him.
+
+The confrontation is brief: Scribe Yan, seeing his tally exposed and his Mahayana-ambition ended, does not resist; he asks only that the protagonist record his tally honestly, which the protagonist does. Scribe Yan's anchor is processed lawfully — his own bardo-window, which he extended for two hundred others, closes for him at forty-nine days. The symmetry is the courts' only poetry.
+
+---
+
+## 7. The courts' relationship to other cosmic institutions
+
+### 7.1 The ancestral courts (宗祠)
+
+Independent of the Courts of Heaven, but not equal (doc 15 §3). The ancestral courts are private to their lineage; the Courts of Heaven are public and inter-lineage. The courts have jurisdiction over the dead in general; the ancestral court has custody of its own (doc 15 §3.1).
+
+The relationship is asymmetric: the ancestral courts rely on the Courts of Heaven's Records department to release the anchors they retrieve (the lineage rite, doc 25 §6.3 step 5, requires the Records department's processing-clerk to release the anchor before the lineage can retrieve it). This gives the courts a procedural lever over the ancestral courts the Lineage Bloc resents and the Conservative Bloc defends.
+
+The ancestral courts are not subordinate (they persist by their own qi-authority, not the courts') and not allied (they have no collective foreign policy); they are independent institutions bound to the courts by a procedural dependency neither side fully controls. The Lineage Bloc on the Council represents the ancestral courts' interest in maintaining the dependency; the Reform Bloc represents the interest in reforming it.
+
+### 7.2 The holy lands (聖地)
+
+Independent but deferential. The holy lands' patriarchs are below Tribulation Crossing (the Jade Void's Daoist Jade Void is Nascent Soul, doc 24 §4.3); they cannot enter the courts as peers and petition through the courts' Acquired-stratum intermediaries (the magistrates who process sect death-records).
+
+The holy lands are not courts members (they hold no Council seats); they are not vassals (they pay no tribute to the courts); they are independent institutions that recognize the courts' jurisdiction over the dead because they must — the courts process their dead.
+
+A holy land patriarch who crosses Tribulation may take office in the courts; some do (Duan Mutian was a holy-land patriarch before crossing, three thousand years ago), some go rogue, some retreat to their ancestral court. The protagonist, if the protagonist crosses (Transcend path), becomes the first Wang-lineage cultivator to enter the courts — a lineage that has been latent (doc 31 §1.10) for the protagonist's entire mortal life.
+
+### 7.3 The Spirit Wilds (靈荒)
+
+The courts claim advisory jurisdiction (the Foreign Affairs department's Third Expansion mandate, ~2,000 years ago); the wilds do not recognize the claim (doc 15 §4).
+
+The wilds' yao powers (doc 25 §4) have their own political structures — the three largest yao courts (the Feathered Court of the Eastern Wilds, the Stone-Singing Court of the Northern Wilds, the Serpentine Court of the Southern Wilds) are foreign powers the Foreign Affairs department treats with as sovereigns.
+
+The Wild Suppression Bloc's four-millennium campaign would convert advisory jurisdiction into enforceable jurisdiction by force; the campaign has been defeated each time by cost, and the Foreign Affairs department considers it the surest way to undo two thousand years of negotiation.
+
+The wilds, for their part, are indifferent to the courts' claims — the wilds are the Precelestial's unregulated interior (doc 15 §4.1), and the wild's inhabitants do not recognize any law they have not personally enforced.
+
+### 7.4 The Law Reaches (法域)
+
+Explicitly outside the courts' jurisdiction (doc 15 §5). The reaches are where the substrate-law has thinned (the Sundering's scars, see §5); the courts' law does not hold there.
+
+The courts maintain watchposts along the boundary but do not cross it (the reaches are too dangerous for routine patrols, and the courts' qi-authority diminishes to nothing past the threshold). Mahayana cultivators author laws in the reaches (doc 15 §5.3, Reach-authorship per doc 24 §1.1); the courts do not govern this authorship but recognize (or do not, at their political discretion) the laws authored there (doc 15 §2.2).
+
+The Conservative Bloc's fear of the protagonist's law is partly a fear of the reaches' precedent: if the protagonist's Acquired-authorship amendment succeeds, the Conservative Bloc's laws become contestable, and the contest could move to the reaches (where the Conservative Bloc's Mahayana councilors could author counter-laws the protagonist could not safely contest). The reaches are the courts' constitutional frontier — the place where the courts' authority ends and individual Mahayana authorship begins.
+
+---
+
+## 8. The courts' current crisis
+
+The structural crisis: the courts are failing at their core function (enforcing cosmic law) because the Council is deadlocked over the **Bardo-Window Question** — whether to amend Qiu Wuhen's bardo-window law (four thousand years old) to close the loophole Scribe Yan's corruption exploits.
+
+The deadlock has three positions:
+
+**The Reform position** (Duan Mutian, Tao Jingxi, Kang Shu, Lin Huaiyu): the law must be amended. The loophole is real; the corruption is symptomatic; the courts' legitimacy depends on closing it. The Reform Bloc has been blocked for eight hundred years by the procedural requirement that the original law's author (Qiu Wuhen) ratify or disperse.
+
+**The Conservative position** (Yan Jue, Yan Qingshi, Gao Tieshan, Shen Yixuan): the law must not be amended. The amendment sets a precedent for amendment that the courts cannot afford (every law becomes contestable; the Yan clan's records-integrity law would be amended next; the cascade destabilizes the records system). The Conservative position is not without merit — the cascade risk is real, and the Reform Bloc has no answer to it except "the cascade is preferable to the corruption."
+
+**The Proceduralist position** (Qiu Wuhen's non-decision, Shang Zhenkong's modeling, the absent Bai Lihe's constitutional restraint): the question is not whether to amend but how. The procedural law requires either Qiu Wuhen's ratification (she has not decided) or her dispersal (she has not chosen); until one of these occurs, the Council cannot lawfully act. The Proceduralists refuse to amend the procedural law to break the deadlock, because amending procedure to break a deadlock sets a worse precedent than the deadlock itself.
+
+The deadlock has held for six hundred years (since the first audit petition). It has held because Qiu Wuhen has not chosen, and the Proceduralists will not break the deadlock by amending procedure. It will break when one of three things happens:
+
+1. **Reform**: Qiu Wuhen ratifies the amendment (or disperses, freeing the amendment to proceed). The bardo-harvest loophole closes; Scribe Yan's corruption becomes prosecutable; the Yan clan's records monopoly ends; the courts' legitimacy is restored. This is the outcome the protagonist's Transcend path produces — not by Council vote but by fait accompli: the protagonist's Acquired-authorship law amends the bardo-window law from outside the Council's deadlock, and the Council must ratify or contest.
+
+2. **Civil war**: the Conservative Bloc, faced with the protagonist's amendment, contests it. Shang Zhenkong's modeling may find it incompatible (with the records-integrity law); Yan Qingshi may contest it directly (a Mahayana law-contest, doc 30 Station 10). The contest, if it succeeds, disperses the protagonist. The contest, if it fails, disperses the contesting Mahayana cultivator — most likely Yan Qingshi, whose records-integrity law would be the next to fall. The cascade could collapse the Council.
+
+3. **Collapse**: the deadlock persists; the bardo-harvest loophole remains open; Scribe Yan's corruption continues (or, after Scribe Yan's exposure, the next corrupt scribe's corruption continues, because the structural conditions persist); the courts' legitimacy erodes further. Eventually (in another few thousand years), the Underworld's processing arm becomes so corrupt that the bardo-system itself fails — anchors are not processed; the dead pile up in bardo; the karmic-ledger system breaks down; the Acquired stratum's reincarnation cycle falters. This is the worst outcome, and it is the outcome the Conservative Bloc's inaction is producing.
+
+The protagonist's Act 3 intersects the crisis at its breaking point. The protagonist's law (Transcend path) forces the Reform outcome by creating a fait accompli the Council cannot ignore; the Conservative contest that follows is the civil-war risk; the protagonist's survival of the contest (or failure to survive) determines whether the courts reform or collapse.
+
+The Confront path (Ending 1) does not intersect the crisis directly — the protagonist, remaining at Nascent Soul or Spirit Severance, never enters the courts; the deadlock persists; the courts are distant. The Accommodate path (Ending 3, corrupted variant) accelerates the collapse — the protagonist's complicity adds another corrupt cultivator to the system the courts cannot police.
+
+---
+
+## 9. The protagonist's arc through the courts
+
+**Act 1 (sessions 1-100, mortal to Foundation Establishment):** No direct interaction. The protagonist has not heard of the courts. The mortal tradition's Underworld (the ten courts of Yama, doc 25 §6.4) is the protagonist's only image of heavenly bureaucracy, and it is partially myth.
+
+**Act 2, session ~120 (the Cangwu Sect):** The protagonist joins the Cangwu Sect. The sect master Wu Changqing, in an offhand lesson on oath-magic, mentions that the Azure Sword Sect's previous master once registered an oath with the courts; this is the protagonist's first awareness that the courts have an Oaths function. The protagonist does not yet connect the courts to the bardo-harvest.
+
+**Act 2, session ~200 (Pei Liang's raid):** The protagonist survives Pei Liang's raid on the Cangwu Sect (doc 26 §3.3). The Cangwu Sect master, unable to pursue a Nascent Soul cultivator, considers petitioning the courts for adjudication. The petition is filed through the Azure Sword Sect's Acquired-stratum intermediary (the Cangwu Sect is too small to petition directly); the petition goes nowhere for sixty years. This is the protagonist's first direct (failed) interaction with the courts as an institution — the protagonist learns that the courts are slow, distant, and structurally indifferent to small sects.
+
+**Act 2, session ~250-450 (the pursuit):** The protagonist meets Liang Zhu (doc 26 §9.2), the rogue companion who has traveled the wild paths. Liang Zhu, who knows the underworld market's gossip, mentions in passing that the market has a supplier — "a clerk in the courts' records who can extend a dead anchor's window." The protagonist does not yet know the clerk's name. The protagonist, pursuing Pei Liang, crosses Defense department patrol-areas in the Cangwu Mountains' border zones without knowing it; Pei Liang hides in the wild's edge, where the garrisons cannot pursue. Through Liang Zhu, the protagonist also hears fragmentary accounts of the Foreign Affairs department's yao negotiations.
+
+**Act 2, session ~500 (Core Formation):** The protagonist perceives the residue-trace of Wang Xiaodi's anchor in Pei Liang's harvest-store (doc 26 §3.4). The trace carries Scribe Yan's falsified-dispersal signature — the protagonist's Residual Error Sense registers a *wrongness* the protagonist cannot yet name. The protagonist knows, now, that the bardo-harvest is enabled by a courts official; the protagonist does not know the official's name or department. This is the moment the personal conflict (retrieve Wang Xiaodi) and the cosmological conflict (reform the courts) merge.
+
+**Act 3, session ~1000-1200 (Nascent Soul):** The protagonist's bardo perception (doc 30 Station 6) extends. The protagonist confirms the falsification in Scribe Yan's signature and traces it to the Yan clan's records-signature. The protagonist now knows: the corrupt official is a Yan-clan scribe in the Records department. The protagonist still cannot name him (the Yan clan has six hundred scribes in the Underworld).
+
+**Act 3, session ~1200-1500 (the choice):** The protagonist tracks Pei Liang to the Cangwu Mountains' latent spirit vein (doc 26 §3.4). The final confrontation. The protagonist must choose: Confront, Accommodate, or Transcend.
+
+**Act 3, Transcend path (session ~1400-1500):** The protagonist crosses the tribulation (doc 30 Station 9). The protagonist enters the courts through the Garth of Roads; Kang Shu receives her with irony. The protagonist petitions the Council to compel the Records audit; Yan Jue blocks; Tao Jingxi supports but is compromised; Duan Mutian supports but is a rival; Yan Qingshi obstructs; Shang Zhenkong models; Qiu Wuhen weighs.
+
+The protagonist, rather than fight the political battle, authors the bardo-harvest-loophole law (立法, doc 30 Station 10). The law takes effect; Scribe Yan's eight hundred years of falsifications surface; Scribe Yan attempts to flee and is intercepted (§6). The Conservative Bloc contests the law; the contest is the protagonist's tribulation (law tribulation, doc 15 §6.3 form 3); the protagonist survives or does not.
+
+### 9.1 The endings' relationships to the courts
+
+**Found a lineage (Confront path, Ending 1):** The protagonist, having killed Pei Liang and freed Wang Xiaodi's anchor (which disperses lawfully), does not enter the courts. The courts are distant — the protagonist knows of Scribe Yan's corruption but cannot act on it; the bardo-harvest loophole persists; the deadlock holds.
+
+The Azure Sword Sect, in the aftermath of Pei Liang's death, petitions the courts directly (the sect is now large enough); the petition is the first external pressure the Council has felt in centuries. The deadlock may break in the protagonist's lifetime, or in the lifetime of the protagonist's students; the protagonist does not see it.
+
+The bittersweet dimension of the true ending: the protagonist founds the lineage that will, generations later, produce the cultivator who confronts the courts properly. The courts are distant, but the lineage is the protagonist's contribution to the courts' eventual reform.
+
+**Cross the tribulation (Transcend path, Ending 2):** The protagonist enters the courts, confronts Scribe Yan, authors the law, and joins the Council as its newest Mahayana advisor. The protagonist's law survives its contest (or the protagonist does not survive — see Ending 3).
+
+The protagonist becomes the courts' newest member and inherits the deadlock's consequences: the Conservative Bloc's contest is the immediate crisis; the Yan clan's records monopoly is the medium-term crisis; the Wild Suppression campaign is the long-term crisis the protagonist will spend the rest of their Precelestial life mediating.
+
+The protagonist's last act in the mortal world (before the time-debt makes further visits impractical) is to return to Wang Family Bend and perceive, one last time, the qi of the village — denser than the protagonist remembers, because the protagonist's perception has sharpened, and dimmer than the Court Light, because the mortal world's qi is the Court Light's diffuse descendant.
+
+**Final death (various paths, Ending 3):** The protagonist's anchor disperses — in the law-tribulation (Transcend), in the confrontation with Pei Liang (Confront), or in the karmic tribulation that follows the Accommodate path's complicity.
+
+The courts continue; Scribe Yan's corruption is exposed only if the protagonist's law took effect before the dispersal (Transcend variant); otherwise Scribe Yan persists. The deadlock holds.
+
+The game's final image, in the Transcend-failure variant: the courts' archive, dim and orderly, with Scribe Yan at his post, still recording, the jade tablet of his tally in his sleeve, the Underworld's twilight undisturbed. The world goes on. The protagonist is not in it.
+
+---
+
+## 10. What this document enables
+
+- **A Heaven that is a real institution,** with named geography, named personnel, named factions, named history, and a named crisis. Plot and content can engage the courts as a fallible bureaucracy with specific Ministers, specific Mahayana councilors, specific blocs, and a specific deadlock the protagonist's Act 3 intersects.
+
+- **Scribe Yan as a named antagonist,** with a full character bible (personality, ambition, corruption mechanism, recruitment, exposure stakes, confrontation arc). The Transcend path's bardo-harvest-loophole law now has a specific target (Scribe Yan's falsified-dispersal signature) and a specific consequence (the Yan clan's records monopoly ends).
+
+- **The Heavenly Court Council as a named body,** with four Mahayana councilors whose philosophies, projects, and relationships to the protagonist's law-authorship are specified. The Act 3 Council drama is now playable.
+
+- **The courts' founding history and current crisis** as named content. The Sundering, the founding compact, the three expansions, the clan-capture corruption, and the Bardo-Window Question deadlock are now canon the prototype can build against.
+
+- **The protagonist's arc through the courts** as a session-by-session spine, from the Cangwu Sect's first mention (Act 2) through the protagonist's entry at Tribulation Crossing (Act 3) to the three endings' distinct relationships to the courts.
+
+---
+
+## 11. What this document does not decide
+
+- **The specific contents of the Underworld's archive beyond what doc 25 §6 specifies.** The Underworld is a sub-jurisdiction; its specific geography (corridors, processing-stations, the jade-tablet shelves' organization) is content-design, not canon.
+
+- **The protagonist's specific Council-session dialogue.** The Act 3 Council drama is structurally specified (petition, block, law-authorship, contest) but the specific exchanges are writing, not canon.
+
+- **The other Mahayana cultivators of the Precelestial** who do not sit on the Council. There are Mahayana cultivators who have never taken office (rogues, ancestral-court advisors, grotto-heaven hermits); they are not named here. Their existence is implied; their specific roster is generator-facing.
+
+- **The yao courts' specific politics** beyond the three named in §7 (Feathered, Stone-Singing, Serpentine). The yao courts are foreign powers; their internal politics are a separate document, if and when the prototype requires them.
+
+- **The courts' specific Acquired-stratum intermediaries** (the magistrates who process sect death-records). These are minor officials below the scope of this document; they are generator-facing content for the Acquired-stratum sect-funeral scenes.
+
+These are deferred details, not deferred forks. The decisions this document makes — the courts' geography, the six Ministers, the five blocs, the four Mahayana councilors, the founding history, the clan-capture corruption, Scribe Yan's full character bible, the Bardo-Window Question deadlock, the protagonist's three-endings relationship to the courts — are committed. If they prove wrong in prototype, the prototype's evidence overrides this document, and this document is revised — not appended with a candidate alternative.

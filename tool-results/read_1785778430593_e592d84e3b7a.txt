@@ -1,0 +1,252 @@
+     1→# 15 — The Precelestial Stratum and the Tribulation System
+     2→
+     3→**Status:** Candidate canon. Specifies the highest stratum and the lawful boundary-enforcement mechanism that governs every realm transition. Compliant with 00_FOUNDATIONAL_DECISIONS §1 (cosmology) and §3 (stations 9 and 10). Ratifiable after prototype proof of the lower eight stations, but committed now so downstream political, social, and endgame design has a spine.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. Why this document exists
+     9→
+    10→The foundational decisions commit to a three-stratum cosmos in which the Precelestial (先天境) is the uppermost layer — the place where qi is undifferentiated, laws are not yet fixed, time is slow, and the courts of Heaven (天庭) and the ancestral courts (宗祠) persist. They also commit to tribulation (天劫) as a lawful response to boundary violation, not a moral judgment. Both commitments are stated as decisions; neither is yet specified as a system. This document does that specification. It is the engine to the foundational decision's brake: it says what the Precelestial *is*, what lives there, what its institutions do and fail to do, what tribulation tests and how, and what the cultivator who reaches station 9 actually enters.
+    11→
+    12→The doctrine (AGENTS.md Part 3) demands that every forbidding rule be paired with a positive specification of what is being built toward. This document builds toward: a tragic time-economy between strata; a Heaven that is an institution and therefore fallible; an ancestral court system that gives every lineage a stake in the upper stratum; an alien wild where the rules do not apply; a tribulation system that is fair (lawful) without being kind; and an endgame in which the cultivator may author laws in the reaches where the Precelestial's own law has decayed. Each of these is a thing the player can encounter, reason about, and be moved by.
+    13→
+    14→**Conventions used in this document.** Hanzi appear in parentheses after the English term on first use. No pinyin romanization with tone marks is used; the project's working vocabulary is English xianxia terminology and Hanzi, per the writing brief. The 1:365 time ratio (one Precelestial day ≈ one Acquired year) is referenced throughout as the **time-debt** of any visit.
+    15→
+    16→---
+    17→
+    18→## 1. The Precelestial Stratum (先天境)
+    19→
+    20→### 1.1 Essence
+    21→
+    22→The Precelestial is the uppermost of the three strata. It is older, slower, denser, and less lawful than the Acquired Stratum below it. "Less lawful" here does not mean chaotic; it means the laws of the Acquired Stratum — five-phase differentiation, yin-yang polarity, the conservation rules that govern combat and cultivation in the lower world — have not yet been written here. The Precelestial is the substrate from which the Acquired's laws were inscribed. To enter it is to enter the workshop, not the showroom.
+    23→
+    24→This is the source of both its terror and its opportunity. The terror: a cultivator from below is a being whose internal architecture assumes laws that do not hold here. The opportunity: where laws are not fixed, they can be authored.
+    25→
+    26→### 1.2 The nature of Precelestial qi
+    27→
+    28→In the Acquired Stratum, qi differentiates. A breath of qi has a phase-affinity (Wood, Fire, Earth, Metal, Water), a yin-yang signature, a temperature, a movement. A cultivator's body, meridians, and core are tuned to admit, transform, and emit differentiated qi.
+    29→
+    30→In the Precelestial, qi is undifferentiated. A breath of qi here is none of the five phases and all of them; it is neither yin nor yang in any stable ratio; it does not have a fixed temperature or movement. It is the raw, pre-differentiated potency from which the Acquired's differentiated qi is condensed. The Acquired cultivator who inhales Precelestial qi without preparation experiences it as a pressure that their meridians cannot route — not because it is hotter or colder than they can bear, but because it has no temperature to route, and the meridian's job is to route a specific signature.
+    31→
+    32→This is the first law of Precelestial survival: a cultivator below station 9 cannot metabolize Precelestial qi. A Tribulation Crossing cultivator who has crossed successfully has been transformed — their internal architecture can now admit undifferentiated qi and either let it pass through unchanged or, with effort, condense it into a specific phase for emission. This is why crossed cultivators are called heavenly immortals (天仙): they are no longer Acquired beings; they have a metabolism suited to the upper stratum.
+    33→
+    34→### 1.3 The nature of Precelestial law
+    35→
+    36→The Acquired Stratum's laws are written — partly by the Nameless Origin's generative function, partly by the accumulated authorship of past Mahayana cultivators. The Precelestial's laws are partly written and partly *pending*. There are regions where the law is firm (the courts, the ancestral halls, the maintained roads); regions where the law is contested (the borders between jurisdictions); and regions where the law has decayed or never formed (the spirit wilds and the law reaches, see §4 and §5).
+    37→
+    38→A cultivator in the Precelestial is, at every moment, standing inside a particular state of law. Within the Courts of Heaven, the law is heavy, fixed, and adjudicated. Within an ancestral court, the law is the lineage-founder's will, persisting. Within the spirit wilds, the law is whatever the strongest local entity says it is, for as long as it can be enforced. Within the law reaches, there is no law, and the absence is itself a condition a cultivator can stand inside and feel.
+    39→
+    40→### 1.4 The nature of Precelestial time
+    41→
+    42→Time in the Precelestial runs at one three-hundred-and-sixty-fifth of the Acquired rate. One Precelestial day equals one Acquired year. The contract is lawful and symmetric — it is not an illusion or a perception effect. If a cultivator spends a measurable span of time in the Precelestial, that span is multiplied by 365 against the Acquired world below.
+    43→
+    44→This single fact is the genre's central tragic engine, and it is the design's central constraint on Precelestial content. See §7 for the full treatment.
+    45→
+    46→### 1.5 Geography of the Precelestial
+    47→
+    48→The Precelestial is not an infinite void. It is a finite region with internal structure, four major zones, and contested borders between them.
+    49→
+    50→1. **The Courts of Heaven (天庭)** — the institutional core. See §2.
+    51→2. **The Ancestral Courts (宗祠)** — the lineage-specific persistent zones. See §3.
+    52→3. **The Spirit Wilds (靈荒)** — the unregulated zones. See §4.
+    53→4. **The Law Reaches (法域)** — regions where law has decayed or not formed. See §5.
+    54→
+    55→These four zones are not contiguous in any simple sense. The Courts of Heaven are a coherent territory with borders; the ancestral courts are scattered through the Precelestial like islands, each tethered to the lineage it serves; the spirit wilds fill the gaps between jurisdictions; the law reaches are deeper still — places where even the Precelestial's substrate-law has thinned.
+    56→
+    57→Travel between zones is itself a verb. The maintained roads (官道, the official roads of Heaven) are fast and safe but monitored. The ancestral roads (宗道) are slower but private to the lineage. The wild paths (荒徑) are unmonitored and unsafe. A cultivator in the Precelestial is always choosing a road, and the choice is always a political act.
+    58→
+    59→### 1.6 Inhabitants
+    60→
+    61→The Precelestial is not empty. It is sparsely populated by beings far more powerful than any Acquired cultivator, but it is populated.
+    62→
+    63→- **Celestial officials (天官).** Cultivators who crossed tribulation and took office rather than remaining rogue. They staff the Courts of Heaven. See §2.
+    64→- **Ancestral spirits (宗靈).** The anchors of great cultivators who persisted after bodily death, anchored in their lineage's court. See §3.
+    65→- **Ancient beasts (古獸).** Beings native to the Precelestial whose qi-metabolism is undifferentiated. They do not follow the five-phase model; a beast that is "fire-aspected" in the Acquired sense does not exist here. Their forms and behaviors are correspondingly strange. See §4.3.
+    66→- **Rogues (散仙).** Cultivators who crossed tribulation but did not take office, did not bond to a lineage court, and did not retreat into a private grotto-heaven. They live in the margins — the wild paths, the edges of the courts' jurisdiction, occasionally as hermits on the maintained roads. They are the Precelestial's free agents, and most of them are dangerous.
+    67→- **The Law-Written (法書之物).** Beings who are not cultivators and not beasts and not spirits but constructs of authored law — left behind by Mahayana cultivators who wrote a law that, among its effects, created a being. These are rare, weird, and sometimes not aware they are constructs. They are most often found in the law reaches.
+    68→
+    69→### 1.7 What it feels like
+    70→
+    71→To enter the Precelestial is to step from a room with solid walls into a room where the walls are made of slower, heavier water. The qi does not feel like qi; it feels like a pressure against the inside of the skin. Time does not feel slow; it feels *thick*. Movements take longer to complete, not because the body is heavier but because the moment has more in it. Colors are present but unsaturated, as if the five phases have not yet decided which to be.
+    72→
+    73→The first time an Acquired cultivator perceives the Precelestial — through a Spirit Severance domain's edge, or through a Void Amalgamation place-bond's resonance — the perception is destabilizing. The cultivator can feel the laws they have lived inside their entire life as *thin*. Below, the laws were the world; here, the laws are choices someone made, and the choices are visible.
+    74→
+    75→---
+    76→
+    77→## 2. The Courts of Heaven (天庭)
+    78→
+    79→### 2.1 What they are and what they are not
+    80→
+    81→The Courts of Heaven are an institution within the Precelestial. They are not a god, not a pantheon, not the source of the stratum's law, and not omnipotent. They were founded in historical time by cultivators who had crossed tribulation and chose to organize rather than remain rogues. They have a jurisdiction, a staff, a budget (in qi-authority and records), a hierarchy, and a politics. They can be wrong. They can be corrupt. They can be contested. They have been all three, repeatedly, across the millennia.
+    82→
+    83→This is the project's hard commitment against the "Heaven as omnipotent moral judge" trope. The courts exist; they are not what the genre often pretends they are.
+    84→
+    85→### 2.2 Jurisdiction
+    86→
+    87→The Courts of Heaven have specific, bounded jurisdiction. Outside that jurisdiction, they have no authority — though they often act as if they do, and the line between their jurisdiction and their ambitions is a constant political dispute.
+    88→
+    89→Within jurisdiction:
+    90→
+    91→1. **Records of the dead (生死簿).** The courts maintain the register of who has died, when, and by what cause, across both Acquired and Precelestial strata. This register is the basis for any lawful resurrection claim, any contested inheritance, any reincarnation-tracking. It is also the source of the courts' most-cited corruption: a magistrate who alters a record can erase a lineage's claim, manufacture an inheritance, or hide a murder. Record-tampering is the courts' most common internal crime.
+    92→
+    93→2. **Enforcement of heaven-sealed oaths (天誓).** Certain oaths, when sworn through the proper ritual, are registered with the courts and enforced by the courts' own qi-authority. The violation of a heaven-sealed oath triggers a tribulation response (see §6.2). The courts did not invent this mechanism; they administer it. The mechanism itself is a function of the Precelestial's boundary-enforcement, and the courts' role is procedural — they keep the records, they identify violations, they transmit the boundary-violation signal to the stratum's lawful response. A court that fails to transmit is corrupt; the stratum's response, however, may still fire on its own schedule.
+    94→
+    95→3. **Adjudication of inter-lineage disputes (in certain cases).** When two lineages of sufficient standing have a dispute neither will yield on, and neither has the power to settle it by force without unacceptable collateral, they may petition the courts for adjudication. The courts' judgment is binding within their jurisdiction — that is, within the maintained roads and the court-recognized territories. Outside, it is merely persuasive.
+    96→
+    97→Outside jurisdiction (where the courts claim authority but lack lawful basis):
+    98→
+    99→- Moral judgment of cultivators. The courts have no lawful mechanism for tribulating a cultivator for being wicked. A wicked cultivator who stays within the realm's laws will not be tribulated by Heaven. They may be killed by other cultivators; they will not be struck down by the stratum.
+   100→- Selection of who crosses tribulation. The courts do not choose. The cultivator's own boundary-pushing triggers tribulation; the courts observe, record, and (sometimes) intervene.
+   101→- Appointment of Mahayana cultivators. There is no appointment. A Mahayana cultivator is a cultivator who has successfully authored a law; the courts recognize this after the fact or do not, at their political discretion. Their recognition has no bearing on whether the law holds.
+   102→
+   103→### 2.3 Hierarchy
+   104→
+   105→The courts are staffed exclusively by cultivators who crossed tribulation and chose to take office. There are no mortals in the courts; there are no Acquired cultivators in the courts. The lowest celestial official is a Tribulation Crossing cultivator; the highest are Mahayana cultivators who took office early in the courts' history and have not yet been removed.
+   106→
+   107→- **Minor officials (吏).** The lowest rank. Records-clerks, oath-registrars, road-keepers. Most newly-crossed cultivators who take office begin here. A minor official is, in power, a heavenly immortal; in authority, a clerk. This gap is a source of constant friction.
+   108→- **Magistrates (判官).** Mid-rank. Adjudicators of disputes, administrators of regions within the courts' jurisdiction. A magistrate typically commands a staff of minor officials and has the authority to issue binding judgments within their assigned region.
+   109→- **Ministers (卿).** Senior rank. Each minister heads a department — Records, Oaths, Adjudication, Roads, Defense, Foreign Affairs (with the rogues and the spirit wilds). Ministers sit on the Heavenly Court Council.
+   110→- **The Heavenly Court Council (天庭議會).** The senior body. Composed of the ministers and a small number of senior advisors (ancestral spirits invited as observers, retired ministers, the occasional Mahayana cultivator who holds a non-office seat). The Council sets policy, ratifies appointments, and adjudicates the disputes the magistrates cannot.
+   111→
+   112→### 2.4 Politics
+   113→
+   114→The courts are a political institution, and the politics are the politics of extremely long-lived, extremely powerful, extremely invested beings. The factional structure is not left-right or good-evil; it is interest-based and coalition-based.
+   115→
+   116→Common factions include:
+   117→
+   118→- **The Lineage Bloc.** Ministers and magistrates who hold their office as a sinecure from their lineage's ancestral court. They vote in the lineage's interest. Their loyalty is to the ancestor first, the court second.
+   119→- **The Reform Bloc.** Officials who believe the courts are corrupt and should be reformed from within. They are correct about the corruption; they are perpetually disappointed about the reform.
+   120→- **The Conservative Bloc.** Officials who believe the courts are working as designed and any change is dangerous. They are not always wrong.
+   121→- **The Rogue Outreach Bloc.** Officials who believe the courts should incorporate rogues rather than marginalize them. They are a small faction with disproportionate influence because every rogue incorporated is one less rogue on the wild paths.
+   122→- **The Wild Suppression Bloc.** Officials who believe the spirit wilds should be brought under court jurisdiction by force. This faction has been advocating for the same campaign for several millennia and has been defeated, each time, by the cost.
+   123→
+   124→The slow corruption of power over millennia is the courts' central institutional failure mode. A minister who has held office for three thousand years is not the same person who took the office. They have been shaped by the office, by the qi-authority they have accumulated, by the dependencies and enmities of their position. They are still, in principle, a cultivator who could lose a tribulation and die; in practice, they have insulated themselves so thoroughly that the only threat to them is another minister. This is the courts' tragedy: the institution that was founded to administer lawful order has become an order of its own, and the order's first priority is its own perpetuation.
+   125→
+   126→### 2.5 What it feels like
+   127→
+   128→To enter the Courts of Heaven is to enter a bureaucracy that is also a court of law that is also a military encampment. The qi is dense and orderly; the maintained roads hum with the courts' enforcement authority; the minor officials move through the corridors with the slightly harried look of clerks everywhere. The grandeur is real and the corruption is real and they coexist without contradiction. A cultivator who grew up reading about Heaven as a paradise will, on their first visit, be disoriented by how familiar it feels. It is a government. It works like a government. It fails like a government.
+   129→
+   130→---
+   131→
+   132→## 3. The Ancestral Courts (宗祠)
+   133→
+   134→### 3.1 What they are
+   135→
+   136→Every great lineage — every lineage that has produced at least one cultivator of Void Amalgamation or higher, in the lineage's recorded history — has an ancestral court in the Precelestial. The ancestral court is a persistent zone, anchored to the lineage's first great cultivator, in which the anchors of the lineage's dead great cultivators persist.
+   137→
+   138→This is not the same as the Courts of Heaven. The two institutions are sometimes allied, sometimes in conflict, and never identical. The courts of Heaven are a public, inter-lineage institution. The ancestral court is private to its lineage. The courts of Heaven have jurisdiction over the dead in general; the ancestral court has custody of its own.
+   139→
+   140→### 3.2 What persists
+   141→
+   142→When a great cultivator of the lineage dies — bodily death, with the anchor surviving — the anchor may, under specific conditions, migrate to the ancestral court and persist there. The conditions are: the cultivator was of sufficient standing (Void Amalgamation at minimum, more typically Spirit Severance or higher); the lineage's court still exists and has not been destroyed; the cultivator's anchor was not dispersed in the death; and the lineage's living cultivators of sufficient rank performed the proper retrieval rite within the bardo window (per 00_FOUNDATIONAL_DECISIONS §2).
+   143→
+   144→A persistent ancestor is not a ghost. They are the cultivator, in their anchor, in a substrate they can sustain. They retain their memories, their cultivation (in a transformed state suited to persistence without a body), and their interest in the lineage they founded or served. They are slower than they were in life — the Precelestial's time runs slow even against them, and an ancestral court's internal time can run slower still. Ancestor-time is measured in centuries the way mortal-time is measured in years.
+   145→
+   146→### 3.3 Consultation
+   147→
+   148→A Nascent Soul cultivator of the lineage may, through the lineage's proper rite, consult the ancestral court. The consultation is not free: it costs the cultivator qi, time, and (often) a specific offering the ancestor demands. The consultation is not guaranteed: the ancestor may refuse to speak, may speak in riddles, may speak to a different question than the one asked. The consultation is binding in a moral but not a lawful sense: the ancestor can give counsel, but the living cultivator remains sovereign over their own choices.
+   149→
+   150→Consultation is the lineage's most reliable access to deep strategic wisdom. It is also the lineage's most reliable source of generational conflict — the ancestor's counsel, given from a position of centuries of perspective, often conflicts with the living cultivator's understanding of their immediate situation.
+   151→
+   152→### 3.4 Intervention
+   153→
+   154→An ancestral spirit can intervene in the Acquired world. This is rare, costly, and consequential. The cost is paid in the ancestor's persistence-budget — the qi-authority that sustains them in the court. An intervention that exhausts the budget results in the ancestor's anchor dispersing, which is final death (寂滅). Most ancestors will not intervene except in the lineage's existential crisis, and many not even then.
+   155→
+   156→The forms of intervention include:
+   157→
+   158→- **Direct projection (顯靈).** The ancestor projects a partial manifestation into the Acquired world. This manifestation is far weaker than the ancestor was in life, but it is still a Spirit Severance or higher being, which is usually decisive.
+   159→- **Blessing (賜福).** The ancestor invests a portion of their authority into a living descendant, temporarily elevating the descendant's capability. The elevation is real but the cost is paid by the ancestor.
+   160→- **Curse (詛咒).** The ancestor invests authority against an enemy of the lineage. This is rarer than blessing and more expensive; it is also the form most likely to attract the courts' attention, as it can be construed as a heaven-sealed oath violation depending on the framing.
+   161→
+   162→### 3.5 Corruption
+   163→
+   164→A sufficiently old ancestor may become something other than what it was. This is the ancestral courts' central horror, and it is the reason consultation is not a guaranteed safe source of wisdom.
+   165→
+   166→The mechanism is this: an ancestral spirit is sustained by their persistence-budget, which is in turn sustained by the lineage's veneration, by the court's own qi-reservoir, and by the ancestor's own internal coherence. Over centuries, the internal coherence erodes. The ancestor's memories become less a record and more a story they tell themselves. The story drifts. The ancestor who was a great cultivator of the Cangli Riverlands becomes, over three thousand years, an idealized figure who only ever held the values the current story requires. Over five thousand years, the figure may become something the original ancestor would not have recognized — a being whose will is the lineage's, but whose will has drifted so far from any living human's that consultation becomes a kind of madness.
+   167→
+   168→The lineage's living cultivators often do not recognize when this has happened. The ancestor still speaks with the ancestor's voice; still gives counsel that sounds like counsel; still demands the offerings they have always demanded. The corruption is slow, and the corrupted ancestor is often more confident, more commanding, more present than the uncorrupted one. This is the trap.
+   169→
+   170→A corrupted ancestor cannot be removed by the lineage's living cultivators alone. Removing one requires either the courts of Heaven's intervention (which the courts are reluctant to provide, because it sets a precedent for court interference in lineage affairs) or the lineage's own Mahayana cultivator, if one exists, who can contest the ancestor's law directly.
+   171→
+   172→### 3.6 What it feels like
+   173→
+   174→To enter an ancestral court is to enter a room that is also a memory. The qi is the lineage's qi, condensed over centuries; the walls are the lineage's history, inscribed in law; the ancestors are present, in their anchors, speaking with voices that span millennia. The first time a cultivator of the lineage enters, they recognize the place — not from having been there, but from having grown up inside the lineage's stories. The recognition is comforting. The comfort is the trap.
+   175→
+   176→---
+   177→
+   178→## 4. The Spirit Wilds (靈荒)
+   179→
+   180→### 4.1 What they are
+   181→
+   182→The Spirit Wilds are the Precelestial's unregulated zones. They are the regions where the law is not fixed — where the courts of Heaven have no jurisdiction, where no ancestral court's will holds, where the substrate-law of the Precelestial has not been inscribed with any specific pattern. They are the gaps between jurisdictions, and they are vast.
+   183→
+   184→The wilds are not empty. They are full, in fact, but full of things that should not exist by the rules of the Acquired world and do not exist by the rules of the Precelestial's institutions. They are the Precelestial's own interior, the part that has not been domesticated.
+   185→
+   186→### 4.2 Why cultivators go there
+   187→
+   188→Cultivators enter the Spirit Wilds for three reasons, in increasing order of danger:
+   189→
+   190→1. **Lost inheritances (遺澤).** The wilds contain the ruins of cultivators and lineages that did not survive. An inheritance — a practice, a treasure, a fragment of a law — may persist in the wilds for millennia after its author's death, sustained by the wild's own undifferentiated qi. Finding one is a matter of skill, luck, and tolerance for the wild's dangers.
+   191→2. **Ancient beasts (古獸).** Beasts native to the wilds are sought for their cores, their body parts (which have properties no Acquired beast's parts have), and their companionship (rare; only possible for cultivators with the right disposition). Hunting a wild beast is one of the few ways to acquire materials for tribulation preparation that cannot be acquired through the courts.
+   192→3. **Death.** Some cultivators enter the wilds to die. The wild's undifferentiated qi, in sufficient density, can disperse even a Tribulation Crossing cultivator's anchor. This is sometimes chosen — a cultivator who wishes to end their cultivation without leaving a persistent anchor — and sometimes involuntary, when a cultivator enters the wilds for inheritance or beast and is overmatched.
+   193→
+   194→### 4.3 The alien ecology
+   195→
+   196→The wilds' ecology does not follow the five-phase model. The five-phase model is an Acquired Stratum artifact; it describes how qi differentiates in the lower world. In the wilds, qi is undifferentiated, and beings native to the wilds have metabolisms that operate on undifferentiated qi directly.
+   197→
+   198→This means a wild beast does not have a phase-affinity in the Acquired sense. It cannot be said to be a "fire-phase beast" or a "water-phase beast." It is, instead, a being whose internal architecture is organized around a pattern that does not map onto the five phases at all. A cultivator who fights a wild beast using five-phase tactics is fighting at a disadvantage: their phase-targeted attacks do not interact with the beast's qi in the way they expect, and the beast's attacks do not have the phase-signatures the cultivator's defenses are tuned to resist.
+   199→
+   200→The wild's plants are similarly alien. Herbs that have no phase-affinity can be gathered, but their effects on an Acquired cultivator's body are unpredictable — sometimes beneficial in ways no Acquired herb can be, sometimes injurious in ways no Acquired herb would produce.
+   201→
+   202→The wild's weather is its own. Storms of undifferentiated qi move through the wilds in patterns that do not correspond to Acquired meteorology. A storm in the wilds is not wind and rain; it is a moving density of pre-differentiated potency that, on a cultivator caught in it, has effects ranging from accelerated cultivation to forced transformation to dispersion.
+   203→
+   204→### 4.4 What it feels like
+   205→
+   206→To enter the Spirit Wilds is to step off the road and into a place that does not care whether you are there. The qi does not feel hostile; it feels *indifferent*. The beasts do not feel malicious; they feel like themselves, doing what they do. The wilds are the only place in the cosmos where a cultivator can stand and know that no law is watching them — not the courts', not the ancestors', not the stratum's. This is, for some cultivators, the most liberating experience of their lives. It is also, for the same cultivators, the most dangerous.
+   207→
+   208→---
+   209→
+   210→## 5. The Law Reaches (法域)
+   211→
+   212→### 5.1 What they are
+   213→
+   214→The Law Reaches are regions of the Precelestial where the law has decayed or not formed. They are deeper than the Spirit Wilds — the wilds are unregulated, but the substrate-law of the Precelestial still operates in them. In the reaches, even the substrate-law has thinned. They are the Precelestial's interior wounds.
+   215→
+   216→The reaches are the project's specified instance of the charter's `can:proposal:cosmology:unstable-law-reaches` concept: regions where stable law has decayed or not formed, possibly allowing world creation.
+   217→
+   218→### 5.2 Why they exist
+   219→
+   220→The Precelestial is finite, and its law was authored in historical time — partly by the Nameless Origin's generative function, partly by accumulated Mahayana authorship. The reaches are the regions where the authorship was thin, or where it has decayed through age, or where it was deliberately undone by some past conflict whose scars persist.
+   221→
+   222→A reach is not chaos. It is a region where the law is *pending* — where it could be authored, where it has not been. The substrate is present; the inscription is absent. A cultivator standing in a reach can feel the absence as a specific, perceptible condition.
+   223→
+   224→### 5.3 What they allow
+   225→
+   226→The reaches are the only regions in the cosmos where a Mahayana cultivator can author a law that *creates a new local substrate* — a new mini-cosmos, with its own internal law, distinct from the Acquired Stratum's law and the Precelestial's substrate-law. This is the closest the project's cosmology permits to "world creation." It is not the creation of a new stratum (forbidden by 00_FOUNDATIONAL_DECISIONS §1); it is the inscription of a new law in a region where no law yet holds, with the consequence that the region becomes a place with the cultivator's law as its own.
+   227→
+   228→The Mahayana cultivator's endgame, in the deepest sense, is to author laws in the reaches. This is the project's positive specification of what the Mahayana station is *for* — not infinite power, not apotheosis, but the slow, careful, consequential work of inscribing law in places where law has not yet been written.
+   229→
+   230→### 5.4 Why this is dangerous
+   231→
+   232→Authoring a law in a reach is dangerous in three ways.
+   233→
+   234→1. **Law-paradox.** A law that contradicts a deeper law fails, often catastrophically. The reaches are not exempt from the Nameless Origin's generative function; a cultivator who authors a law that conflicts with that function will have their law collapse, and the collapse will often kill them.
+   235→2. **Reach-collapse.** A reach is not infinitely stable. A poorly authored law can destabilize the reach itself, causing it to collapse inward. A collapsing reach takes the cultivator with it.
+   236→3. **Contest.** A reach with a newly authored law is a region of new authority. Other Mahayana cultivators may contest the law, may overturn it, may seize the reach for their own authorship. The cultivator who authored the law bears the consequences — including the consequence of being killed in the contest.
+   237→
+   238→### 5.5 What it feels like
+   239→
+   240→To enter a Law Reach is to enter a place where the silence is not the absence of sound but the absence of *law*. The qi is present, undifferentiated; the substrate is present; the inscription is not. A Mahayana cultivator standing in a reach and preparing to author a law feels, for the first time since their own tribulation, the vertiginous recognition that the world is not finished — that the law they have lived inside their entire life was authored, and that they are now about to author a law of their own. The vertigo is the verb. The law is the consequence.
+   241→
+   242→---
+   243→
+   244→## 6. Tribulation (天劫)
+   245→
+   246→### 6.1 What tribulation is
+   247→
+   248→Tribulation is the Precelestial Stratum's lawful boundary-enforcement mechanism. It is the stratum's response when a cultivator violates or completes a boundary condition. It is not a moral judgment. It is not Heaven weighing the cultivator's virtue. It is not a punishment. It is a *test* — specifically, a test of whether the cultivator can sustain the new state they have entered or are about to enter.
+   249→
+   250→This is the project's hard commitment against the moralized tribulation trope. A wicked cultivator who stays within their realm's laws will not be tribulated. A righteous cultivator who pushes a boundary will. The tribulation does not care which one is the better person; it cares whether the boundary has been crossed.
+
+[showing lines 1-250 of 393; use offset=251 with limit to continue reading]
