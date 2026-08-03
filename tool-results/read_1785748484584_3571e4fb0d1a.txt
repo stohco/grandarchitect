@@ -1,0 +1,214 @@
+   231→
+   232→1. **Flawed pattern (敗符).** The pattern was inscribed imprecisely, and the talisman misfires or produces a weaker effect. A flawed fireball talisman may produce a spark instead of a fireball, or may detonate at the user's hand instead of at the target. A flawed talisman is not always detectable by inspection; the flaw may only manifest on activation. Remedy: discard the flawed talisman (using it is dangerous) and re-inscribe.
+   233→
+   234→2. **Degraded medium (耗符).** The medium has lost charge over time — a paper talisman stored for years in a damp environment may have leached its ink's qi-binding, producing a weakened or non-functional talisman. Remedy: store talismans properly (dry, qi-clean, away from conflicting phase-sources); re-inscribe old talismans whose medium has degraded.
+   235→
+   236→3. **Incompatible activation (逆符).** The user's qi-phase does not match the talisman's pattern — a Wood-phase cultivator activating a Metal-phase talisman (conquest cycle) produces a degraded or backfiring effect. The activation's qi is quenched or reversed by the phase conflict. Remedy: match the talisman's phase to the user's phase; or have a compatible cultivator activate the talisman; or use a phase-bridge talisman (a rare, high-quality talisman that adapts its phase to the user's).
+   237→
+   238→4. **Seal collapse (潰符).** The talisman's seal collapses — typically because the inscriber's realm was inadequate for the talisman's complexity, or because the seal was disrupted by external qi during storage. A seal collapse is the talisman-craft's equivalent of a formation's core collapse: the pattern discharges its encoded effect uncontrollably, often damaging the storage location and injuring anyone nearby. A stack of fireball talismans whose seals collapse simultaneously is, in effect, a small bomb. Remedy: none, in the moment; prevention is the only remedy. Store talismans in warded containers; do not stockpile high-tier talismans without adequate storage.
+   239→
+   240→### 3.7 Realm requirements
+   241→
+   242→The talisman craft's realm gating:
+   243→
+   244→- **Qi Condensation (凝气).** Can inscribe **simple talismans**: light talismans, basic attack talismans (fireball, ice-arrow), basic shield talismans. Cannot inscribe complex patterns (communication, detection, summoning). A Qi Condensation inscriber's talismans are low-power and short-lived (seal persists for months).
+   245→- **Foundation Establishment (筑基).** Can inscribe **complex talismans**: communication, detection, storage, conditional attack talismans (a sword-qi talisman that activates only on contact with hostile qi). A Foundation Establishment inscriber's talismans are mid-power and durable (seal persists for years).
+   246→- **Core Formation (金丹).** Can inscribe talismans that **carry a fragment of the inscriber's intent** — semi-autonomous talismans that adjust their effect to the situation. A Core Formation inscriber's fireball talisman may, on activation, choose its target within a small radius rather than discharging in a fixed direction. This is the threshold at which talismans become quasi-agents rather than mere tools. (The inscriber's intent-fragment is not a spirit; it is a patterned response, like a prepared reflex. It is not alive. A cultivator who confuses intent-fragment with spirit courts 心魔.)
+   247→- **Nascent Soul+ (元婴以上).** Can inscribe talismans that operate beyond the user's presence — long-range communication talismans, semi-permanent wards, talismans that activate on a trigger condition the inscriber specifies. These talismans are the foundation of high-realm coordination and sect treasuries.
+   248→
+   249→### 3.8 The engine: what talismans unlock for the player
+   250→
+   251→Talismans give the player the verb **to carry prepared capability**. A cultivator with a stack of talismans can face situations their bare cultivation could not — a Qi Condensation cultivator with a Foundation Establishment shield talisman can survive one hit from a Core Formation cultivator (and then flee). This is the engine of the genre's "the young master has a hundred talismans up his sleeve" trope: talismans are the *reserve* the cultivator carries.
+   252→
+   253→For the player at Qi Condensation, talismans are the first craft they encounter as *makers* — the light talisman is a Qi Condensation inscription, and the first time the player inscribes one and uses it to light their own chamber is the first time the world's hidden grammar becomes *writable*.
+   254→
+   255→---
+   256→
+   257→## 4. Alchemy (煉丹)
+   258→
+   259→### 4.1 What alchemy is
+   260→
+   261→Alchemy is the **refinement of medicinal substances** (herbs, minerals, beast parts, and rarer materials) into pills (丹), powders (散), or elixirs (液) that produce cultivation-enhancing effects when consumed. The alchemist's art is the controlled transformation of raw qi-bearing materials into a coherent, concentrated medicinal product — a transformation governed by the same qi-model (phase-affinity, yin-yang signature) and the same determinism contract (same ingredients, same fire control, same furnace, same alchemist → same pill) as the other two crafts.
+   262→
+   263→Alchemy is the most economically central of the three crafts. Formations and talismans are tools; pills are *consumables that change the cultivator's body and qi-system directly*. A breakthrough pill is the difference between a Qi Condensation cultivator who breaks through to Foundation Establishment in five years and one who breaks through in fifty, or never. A healing pill is the difference between a cultivator who survives a sword cut to the torso and one who does not. The alchemist is the cultivation world's pharmacist and arms dealer combined.
+   264→
+   265→### 4.2 The process
+   266→
+   267→The alchemical process has six discrete steps.
+   268→
+   269→1. **Gathering ingredients (採藥).** The alchemist gathers (or commissions, or purchases) the ingredients for the intended pill. Each ingredient has a **phase-affinity** (Wood, Fire, Earth, Metal, Water) and a **potency** (a measure of the ingredient's qi-density and purity). Ingredient quality is the largest single determinant of pill quality — a Spirit-Gathering Pill made from hundred-year ginseng is qualitatively different from one made from ten-year ginseng. Ingredients are gathered at specific solar terms (the 二十四節氣 calendar), because an ingredient's phase-affinity and potency vary with the season: a Fire-phase herb gathered at Summer Solstice (夏至, peak yang) is more potent than the same herb gathered at Winter Solstice (冬至, peak yin).
+   270→
+   271→2. **Preparation (製藥).** The alchemist prepares the ingredients — cleaning, drying, refining, slicing, powdering, dissolving. Preparation removes impurities (a leaf's stem, a mineral's gangue, a beast part's connective tissue) and standardizes the ingredient's potency (a dried and sliced root vs. a fresh whole root). Preparation is itself a qi-lawful step: an improperly prepared ingredient carries its impurities into the pill, contaminating the result.
+   272→
+   273→3. **Combination (合藥).** The alchemist combines the prepared ingredients in the furnace (釜, the cauldron) in a specific order and ratio, according to the pill's recipe. The combination is phase-lawful: the ingredients' phase-affinities must resolve to the pill's intended phase. A Fire-phase pill made with Water-phase ingredients fails or produces a contaminated result (the conquest cycle quenches the Fire intent). The recipe specifies not only the ingredients and ratios but the **order of combination** — adding the Fire-phase catalyst before the Earth-phase base produces a different result than adding it after, because the intermediate phase-states differ.
+   274→
+   275→4. **Fire control (火候).** The alchemist controls the furnace's fire — its intensity (文火/武火, "civil fire" for slow, low heat; "martial fire" for fast, high heat), its duration, and its phase (a Wood-phase fire feeds a Fire-phase pill; a Metal-phase fire, rarely used, cuts through a pill's impurities). Fire control is itself a cultivation art: the alchemist circulates their own qi to sustain and shape the furnace's heat, often for hours or days. Fire control is the most demanding step of alchemy — a moment's inattention can char the ingredients (too hot) or fail to congeal the pill (too cool). The fire's phase must match the pill's intended phase; a phase-mismatched fire produces a contaminated pill.
+   276→
+   277→5. **Congealing (凝丹).** The alchemist congeals the refined mixture into a pill — a single coherent qi-structure that holds the medicinal effect in stable form. Congealing is the moment of truth: the mixture either coheres into a pill (success) or fails to cohere (producing dross — a useless, often toxic residue) or coheres incorrectly (producing a flawed pill with an unintended effect). The congealing step is where the alchemist's realm most directly limits the pill: a Qi Condensation alchemist can congeal simple pills; a Foundation Establishment alchemist can congeal breakthrough pills; a Core Formation alchemist can congeal transformation pills; a Nascent Soul+ alchemist can congeal pills that affect the soul or spirit anchor.
+   278→
+   279→6. **Cooling and storage (收丹).** The alchemist cools the pill (in a specific qi-environment — a Metal-phase pill cools best in a Metal-phase container, etc.) and stores it (in a jade box, a sealed gourd, a warded container). A pill's effect persists if stored properly; a pill stored in a conflicting phase-environment degrades over time. A high-quality pill can persist for decades; a low-quality pill may lose potency in months.
+   280→
+   281→### 4.3 Pill types
+   282→
+   283→Pills are classified by their effect. The four major classes, in increasing order of difficulty and danger:
+   284→
+   285→- **Healing (療傷丹).** Restore qi, heal injuries, cure contamination. The most common pill class; the foundation of the alchemist's trade. A basic healing pill (回氣丹, "return-qi pill") restores a depleted reservoir; a trauma pill (療創丹) accelerates wound healing; a purification pill (清污丹) vents accumulated contamination. Healing pills are typically Wood-phase (Wood generates, restores) or Water-phase (Water cleanses). A Qi Condensation alchemist can refine most healing pills.
+   286→
+   287→- **Breakthrough (突破丹).** Assist realm transitions — Foundation Pill (筑基丹) for the Qi Condensation → Foundation Establishment transition; Core-Forming Pill (結丹丹) for the Foundation Establishment → Core Formation transition; and so on. Breakthrough pills are the most economically valuable pill class — a single Foundation Pill is worth a Qi Condensation cultivator's annual income. They are also the most dangerous: a breakthrough pill consumed by a cultivator who is not prepared for the transition (their meridian system not integrated, their qi-reservoir insufficient, their heart-mind unstable) produces a forced, often catastrophic breakthrough — deviation, foundation collapse, or death. Breakthrough pills require Foundation Establishment alchemy minimum.
+   288→
+   289→- **Enhancement (增益丹).** Temporarily boost a specific capability — strength pill (力丹), speed pill (速丹), perception pill (覺丹), qi-capacity pill (氣丹). Enhancement pills are the combat pill class; a cultivator preparing for a duel may consume a strength pill and a speed pill together for a brief but decisive edge. Enhancement pills are typically Fire-phase (boost strength, yang) or Metal-phase (boost perception, sharpness). The boost is temporary — minutes to hours — and the crash afterward is real (the cultivator is exhausted, sometimes contaminated by the pill's residue). Repeated use of enhancement pills produces cumulative contamination; this is the genre's "pill addiction" trope, made mechanically honest.
+   290→
+   291→- **Transformation (化形丹).** Permanently alter the body or qi-system — body-tempering pills (淬體丹) that strengthen the flesh; meridian-opening pills (開脈丹) that open new meridian routes; root-developing pills (培根丹) that develop a phase-root the cultivator did not have. Transformation pills are the rarest, most expensive, and most dangerous pill class — a transformation pill is, in effect, a controlled medical procedure, and a failed transformation is a permanent injury. Transformation pills require Core Formation alchemy minimum, and many transformation pills require the consumer to be at a specific realm (a body-tempering pill consumed by a Qi Condensation cultivator whose meridian system cannot yet accommodate the changes produces a permanent distortion).
+   292→
+   293→### 4.4 Pill quality
+   294→
+   295→A pill's quality — the strength, purity, and reliability of its effect — is determined by five factors.
+   296→
+   297→1. **Alchemist's realm.** Higher realm = finer fire control, denser congealing intent, cleaner qi-binding. A Qi Condensation alchemist's pill is to a Core Formation alchemist's as village-brewed wine is to a cellared vintage.
+   298→
+   299→2. **Ingredient quality.** The potency, purity, and phase-coherence of the ingredients. A pill made from hundred-year ginseng is qualitatively different from one made from ten-year ginseng; a pill made from ingredients gathered at the wrong solar term is weaker or contaminated. Ingredient quality is the largest single determinant of pill quality and the largest single determinant of pill price.
+   300→
+   301→3. **Furnace quality.** The material, design, and qi-conductivity of the cauldron. A clay furnace is the baseline; an iron furnace is sturdier and holds heat better; a spirit-bronze furnace (a sect heirloom) is qi-conductive and phase-stable. A high-quality furnace makes fire control easier and the pill cleaner; a poor furnace makes both harder. Furnace quality is the alchemist's largest capital investment — a spirit-bronze furnace is worth a small sect's annual revenue.
+   302→
+   303→4. **Fire control.** The alchemist's qi-discipline during the firing step. A perfectly-fired pill is clean, coherent, and at full potency; a poorly-fired pill is charred, incoherent, or contaminated. Fire control is the most directly alchemist-dependent factor — it is the alchemist's qi-circulation discipline sustained for hours or days.
+   304→
+   305→5. **Phase-compatibility of ingredients.** The ingredients' phase-affinities must resolve to the pill's intended phase, and the yin-yang signatures must resolve to a coherent vector. A Fire-phase pill made with Water-phase ingredients fails or produces a contaminated result; a pill whose ingredients are individually phase-compatible but collectively yang-excessive produces a yang-deviation pill (the consumer risks fire-deviation on consumption). Phase-compatibility is the recipe's design constraint — a recipe is, in part, a phase-resolution function.
+   306→
+   307→### 4.5 Failure modes
+   308→
+   309→Alchemy can fail in five named ways. Each is lawful, predictable, and often dangerous.
+   310→
+   311→1. **Poor fire control (火候失誤).** The alchemist's fire was too hot, too cool, too long, or too short. The ingredients char (too hot) or fail to congeal (too cool); the pill is ruined. In severe cases (the furnace over-pressures from a too-hot, too-fast fire), the furnace explodes — injuring the alchemist, destroying the ingredients, and contaminating the workspace with the failed pill's residue. A charred pill is toxic; consuming it produces qi-damage and possibly deviation. Remedy: prevention — better fire control, better tools, better concentration.
+   312→
+   313→2. **Incompatible ingredients (藥性相沖).** The ingredients' phase-affinities conflict — a Fire-phase herb combined with a Water-phase herb in a pill whose intent is Fire. The combination produces an unintended effect: the pill may be inert (the phases cancel), may be toxic (the conflict produces a qi-poison), or may produce a different effect entirely (the conflict resolves to an unintended phase, e.g., a Fire-pill made Fire-Water-conflicted may produce an Earth-effect, because Fire generates Earth as Water conquers Fire and Earth dams Water). Incompatible ingredients are the recipe-design failure mode — a recipe that calls for incompatible ingredients is a bad recipe, and the alchemist who follows it produces a bad pill. Remedy: better recipes; ingredient substitution with phase-compatible alternatives.
+   314→
+   315→3. **Contamination (污丹).** The pill carries the alchemist's psychospiritual residue. If the alchemist was disturbed during refining — angry, grieving, afraid, or even just distracted — the pill absorbs that state, and the consumer of the pill internalizes it. A pill refined by an alchemist in the grip of a 心魔 can transmit the heart-demon to the consumer. This is the alchemy craft's most insidious failure mode: the pill may be physically perfect (right phase, right potency, right congealing) and still be dangerous, because its psychospiritual residue is corrupting. Remedy: alchemists are expected to enter a settled, regulated heart-mind state before refining; a sect's alchemists are required to vent contamination and stabilize before beginning a refinement. A pill refined by a contaminated alchemist is, by sect law, destroyed, not sold.
+   316→
+   317→4. **Congealing failure (凝丹失敗).** The mixture fails to cohere into a pill. The result is dross — a useless, often toxic residue that must be discarded. Congealing failure is the most common alchemical failure; it is typically caused by inadequate fire control or ingredient incompatibility, but it can also be caused by the alchemist's realm being inadequate for the pill's tier (a Qi Condensation alchemist attempting a Foundation Pill will produce dross, every time). Remedy: prevention — do not attempt pills above your realm; ensure fire control and ingredient compatibility before congealing.
+   318→
+   319→5. **Degradation (陳丹).** The pill was correctly refined but has degraded in storage — typically because the storage environment's phase conflicted with the pill's, or because the pill's congealing was incomplete (the pill is slowly losing coherence). A degraded pill is weaker than a fresh pill; a severely degraded pill may be inert or toxic. Remedy: proper storage (jade boxes, phase-matched containers, warded storage chambers); use pills within their shelf life; re-refine degraded pills (possible for some pill classes, not others).
+   320→
+   321→### 4.6 Realm requirements
+   322→
+   323→The alchemy craft's realm gating:
+   324→
+   325→- **Qi Condensation (凝气).** Can refine **simple pills**: healing pills (return-qi, trauma, purification), basic enhancement pills (strength, speed, perception). Cannot refine breakthrough pills or transformation pills. A Qi Condensation alchemist's pills are mid-quality at best (their fire control is limited by their reservoir).
+   326→- **Foundation Establishment (筑基).** Can refine **breakthrough-assist pills**: Foundation Pill, basic Core-Forming Pill (with risk). Can refine mid-tier enhancement pills and complex healing pills. A Foundation Establishment alchemist's pills are the cultivation world's standard trade goods.
+   327→- **Core Formation (金丹).** Can refine **transformation pills**: body-tempering, meridian-opening, root-developing. Can refine high-tier breakthrough pills (Nascent Soul Pill, with significant risk). A Core Formation alchemist is a wealthy figure — transformation pills are the most expensive single consumables in the cultivation world.
+   328→- **Nascent Soul+ (元婴以上).** Can refine **pills that affect the soul or spirit anchor**: soul-stabilizing pills (for a cultivator in bardo), anchor-reinforcing pills (for a cultivator facing tribulation), and the rare and terrible soul-seizing pills (which can affect another's anchor — criminal under most jurisdictions). Nascent Soul alchemists are the cultivation world's strategic resource; their pills are the difference between a sect that survives a tribulation and one that does not.
+   329→
+   330→### 4.7 The alchemist's economic role
+   331→
+   332→Alchemy is the cultivation world's most economically central craft. The reasons:
+   333→
+   334→- **Pills are consumable.** A talisman or formation is a durable asset; a pill is consumed on use. The alchemist's market is recurring — every cultivator needs healing pills, every breakthrough requires a breakthrough pill, every duel is prepared for with enhancement pills. Demand is constant.
+   335→- **Pills are qi-multipliers.** A pill can produce effects beyond the user's realm envelope (a Foundation Pill lets a Qi Condensation cultivator cross to Foundation Establishment; a transformation pill can grant a root the cultivator did not have). This makes the alchemist's product qualitatively different from the inscriber's — pills change who the cultivator *is*, not just what they can do.
+   336→- **Alchemical skill is scarce.** The craft's realm gating, the cost of furnaces and ingredients, and the danger of failure mean that competent alchemists are rare. A Foundation Establishment alchemist is a sect's economic backbone; a Core Formation alchemist is a region's; a Nascent Soul alchemist is a strategic figure whose movements are tracked by every power in the cultivation world.
+   337→- **Failure is public.** A bad talisman misfires privately; a bad pill poisons its consumer, often fatally, often publicly. The alchemist's reputation is therefore both their greatest asset and their most fragile. A single contaminated batch can ruin a Foundation Establishment alchemist; a single transmitted 心魔 can make them a hunted criminal.
+   338→
+   339→A good alchemist is wealthier than most sects. A bad alchemist is dead — killed by their own furnace, their own contaminated pills, or the kin of a consumer they poisoned. The cultivation world's alchemical trade is therefore tightly regulated by sects and academies: alchemists are licensed, furnaces are inspected, recipes are tested, and a contaminated alchemist is forbidden from refining until their heart-mind is cleared. The unlicensed alchemist (the 散丹師, "loose pill-master") is the cultivation world's back-alley pharmacist — cheap, dangerous, and the only option for the cultivator who cannot afford a sect's prices.
+   340→
+   341→---
+   342→
+   343→## 5. The determinism contract in practice
+   344→
+   345→The determinism contract (same inputs → same outputs) is the engine of the three crafts' economy. Three worked examples illustrate the contract's application.
+   346→
+   347→### 5.1 Formation example
+   348→
+   349→A Foundation Establishment inscriber sets a three-node ward around a meditation chamber, using jade nodes of standard quality, in a region of balanced qi-climate, with line precision typical of a Foundation Establishment inscriber. The result: a ward that excludes hostile qi below Core Formation intensity, persists for approximately twenty years without re-investment, and produces no side effects. Any other Foundation Establishment inscriber, given the same nodes, the same site, the same precision, produces the same ward. The ward is reproducible; its specification can be written down, taught, and inherited.
+   350→
+   351→### 5.2 Talisman example
+   352→
+   353→A Qi Condensation inscriber paints a fireball talisman on standard talisman paper, using standard cinnabar ink, with pattern precision typical of a Qi Condensation inscriber. The result: a talisman that, on activation by a Fire-phase or compatible cultivator, discharges a fireball of approximately Qi Condensation intensity, with a range of approximately ten paces, in a fixed direction. Any other Qi Condensation inscriber, given the same paper, the same ink, the same precision, produces the same talisman. The talisman is reproducible; its pattern can be written down, taught, and sold in stacks.
+   354→
+   355→### 5.3 Alchemy example
+   356→
+   357→A Foundation Establishment alchemist refines a Foundation Pill using hundred-year ginseng (Wood-phase, gathered at Spring Equinox), spirit-pearl (Water-phase, gathered at Winter Solstice), and cinnabar (Fire-phase, refined), in a spirit-bronze furnace, with fire control typical of a Foundation Establishment alchemist. The result: a Foundation Pill that, when consumed by a Qi Condensation cultivator whose meridian system is integrated and whose qi-reservoir is sufficient, produces a Foundation Establishment breakthrough with approximately seventy percent success and no contamination. Any other Foundation Establishment alchemist, given the same ingredients, the same furnace, the same fire control, produces the same Foundation Pill. The pill is reproducible; its recipe can be written down, taught, and traded.
+   358→
+   359→### 5.4 Where the determinism breaks (and does not)
+   360→
+   361→The determinism contract applies to the *process*, not to the *inputs*. The inputs vary — ingredient potency varies by season and harvest, node quality varies by material and preparation, the inscriber's heart-mind varies by day. The contract guarantees that *given* a specific set of inputs, the process produces a specific output. It does not guarantee that the inputs are always the same.
+   362→
+   363→This is the engine of the crafts' economic variation: a pill made from hundred-year ginseng is qualitatively different from one made from ten-year ginseng, and the alchemist who can source the better ingredient produces the better pill. A talisman inscribed by a rested, concentrated inscriber is qualitatively different from one inscribed by a fatigued, distracted inscriber, and the inscriber who manages their state produces the better talisman. The variation lives in the inputs; the lawfulness lives in the process.
+   364→
+   365→---
+   366→
+   367→## 6. The central tension, named and resolved
+   368→
+   369→The doctrine (AGENTS.md Part 3) requires that the central tension between what the genre forbids (power acceleration) and what the genre expects (power multiplication) be named, chosen, and defended — not dissolved by redefinition.
+   370→
+   371→**The tension.** The genre wants the three crafts to be power multipliers: a pill lets a weaker cultivator punch above their realm; a talisman lets a mortal fire a fireball; a formation lets a sect defend against an army. The doctrine forbids power acceleration that trivializes the realm ladder.
+   372→
+   373→**The choice.** This document chooses **power multiplication at a price**. The three crafts can produce effects above the user's realm envelope, but:
+   374→
+   375→- The craft requires an inscriber or alchemist of higher realm than the user. (A Qi Condensation cultivator can *use* a Foundation Establishment talisman; they cannot *make* one. They must buy, trade, or steal it.)
+   376→- The craft's inputs are scarce, specific, and lawful. (Breakthrough pills require specific herbs gathered at specific solar terms; there is no shortcut.)
+   377→- The craft's failure modes are real, lawful, and dangerous. (A misfired talisman injures the user; a failed pill poisons the consumer; a corrupted formation turns on its inscriber.)
+   378→- The craft's higher-realm effects are gated by the consumer's realm. (A Qi Condensation cultivator cannot use a transformation pill; their body cannot receive the effect.)
+   379→
+   380→**The defense.** This choice preserves the genre's power-multiplication fantasy (the young master with a treasury of pills and talismans is a real and playable archetype) while preventing the doctrine-forbidden acceleration (a Qi Condensation cultivator cannot become Foundation Establishment by stacking pills; they can only succeed at the breakthrough they were already prepared for, faster and more reliably). The price — scarcity, risk, dependence on higher-realm crafters — is the genre's actual economy, made mechanically honest.
+   381→
+   382→**The player-facing consequence.** The player at Qi Condensation can acquire talismans and pills that extend their capability beyond their bare cultivation, but they cannot make those talismans and pills themselves. They must trade for them, owe for them, or steal them. This produces the genre's actual social structure — the dependence of the junior cultivator on the senior crafter, the sect's treasury as a real economic asset, the alchemist as a figure of wealth and danger. The player who reaches Foundation Establishment and inscribes their first talisman crosses a threshold: they are no longer only a *user* of the crafts; they are a *maker*. This is the engine of the genre's progression fantasy, made honest.
+   383→
+   384→---
+   385→
+   386→## 7. What this document enables
+   387→
+   388→This document specifies the three crafts as systems with inputs, processes, outputs, failure modes, and realm requirements. It enables:
+   389→
+   390→- **Economic simulation.** The cultivation world's economy can be modeled: ingredient supply chains, talisman markets, formation libraries, alchemist licensing, sect treasuries. The determinism contract makes the economy reproducible; the realm gating makes it stratified.
+   391→- **Craft play.** The player can practice each craft as a discrete verb-set: survey, place, trace, invest, activate, persist (formations); prepare, inscribe, seal, activate (talismans); gather, prepare, combine, fire, congeal, store (alchemy). Each craft has its own feel, its own failure modes, its own progression.
+   392→- **Craft dependence.** The player at low realm is a *user* of the crafts, dependent on higher-realm crafters. The player at higher realm becomes a *maker*, with the economic and political standing that entails. This is the genre's social structure, made playable.
+   393→- **Lawful failure.** Every craft failure is named, lawful, and predictable. The player who understands the qi-model and the determinism contract can avoid failures; the player who does not, suffers them. This is the doctrine's "the system serves the experience" — the system is the experience, and the experience is the genre's actual texture.
+   394→
+   395→The next document (17) specifies the **economic and political structure of the cultivation world** — the sects, lineages, academies, and markets in which the three crafts are traded, regulated, and contested. The crafts specified here are the *goods*; the next document specifies the *trade*.
+   396→
+   397→---
+   398→
+   399→## Appendix A: Realm-gating summary
+   400→
+   401→| Craft operation | Minimum realm | Notes |
+   402→|---|---|---|
+   403→| Power an existing formation (infuse qi to sustain/activate) | Qi Condensation | Cannot inscribe |
+   404→| Inscribe a simple formation | Foundation Establishment | 3–9 nodes; wards, gathering arrays, simple traps |
+   405→| Inscribe a complex formation | Core Formation | Killing arrays with conditional logic, space-locks, gates |
+   406→| Inscribe a formation that persists after the inscriber's death | Nascent Soul | Sect ancestral formations |
+   407→| Inscribe a domain-level formation | Spirit Severing | The formation is the cultivator's will made spatial |
+   408→| Inscribe a simple talisman (light, fireball, shield) | Qi Condensation | Seal persists for months |
+   409→| Inscribe a complex talisman (communication, detection, storage) | Foundation Establishment | Seal persists for years |
+   410→| Inscribe a semi-autonomous talisman (intent-fragment) | Core Formation | The talisman adjusts its effect to the situation |
+   411→| Inscribe a long-range or trigger-conditional talisman | Nascent Soul+ | Sect treasury class |
+   412→| Refine a simple pill (healing, basic enhancement) | Qi Condensation | Mid-quality at best |
+   413→| Refine a breakthrough pill (Foundation Pill, basic Core-Forming Pill) | Foundation Establishment | Standard trade goods |
+   414→| Refine a transformation pill (body-tempering, meridian-opening, root-developing) | Core Formation | Most expensive consumables |
+   415→| Refine a soul- or anchor-affecting pill | Nascent Soul+ | Strategic resource; some classes criminal |
+   416→
+   417→## Appendix B: Phase-compatibility quick reference
+   418→
+   419→| Inscription's intended phase | Compatible ingredient/medium phases | Conflict phases (failure risk) |
+   420→|---|---|---|
+   421→| Wood (木) | Water (generates), Wood (parallel) | Metal (conquers) |
+   422→| Fire (火) | Wood (generates), Fire (parallel) | Water (conquers) |
+   423→| Earth (土) | Fire (generates), Earth (parallel) | Wood (conquers) |
+   424→| Metal (金) | Earth (generates), Metal (parallel) | Fire (conquers) |
+   425→| Water (水) | Metal (generates), Water (parallel) | Earth (conquers) |
+   426→
+   427→Yin-yang signatures must resolve to a coherent vector: a yang-dominant inscription made with yin-dominant inputs produces an attenuated or contaminated result, regardless of phase compatibility. The generator resolves phase and yin-yang separately; both must succeed.
+   428→
+   429→---
+   430→
+   431→## Citation of doctrine honored
+   432→
+   433→- **AGENTS.md Part 3, "Build the engine, not just the brake."** Every forbidding rule (you cannot inscribe a killing array at Qi Condensation) is paired with the positive capability it unlocks at the proper station (you can inscribe a killing array at Foundation Establishment, with these inputs, by this process). The engine is specified; the brake is specified only in service of the engine.
+   434→- **AGENTS.md Part 3, "Make decisions; do not defer."** This document commits to the realm gating, the failure modes, the determinism contract's application, and the central tension's resolution. No fork is deferred.
+   435→- **AGENTS.md Part 3, "Confront the central tension directly."** §6 names the tension (power multiplication vs. power acceleration), chooses a side (power multiplication at a price), defends the choice, and provides a positive account of what the player gets instead.
+   436→- **AGENTS.md Part 3, "Design for joy first."** §2.8, §3.8, and §4.7 specify what each craft unlocks for the player — the verbs, the feel, the economic role. The system serves the experience; the experience is named.
+   437→- **`00_FOUNDATIONAL_DECISIONS.md` §6.** The qi-model (yin-yang, five phases) is operational in this document: every inscription has a phase-affinity and yin-yang signature, and compatibility is resolved lawfully.
+   438→- **`00_FOUNDATIONAL_DECISIONS.md` §3 and `03_REALM_LADDER.md`.** The realm gating (§2.7, §3.7, §4.6, Appendix A) is consistent with the ten-station ladder's per-station specifications.
+   439→
+   440→## Citation of doctrine violated
+   441→
+   442→- **None at the system level.** The document commits to the doctrine's requirements. The one deviation is terminological: this document does not use pinyin romanization with tone marks, per the user's explicit instruction. This is a stylistic deviation from earlier corpus documents and is ratifiable here; it does not violate any doctrine in AGENTS.md or `00_FOUNDATIONAL_DECISIONS.md`.
+   443→- **Open question, deferred honestly (not deferred as refusal):** The exact recipes for specific pills, the exact patterns for specific talismans, and the exact layouts for specific formations are not specified in this document. These are content artifacts (the recipe book, the talisman pattern catalog, the formation layout atlas) to be specified in later documents or generated procedurally from the seed. The *system* for resolving them is specified here; the *content* is not. This is the doctrine's "deferred detail, not deferred fork."
+   444→

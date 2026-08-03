@@ -1,0 +1,187 @@
+   201→**By time of day.** Ambient qi is thicker at night (yin-phase qi rises with the moon and the cooling earth) and thinner at noon (yang-phase qi peaks but disperses with the sun's heat). A cultivator practicing a yin-phase technique does so at midnight; a cultivator practicing a yang-phase technique does so at dawn. The hour matters. A herb harvested at noon has a different qi-signature than the same herb harvested at midnight, and an alchemist who knows this can choose the harvest hour for the desired effect.
+   202→
+   203→**By season.** Qi rises in spring (wood-phase qi ascends with the sap), peaks in summer (fire-phase qi flares with the sun), falls in autumn (metal-phase qi descends with the harvest), and is still in winter (water-phase qi stores in the deeps). Earth-phase qi is the substrate of all four and varies least. A sect's cultivation calendar is built around this: wood-phase practice in spring, fire-phase in summer, metal-phase in autumn, water-phase in winter, earth-phase practice in the eighteen days between seasons (the "fifth season" of Chinese cosmology, the transition days). See §9 for the full solar-term cycle.
+   204→
+   205→**By weather.** Rain concentrates water-phase qi and washes the air of light contamination (grief-residue fades faster in rain; murder-residue fades slower, because rain drives the residue into the soil, where it lingers). Storms agitate all phases — a thunderstorm flares fire-phase qi in the lightning and stirs water-phase qi in the rain; a long storm can leave a region's qi-turbulent for days. Snow concentrates yin-phase qi and quiets yang; a heavy snowfall can suppress a fire-phase practice for the season. Wind disperses qi — a strong wind thins the ambient qi of any exposed place and concentrates it in wind-sheltered places. Fog holds qi in place — a misty morning preserves the previous night's qi-pattern far past dawn.
+   206→
+   207→### 5.2 The generator input
+   208→
+   209→The qi climate is the input the `QiTopologySeed` expands into the per-location ambient qi state (density, phase-affinity, yin-yang signature, flow, contamination — see document 11 §3.1). The generator must produce:
+   210→
+   211→- A **location-density map** — per region, the ambient qi density at each point, derived from the vein graph and the surface ecology
+   212→- A **diurnal cycle** — per location, the density and phase-affinity variation over the 24 hours
+   213→- A **seasonal cycle** — per location, the density and phase-affinity variation over the 24 solar terms (see §9)
+   214→- A **weather response** — per weather event, the qi-pattern modification (rain concentrates water, storm agitates, snow quiets, wind disperses, fog holds)
+   215→- An **event residue** — per significant event, the qi-residue left behind, with type, intensity, and fade schedule (per document 11 §3.2)
+   216→
+   217→The qi climate is *the* generator input. It is what makes one region's qi feel different from another's. It is what makes the same place feel different at noon and at midnight, in spring and in winter, in clear weather and in storm. It is the engine of the player's perception layer.
+   218→
+   219→---
+   220→
+   221→## 6. Contamination (濁氣)
+   222→
+   223→### 6.1 What it is
+   224→
+   225→Turbid qi (濁氣, "murky qi") is qi that has been corrupted from its natural state. It is not a different kind of qi; it is qi whose phase-affinity, yin-yang polarity, or coherence has been damaged. Pure qi feels clear, smooth, and coherent to a Qi Induction cultivator's perception; turbid qi feels cloudy, gritty, dissonant, or "wrong-colored." Turbid qi does not behave like pure qi in practice — a cultivator drawing turbid qi into their reservoir finds it harder to circulate, more prone to deviation, and (in severe cases) actively damaging. Beasts and herbs that absorb turbid qi develop turbid signatures, and the humans who consume them inherit the corruption.
+   226→
+   227→### 6.2 The three sources
+   228→
+   229→**Violence.** A significant act of violence — a murder, a battle, a torture — leaves a qi-residue at the location. The residue is the discharged qi of the violence itself: the killer's intent (often yang-agitated, fire-phase or metal-phase), the victim's fear (yin-shocked, water-phase or earth-phase), the wounds inflicted (metal-phase disruption in the victim's qi-field). This residue does not dissipate cleanly. It sinks into the ground, clings to the walls, settles into the wood. Over days it fades; over months it fades further; but a place where many people have died violently — an execution ground, a battlefield, a house where a massacre occurred — accumulates a turbid qi that can persist for generations. The lineage hall in Wang Family Bend, where grief-rites have been performed for nine generations, has a *controlled* form of this residue — the residue of grief ritually processed. An uncontrolled accumulation is what makes a place haunted.
+   230→
+   231→**Disease.** A disease is, in the qi model, a parasitic qi-organism — a coherent pattern of corrupted qi that reproduces by infecting a host and using the host's qi to propagate. Schistosomiasis (血吸蟲病), endemic in the Cangli lowlands, is a water-phase parasitic qi that colonizes the host's liver-gallbladder axis, draining the host's wood-phase qi and producing the chronic fatigue, abdominal swelling, and stunted growth the village observes as "water disease." Malaria ("the shakes") is a fire-water mixed parasitic qi that cycles with the host's yin-yang rhythm, producing the alternating fever-and-chill. The snails in the paddies are the *reservoir host* — they carry the parasitic qi in a dormant form that activates when a human wades in the water. The disease is not just a biological infection; it is a *qi-pattern* that the snail, the water, and the human all participate in. This is why a Qi Condensation cultivator can treat it (by disrupting the parasitic qi-pattern in the host's body) but a mortal herbalist, working only with mortal chemistry, can only palliate.
+   232→
+   233→**Cultivation gone wrong.** A deviation (走火入魔, per document 00 §8) leaves residue. A cultivator who routes qi incorrectly, who pushes a practice past the breaking point, or who breaks a heart-mind (心魔) and does not recover — that cultivator's body and practice-site accumulate the residue of the deviation. A false-circuit (假周天) leaves a metal-phase corruption in the meridian where the loop ran. A cross-current (逆流) leaves a chaotic mixed-phase residue. A heart-mind break leaves a yin-shadow that can persist for years. A deviation site — a cave where a Qi Condensation cultivator died of deviation, a meditation platform where a Foundation Establishment cultivator went mad — accumulates the residue, and the next cultivator to practice there inherits a predisposition toward the same deviation. This is why sects mark deviation sites as forbidden and why a wise cultivator, choosing a practice-site, asks first what happened there.
+   234→
+   235→### 6.3 The contaminated ecology
+   236→
+   237→Turbid qi does not stay in the cultivator's body or the murder-site's soil. It diffuses into the ambient qi, and from there into the food web.
+   238→
+   239→- **Contaminated herbs.** A spirit herb growing in turbid qi absorbs the corruption. Its medicinal properties are distorted — a healing herb may become a poison, a tonifying herb may become a disturbing herb, a clarifying herb may become a confusing herb. The herb's outward appearance is usually normal; only a Qi Induction cultivator perceiving its qi, or an alchemist testing its tincture, can detect the contamination. A mortal herbalist who gathers and prescribes a contaminated herb poisons their patient unknowingly.
+   240→- **Mutated beasts.** A spirit beast that absorbs turbid qi over years develops mutations — extra limbs, distorted coloration, behavioral abnormalities, unstable qi-signatures. These beasts are the source of most "monster" tales in the mortal world. A mid-tier beast that absorbs murder-residue may become aggressive beyond its species' norm; a mid-tier beast that absorbs deviation-residue may develop a 扭曲 (twisted) qi-field that drives it mad. The mutated beast is not a separate species; it is a corrupted specimen of its species, and the corruption is treatable if the source turbid qi is cleansed.
+   241→- **Sick humans.** A mortal who lives in turbid qi — over a contaminated vein, near an execution ground, in a house where a deviation occurred — develops chronic illness that no mortal medicine can treat. The illness manifests as a persistent low-grade malaise, disturbed sleep, frequent nightmares, and a slow decline in vitality. Mortal doctors call it "bad placement" (the village's term for ill-omened siting) or "ghost-sickness"; a cultivator recognizes it as qi-contamination and can treat it by cleansing the location or by removing the sufferer from the source.
+   242→
+   243→### 6.4 Cleansing
+   244→
+   245→Cleansing turbid qi is a real practice with specific techniques, environments, and limits. It is not a "purify" button.
+   246→
+   247→- **By ritual.** The lineage hall's grief-rites, the earth-god shrine's bi-monthly incense, the Clear and Bright (清明) tomb-sweeping — these are *controlled* contamination-cleansing rituals. They process the residue of human grief and death in a lawful way, converting raw grief-residue into the dense, old, "human" qi the lineage hall is known for. A Daoist priest's exorcism (驅邪) is the same practice applied to a contaminated house or site — a structured rite that processes the residue and returns the location to coherence. These rituals work for low-grade, accumulated contamination. They do not work for severe contamination (a massacre site, a deep deviation site).
+   248→- **By specific cultivation.** A Qi Condensation cultivator with a water-phase dominant root can practice a cleansing circulation (a specific routing that draws ambient turbid qi into the reservoir, transforms it through the water-phase, and vents it as clarified qi). This is slow, exhausting, and limited in throughput; it cannot cleanse a region, only a small site over many sessions. A Foundation Establishment cultivator with metal-phase root can do the same more efficiently, cutting the corruption from the qi-field rather than transforming it. Cleansing-cultivation is a recognized practice-track and a sect service; many sects have disciples whose primary duty is cleansing the sect's practice-sites and the surrounding mortal lands.
+   249→- **By specific environment.** Some environments cleanse qi by their nature. A fast-moving river carries turbid qi away (water-phase dispersion). A mountain peak exposed to strong wind disperses it (metal-phase cutting). A sacred place (see §7) is by definition pure qi, and a contaminated object or being brought into a sacred place is gradually cleansed by the ambient pure qi. Cleansing by environment is slow but reliable, and is the preferred method for severe contamination: a deviation-corrupted artifact is left in a sacred place for a generation; a haunted house is abandoned for a century and the wind does the work.
+   250→- **Limits.** Some contamination cannot be cleansed. A massacre site where thousands died may carry residue for centuries regardless of intervention. A place where a Nascent Soul cultivator fell in deviation may carry residue that no Mortal-stratum technique can touch. Such places are sealed, avoided, or — if they cannot be sealed — become the wastelands of the cultivation world, the regions no sect claims and no mortal settles.
+   251→
+   252→### 6.5 Procedural generator implications
+   253→
+   254→The generator must produce, per location:
+   255→- A **contamination state** — type (violence / disease / deviation / mixed), intensity, phase-affinity, age, and projected fade schedule
+   256→- A **contamination source graph** — per contamination, the originating event, the diffusion path, and the affected nodes (herbs, beasts, humans, sites)
+   257→- A **cleansing schedule** — per contaminated location, the cleansing practices applied, their throughput, and the projected cleansing date
+   258→
+   259→---
+   260→
+   261→## 7. Sacred places (洞天福地)
+   262→
+   263→### 7.1 What they are
+   264→
+   265→Grotto-heavens (洞天) and blessed lands (福地) are pocket-ecologies within the Acquired stratum that open into the Mortal stratum through specific geographic anchors — a cave behind a waterfall, a crack in a cliff, a sealed gate in a mountain's flank, a pool that descends into another world. They are finite, discoverable, and consequential. They are not instanced dungeons; they are persistent places that other cultivators can also find and contest. Each has its own qi climate, its own ecology, and its own laws, evolved in isolation from the Mortal stratum for centuries or millennia.
+   266→
+   267→The qi in a sacred place is exceptionally pure and exceptionally dense — denser than any Mortal-stratum vein, purer than any Mortal-stratum ambient qi. A cultivator practicing in a sacred place advances faster, with less deviation risk, than the same cultivator practicing in the Mortal stratum. This is why sacred places are the cultivation world's most contested resources: a sect that holds a sacred place holds a generations-long advantage over its rivals.
+   268→
+   269→### 7.2 Their ecology
+   270→
+   271→Because each sacred place is isolated, each has its own ecology, evolved independently. A grotto-heaven opened three thousand years ago may contain spirit-beast lineages found nowhere else, spirit-herb species extinct in the Mortal stratum, and qi-patterns that no Mortal-stratum cultivator has encountered. The ecology is, in a real sense, alien — not because it violates the cosmology (it obeys yin-yang and five-phases as faithfully as any Mortal-stratum ecology) but because it has diverged. A sacred place's food web is its own; its qi climate is its own; its contamination (if any) is its own. A cultivator entering a sacred place enters a separate ecosystem and is, until they learn its rules, an invasive species.
+   272→
+   273→### 7.3 The political economy
+   274→
+   275→Each sacred place is held by a power — usually a sect, sometimes a peak-tier beast lineage, rarely a loose cultivator of Core Formation+ rank. Holding a sacred place requires a Foundation Establishment cultivator in residence at all times (the anchor must be guarded) and a Core Formation cultivator available for serious threats (a rival sect will probe the defense). The holding sect extracts the sacred place's resources — its herbs, its beasts, its practice-sites — at a sustainable rate, or fails to and loses the place within a generation. Sacred-place wars are the most consequential conflicts in the cultivation world; the loser of a sacred-place war loses not just a battle but a generation of cultivation advantage.
+   276→
+   277→### 7.4 Forward reference
+   278→
+   279→The full specification of named sacred places, their anchors, their internal ecologies, their holders, and their contestation histories is in document 18 (TBD). This document specifies only the *category* — that sacred places exist, that they are ecologies, that they are contested, and that they are the upper bound of the qi-density spectrum the player will encounter. The Cangli Riverlands has no sacred place within its immediate region; the nearest is three hundred li to the northeast, in the mountains, and is held by a sect the Bend Township has never heard of. The protagonist will not encounter a sacred place until Foundation Establishment at the earliest, and may never enter one.
+   280→
+   281→---
+   282→
+   283→## 8. The human ecological niche
+   284→
+   285→### 8.1 What humans are, ecologically
+   286→
+   287→Humans are one node in the qi food web, not its apex. The cultivation world's fantasy of human supremacy is a fantasy; the ecology does not share it. A human's ecological role is set by their cultivation tier, and at every tier below Core Formation, that role is *precarious*.
+   288→
+   289→### 8.2 Per-tier
+   290→
+   291→**At Mortal scale.** A mortal is prey. A mortal hunting party can kill a low-tier beast; a mortal village can drive off a low-tier predator. But a mid-tier beast — a mid-tier tiger, a mid-tier wolf, a mid-tier boar — is beyond a mortal village's capacity. A mid-tier beast that ranges into mortal-settled land kills livestock, kills children, and is killed only by a Qi Condensation cultivator's intervention or by a lucky massed-village effort that costs lives. The mortal world's fear of "demons" and "monsters" is, in part, the mortal world's accurate assessment of its own ecological vulnerability.
+   292→
+   293→**At Qi Condensation.** A Qi Condensation cultivator is a mid-tier beast's peer. They can hunt mid-tier beasts; mid-tier beasts can hunt them. They are competitors for the same dense-qi territories and the same spirit-herb resources. A Qi Condensation cultivator who enters a mid-tier beast's territory uninvited is, from the beast's perspective, an invasive competitor; the beast will challenge, drive off, or kill them. This is why Qi Condensation cultivators travel in groups and why a lone Qi Condensation cultivator in the wild is a cautious creature.
+   294→
+   295→**At Foundation Establishment.** A Foundation Establishment cultivator is a predator of mid-tier beasts and a negotiating peer of high-tier beasts. They can hunt mid-tier beasts reliably; they can defend a mortal village from a mid-tier incursion; they can claim a territory and hold it against high-tier challenge. They are the human tier at which the ecological calculus flips: below Foundation Establishment, humans are at the mercy of the beast ecology; at Foundation Establishment, humans become a shaping force within it. A Foundation Establishment cultivator who settles in a region changes the region's ecology within a decade — the mid-tier beasts they hunt decline, the herbs they protect flourish, the mortal villages they defend expand.
+   296→
+   297→**At Core Formation+.** A Core Formation cultivator is an ecological force. They can create or destroy spirit veins (a Core Formation cultivator with the right technique can open a new vein by controlled geological stress, or close one by sealing the channel). They can cleanse or contaminate a region's qi by sustained practice. They can war with peak-tier beasts and win. They can hold a sacred place. A Core Formation cultivator is not a node in the food web; they are a *modifier* of the food web. This is why Core Formation+ cultivators are treated as sovereigns: their decisions reshape the ecology for hundreds of li around them, and the mortals, beasts, and lesser cultivators who live in that radius have no say in the reshaping.
+   298→
+   299→### 8.3 The political implication
+   300→
+   301→The cultivation world's politics is, in significant part, ecological politics. Sect wars are vein wars. Territory disputes are beast-ecology disputes. Sacred-place contests are concentrated-qi contests. The mortal world's suffering — the village whose crops fail, the child killed by a marauding mid-tier beast, the lineage driven off its land by a sect's expanding compound — is, almost always, the downstream consequence of an ecological decision made by a Foundation Establishment or Core Formation cultivator who has never heard of the village and would not remember its name if they had.
+   302→
+   303→This is the engine of the cultivation world's moral structure, and the engine of the player's eventual choices. A protagonist who reaches Foundation Establishment and returns to Wang Family Bend returns as an ecological force. What they do with that force — whether they protect the Bend, exploit it, or ignore it — is one of the central decisions of the late game.
+   304→
+   305→---
+   306→
+   307→## 9. The seasonal cycle (節氣)
+   308→
+   309→### 9.1 The 24 solar terms and the qi year
+   310→
+   311→The 24 solar terms (二十四節氣, per document 04 §3.1) are not just an agricultural calendar. They are the qi year — the cycle by which the ambient qi of the Mortal stratum rises, peaks, falls, and rests. Each term carries a qi-signature that modifies the ambient qi climate, the ecology's behavior, and the practices a cultivator should perform. The generator must produce a qi-signature per term and modulate the ambient qi state accordingly.
+   312→
+   313→The cycle divides into four seasons of six terms each, with the four phase-peaks (wood in spring, fire in summer, metal in autumn, water in winter) and the earth-phase substrate active in the eighteen transition days between seasons.
+   314→
+   315→### 9.2 Spring (春) — wood-phase qi rises
+   316→
+   317→| Term | Hanzi | Approx date | What qi does | What ecology does |
+   318→|---|---|---|---|---|
+   319→| Beginning of Spring | 立春 | Feb 3-5 | Wood-phase qi begins to rise from the deeps. The qi is still cold but moving. | Beasts begin to wake from winter torpor. Herbs begin to sprout. The first buds appear. |
+   320→| Rain Water | 雨水 | Feb 18-20 | Water-phase qi feeds the rising wood-phase qi (water generates wood). Rain concentrates the water-phase qi, accelerating the wood rise. | Paddies fill. Snowmelt begins. Hibernating beasts stir but do not yet emerge. |
+   321→| Awakening of Insects | 驚蟄 | Mar 5-7 | First thunder. Thunder is fire-phase qi discharged from the upper air; it agitates the rising wood-phase qi and "wakes" the hibernating beasts. | Beasts emerge. Spirit beasts that spent the winter in low-tier torpor begin to recover their cultivation. Herbivores seek the first sprouts. |
+   322→| Spring Equinox | 春分 | Mar 20-22 | Wood-phase qi at half-peak. Day and night equal; yin-yang in balance. The qi of the year is most balanced, most suitable for general practice. | Transplanting begins. Herbivores graze actively. Predators follow the herbivores. |
+   323→| Clear and Bright | 清明 | Apr 4-6 | Wood-phase qi clears and clarifies. The air is clean; the qi is bright. The dead's residue is most perceptible (this is the tomb-sweeping week). | Herbs reach early harvest for spring-tonic varieties. Beasts are active. The graveyard's qi is most accessible to perception. |
+   324→| Grain Rain | 穀雨 | Apr 19-21 | Wood-phase qi at peak. The last spring rain concentrates water-phase qi to feed the wood peak. After this, wood begins to convert to fire. | Herbs reach full spring potency. Mid-tier beasts enter mating season. Peak-tier beasts emerge from winter seclusion. |
+   325→
+   326→### 9.3 Summer (夏) — fire-phase qi peaks
+   327→
+   328→| Term | Hanzi | Approx date | What qi does | What ecology does |
+   329→|---|---|---|---|---|
+   330→| Beginning of Summer | 立夏 | May 5-7 | Fire-phase qi begins to rise. Wood-phase qi begins to convert (wood generates fire). The air warms. | Beasts are fully active. Herbs reach summer growth. The plum-rain season approaches. |
+   331→| Grain Full | 小滿 | May 20-22 | Fire-phase qi at half-peak. Wood-phase qi declining. The qi is warm and active. | Herbivores are at peak condition. Predators are hunting actively. Spirit herbs reach summer-harvest windows. |
+   332→| Grain in Ear | 芒種 | Jun 5-7 | Fire-phase qi continues rising. Plum-rain season begins in the Cangli lowlands. Water-phase qi concentrates in the rain, mixed with the rising fire. | Transplanting of late rice. Spirit herbs of water-fire mixed affinity reach potency. Mid-tier beasts are most aggressive (mating season, territorial defense). |
+   333→| Summer Solstice | 夏至 | Jun 21-22 | Fire-phase qi at peak. Yang at maximum. After this, yin begins to rise. The longest day. | Herbs harvested at noon on this day have maximum yang-potency. Fire-phase herbs at peak. Beasts are most active at dawn and dusk, resting at noon. |
+   334→| Minor Heat | 小暑 | Jul 6-8 | Fire-phase qi begins to decline. Yang still dominant but falling. Heat accumulates in the earth. | Heat-stress begins. Spirit beasts seek shade and water. Mortal crops at risk of heat damage. |
+   335→| Major Heat | 大暑 | Jul 22-24 | Fire-phase qi at residual peak. The earth is hottest. The qi is dense, hot, and slow. | Peak heat. Spirit herbs of fire-affinity reach late-summer potency. Beasts are lethargic. Mortal labor is dangerous. |
+   336→
+   337→### 9.4 Autumn (秋) — metal-phase qi falls
+   338→
+   339→| Term | Hanzi | Approx date | What qi does | What ecology does |
+   340→|---|---|---|---|---|
+   341→| Beginning of Autumn | 立秋 | Aug 7-9 | Metal-phase qi begins to rise. Fire-phase qi declining. The air begins to cool at night. | Harvest's shape becomes visible. Herbs begin to seed. Beasts begin to fatten for winter. |
+   342→| End of Heat | 處暑 | Aug 23 | Metal-phase qi at half-peak. Fire-phase qi residual. The qi is cooling, clarifying. | Late rice heading. Herbivores graze intensively to build winter fat. Predators hunt the fattening herbivores. |
+   343→| White Dew | 白露 | Sep 7-9 | Metal-phase qi at peak. Water-phase qi begins to condense (metal generates water). Dew appears. | Water-phase herbs seed. Beasts begin to hoard. The qi is sharp, clear, cutting. |
+   344→| Autumn Equinox | 秋分 | Sep 22-24 | Metal-phase qi at peak. Yin-yang in balance again. The qi is balanced and clear. | Late rice harvest. The threshing ground is in continuous use. Beasts are at peak fat. Herbs reach autumn-harvest windows. |
+   345→| Cold Dew | 寒露 | Oct 8-9 | Metal-phase qi declining. Water-phase qi rising. Dew is cold. | Herbs reach late-autumn potency. Beasts begin to seek winter dens. Predators make their last intensive hunts. |
+   346→| Frost's Descent | 霜降 | Oct 23-24 | Metal-phase qi at residual. Water-phase qi dominant. Frost appears. The qi is cold, still, descending. | Harvest ends. Herbs are dormant above ground, storing qi in roots. Beasts enter pre-winter torpor. |
+   347→
+   348→### 9.5 Winter (冬) — water-phase qi stores
+   349→
+   350→| Term | Hanzi | Approx date | What qi does | What ecology does |
+   351→|---|---|---|---|---|
+   352→| Beginning of Winter | 立冬 | Nov 7-8 | Water-phase qi at peak. The qi is cold, still, storing. Yang at minimum. | Beasts enter winter torpor. Herbs are dormant. Mortal labor turns to indoor crafts and maintenance. |
+   353→| Minor Snow | 小雪 | Nov 22 | Water-phase qi concentrates. Snow begins. The qi is quiet. | Spirit beasts in deep torpor. Low-tier beasts may still forage on warm days. Mortal villages prepare for winter. |
+   354→| Major Snow | 大雪 | Dec 6-8 | Water-phase qi at full peak. Snow accumulates. The qi is silent. | Deep winter. Beasts in deep torpor. Spirit herbs' roots store qi at maximum density. Winter-solstice herbs (rare) reach potency. |
+   355→| Winter Solstice | 冬至 | Dec 21-23 | Water-phase qi at peak. Yin at maximum. After this, yang begins to rise. The longest night. | The lineage's winter-solstice rite. The qi is most still, most yin, most storage. A cultivator practicing water-phase or yin-phase technique does so at midnight on this day for maximum effect. |
+   356→| Minor Cold | 小寒 | Jan 5-7 | Water-phase qi declining. Wood-phase qi beginning to stir deep below. The qi is cold but moving. | Spirit beasts begin the slow wake. Herbs' roots begin to sense the changing qi. Mortal villages endure the cold. |
+   357→| Major Cold | 大寒 | Jan 20-21 | Water-phase qi at residual. Wood-phase qi rising in the deeps. The qi is cold on the surface, alive below. | The last winter term. Beasts prepare to emerge. Herbs prepare to sprout. The cycle turns. |
+   358→
+   359→### 9.6 The earth-phase substrate
+   360→
+   361→Earth-phase qi (土性氣) is the substrate of all four seasons and does not have its own season. Instead, it is most active in the **eighteen days between each season** — the transition periods (the "fifth season" of Chinese cosmology). These eighteen-day windows are when the phase-transition occurs (wood converting to fire, fire to metal, metal to water, water to wood), and earth-phase qi is the medium of conversion. A cultivator practicing earth-phase technique does so in these windows. A sect's earth-phase practice hall is used most intensively in the eighteen days before each equinox and solstice.
+   362→
+   363→### 9.7 Procedural generator implications
+   364→
+   365→The generator must produce, per solar term:
+   366→- A **qi-climate modifier** — phase-affinity shift, yin-yang shift, density shift, applied to every location's ambient qi state
+   367→- An **ecology behavior modifier** — beast activity level, herb growth stage, harvest window, applied to every node in the food web
+   368→- A **practice modifier** — per cultivation technique, the bonus or penalty for practicing it in this term
+   369→- An **event schedule** — the seasonal events (Clear and Bright tomb-sweeping, winter-solstice lineage rite, etc.) keyed to the terms, per document 04 §3.2
+   370→
+   371→The 24-term cycle is the qi-year's heartbeat. It is what makes the world feel alive across sessions, what gives the player's practice a calendar, and what makes the same place feel different in spring than in autumn. The player who has played a full in-game year has, by design, perceived the full qi-climate cycle and begun to internalize it.
+   372→
+   373→---
+   374→
+   375→## 10. Cross-references and forward pointers
+   376→
+   377→- **Document 00** — cosmology (three strata, Nameless Origin), qi model (yin-yang, five phases), realm ladder summary, deviation
+   378→- **Document 03** — the Ten Stations, with per-station perceptions, verbs, responsibilities, constraints, and failure modes
+   379→- **Document 04** — the Cangli Riverlands mortal substrate; the 24 solar terms as agricultural calendar; the village's qi-residue places (lineage hall, graveyard, earth-god shrine)
+   380→- **Document 05** — the phenomenology of qi perception; what qi *feels like* to perceive (this document specifies what qi *is in the world*)
+   381→- **Document 11** — the engine's qi generator (ambient qi state, qi-residue, qi-topology seed); this document is the design-side specification that the engine implements
+   382→- **Document 15 (TBD)** — the full catalog of named spirit herbs, their properties, and their alchemical uses
+   383→- **Document 16 (TBD)** — the full catalog of named spirit beasts, their lineages, and their regional distributions
+   384→- **Document 18 (TBD)** — the full specification of named sacred places (grotto-heavens and blessed lands), their anchors, their internal ecologies, and their holders
+   385→
+   386→This document closes no doors. It commits to: spirit veins as the qi-topology skeleton; spirit beasts as animals with cultivator-parallel tiers; the qi food web as a directed graph with cascading consequences; spirit herbs as phase-classified plants with growth and harvest consequences; the qi climate as the generator's primary input; contamination as a real and treatable corruption; sacred places as isolated contested ecologies; humans as one precarious node; and the 24-term cycle as the qi-year's heartbeat. Everything downstream — the engine, the catalog, the sacred-place atlas — builds on these commitments.
+   387→

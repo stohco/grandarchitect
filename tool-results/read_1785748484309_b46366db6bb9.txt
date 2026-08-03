@@ -1,0 +1,232 @@
+     1→# 16 — Formations, Talismans, and Alchemy (陣法 · 符籙 · 煉丹)
+     2→
+     3→**Status:** Candidate canon. Specifies the three inscription/refinement crafts as systems, not flavor. Honors the qi model (yin-yang polarity, five phases) and the determinism contract (same inputs → same outputs).
+     4→**Date:** 2026-08-03
+     5→**Authority:** This document is governed by `00_FOUNDATIONAL_DECISIONS.md` (§1 cosmology, §2 soul model, §3 realm ladder, §6 operational status of yin-yang and wuxing) and the per-station specifications of `03_REALM_LADDER.md`. If a later document contradicts a decision here, the contradiction is a defect to be repaired, not a fork to be deferred.
+     6→
+     7→---
+     8→
+     9→## 0. How to read this document
+    10→
+    11→The three crafts — formations (陣法), talismans (符籙), and alchemy (煉丹) — are presented as **systems**, not as flavor. Each craft has:
+    12→
+    13→1. **Essence** — what the craft *is* in the world.
+    14→2. **Inputs** — the lawful, enumerable materials and conditions the craft consumes.
+    15→3. **Process** — the discrete steps the craft performs on those inputs, in order, with their own qi-lawful sub-rules.
+    16→4. **Outputs** — the lawful, enumerable results the craft produces, with the conditions that select between them.
+    17→5. **Failure modes** — the specific, named ways the craft produces a worse or wrong output, each with its own cause and remedy.
+    18→6. **Realm requirements** — what station of the ten-station ladder is required to perform each operation of the craft, and what each new station adds.
+    19→
+    20→This is the doctrine's "build the engine, not just the brake" made concrete: every forbidding rule (you cannot inscribe a killing array at Qi Condensation) is paired with the positive capability it unlocks at the proper station (you can inscribe a killing array at Foundation Establishment, with these inputs, by this process, producing this output, with these failure modes).
+    21→
+    22→**Terminology rule.** This document uses English xianxia vocabulary as the primary term and Hanzi (Traditional) in parentheses on first use where the term is genre-load-bearing. No pinyin romanization with tone marks is used; this is a deliberate deviation from earlier corpus documents and is ratifiable here.
+    23→
+    24→---
+    25→
+    26→## 1. Doctrine shared by the three crafts
+    27→
+    28→### 1.1 What the three crafts have in common
+    29→
+    30→All three crafts are **inscription arts** — the practice of persisting a qi-structure in a medium (space, paper, jade, a furnace's contents) so that the structure produces a lawful effect when activated. The difference between them is the medium, the persistence, and the cost:
+    31→
+    32→- A **formation** inscribes qi-lines in space. It is fixed, persistent (drawing ambient qi to sustain itself), and high-power.
+    33→- A **talisman** inscribes qi-patterns on a portable medium. It is portable, single-use, and lower-power.
+    34→- An **alchemy** refines medicinal substances into a pill. It is consumed, single-use, and acts on the cultivator's body and qi-system directly.
+    35→
+    36→All three are bound by the same two contracts.
+    37→
+    38→### 1.2 The qi model contract
+    39→
+    40→Every inscription carries a **phase-affinity** (one of Wood 木, Fire 火, Earth 土, Metal 金, Water 水) and a **yin-yang signature** (a vector along cold/hot, dark/light, still/moving, internal/external, condensing/dispersing). Phase interactions resolve by the two standard cycles:
+    41→
+    42→- **Generation cycle (相生):** Wood feeds Fire; Fire makes Earth (ash); Earth bears Metal (ore); Metal channels Water (condensation); Water nourishes Wood.
+    43→- **Conquest cycle (相剋):** Wood parts Earth (roots); Earth dams Water; Water quenches Fire; Fire melts Metal; Metal chops Wood.
+    44→
+    45→A craft step succeeds when the inputs' phase-affinities resolve to the inscription's intended phase, and the yin-yang signatures resolve to a coherent vector. A craft step fails or degrades when the inputs conflict — a Fire-phase inscription on a Water-phase medium, a Metal-phase herb combined with a Wood-phase herb in a pill whose intent is Fire. The generator must resolve these interactions lawfully: every inscription step has a deterministic phase-resolution function.
+    46→
+    47→### 1.3 The determinism contract
+    48→
+    49→**Same inputs, same process, same output.** This is the project's foundational contract (per `00_FOUNDATIONAL_DECISIONS.md` §0 and the prior corpus's `DETERMINISM-v0.1`). It applies to the three crafts as follows:
+    50→
+    51→- A formation inscribed by a Foundation Establishment cultivator using jade nodes of given quality, in a region of given qi-climate, with given qi-line precision, produces a specific formation with specific properties — every time.
+    52→- A talisman inscribed with given ink, on given medium, with given patterns, by a cultivator of given realm, produces a specific talisman — every time.
+    53→- A pill refined from given ingredients, with given fire control, in a given furnace, by an alchemist of given realm, produces a specific pill — every time.
+    54→
+    55→This means the crafts are **reproducible**. A recipe, a diagram, a formation layout — once known and once executed correctly — produces the same result. The craft's randomness lives in the *inputs* (the ingredients vary, the medium varies, the alchemist's heart-mind varies), not in the *process*. The doctrine's "An isomorphic NPC with the same advantage must produce the same result" oracle applies: a cultivator and an isomorphic NPC, given the same inputs, produce the same craft output.
+    56→
+    57→This is the engine of the cultivation economy. Reproducibility is what makes a recipe worth a thousand spirit stones. Reproducibility is what lets an alchemist sell a pill and a talisman artist sell a stack of fireball talismans. Reproducibility is what makes a sect's formation library an asset that can be inherited, stolen, traded, and lost.
+    58→
+    59→### 1.4 The central tension, named
+    60→
+    61→The genre wants the crafts to be **power multipliers**: a single pill lets a Qi Condensation cultivator punch at Foundation Establishment weight for an hour; a single talisman lets a mortal fire a fireball; a single formation lets a sect defend against an army. The doctrine forbids power acceleration that trivializes the realm ladder.
+    62→
+    63→This document resolves the tension by **price**, not by denial. The three crafts can produce effects above the user's realm envelope, but:
+    64→
+    65→- The craft requires an inscriber of higher realm than the user. (A Qi Condensation cultivator can *use* a Foundation Establishment talisman; they cannot *make* one.)
+    66→- The craft's inputs are scarce and specific. (Breakthrough pills require herbs that grow in one grotto-heaven, harvested at one solar term.)
+    67→- The craft's failure modes are real and lawful. (A misfired talisman injures the user; a failed pill poisons the consumer; a corrupted formation turns on its inscriber.)
+    68→- The craft's higher-realm effects are gated by higher-realm inscription. (A Qi Condensation cultivator cannot use a transformation pill — their body cannot receive the effect; the pill is wasted or harmful.)
+    69→
+    70→The player gets the fantasy of power multiplication, but pays for it in scarcity, risk, and dependence on higher-realm crafters. This is the genre's "the young master has a treasury of pills and talismans" trope, made mechanically honest.
+    71→
+    72→---
+    73→
+    74→## 2. Formations (陣法)
+    75→
+    76→### 2.1 What a formation is
+    77→
+    78→A formation is a **persistent qi-structure inscribed in space** that produces a lawful effect within a bounded area. The formation is not the qi-lines the inscriber traces; those are the *inscription*. The formation is the *standing structure* that the inscription produces — a self-sustaining qi-pattern that draws ambient qi from the local environment to maintain itself, and that produces its effect when triggered (continuously, for a ward; on intrusion, for a killing array; on activation, for a transport gate).
+    79→
+    80→A formation is to qi what a water-mill is to a river: a structure placed in a flow that converts the flow's energy into a specific output. Remove the flow (drain the ambient qi), and the formation stops. Remove the structure (disrupt a node), and the formation collapses. The formation is lawful, deterministic, and bounded.
+    81→
+    82→### 2.2 Components
+    83→
+    84→Every formation has four components. The generator must produce and track all four.
+    85→
+    86→1. **Nodes (陣眼, "array eyes").** The anchor points of the formation. A node is a physical object placed at a specific point in space, invested with a specific phase-affinity and yin-yang signature by the inscriber. Node material matters: a stone node holds a faint, slow-bleeding signature; a jade node holds a clean, enduring signature; a node anchored to a spirit vein (靈脈) draws directly on the vein's qi and is effectively inexhaustible for the formation's purpose. A formation's node count is determined by its type and complexity — a simple ward may have three nodes; a siege array may have thirty-six.
+    87→
+    88→2. **Lines (陣紋, "array lines").** The qi-channels between nodes, traced by the inscriber. A line is not a physical mark (though inscribers often mark the path for their own reference); it is a sustained qi-current that flows from one node to the next along a path the inscriber has fixed. Line precision matters: a line that wavers, crosses another line unintentionally, or terminates short of its target node produces a flawed formation. Precision is a function of the inscriber's realm, their concentration during inscription, and their tooling (a tracing stylus helps; bare-hand tracing is error-prone).
+    89→
+    90→3. **The core (陣心, "array heart").** The formation's logic center — the node (or sub-pattern of nodes) that defines the formation's *effect*. The core is where the formation's intent is encoded: "ward this boundary," "kill whatever enters," "gather qi to this point." The core's complexity determines the formation's tier (simple, complex, domain-level). A core is not just a node; it is a pattern — a small sub-formation within the larger formation, whose qi-structure specifies the effect.
+    91→
+    92→4. **The boundary (陣界, "array boundary").** The area of effect — the volume within which the formation's effect holds. The boundary is determined by the nodes' placement: the formation's effect fills the volume bounded by the outermost nodes. A boundary is permeable to some qi-phase flows and impermeable to others, depending on the formation's design. A ward's boundary keeps out hostile qi; a gathering formation's boundary admits ambient qi but concentrates it.
+    93→
+    94→### 2.3 The inscription process
+    95→
+    96→The formation inscription process has six discrete steps. Each step is qi-lawful and deterministic given its inputs.
+    97→
+    98→1. **Survey.** The inscriber examines the proposed site: its qi-climate (phase-affinity, yin-yang signature, density, flow), its geomorphology (spirit veins, dead zones, contaminated ground), and its compatibility with the intended formation. A Fire-phase ward array inscribed in a Water-phase swamp will attenuate or fail; the survey reveals this before inscription begins. Survey is a perception verb available at Qi Condensation (qi-quality perception) and deepened at Foundation Establishment (environmental qi-flow perception).
+    99→
+   100→2. **Node placement.** The inscriber sets the nodes at the surveyed positions, orienting each node's phase-affinity to its role in the formation. Each node is a prepared object (a carved jade plate, a polished river stone, a forged metal disk) that the inscriber has already invested with a specific phase and signature. Node placement is physical labor: the nodes must be set precisely, often to within a finger's breadth.
+   101→
+   102→3. **Line tracing.** The inscriber traces the qi-lines between nodes, in the order specified by the formation's design. This is the inscription proper: the inscriber circulates their own qi through their meridians, projects it along the intended line, and fixes it in place by sustained concentration. Each line must be traced in a single continuous act; interruption produces a flawed line. Line tracing is exhausting — a Foundation Establishment inscriber can sustain tracing for perhaps an hour before their reservoir requires rest.
+   103→
+   104→4. **Core investment.** The inscriber invests qi into the core, encoding the formation's intent. This is the most delicate step: the core's pattern must be inscribed exactly, and the intent must be coherent (a "ward" intent with a "kill" sub-pattern produces a corrupted formation). Core investment is the step where the inscriber's realm most directly limits the formation: a Qi Condensation inscriber cannot invest a coherent core (their qi is too diffuse); a Foundation Establishment inscriber can invest a simple core; a Core Formation inscriber can invest a complex core; a Nascent Soul inscriber can invest a core that persists after their death; a Spirit Severing inscriber can invest a domain-level core.
+   105→
+   106→5. **Activation.** The inscriber activates the formation by infusing a final pulse of qi into the boundary. The formation "catches": the qi-lines begin to circulate, the core's intent takes hold, and the formation begins drawing ambient qi to sustain itself. Activation is the moment of truth — a flawed formation often reveals itself here, when the lines conflict or the core's intent is incoherent. A botched activation can produce a backlash that injures the inscriber.
+   107→
+   108→6. **Persistence.** Once activated, the formation persists — drawing ambient qi from the local environment to sustain its qi-lines and core. A well-inscribed formation in a qi-rich environment can persist for decades or centuries without intervention. A poorly-inscribed formation, or one in a qi-poor environment, fades over weeks or months. Persistence can be renewed by a later inscriber of equal or higher realm re-investing the core.
+   109→
+   110→### 2.4 Formation types
+   111→
+   112→Formations are classified by their effect. The four major classes:
+   113→
+   114→- **Defensive (守陣).** Wards (拒外 — exclude hostile qi or beings), shields (護體 — protect those within from physical or qi attack), barriers (隔界 — seal a boundary against transit). Defensive formations are the most common, the simplest, and the foundation of a sect's perimeter defense. A three-node ward is the typical first formation a Foundation Establishment inscriber learns.
+   115→
+   116→- **Offensive (攻陣).** Killing arrays (殺陣 — destroy intruders), traps (陷陣 — capture or immobilize), siege arrays (攻城 — breach a defended position). Offensive formations areqi-costly to inscribe (their cores encode harm, which requires a sharper intent) and qi-costly to sustain (they consume ambient qi faster than defensive formations, because their effect is more energetic). A killing array in a qi-poor environment fades in days.
+   117→
+   118→- **Utility (用陣).** Gathering arrays (聚靈 — concentrate ambient qi for cultivation), concealing arrays (隱形 — hide a place from perception), space-locking arrays (鎖空 — prevent spatial transit within the boundary). Utility formations are the most varied class: each utility formation is its own design, with its own inputs and process. A gathering array is the most common utility formation and the most economically important — a sect's cultivation chambers are gathering-array-equipped, and the difference between a good gathering array and a poor one is the difference between a Qi Condensation breakthrough in three years and in thirty.
+   119→
+   120→- **Transport (運陣).** Gates (門陣 — link two inscribed locations for direct transit), teleport arrays (傳送 — move beings or matter within the formation's boundary to a prepared receiving array). Transport formations are the most complex formations a Core Formation inscriber can produce; their cores encode spatial relations, which require a deeper law-perception than effect-formations. A gate between two locations requires a paired inscription at both ends; the pair must be inscribed by the same inscriber (or by inscribers who have synchronized their core-intent), and the pair must be maintained in parallel.
+   121→
+   122→### 2.5 Formation quality
+   123→
+   124→A formation's quality — the strength, persistence, and reliability of its effect — is determined by five factors. Each is a lawful input to the quality function.
+   125→
+   126→1. **Inscriber's realm.** Higher realm = sharper qi, denser intent, finer line precision. A Foundation Establishment inscriber's formation is to a Core Formation inscriber's formation as a villager's brushwork is to a court calligrapher's.
+   127→
+   128→2. **Line precision.** The accuracy with which the qi-lines are traced. Precision is reduced by fatigue, distraction, inadequate tools, and adverse qi-climate (tracing a Fire-phase line in a high-wind Water-phase environment is harder than in still air).
+   129→
+   130→3. **Node quality.** The material and preparation of the nodes. A river-stone node holds a faint signature and bleeds qi over months; a jade node holds a clean signature for decades; a spirit-vein-anchored node draws on the vein and is effectively permanent. Node quality is the single largest determinant of formation persistence.
+   131→
+   132→4. **Compatibility with local qi-climate.** A formation whose phase and signature match the local qi-climate persists easily (the ambient qi sustains it). A formation whose phase conflicts with the local qi-climate must be sustained by the inscriber's reservoir — which is unsustainable for long. This is why sects are sited on spirit veins: the vein's qi-climate is dense, coherent, and compatible with a wide range of formations.
+   133→
+   134→5. **Core coherence.** The coherence of the core's encoded intent. A core whose intent is muddled (the inscriber was uncertain, or the formation's design combines incompatible sub-intents) produces a formation that misfires or produces a degraded effect. Core coherence is the most directly inscriber-dependent factor: it is the inscriber's qi-discipline at the moment of investment.
+   135→
+   136→### 2.6 Failure modes
+   137→
+   138→A formation can fail in five named ways. Each is lawful, predictable, and has a remedy.
+   139→
+   140→1. **Disrupted nodes (破眼).** A node is destroyed, moved, or contaminated. The formation's qi-structure collapses at the disruption point; the effect fails or, worse, the un-routed qi bleeds into the environment unpredictably. A warded sect whose perimeter node is shattered by a siege weapon does not merely lose the ward — the un-routed qi can scourge the sect's grounds. Remedy: re-inscribe the disrupted node and re-activate the formation (requires an inscriber of equal or higher realm than the original).
+   141→
+   142→2. **Conflicting lines (亂紋).** Two or more qi-lines cross or interfere unintentionally, producing a corrupted effect. A ward with conflicting lines may admit what it should exclude, or exclude what it should admit, or produce a flickering effect that fails under load. Remedy: identify and re-trace the conflicting lines (a perception-intensive diagnostic; the inscriber must read the formation's qi-structure and locate the conflict).
+   143→
+   144→3. **Insufficient ambient qi (氣竭).** The formation draws more ambient qi than the local environment can supply; the qi-lines thin and the effect fades. A gathering array inscribed in a qi-poor region fades in days. Remedy: relocate the formation, supplement the ambient qi (a higher-realm cultivator can sustain it temporarily), or accept the fade and re-inscribe elsewhere.
+   145→
+   146→4. **Contamination (污陣).** The formation's effect is corrupted by external qi — a hostile cultivator injects a conflicting phase into a node, or a contaminated ambient qi-source bleeds into the lines. A ward contaminated by grief-residue (e.g., inscribed near a recent murder scene) may begin to admit the dead's bardo-traces. Remedy: cleanse the formation (a purification rite by a Core Formation or higher cultivator) or dismantle and re-inscribe elsewhere.
+   147→
+   148→5. **Core collapse (心潰).** The core's encoded intent destabilizes — typically because the inscriber's realm was inadequate for the formation's complexity, or because the core's intent was incoherent from the start. A core collapse is catastrophic: the formation's qi-lines discharge their stored qi in an uncontrolled burst, often killing the inscriber and anyone nearby. This is the formation-craft's equivalent of a Core Formation cultivator's cracked core. Remedy: none, in the moment; prevention is the only remedy. A prudent inscriber tests a complex formation's core coherence with a lesser version before investing the full intent.
+   149→
+   150→### 2.7 Realm requirements
+   151→
+   152→The formation craft's realm gating, per the ten-station ladder:
+   153→
+   154→- **Qi Condensation (凝气).** Can *power* a formation (infuse qi into an existing formation's core to sustain or activate it) but cannot *inscribe* one. A Qi Condensation cultivator's qi is too diffuse to fix a sustained line.
+   155→- **Foundation Establishment (筑基).** Can inscribe **simple formations**: three-to-nine-node wards, basic gathering arrays, simple traps. Cannot inscribe complex cores (killing arrays with conditional logic, transport gates). Lifespan of ~200 years means a Foundation Establishment inscriber's formations persist within their lifetime but rarely outlive them.
+   156→- **Core Formation (金丹).** Can inscribe **complex formations**: killing arrays with conditional logic, space-locking arrays, transport gates, siege arrays. A Core Formation inscriber's formations are qi-stable enough to persist for centuries.
+   157→- **Nascent Soul (元婴).** Can inscribe formations that **persist after the inscriber's death** — the inscriber's core-investment is dense enough to sustain itself without the inscriber's continued attention. This is the threshold at which a sect's ancestral formations become possible: the founder inscribes the sect's perimeter ward at Nascent Soul, and the ward persists for centuries after the founder's death.
+   158→- **Spirit Severing (化神).** Formations are **domain-level** — the inscriber's will is partially authoritative within their domain, and a Spirit Severing inscriber's formation is effectively a fixed expression of that will. A Spirit Severing cultivator's ward is not merely a qi-structure; it is the cultivator's law made spatial. These formations cannot be dismantled by lower-realm cultivators.
+   159→
+   160→### 2.8 The engine: what formations unlock for the player
+   161→
+   162→Formations give the player the verb **to fortify a place**. A cultivator with formation skill can turn a cave into a defended sanctuary, a clearing into a cultivation chamber, a village into a warded refuge. This is the engine of the genre's "the young master retreats to his sect's spirit-gathering array" trope: the formation is the *place* the cultivator returns to, and the place is part of the cultivator's power.
+   163→
+   164→For the player at Qi Condensation–Foundation Establishment, formations are the first craft they encounter as *users* (their sect's perimeter ward, their cultivation chamber's gathering array). At Foundation Establishment, they become *inscribers* of simple formations — and the first time they successfully inscribe a three-node ward in their own chamber is the first time the world feels like *theirs*.
+   165→
+   166→---
+   167→
+   168→## 3. Talismans (符籙)
+   169→
+   170→### 3.1 What a talisman is
+   171→
+   172→A talisman is a **single-use qi-structure inscribed on a portable medium** (paper, jade, wood, bone, silk, metal leaf) that produces an effect when activated. The talisman's inscription is a pattern — a qi-conductive ink or material laid down in specific shapes that encode the effect. The pattern is dormant until activated; on activation (by infusing qi into the medium), the pattern discharges its encoded effect in a single burst, and the talisman is consumed.
+   173→
+   174→### 3.2 The difference from formations
+   175→
+   176→Talismans and formations are sibling inscription arts. The differences:
+   177→
+   178→| Property | Formation (陣法) | Talisman (符籙) |
+   179→|---|---|---|
+   180→| Medium | Space itself | Portable object (paper, jade, etc.) |
+   181→| Persistence | Persistent (draws ambient qi) | Dormant until activation |
+   182→| Use | Continuous or triggered | Single-use |
+   183→| Power | High (sustained by ambient qi) | Low (powered by the user's qi at activation) |
+   184→| Inscriber realm | Foundation Establishment minimum | Qi Condensation minimum |
+   185→| Inscription time | Hours to days | Minutes to hours |
+   186→| Cost | Node materials, inscription labor | Medium, ink, inscription labor |
+   187→
+   188→A talisman is the *portable, expendable* version of a formation. A talisman cannot match a formation's power (the formation draws ambient qi; the talisman is powered only by the user's infusion), but it can be carried in a sleeve and used anywhere. A cultivator with a stack of fireball talismans is, in effect, carrying a small offensive formation in their pocket.
+   189→
+   190→### 3.3 The inscription process
+   191→
+   192→The talisman inscription process has five discrete steps.
+   193→
+   194→1. **Medium preparation.** The inscriber prepares the medium — typically a square of yellow paper (黃紙, the standard qi-conductive paper, treated with alum and beeswax), but also jade slips (for high-quality talismans), wooden tablets (for durable talismans), bone plaques (for necromantic talismans), or metal leaves (for elemental talismans). The medium must be qi-clean (no residual signature) and phase-compatible with the intended effect. Paper is the most versatile medium; jade is the most enduring (a jade talisman can be re-charged, where a paper talisman cannot).
+   195→
+   196→2. **Ink preparation.** The inscriber prepares (or selects) the ink — typically cinnabar ink (硃砂, mercuric sulfide, the standard qi-conductive ink, naturally Fire-phase and yang), but also iron-gall ink (Metal-phase), pine-soot ink (Water-phase, yin), or proprietary blends for specific effects. The ink's phase-affinity must be compatible with the talisman's intended effect: a fireball talisman uses cinnabar ink; an ice-arrow talisman uses pine-soot ink.
+   197→
+   198→3. **Pattern inscription.** The inscriber inscribes the qi-pattern onto the medium, using a brush (or stylus, for jade and metal) charged with the prepared ink. The pattern is a specific arrangement of strokes — typically a central sigil (the effect's "name") surrounded by ancillary runes (the effect's parameters: range, duration, target, intensity). The pattern must be inscribed in a single continuous act, with sustained concentration; interruption produces a flawed talisman. The inscriber's qi flows through the brush into the ink, binding the pattern to the medium.
+   199→
+   200→4. **Sealing.** The inscriber seals the pattern by infusing a final pulse of qi into the medium, fixing the pattern in its dormant state. A sealed talisman can be carried, stored, traded, sold — the pattern persists until activated. Sealing is the step where the inscriber's realm most directly limits the talisman: a Qi Condensation inscriber's seal fades over months; a Foundation Establishment inscriber's seal persists for years; a Core Formation inscriber's seal can carry a fragment of the inscriber's intent (a semi-autonomous talisman that adjusts its effect to the situation — see §3.7).
+   201→
+   202→5. **Activation.** The user (not necessarily the inscriber) activates the talisman by infusing their own qi into the medium. The user's qi must be phase-compatible with the talisman's pattern — a Wood-phase cultivator activating a Metal-phase talisman produces a degraded or misfired effect (the conquest cycle quenches the pattern). On successful activation, the pattern discharges its encoded effect in a single burst, and the talisman is consumed (the medium is destroyed or, for jade, drained and blank).
+   203→
+   204→### 3.4 Talisman types
+   205→
+   206→Talismans are classified by their effect. The four major classes:
+   207→
+   208→- **Attack (攻擊符).** Fireball (火球符), sword-qi (劍氣符), lightning (雷符), ice-arrow (冰箭符), and so on. Attack talismans are the cultivator's ranged weapon; a stack of attack talismans effectively grants a Qi Condensation cultivator ranged capability they would not otherwise have. Attack talismans are typically Fire-phase or Metal-phase; the choice of phase is the choice of damage type.
+   209→
+   210→- **Defense (防禦符).** Shield (盾符), ward (護符), barrier (隔符). Defense talismans produce a temporary protective effect — a shield talisman creates a brief qi-barrier around the user; a ward talisman creates a brief warded volume; a barrier talisman seals a doorway or gap. Defense talismans are typically Earth-phase or Metal-phase (Earth stabilizes; Metal cuts incoming qi).
+   211→
+   212→- **Utility (雜符).** Light (光符 — produces sustained illumination), communication (傳音符 — carries a message over distance), storage (儲物符 — a small spatial pocket, the precursor to a storage ring), detection (探符 — senses qi or beings in a brief radius). Utility talismans are the most varied class and the most economically important for ordinary cultivators. A light talisman is the first talisman a Qi Condensation inscriber learns; a communication talisman is the foundation of long-distance coordination in the cultivation world.
+   213→
+   214→- **Summoning (召符).** Calls a bound spirit or beast to the user's location. Summoning talismans are the most demanding talisman class — the pattern must encode not only the effect (summon) but the *target* (the specific bound being). A summoning talisman is useless without a prior binding contract between the summoner and the summoned. Summoning talismans are typically Core Formation or higher inscriptions; the binding contract is a separate, more demanding art.
+   215→
+   216→### 3.5 Talisman quality
+   217→
+   218→A talisman's quality — the strength, reliability, and precision of its effect — is determined by four factors.
+   219→
+   220→1. **Inscriber's realm.** Higher realm = denser qi-binding to the medium, sharper pattern precision, longer seal persistence. A Qi Condensation inscriber's talisman is to a Foundation Establishment inscriber's as a child's crayon drawing is to a master calligrapher's scroll.
+   221→
+   222→2. **Medium quality.** The material and preparation of the medium. Paper is the baseline; high-quality talisman paper (treated with specific alchemical agents, woven from specific fibers) holds a pattern more cleanly. Jade is the premium medium — a jade talisman can be re-charged (a paper talisman cannot), and a jade talisman's pattern persists for decades.
+   223→
+   224→3. **Ink quality.** The material and preparation of the ink. Pure cinnabar ink is the baseline; refined cinnabar (purified of impurities, ground to specific fineness, blended with specific binders) holds a sharper pattern. Proprietary inks (sect secrets, alchemist-prepared blends) can produce effects beyond the standard.
+   225→
+   226→4. **Pattern precision.** The accuracy with which the pattern is inscribed. A pattern that wavers, smears, or terminates short produces a flawed talisman. Pattern precision is the most directly inscriber-dependent factor — it is the inscriber's brush discipline at the moment of inscription.
+   227→
+   228→### 3.6 Failure modes
+   229→
+   230→A talisman can fail in four named ways.
+
+[showing lines 1-230 of 444; use offset=231 with limit to continue reading]

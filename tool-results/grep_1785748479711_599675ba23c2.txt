@@ -1,0 +1,191 @@
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-72-**Lineage structure:**
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:73:- **The lineage head (族長, *zúzhǎng*)** is Wang Shouzheng (王守正, *Wáng Shǒuzhèng*), 58, the senior male of the senior branch. He is the village's de facto leader on matters concerning lineage land, internal disputes, and representation to the magistrate. He is not the wealthiest man in the village (the salt merchant is), but he is the most authoritative on matters of custom.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-74-- **The lineage elder council (長老會, *zhǎnglǎohuì*)** is 5 men: the lineage head, the two senior males of the next two branches, the lineage school teacher (塾師, *shúshī*), and the lineage's most prosperous farmer. They meet in the lineage hall on the 1st and 15th of each lunar month to hear disputes and manage lineage affairs.
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-88-- Father (deceased): Wang Tianlu (王天祿), died 6 years ago, tablet in the hall
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:89:- Holding: 12 mu paddy (owned subsoil, farmed surface), 3 mu dryland, 1 pig, 8 chickens, a shared well, a walled compound with main house, side house, kitchen, pigsty-latrine
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-90-- This is the household the player is born into if they choose the "lineage member" origin
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-95-- Sons: Wang Zongwu (王宗武, 28, married, 3 children, 2 surviving), Wang Zongde (王宗德, 24, unmarried, "bare stick" risk)
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:96:- Holding: 0 mu owned, 8 mu tenanted (subsoil owned by a landlord in the market town, surface right held heritably by Shouye's family for 3 generations), 1 mu dryland, 1 pig (shared with Shouzheng), 6 chickens
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-97-- This is the household the player is born into if they choose the "poor lineage member" origin
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-142-|---:|---|---|---|---|---|
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:143:| 1 | Beginning of Spring | 立春 | *Lìchūn* | Feb 3-5 | Ritual: spring welcoming. Planning: decide what to plant, where, how much. Households finalize tenancy and labor contracts. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-144-| 2 | Rain Water | 雨水 | *Yǔshuǐ* | Feb 18-20 | Snow ends, rain begins. Paddies checked for winter damage. Bunds repaired. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:145:| 3 | Awakening of Insects | 驚蟄 | *Jīngzhé* | Mar 5-7 | First thunder. Hibernating animals emerge. Paddies plowed for the first time. Seed rice soaked in water to germinate. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-146-| 4 | Spring Equinox | 春分 | *Chūnfēn* | Mar 20-22 | Day and night equal. Transplanting begins for early rice. Qingming preparations. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:147:| 5 | Clear and Bright | 清明 | *Qīngmíng* | Apr 4-6 | Tomb-sweeping. Villagers visit the ancestral graveyard, clean the tombs, offer food and paper money. The lineage holds the spring ancestor rite at the hall. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-148-| 6 | Grain Rain | 穀雨 | *Gǔyǔ* | Apr 19-21 | Last chance for early rice transplanting. Mulberry leaves picked for spring silkworms. |
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-150-| 8 | Grain Full | 小滿 | *Xiǎomǎn* | May 20-22 | Early rice grains filling. Plum rain season approaches. Pest pressure begins. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:151:| 9 | Grain in Ear | 芒種 | *Mángzhòng* | Jun 5-7 | The busiest two weeks of the year. Early rice harvested, late rice transplanted. Every hand is in the paddies. Children are pulled from school. The elderly and the childless are called to help. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:152:| 10 | Summer Solstice | 夏至 | *Xiàzhì* | Jun 21-22 | Longest day. Late rice growing. Plum rain at its peak — flood risk highest. The levee is watched at night. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-153-| 11 | Minor Heat | 小暑 | *Xiǎoshǔ* | Jul 6-8 | Plum rain ends. Heat begins. Weeding continues. Schistosomiasis exposure peaks (those who wade in paddies develop fever, rash — the village calls it "paddy itch" 田癢, *tiányǎng*). |
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-159-| 17 | Cold Dew | 寒露 | *Hánlù* | Oct 8-9 | Harvest continues. Winter crops (wheat, rapeseed) planted in harvested paddies where water permits. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:160:| 18 | Frost's Descent | 霜降 | *Shuāngjiàng* | Oct 23-24 | First frost. Harvest ends. The lineage holds the autumn ancestor rite. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-161-| 19 | Beginning of Winter | 立冬 | *Lìdōng* | Nov 7-8 | Winter crops growing. Firewood gathered. Houses winterized. |
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-163-| 21 | Major Snow | 大雪 | *Dàxuě* | Dec 6-8 | Snow. Travel limited. The village turns inward. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:164:| 22 | Winter Solstice | 冬至 | *Dōngzhì* | Dec 21-23 | The lineage updates the genealogy. The winter ancestor rite. The longest night. Households eat dumplings (餃子, *jiǎozi*) if they can afford the flour. |
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-165-| 23 | Minor Cold | 小寒 | *Xiǎohán* | Jan 5-7 | Coldest period begins. Paddies lie fallow under ice. |
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-179-- **Lantern Festival (元宵, *Yuánxiāo*):** 15th day of the 1st lunar month. Lanterns at the lineage hall and the spirit shrine. Sweet dumplings (湯圓, *tāngyuán*).
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:180:- **Qingming (清明):** see term 5 above. The most important ancestral rite.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-181-- **Dragon Boat (端午, *Duānwǔ*):** 5th day of the 5th lunar month. The river is the center — boat races (if the village can field a crew), zongzi (粽子, glutinous rice dumplings wrapped in bamboo leaves). Commemorates Qu Yuan (屈原). Also a pest-control rite: mugwort (艾草, *àicǎo*) hung over doors to repel insects and evil.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-182-- **Spirit Festival / Ghost Festival (中元, *Zhōngyuán*):** 15th day of the 7th lunar month. The dead are believed to visit the living. Offerings at the spirit shrine and at the graveyard. The lineage holds a rite for unburied or unremembered dead. It is an inauspicious day for travel or major undertakings.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:183:- **Mid-Autumn (中秋, *Zhōngqiū*):** 15th day of the 8th lunar month. Mooncakes (月餅, *yuèbǐng*). Families gather. The salt merchant receives gifts from his customers. A night of socializing under the moon.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-184-- **Double Ninth (重陽, *Chóngyáng*):** 9th day of the 9th lunar month. Climbing hills (the graveyard hill, if no other). Chrysanthemum wine. A day for the elderly.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:185:- **Winter Solstice (冬至, *Dōngzhì*):** see term 22. Genealogy update.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-186-- **Laba (臘八, *Làbā*):** 8th day of the 12th lunar month. Laba porridge (臘八粥), a mix of grains, beans, and nuts. Buddhist temples (the nearest is 30 li away) distribute porridge. The village's few Buddhists make a point of attending.
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-227-
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:228:Salt is a state monopoly. The salt merchant (Master Hu) holds a license (鹽引, *yányǐn*) issued by the county, buys salt from the official depot in the market town, and sells it to villages up and down the river at a markup. The price of salt is therefore both a market price and a political price — it reflects the state's fiscal needs as much as supply and demand.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-229-
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-299-- 1 pig (grown): 3000-5000 cash
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:300:- 1 mu of paddy (subsoil right): 5000-10000 cash (a once-in-a-lifetime purchase)
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-301-- 1 day of agricultural labor: 20-30 cash + a meal
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-310-A typical Wang tenant household (8 mu tenanted paddy, 1 mu dryland, 1 pig, 6 chickens, 5 people) in a normal year:
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:311:- **Income:** ~3200 jin of unhulled rice from 8 mu (at ~400 jin/mu), minus ~1600 jin rent (50% to the subsoil landlord), leaving ~1600 jin hulled = ~960 jin milled. Plus dryland vegetables (no cash value, consumed). Plus pig sale (if sold): 3000-5000 cash. Plus weaving: 4-6 bolts/year = 1000-1800 cash.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-312-- **Cash income:** ~4000-6800 cash/year.
+--
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-315-
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md:316:This is a **subsistence deficit in a normal year.** The household survives by the pig sale, the weaving, and by the husband's day labor during the off-season. In a bad year (flood, drought, pest), the household goes hungry, borrows grain at 50-100% annual interest, and may lose its surface rights to the tenanted paddy if it cannot pay rent. This is the engine of rural poverty and the reason most households are one bad harvest from crisis.
+/home/z/my-project/corpus-extension/04_MORTAL_SUBSTRATE.md-317-
+--
+/home/z/my-project/corpus-extension/09_SYNTHESIS.md-53-
+/home/z/my-project/corpus-extension/09_SYNTHESIS.md:54:The Wang Senior Household (王正房) compound, dawn, early spring (just after Lichun, 立春). The compound:
+/home/z/my-project/corpus-extension/09_SYNTHESIS.md-55-
+--
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-268-
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md:269:1. **Gathering ingredients (採藥).** The alchemist gathers (or commissions, or purchases) the ingredients for the intended pill. Each ingredient has a **phase-affinity** (Wood, Fire, Earth, Metal, Water) and a **potency** (a measure of the ingredient's qi-density and purity). Ingredient quality is the largest single determinant of pill quality — a Spirit-Gathering Pill made from hundred-year ginseng is qualitatively different from one made from ten-year ginseng. Ingredients are gathered at specific solar terms (the 二十四節氣 calendar), because an ingredient's phase-affinity and potency vary with the season: a Fire-phase herb gathered at Summer Solstice (夏至, peak yang) is more potent than the same herb gathered at Winter Solstice (冬至, peak yin).
+/home/z/my-project/corpus-extension/16_FORMATIONS_TALISMANS_ALCHEMY.md-270-
+--
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-143-
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:144:The prior corpus claimed "clean-slate original IP" while operationally being a late-imperial Han-majority synthesis with the names filed off. This document names the base honestly: the Cangli Riverlands is wet-rice lowland Jiangnan-inspired, engaging the primary agricultural, legal, and social sources that substrate requires (齊民要術, 王禎農書, 天工開物, 大清律例, 地方志, 族譜). The originality is in the specifics — the named households, the named lineage, the named salt merchant, the named festival calendar — not in the pretense of deriving from no historical source.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-145-
+--
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-150-- **Patrilineal lineages (宗族, *zōngzú*)** as corporate actors with halls (祠堂, *cítáng*), genealogies (族譜, *zúpǔ*), lineage fields (族田, *zútián*), lineage rules (族規, *zúguī*), and lineage schools (義學, *yìxué*). The Wang lineage (王氏) is the dominant lineage in the starting village.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:151:- **Two-tier land tenure (田底/田面, *tiándǐ / tiánmiàn*)** — subsoil rights (who owns the land) and surface rights (who farms it) are separable and tradable. Tenants can hold permanent, inheritable cultivation rights distinct from the landlord's subsoil right.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-152-- **Tax and corvée (田賦, 徭役)** — the state extracts land tax and labor service. The Single Whip reform (一條鞭法) commutes corvée to silver, which means peasants must sell grain for silver to pay tax, which means they are exposed to silver price fluctuations.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:153:- **Salt monopoly (鹽法, *yánfǎ*)** — salt is a state monopoly. The salt merchant (鹽商, *yánshāng*) at the river dock is one of the wealthiest people in the region. Salt smuggling is a real crime with real consequences.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-154-- **Night-soil economy (糞業, *fènyè*)** — human and animal waste is systematically collected, fermented, and applied to fields. This is the nitrogen-maintenance practice that makes intensive wet-rice agriculture possible. The pigsty-latrine (豬廁, *zhūcè*) combination is a standard village feature.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:155:- **The 24 solar terms (二十四節氣, *èrshísì jiéqì*)** — the agricultural calendar: Lichun (立春, Beginning of Spring), Jingzhe (驚蟄, Awakening of Insects), Qingming (清明, Clear and Bright), Mangzhong (芒種, Grain in Ear), Xiazhi (夏至, Summer Solstice), Liqiu (立秋, Beginning of Autumn), Bailu (白露, White Dew), Shuangjiang (霜降, Frost's Descent), Dongzhi (冬至, Winter Solstice), etc. Each term has agricultural, ritual, and cultivation implications.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-156-- **Wet-rice agriculture (水稻, *shuǐdào*)** — transplanting, puddling, water-level management, the gendered transplanting teams, the schistosomiasis exposure. This is fundamentally different from dryland millet/wheat and structures the labor calendar.
+--
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-158-- **Child mortality** — 30–50% of live births die before age 5. This is not a debuff; it is the demographic reality that shapes household decisions, emotional life, and the value of children.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md:159:- **Festival calendar** — Spring Festival (春節), Lantern (元宵), Qingming tomb-sweeping (清明掃墓), Dragon Boat (端午), Mid-Autumn (中秋), Double Ninth (重陽), Winter Solstice (冬至), Laba (臘八). Each is a ritual and economic event.
+/home/z/my-project/corpus-extension/00_FOUNDATIONAL_DECISIONS.md-160-
+--
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-172-
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:173:Some herbs have **seasonal windows**. A particular wood-phase herb flowers only at Clear and Bright (清明); the flowers must be gathered within three days or they lose their qi. A particular water-phase herb seeds only at White Dew (白露); the seeds are the medicinal part. A particular fire-phase herb must be harvested at noon on the summer solstice, when yang-qi peaks, or its potency collapses. These windows are the herb-gatherer's calendar, and missing a window means waiting a year.
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-174-
+--
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-246-
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:247:- **By ritual.** The lineage hall's grief-rites, the earth-god shrine's bi-monthly incense, the Clear and Bright (清明) tomb-sweeping — these are *controlled* contamination-cleansing rituals. They process the residue of human grief and death in a lawful way, converting raw grief-residue into the dense, old, "human" qi the lineage hall is known for. A Daoist priest's exorcism (驅邪) is the same practice applied to a contaminated house or site — a structured rite that processes the residue and returns the location to coherence. These rituals work for low-grade, accumulated contamination. They do not work for severe contamination (a massacre site, a deep deviation site).
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-248-- **By specific cultivation.** A Qi Condensation cultivator with a water-phase dominant root can practice a cleansing circulation (a specific routing that draws ambient turbid qi into the reservoir, transforms it through the water-phase, and vents it as clarified qi). This is slow, exhausting, and limited in throughput; it cannot cleanse a region, only a small site over many sessions. A Foundation Establishment cultivator with metal-phase root can do the same more efficiently, cutting the corruption from the qi-field rather than transforming it. Cleansing-cultivation is a recognized practice-track and a sect service; many sects have disciples whose primary duty is cleansing the sect's practice-sites and the surrounding mortal lands.
+--
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-318-|---|---|---|---|---|
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:319:| Beginning of Spring | 立春 | Feb 3-5 | Wood-phase qi begins to rise from the deeps. The qi is still cold but moving. | Beasts begin to wake from winter torpor. Herbs begin to sprout. The first buds appear. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-320-| Rain Water | 雨水 | Feb 18-20 | Water-phase qi feeds the rising wood-phase qi (water generates wood). Rain concentrates the water-phase qi, accelerating the wood rise. | Paddies fill. Snowmelt begins. Hibernating beasts stir but do not yet emerge. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:321:| Awakening of Insects | 驚蟄 | Mar 5-7 | First thunder. Thunder is fire-phase qi discharged from the upper air; it agitates the rising wood-phase qi and "wakes" the hibernating beasts. | Beasts emerge. Spirit beasts that spent the winter in low-tier torpor begin to recover their cultivation. Herbivores seek the first sprouts. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-322-| Spring Equinox | 春分 | Mar 20-22 | Wood-phase qi at half-peak. Day and night equal; yin-yang in balance. The qi of the year is most balanced, most suitable for general practice. | Transplanting begins. Herbivores graze actively. Predators follow the herbivores. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:323:| Clear and Bright | 清明 | Apr 4-6 | Wood-phase qi clears and clarifies. The air is clean; the qi is bright. The dead's residue is most perceptible (this is the tomb-sweeping week). | Herbs reach early harvest for spring-tonic varieties. Beasts are active. The graveyard's qi is most accessible to perception. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-324-| Grain Rain | 穀雨 | Apr 19-21 | Wood-phase qi at peak. The last spring rain concentrates water-phase qi to feed the wood peak. After this, wood begins to convert to fire. | Herbs reach full spring potency. Mid-tier beasts enter mating season. Peak-tier beasts emerge from winter seclusion. |
+--
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-331-| Grain Full | 小滿 | May 20-22 | Fire-phase qi at half-peak. Wood-phase qi declining. The qi is warm and active. | Herbivores are at peak condition. Predators are hunting actively. Spirit herbs reach summer-harvest windows. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:332:| Grain in Ear | 芒種 | Jun 5-7 | Fire-phase qi continues rising. Plum-rain season begins in the Cangli lowlands. Water-phase qi concentrates in the rain, mixed with the rising fire. | Transplanting of late rice. Spirit herbs of water-fire mixed affinity reach potency. Mid-tier beasts are most aggressive (mating season, territorial defense). |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:333:| Summer Solstice | 夏至 | Jun 21-22 | Fire-phase qi at peak. Yang at maximum. After this, yin begins to rise. The longest day. | Herbs harvested at noon on this day have maximum yang-potency. Fire-phase herbs at peak. Beasts are most active at dawn and dusk, resting at noon. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-334-| Minor Heat | 小暑 | Jul 6-8 | Fire-phase qi begins to decline. Yang still dominant but falling. Heat accumulates in the earth. | Heat-stress begins. Spirit beasts seek shade and water. Mortal crops at risk of heat damage. |
+--
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-345-| Cold Dew | 寒露 | Oct 8-9 | Metal-phase qi declining. Water-phase qi rising. Dew is cold. | Herbs reach late-autumn potency. Beasts begin to seek winter dens. Predators make their last intensive hunts. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:346:| Frost's Descent | 霜降 | Oct 23-24 | Metal-phase qi at residual. Water-phase qi dominant. Frost appears. The qi is cold, still, descending. | Harvest ends. Herbs are dormant above ground, storing qi in roots. Beasts enter pre-winter torpor. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-347-
+--
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-354-| Major Snow | 大雪 | Dec 6-8 | Water-phase qi at full peak. Snow accumulates. The qi is silent. | Deep winter. Beasts in deep torpor. Spirit herbs' roots store qi at maximum density. Winter-solstice herbs (rare) reach potency. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md:355:| Winter Solstice | 冬至 | Dec 21-23 | Water-phase qi at peak. Yin at maximum. After this, yang begins to rise. The longest night. | The lineage's winter-solstice rite. The qi is most still, most yin, most storage. A cultivator practicing water-phase or yin-phase technique does so at midnight on this day for maximum effect. |
+/home/z/my-project/corpus-extension/14_ECOLOGY_AND_QI.md-356-| Minor Cold | 小寒 | Jan 5-7 | Water-phase qi declining. Wood-phase qi beginning to stir deep below. The qi is cold but moving. | Spirit beasts begin the slow wake. Herbs' roots begin to sense the changing qi. Mortal villages endure the cold. |
+--
+/home/z/my-project/corpus-extension/18_ECONOMY_SYSTEM.md-103-3. Next year: must grow enough to eat AND repay the loan
+/home/z/my-project/corpus-extension/18_ECONOMY_SYSTEM.md:104:4. If next year is also bad: borrow more, sell assets (pig, dryland, surface rights)
+/home/z/my-project/corpus-extension/18_ECONOMY_SYSTEM.md-105-5. If the spiral continues: sell children (as servants, as brides, as apprentices), lose the land, become a tenant on what was once your own farm, or flee
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-27-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:28:> 稻苗長七八寸，陳草復起，以鎌侵水芟之，草悉膿死。稻苗漸長，復須薅。拔草曰薅。薅讫，決去水，曝根令堅。量時水旱而溉之。將熟，又去水。霜降獲之。早刈米青而不堅，晚刈零落而損收。
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-29-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-31-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:32:**Gloss:** When rice seedlings reach seven or eight inches, old grass rises again; use a sickle to cut it into the water, and the grass will all rot and die. As the seedlings grow taller, weeding is again necessary — pulling weeds is called *hāo* (薅). After weeding, drain off the water and expose the roots to sun to make them hardy. Gauge the season's wetness or drought and irrigate accordingly. When [the rice] is about to ripen, drain the water again. Harvest at Frost Descent (霜降). Reap too early and the grain is green and not firm; reap too late and kernels scatter, reducing the yield.
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-33-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-49-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:50:### Passage 1D — The Zhou ritual water-management system (quoted by Jia Sixie from the 周禮)
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-51-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-97-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:98:> 種曰稼，斂曰穡。種斂者，歲之終始也。……《食貨志》云：「力耕數耘，收穫如盜賊之至。」蓋謂收之欲速也。故《物理論》曰：「稼，農之本；穡，農之末。本輕而末重，前緩而後急。稼欲熟，收欲速。此良農之務也。」……南方水地，多種稻秫。早禾則宜早收，六月、七月則收早禾。其餘則至八月、九月。《詩》云：「十月穫稻」，《齊民要術》曰：稻至「霜降穫之」，此皆言晚禾大稻也。
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-99-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-143-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:144:> 凡滇、蜀兩省遠離海濱，舟車艱通，形勢高上，其鹹脈即韞藏地中。凡蜀中石山去河不遠者，多可造井取鹽。鹽井周圓不過數寸，其上口一小盂覆之有餘，深必十丈以外乃得鹵性。……西川有火井，事奇甚。其井居然冷水，絕無火氣。但以長竹剖開去節，合縫漆布，一頭插入井底，其上曲接，以口緊對釜臍，注滷水釜中，只見火意烘烘，水即滾沸。啟竹而視之，絕無半點焦炎意。未見火形而用火神，此世間大奇事也！凡川、滇鹽井，逃課掩蓋至易，不可窮詰。
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-145-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-165-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:166:### Passage 3D — The co-fusion steel-making method (灌鋼)
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-167-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:168:> 凡鋼鐵煉法，用熟鐵打成薄片如指頭闊，長寸半許，以鐵片束包尖緊，生鐵安置其上，又用破草履蓋其上，泥塗其底下。洪爐鼓鞴，火力到時，生鋼先化，滲淋熟鐵之中，兩情投合，取出加錘。再煉再錘，不一而足。俗名團鋼，亦曰灌鋼者是也。
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-169-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-177-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:178:The Tiangong Kaiwu grounds the RPG's **extractive industries and craft chains**. The sea-salt passage reveals a sophisticated ash-sprinkle leaching method with demarcated household plots (*種戶各有區畫經界*) — a natural territorial system for mortal villages that a sect might tax or control. The Sichuan fire-well (*火井*) is the single most xianxia-ready passage in the entire corpus: a natural-gas well where "unseen is the form of fire, yet its spirit is used" (*未見火形而用火神*) reads as proto-cultivation language and gives a perfect in-world justification for a mortal settlement that boils brine using subterranean fire — a resource a cultivator sect would covet. The iron-smelting passage quantifies the labor and scale (2,000+ *jin* of ore per charge, 4–6 men on bellows, six taps per day), providing concrete production numbers for a forge or mining town. The *guàn gāng* (灌鋼) co-fusion method — pig iron percolating into bundled wrought iron — is a multi-step crafting recipe that could be a player or NPC crafting chain. Song Yingxing's note that salt-well tax evasion "cannot be fully investigated" (*不可窮詰*) is an open invitation for plot hooks involving smuggling, corruption, and mortal-versus-state tension.
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-179-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-187-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:188:### Passage 4A — Household registration and corvée: the lijia headman's liability (脫漏戶口)
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-189-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-193-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:194:**Gloss:** Whenever a household is entirely unregistered [in the census]: if it has land and should owe tax and service, the household head is punished with 100 blows of the heavy bamboo. If it has no land and should not owe tax and service, [the punishment is] 80 blows. [The household] is to be registered retroactively: if it owes tax, tax is assessed; if not, service is assessed per adult male (*dīng*). … If a *lijia* headman (*lǐ zhǎng*) fails in his duty to investigate and enumerate, resulting in an unregistered household: for one to five households, 50 blows of the light bamboo; for every additional five households, one degree is added, up to a maximum of 100 blows of the heavy bamboo. For omitted individuals: one to ten persons, 30 blows; for every additional ten, one degree is added, up to a maximum of 50 blows.
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-195-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-241-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:242:**Gloss:** In any year of tax remission, the remitted tax is divided into ten shares: seven shares remit the landholding household (*yè hù*, the landlord/subsoil owner), three shares remit the tenant household (*diàn hù*). In the twelfth month of Yongzheng 13 [1736], an imperial edict was received: "Of the grace of tax remission, the landholding households receive the majority of the benefit. Those propertyless poor people, toiling all year round, paying tax according to [the landlord's] property, have not received the state's grace. If we were to deduct rent per *mu* according to the remitted amount and enforce it by official law, circumstances would not allow it. Let the local officials gently urge each landholding household to voluntarily reduce the tenant's rent, without mandating a fixed proportion, so that the farming poor may have surplus grain to feed their wives and children."
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-243-
+--
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-247-
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md:248:The Da Qing Lü Li grounds the RPG's **land-tenure system, tax mechanics, and legal-criminal framework**. Passage 4A establishes the *lijia* headman as the liable party for census accuracy — a mortal NPC role that creates natural quest hooks (a headman who omits households is himself punishable, creating blackmail leverage). Passage 4B reveals the specific mechanisms of tax fraud (*移坵換段* — swapping field mounds to misclassify land grade; *詭寄* — fraudulently registering land under a tax-exempt person's name), giving the RPG a vocabulary for mortal-level corruption schemes. Passage 4C on pawning (*典*) vs. selling (*賣*) is the legal foundation for the **subsoil/surface-rights split** (*田底/田面*): a pawn (*diǎn*) carries a redemption right, a sale (*mǎi*) may be absolute (*絕賣*) or conditional — the distinction determines who controls the land long-term and who pays tax. Passage 4D's inclusion of "gold, silver, copper, tin, and iron smelting-sites" (*金銀銅錫鐵冶*) in the land-encroachment statute means mineral extraction sites have special legal status, tying directly to the Tiangong Kaiwu iron and salt passages. Passage 4E's 7:3 landlord-tenant tax-remission split and the Yongzheng edict's admission that tenants "have not received the state's grace" (*未被國家之恩澤*) gives the RPG a built-in class-conflict mechanic: when the state grants tax relief, landlords capture most of the benefit, and tenants remain exploited — a seed for peasant unrest, sect intervention, or mortal politics.
+/home/z/my-project/corpus-extension/10_PRIMARY_SOURCES.md-249-
+--
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-52-### What it feels like
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md:53:The world is heavy and close. The rice paddy's mud is between your toes. The well water is cold on your hands at dawn. The lineage head's voice carries authority you do not question. The salt merchant's warehouse is a place of wealth you cannot imagine possessing. The graveyard on the hill is where your grandparents are, and where you will be. The river is beautiful in summer and terrifying in flood. Time moves at the pace of seasons: slow, rhythmic, inescapable. You do not know there is such a thing as qi. You do not know there is such a thing as a cultivator. You know rice, river, lineage, season, death. That is the world.
+/home/z/my-project/corpus-extension/03_REALM_LADDER.md-54-
+--
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-79-- **The meridians (經脈)** are not pipes; they are *paths of least resistance* through the body's qi-field. The cultivator perceives them the way one perceives a familiar walking route — not as a visible line, but as a *way* through a space. Routing qi along a meridian feels like walking a familiar path: easy, natural, the qi "wants" to go that way.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md:80:- **The dantian (丹田)** is not a point; it is a *reservoir* — a region of the body where qi accumulates, lower than the meridians, denser. The cultivator perceives it as a weight in the lower abdomen, not painful, not pleasant, just *present*.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-81-- **The gates (竅)** are the points where meridians meet the surface of the body — the palms, the soles, the crown, the brow. Qi flows in and out through the gates. The cultivator perceives them as *openings* — not holes, but places where the interior and exterior communicate.
+--
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-113-- **First-person routing feedback:** When the player routes qi, a subtle first-person effect: a warmth in the routed region (a faint glow on the hands if strength-routed, a clarity in the vision if sensory-routed, a steadiness in the legs if speed-routed). Not a UI overlay; a perceptual shift.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md:114:- **The inner geography is not a menu.** It is perceived through the same cross-modal perception as ambient qi: when the player "attends inward," the body gains an interior — a felt sense of the meridians, the dantian, the gates. This is the "sense self" verb, with its own stamina cost.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-115-
+--
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-124-**False circuit (假周天):**
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md:125:- **The temptation:** Routing qi in a small loop that bypasses the dantian produces a quick, pleasant warmth and a sense of accelerated progress. It feels like a shortcut.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-126-- **The cost:** The loop does not replenish; it depletes the reservoir faster than proper routing. The cultivator's qi-state becomes *shallow* — quick but unstable. Continued false-circuit practice makes the loop habitual; the cultivator finds it hard to route properly.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-127-- **The feel:** The cultivator feels *wired* — energetic but restless, unable to settle, unable to deeply rest. They dream of the loop. They wake tired. Their hands tremble slightly.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md:128:- **The counterplay:** Rest, fasting, and the deliberate re-routing of qi through the dantian, which feels *heavy and slow* after the false circuit's lightness. The cultivator must endure the heaviness until the habit breaks.
+/home/z/my-project/corpus-extension/05_PHENOMENOLOGY.md-129-
+--
+/home/z/my-project/corpus-extension/12_SECT_INSTITUTIONS.md-73-- **Spirit-vein qi.** The base resource. Allocated to disciples for practice; the allocation is the sect master's most exercised prerogative.
+/home/z/my-project/corpus-extension/12_SECT_INSTITUTIONS.md:74:- **Tenant rent.** Sect land is farmed by mortal villages under terms similar to the mortal substrate (04 §6): the sect holds the subsoil right (田底), tenants hold the surface right (田面), rent is paid in grain and labor. A mid-size sect may have 5-20 tenant villages; a great sect, hundreds.
+/home/z/my-project/corpus-extension/12_SECT_INSTITUTIONS.md-75-- **Mission fees.** The sect takes a fraction of every mission its disciples complete in the mortal world — exorcisms, escorts, herb-gathering, the suppression of bandits or beasts.
+--
+/home/z/my-project/corpus-extension/06_GOLDEN_SCENES.md-121-- The manual is rendered as an in-game document — a hand-copied text on paper, with the five components distinguishable by layout (the observations are prose, the exercise is numbered steps, the route is a diagram with meridian paths, the fabricated claim is in a different hand, the omitted stop condition is simply absent — the player perceives its absence by the route's lack of a stopping point).
+/home/z/my-project/corpus-extension/06_GOLDEN_SCENES.md:122:- Old Chen's animation: wary, watchful, a man who has been hurt and does not trust easily. His qi is denser than Wang Lun's — a steady warmth in his abdomen (the dantian), a faint circulation in his hands. The player can perceive this if they attend.
+/home/z/my-project/corpus-extension/06_GOLDEN_SCENES.md-123-
+--
+/home/z/my-project/corpus-extension/06_GOLDEN_SCENES.md-222-- The hermitage's practice room: a small, bare room, a mat on the floor, a candle. The lighting is dim (candlelight). The world outside is dark and cold (winter night).
+/home/z/my-project/corpus-extension/06_GOLDEN_SCENES.md:223:- The "sense self" mode renders the inner geography: the meridians, the dantian, the gates, and — at the critical moment — the cold knot of grief in the chest, the unmourned sibling's residue (not a real residue; a psychospiritual representation).
+/home/z/my-project/corpus-extension/06_GOLDEN_SCENES.md-224-- The integration attempt is rendered as a slow, internal scene: the player perceives the body, qi, and spirit beginning to align, then the misalignment (wood too dominant, metal too weak), then the surfacing of the grief. The player's choices are rendered as inner dialogue and felt sense, not as a menu.
