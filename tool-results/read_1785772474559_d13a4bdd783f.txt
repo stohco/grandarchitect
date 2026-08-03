@@ -1,0 +1,302 @@
+     1→# 13 — Combat Grammar: The State Machine
+     2→
+     3→**Status:** Candidate canon. Specifies the combat system as a real state machine, not a posture list. The first three realms (Mortal, Qi Induction, Qi Condensation) are specified at implementation resolution. The upper realms are specified at design resolution.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. Why this document exists
+     9→
+    10→The prior corpus treated combat as a vocabulary: a list of verbs (route, strike, defend, read residue, yield, escalate). A vocabulary is not a system. The critique identified this directly: the "combat grammar" was a list of postures, not a state machine. Without a state machine, two implementers reading the same verb list produce two different combat feels, and neither is right because neither was specified.
+    11→
+    12→This document closes that gap. It specifies combat as a **finite-state machine with named terminals, production rules, preconditions, postconditions, observables, and a tempo economy**. A programmer should be able to implement the first three realms' combat without further design input. The upper realms are specified at lower resolution, sufficient to design against but not yet to ship.
+    13→
+    14→### Precedents cited (per AGENTS.md Part 3: "Cite the precedent")
+    15→
+    16→- **Sekiro: Shadows Die Twice (FromSoftware, 2019)** — the commitment model. Once an attack enters active frames, the player cannot cancel. Deflection is a tight window (parry frames ≈ 12-15 at 30 fps ≈ 400-500 ms). No block-and-respond loop; only deflect-or-dodge.
+    17→- **Monster Hunter: World (Capcom, 2018)** — the heaviness model. Every weapon has committed startup/active/recovery frames; a Great Sword charge cannot be canceled once committed. The skill is reading the monster's tell during your own commitment window.
+    18→- **Street Fighter III: Third Strike (Capcom, 1999)** / **Guilty Gear XX (Arc System Works, 2002)** — the frame-data vocabulary (startup / active / recovery / frame advantage on block and hit). This is the implementation language; the engine's tweak UI (document 11 §6) exposes these per action.
+    19→- **Bushido Blade (Lightweight, 1997)** — the injury model. No hit points; a cut to the leg slows the character; a cut to the arm weakens grip; a cut to the head kills. Precedent for §8.
+    20→
+    21→The combat grammar below is original in its integration (qi routing + residue reading + realm ladder), but every individual mechanic is calibrated to a shipped precedent. No uncalibrated thresholds.
+    22→
+    23→---
+    24→
+    25→## 1. The combat state machine
+    26→
+    27→### 1.1 The terminals (states)
+    28→
+    29→Every combatant occupies exactly one terminal state at any tick:
+    30→
+    31→| State | Hanzi | Essence |
+    32→|---|---|---|
+    33→| **Idle** | 閒 | Ready to act. Can transition to any action state. Perceiving at full attention. |
+    34→| **Committed** | 勢成 | Mid-action. Cannot cancel. Sub-states: Anticipation (startup), Active (effect window), Wind-down (late frames). |
+    35→| **Recovery** | 餘勢 | Action just completed. Can act only to abort (§1.4) or chain (with penalty). Body recovering posture and balance. |
+    36→| **Staggered** | 亂 | Hit during Anticipation/Active, or hit hard enough to break posture. Cannot act. Duration scales with incoming strike's commitment weight. |
+    37→| **Downed** | 倒 | Knocked to the ground. Cannot act. Must rise (a committed action) before returning to Idle. Vulnerable to ground attacks. |
+    38→| **Dead** | 歿 | Terminal. Anchor state depends on realm (see §9). |
+    39→
+    40→`Committed` is itself a micro-state-machine: `Anticipation → Active → Wind-down → Recovery`. Each sub-state has its own frame budget and observable signature (§1.3). The player cannot exit `Committed` early; this is the Sekiro/Monster Hunter commitment model.
+    41→
+    42→### 1.2 The production rules (legal transitions)
+    43→
+    44→Notation: `A --[trigger]--> B  | cost: T frames | observable: O`. A transition is illegal unless listed. Silence means illegal.
+    45→
+    46→**From Idle:**
+    47→
+    48→- `Idle --[attack input]--> Committed.Anticipation  | cost: action's startup frames | observable: intent telegraph (the weapon begins to move; a perceptive opponent can read which attack)`
+    49→- `Idle --[defend input]--> Committed.Anticipation  | cost: defense startup (block = 4-6 frames; dodge step = 6-8) | observable: defensive posture shift`
+    50→- `Idle --[feint input]--> Committed.Anticipation  | cost: feint startup (8-12 frames) | observable: false intent telegraph (the feint is designed to look like a real attack's startup)`
+    51→- `Idle --[route-switch input]--> Committed.Anticipation  | cost: 60-120 frames (see §4) | observable: the cultivator's qi visibly shifts between routings; opponents perceive the re-attunement`
+    52→- `Idle --[read-residue input]--> Committed.Anticipation  | cost: 20-30 frames (see §5) | observable: the cultivator's gaze fixes; their attention visibly narrows`
+    53→- `Idle --[yield input]--> Yielded  | cost: 0 | observable: open palms, lowered weapon, verbal declaration. A yielded combatant is protected by social law (see §7.4)`
+    54→- `Idle --[flee input]--> Committed.Anticipation  | cost: flee startup (10-15 frames) | observable: the combatant turns away from the engagement`
+    55→
+    56→**Within Committed:**
+    57→
+    58→- `Committed.Anticipation --> Committed.Active  | cost: action's active frames | observable: the action's full tell (this is when the strike's intent is unambiguous)`
+    59→- `Committed.Active --> Committed.Wind-down  | cost: action's late frames | observable: the strike has landed or missed; the weapon is decelerating`
+    60→- `Committed.Wind-down --> Recovery  | cost: 0 (the transition itself is free; the Recovery state has its own duration)`
+    61→
+    62→The `Committed → Committed` micro-transitions are automatic. The player cannot interrupt them. **This is the commitment rule: there is no cancel out of Committed.**
+    63→
+    64→A feint is the one exception, and it is not a cancel — it is a different action that ends in `Recovery` rather than `Active`:
+    65→
+    66→- `Committed.Anticipation (feint) --> Recovery  | cost: feint recovery frames (8-12) | observable: the false telegraph collapses; the feinting combatant is back in Recovery`
+    67→
+    68→The feint trades damage for deception: it never enters `Active`, so it deals no damage, but it baited the opponent into a defensive Committed that they now cannot cancel.
+    69→
+    70→**From Recovery:**
+    71→
+    72→- `Recovery --[idle timeout]--> Idle  | cost: 0 (automatic once recovery frames elapse)`
+    73→- `Recovery --[abort input]--> Idle  | cost: 0, but applies a fatigue cost (stamina + a small reservoir drain) and the combatant is left briefly perceptually dimmed. Aborting is a deliberate re-stance, not a cancel of a Committed action.`
+    74→- `Recovery --[any committed input]--> Committed.Anticipation  | cost: action's startup + an extra 4-6 frames (chain penalty)`. Chained actions are slower than actions from Idle. This is the "you cannot spam" rule.
+    75→
+    76→**From Staggered:**
+    77→
+    78→- `Staggered --[timeout]--> Recovery  | cost: 0 (the stagger duration is set by the incoming strike)`
+    79→- `Staggered --[harder hit]--> Staggered (extended)  | the stagger duration resets and extends. A second hit during stagger does not stack to Downed unless the second hit's commitment weight exceeds the stagger threshold.`
+    80→- `Staggered --[knockdown hit]--> Downed  | only if the incoming strike's commitment weight exceeds the knockdown threshold`
+    81→
+    82→**From Downed:**
+    83→
+    84→- `Downed --[rise input]--> Committed.Anticipation (rising)  | cost: 25-40 frames. Rising is itself a committed action; a rising combatant cannot defend during the rise.`
+    85→- `Downed --[harder hit]--> Downed (extended)  | ground attacks reset the rise timer`
+    86→- `Downed --[lethal hit]--> Dead`
+    87→
+    88→**From Dead:** No transitions out. The combat is over for this combatant.
+    89→
+    90→### 1.3 The observables (what each transition leaks)
+    91→
+    92→A combatant's state transitions are not invisible. Every transition has a perceptual signature that a sufficiently perceptive opponent can read. This is the doctrine's "readable counterplay" (Sekiro precedent: the enemy's animation tell is the readable).
+    93→
+    94→| Transition | Observable | Perceivable by |
+    95→|---|---|---|
+    96→| `Idle → Committed.Anticipation (attack)` | Weapon raises; weight shifts forward; qi-routing brightens in hands (Qi Condensation+) | Mortal: visible animation. Qi Induction+: faint qi-brightening. Core Formation+: routing detail. |
+    97→| `Idle → Committed.Anticipation (defense)` | Posture lowers; guard raises | All combatants |
+    98→| `Idle → Committed.Anticipation (feint)` | Looks like an attack's startup — but a perceptive reader notices the qi-routing does not match the apparent weapon path | Qi Condensation+ (with read-residue) |
+    99→| `Idle → Committed.Anticipation (route switch)` | Visible qi-shift between body regions; posture visibly re-attunes | Qi Induction+ (perceptually), Qi Condensation+ (with detail) |
+   100→| `Idle → Committed.Anticipation (read residue)` | Gaze fixes; the reader's own qi dims slightly as attention redirects inward | Qi Induction+ (perceptually) |
+   101→| `Committed.Active (any attack)` | The full tell; weapon at maximum extension; qi-brightening peaks | All combatants (the strike is now happening) |
+   102→| `Recovery → Idle (clean)` | Posture resets; qi dims back to baseline | Qi Induction+ |
+   103→| `Recovery → Idle (abort)` | A visible flinch; the stance collapses briefly before resetting | All combatants |
+   104→| `Staggered` | The combatant staggers; qi flares erratically (deviation risk; see §8.4) | All combatants |
+   105→| `Downed` | The combatant is on the ground; qi is dimmed and pooling | All combatants |
+   106→
+   107→A combatant at Qi Induction can perceive the qi-observables but cannot read their own routing to compensate. A Qi Condensation combatant can both perceive and route. The asymmetry produces a real skill gradient: the same observable is actionable at Qi Condensation and only informational at Qi Induction.
+   108→
+   109→### 1.4 Preconditions and postconditions
+   110→
+   111→Each transition has a precondition (what must be true for the transition to be legal) and a postcondition (what becomes true after). The engine checks both every tick.
+   112→- **`Idle → Committed.Anticipation (slash)`:** pre: combatant in `Idle`; available qi ≥ slash's reservoir cost (Qi Condensation+) OR slash costs no qi (Mortal). post: combatant in `Committed.Anticipation`; reservoir debited when the action enters `Committed.Active` (not at input time — the debit lands when the strike lands or whiffs).
+   113→- **`Staggered → Downed`:** pre: incoming strike's commitment weight exceeds the combatant's posture threshold (function of realm — Foundation Establishment is ~4× Mortal — routing, and fatigue). post: combatant in `Downed` with a knockdown timer set by the strike's weight.
+   114→
+   115→The full precondition/postcondition table is implementation data, exported as `combat.json` (per document 11 §6).
+   116→
+   117→---
+   118→
+   119→## 2. The tempo economy
+   120→
+   121→### 2.1 The frame budget
+   122→
+   123→The simulation runs at 60 Hz (document 11 §1.3; one tick = one frame = 16.67 ms). Every action costs frames. The frame cost is the resource; spending it well is the skill. This is the Bushido Blade / Third Strike precedent made explicit.
+   124→
+   125→**Action class → frame cost**
+   126→
+   127→| Class | Examples | Startup | Active | Recovery | Total |
+   128→|---|---|---|---|---|---|
+   129→| **Fast** | jab, dodge step, parry, feint-pulse | 4-6 | 2-4 | 4-6 | 10-16 |
+   130→| **Medium** | slash, block, route-switch partial, throw | 8-12 | 4-8 | 8-12 | 20-32 |
+   131→| **Heavy** | qi burst, formation activation, route-switch full, ground-slam | 20-30 | 8-12 | 20-30 | 48-72 |
+   132→| **Ritual** | bear oath (Foundation Establishment+), open domain (Spirit Severance+) | 60+ | 0 | 30+ | 90+ |
+   133→
+   134→The user's instruction specified: fast = 8-12 frames; medium = 15-25 frames; heavy = 40-60 frames. These are total-cost windows; the startup/active/recovery breakdown above is consistent with them and adds the Third Strike frame-data granularity the engine needs.
+   135→
+   136→### 2.2 The three sub-costs
+   137→
+   138→A player who only sees total cost cannot tune the feel. Every action has three sub-costs:
+   139→- **Startup (Anticipation):** the frames during which the action is telegraphed but not yet effective. The readable window. A longer startup is more readable but more committed.
+   140→- **Active:** the frames during which the action has its effect. A strike's active frames are when it can hit; a block's are when it can defend; a parry's are the deflection window.
+   141→- **Recovery:** the frames after the action during which the combatant cannot act. The punish window — the frames during which a successful dodge or parry leaves the attacker open.
+   142→
+   143→Frame advantage on block and hit are derived from these. A strike that is `-6 on block` means the attacker is in Recovery for 6 frames after the defender returns to Idle; the defender can act first. A strike that is `+3 on hit` means the attacker returns to Idle 3 frames before the defender (who is in Staggered for those 3 frames).
+   144→
+   145→### 2.3 The tempo resource and the reservoir drain
+   146→
+   147→Tempo is not a meter; it is the **count of frames a combatant has spent in Committed vs Idle over the last N frames** (rolling window, default N=120 = 2 seconds). A combatant who has spent 90 of the last 120 frames in Committed is fatigued: their startup extends by 1-3 frames, recovery by 2-4, and their residue-reading becomes unreliable. A combatant at 30/120 is fresh. This is the brake on spamming — the Monster Hunter hunter who never sheathes to recover stamina is the hunter who gets carted.
+   148→
+   149→Qi-bearing actions (Qi Condensation+) also cost reservoir, separate from tempo. A strike costs frames AND qi. A combatant can run out of either independently:
+   150→- **Out of tempo:** fatigued, slower, predictable. Recover by Idling.
+   151→- **Out of reservoir:** effectively mortal (per document 03 Station 3). Recover by resting, venting, or absorbing ambient qi (slow, dangerous, requires a qi-rich place).
+   152→
+   153→A Qi Condensation cultivator who exhausts their reservoir mid-fight becomes, mechanically, a Mortal — they keep their skill but lose their routing. This is the most common combat failure at Qi Condensation.
+   154→
+   155→---
+   156→
+   157→## 3. The commitment model
+   158→
+   159→### 3.1 The no-cancel rule
+   160→
+   161→Once a combatant enters `Committed.Anticipation`, they cannot exit until the action's frame budget is spent and they transition through `Committed.Active → Committed.Wind-down → Recovery`. There are no instant cancels, no roll-cancels, no jump-cancels, no special-move cancels. This is *exactly* Sekiro's posture system and Monster Hunter's weapon commitment: in Sekiro, once you press attack, you cannot cancel into a dodge until the attack's recovery frames begin; in Monster Hunter, a Great Sword's true charge slash cannot be canceled once the third swing begins. This document adopts that model in full.
+   162→
+   163→### 3.2 Why no cancels
+   164→
+   165→Cancels produce spammy combat. A combatant who can cancel any action into any other has no commitment, no punish window, no readable telegraph, no skill expression. Every modern fighting game that has added cancel systems (Marvel vs. Capcom, Dragon Ball FighterZ) has had to add escalating costs (meter, sparks) to prevent the cancel system from destroying readability. This project does not have meter; it has tempo and reservoir. Cancels would spend tempo and reservoir unpredictably and destroy the readable counterplay the doctrine demands.
+   166→
+   167→The commitment rule is also the **design engine, not just the brake** (per AGENTS.md Part 3). What commitment unlocks: the readable telegraph. Because attacks cannot be canceled, an attack's startup is real information — the defender knows the attack is coming and can choose how to respond. Without commitment, the startup is meaningless (the attacker could cancel); with commitment, the startup is the readable, and reading it is the skill.
+   168→
+   169→### 3.3 The four legal exits from Committed
+   170→
+   171→There are exactly four ways to leave Committed:
+   172→
+   173→1. **Natural completion:** the action runs its full frame budget and transitions through to Recovery.
+   174→2. **Feint collapse (feint only):** a feint transitions from Anticipation directly to Recovery, skipping Active. This is the only "early exit" and it is itself a committed action — the feint has its own frame budget.
+   175→3. **Hit during Anticipation:** if the combatant is hit during Anticipation (before Active), they enter Staggered. The action is aborted by being hit, not by choice.
+   176→4. **Hit during Active (sufficient to stagger):** a sufficiently heavy hit during Active can stagger the combatant out of their own strike. This is rare (the Active frames are when the strike is at full extension) but possible with a perfectly timed counter.
+   177→
+   178→There is no fifth exit. There is no "dash cancel." There is no "qi-burst cancel." There is no "input-buffer cancel." The player must commit.
+   179→
+   180→### 3.4 The input buffer
+   181→
+   182→To make the commitment model feel fair rather than punishing, the engine maintains an input buffer of 8 frames. Inputs pressed during the last 8 frames of Recovery are held and fire on the first frame of Idle. This is the Super Smash Bros. / Celeste input-buffer precedent: the player's intent is preserved across the recovery window without violating commitment. Inputs pressed earlier than 8 frames before Recovery ends are dropped.
+   183→
+   184→---
+   185→
+   186→## 4. The qi routing system in combat
+   187→
+   188→### 4.1 The four routings
+   189→
+   190→A Qi Condensation+ combatant can route qi to one of four body regions. Each routing enhances a specific dimension of capability:
+   191→
+   192→| Routing | Hanzi | Enhances | Diminishes |
+   193→|---|---|---|---|
+   194→| **Hands (Strength)** | 手 | Strike damage, grip strength, lifting force | Fine perception, agility |
+   195→| **Legs (Speed)** | 足 | Movement speed, dodge distance, attack speed | Damage, resistance |
+   196→| **Senses (Perception)** | 覺 | Residue reading fidelity, feint detection, attacktell perception | Damage, resistance |
+   197→| **Skin (Resistance)** | 皮 | Posture threshold, damage reduction, knockdown resistance | Speed, perception |
+   198→
+   199→A combatant can have at most one routing active at a time. At Qi Condensation, switching routings is a committed action; at Foundation Establishment, the integration makes switching faster but still committed; at Core Formation+, the routing becomes near-instant but never free.
+   200→
+   201→### 4.2 The switch cost
+   202→
+   203→Switching routings is a **Heavy action** (per §2.1): 60-120 frames (1-2 seconds) at Qi Condensation, 40-60 frames at Foundation Establishment, 20-30 frames at Core Formation+. During the switch, the combatant is in `Committed.Anticipation` and cannot act. The switch is also visible (per §1.3) — opponents perceive the re-attunement and can exploit the window.
+   204→
+   205→The user's instruction: "You cannot hot-swap routings mid-combo. This forces commitment to a fighting style." This is the rule. A combatant who begins a fight routed to Hands must commit to a Hands-fighting style; if they want to switch to Legs to escape, they pay the switch cost and are vulnerable during it. This produces real strategic depth: the routing choice at fight-start constrains the entire fight unless the combatant finds a window to re-attune.
+   206→
+   207→### 4.3 The partial-routing sub-system
+   208→
+   209→At Qi Condensation, a combatant can choose to **partially route** — split their qi between two routings at 60/40 or 70/30, with reduced enhancement to both. A 70/30 Hands/Skin combatant hits harder than pure Skin but softer than pure Hands, and is more durable than pure Hands but less than pure Skin. Partial routing is the intermediate-skill expression: beginners use pure routings; experts tune partials to the opponent; masters switch partials mid-fight by paying the switch cost.
+   210→
+   211→### 4.4 Routing and realm
+   212→
+   213→- **Mortal:** no routing. Capability is fixed by the body.
+   214→- **Qi Induction:** can perceive routing (own faintly; others' if attended) but cannot route. The most frustrating station: they see the qi layer but cannot play it.
+   215→- **Qi Condensation:** first station that can route. Switch cost high (60-120 frames). One routing, or a partial split.
+   216→- **Foundation Establishment:** switch faster (40-60 frames); effect ~2× Qi Condensation; partial splits viable at 50/50.
+   217→- **Core Formation:** switch 20-30 frames; effect ~4× Qi Condensation; routing sustained indefinitely without reservoir drain (per document 03 Station 5).
+   218→- **Nascent Soul:** routing near-instant (10-15 frames) but still costs attention; the spirit can project a routing outside the body.
+   219→- **Spirit Severance:** routing extends into the domain; the cultivator's routing affects the entire domain, not just their body.
+   220→
+   221→---
+   222→
+   223→## 5. The residue reading system
+   224→
+   225→### 5.1 What residue reading reveals
+   226→
+   227→A Qi Condensation+ combatant can, mid-combat, read an opponent's qi-residue. Residue is the trace left by every qi-bearing action — the cultivation-world's forensic signature (per document 03 Station 3 verb 讀殘, "read residue"). In combat, residue reading reveals:
+   228→
+   229→1. **Opponent's current routing** — which region their qi is brightening in (Hands, Legs, Senses, Skin). This is the most basic read.
+   230→2. **Opponent's intended next routing** — if they are mid-switch, the residue shows the destination before the switch completes. This is the high-value read; it lets the reader counter the switch.
+   231→3. **Opponent's reservoir state** — how much qi they have left, and how contaminated it is. A near-empty reservoir is dim; a contaminated reservoir is discolored.
+   232→4. **Opponent's fatigue level** — the qi-version of the tempo economy. A fatigued opponent's residue is sluggish; their qi moves slowly between regions.
+   233→5. **Opponent's deviation onset** — if the opponent is developing a somatic deviation (false circuit, cross-current), the residue shows the deviation forming before it manifests. This is the rarest read and the most valuable; it lets the reader predict the opponent's breakdown.
+   234→
+   235→### 5.2 The attention cost
+   236→
+   237→Residue reading costs attention. Attention is a finite resource, distinct from tempo and reservoir. A combatant has a fixed attention budget (~100 units at Qi Condensation, scaling up at higher realms). Reading residue costs attention per second of reading; the cost scales with the depth of the read:
+   238→
+   239→- Surface read (current routing): 5 attention/sec
+   240→- Mid read (intended routing, reservoir state): 15 attention/sec
+   241→- Deep read (fatigue, deviation onset): 30 attention/sec
+   242→
+   243→A combatant who exhausts their attention cannot read residue until they rest (attention recovers slowly in Idle, faster in meditation). More critically, **a combatant who is reading cannot attack** — the read is itself a Committed action (per §1.2, `Idle → Committed.Anticipation (read residue)`). This is the doctrine's "investigative verb in combat" made mechanically honest: you cannot attack and investigate simultaneously. You must choose.
+   244→
+   245→### 5.3 The feint-read asymmetry
+   246→
+   247→Feints and reads are in direct tension. A feint produces a false routing-telegraph that a reader can detect — but only at the mid-read depth (intended routing). A surface reader sees the feint's apparent routing and is fooled; a mid-reader sees the discrepancy between the apparent and intended routing and detects the feint; a deep reader sees the feint's tell in the opponent's fatigue signature (a feinting combatant is slightly more fatigued than an attacking one because the feint requires more control).
+   248→
+   249→This produces a real read-feint-counter-feint-counter-read loop, calibrated to attention costs. A combatant who reads deeply enough to detect feints will exhaust their attention faster than one who reads shallowly; the shallow reader is more often fooled but lasts longer in the fight. Neither is strictly better; the choice depends on the opponent.
+   250→
+   251→### 5.4 The protagonist's advantage (Residual Error Sense) in combat
+   252→
+   253→The protagonist's Residual Error Sense (document 00 §5) enhances perception of their *own* qi-residue, not the opponent's. In combat: the protagonist can review their own committed actions post-Recovery and see exactly where their routing diverged from intent — a faster learning loop than other cultivators get. The protagonist does **not** get enhanced reads of opponents. Per the parity oracle (document 00 §5), an NPC with the same advantage gets the same self-read; the protagonist does not get a stealth combat buff. The advantage is a long-loop advantage (they learn faster across fights), not a short-loop advantage (they do not win individual fights more easily). The doctrine's "no automatic victory" test is satisfied.
+   254→
+   255→---
+   256→
+   257→## 6. The combat verbs by realm
+   258→
+   259→The realm ladder (document 03) specifies what each station *adds*. Combat inherits that ladder. Each realm's combat is qualitatively different, not numerically bigger.
+   260→
+   261→### 6.1 Mortal (凡人)
+   262→
+   263→- **Verbs:** strike, grapple, dodge, block, flee. No qi. Tempo only. Reservoir is zero. Routing is impossible.
+   264→- **Perception:** visible animation only. No qi-observables.
+   265→- **Failure mode:** bodily death is final (anchor enters bardo; see §9).
+   266→- **The feel:** grounded, physical, terrifying. A mortal duel is two people who can be killed by one cut. Every commitment is a risk of death. The Bushido Blade precedent.
+   267→- **State machine:** the full state machine (§1) applies, but with no Committed sub-states that depend on qi (no route-switch, no read-residue, no feint-pulse). Anticipation/Active/Wind-down still apply; they are purely physical.
+   268→
+   269→### 6.2 Qi Induction (引气)
+   270→
+   271→- **Verbs:** all mortal verbs, plus perceive qi (passive).
+   272→- **Perception:** can perceive opponents' qi-observables (routing brightening, reservoir state, fatigue) but cannot route own qi. The most frustrating combat station: the combatant sees the qi-game being played but cannot play it.
+   273→- **Failure mode:** as mortal, plus perception burn (overusing qi-perception mid-combat produces headache, nosebleed, temporary blindness — per document 03 Station 2).
+   274→- **The feel:** watching a fight you cannot fully participate in. The Qi Induction combatant is a mortal who knows too much. They can predict an opponent's strike by reading the qi-telegraph, but they can only respond with mortal verbs.
+   275→
+   276→### 6.3 Qi Condensation (凝气)
+   277→
+   278→- **Verbs:** strike, grapple, dodge, block, flee (mortal) + route qi, anchor trace, vent, read residue.
+   279→- **First realm with real combat verbs.** Routing, reading, and venting are all available.
+   280→- **Reservoir:** finite, depletes with use, recovers slowly. Exhaustion → effectively mortal.
+   281→- **Routing switch cost:** 60-120 frames (1-2 seconds). Heavy commitment.
+   282→- **Read cost:** 5-30 attention/sec depending on depth.
+   283→- **Failure modes:** reservoir exhaustion (most common), somatic deviation under pressure, psychospiritual disturbance from violence.
+   284→- **The feel:** the first time qi-enhanced combat clicks. The cultivator routes to Hands, lifts a stone they could not lift before, and understands that they are playing a different game than the mortal they were. But the envelope (document 03 Station 3) holds: they cannot split a mountain, cannot survive a great fall, cannot outlast a long fight.
+   285→- **State machine:** full state machine including all qi-bearing transitions. The Golden Scene 3 duel (document 06) operates at this realm.
+   286→
+   287→### 6.4 Foundation Establishment (筑基)
+   288→
+   289→- **Verbs:** all Qi Condensation verbs, plus integrate practice, form meridian, bear oath, found household, teach.
+   290→- **Combat-relevant additions:** faster recovery (reservoir ~2× faster), larger reservoir (~3× Qi Condensation), stronger routing output (~2× per routing). Routing switch cost drops to 40-60 frames.
+   291→- **Bear oath (受職):** the combat verb unique to Foundation Establishment. A cultivator can, mid-combat, make a qi-bound promise — "I will not flee this fight," "I will not strike to kill," "If you yield, I will spare you." The oath is qi-bound: breaking it produces real spiritual consequences (reservoir contamination, deviation risk, anchor-stain). The oath constrains both parties: the bearer is bound, and the opponent who accepts the terms (by hearing and not contesting) is socially bound to honor the oath's protection. This is the verb that makes Foundation Establishment combat *social*, not just physical. A duel with an oath is a different fight than a duel without.
+   292→- **Failure modes:** foundation collapse (rare in combat but possible under severe disruption), advanced somatic deviation, institutional betrayal.
+   293→- **The feel:** the cultivator is now a coherent system. The difference from Qi Condensation is not "I am stronger" but "I am whole." The oath mechanic adds weight: every duel can be made more consequential by an oath, and the cultivator must choose whether to bear one.
+   294→
+   295→### 6.5 Core Formation (金丹)
+   296→
+   297→- **Verbs:** all Foundation Establishment verbs, plus form golden core, sustain qi field without ambient qi, perceive spirit anchors, refine treasure, found sect, author minor law.
+   298→- **Combat-relevant additions:** self-sustaining qi (the combatant can fight in qi-dead environments — deserts, warded chambers — without depletion); perceive spirit anchors (see if an opponent is possessed, projecting, or a walking corpse); refined treasures (the weapon carries qi and intent — a Core Formation sword is not just sharper, it is a qi-bearing instrument with its own state machine).
+   299→- **Routing switch cost:** 20-30 frames. Near-instantaneous by mortal standards.
+   300→- **Failure modes:** cracked core (catastrophic, often fatal); tribulation death; perception overload (newly-formed Core Formation cultivators may see anchors everywhere and become disoriented).
+
+[showing lines 1-300 of 473; use offset=301 with limit to continue reading]

@@ -1,0 +1,302 @@
+     1→     1→# 26 — Narrative Spine
+     2→     2→
+     3→     3→**Status:** Canonical. This document specifies the narrative spine that makes the bible a game, not just a simulation. All subsequent narrative content must comply.
+     4→     4→**Date:** 2026-08-03
+     5→     5→
+     6→     6→---
+     7→     7→
+     8→     8→## 0. What this document is and why it exists
+     9→     9→
+    10→    10→The critics identified this as the single highest-leverage missing piece: "the team has an engine and a village but no game." The prior corpus (docs 00-24) specified the cosmology, the soul model, the realm ladder, the substrate, the phenomenology, the engine, the economy, the combat grammar, the sect institutions, the grotto-heavens, the Precelestial and tribulation, the AI interaction layer, the GUI, and the reconciliation. What it did not specify was the game: the thing the player does, the reason they do it, the person who opposes them, the way it ends.
+    11→    11→
+    12→    12→The doctrine (AGENTS.md Part 3) says: "Design for joy first; the system serves the experience. Before any ontology, before any contract, before any test architecture, answer: what does the player do in the first hour, and why do they want a second hour? Session 1, session 10, session 100. The first verb. The first awe. The first failure that teaches. The loop. The thing you tell a friend. If this cannot be written, no amount of system rigor will save the project."
+    13→    13→
+    14→    14→This document answers. It commits. It names the protagonist's want, the antagonist's name, the three acts, the session beats, the loop, the endings, the companions, the romance, the side content, and Old Chen's death. Every fork is closed. If a decision is wrong, the prototype will say so — but no decision is worse than a wrong decision multiplied by every fork that depends on it.
+    15→    15→
+    16→    16→The protagonist's surname is Wang (王). The given name is player-chosen. The protagonist is 16 at game start, in the autumn of the Jianhe 31 year, in Wang Family Bend, in the Cangli Riverlands, in the Great Yan Dynasty. The protagonist's advantage is Residual Error Sense (遺錯之覺, yicuo zhi jue — doc 00 §5). Everything below follows from this.
+    17→    17→
+    18→    18→---
+    19→    19→
+    20→    20→## 1. The elevator pitch
+    21→    21→
+    22→    22→**One sentence:** You are the second child of a Wang lineage farmer in a wet-rice village at the edge of a declining empire; you perceive qi, you leave to cultivate, and the longer you live the more the village you left ages without you — until the grief of being absent becomes the central problem of your long life, and you must decide whether to retrieve the dead (the crime), to let them go (the teaching), or to rewrite the law that took them (the cost is everything).
+    23→    23→
+    24→    24→That is the game. Everything else is implementation.
+    25→    25→
+    26→    26→---
+    27→    27→
+    28→    28→## 2. The central conflict
+    29→    29→
+    30→    30→The genre tension (power acceleration vs. forbiddance) is confronted at the cosmology level (doc 00 §1: the cosmos is finite, qi-stratified, not regenerating; tribulation is lawful, not moral; no cultivator can own the Dao). The character tension is **personal**.
+    31→    31→
+    32→    32→### 2.1 What the protagonist wants
+    33→    33→
+    34→    34→The protagonist wants **Wang Xiaodi back**.
+    35→    35→
+    36→    36→Wang Xiaodi (王小弟, the protagonist's younger brother) died of fever at age 7, two years before game start, while the protagonist was studying with Old Chen at Li Family Creek and did not return in time (doc 24 §4.4). The protagonist carries the guilt of absence. This guilt is the engine of Scene 4 (the failed breakthrough — doc 06 Scene 4) and the engine of the entire game.
+    37→    37→
+    38→    38→The want is not initially conscious. At game start (age 16), the protagonist has not named it. The first 100 sessions (Act 1) are about the protagonist learning to perceive qi, learning to cultivate, and failing to integrate because the grief is unprocessed. Scene 5 (the successful Foundation Establishment) requires the protagonist to mourn Wang Xiaodi first (doc 06 Scene 5: "the player must mourn the sibling... resolving the grief and preparing the player for a later, successful attempt"). Mourning is not retrieval. The protagonist learns, by Scene 5, that Wang Xiaodi is gone and that cultivation cannot undo it.
+    39→    39→
+    40→    40→But the want persists, beneath the mourning. At Core Formation (session ~500), the protagonist can perceive spirit anchors (doc 03 Station 5). The first anchor they seek is Wang Xiaodi's. They do not find it in bardo (the bardo window has long closed). They do not find it in the lineage hall's residue (it is too faint). They conclude, provisionally, that Wang Xiaodi's anchor has dispersed (final death, 寂滅) or has been reborn into a new body they cannot locate.
+    41→    41→
+    42→    42→Then the antagonist is revealed, and the want becomes a crisis.
+    43→    43→
+    44→    44→### 2.2 What opposes them
+    45→    45→
+    46→    46→**The law of the cosmos.** Doc 00 §2: "Final death (寂滅) occurs when the anchor is dispersed — a lawful outcome of certain high-realm conflicts, certain tribulations, or the natural expiry of the bardo window. A dispersed anchor cannot be recovered by any means." The bardo window is bounded and lawful. Wang Xiaodi's window has closed. The law says: the anchor is gone, either dispersed or reborn, and either way it is not retrievable.
+    47→    47→
+    48→    48→The protagonist's want (retrieve Wang Xiaodi) is forbidden by law. This is the character-level confrontation of the genre tension: the protagonist wants the one thing cultivation cannot give. The antagonist (§3) is the one who breaks the law to take it anyway.
+    49→    49→
+    50→    50→### 2.3 The secondary conflicts
+    51→    51→
+    52→    52→- **Political (secondary):** The Azure Sword Sect (碧劍宗), under Core Formation sect master Leng Wushuang (冷無霜, 340), is quietly expanding toward the Cangli Riverlands to claim the latent spirit vein beneath the Cangwu Mountains (doc 24 §4.3). This threatens Wang Family Bend — not by eviction, but by the slow absorption of the region's qi into the sect's grotto-heaven, which would thin the ambient qi the village's future cultivators (if any) would need. Leng Qingxue (冷清雪, Leng Wushuang's daughter, Core Formation, ~120), the protagonist's romance option (§10), opposes her mother's expansion. This conflict is the political backdrop of Act 2 and the source of the protagonist's first sect-level dilemma.
+    53→    53→- **Cosmological (secondary):** The Courts of Heaven (天庭) are not omnipotent and can be corrupt (doc 00 §1: "They can be wrong, corrupt, or contested"). A minor Precelestial official, **Scribe Yan** (閻, a record-keeper of the dead), has been accepting bribes to delay bardo dispersals and sell "extended window" anchors to demonic cultivators. This is the cosmological enabler of the antagonist. The "transcend" path (§4 Act 3) targets this corruption: the protagonist authors a law that closes the bardo-harvest loophole.
+    54→    54→
+    55→    55→### 2.4 Why personal is primary
+    56→    56→
+    57→    57→The doctrine says "confront the central tension directly." The genre's central tension is power acceleration. The character-level confrontation is: the protagonist wants the one thing that would require breaking the law (retrieving a past-the-window anchor), and the antagonist is the one who does break it. The personal grief is the engine that makes the cosmological law feel like a stake rather than a rule. Without the personal, the law is abstract; with the personal, every lawful boundary the protagonist respects is a fresh grief. This is the game's central dramatic mechanism.
+    58→    58→
+    59→    59→---
+    60→    60→
+    61→    61→## 3. The antagonist
+    62→    62→
+    63→    63→### 3.1 The antagonist is Pei Liang (裴良)
+    64→    64→
+    65→    65→**Realm at introduction (session ~200):** Nascent Soul (元嬰), ~180 years old, appears ~35.
+    66→    66→**Realm at final confrontation (session ~1500+):** Spirit Severance (化神), ~400 years old, appears ~40.
+    67→    67→
+    68→    68→Pei Liang is the third-generation inheritor of Zhou Wugui's (周無咎) demonic-cultivation technique. Zhou Wugui's incursion was 95 years ago (doc 24 §4.4); he was killed by the Azure Sword Sect's previous sect master. But Zhou Wugui had a last disciple, who survived, and taught the technique to a student, who taught it to Pei Liang. Pei Liang is the third link. He never met Zhou Wugui. He inherited the technique as one inherits a family craft — practiced, refined, and scaled.
+    69→    69→
+    70→    70→The technique: **anchor harvesting** (奪樞, duoshu). A demonic cultivator, at the moment of breakthrough, can use harvested anchors as fuel — the anchor's law-inscription, when dispersed under controlled conditions, releases a surge of law-energy that can force a realm transition the cultivator has not earned. Zhou Wugui harvested three villages (doc 24 §4.4) to attempt Spirit Severance; he failed and was killed. Pei Liang has been harvesting anchors at a smaller, quieter scale for 150 years, sustained by Scribe Yan's corruption (§2.3), and is preparing a Spirit Severance breakthrough that would make him the equal of Leng Wushuang.
+    71→    71→
+    72→    72→### 3.2 Pei Liang's stake
+    73→    73→
+    74→    74→Pei Liang wants Spirit Severance because Spirit Severance is the realm of externalized law (化神, doc 03 Station 7: "the cultivator externalizes their law as a domain"). He wants to author a domain where anchor-harvesting is lawful — a pocket of the Acquired Stratum where his crime becomes his jurisdiction. This is the cosmological stakes: if Pei Liang succeeds, the bardo-harvest loophole becomes permanent in his domain, and every mortal in the Cangli Riverlands becomes a potential harvest.
+    75→    75→
+    76→    76→### 3.3 Scene of introduction (session ~200, Act 2)
+    77→    77→
+    78→    78→The protagonist is ~50 years old (Foundation Establishment, appears ~30), visiting the Cangwu Sect (蒼梧派) on sect business. Pei Liang raids the Cangwu Sect's outer hall at night to steal the sect's anchor-records (the records of who has died in the region, with their anchor-signatures — the catalog Pei Liang uses to select harvest targets). The protagonist, present by chance, survives because Pei Liang does not consider a Foundation Establishment cultivator worth killing. The protagonist perceives Pei Liang's qi-signature: it is stained, corrupted by the residue of dozens of harvested anchors, each leaving a faint trace that the protagonist's Residual Error Sense — even at Foundation Establishment, where it is bounded to the protagonist's own residue — registers as *wrong*, as *borrowed*, in a way the protagonist cannot articulate until Core Formation.
+    79→    79→
+    80→    80→The protagonist reports the raid to the Cangwu Sect master Wu Changqing (吳長青, 52, Qi Condensation). Wu Changqing does not have the resources to pursue a Nascent Soul cultivator. He reports it to the Azure Sword Sect. The Azure Sword Sect sends Leng Qingxue (Core Formation, the sect master's daughter) to investigate. This is the protagonist's first meeting with Leng Qingxue (§10).
+    81→    81→
+    82→    82→### 3.4 Final scene (session ~1500+, Act 3)
+    83→    83→
+    84→    84→The protagonist, now Nascent Soul or Spirit Severance (the realm required to confront Pei Liang), tracks Pei Liang to the Cangwu Mountains' latent spirit vein — the same vein the Azure Sword Sect wants (§2.3), which Pei Liang has claimed as the site of his Spirit Severance breakthrough. The protagonist perceives, in Pei Liang's harvest-store, the residue-signature of Wang Xiaodi's anchor. The Residual Error Sense, now extended (at Core Formation, the protagonist can perceive others' anchors; at Nascent Soul, the protagonist can perceive the residue-traces of past anchor-interactions), confirms what the protagonist feared: Wang Xiaodi's anchor was not dispersed and was not reborn. It was harvested. It is in Pei Liang's store, being used as fuel.
+    85→    85→
+    86→    86→The confrontation: the protagonist must choose (§4 Act 3). The choice is the game's final decision.
+    87→    87→
+    88→    88→### 3.5 Why Pei Liang and not Leng Wushuang or Scribe Yan
+    89→    89→
+    90→    90→Leng Wushuang (the Azure Sword Sect master) is a political antagonist, but she is not the *moral* antagonist — her expansion is lawful (if ruthless), and she can be opposed politically (via Leng Qingxue). Scribe Yan is a cosmological enabler, but he is too remote to confront directly (he is in the Precelestial; confronting him requires Tribulation Crossing, which is the transcend path). Pei Liang is the direct antagonist: he is the one who harvested Wang Xiaodi's anchor, he is the one the protagonist can confront at a reachable realm (Nascent Soul / Spirit Severance), and he is the dark mirror of the protagonist's want. Pei Liang is what the protagonist would become if the protagonist broke the law to retrieve Wang Xiaodi. This is the antagonist's narrative function.
+    91→    91→
+    92→    92→---
+    93→    93→
+    94→    94→## 4. The three-act structure
+    95→    95→
+    96→    96→### 4.1 Act 1: Mortal to Foundation Establishment (ages 16-23, sessions 1-100)
+    97→    97→
+    98→    98→**The five golden scenes (doc 06):**
+    99→    99→
+   100→   100→1. **Scene 1 — The First Teacher (Wang Lun's Hexagram), autumn, age 16.** The protagonist perceives qi faintly; Wang Lun (王倫, 41) notices, names it, casts a hexagram, gives the direction: seek Old Chen. Session ~5.
+   101→   101→2. **Scene 2 — The Fraudulent Manual (Old Chen's Test), winter, age 16.** Old Chen (陳老, 82) tests the protagonist with a fraudulent manual. The protagonist must investigate before practicing. If they pass, Old Chen becomes their teacher. Session ~15.
+   102→   102→3. **Scene 3 — The First Duel (Zongde's Challenge), late summer, age 18.** Wang Zongde (王宗德, 24), the rival who studied with a traveling hustler, challenges the protagonist at the Autumn Equinox threshing ground. First combat. Session ~40.
+   103→   103→4. **Scene 4 — The Failed Breakthrough, winter, age 21.** The protagonist attempts Foundation Establishment against Old Chen's advice, driven by unprocessed grief over Wang Xiaodi. The breakthrough fails. The protagonist must mourn. Session ~70.
+   104→   104→5. **Scene 5 — The Genuine Success, autumn, age 23.** The protagonist, having mourned Wang Xiaodi and balanced their phase-affinities, attempts Foundation Establishment again with Old Chen present. Success. Lifespan extends to ~200 years. The protagonist crosses from mortal-time to cultivator-time. Session ~100.
+   105→   105→
+   106→   106→**Thesis:** Cultivation is becoming less limited. (Doc 05 §4.3: "The player understands, in that moment, that cultivation is not about becoming powerful. It is about becoming *less limited*.")
+   107→   107→
+   108→   108→**Joy:** The first awe (session ~10, per doc 05 §4). The third qi perception. The protagonist weeps at the recognition that the world is larger than they knew and that they were the one who was limited.
+   109→   109→
+   110→   110→**Act 1 ends:** The protagonist is Foundation Establishment. They are a cultivator. They have outlived their first decade of mortal-time. The first return to the village (§5, session 100) is the threshold to Act 2.
+   111→   111→
+   112→   112→### 4.2 Act 2: Foundation Establishment to Core Formation (ages 23 to ~150, sessions 100-500)
+   113→   113→
+   114→   114→**Key beats:**
+   115→   115→
+   116→   116→- **Session ~120 — The Cangwu Sect.** The protagonist joins the Cangwu Sect (the small local sect, 100 li west, doc 24 §4.3) as a junior disciple. Old Chen, who left his own sect decades ago, endorses the joining but warns: "A sect is a tool, not a home." The protagonist learns sect practice, takes on sect responsibilities, and begins to perceive the cultivation world beyond the Cangli Riverlands.
+   117→   117→
+   118→   118→- **Session ~150 — The first return (the joy of Act 2).** The protagonist returns to Wang Family Bend for the first time since Foundation Establishment. The village is the same; the people are older. **Lady Chen** (陳氏, Old Chen's mortal wife, ~75 at game start, now ~100, frail but alive, sustained by Old Chen's qi-care) greets the protagonist at the hermitage. The protagonist's father **Wang Shouyi** (王守義) has gray hair. The graveyard has new tablets — three, including **Wang Lun** (王倫, who died of pneumonia the previous winter at 47 — the protagonist was at the hermitage, practicing for Foundation Establishment, and did not return in time) and two infants from the cousin-branch. The protagonist perceives the qi of the place: it is denser than they remember, because their perception has sharpened. They perceive, in the lineage hall, the residue of their own childhood — fading. They weep. This is the joy of Act 2: the first return, the recognition that power costs time and the time costs love. (This is also the viral moment, §8.)
+   119→   119→
+   120→   120→- **Session ~200 — Pei Liang's introduction (§3.3).** The raid on the Cangwu Sect. The first meeting with Leng Qingxue. The protagonist enters the antagonist's orbit.
+   121→   121→
+   122→   122→- **Session ~250 — Liang Zhu (companion, §9).** The protagonist meets **Liang Zhu** (梁柱, ~80, Foundation Establishment, appears ~40, a rogue cultivator and woodwinds player) at Qinghe Market Town. Liang Zhu chose the rogue path over sect politics. He becomes the protagonist's first peer and friend outside the sect.
+   123→   123→
+   124→   124→- **Session ~300 — The Cangli spirit vein dispute.** The Azure Sword Sect, under Leng Wushuang, formally claims the Cangwu Mountains' latent spirit vein. The Cangwu Sect objects. The protagonist, caught between, must choose a side — and Leng Qingxue (who opposes her mother) becomes the third companion (§9). The Exchange of Cuts (§10) begins here.
+   125→   125→
+   126→   126→- **Session ~400 — Wang Meili (companion, §9).** The protagonist's cousin **Wang Meili** (王美麗, ~40, the protagonist's childhood playmate, now a Qi Condensation healer-track cultivator at the Cangwu Sect) joins the protagonist's circle. She is the lineage bridge — the one who will age with the village, slower than mortals but faster than the protagonist.
+   127→   127→
+   128→   128→- **Session ~450 — Old Chen's death (§12).** Old Chen dies at ~165 (extended by his partial Foundation Establishment integration), appearing ~95. The protagonist, ~130 (Foundation Establishment, appears ~45), arrives at the hermitage to consult him about Pei Liang's traces and finds him gone. Old Chen's anchor enters bardo. The protagonist, at Foundation Establishment, cannot perceive it. The desire to perceive Old Chen's anchor one last time — and Wang Xiaodi's — drives the protagonist toward Core Formation.
+   129→   129→
+   130→   130→- **Session ~500 — Core Formation.** The protagonist forms the golden core (結丹, jiedan — doc 03 Station 5). Lifespan extends to ~500 years. The protagonist can now perceive spirit anchors. The first anchor they seek is Wang Xiaodi's. They do not find it. Then the antagonist's plan is revealed (§3.4): Wang Xiaodi's anchor is in Pei Liang's harvest-store.
+   131→   131→
+   132→   132→**Thesis:** Power costs time and the time costs love. Every realm the protagonist gains extends their lifespan and, with it, the number of mortals they will outlive. Old Chen is dead. Lady Chen will die soon. Wang Shouyi will die. The protagonist will attend their funerals, perceive their anchors' fading residue, and continue. This is the genre's central tragic engine (time-debt) at the personal scale.
+   133→   133→
+   134→   134→**Joy:** The first return (session ~150). The recognition that the village is the same and the player is the one who changed.
+   135→   135→
+   136→   136→### 4.3 Act 3: Core Formation to endgame (sessions 500 to ~1500+)
+   137→   137→
+   138→   138→**Key beats:**
+   139→   139→
+   140→   140→- **Session ~550 — The revelation.** The protagonist, at Core Formation, perceives Wang Xiaodi's anchor in Pei Liang's harvest-store. The Residual Error Sense, extended at Core Formation to perceive others' anchors, confirms the signature: it matches the residue-traces Wang Xiaodi left in the protagonist's own practice decades ago (the protagonist, as a Qi Condensation cultivator, practiced near the infant Wang Xiaodi; the infant's anchor left faint traces in the protagonist's residue, which the protagonist's Residual Error Sense preserved). This is the moment the personal conflict (§2) and the antagonist (§3) merge.
+   141→   141→
+   142→   142→- **Session ~600-1000 — The pursuit.** The protagonist, with companions (§9), pursues Pei Liang across the Cangli Riverlands and beyond. The pursuit reveals Scribe Yan's corruption (§2.3) and the Azure Sword Sect's political maneuvering (§2.3). The protagonist must navigate all three conflicts. Liang Zhu dies in this arc (§9) — killed in Pei Liang's ambush, his anchor dispersed. This is the second grief that mirrors the first.
+   143→   143→
+   144→   144→- **Session ~1000-1200 — The Nascent Soul breakthrough.** The protagonist, driven by the pursuit and by Liang Zhu's death, attempts Nascent Soul (元嬰 — doc 03 Station 6). Success: the protagonist's spirit can now act beyond the flesh. The protagonist can survive bodily death if the anchor is preserved. This is the realm required to confront Pei Liang (who is, by now, also pursuing Spirit Severance).
+   145→   145→
+   146→   146→- **Session ~1200-1500 — The choice.** The protagonist tracks Pei Liang to the Cangwu Mountains' latent spirit vein. The final confrontation (§3.4). The protagonist must choose:
+   147→   147→
+   148→   148→  - **Confront.** Kill Pei Liang, free the harvested anchors (including Wang Xiaodi's). Wang Xiaodi's anchor, freed, enters bardo — but the bardo window closed decades ago. The anchor disperses naturally, lawfully, into the cosmos's law-substrate. The protagonist perceives the dispersal. This is the teaching's resolution: Wang Xiaodi is gone, finally and lawfully, and the protagonist lets them go. If the protagonist wins the confrontation and survives, they return to Wang Family Bend and found the lineage (§7, ending 1). If the protagonist wins but is mortally wounded, their anchor disperses (§7, ending 3).
+   149→   149→
+   150→   150→  - **Accommodate.** Accept Pei Liang's offer: share Wang Xiaodi's anchor, become complicit in the harvest, gain Pei Liang's protection and a share of his breakthrough. The protagonist's karmic trace (doc 24 §2.1) becomes heavy. At the next tribulation (karmic tribulation, doc 24 §2.1), the protagonist cannot sustain the ledger. Their anchor disperses. (§7, ending 3 — the corrupted variant.)
+   151→   151→
+   152→   152→  - **Transcend.** Pursue Mahayana law-authorship. Cross Tribulation (most die — doc 03 Station 9). If the protagonist survives, author a law (doc 03 Station 10) that closes the bardo-harvest loophole: a scoped Acquired-authorship (doc 24 §1.1) that makes anchor-harvesting unlawful in the Cangli Riverlands and, by precedent, in the broader Acquired Stratum. The law, if ratified (the tribulation tests compatibility — doc 24 §1.1), disperses Pei Liang's harvest-store lawfully — including Wang Xiaodi's anchor, which disperses as in the Confront path. The protagonist, having authored the law, becomes a Mahayana law-author. They leave the mortal world for the Precelestial (the law-authorship venue for Reach-authorship, per doc 24 §1.1, is in the Precelestial's Law Reaches). (§7, ending 2.)
+   153→   153→
+   154→   154→**Thesis:** The world's law is not fixed; but authoring it costs everything. The Confront path costs the protagonist their grief (they let Wang Xiaodi go) but not their life. The Accommodate path costs the protagonist their moral self (and then their life). The Transcend path costs the protagonist their world (they leave the mortal stratum for the Precelestial, and the time-debt becomes absolute — 1 day above = 1 year below, doc 00 §1).
+   155→   155→
+   156→   156→**Joy:** The law-authorship moment (Transcend path only). The protagonist, at Mahayana, perceives the Acquired Stratum's law-substrate directly. They write the law that closes the bardo-harvest loophole. The law takes effect. The protagonist perceives, across the Cangli Riverlands, the harvest-stores of every demonic cultivator in the region emptying lawfully — the anchors dispersing into the cosmos's law-substrate, going to their lawful next rebirths. Among them, Wang Xiaodi's. The protagonist perceives Wang Xiaodi's anchor, one last time, as it disperses — and recognizes, in its dispersal, the residue of the infant they practiced near decades ago. This is the deepest form of the first awe: not "the world is larger than I knew" but "the world's law is the world's love, and I have written a small part of it."
+   157→   157→
+   158→   158→---
+   159→   159→
+   160→   160→## 5. The session arc
+   161→   161→
+   162→   162→### 5.1 Session 1: The mortal morning
+   163→   163→
+   164→   164→The protagonist wakes on the morning of their 16th birthday in the Wang household, Wang Family Bend. The first verb (§13.1) is **carry water**: the protagonist takes the shoulder-pole and two buckets to the river, fills them, and carries them up the rutted path to the household cistern. The water is heavy; the path is rutted; the autumn morning fog is cold. The protagonist's mother, **Lady Liu** (劉氏, ~38), is preparing millet porridge. The protagonist's father, **Wang Shouyi** (王守義, ~42), is already in the paddy. The grandfather Wang Tianlu is dead (six years); his tablet is in the lineage hall. The younger brother Wang Xiaodi is dead (two years); his tablet is also in the lineage hall.
+   165→   165→
+   166→   166→The protagonist, carrying water, pauses at the river. The sound of the river has a texture they cannot name. They shake their head. It fades. They carry the water home. This is the first onset (doc 05 §1.1).
+   167→   167→
+   168→   168→In the afternoon, the protagonist attends Wang Lun's school in the lineage hall's side room. Wang Lun is teaching the lineage children to read. The protagonist is distracted. Wang Lun notices. This is the seed of Scene 1 (session ~5).
+   169→   169→
+   170→   170→### 5.2 Session 10: The first awe
+   171→   171→
+   172→   172→The protagonist has perceived qi twice — briefly, uncertainly (doc 05 §1.2). On the morning of session 10, the protagonist is at the river (or the paddy, or the lineage hall — the generator chooses based on where the protagonist has spent time). The third perception arrives. It holds for thirty seconds. The world gains its second layer (doc 05 §4.2): the river's sound has a voice beneath it; the sun's warmth has a direction and a weight; the protagonist's own hands have an interior. The protagonist perceives that these qualities were always there. The world did not change; the protagonist did.
+   173→   173→
+   174→   174→The protagonist weeps (doc 05 §1.2). Not from sadness — from recognition. They are smaller in a larger world, and the smallness is relieving. This is the first awe. It is the gate from Mortal to Qi Induction (doc 05 §4.4).
+   175→   175→
+   176→   176→### 5.3 Session 100: Foundation Establishment, the first return
+   177→   177→
+   178→   178→The protagonist, having completed Scene 5 (the genuine Foundation Establishment success, autumn of age 23), returns to Wang Family Bend. The village is the same; the people are older. Lady Chen (陳氏, Old Chen's wife, now ~100) is frail. Wang Shouyi (the father, ~65) has gray hair and a stiff back. The graveyard has three new tablets: two infants from the cousin-branch, and **Wang Lun** (王倫, who died of pneumonia the previous winter at 47 — the protagonist was at the hermitage, practicing for Foundation Establishment, and did not return in time). This is the second grief of absence — the protagonist was not there for Wang Lun's death, just as they were not there for Wang Xiaodi's.
+   179→   179→
+   180→   180→The protagonist perceives the qi of the village: denser than they remember, because their perception has sharpened. They perceive, in the lineage hall, the residue of Wang Lun's last lesson — fading. They perceive, in the graveyard, the residue of Wang Xiaodi's anchor — faint, almost gone. They weep. This is the joy of Act 2 (§4.2): the first return, the recognition that power costs time and the time costs love.
+   181→   181→
+   182→   182→### 5.4 Session 500: Core Formation, the antagonist revealed
+   183→   183→
+   184→   184→The protagonist, ~150 years old (Foundation Establishment, appears ~45), has formed the golden core (Core Formation, doc 03 Station 5). Lifespan extends to ~500 years. The protagonist can now perceive spirit anchors. Old Chen is dead (§12, session ~450). The protagonist, grieving, seeks Wang Xiaodi's anchor — and does not find it in bardo, does not find it in the lineage hall, does not find it anywhere lawful.
+   185→   185→
+   186→   186→Then the protagonist, pursuing Pei Liang, perceives Wang Xiaodi's anchor in Pei Liang's harvest-store (§3.4, §4.3). The personal conflict and the antagonist merge. The protagonist must choose their path (§4.3): Confront, Accommodate, or Transcend. The endgame begins.
+   187→   187→
+   188→   188→---
+   189→   189→
+   190→   190→## 6. The session-level loop
+   191→   191→
+   192→   192→**One sentence:** Tomorrow you return because the world has moved since yesterday — a solar term has turned, a sect has made a move, a lineage has had a birth or a death, a beast has migrated, a qi-tide has shifted — and your practice has left new residue-traces in the world for you to read with your Residual Error Sense, refining what you attempt tomorrow.
+   193→   193→
+   194→   194→The loop has two halves: the world's motion (generated per session from world-state, per §11) and the player's motion (the residue-traces left by yesterday's practice, perceivable via Residual Error Sense, doc 00 §5). The world half is the *given* (what the player responds to); the player half is the *made* (what the player has done and can now read). The loop is the rhythm between them.
+   195→   195→
+   196→   196→---
+   197→   197→
+   198→   198→## 7. The endings
+   199→   199→
+   200→   200→### 7.1 Ending 1: Found a lineage (mortal-time)
+   201→   201→
+   202→   202→**Reachable via:** Confront path, if the protagonist wins and survives. Also reachable without confronting Pei Liang, if the protagonist chooses to abandon the pursuit and stay (a valid but harder choice — the grief of Wang Xiaodi's anchor remaining in Pei Liang's store is unresolved).
+   203→   203→
+   204→   204→**What happens:** The protagonist, at Core Formation or Nascent Soul, returns to Wang Family Bend (or to Old Chen's hermitage at Li Family Creek) and founds the Wang lineage's cultivation school. The first disciple is **Wang Meili** (王美麗, the cousin, §9), who has by now reached Foundation Establishment herself. The protagonist teaches the next generation: the village children who perceive qi, the cousin-branch's grandchildren, Wang Meili's own students. The protagonist watches them grow, age, and (if they do not cultivate) die. The protagonist watches their students' students grow. The protagonist's Residual Error Sense, extended by teaching, perceives the residue of their own teaching in their students' practice — the traces of the protagonist's corrections, fading in the students' qi as they internalize them. This is the deepest form of the first awe: the world's continuation through teaching.
+   205→   205→
+   206→   206→The protagonist's last act: writing, in the Wang lineage genealogy (族譜, zupu), the character 修 (xiu, "cultivate") next to their own name. The protagonist dies of old age at ~500 (Core Formation lifespan). Their anchor enters bardo and is reborn, lawfully, into the lineage they founded. The cycle continues. The game's final image: the lineage hall, generations later, the protagonist's tablet among the ancestors, a child perceiving qi for the first time.
+   207→   207→
+   208→   208→### 7.2 Ending 2: Cross the tribulation (Precelestial, time-debt)
+   209→   209→
+   210→   210→**Reachable via:** Transcend path only. Requires reaching Tribulation Crossing (doc 03 Station 9) and crossing the tribulation (most die). If the protagonist succeeds and authors the law (Mahayana, doc 03 Station 10), they become a law-author in the Precelestial's Law Reaches (doc 24 §1.1).
+   211→   211→
+   212→   212→**What happens:** The protagonist, having authored the law that closes the bardo-harvest loophole, perceives Wang Xiaodi's anchor disperse lawfully — into the cosmos's law-substrate, going to its next rebirth. The protagonist recognizes, in the dispersal, the residue of the infant they practiced near. They weep — not from grief this time, but from recognition.
+   213→   213→
+   214→   214→Then the time-debt becomes absolute. The protagonist is in the Precelestial, where 1 day = 1 year below (doc 00 §1). The protagonist returns to the Mortal Stratum only briefly, every century or so, and finds it aged. The Great Yan Dynasty falls. A new dynasty rises. The Cangli Riverlands change. Wang Family Bend becomes a memory, then a name, then nothing. The protagonist, alone in the Precelestial, perceives the qi of a mortal world they no longer belong to. The game's final image: the protagonist, in the Law Reaches, perceiving the law they authored — the bardo-harvest loophole closed, the anchors of the Cangli Riverlands going to their lawful rebirths — and, in the law's texture, the faint residue of Wang Xiaodi's dispersal, permanent now, written into the world's law.
+   215→   215→
+   216→   216→### 7.3 Ending 3: Final death
+   217→   217→
+   218→   218→**Reachable via:** Confront path, if the protagonist loses. Accommodate path, via karmic tribulation. Transcend path, if the protagonist fails the Tribulation Crossing or fails the law-authorship (the law is contested and fails, costing the protagonist's anchor — doc 24 §1.1).
+   219→   219→
+   220→   220→**The specific scene:** The protagonist's anchor is dispersed (寂滅, jimie — doc 00 §2). The scene is the same in all three variants: the protagonist perceives their own anchor beginning to dissolve. The world does not end; the simulation continues. The companion who survives (Wang Meili, if she is present; Leng Qingxue, if she is) returns to Wang Family Bend and reports the death. A tablet is added to the lineage hall. The game's final image: a slow zoom out from the empty practice room — Old Chen's hermitage, or the Wang household, or the Cangwu Sect hall — the village continuing, the river flowing, the qi-residue of the protagonist's practice fading over the following days and weeks, then gone. The world goes on. The protagonist is not in it.
+   221→   221→
+   222→   222→### 7.4 Which is "true"
+   223→   223→
+   224→   224→**Ending 1 (found a lineage) is the true ending.**
+   225→   225→
+   226→   226→The game's thesis (doc 05 §4.3) is that cultivation is becoming less limited. The least limited ending is not the one where the protagonist leaves the world (Ending 2) or the one where the protagonist ends (Ending 3). It is the one where the protagonist becomes part of the world's continuation — perceiving the lineage as a flowing thing (the dead, the living, the yet-to-be-born, connected by the qi-residue of teaching and love), and adding their own perception to it.
+   227→   227→
+   228→   228→Ending 1 is also the most genre-subversive. The genre says ascension is the goal; this game says no — the goal is to stay, to teach, to be present. This is the doctrine's "confront the central tension directly" (AGENTS.md Part 3): we forbid power acceleration (the protagonist does not ascend), and we give the player something else (the continuation of the lineage through teaching).
+   229→   229→
+   230→   230→Ending 1 resolves the central conflict (the grief over Wang Xiaodi) by sublimating it: the protagonist cannot retrieve Wang Xiaodi's anchor (that is the antagonist's crime), but they can ensure the next Wang Xiaodi doesn't die of a fever while the cultivator is away. They do this by founding the lineage, training a healer-track cultivator (Wang Meili, and her students), and being present. The protagonist's grief becomes the lineage's first teaching.
+   231→   231→
+   232→   232→Endings 2 and 3 are valid, playable, and meaningful. They are not true. Ending 2 is the genre-conventional ending (ascension), which this game respects but does not endorse. Ending 3 is the tragic ending, which this game honors but does not celebrate. Ending 1 is the ending the game is built to deliver.
+   233→   233→
+   234→   234→---
+   235→   235→
+   236→   236→## 8. The thing you tell a friend
+   237→   237→
+   238→   238→**The viral moment: the first return (session ~100).**
+   239→   239→
+   240→   240→You leave Wang Family Bend at 16 to study with Old Chen. You come back at 23, a Foundation Establishment cultivator. Seven years for you; seven years for the village. Your father has gray hair. The graveyard has three new tablets. Wang Lun — the school teacher who first named what you were perceiving — is dead. You were at the hermitage, practicing for your breakthrough, and you didn't come back in time. Again.
+   241→   241→
+   242→   242→You stand at the graveyard at dusk. You perceive the qi of the place — denser than you remember, because your perception has sharpened. You perceive, in the lineage hall, the residue of Wang Lun's last lesson, fading. You perceive, at the tablet of Wang Xiaodi, the faint residue of an anchor that is almost gone. You weep.
+   243→   243→
+   244→   244→**The screenshot:** the village graveyard at dusk, the new tablets among the old, the qi-perception layer showing the residue of the recently-dead still hanging in the air, fading. The protagonist's silhouette, still, facing the tablets.
+   245→   245→
+   246→   246→**The thing you tell a friend:** "I left my village to cultivate for a few years, and when I came back, my teacher was dead, my father had gray hair, and there were three new tablets in the graveyard. I could perceive the qi of the dead, still faintly there. I wept at a videogame. It was the best thing I've played in years."
+   247→   247→
+   248→   248→This is the moment that makes someone want to play. It is reachable in the first ~100 sessions (the first ~50 hours, at a session length of ~30 minutes). It is the engine's proof.
+   249→   249→
+   250→   250→---
+   251→   251→
+   252→   252→## 9. The companion system
+   253→   253→
+   254→   254→**In scope. Three companions.**
+   255→   255→
+   256→   256→The doctrine (AGENTS.md Part 3) says "Design for joy first." Companions are joy: they are the people who witness the protagonist's long life alongside them, who age differently (faster or slower), who grieve with and against the protagonist, who can be lost. The genre's central tragic engine (time-debt) needs witnesses — without them, the protagonist's long life is solitary, and the grief is private. Companions make the grief shared, which makes it bearable, which makes the game playable.
+   257→   257→
+   258→   258→### 9.1 Wang Meili (王美麗) — the lineage bridge
+   259→   259→
+   260→   260→**Relation:** The protagonist's cousin (father's brother's daughter).
+   261→   261→**Realm at introduction (session ~50):** Qi Induction, ~22 years old.
+   262→   262→**Realm at endgame:** Foundation Establishment (if she survives), appearing ~30 at age ~120.
+   263→   263→**Arc:** Wang Meili is the protagonist's childhood playmate and the first person in their generation to perceive qi (after the protagonist). She does not study with Old Chen (her father, the protagonist's uncle, distrusts Old Chen); she studies at the Cangwu Sect, on the healer-track. She is the lineage bridge: she ages with the village (slower than mortals, faster than the protagonist), she keeps the protagonist tied to the family, she is the one who greets the protagonist on every return. In Act 2, she becomes a companion. In Act 3, she is the protagonist's first disciple in the "found a lineage" ending (§7.1). Her arc is the arc of the lineage itself: she is the next generation, and her students will be the one after.
+   264→   264→
+   265→   265→**Her death (if it occurs):** Wang Meili can die in Act 3 if the protagonist chooses the Accommodate path — Pei Liang, learning of the protagonist's attachment, harvests her anchor as leverage. This is the cruelest possible outcome and the strongest deterrent to the Accommodate path.
+   266→   266→
+   267→   267→### 9.2 Liang Zhu (梁柱) — the first peer
+   268→   268→
+   269→   269→**Relation:** None (rogue cultivator, met at Qinghe Market Town).
+   270→   270→**Realm at introduction (session ~250):** Foundation Establishment, ~80, appears ~40.
+   271→   271→**Realm at death (session ~800):** Foundation Establishment (he never breaks through to Core Formation), ~110, appears ~50.
+   272→   272→**Arc:** Liang Zhu is the protagonist's first peer and friend outside the sect and the village. He chose the rogue path over sect politics; he plays the *xiao* (簫, vertical bamboo flute) at taverns for spirit stones; he is irreverent, kind, and weary. He joins the protagonist's pursuit of Pei Liang in Act 2. In Act 3, he dies in Pei Liang's ambush — killed protecting the protagonist's retreat. His anchor disperses (final death). This is the second grief that mirrors the first (Wang Xiaodi's): the protagonist, again, was not enough to save someone they loved. The difference: this time, the protagonist was present. The grief is different — not the guilt of absence but the grief of presence. Liang Zhu's death is the engine of the protagonist's Nascent Soul breakthrough (the protagonist, in grief, integrates the loss and crosses the realm).
+   273→   273→
+   274→   274→**His death scene:** Liang Zhu, mortally wounded, plays one last note on the *xiao*. The note is a qi-residue trace — a technique he developed, leaving his signature in the qi of the place. The protagonist, perceiving it, recognizes it as Liang Zhu's teaching: a final lesson, in the form of a sound. The protagonist carries the residue-trace for the rest of the game. This is the Residual Error Sense's deepest use: perceiving the teaching of the dead.
+   275→   275→
+   276→   276→### 9.3 Leng Qingxue (冷清雪) — the sect dissident and romance
+   277→   277→
+   278→   278→**Relation:** Daughter of Leng Wushuang (Azure Sword Sect master). Romance option (§10).
+   279→   279→**Realm at introduction (session ~200):** Core Formation, ~120, appears ~30.
+   280→   280→**Realm at endgame:** Nascent Soul (if she survives), ~300, appears ~35.
+   281→   281→**Arc:** Leng Qingxue is sent by the Azure Sword Sect to investigate Pei Liang's raid on the Cangwu Sect (§3.3). She is the protagonist's first contact with the great-sect world. She is also the protagonist's political opposite: her mother wants the Cangli spirit vein; Leng Qingxue believes the expansion is wrong. Her arc is the arc of principle: she must choose, in Act 3, between her sect (her mother, her lineage, her duty) and her principles (the protagonist, the Cangli Riverlands, the law). She chooses principle — but the choice costs her the sect. In the "found a lineage" ending, she leaves the Azure Sword Sect and co-founds the Wang lineage school with the protagonist (not as a disciple — she is senior — but as a co-teacher). In the "cross the tribulation" ending, she stays in the mortal world and continues the protagonist's work. In the "final death" ending, she is the one who reports the protagonist's death to Wang Family Bend.
+   282→   282→
+   283→   283→### 9.4 Why three and not more
+   284→   284→
+   285→   285→Three companions is the threshold at which the protagonist's social world feels populated without becoming a party-based RPG. The genre (xianxia) is fundamentally solitary; the protagonist's long life is, in the end, alone. Three companions — one lineage (Wang Meili), one peer (Liang Zhu), one romance (Leng Qingxue) — is enough to witness the life without diluting the solitude. More would turn the game into a party-RPG; fewer would make the life uninhabitable. The precedent is Baldur's Gate 3's companion count (party of four, three companions) for the social-density threshold, and Disco Elysium's lone protagonist for the solitude ceiling. This game sits between: three companions, but the protagonist is always the point of view.
+   286→   286→
+   287→   287→---
+   288→   288→
+   289→   289→## 10. Romance
+   290→   290→
+   291→   291→**In scope. One love interest. One courtship verb.**
+   292→   292→
+   293→   293→### 10.1 The love interest: Leng Qingxue (冷清雪)
+   294→   294→
+   295→   295→See §9.3. Leng Qingxue is the romance option. She is the protagonist's political opposite, the sect dissident, the Core Formation cultivator who chooses principle over lineage. The romance is not a reward; it is a relationship that develops over hundreds of sessions, through conflict and shared grief, and that becomes load-bearing in Act 3 (she is the one who gives the protagonist the Azure Sword Sect's intelligence on Pei Liang; she is the one who must choose between sect and protagonist).
+   296→   296→
+   297→   297→### 10.2 The courtship verb: the Exchange of Cuts (交劍, jiaojian)
+   298→   298→
+   299→   299→**The mechanic:** Two cultivators spar. The loser owes the winner a truthful answer to one question. The questions cannot be about combat; they must be about the self. Three bouts (three questions, three answers) = courtship acknowledged. Seven bouts = betrothal. Either party may decline a bout; declining three times ends the courtship.
+   300→   300→
+
+[showing lines 1-300 of 414; use offset=301 with limit to continue reading]

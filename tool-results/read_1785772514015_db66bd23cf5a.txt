@@ -1,0 +1,250 @@
+   251→
+   252→### 4.5 How the three dantian interact
+   253→
+   254→The three dantian are not independent; they are the three yin-yang phases of one being (per doc 24 §2.3), and they interact lawfully: **lower feeds middle** (qi stored in the lower dantian is routed by the middle; a depleted lower dantian leaves the middle nothing to route; an over-pressurized lower dantian forces aggressive routing to relieve pressure); **middle routes through upper** (the middle's routing produces the qi-brightening the upper's perception attends to; a developed upper dantian perceives routing in detail, an undeveloped one perceives only the enhanced physical output); **upper stabilizes lower** (the anchor's self-perception holds the lower dantian's *form* — the reservoir's coherence depends on the anchor's continued presence; an anchor-bruise, per doc 13 §8.1, produces lower-dantian coherence loss).
+   255→
+   256→### 4.6 The dantian chain and the realm ladder
+   257→
+   258→The internal-alchemy chain (doc 24 §2.3) maps to the dantian chain:
+   259→
+   260→- **Foundation Establishment (煉精化氣):** the *lower dantian* integrates with the body. Body (yin) and qi (yang-within-yin) become one system. The reservoir becomes the body's *own* — not borrowed from ambient qi but sustained by the integrated system. This is the breakthrough's Stage 4 (per §1.4).
+   261→- **Core Formation (煉氣化神):** the *middle dantian* becomes self-sufficient. Circulation no longer needs the lower dantian's continuous supply (the "self-sustaining qi" verb, per doc 03 Station 5). The middle dantian becomes the seat of the golden core (金丹).
+   262→- **Nascent Soul (煉神還虛):** the *upper dantian* becomes independent. The anchor (yang) can perceive and act without the body's support. The upper dantian becomes the seat of the nascent soul (元婴) — the anchor-as-self-perceiver that can leave the body.
+   263→- **Spirit Severance (煉虛合道):** the upper dantian's perception externalizes as a domain. The anchor-as-perceiver becomes the anchor-as-law; the dantian becomes a *place* (the domain), not just a center in the body.
+   264→
+   265→### 4.7 Determinism contract
+   266→
+   267→- **Inputs:** the cultivator's three-dantian state vectors (lower: volume, purity, phase-balance; middle: route-capacity, switch-speed, inflammation; upper: perception-skill, filter-capacity, injury-state), plus the practice and injury history that develops them.
+   268→- **Function:** each dantian's state develops as a pure function of its inputs over time (practice → development; injury → degradation; rest → recovery). The dantian interact per §4.5.
+   269→- **Outputs:** the cultivator's reservoir capacity, routing capability, perception set.
+   270→- **Determinism oracle:** two isomorphic cultivators with identical dantian state and identical practice history produce identical dantian state at any future tick.
+   271→
+   272→### 4.8 Failure modes (summary)
+   273→
+   274→Per-dantian failure modes are in §§4.2-4.4. Cross-dantian failures: *dantian desynchronization* — the three dantian's rhythms fall out of sync (a generalized form of breath-motion desynchronization, per doc 24 §1.2); qi-system becomes inefficient, routings fail, perceptions are unreliable; recovery requires long synchronized practice under supervision. *Dantian collapse* — one dantian fails (typically the lower, via reservoir cracking) and the failure propagates; the cultivator reverts a station or dies; rare; produced by forced breakthroughs (per §1.7) and sufficient external shock.
+   275→
+   276→---
+   277→
+   278→## 5. Spiritual roots (linggen, 靈根) as a mechanic
+   279→
+   280→### 5.1 The roots-profile vector
+   281→
+   282→Per doc 00 §6, spiritual roots are "a developing topology of access and discrimination." Operationalized: the roots-profile is a vector over the five phases (wood, fire, earth, metal, water), with three components per phase:
+   283→
+   284→- **Sensitivity** (0.0-1.0): how easily the cultivator perceives that phase in ambient qi.
+   285→- **Admission** (0.0-1.0): how easily the cultivator absorbs that phase from ambient qi into the lower dantian.
+   286→- **Conversion** (0.0-1.0): how efficiently the cultivator converts absorbed phase-qi into usable qi-state.
+   287→
+   288→The profile is thus a 5 × 3 = 15-element vector, each element in [0,1]. The cultivator's roots-profile is tracked as part of their sim-state.
+   289→
+   290→### 5.2 How the profile develops
+   291→
+   292→Per doc 00 §6: "Roots are not fixed at birth. They develop through practice, injury, and transformation." **Use develops the root**: every practice that uses a phase develops that phase's components, at a rate proportional to the practice's intensity and the cultivator's current root-level (diminishing returns: a 0.8 root develops slower than a 0.3 root). **Injury degrades the root**: a phase-specific injury (a fire-phase contamination that damages the fire-root; a wood-phase attack that scars the wood-root) degrades the corresponding component; recovery is possible but slow. **Transformation re-architectures the root**: rare events (a specific pill, comprehension, or tribulation) can re-architect the profile — adding a root the cultivator did not have, or shifting a root's balance. These are the genre's "root transformation" tropes, made mechanical and rare.
+   293→
+   294→### 5.3 Gameplay effects
+   295→
+   296→A strong phase-root produces three concrete mechanical effects:
+   297→
+   298→- **Admission cost reduction.** Absorbing a phase's ambient qi into the lower dantian costs attention and time. A strong root reduces both. Formula: `absorption_cost = base_cost × (1 - 0.5 × root.admission)`. A 0.8 admission root halves the cost; a 0.0 root doubles it.
+   299→- **Deviation risk reduction.** Practicing with a phase risks phase-imbalance deviation (per doc 03 Station 3). A strong root reduces the risk. Formula: `deviation_risk = base_risk × (1 - 0.6 × root.conversion)`. A 0.8 conversion root reduces deviation risk by 48%; a 0.0 root leaves it at base.
+   300→- **Phase-specific technique gate.** Some techniques require a minimum root-component to practice at all. A fire-phase sword technique may require `fire.sensitivity ≥ 0.5` and `fire.conversion ≥ 0.4`. A cultivator below the gate cannot practice the technique; the technique's manual is unreadable to them (they perceive the words but cannot apply them). This is the genre's "root-gated techniques" made mechanical and honest.
+   301→
+   302→### 5.4 Heritability rule
+   303→
+   304→Per doc 24 §2.4: "The initial roots-profile is seeded by the parents' qi-states at the moment of conception (the qi-climate of the womb, the parents' cultivation at that moment)."
+   305→
+   306→The mechanic: at conception, the child's initial roots-profile is the *weighted average* of the parents' qi-states at that moment, with a small random perturbation (seeded by world-seed and conception-event-hash, so the same conception event produces the same child). The parents' qi-states — not their baseline roots-profiles — are the inputs: a fire-rooted parent who is currently in a water-phase environment contributes a water-leaning profile to the child. This is the "qi-climate of conception" made mechanical.
+   307→
+   308→A lineage of Fire-phase cultivators will tend to produce Fire-rooted children (the parents are typically in Fire-phase states), but a child of two Fire-rooted parents may be born Water-rooted (if conception occurred during a Water-phase ritual, in a Water-phase environment, or after a Water-phase injury). And any root can be developed through practice (per §5.2). Lineage advantage is real but not deterministic.
+   309→
+   310→### 5.5 Determinism contract
+   311→
+   312→- **Inputs:** the cultivator's current roots-profile (15-element vector), the practice log (which phases have been used, at what intensity, for how long), the injury log, the transformation-event log.
+   313→- **Function:** each practice-tick updates the corresponding root-component by `delta = rate × intensity × (1 - current_level)`. Injuries subtract. Transformations re-architect.
+   314→- **Outputs:** the updated roots-profile, which gates techniques and modifies absorption/deviation formulas.
+   315→- **Determinism oracle:** two isomorphic cultivators with identical roots-profiles and identical practice histories have identical roots-profiles at any future tick.
+   316→
+   317→### 5.6 Failure modes
+   318→
+   319→- **Permanent weakness** (rare, generated): a child born with a profile so low in all phases that practice cannot meaningfully develop any root. The cultivator is "no spiritual roots" in the genre's sense. They can still cultivate (per doc 00 §6: roots-profile is *developing*, not *gating*), but slowly, with high loss, and with no access to phase-specific techniques. The genre's "mortal roots" made mechanical and non-disqualifying.
+   320→- **Phase-collapse** (rare, from severe injury): a root-component drops to 0.0. The cultivator cannot perceive, absorb, or convert that phase at all. Recovery requires transformation (per §5.2), which is rare and costly.
+   321→- **Root-fixation** (a mild deviation, per doc 24 §1.2's route-fixation family): a cultivator who develops one root to 0.9+ while leaving others at 0.2 becomes *phase-locked* — they perceive the world overwhelmingly through their strong phase. The genre's "talented but unbalanced" cultivator.
+   322→
+   323→---
+   324→
+   325→## 6. Dual cultivation (xingming shuangxiu, 性命雙修)
+   326→
+   327→### 6.1 The central tension, named
+   328→
+   329→The xianxia genre expects dual cultivation in two senses:
+   330→
+   331→- **The inner-nature sense** (性命雙修 proper): 性gong (xinggong, nature-cultivation — heart-mind, comprehension, integration of 心魔) and 命gong (minggong, life-cultivation — body, meridians, dantian) as parallel tracks. The genre's tradition treats these as the two halves of the path; the cultivator who develops one without the other is incomplete.
+   332→- **The esoteric sense** (the sexual dual cultivation trope): a male and female cultivator practicing together, exchanging yin and yang qi to accelerate each other's cultivation. The genre uses this as a power-acceleration trope — the protagonist finds a yin-attributed partner and gains a station in weeks.
+   333→
+   334→The doctrine (AGENTS.md Part 3) forbids power acceleration. The esoteric sense, taken straight, is power acceleration. This section confronts the tension directly, chooses a side, and defends it.
+   335→
+   336→### 6.2 The decision and its defense
+   337→
+   338→**The decision:** Dual cultivation in the inner-nature sense (性命雙修 proper) is canonical and required. Dual cultivation in the esoteric sense exists in the world but does not produce power acceleration; it produces *balance* — reduced deviation risk and increased comprehension rate for both partners, at the cost of mutual commitment and shared risk. It is a practice, not a cheat.
+   339→
+   340→**The defense.** The esoteric trope is power acceleration by another name. To ratify it would violate the doctrine's "no power acceleration" rule (doc 00 §0) and undermine the determinism contract (a partnered cultivator would progress faster than an isomorphic solo cultivator). The trope also carries the genre's worst gender politics (the "furnace" trope, in which a male cultivator extracts yin from a female partner to his benefit and her detriment); ratifying it would import those politics unexamined.
+   341→
+   342→The doctrine also says: "Do not dissolve the tension by redefinition and then assert the residue is 'worth it.' Name the tension, choose a side, defend the choice, and provide a positive account of what the user gets instead." The positive account is in §§6.3-6.6 below. The user gets a cultivation system in which partnership matters — but as *balance*, not as *acceleration*.
+   343→
+   344→### 6.3 命gong (minggong) — the life track
+   345→
+   346→The 命 track is the cultivation of the body-and-qi system: body cultivation, meridian opening, dantian development, the lower and middle dantian (per §4). Its verbs are the body-and-qi verbs of Qi Condensation and Foundation Establishment: route qi (運氣), form a meridian (開脈), integrate a practice (合修).
+   347→
+   348→**What it develops.** The 命 track develops the lower and middle dantian, the meridian system, the body's physical envelope, the cultivator's reservoir capacity, routing speed, and physical durability. It is the *power* track in the limited sense the doctrine allows: it makes the cultivator more capable within their station's envelope. **What it does not develop:** the upper dantian, the heart-mind (per §7), comprehension (per §3), or resolution of 心魔. A cultivator who develops only 命 is powerful but unstable — strong reservoir, fast routing, durable body, but unresolved psychospiritual material accumulates and 心魔 risk rises.
+   349→
+   350→### 6.4 性gong (xinggong) — the nature track
+   351→
+   352→The 性 track is the cultivation of the heart-mind: comprehension, integration of 心魔, the upper dantian's self-perception, the slow maturation of attention, will, emotional-balance, and the resolution of attachments. Its verbs are the perception-and-integration verbs: sense self (感身), integrate a disturbance (合), comprehend a fragment (悟), confront a 心魔 (對魔).
+   353→
+   354→**What it develops.** The 性 track develops the upper dantian, the heart-mind state vector (per §7), the comprehension skill, the integration capacity. It is the *wisdom* track: it makes the cultivator more perceptive, more stable, more able to integrate what they experience. **What it does not develop:** the lower or middle dantian, the reservoir, routing speed, or the body. A cultivator who develops only 性 is wise but fragile — they perceive clearly and integrate well, but their reservoir is too small to sustain the practices their comprehension opens, and their body is too weak to survive the experiences their perception invites.
+   355→
+   356→### 6.5 The balance requirement
+   357→
+   358→Asymmetry between 命 and 性 produces deviation risk. Track `minggong_level` (0.0-10.0, cumulative 命 development) and `xinggong_level` (0.0-10.0, cumulative 性 development). The asymmetry is `|minggong_level - xinggong_level|`. Deviation risk multiplier: `1 + (asymmetry / 3)` (asymmetry 0 → 1.0; 3 → 2.0; 6 → 3.0). At asymmetry ≥ 4, the cultivator is flagged `unstable`; their breakthrough rites (per §1) have `forced_attempt` set automatically true (the integration cannot proceed cleanly; the confrontation is intense regardless of preparation).
+   359→
+   360→The cultivator who develops 命 without 性 becomes powerful but unstable (心魔 risk high; breakthroughs fail). The cultivator who develops 性 without 命 becomes wise but fragile (insufficient qi to sustain the practice; physical exhaustion). The genre's "imbalance produces deviation" is now a number.
+   361→
+   362→### 6.6 The "not the esoteric sense" clarification
+   363→
+   364→Sexual dual cultivation exists in the world. Two cultivators may practice together (per doc 03 Station 3, synchronize practice 同修, expanded to include the esoteric practice for partners who consent). The practice requires: consent (non-consensual practice is a crime under every jurisdiction, produces 心魔 in the victim and karma-trace in the perpetrator), compatibility (the partners' phase-profiles must be complementary, not identical), and time (a single session is hours; meaningful benefit requires regular practice over months).
+   365→
+   366→- **What it produces.** For each partner: `deviation_risk *= 0.7` (a 30% reduction) and `comprehension_rate *= 1.3` (a 30% increase), sustained while the practice continues and decaying over weeks after. The benefit is *balance*, not acceleration — cultivation rate unchanged; deviation risk drops; comprehension opens up.
+   367→- **What it does not produce.** No reservoir gain. No routing speed gain. No station gain. No acceleration of any kind. A cultivator who practices dual cultivation for a year is at the same station they would have been without; they are *more stable* and *more comprehending*, not more powerful.
+   368→- **The cost.** Mutual commitment (the practice ties the partners' heart-minds; a betrayal produces 心魔 in both). Shared risk (an injury to one affects the other). Social visibility (the practice is perceptible to higher-realm cultivators).
+   369→
+   370→This is the genre's dual cultivation trope, re-engineered as a *practice* rather than a *cheat*. The doctrine's "confront the central tension directly" rule made mechanical: the genre expects the trope, the doctrine forbids the acceleration, the resolution keeps the trope's *form* (partners practicing together, exchanging qi) and changes its *function* (balance, not acceleration).
+   371→
+   372→### 6.7 Determinism contract
+   373→
+   374→- **Inputs:** the cultivator's `minggong_level` and `xinggong_level`, the partner's levels (for dual cultivation), the consent and compatibility flags.
+   375→- **Function:** asymmetry → deviation-risk multiplier. Dual-cultivation session → both partners' deviation-risk and comprehension-rate modified, for the session's duration plus decay.
+   376→- **Outputs:** updated deviation-risk and comprehension-rate; updated 心魔 risk.
+   377→- **Determinism oracle:** two isomorphic cultivators with identical 命/性 levels have identical deviation risk. Two isomorphic pairs have identical dual-cultivation benefits.
+   378→
+   379→### 6.8 Failure modes
+   380→
+   381→- **命-only cultivation** (the most common failure). 命 develops fast, 性 slowly. Asymmetry grows; deviation risk rises; breakthroughs fail. The genre's "powerful cultivator with a hidden 心魔" trope.
+   382→- **性-only cultivation** (rarer). 性 develops fast, 命 slowly. Fragments comprehended that cannot be sustained; reservoir exhausts during the practices their comprehension opens; physical fragility.
+   383→- **Non-consensual dual cultivation** (a crime, generated). Perpetrator gains karma-trace (per doc 24 §2.1) and 心魔 risk; victim gains 心魔 (often obsessive or fragmentation type) and possible roots-profile damage. The world's institutions treat this as a serious crime.
+   384→- **Incompatible partnership** (the failed practice). Two cultivators whose phase-profiles are not complementary. The practice produces imbalance, not balance; both partners' deviation risk *rises*. They must end the practice or risk deviation.
+   385→
+   386→---
+   387→
+   388→## 7. Heart-mind (xin, 心) as a cultivation dimension
+   389→
+   390→### 7.1 The heart-mind state vector
+   391→
+   392→The heart-mind is tracked as a four-element state vector, each element a value in [0, 1] representing the dimension's *current development*, not a meter that fills and depletes:
+   393→
+   394→| Dimension | Hanzi | What it is | What low looks like | What high looks like |
+   395→|---|---|---|---|---|
+   396→| Attention | 念 | Capacity to direct perception and hold it | Easily distracted; perception flickers | Sustained perception; can hold multiple objects |
+   397→| Will | 志 | Capacity to sustain practice under difficulty | Gives up under discomfort; breaks commitments | Endures; follows through |
+   398→| Emotional-balance | 和 | Capacity to feel without being destabilized | Swept by emotion; mood-driven action | Feels fully; remains oriented |
+   399→| Unresolved-attachments | 結 | (Inverted: low is good) The mass of unintegrated attachment | Many open loops; grief, desire, hatred, fear are loose | Few open loops; what was is integrated |
+   400→
+   401→The four are not independent; they interact. High attention with low will produces the cultivator who perceives everything and acts on nothing. High will with low emotional-balance produces the cultivator who endures but is driven by what they endure. High emotional-balance with high unresolved-attachments is unstable (the balance cannot hold against the mass). The four must develop together, which is the 性 track's core discipline.
+   402→
+   403→### 7.2 How each dimension develops
+   404→
+   405→- **Attention** develops through perception practice. Every sustained perception verb (sense qi, sense self, read residue, comprehend) develops attention at a rate proportional to duration and difficulty. Perception fatigue (per doc 03 Station 2) is the brake; the cultivator cannot develop attention faster than their fatigue recovers.
+   406→- **Will** develops through sustained practice under difficulty. Practicing when tired, injured, emotionally disturbed, or when the practice is not yielding results (a plateau, per §2.2) develops will, proportional to difficulty and success at sustaining. A cultivator who gives up does not develop will; one who endures does. The genre's "tempering" trope, made mechanical.
+   407→- **Emotional-balance** develops through the integration of disturbances. Every time a strong emotion arises and the cultivator integrates it (per §1.4 Stage 3, generalized to non-rite contexts), emotional-balance develops, proportional to the emotion's intensity and the integration's success. A cultivator who never feels strongly does not develop emotional-balance; one who feels strongly and integrates develops fastest.
+   408→- **Unresolved-attachments** (inverted) develops through confronting and resolving them. Every tracked attachment has an integration-progress (0.0-1.0, per §1.4 Stage 1). When it reaches 1.0, the attachment is resolved — not gone, but no longer *unresolved*. The cultivator's `unresolved_attachments` value is the count of attachments with integration-progress < 1.0, weighted by intensity.
+   409→
+   410→### 7.3 The heart-mind and the realm ladder
+   411→
+   412→Each station adds a heart-mind verb — a new thing the cultivator can do with their heart-mind that they could not before:
+   413→
+   414→| Station | Heart-mind verb | What it does |
+   415→|---|---|---|
+   416→| Mortal | (none) | The heart-mind is untrained; emotions are felt and acted on |
+   417→| Qi Induction | **Sense own emotional state** (感心) | The cultivator can perceive their own emotional state as a qi-quality, not just feel it |
+   418→| Qi Condensation | **Regulate emotional state** (調心) | The cultivator can intentionally shift their emotional state by routing and breathing (per doc 05 §2.4) |
+   419→| Foundation Establishment | **Integrate a disturbance** (合) | The cultivator can integrate a strong emotion into the heart-mind, resolving it (the verb used in breakthrough Confrontation, generalized to non-rite contexts) |
+   420→| Core Formation | **Perceive others' heart-mind states** (見心) | The cultivator can perceive (faintly, with consent or with attention) another being's emotional state, by attending to their qi-signature |
+   421→| Nascent Soul | **Project heart-mind influence** (傳心) | The cultivator can intentionally project an emotional state — calm, fear, awe — outward, affecting those around them. A controlled, costly verb; its misuse is a crime |
+   422→
+   423→The ladder is qualitative, not scalar (per doc 00 §3). A Core Formation cultivator can perceive another's heart-mind; a Qi Condensation cultivator cannot. This is not a difference of degree but of kind.
+   424→
+   425→### 7.4 The 心魔 onset threshold function
+   426→
+   427→The critics identified a missing threshold: *when does 心魔 onset?* The mechanic:
+   428→
+   429→A **perturbation** is any strong emotional event: grief (a death), fear (a danger), desire (an encounter), hatred (an attack). Each perturbation has an intensity (0.0-1.0). The cultivator's current heart-mind capacity and the onset function:
+   430→
+   431→```
+   432→capacity = (attention + will + emotional_balance + (1 - unresolved_attachments)) / 4
+   433→if perturbation.intensity > capacity:
+   434→    xinmo_onset = true
+   435→    xinmo_type = perturbation.type   # grief → obsession; fear → compulsion; desire → obsession; hatred → fragmentation
+   436→    xinmo_intensity = perturbation.intensity - capacity
+   437→else:
+   438→    xinmo_onset = false   # the perturbation is integrated naturally; emotional_balance develops
+   439→```
+   440→
+   441→The function is deterministic. A cultivator with capacity 0.4 confronting a perturbation of intensity 0.6 onsets 心魔 of intensity 0.2. The same cultivator, after developing their capacity to 0.7, confronting the same perturbation, does not onset 心魔 — the perturbation is integrated, and emotional_balance grows. This is the genre's "the cultivator was not ready" trope, made into a number. The function is checked on every perturbation event (a death in the family, a bandit attack, a profound encounter, a betrayal). The player does not see the number; they experience the 心魔 or the integration. The engine knows.
+   442→
+   443→### 7.5 Determinism contract
+   444→
+   445→- **Inputs:** the heart-mind state vector, the perturbation event log (each event with type and intensity), the cultivator's practice history (which develops the dimensions).
+   446→- **Function:** dimensions develop per §7.2. Perturbations are checked against capacity per §7.4. 心魔 onset is deterministic given the inputs.
+   447→- **Outputs:** the heart-mind state, the 心魔 state (or none), the integration-progress on tracked attachments.
+   448→- **Determinism oracle:** two isomorphic cultivators with identical heart-mind state, encountering identical perturbations, onset (or do not onset) identically.
+   449→
+   450→### 7.6 Failure modes
+   451→
+   452→- **Unchecked perturbation** (the most common 心魔 path). A perturbation exceeds capacity; 心魔 onsets; the cultivator does not realize it (心魔 is invisible to its bearer). The cultivator's behavior shifts; the player sees the shift before they understand the cause. Resolution requires perceiving the 心魔 (a teacher's intervention or the cultivator's own upper-dantian development) and integrating it (per §1.4 Stage 3, generalized).
+   453→- **Capacity stagnation** (the slow failure). The cultivator does not develop their heart-mind; capacity stays low; perturbations accumulate; eventually one exceeds capacity and 心魔 onsets. The genre's "cultivator who never matured" trope.
+   454→- **Over-development of one dimension** (the unbalanced heart-mind). A cultivator with attention 0.9, will 0.9, emotional-balance 0.2, unresolved-attachments 0.5 has capacity 0.625 — but their emotional-balance is so low that any perturbation that *does* exceed capacity onsets a 心魔 of unusual intensity. The genre's "cold sword cultivator" trope.
+   455→- **Attachment-resolution failure** (the unresolved). The cultivator cannot integrate a specific attachment — the grief too raw, the hatred too justified, the desire too consuming. Integration-progress stalls; `unresolved_attachments` stays high; capacity stays low; 心魔 risk stays high. Resolution requires the specific confrontation (per §1.4 Stage 3) or a life experience that re-frames the attachment. The genre's "the cultivator must confront their past" trope.
+   456→
+   457→---
+   458→
+   459→## 8. How the seven systems compose
+   460→
+   461→The seven systems are seven views of one mechanic — the cultivator's development as a lawful process. They compose as follows:
+   462→
+   463→- **Breakthrough** (§1) is the event that advances the cultivator along the realm ladder; it consumes the products of the other six.
+   464→- **Bottlenecks** (§2) are the gates between breakthroughs; they are resolved by **comprehension** (§3), by **heart-mind** development (§7), by **dual cultivation** balance (§6), or by **roots** development (§5).
+   465→- **Comprehension** (§3) produces law-fragments that unlock perceptions and resolve plateaus; it is gated by the **heart-mind's** capacity and produces **心魔** if over-used.
+   466→- **The three dantian** (§4) are the substrate the breakthrough integrates; their development is the slow work of years between breakthroughs.
+   467→- **Spiritual roots** (§5) gate the practices that develop the dantian; they are inherited (per §5.4) and develop through use.
+   468→- **Dual cultivation** (§6) is the balance discipline that keeps **命** (lower and middle dantian) and **性** (upper dantian and heart-mind) in proportion; without it, the cultivator is unstable.
+   469→- **Heart-mind** (§7) gates 心魔 onset and is what the breakthrough's Confrontation stage tests; it is the brake and the engine of the cultivator's stability.
+   470→
+   471→The composition is the internal-alchemy chain (doc 24 §2.3): 煉精化氣 (Foundation Establishment — body/qi integration, lower dantian) → 煉氣化神 (Core Formation — qi/spirit integration, middle dantian) → 煉神還虛 (Nascent Soul — spirit/void integration, upper dantian) → 煉虛合道 (Spirit Severance — void/Dao integration, the domain). Each chain station is a breakthrough that integrates the next dantian, gated by heart-mind capacity, supported by roots development, balanced by the 命/性 discipline, and resolved through comprehension when the cultivator is stuck.
+   472→
+   473→---
+   474→
+   475→## 9. Open decisions (surfaced for review)
+   476→
+   477→Per AGENTS.md Part 3: "Exhibit reviewer voices; do not self-certify." All are tuning parameters, not forks:
+   478→
+   479→1. **50% coin on unstable-integration** (§1.4 Stage 4). Seeded RNG (per doc 13 §1.5's wrapper). Alternative — deterministic failure from exact instability — rejected as feeling mechanical rather than dramatic.
+   480→2. **0.30 phase-balance tolerance** (§1.4 Stage 1). Calibration to playtest.
+   481→3. **30-day plateau window** (§2.2). Genre's "stuck for a season" trope; may need 14 or 60.
+   482→4. **15-element roots-profile** (§5.1). Whether sensitivity and admission collapse into one component is open.
+   483→5. **Dual-cultivation magnitudes** (§6.6): 0.7 deviation, 1.3 comprehension. May need 0.8/1.2 or 0.6/1.4.
+   484→6. **心魔 onset threshold** (§7.4). Clean `intensity > capacity` rule chosen for determinism; a softer sigmoid is the alternative at the cost of a tuning parameter.
+   485→7. **命/性 asymmetry multiplier** (§6.5): `1 + (asymmetry / 3)`. Divisor 3 is a guess; Scene 4 playtesting calibrates.
+   486→
+   487→---
+   488→
+   489→## 10. Doctrine compliance
+   490→
+   491→- **Build the engine, not just the brake:** the prior corpus had the brake and not the engine. This document specifies the engine.
+   492→- **Make decisions; do not defer:** all seven systems are decided. §9 are tuning parameters, not forks.
+   493→- **Confront the central tension directly:** §6 names the dual-cultivation tension (genre wants acceleration; doctrine forbids it), chooses the doctrine's side, defends it, provides a positive account (balance, not acceleration).
+   494→- **Cite the precedent:** Cultist Simulator (ascension rite), Sekiro (perilous-attack readable tell). Both named; contributions specified.
+   495→- **Design for joy first:** the breakthrough is now a multi-stage long verb the player actively guides. The bottleneck is mechanically honest. The heart-mind has a real threshold function.
+   496→- **Determinism contract:** every system has one. The isomorphic-NPC oracle applies to all seven.
+   497→- **Coherence with yin-yang and the alchemy chain:** every system is coherent with the ratified yin-yang of body/qi/anchor (doc 24 §2.3) and the internal-alchemy chain. The dantian chain (§4.6) and the breakthrough's coherence meters (§1.4) make the coherence explicit.
+   498→
+   499→This is the cultivation bible. With it, the seven systems the critics identified as missing are mechanically complete. The prototype can begin.
+   500→

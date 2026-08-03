@@ -1,0 +1,274 @@
+     1→   100→   100→- Head: Master Hu (胡老爺, *Hú Lǎoyé*), 47, not a Wang, resident at the dock
+     2→   101→   101→- Wife: Lady Sun (孫氏, 43)
+     3→   102→   102→- Children: Hu Bao (胡寶, 18, apprentice to his father), Hu Ying (胡瑩, 15, betrothed to a county clerk's son)
+     4→   103→   103→- Holding: a large compound at the dock (the only two-story building in the village, the second story being a warehouse for salt and goods), a warehouse, a small boat, no farmland
+     5→   104→   104→- He holds a salt license (鹽引, *yányǐn*) issued by the county, buys salt from the official depot in the market town, and sells it to villages up and down the river. He is wealthier than any Wang. He is not a Wang and has no voice in lineage affairs, but he is treated with care because he controls access to salt and to the river trade.
+     6→   105→   105→- This is the household the player may interact with if they seek money, goods, or passage out of the village
+     7→   106→   106→
+     8→   107→   107→**Household 4: The Lin Household (林家, *Lín jiā*)**
+     9→   108→   108→- Head: Lin Aqiao (林阿巧, 38), a non-Wang, carpenter
+    10→   109→   109→- Wife: Lady Wang (王氏, 35, a Wang who married out — she is Shouzheng's niece)
+    11→   110→   110→- Children: Lin Gensheng (林根生, 16, apprentice to his father), Lin Xiaomei (林小妹, 12, helps her mother with weaving)
+    12→   111→   111→- Holding: a compound with workshop, no farmland
+    13→   112→   112→- Lin Aqiao is the village carpenter — he builds and repairs the houses, the boats, the mill machinery, the coffins. He is paid in grain, cash, or labor-exchange. He is not wealthy but is respected for his skill. He is the player's likely source of craft training if they seek it.
+    14→   113→   113→
+    15→   114→   114→**Household 5: The Widow's Household (寡婦家, *Guǎfù jiā*)**
+    16→   115→   115→- Head: Widow Xu (許寡婦, *Xǔ Guǎfù*, 61), a non-Wang widow
+    17→   116→   116→- Son: Xu Erniu (許二牛, 19, her only surviving child; her husband and two older sons died)
+    18→   117→   117→- Holding: 2 mu dryland (owned), 0 mu paddy, 4 chickens, no pig
+    19→   118→   118→- She survives by weaving, by her dryland garden, and by the charity of the lineage (Wang Shouzheng ensures she receives a share of the autumn ancestor rite distribution). Her son works as a day laborer for the wealthier Wang households.
+    20→   119→   119→- This is the household the player may help if they choose a compassionate path; it is also the household that demonstrates the village's social safety net and its limits.
+    21→   120→   120→
+    22→   121→   121→### 2.3 The household model (generator-facing)
+    23→   122→   122→
+    24→   123→   123→Every household is a persistent entity with state:
+    25→   124→   124→- **Members:** named individuals with age, sex, kinship relations, health, skills, obligations
+    26→   125→   125→- **Holding:** owned/tenanted farmland, dryland, animals, buildings, objects, cash/grain reserves
+    27→   126→   126→- **Obligations:** tax, rent, corvée, lineage dues, debts, ritual obligations
+    28→   127→   127→- **Production:** crops grown, goods made, labor available
+    29→   128→   128→- **Consumption:** food, fuel, cloth, salt, tools, ritual needs
+    30→   129→   129→- **Strategy:** the household's plan for the year — what to plant, what to sell, what to buy, who to marry off, who to send to school, who to apprentice
+    31→   130→   130→
+    32→   131→   131→The household is not an "inventory AI." It is a small polity with contested priorities: the head wants to maximize grain reserves, the wife wants to marry the daughter well, the eldest son wants his own land, the youngest son wants to leave. These contests produce the village's internal drama.
+    33→   132→   132→
+    34→   133→   133→---
+    35→   134→   134→
+    36→   135→   135→## 3. The agricultural year
+    37→   136→   136→
+    38→   137→   137→### 3.1 The 24 solar terms (二十四節氣)
+    39→   138→   138→
+    40→   139→   139→The agricultural calendar is not optional decoration. It is the spine of village life. Every term has agricultural, ritual, and (later) cultivation implications. The generator must produce weather, labor, and ritual events keyed to the terms.
+    41→   140→   140→
+    42→   141→   141→| # | Term | Hanzi | Pinyin | Approx. date | What happens |
+    43→   142→   142→|---:|---|---|---|---|---|
+    44→   143→   143→| 1 | Beginning of Spring | 立春 | *Lìchūn* | Feb 3-5 | Ritual: spring welcoming. Planning: decide what to plant, where, how much. Households finalize tenancy and labor contracts. |
+    45→   144→   144→| 2 | Rain Water | 雨水 | *Yǔshuǐ* | Feb 18-20 | Snow ends, rain begins. Paddies checked for winter damage. Bunds repaired. |
+    46→   145→   145→| 3 | Awakening of Insects | 驚蟄 | *Jīngzhé* | Mar 5-7 | First thunder. Hibernating animals emerge. Paddies plowed for the first time. Seed rice soaked in water to germinate. |
+    47→   146→   146→| 4 | Spring Equinox | 春分 | *Chūnfēn* | Mar 20-22 | Day and night equal. Transplanting begins for early rice. Qingming preparations. |
+    48→   147→   147→| 5 | Clear and Bright | 清明 | *Qīngmíng* | Apr 4-6 | Tomb-sweeping. Villagers visit the ancestral graveyard, clean the tombs, offer food and paper money. The lineage holds the spring ancestor rite at the hall. |
+    49→   148→   148→| 6 | Grain Rain | 穀雨 | *Gǔyǔ* | Apr 19-21 | Last chance for early rice transplanting. Mulberry leaves picked for spring silkworms. |
+    50→   149→   149→| 7 | Beginning of Summer | 立夏 | *Lìxià* | May 5-7 | Early rice growing. Weeding begins. First assessment of the harvest's likely yield — and of whether the household will eat. |
+    51→   150→   150→| 8 | Grain Full | 小滿 | *Xiǎomǎn* | May 20-22 | Early rice grains filling. Plum rain season approaches. Pest pressure begins. |
+    52→   151→   151→| 9 | Grain in Ear | 芒種 | *Mángzhòng* | Jun 5-7 | The busiest two weeks of the year. Early rice harvested, late rice transplanted. Every hand is in the paddies. Children are pulled from school. The elderly and the childless are called to help. |
+    53→   152→   152→| 10 | Summer Solstice | 夏至 | *Xiàzhì* | Jun 21-22 | Longest day. Late rice growing. Plum rain at its peak — flood risk highest. The levee is watched at night. |
+    54→   153→   153→| 11 | Minor Heat | 小暑 | *Xiǎoshǔ* | Jul 6-8 | Plum rain ends. Heat begins. Weeding continues. Schistosomiasis exposure peaks (those who wade in paddies develop fever, rash — the village calls it "paddy itch" 田癢, *tiányǎng*). |
+    55→   154→   154→| 12 | Major Heat | 大暑 | *Dàshǔ* | Jul 22-24 | Hottest. Work slowed to dawn and dusk. Midday rest. Fruit picked. |
+    56→   155→   155→| 13 | Beginning of Autumn | 立秋 | *Lìqiū* | Aug 7-9 | Late rice heading. The harvest's shape is now visible. Households begin to estimate tax and rent obligations. |
+    57→   156→   156→| 14 | End of Heat | 處暑 | *Chǔshǔ* | Aug 22-24 | Heat breaks. Late rice filling. Preparations for the autumn ancestor rite begin. |
+    58→   157→   157→| 15 | White Dew | 白露 | *Báilù* | Sep 7-9 | Dew forms. Nights cool. Late rice begins to yellow. |
+    59→   158→   158→| 16 | Autumn Equinox | 秋分 | *Qiūfēn* | Sep 22-24 | Late rice ready. Harvest begins. The threshing ground is in continuous use. The mill runs day and night. Tax and rent are due after harvest. |
+    60→   159→   159→| 17 | Cold Dew | 寒露 | *Hánlù* | Oct 8-9 | Harvest continues. Winter crops (wheat, rapeseed) planted in harvested paddies where water permits. |
+    61→   160→   160→| 18 | Frost's Descent | 霜降 | *Shuāngjiàng* | Oct 23-24 | First frost. Harvest ends. The lineage holds the autumn ancestor rite. |
+    62→   161→   161→| 19 | Beginning of Winter | 立冬 | *Lìdōng* | Nov 7-8 | Winter crops growing. Firewood gathered. Houses winterized. |
+    63→   162→   162→| 20 | Minor Snow | 小雪 | *Xiǎoxuě* | Nov 22-23 | First snow (light). Winter weaving intensifies — cloth is the household's main winter cash source. |
+    64→   163→   163→| 21 | Major Snow | 大雪 | *Dàxuě* | Dec 6-8 | Snow. Travel limited. The village turns inward. |
+    65→   164→   164→| 22 | Winter Solstice | 冬至 | *Dōngzhì* | Dec 21-23 | The lineage updates the genealogy. The winter ancestor rite. The longest night. Households eat dumplings (餃子, *jiǎozi*) if they can afford the flour. |
+    66→   165→   165→| 23 | Minor Cold | 小寒 | *Xiǎohán* | Jan 5-7 | Coldest period begins. Paddies lie fallow under ice. |
+    67→   166→   166→| 24 | Major Cold | 大寒 | *Dàhán* | Jan 20-21 | Coldest. Spring preparations begin under cover — seed rice selected, tools repaired, contracts renegotiated. |
+    68→   167→   167→
+    69→   168→   168→### 3.2 Procedural implications
+    70→   169→   169→
+    71→   170→   170→- The calendar is the simulation clock's ritual layer. Every term triggers agricultural, labor, ritual, and economic events.
+    72→   171→   171→- The generator must produce weather, pest pressure, and flood risk keyed to the terms, with deterministic variation.
+    73→   172→   172→- The player's verbs change with the season: transplanting in Mangzhong, harvesting in Autumn Equinox, tomb-sweeping in Qingming. The world is not a static backdrop; it is a calendar that constrains action.
+    74→   173→   173→
+    75→   174→   174→### 3.3 The festival calendar
+    76→   175→   175→
+    77→   176→   176→Layered on the solar terms are the major festivals, which are ritual and economic events:
+    78→   177→   177→
+    79→   178→   178→- **Spring Festival (春節, *Chūnjié*):** New Year, late January / early February (lunar). The lineage holds a communal meal. Households settle debts. Firecrackers (if the village can afford them) drive off the year's misfortune. Children receive red envelopes (紅包, *hóngbāo*).
+    80→   179→   179→- **Lantern Festival (元宵, *Yuánxiāo*):** 15th day of the 1st lunar month. Lanterns at the lineage hall and the spirit shrine. Sweet dumplings (湯圓, *tāngyuán*).
+    81→   180→   180→- **Qingming (清明):** see term 5 above. The most important ancestral rite.
+    82→   181→   181→- **Dragon Boat (端午, *Duānwǔ*):** 5th day of the 5th lunar month. The river is the center — boat races (if the village can field a crew), zongzi (粽子, glutinous rice dumplings wrapped in bamboo leaves). Commemorates Qu Yuan (屈原). Also a pest-control rite: mugwort (艾草, *àicǎo*) hung over doors to repel insects and evil.
+    83→   182→   182→- **Spirit Festival / Ghost Festival (中元, *Zhōngyuán*):** 15th day of the 7th lunar month. The dead are believed to visit the living. Offerings at the spirit shrine and at the graveyard. The lineage holds a rite for unburied or unremembered dead. It is an inauspicious day for travel or major undertakings.
+    84→   183→   183→- **Mid-Autumn (中秋, *Zhōngqiū*):** 15th day of the 8th lunar month. Mooncakes (月餅, *yuèbǐng*). Families gather. The salt merchant receives gifts from his customers. A night of socializing under the moon.
+    85→   184→   184→- **Double Ninth (重陽, *Chóngyáng*):** 9th day of the 9th lunar month. Climbing hills (the graveyard hill, if no other). Chrysanthemum wine. A day for the elderly.
+    86→   185→   185→- **Winter Solstice (冬至, *Dōngzhì*):** see term 22. Genealogy update.
+    87→   186→   186→- **Laba (臘八, *Làbā*):** 8th day of the 12th lunar month. Laba porridge (臘八粥), a mix of grains, beans, and nuts. Buddhist temples (the nearest is 30 li away) distribute porridge. The village's few Buddhists make a point of attending.
+    88→   187→   187→
+    89→   188→   188→### 3.4 Three.js implications
+    90→   189→   189→
+    91→   190→   190→- Day/night cycle: the sun's arc changes with the solar term (short in winter, long in summer). The generator must produce sun angles, moon phases, and star positions keyed to the date.
+    92→   191→   191→- Weather: rain (with the plum-rain season's intensity), snow (winter), fog (autumn mornings), thunderstorms (summer afternoons). Each is a particle/post-processing system.
+    93→   192→   192→- The village's visual character changes with the season: flooded paddies (spring), green rice (summer), gold harvest (autumn), fallow brown (winter). The generator must produce crop-growth state and reflect it in the instanced paddy geometry.
+    94→   193→   193→
+    95→   194→   194→---
+    96→   195→   195→
+    97→   196→   196→## 4. Material practices
+    98→   197→   197→
+    99→   198→   198→### 4.1 Wet-rice agriculture (水稻)
+   100→   199→   199→
+   101→   200→   200→**The cycle:**
+   102→   201→   201→1. **Plowing (犁田, *lítián*):** the paddy is plowed with a water buffalo (水牛, *shuǐniú*) or — for the poorest — by human labor with a spade. The Wang lineage collectively owns 3 water buffalo, shared among the 22 Wang households by a rotation. Plowing happens in Awakening of Insects (term 3) for early rice, and in Grain in Ear (term 9) for late rice.
+   103→   202→   202→2. **Puddling (耙田, *bàtián*):** the plowed paddy is flooded and the soil broken into a muddy suspension. This is backbreaking labor, done with a harrow (耙, *bà*) drawn by the buffalo. The result is the paddy's standing water — the signature visual of wet-rice agriculture.
+   104→   203→   203→3. **Seedbed (秧田, *yāngtián*):** seed rice is soaked and germinated in a small flooded plot, then transplanted.
+   105→   204→   204→4. **Transplanting (插秧, *chāyāng*):** the seedlings are pulled from the seedbed and transplanted into the puddled paddy in rows. This is the second busiest period (after harvest). It is gendered: women transplant, men plow. The village's transplanting teams are organized by the lineage.
+   106→   205→   205→5. **Weeding and water management (耘田, 水管理):** the paddy is weeded (by hand or with a hoe) and water levels maintained (by opening and closing the paddy's inlet and outlet). Water management is the source of most intra-village water disputes.
+   107→   206→   206→6. **Harvest (收割, *shōugē*):** the rice is cut with a sickle (鐮刀, *liándāo*), bound into sheaves, and carried to the threshing ground.
+   108→   207→   207→7. **Threshing (打穀, *dǎgǔ*):** the sheaves are threshed (beaten against a threshold or trodden by the buffalo) to separate the grain from the straw.
+   109→   208→   208→8. **Milling (碾米, *niǎnmǐ*):** the unhulled grain is milled at the water mill to remove the husk. The milling fee is ~5% of the grain.
+   110→   209→   209→9. **Storage (倉, *cāng*):** the milled rice is stored in earthen jars (缸, *gāng*) in the household, rationed through the winter, sold or bartered as needed.
+   111→   210→   210→
+   112→   211→   211→**Health consequences:**
+   113→   212→   212→- Schistosomiasis (血吸蟲病, *xuèxīchóng bìng*): a parasitic disease acquired by wading in water contaminated with the parasite's larvae, which breed in the snails that live in paddies. Endemic in the Cangli lowlands. Symptoms: fever, rash, abdominal pain, chronic liver damage, stunted growth in children. The village calls it "paddy itch" (田癢) for the early rash, and "water disease" (水病) for the chronic form. There is no cure in the mortal world; a Qi Condensation cultivator could treat it, but no such cultivator lives in the Bend Township.
+   114→   213→   213→- Back injury: plowing, puddling, transplanting, and harvesting are all backbreaking. A 50-year-old farmer's spine is visibly compressed.
+   115→   214→   214→- Skin disease: standing water and humid heat produce fungal infections.
+   116→   215→   215→
+   117→   216→   216→### 4.2 The pigsty-latrine (豬廁)
+   118→   217→   217→
+   119→   218→   218→The pigsty-latrine is a single structure: a pig pen with a latrine above or beside it, arranged so that human waste falls into the pig pen and is consumed by the pigs, then mixed with pig manure, collected, fermented in a pit (糞坑, *fènkēng*), and applied to the paddies as fertilizer.
+   120→   219→   219→
+   121→   220→   220→This is not a quaint custom. It is the nitrogen-maintenance system of the entire agricultural economy. Without the night-soil cycle, the paddies would exhaust within a generation. The village's pigs are not just meat animals; they are nitrogen converters.
+   122→   221→   221→
+   123→   222→   222→**Procedural implication:** every household with a pigsty-latrine is a node in a nitrogen cycle. The generator must produce the cycle's state (pig population, manure production, pit fermentation stage, field application schedule). Disruption of the cycle (pig disease, latrine collapse, pit contamination) is a household-level crisis.
+   124→   223→   223→
+   125→   224→   224→**Player-facing verb:** a player who lives in the village will, at some point, empty the latrine pit and carry the night-soil to the paddies. This is real labor, with real smell, real weight, and real consequence. It is also the first time many players will understand how pre-modern agriculture actually worked.
+   126→   225→   225→
+   127→   226→   226→### 4.3 Salt (鹽)
+   128→   227→   227→
+   129→   228→   228→Salt is a state monopoly. The salt merchant (Master Hu) holds a license (鹽引, *yányǐn*) issued by the county, buys salt from the official depot in the market town, and sells it to villages up and down the river at a markup. The price of salt is therefore both a market price and a political price — it reflects the state's fiscal needs as much as supply and demand.
+   130→   229→   229→
+   131→   230→   230→A household in Wang Family Bend consumes ~1 jin (斤, ~600g) of salt per person per month, for cooking, preservation, and (in small quantities) for animal feed. A household of 5 spends ~5 jin/month, which at the typical price of ~30 cash/fen (分, 1/10 of a tael of silver) is a real cash expense. Salt is the main reason households need cash, which is the main reason they sell grain, which is the main reason they are exposed to the silver-grain price ratio.
+   132→   231→   231→
+   133→   232→   232→**Smuggling:** salt smuggling is a real crime, investigated by the county, punished by flogging or worse. But the price incentive is strong, and a poor household may buy smuggled salt from a peddler at half the licensed price. This is a player-facing choice with legal and economic consequences.
+   134→   233→   233→
+   135→   234→   234→### 4.4 Cloth and weaving (布, 織)
+   136→   235→   235→
+   137→   236→   236→Every household weaves. The women spin hemp (麻) into thread and weave it into cloth on a backstrap loom (腰機, *yāojī*). The wealthier Wang households also raise silkworms (蠶, *cán*) on mulberry leaves and reel silk (繅絲, *sāosī*), which is sold to a traveling buyer for cash. Cloth is the household's main winter cash source and its main non-food asset — it can be stored, traded, used as a gift, used as a burial shroud, or pawned.
+   138→   237→   237→
+   139→   238→   238→**Gendered labor:** weaving is women's work. The phrase "men plow, women weave" (男耕女織, *nángēng nǚzhī*) is both prescription and description. The household's economy depends on both: the men's grain and the women's cloth. A household with no adult woman is economically crippled, not just domestically. This is one reason widowers remarry quickly and widows are pressured to stay in their late husband's household (the "chaste widow" 節婦 ideal, reinforced by the state and the lineage, conflicts with the household's practical need for a weaver).
+   140→   239→   239→
+   141→   240→   240→### 4.5 Fuel (柴, 炭)
+   142→   241→   241→
+   143→   242→   242→Fuel is firewood (柴, *chái*) gathered from the hills and charcoal (炭, *tàn*) bought from charcoal burners in the uplands. The lower Cangli hills were deforested generations ago; firewood is gathered from coppiced trees (柳, willow; 槐, locust) and from crop residue (rice straw, hemp stalks). Charcoal is a cash purchase, used by the wealthier households for cooking and heating.
+   144→   243→   243→
+   145→   244→   244→Fuel shortage cascades: undercooked food causes digestive disease; cold housing causes respiratory disease; the smoke from damp straw in unventilated kitchens causes eye disease and chronic bronchitis. The poorest households (the Widow Xu, the Wang tenant households) burn damp straw and have eye and lung problems.
+   146→   245→   245→
+   147→   246→   246→---
+   148→   247→   247→
+   149→   248→   248→## 5. The social institutions
+   150→   249→   249→
+   151→   250→   250→### 5.1 The lineage (宗族)
+   152→   251→   251→
+   153→   252→   252→The Wang lineage is a corporate body. It owns land (the lineage fields), maintains buildings (the hall, the school), holds records (the genealogy), enforces rules (the lineage rules, which cover marriage, inheritance, dispute resolution, and member conduct), and represents its members to the state.
+   154→   253→   253→
+   155→   254→   254→**Internal dispute resolution:** most disputes within the lineage are handled by the elder council, not by the county magistrate. A tenant who owes rent, a husband who beats his wife, a son who disrespects his father, a widow who wishes to remarry out of the lineage — these are first heard by the council, which may impose fines, labor, or expulsion. The county magistrate is invoked only when the lineage cannot or will not resolve the matter, or when the state's interests are directly involved (a murder, a tax default, a bandit report).
+   156→   255→   255→
+   157→   256→   256→**Marriage:** the lineage controls its members' marriages. A Wang who wishes to marry must have the lineage's approval; a Wang who wishes to marry a non-Wang must negotiate the betrothal gifts and dowry through the lineage. A Wang woman who marries out joins her husband's lineage; a Wang man who marries in (uxorilocal) is unusual and marks the household as one without sons.
+   158→   257→   257→
+   159→   258→   258→**Inheritance:** land passes to sons, divided equally in principle but often unequally in practice (the eldest son may receive a larger share for maintaining the ancestral rites; the youngest may receive the parental house). Daughters do not inherit land; they receive a dowry. Widows have a life-estate in their husband's land, reverting to the sons on the widow's death or remarriage.
+   160→   259→   259→
+   161→   260→   260→### 5.2 The state
+   162→   261→   261→
+   163→   262→   262→The state is distant but real. The county magistrate (縣令, *xiànlìng*) sits in the county seat, 60 li (~30km) east, reachable by river boat in a day. The village's direct contact with the state is through:
+   164→   263→   263→
+   165→   264→   264→- **The tax collector (里長, *lǐzhǎng*):** the village is part of a *li* (里), a fiscal unit of 110 households. The *li* head, currently Wang Shouzheng (who holds the post as lineage head), is responsible for collecting the land tax and organizing corvée. He is the village's interface with the state.
+   166→   265→   265→- **The baojia (保甲):** the village is organized into *jia* (甲) of 10 households each, mutually responsible for each other's conduct. The *bao* head (保長, *bǎozhǎng*) is currently Lin Aqiao (the carpenter), a non-Wang, a deliberate balance to the Wang-dominated *li* head. The baojia system is the state's surveillance and mutual-policing mechanism.
+   167→   266→   266→- **The yamen runners (衙役, *yáyì*):** when the state's presence is required (a murder, a bandit, a tax default, a salt smuggling accusation), yamen runners come from the county seat. They are feared and disliked — they extort food and lodging, and they are the visible face of state coercion.
+   168→   267→   267→
+   169→   268→   268→**Tax:** the land tax is denominated in silver (post-Single-Whip), collected twice yearly (after the early and late harvests). A household with 10 mu of paddy owes ~0.3 taels of silver per year — which requires selling ~150 jin of rice for silver, exposing the household to the silver-grain price ratio. Silver scarcity in a bad harvest year (when grain prices fall) is the classic peasant crisis.
+   170→   269→   269→
+   171→   270→   270→**Corvée:** commuted to silver by the Single Whip reform, but ad-hoc labor levies still occur (river works, road repair, post station service). The *li* head can assign these; he assigns them to households that can spare the labor or that he wishes to favor/punish.
+   172→   271→   271→
+   173→   272→   272→### 5.3 Religion
+   174→   273→   273→
+   175→   274→   274→The village's religious life is layered, not syncretic in the "ancient Eastern" sense. The layers are distinct and the villagers know the difference:
+   176→   275→   275→
+   177→   276→   276→- **Ancestor veneration (祭祖, *jìzǔ*):** the most important. Every household has a small altar with the tablets of recent ancestors (parents, grandparents). The lineage hall holds the tablets of the deeper ancestors. Rites at the hall (spring and autumn) and at the graveyard (Qingming) are lineage obligations, not optional.
+   178→   277→   277→- **The earth god (土地公, *tǔdìgōng*):** the village's local tutelary deity, shrined at the west entrance. He is a low-ranking spirit (not an ancestor, not a god) responsible for the village's boundary, its weather, and its minor misfortunes. Incense on the 1st and 15th of each lunar month.
+   179→   278→   278→- **The river god (河神, *héshén*):** shrined at a small temple on the south bank, across the ford. Responsible for the river's floods, fish, and boats. A plaque in the lineage hall records a flood 40 years ago that the village's elders attribute to the river god's anger at a broken oath.
+   180→   279→   279→- **Buddhism:** the nearest Buddhist temple (佛寺, *fósì*) is 30 li away. The village's few Buddhists (mostly older women, plus the Widow Xu, who is devout) walk there for major festivals. A traveling monk (雲遊僧, *yúnyóu sēng*) passes through the village once or twice a year, accepting food and lodging, chanting for the dead.
+   181→   280→   280→- **Daoism:** the nearest Daoist priest (道士, *dàoshi*) lives in the market town. He is summoned for major rites (funerals, exorcisms, the consecration of a new building). He is a Zhengyi (正一) priest — married, household-based, not monastic. He charges fees.
+   182→   281→   281→- **Divination (卜, *bǔ*):** the village's diviner is Wang Lun (the lineage school teacher), who casts hexagrams (卦, *guà*) from yarrow stalks (蓍草, *shīcǎo*) for supplicants who ask about marriage, travel, illness, or harvest. He is not always right. He knows this.
+   183→   282→   282→
+   184→   283→   283→---
+   185→   284→   284→
+   186→   285→   285→## 6. The economy
+   187→   286→   286→
+   188→   287→   287→### 6.1 Money and prices
+   189→   288→   288→
+   190→   289→   289→The economy runs on three currencies:
+   191→   290→   290→- **Copper cash (文, *wén*):** the daily currency. 1 string of 1000 cash = 1 tael of silver (nominal; the ratio fluctuates).
+   192→   291→   291→- **Silver (銀, *yín*):** the tax and large-transaction currency. Most households rarely see silver; they see cash.
+   193→   292→   292→- **Grain (穀, *gǔ*):** the reserve currency. Rice is hoarded, lent, and used to pay labor. A household's grain reserves are its real wealth.
+   194→   293→   293→
+   195→   294→   294→**Typical prices (in copper cash):**
+   196→   295→   295→- 1 jin of rice: 8-12 cash (good year) to 20-30 cash (bad year)
+   197→   296→   296→- 1 jin of salt: 30 cash
+   198→   297→   297→- 1 jin of pork: 60-80 cash
+   199→   298→   298→- 1 bolt of hemp cloth (20 chi): 200-300 cash
+   200→   299→   299→- 1 pig (grown): 3000-5000 cash
+   201→   300→   300→- 1 mu of paddy (subsoil right): 5000-10000 cash (a once-in-a-lifetime purchase)
+   202→   301→   301→- 1 day of agricultural labor: 20-30 cash + a meal
+   203→   302→   302→- A ferry crossing to the market town: 5 cash
+   204→   303→   303→
+   205→   304→   304→### 6.2 The market
+   206→   305→   305→
+   207→   306→   306→The market town (鎮, *zhèn*) at the river crossing, 15 li east, holds a market on the 1st, 5th, 10th, 15th, 20th, and 25th of each lunar month (a "1-6" market). Villagers walk or boat there to sell grain, cloth, and pigs, and to buy salt, iron tools, needles, thread, paper, incense, and (rarely) luxury goods. The market is also the news network — what happened in the county, who raised an army, which magistrate was dismissed.
+   208→   307→   307→
+   209→   308→   308→### 6.3 The household budget
+   210→   309→   309→
+   211→   310→   310→A typical Wang tenant household (8 mu tenanted paddy, 1 mu dryland, 1 pig, 6 chickens, 5 people) in a normal year:
+   212→   311→   311→- **Income:** ~3200 jin of unhulled rice from 8 mu (at ~400 jin/mu), minus ~1600 jin rent (50% to the subsoil landlord), leaving ~1600 jin hulled = ~960 jin milled. Plus dryland vegetables (no cash value, consumed). Plus pig sale (if sold): 3000-5000 cash. Plus weaving: 4-6 bolts/year = 1000-1800 cash.
+   213→   312→   312→- **Cash income:** ~4000-6800 cash/year.
+   214→   313→   313→- **Expenses:** salt (5 jin/month × 12 × 30 cash = 1800 cash), tax (~0.2 tael = ~200 cash equivalent, paid in silver obtained by selling rice), tools and iron (300-500 cash/year), clothing and cloth not self-woven (200-400 cash), ritual obligations (200-500 cash), medical (variable, 0-2000 cash), school fees if a child attends (200 cash/year for brush, paper, ink).
+   215→   314→   314→- **Grain balance:** 960 jin milled rice, minus 5 people × ~300 jin/year consumption = 1500 jin. Deficit of ~540 jin, which must be covered by selling labor, selling the pig, or borrowing.
+   216→   315→   315→
+   217→   316→   316→This is a **subsistence deficit in a normal year.** The household survives by the pig sale, the weaving, and by the husband's day labor during the off-season. In a bad year (flood, drought, pest), the household goes hungry, borrows grain at 50-100% annual interest, and may lose its surface rights to the tenanted paddy if it cannot pay rent. This is the engine of rural poverty and the reason most households are one bad harvest from crisis.
+   218→   317→   317→
+   219→   318→   318→---
+   220→   319→   319→
+   221→   320→   320→## 7. Health, disease, and death
+   222→   321→   321→
+   223→   322→   322→### 7.1 The disease regime
+   224→   323→   323→
+   225→   324→   324→- **Child mortality:** ~40% of live births die before age 5. The main killers are infant diarrhea, measles, smallpox, and respiratory infections. The village has no inoculation against smallpox (variolation 種痘 is known in the county but not practiced in the Bend Township).
+   226→   325→   325→- **Schistosomiasis:** endemic. Chronic form causes liver damage, stunted growth, and premature death. The Widow Xu's late husband likely died of it.
+   227→   326→   326→- **Malaria:** present in the lowlands in summer. The village calls it "the shakes" (發擺子, *fābǎizi*). Treated with qinghao (青蒿, sweet wormwood) tea, which is mildly effective.
+   228→   327→   327→- **Tuberculosis:** present. Called "lung disease" (肺癆, *fèiláo*). Incurable in the mortal world; slowly fatal.
+   229→   328→   328→- **Childbirth:** dangerous. ~1 in 10 women die in or after childbirth. The village's midwife (穩婆, *wěnpó*) is Old Lady Zhou (周老婆子, 66), a non-Wang widow who learned the trade from her mother. She is competent but not miracle-working.
+   230→   329→   329→- **Old age:** those who survive childhood and childbirth and do not contract schistosomiasis or TB can live to 60-70. The village's oldest resident is Wang Tianming (王天明, 73), Shouzheng's uncle, who is frail but lucid.
+   231→   330→   330→
+   232→   331→   331→### 7.2 Medical care
+   233→   332→   332→
+   234→   333→   333→- **The village's herbalist (草藥郎中, *cǎoyào lángzhōng*):** Wang Zongwen (the assistant teacher, 27) has some knowledge of herbs, learned from his grandmother. He can treat cuts, fevers, and digestive complaints with common herbs (ginger, licorice, skullcap, rhubarb). He cannot treat serious illness.
+   235→   334→   334→- **The market town doctor (郎中, *lángzhōng*):** a more serious practitioner, reachable by boat in a day, who charges fees and can treat a wider range of complaints. He is summoned for difficult childbirths, persistent fevers, and broken bones.
+   236→   335→   335→- **The Daoist priest:** summoned for spiritual afflictions — what the village calls "fright disease" (驚病, *jīngbìng*, what we might call PTSD or anxiety), "demon possession" (中邪, *zhòngxié*), and unexplained deaths. He performs exorcisms (驅邪, *qūxié*), which may or may not help.
+   237→   336→   336→
+   238→   337→   337→### 7.3 Death and funerals
+   239→   338→   338→
+   240→   339→   339→A death triggers the funeral rite (喪禮, *sānglǐ*), which is the household's most expensive ritual event after a marriage. The body is washed, dressed in a burial shroud (壽衣, *shòuyī*), laid in a coffin (棺材, *guāncai* — built by Lin Aqiao, the carpenter), kept in the household for 3-7 days while mourners visit, then carried to the graveyard and buried. A Daoist priest is summoned if the household can afford it. The mourners wear undyed hemp (white, the color of mourning). The sons observe a 3-year mourning period (守孝, *shǒuxiào*), during which they do not marry, do not attend festivals, and wear rough hemp.
+   241→   340→   340→
+   242→   341→   341→The funeral is also a social event: the lineage, the neighbors, and the deceased's affinal kin gather, eat, and settle accounts. The deceased's tablet is installed in the household altar; after the 3-year mourning, it may be moved to the lineage hall if the deceased was a lineage member of standing.
+   243→   342→   342→
+   244→   343→   343→---
+   245→   344→   344→
+   246→   345→   345→## 8. What this document enables
+   247→   346→   346→
+   248→   347→   347→Every element above is a procedural generator input and a player-facing verb. The player who begins in Wang Family Bend can:
+   249→   348→   348→
+   250→   349→   349→- Carry water from the well
+   251→   350→   350→- Transplant rice in Mangzhong
+   252→   351→   351→- Harvest rice in Autumn Equinox
+   253→   352→   352→- Empty the latrine pit and carry night-soil to the paddies
+   254→   353→   353→- Weave cloth on a backstrap loom
+   255→   354→   354→- Buy salt from Master Hu at the dock
+   256→   355→   355→- Sell grain at the market town
+   257→   356→   356→- Sweep the tombs at Qingming
+   258→   357→   357→- Attend the spring ancestor rite at the lineage hall
+   259→   358→   358→- Learn to read at the lineage school
+   260→   359→   359→- Apprentice to Lin Aqiao the carpenter
+   261→   360→   360→- Help Widow Xu with her dryland garden
+   262→   361→   361→- Cast a hexagram with Wang Lun
+   263→   362→   362→- Ferry across the river to the spirit shrine
+   264→   363→   363→- Listen to Old Lady Zhou's stories of her youth
+   265→   364→   364→- Watch Wang Tianming, the oldest man, fade toward death
+   266→   365→   365→- Mourn a sibling who died of fever
+   267→   366→   366→- Sit in the lineage elder council's hearing of a dispute
+   268→   367→   367→- Hide a salt smuggler from the yamen runners
+   269→   368→   368→- Lose the harvest to a flood and borrow grain at 80% interest
+   270→   369→   369→
+   271→   370→   370→These are the mortal verbs. They are the engine of the first 10-50 hours of play. They must feel like *life*, not *tutorial*. If they feel like tutorial, the design has failed.
+   272→   371→   371→
+   273→   372→   372→The next documents specify how cultivation emerges from this substrate, what each realm feels like from the inside, and how the first golden scenes unfold in this specific village.
+   274→   373→   373→
