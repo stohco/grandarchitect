@@ -67,12 +67,52 @@ Per-track hours without a project-level timeline is a ceiling without a floor. N
 ### Ship the working thing before the perfect thing
 The smallest end-to-end working product teaches more than the largest incomplete vision. A mortal village that runs in a browser for one hour, with one verb that feels good, is worth more than ten thousand lines of design doctrine about a century-spanning multiverse. Ship the valley. If the valley feels hollow, you have learned the most important thing you could learn — and you have learned it now, not after another year of governance.
 
+## Part 4 — David Ondrej skills (the workflow toolkit)
+
+Source: `github.com/davidondrej/skills` (MIT, 3.0k stars, verified Aug 2026). A library of reusable agent skills grouped into five categories. These are the workflow tools — use them when the task calls for them, not as ambient context. Each skill loads on demand.
+
+### Thinking and docs — use these before and after building
+
+- **`/before-building`** — fire the instant a build is proposed. Surface the 1-3 truly consequential choices hidden in the idea (one-off vs. repeated later, few lines vs. proper module, biggest thing it could break). Gut answer, no tool calls, then stop and wait. This is the Ponytail §8 "study established products" and Karpathy §1 "think before coding" made into a single reflex. Use it before every non-trivial build.
+- **`/decisions`** — after a work session, list the choices made that you are not confident about. Retrospective; surfaces the doubts. Pair with Part 3's "Exhibit reviewer voices" — this is how you self-audit instead of self-certify.
+- **`/next-decision`** — drill open decisions one at a time: present the most important unresolved decision, give four choices, state a preference, ask the user, then stop. Forward-looking; the complement to `/decisions`. Use when a plan has several unresolved forks and you are tempted to defer all of them (Part 3's "Make decisions" failure mode).
+- **`/before-building` → `/decisions` → `/next-decision`** is the decision loop. Before = surface choices. During = do the work. After = surface doubts. Next = pick the next unresolved one. Do not let more than one round of this loop pass without closing a decision.
+
+### Skill authoring — use when writing or revising skills
+
+- **`effective-agent-skills`** — the consolidated reference on how to write SKILL.md files: progressive disclosure, design patterns, anti-patterns, testing, security. Read this whenever a skill is being created, edited, or reviewed. Do not write a SKILL.md without it.
+
+### Research and web — use for the xianxia source research
+
+- **`deep-research`** — find and pull information from the web, research APIs, browsers, and YouTube. Use for the primary-source research the xianxia corpus requires (齊民要術, 王禎農書, 天工開物, 大清律例, 地方志, 族譜).
+- **`research-prompt`** — a structured prompt for research tasks. Use when the research question is ambiguous and needs scoping before fetching sources.
+- **`browser-harness`** — browser automation for research. Use when a source requires interaction (scrolling, clicking, login) to access.
+
+### Agent orchestration — use for the prototype build
+
+- **`launch-subagent`** / **`codex-subagent`** — delegate work to a subagent. Use for parallelizable prototype tasks (e.g., the determinism module and the asset pipeline can proceed in parallel).
+- **`handoff`** — pass work between agents with a clean context. Use when a task crosses the boundary between the lore work and the code work.
+- **`goal-loop`** — run an agent against a goal until verified. Use for the prototype's "build → test → fix → re-test until the hash matches" loop (Karpathy §4).
+- **`gpt-review`** / **`fable-review`** — independent review of agent output. Use to satisfy Part 3's "Exhibit reviewer voices" — an actual second pass, not a self-certified audit.
+
+### Ops and setup — use for the platform work
+
+- **`global-agent-guardrails`** — cross-cutting safety rules. Use as a baseline before any ops work.
+- **`vps-server-management`** — server setup. Use for self-hosting (required for COOP+COEP per the Three.js research; GitHub Pages will not work).
+
+### How to use these skills
+
+- **Load on demand, not ambiently.** A skill loaded into context that is not being used is context tax. Ponytail §2: avoid speculative abstractions, and that includes speculative context.
+- **Prefer the slash command.** `/before-building`, `/decisions`, `/next-decision` are designed to be invoked at the moment of need. Do not pre-load them.
+- **The skills are tools, not doctrine.** Parts 1-3 are the doctrine that governs *how* and *what*. Part 4 is the toolkit for *when* and *how to execute*. A skill used badly (e.g., `/next-decision` invoked to defer rather than to decide) violates Part 3 even though the skill itself is sound.
+
 ---
 
 ## How to use this file
 
 - Before starting any task: read Parts 1 and 2. They govern how you work.
 - Before designing anything: read Part 3. It governs what you work toward.
+- When the task calls for a workflow tool: consult Part 4. Load the skill on demand.
 - When you find yourself adding a gate, a contract, or a red-team test: stop. Ask whether you are adding brake or engine. If only brake, also write the engine.
-- When you find yourself deferring a decision: ask whether deferral is honesty or refusal. If the latter, decide.
-- When you finish a task: cite which principles you honored and which you violated, and why. The citation is the review.
+- When you find yourself deferring a decision: ask whether deferral is honesty or refusal. If the latter, decide. Use `/next-decision` to make yourself pick.
+- When you finish a task: cite which principles you honored and which you violated, and why. Use `/decisions` to surface the doubts you are not confident about. The citation is the review.
