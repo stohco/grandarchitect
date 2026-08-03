@@ -267,38 +267,23 @@ export function det_tan(x: number): number {
 // the point (x, y), in range (-π, π].
 
 // Minimax polynomial for atan(r) on [0, 1] (from fdlibm).
-// atan(r) ≈ r + r * r2 * (A1 + r2 * (A2 + r2 * (A3 + ...)))
-const ATAN_A1 = 3.33333333333329318027e-01;
-const ATAN_A2 = -1.99999999998764832476e-01;
-const ATAN_A3 = 1.42857142725034468824e-01;
-const ATAN_A4 = -1.11111104054623557880e-01;
-const ATAN_A5 = 9.09088713343650689149e-02;
-const ATAN_A6 = -7.69187620504482999495e-02;
-const ATAN_A7 = 6.66107313738753120669e-02;
-const ATAN_A8 = -5.83357013379057348645e-02;
-const ATAN_A9 = 4.97687799461593236017e-02;
-const ATAN_A10 = -3.65315727442169155370e-02;
-const ATAN_A11 = 1.62858201153657823623e-02;
+// atan(r) for r in [0, 1] via half-angle substitution + Taylor series.
+// Identity: atan(r) = 2 * atan(s) where s = r / (1 + sqrt(1 + r*r))
+// For r = 1: s = 1/(1+sqrt(2)) = sqrt(2)-1 ≈ 0.4142
+// atan(s) = s - s^3/3 + s^5/5 - s^7/7 + ... (ALTERNATING signs)
+// With 17 terms (up to s^35/35), accuracy is < 1e-15 for s ≤ 0.4142.
 
-/** Compute atan(r) for r in [-1, 1] via minimax polynomial. */
+/** Compute atan(r) for r in [0, 1] via half-angle + alternating Taylor series. */
 function atan_poly(r: number): number {
-  const r2 = r * r;
-  let p = ATAN_A11;
-  p = ATAN_A10 + r2 * p;
-  p = ATAN_A9 + r2 * p;
-  p = ATAN_A8 + r2 * p;
-  p = ATAN_A7 + r2 * p;
-  p = ATAN_A6 + r2 * p;
-  p = ATAN_A5 + r2 * p;
-  p = ATAN_A4 + r2 * p;
-  p = ATAN_A3 + r2 * p;
-  p = ATAN_A2 + r2 * p;
-  p = ATAN_A1 + r2 * p;
-  // atan(r) = r - r^3/3 + r^5/5 - r^7/7 + ...
-  //        = r - r * r^2 * (aT[0] + r^2*(aT[1] + r^2*(...)))
-  // Note the SUBTRACTION: fdlibm's aT coefficients are all positive-valued
-  // but the formula is r - r^2*poly, not r + r^2*poly.
-  return r - r * r2 * p;
+  const sqrtTerm = Math.sqrt(1 + r * r);
+  const s = r / (1 + sqrtTerm);
+  const s2 = s * s;
+  // Horner: atan(s) = s * (1 + s^2*(-1/3 + s^2*(1/5 + s^2*(-1/7 + ...))))
+  // Coefficients alternate sign, innermost (highest power) first:
+  const C = [-1/35, 1/33, -1/31, 1/29, -1/27, 1/25, -1/23, 1/21, -1/19, 1/17, -1/15, 1/13, -1/11, 1/9, -1/7, 1/5, -1/3];
+  let p = C[0];
+  for (let i = 1; i < C.length; i++) p = C[i] + s2 * p;
+  return 2 * s * (1 + s2 * p);
 }
 
 /**

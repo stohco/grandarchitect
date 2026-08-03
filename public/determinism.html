@@ -294,12 +294,21 @@ function det_tan(x) {
   if (c === 0) return x > 0 ? Infinity : -Infinity;
   return s / c;
 }
-const ATAN_A=[3.33333333333329318027e-01,-1.99999999998764832476e-01,1.42857142725034468824e-01,-1.11111104054623557880e-01,9.09088713343650689149e-02,-7.69187620504482999495e-02,6.66107313738753120669e-02,-5.83357013379057348645e-02,4.97687799461593236017e-02,-3.65315727442169155370e-02,1.62858201153657823623e-02];
+// atan(r) for r in [0, 1] via half-angle substitution + Taylor series.
+// Identity: atan(r) = 2 * atan(s) where s = r / (1 + sqrt(1 + r*r))
+// For r = 1: s = 1/(1+sqrt(2)) = sqrt(2)-1 ≈ 0.4142
+// atan(s) = s - s^3/3 + s^5/5 - s^7/7 + ... (ALTERNATING signs)
+// With 17 terms (up to s^35/35), accuracy is < 1e-15 for s ≤ 0.4142.
 function atan_poly(r) {
-  const r2 = r * r;
-  let p = ATAN_A[10];
-  for (let i = 9; i >= 0; i--) p = ATAN_A[i] + r2 * p;
-  return r - r * r2 * p;
+  const sqrtTerm = Math.sqrt(1 + r * r);
+  const s = r / (1 + sqrtTerm);
+  const s2 = s * s;
+  // Horner: atan(s) = s * (1 + s^2*(-1/3 + s^2*(1/5 + s^2*(-1/7 + ...))))
+  // Coefficients alternate sign, innermost (highest power) first:
+  const C = [-1/35, 1/33, -1/31, 1/29, -1/27, 1/25, -1/23, 1/21, -1/19, 1/17, -1/15, 1/13, -1/11, 1/9, -1/7, 1/5, -1/3];
+  let p = C[0];
+  for (let i = 1; i < C.length; i++) p = C[i] + s2 * p;
+  return 2 * s * (1 + s2 * p);
 }
 function det_atan2(y, x) {
   if (x !== x || y !== y) return NaN;
@@ -613,6 +622,258 @@ document.getElementById('rerun').addEventListener('click', async () => {
 });
 
 run();
+</script>
+
+<!-- ====================================================================== -->
+<!-- Phase 4: Rendering Prototype — Wang Family Bend compound at dawn       -->
+<!-- Three.js loaded via CDN to avoid dev-server chunk-fetching issues.     -->
+<!-- Primitive geometries only — proves the rendering layer works before    -->
+<!-- investing in glTF assets. Per document 09_SYNTHESIS.md Phase 4.        -->
+<!-- ====================================================================== -->
+
+<section>
+  <h2>Rendering Prototype — Wang Family Bend at Dawn</h2>
+  <p>The compound courtyard, main house, kitchen, and well. Dawn light (warm, low angle, long shadows). Primitive geometries — production assets come later. Per document 04 §1.1 and document 09 §3.5.</p>
+  <div id="scene-container" style="width:100%;height:400px;border:1px solid #27272a;border-radius:8px;overflow:hidden;background:#000;position:relative;">
+    <div id="scene-loading" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#52525b;font-size:12px;" class="pulsing">Loading Three.js…</div>
+    <canvas id="scene-canvas" style="display:block;width:100%;height:100%;"></canvas>
+  </div>
+  <p class="sub" style="margin-top:8px;">If the scene renders, Phase 4 (rendering) is proven feasible. The next step is replacing primitives with glTF assets (Phase 3) and adding NPC schedules (Phase 5).</p>
+</section>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js';
+
+const canvas = document.getElementById('scene-canvas');
+const loading = document.getElementById('scene-loading');
+
+try {
+  // --- Renderer ---
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+
+  // --- Scene ---
+  const scene = new THREE.Scene();
+  // Dawn sky: deep blue at top, warm orange at horizon
+  scene.background = new THREE.Color(0x1a1a2e);
+  scene.fog = new THREE.Fog(0x2a2a3e, 15, 50);
+
+  // --- Camera ---
+  const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+  camera.position.set(8, 5, 8);
+  camera.lookAt(0, 0.5, 0);
+
+  // --- Lighting: dawn (warm, low angle, long shadows) ---
+  // The sun is just above the eastern horizon (document 04: dawn = 卯時, 5-7 AM)
+  const sunLight = new THREE.DirectionalLight(0xffd4a3, 1.2);
+  sunLight.position.set(-15, 6, 8); // low angle from the east
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  sunLight.shadow.camera.near = 0.5;
+  sunLight.shadow.camera.far = 50;
+  sunLight.shadow.camera.left = -15;
+  sunLight.shadow.camera.right = 15;
+  sunLight.shadow.camera.top = 15;
+  sunLight.shadow.camera.bottom = -15;
+  sunLight.shadow.bias = -0.0005;
+  scene.add(sunLight);
+
+  // Dim ambient: pre-dawn blue
+  const ambient = new THREE.AmbientLight(0x3a4a5a, 0.4);
+  scene.add(ambient);
+
+  // Hemisphere light: sky (cool) / ground (warm)
+  const hemi = new THREE.HemisphereLight(0x4a6a9a, 0x3a2a1a, 0.3);
+  scene.add(hemi);
+
+  // --- Materials ---
+  const earthMat = new THREE.MeshStandardMaterial({ color: 0x6b5d4f, roughness: 0.9 });
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xc4b59a, roughness: 0.8 });
+  const roofMat = new THREE.MeshStandardMaterial({ color: 0x4a3a2a, roughness: 0.7 });
+  const woodMat = new THREE.MeshStandardMaterial({ color: 0x5a4a3a, roughness: 0.8 });
+  const stoneMat = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.9 });
+  const paperMat = new THREE.MeshStandardMaterial({ color: 0xe8d5a8, roughness: 0.6, emissive: 0x3a2a1a, emissiveIntensity: 0.1 });
+
+  // --- Courtyard terrain (8m × 6m, compacted earth) ---
+  const courtyard = new THREE.Mesh(
+    new THREE.PlaneGeometry(8, 6),
+    earthMat
+  );
+  courtyard.rotation.x = -Math.PI / 2;
+  courtyard.receiveShadow = true;
+  scene.add(courtyard);
+
+  // --- Main house (south-facing, on a low stone foundation) ---
+  // Foundation
+  const foundation = new THREE.Mesh(
+    new THREE.BoxGeometry(4, 0.3, 3),
+    stoneMat
+  );
+  foundation.position.set(0, 0.15, -1.5);
+  foundation.castShadow = true;
+  foundation.receiveShadow = true;
+  scene.add(foundation);
+
+  // Walls
+  const walls = new THREE.Mesh(
+    new THREE.BoxGeometry(3.8, 1.8, 2.8),
+    wallMat
+  );
+  walls.position.set(0, 1.2, -1.5);
+  walls.castShadow = true;
+  walls.receiveShadow = true;
+  scene.add(walls);
+
+  // Roof (sloped, using a simple prism)
+  const roofGeo = new THREE.BufferGeometry();
+  const roofVerts = new Float32Array([
+    // Front slope
+    -2.2, 2.2, -0.1,  2.2, 2.2, -0.1,  2.2, 2.2, -2.9,
+    -2.2, 2.2, -0.1,  2.2, 2.2, -2.9,  -2.2, 2.2, -2.9,
+    // Back slope
+    -2.2, 2.2, -0.1,  -2.2, 2.2, -2.9,  0, 3.0, -1.5,
+    2.2, 2.2, -0.1,   0, 3.0, -1.5,   2.2, 2.2, -2.9,
+    // Left gable
+    -2.2, 2.2, -0.1,  0, 3.0, -1.5,  -2.2, 2.2, -2.9,
+    // Right gable
+    2.2, 2.2, -0.1,  2.2, 2.2, -2.9,  0, 3.0, -1.5,
+  ]);
+  roofGeo.setAttribute('position', new THREE.BufferAttribute(roofVerts, 3));
+  roofGeo.computeVertexNormals();
+  const roof = new THREE.Mesh(roofGeo, roofMat);
+  roof.castShadow = true;
+  scene.add(roof);
+
+  // Paper windows (lattice covered with oiled paper) — emissive to suggest lamplight inside
+  const windowGeo = new THREE.PlaneGeometry(0.5, 0.6);
+  for (const [x, z, ry] of [[-1.2, -0.05, 0], [1.2, -0.05, 0], [0, -2.95, Math.PI]]) {
+    const win = new THREE.Mesh(windowGeo, paperMat);
+    win.position.set(x, 1.2, z);
+    win.rotation.y = ry;
+    scene.add(win);
+  }
+
+  // Door (wooden, south-facing)
+  const door = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.8, 1.4),
+    woodMat
+  );
+  door.position.set(0, 0.9, -0.05);
+  scene.add(door);
+
+  // --- Kitchen (small building east of main house) ---
+  const kitchenWalls = new THREE.Mesh(
+    new THREE.BoxGeometry(2, 1.5, 1.5),
+    wallMat
+  );
+  kitchenWalls.position.set(3.5, 0.75, 0);
+  kitchenWalls.castShadow = true;
+  kitchenWalls.receiveShadow = true;
+  scene.add(kitchenWalls);
+
+  const kitchenRoof = new THREE.Mesh(
+    new THREE.BoxGeometry(2.2, 0.2, 1.7),
+    roofMat
+  );
+  kitchenRoof.position.set(3.5, 1.6, 0);
+  kitchenRoof.castShadow = true;
+  scene.add(kitchenRoof);
+
+  // --- The well (at the junction of East and West Lanes, ~30m south) ---
+  // Scaled closer for visibility
+  const wellBase = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.4, 0.45, 0.8, 12),
+    stoneMat
+  );
+  wellBase.position.set(0, 0.4, 4);
+  wellBase.castShadow = true;
+  wellBase.receiveShadow = true;
+  scene.add(wellBase);
+
+  // Well interior (dark)
+  const wellInterior = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.3, 0.3, 0.7, 12),
+    new THREE.MeshStandardMaterial({ color: 0x000000 })
+  );
+  wellInterior.position.set(0, 0.4, 4);
+  scene.add(wellInterior);
+
+  // Windlass posts
+  for (const x of [-0.4, 0.4]) {
+    const post = new THREE.Mesh(
+      new THREE.BoxGeometry(0.08, 0.6, 0.08),
+      woodMat
+    );
+    post.position.set(x, 1.0, 4);
+    post.castShadow = true;
+    scene.add(post);
+  }
+  // Windlass cylinder
+  const windlass = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.06, 0.06, 0.9, 8),
+    woodMat
+  );
+  windlass.rotation.z = Math.PI / 2;
+  windlass.position.set(0, 1.2, 4);
+  windlass.castShadow = true;
+  scene.add(windlass);
+
+  // --- A wooden bucket (the player carries this) ---
+  const bucket = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.15, 0.12, 0.25, 8),
+    woodMat
+  );
+  bucket.position.set(1.5, 0.125, 2);
+  bucket.castShadow = true;
+  scene.add(bucket);
+
+  // --- Ground plane (extends beyond courtyard) ---
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(40, 40),
+    new THREE.MeshStandardMaterial({ color: 0x3a3225, roughness: 1.0 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.01;
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  // --- Slow camera orbit ---
+  let angle = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    angle += 0.002;
+    const radius = 10;
+    camera.position.x = Math.cos(angle) * radius;
+    camera.position.z = Math.sin(angle) * radius;
+    camera.position.y = 5;
+    camera.lookAt(0, 0.8, 0);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // --- Handle resize ---
+  const resizeObserver = new ResizeObserver(() => {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  });
+  resizeObserver.observe(canvas);
+
+  loading.style.display = 'none';
+} catch (e) {
+  loading.textContent = 'Error: ' + e.message;
+  loading.classList.remove('pulsing');
+  loading.style.color = '#f87171';
+  console.error('Three.js scene error:', e);
+}
 </script>
 </body>
 </html>
