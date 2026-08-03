@@ -9,22 +9,31 @@
 **Engine Architecture** (engine-architecture/): 50 docs, 26,500 lines. Complete specification. FROZEN — no new architecture docs unless a gap blocks implementation.
 
 **Engine Code** (src/engine/):
-- `kernel/types.ts` — shared types (178 lines)
+- `kernel/types.ts` — shared types (227 lines)
 - `kernel/capability-registry.ts` — capability registration and resolution (103 lines)
 - `kernel/event-bus.ts` — typed events, commands, queries, transactions (127 lines)
 - `kernel/scheduler.ts` — 5 time domains, fixed timestep (182 lines)
 - `kernel/plugin-host.ts` — plugin lifecycle, state management, checkpoint/verify (160 lines)
 - `plugins/ga-determinism.ts` — first reference plugin, wraps existing stack, 6 capabilities
 - `conformance-test.ts` — 37/37 tests PASS
-- **NEW** `architect/types.ts` — 7 autonomy levels, 8 architect roles, sessions, tools, permissions, audit, capability graph, decision ledger, command protocol
-- **NEW** `architect/tool-protocol.ts` — ToolRegistry: register, unregister, dispatch, list (filter by category/autonomy/prefix), describe
-- **NEW** `architect/permissions.ts` — 8 role profiles, autonomy-based authorization, capability tokens (single-use/multi-use, TTL, session-bound, tool-bound), hard-gated actions
-- **NEW** `architect/audit.ts` — Append-only tamper-evident audit trail (SHA-256 chained), queryable by agent/tool/time/status
-- **NEW** `architect/capability-graph.ts` — DAG of CapabilityRequirements, topological sort, gap analysis
-- **NEW** `architect/decision-ledger.ts` — Architectural decision records with search, status tracking, supersession
-- **NEW** `architect/world-oracle.ts` — Searchable index over capability graph, decision ledger, audit trail
-- **NEW** `architect/gateway.ts` — Security boundary: session auth, tool authorization, dispatch with audit logging
-- **NEW** `architect/conformance-test.ts` — 113/113 tests PASS
+- `architect/types.ts` — 7 autonomy levels, 8 architect roles, sessions, tools, permissions, audit, capability graph, decision ledger, command protocol
+- `architect/tool-protocol.ts` — ToolRegistry: register, unregister, dispatch, list (filter by category/autonomy/prefix), describe
+- `architect/permissions.ts` — 8 role profiles, autonomy-based authorization, capability tokens (single-use/multi-use, TTL, session-bound, tool-bound), hard-gated actions
+- `architect/audit.ts` — Append-only tamper-evident audit trail (SHA-256 chained), queryable by agent/tool/time/status
+- `architect/capability-graph.ts` — DAG of CapabilityRequirements, topological sort, gap analysis
+- `architect/decision-ledger.ts` — Architectural decision records with search, status tracking, supersession
+- `architect/world-oracle.ts` — Searchable index over capability graph, decision ledger, audit trail
+- `architect/gateway.ts` — Security boundary: session auth, tool authorization, dispatch with audit logging
+- `architect/conformance-test.ts` — 113/113 tests PASS
+- `plugins/reference/ga-persistence.ts` — save/load, slices, branches (5 capabilities)
+- `plugins/reference/ga-content-schema.ts` — definition graph, templates, rules (3 capabilities)
+- `plugins/reference/ga-renderer.ts` — RenderBackend interface + headless stub (5 capabilities)
+- `plugins/reference/ga-physics.ts` — PhysicsApi + headless stub (2 capabilities)
+- `plugins/reference/ga-terrain.ts` — TerrainField + TerrainQuery (2 capabilities)
+- `plugins/reference/ga-animation.ts` — AnimationController + ClipRegistry (2 capabilities)
+- `plugins/reference/ga-vfx.ts` — VfxDirector + RecipeRegistry (2 capabilities)
+- `plugins/reference/ga-assets.ts` — AssetStream + AssetRegistry (2 capabilities)
+- `plugins/reference/conformance-test.ts` — 252/252 tests PASS
 
 **Determinism Stack** (src/lib/determinism/): 7 files, proven with hash `7fde855dc9d17c7ba11c7d40c1dda10535a10dd269af0b37149104c256213f75`
 
@@ -35,7 +44,7 @@
 Phase 0 (Determinism): **COMPLETE**
 Phase 1 (Kernel + Plugin SDK): **COMPLETE** — 37/37 conformance tests pass.
 Phase 2 (Grand Architect Control Plane): **COMPLETE** — 113/113 conformance tests pass.
-Phase 3 (Reference Plugins): **NEXT**
+Phase 3 (Reference Plugins): **COMPLETE** — 252/252 conformance tests pass. All 8 reference plugins implemented.
 
 ### Implementation Roadmap (from doc 42)
 
@@ -44,7 +53,7 @@ Phase 3 (Reference Plugins): **NEXT**
 | 0 | Determinism stack | ✅ DONE | Cross-browser hash parity |
 | 1 | Kernel + plugin SDK | ✅ DONE | Two reference plugins pass conformance (ga:determinism passes 37/37) |
 | 2 | Grand Architect Control Plane | ✅ DONE | Architect tools can inspect engine state (113/113 pass) |
-| 3 | Reference plugins (renderer, physics, terrain, animation, VFX) | 🔄 NEXT | Each passes acceptance tests |
+| 3 | Reference plugins (renderer, physics, terrain, animation, VFX, assets) | ✅ DONE | Each passes acceptance tests (252/252) |
 | 4 | Simulation systems (NPC, ecology, economy, history) | ⏳ PENDING | Century-absence test passes |
 | 5 | Game systems (cultivation, combat, quests) | ⏳ PENDING | First duel plays correctly |
 | 6 | Content generation (definitions, templates, rules) | ⏳ PENDING | Wang Family Bend generates from seed |
@@ -103,10 +112,24 @@ Phase 3 (Reference Plugins): **NEXT**
 - Lint: clean
 - Committed: cab3521
 
-### Next: Phase 2 continued — remaining reference plugins
-Priority:
-1. `ga:renderer` — RenderBackend interface + headless test stub
-2. `ga:physics` — PhysicsBackend interface + headless stub
-3. `ga:terrain` — TerrainBackend interface + headless stub
-4. `ga:animation` — AnimationBackend interface + headless stub
-5. `ga:vfx` — VFXBackend interface + headless stub
+### Iteration 3 — 2026-08-04 (Phase 3: Remaining Reference Plugins)
+- Implemented 6 new reference plugins (all with headless stubs for conformance testing):
+  1. `ga:renderer` — RenderBackend interface (from docs 13/14/15), headless-test backend, material registry, lighting system (time-of-day, shadow cascades), post-processing stack (bloom, fog, etc.), renderer stats. 5 capabilities.
+  2. `ga:physics` — PhysicsApi (from doc 20), body CRUD (static/kinematic/dynamic), 9 shape roles, raycast/shapecast/overlap, snapshot+verify for determinism, realm-tier physics materials. 2 capabilities.
+  3. `ga:terrain` — TerrainField (from doc 21), 16³ chunk system, density/material storage, dirty tracking, height sampling, region queries. 2 capabilities.
+  4. `ga:animation` — AnimationController (from doc 17), state machine, blend trees, additive layers, IK targets, procedural overlays, root motion, clip metadata with 7 skeleton profiles. 2 capabilities.
+  5. `ga:vfx` — VfxDirector (from doc 18), spawn/cancel/update lifecycle, stage-based effects (windup/cast/impact/linger), 17 component kinds, scale tiers (0-4), quality tiers. 2 capabilities.
+  6. `ga:assets` — AssetStream + AssetRegistry (from doc 16), content-addressed (SHA-256), asset metadata, bundles, prefetch/evict, load with error handling. 2 capabilities.
+- Updated conformance test: 252/252 PASS across 9 tests
+- All existing tests still pass: 37/37 kernel + 113/113 architect + 252/252 reference = 402 total
+- Lint: clean
+- Committed: 661b1ee
+
+### Next: Phase 4 — Simulation systems
+Priority (from doc 42 roadmap):
+1. Entity-component system (sim/render split)
+2. NPC cognition/behavior
+3. Ecology/demography
+4. Economy/logistics/factions
+5. History/event simulation
+Exit criteria: century-absence test passes
