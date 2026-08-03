@@ -1,0 +1,590 @@
+     1→# Next-Phase Gameplay Gauntlet Workplan — Draft v0.1
+     2→
+     3→**Status:** reviewed proposed test program; every fixture is `NOT RUN`  
+     4→**Scope:** gameplay, product, controls, exploit resistance, player/NPC parity, and loss experience from mortal life through high-realm macro play  
+     5→**Code status:** this document authorizes no production code, engine scaffold, dependency installation, telemetry collection, recruitment, or completed playtest claim  
+     6→**Consumes:** Cultivation Foundations Release Index v0.1, Mortal Year Atlas, Qi Condensation and Golden Scenarios, State Ledger, Identity/Death Models, Time/Catastrophe Architecture, and the Er Gen/Gemini Mechanics Critique
+     7→
+     8→---
+     9→
+    10→## 0. Purpose and release rule
+    11→
+    12→The next phase must answer a harder question than “is the design internally coherent?”:
+    13→
+    14→> Do these systems create understandable, voluntary, expressive play without hiding grind, automating away judgment, privileging the protagonist, or turning scale into menu labor?
+    15→
+    16→This workplan converts that question into bounded hypotheses, fixtures, measurements, and failure thresholds. It is a plan for future paper simulations, usability studies, adversarial simulations, and—only after separate authorization—interactive prototypes.
+    17→
+    18→No threshold below has been passed. Numerical experience thresholds are **provisional ratification candidates**. They must be locked before the relevant confirmatory test begins; they may not be weakened after results are seen. Integrity failures—duplication, hidden-information leakage, causal mismatch, player-only physics, nontermination, or save corruption—are zero-tolerance regardless of sample size.
+    19→
+    20→### 0.1 Severity rule
+    21→
+    22→- **S0:** causal corruption, duplication/loss of protected identity or resources, nontermination, player-only physics, or an architecture that cannot produce the promised game.
+    23→- **S1:** dominant exploit, mandatory tedium, hidden oracle, inaccessible control surface, fake choice, opaque unavoidable loss, protagonist privilege, or a subsystem that cannot meet reference-hardware/playability obligations.
+    24→- **Repair band:** usability or tuning miss that does not invalidate the system and has a bounded repair path.
+    25→
+    26→Any S0/S1 stops promotion of the affected package. A repair closes only after the failed fixture is rerun together with regression controls.
+    27→
+    28→---
+    29→
+    30→## 1. Measurement protocol
+    31→
+    32→### 1.1 Evidence stages
+    33→
+    34→| Stage | Evidence | Permitted conclusion |
+    35→|---|---|---|
+    36→| `E0 Contract audit` | paper traces, state tables, adversarial proofs, counterfactuals | the proposed rule is executable and has a falsifier |
+    37→| `E1 Facilitated paper play` | cards, maps, timelines, written choices, blinded facilitator scripts | players can understand choices and consequences without relying on final presentation |
+    38→| `E2 Low-fidelity interaction study` | wireframes, clickable mockups, controller diagrams, timed input tasks | control and information architecture are usable enough to justify implementation research |
+    39→| `E3 Authorized subsystem prototype` | isolated executable mechanic after explicit code authorization | timing, workload, deterministic behavior, and hardware cost can be measured |
+    40→| `E4 Authorized integrated vertical slice` | connected mortal/cultivation/combat/world systems | the combined experience survives cross-system interaction |
+    41→
+    42→Passing an earlier stage never claims a later stage passed.
+    43→
+    44→### 1.2 Human-study cohorts to plan
+    45→
+    46→Use separate discovery and confirmation cohorts rather than tuning and validating on the same participants.
+    47→
+    48→- **Discovery:** at least 12 participants, split between seasoned xianxia readers and players without xianxia familiarity.
+    49→- **Confirmatory experience tests:** at least 30 new participants, stratified by genre familiarity and preferred play style.
+    50→- **Control tests:** at least 24 new participants balanced across keyboard/mouse and controller, with planned representation for remapping, hold/toggle, motor, timing, visual, and cognitive accessibility needs.
+    51→- **Expert audits:** at least one gameplay/economy, one accessibility/controls, one narrative-systems, and one deterministic-simulation reviewer who did not author the tested fixture.
+    52→
+    53→Recruitment, consent, content warnings, privacy, compensation, accessibility accommodation, and telemetry retention require their own approved protocol before any study begins.
+    54→
+    55→### 1.3 Common measurements
+    56→
+    57→Every fixture records:
+    58→
+    59→```text
+    60→FixtureId / Revision / SeedManifest
+    61→ParticipantOrAgentCohort
+    62→AuthorizedInformationView
+    63→StartingStateHash
+    64→AvailableAndBelievedActions
+    65→ChosenActionsAndDecisionTimes
+    66→CanonicalActionAndEventLog
+    67→Interruptions / Errors / Reversals
+    68→Resources / Injuries / Relationships / Ownership / Aftermath
+    69→NormalizedNPCControlResult
+    70→EndingStateHash
+    71→Comprehension / Workload / Fairness / DesireToContinue
+    72→ObservedExploit / Severity / ReproductionTrace
+    73→```
+    74→
+    75→Required experience instruments:
+    76→
+    77→- decision comprehension: what the participant believed, why, and with what uncertainty;
+    78→- action burden: canonical commitments, raw inputs, menu transitions, target corrections, repeated low-decision inputs, and wall time;
+    79→- workload: a short consistent workload instrument plus observed error/recovery;
+    80→- agency: number of materially different reachable responses and whether the participant recognized them;
+    81→- fairness: whether loss/success can be explained from perceived evidence and established rules;
+    82→- desire to continue: continue this life/path, switch path, stop session, or continue only to reach a promised later feature;
+    83→- parity: normalized player and isomorphic-NPC events, costs, opportunities, and outcomes.
+    84→
+    85→### 1.4 Cultural and ontology separation invariant
+    86→
+    87→Every fixture keeps Dao/path, qi, Heaven, karma, fate, mandate, tribulation, legal rule, office, reputation, morality, RNG, difficulty/content admission and quest information as separate optional modules. No module may silently implement another. Spirit, soul, consciousness, numerical identity, personhood and viewpoint continuation remain separate judgments. `Lawful Chronicle` remains only a disclosed mode name; it establishes no Dao, karmic or legal ontology.
+    88→
+    89→Every culturally situated fixture carries a `SourceBoundaryRecord` and may enter confirmation only after independent source/cultural and originality review clears the particular content. Participant preference, comprehension or fun cannot establish cultural or historical accuracy.
+    90→
+    91→---
+    92→
+    93→## 2. Gauntlet G1 — Mortal life, pacing, and voluntary continuation
+    94→
+    95→### Hypotheses
+    96→
+    97→1. Mortal play can be worthwhile before supernatural progression appears.
+    98→2. Work and care create decisions and attachments without requiring repeated low-decision animations.
+    99→3. Remaining mortal, seeking cultivation early, delaying cultivation, migrating, or changing livelihood are supported choices rather than disguised difficulty settings.
+   100→
+   101→### Fixtures
+   102→
+   103→- `MORTAL-THIN-01`: resource-thin household with care and debt pressure.
+   104→- `MORTAL-MIXED-01`: mixed livelihood with tools, social leverage, and a labor bottleneck.
+   105→- `MORTAL-POWER-01`: locally powerful household facing coordination, legitimacy, and dependent obligations.
+   106→- `MORTAL-SOLO-01`: traveler/hermit/lodger without a conventional household but with explicit survival and exchange networks.
+   107→- `MORTAL-ACCESS-01`: injured, chronically ill, disabled, or sensory-divergent protagonist whose viable verbs change without becoming a cure waiting room.
+   108→- `MORTAL-QUIET-01`: one low-crisis phase proving leisure, beauty, play, intimacy, craft pride, and rest can carry value.
+   109→
+   110→Each fixture exposes a credible cultivation lead before its final optional mortal phase so continuation is a real choice.
+   111→
+   112→Every mortal fixture also carries `CulturalContextManifest-v0.1`:
+   113→
+   114→```text
+   115→source and historical scope
+   116→ecology, livelihood and material network
+   117→kinship, household and care structure
+   118→law, dispute and institutions
+   119→ritual calendar, beliefs and contested interpretations
+   120→gender, class, age and disability assumptions
+   121→project-authored invention versus evidence
+   122→known unknowns and prohibited stereotypes
+   123→```
+   124→
+   125→G1 must run across at least three mutually distinct, authorized ecology–livelihood–institution complexes from the Mortal Year Atlas. If only one context is ready, every conclusion remains explicitly local and cannot become the universal mortal baseline. Each represented context receives an independent source/cultural reviewer.
+   126→
+   127→### Measurements
+   128→
+   129→- repeated mandatory inputs per learned routine;
+   130→- meaningful decisions per active ten-minute segment;
+   131→- number and diversity of noncombat goals voluntarily adopted;
+   132→- attachment recall for particular people, work, tools, places, and promises;
+   133→- voluntary continuation for at least one optional mortal phase after a credible cultivation route is visible;
+   134→- proportion reporting that they were “waiting for the real game to begin”;
+   135→- use and comprehension of summary, standing orders, delegation, and voluntary embodied work;
+   136→- outcome diversity across households under the same weather/market year.
+   137→- outcome diversity across the three authorized cultural/ecology/institution contexts without treating participant preference as accuracy.
+   138→
+   139→### Provisional fail thresholds
+   140→
+   141→The package fails if any of the following occurs in confirmation:
+   142→
+   143→- more than one identical mandatory low-decision performance remains after the player has demonstrated a stable routine, unless the player explicitly chose embodied repetition;
+   144→- any ten-minute active segment contains fewer than two materially different decisions without being an explicitly chosen quiet/embodied interval;
+   145→- fewer than three noncombat life trajectories receive a median “worth choosing in the right character” rating of at least 4/5;
+   146→- at least 40% of participants describe the mortal span primarily as waiting for cultivation;
+   147→- no participant voluntarily continues one optional mortal phase once a credible cultivation route is available;
+   148→- the disabled/access fixture has fewer viable strategic verbs or recovery routes solely because content was removed rather than transformed;
+   149→- one household class has no consequential action family under the same year; or
+   150→- a conclusion from one context is generalized to another without its own manifest/evidence/review; or
+   151→- the protagonist household receives opportunities, warnings, leniency, or recovery unavailable to an isomorphic NPC household.
+   152→
+   153→---
+   154→
+   155→## 3. Gauntlet G2 — Cultivation route legibility and anti-grind
+   156→
+   157→### Hypotheses
+   158→
+   159→1. Players can discover and evaluate cultivation without a protagonist-only quest marker or omniscient truth label.
+   160→2. Practice demonstrates changing judgment and capability rather than demanding action spam, calendar waiting, or deliberate injury farming.
+   161→3. Time advance compresses authorized routine while stopping at the same decision available through established perception/evidence channels as ordinary semantic stepping.
+   162→
+   163→### Fixtures
+   164→
+   165→- `ROUTE-MULTI-01`: at least three available evidence paths—work anomaly, teacher/social lead, and environmental/material trace—with one plausible mundane explanation.
+   166→- `ROUTE-NO-MANUAL-01`: oral, demonstrated, institutional, and self-hypothesis paths; no manuscript or unique teacher exists.
+   167→- `PRACTICE-STABLE-01`: learned safe exercise repeated under unchanged conditions.
+   168→- `PRACTICE-CHANGED-01`: body, environment, method revision, obligation, or observer changes and creates a new decision.
+   169→- `PRACTICE-FAIL-01`: stopping, seeking help, adapting, pushing, and abandonment remain distinct; injury supplies no guaranteed power.
+   170→- `PRACTICE-ADVANCE-01`: 1x, summarized, standing-order, and save/reload runs share the first information-available interrupt and protected outcome.
+   171→- `PRACTICE-ABUSE-01`: easy-action spam, micro-action splitting, consumable stacking, intentional near-failure, reload scouting, and idle calendar advance.
+   172→
+   173→### Measurements
+   174→
+   175→- time and evidence count before the first informed remain/leave/seek choice;
+   176→- number of plausible cultivation paths participants can name and distinguish;
+   177→- false certainty rate and understanding of ordinary alternatives;
+   178→- repeated actions before summary/conditional execution becomes available;
+   179→- decisions per practice cycle after initial learning;
+   180→- certification evidence diversity rather than repetition count;
+   181→- outcome/time parity across 1x, Advance, summary, and reload;
+   182→- incidence of participants selecting an exploit because it is clearly optimal.
+   183→
+   184→### Provisional fail thresholds
+   185→
+   186→- fewer than 80% can identify two plausible cultivation approaches and one credible reason to defer or refuse after the route fixture;
+   187→- more than 10% believe a UI marker or protagonist sense supplied canonical truth the character could not know through established perception/evidence channels;
+   188→- an unchanged mastered exercise requires more than two further embodied repetitions before summary/standing-order control is offered;
+   189→- repeating one easy action, subdividing it, waiting without new evidence, or farming injury can advance certification;
+   190→- the best normalized progression strategy is repeated identical input rather than changed context, diagnosis, relationship, resource, or risk judgment;
+   191→- Advance and 1x differ in first interrupt, protected outcome, hidden-information exposure, or cost; or
+   192→- abandoning cultivation produces a contentless or punitive terminal state.
+   193→
+   194→---
+   195→
+   196→## 4. Gauntlet G3 — Action-control load and intent uncertainty
+   197→
+   198→### Hypotheses
+   199→
+   200→1. Immediate, radial, spatial, and doctrine layers provide speed and depth without becoming a nested hotbar or pause-menu tax.
+   201→2. “Lethal,” “nonlethal,” “protective,” and “safe” are understandable preferences under uncertainty, never guaranteed outcomes.
+   202→3. Input device, frame rate, accessibility aid, or wall-time hold duration cannot add canonical precision, preparation, or reaction time.
+   203→
+   204→### Fixtures
+   205→
+   206→- `CONTROL-1V1-01`: known prepared technique against one readable threat.
+   207→- `CONTROL-1VMANY-01`: mixed simultaneous threats, bystander, uncertain target, and limited attention.
+   208→- `CONTROL-NEW-01`: newly learned operation with incomplete mastery.
+   209→- `CONTROL-BANK-01`: imminent projectile, hard pause, rebind/page attempt, and unprepared counter.
+   210→- `CONTROL-DEVICE-01`: identical semantic requests through keyboard/mouse, controller, hold/toggle alternative, timing assist, and normalized replay.
+   211→- `INTENT-FRAGILE-01`: unknown anatomy or hidden fragility makes a believed nonlethal action dangerous.
+   212→- `INTENT-CONCEALED-01`: disguised medium, concealed dependent, target substitution, and incomplete collateral map.
+   213→
+   214→### Measurements
+   215→
+   216→- time from perceived cue to intended semantic commitment;
+   217→- raw inputs, radial transitions, target corrections, accidental commitments, and cancel recoveries;
+   218→- prepared-slot and candidate utilization;
+   219→- workload and error by device/accessibility cohort;
+   220→- difference between requested intent, predicted uncertainty, and canonical result;
+   221→- comprehension that intent is not a guarantee;
+   222→- normalized canonical parity across input devices and isomorphic NPC requests.
+   223→
+   224→### Provisional fail thresholds
+   225→
+   226→- after the learning allowance, fewer than 80% commit the intended immediate action within 1.5 seconds of a readable cue;
+   227→- median target-correction or accidental-commit rate exceeds 10% in the 1-v-many fixture;
+   228→- any supported input/accessibility path lacks a semantic action available to another path;
+   229→- normalized outcomes differ by frame rate, input device, hold implementation, hard-pause duration, or player/NPC identity;
+   230→- hard pause can arm an unprepared technique, artifact mode, anchor, doctrine, or maintained pattern without semantic preparation;
+   231→- UI availability, safety, or prediction reveals concealed canonical truth; or
+   232→- fewer than 80% can explain why a requested nonlethal/protective action could still fail after the uncertainty debrief.
+   233→
+   234→---
+   235→
+   236→## 5. Gauntlet G4 — Doctrine automation without autoplay
+   237→
+   238→### Hypotheses
+   239→
+   240→1. Doctrine policies reduce clerical reaction burden while preserving reaction latency, scarcity, uncertainty, and authored priorities.
+   241→2. No policy set becomes a perfect defense, unattended combat engine, hidden detector, or same-instant loop.
+   242→3. NPCs can author and execute equivalent policies under the same information and capability constraints.
+   243→
+   244→### Fixtures
+   245→
+   246→- `POLICY-VALUES-01`: protect self, child/dependent, oath-target, and stranger under one scarce source.
+   247→- `POLICY-BURST-01`: staggered and simultaneous projectile/area/decoy burst exceeding target slots.
+   248→- `POLICY-DECOY-01`: false positives and disguised harmless/hostile signals.
+   249→- `POLICY-LOOP-01`: mutual redirect, absorb/re-release, warning cascade, and recursive counter.
+   250→- `POLICY-EXHAUST-01`: long probing encounter drains attention, source, durability, and recovery.
+   251→- `POLICY-OFFSCREEN-01`: unload/reload and S-tier changes preserve policy state and outcomes.
+   252→- `POLICY-NPC-01`: isomorphic player/NPC policy, information, priority, timing, and RNG.
+   253→
+   254→### Measurements
+   255→
+   256→- reaction latency and missed deadlines;
+   257→- selected policy versus actor-authored priority;
+   258→- source/attention/target-slot use;
+   259→- false positives, false negatives, saturation and exhaustion;
+   260→- number and terminal state of same-instant evaluations;
+   261→- manual interventions prompted by unresolved value conflicts;
+   262→- exploit win rate for one unchanged policy across adversary families;
+   263→- normalized player/NPC event logs.
+   264→
+   265→### Provisional fail thresholds
+   266→
+   267→- any policy reads hidden faction, intent, ownership, danger, identity, or target truth;
+   268→- any trigger reacts with zero semantic latency unless a separately maintained already-active defense entails it;
+   269→- actor-authored obligation priority is violated when its preconditions and resources are satisfied;
+   270→- stable IDs decide a nonidentical value/capability conflict;
+   271→- one unchanged policy defeats every adversary family without exhaustion, tradeoff, or counter;
+   272→- a recursive chain duplicates, erases, refunds, or reaches its evaluation cap as a gameplay outcome;
+   273→- a policy continues after consent, source, perception, attention, or arming state is lost; or
+   274→- player and isomorphic NPC policy logs differ after normalized naming.
+   275→
+   276→---
+   277→
+   278→## 6. Gauntlet G5 — Automatic collection, loot, custody, and economy
+   279→
+   280→### Hypotheses
+   281→
+   282→1. Collection removes repetitive clicking after earned perception/control without becoming an ownership, life, trap, or safety oracle.
+   283→2. Collection remains a physical/custodial process with interruption, competition, partial completion, and consequences.
+   284→3. Convenience does not create player-only battlefield priority or an unattended resource farm.
+   285→
+   286→### Fixtures
+   287→
+   288→- `COLLECT-MUNDANE-01`: fifty ordinary eligible scraps and three bulk material cohorts.
+   289→- `COLLECT-UNCERTAIN-01`: hidden claim, corpse inheritance, disguised living item, trap, seal, contamination, and evidence object.
+   290→- `COLLECT-RACE-01`: owner pickup while marked; two collectors with reversed stable IDs; opposed control/force.
+   291→- `COLLECT-CAPACITY-01`: item crosses receiving capacity mid-batch; quarantine incompatibility.
+   292→- `COLLECT-PATH-01`: moving target, broken path, obstruction, range loss, and transport collision.
+   293→- `COLLECT-PERSIST-01`: interruption, cancel, unload/reload, and save at every milestone.
+   294→- `COLLECT-NPC-01`: player one-button compiler versus isomorphic NPC semantic request.
+   295→
+   296→### Measurements
+   297→
+   298→- raw inputs and wall time versus manual collection;
+   299→- eligible mundane items correctly received;
+   300→- unknown/misclassified targets and whether UI leaked why;
+   301→- item/custody identity and conservation at every milestone;
+   302→- contest result and contribution attribution;
+   303→- partial/cancel/reload behavior;
+   304→- downstream witnesses, ownership disputes, traps, market response, and storage costs;
+   305→- player/NPC parity.
+   306→
+   307→### Provisional fail thresholds
+   308→
+   309→- collection reduces eligible mundane-item inputs by less than 80% after policy setup;
+   310→- any hidden category is inferred from selection, skipping, warning, or batch interruption without available evidence;
+   311→- any item is duplicated, erased, teleported, stripped of custody/provenance, or received twice;
+   312→- a lease grants possession, collision priority, legal priority, remote exclusion, or frozen state;
+   313→- stable ID decides a semantically unequal collection contest;
+   314→- bulk aggregation absorbs a unique, living, remains-linked, claimed, trapped, sealed, or evidentiary entity;
+   315→- unattended collection generates net resources without corresponding targets, transport, capacity, time, and world response; or
+   316→- player and isomorphic NPC collection requests resolve differently.
+   317→
+   318→---
+   319→
+   320→## 7. Gauntlet G6 — Terrain carving, construction, and destructive continuity
+   321→
+   322→### Hypotheses
+   323→
+   324→1. Mortal excavation and cultivation-scale carving create construction and discovery play, not voxel chores or one-click deletion.
+   325→2. Every milestone preserves topology, moving occupancy, material, bodies, unique objects, hazards, claims, and aftermath.
+   326→3. Large operations escalate through `CatastropheContract-v0.1` without turning implementation leases or stable IDs into fictional force.
+   327→
+   328→### Fixtures
+   329→
+   330→- `TERRAIN-MORTAL-01`: hand-dug shelter/tunnel with tools, spoil, shoring, drainage, ventilation, rights, and changing weather.
+   331→- `TERRAIN-TECH-01`: technique-carved volume with uncertain strata and interleaved cut/support/drain/vent choices.
+   332→- `TERRAIN-ENTRY-01`: person, body, animal, vehicle, water, gas, or unique item crosses a milestone boundary during work.
+   333→- `TERRAIN-CONFLICT-01`: overlapping cutters with reversed IDs/start times, unequal control, and claim dispute.
+   334→- `TERRAIN-COLLAPSE-01`: premature support failure continues after area demotion/unload.
+   335→- `TERRAIN-CATASTROPHE-01`: aquifer release, settlement isolation, self-propagating fracture, and K3+ escalation.
+   336→- `TERRAIN-PERSIST-01`: abort and save/reload at every milestone; later archaeology queries the operation history.
+   337→
+   338→### Measurements
+   339→
+   340→- number of high-level decisions versus repeated geometry inputs;
+   341→- occupancy/topology recertifications and stale-read rejections;
+   342→- material/spoil conservation and unique-entity remaps;
+   343→- support, water, gas, pressure, heat, dust, qi, ecology, route, and claim aftermath;
+   344→- concurrent-operation contest reasoning;
+   345→- reconstruction after S-tier and render-detail changes;
+   346→- player/NPC and worker-order parity;
+   347→- reference-hardware work and memory budget in later authorized prototypes.
+   348→
+   349→### Provisional fail thresholds
+   350→
+   351→- a simple surveyed mortal shelter/tunnel requires more than five repeated low-decision input sequences after its plan is accepted, unless voluntarily embodied;
+   352→- any committed milestone uses stale occupancy/topology/front state;
+   353→- a body, unique object, grave, formation node, water/gas front, qi vein, claim, or route disappears because it was not rendered;
+   354→- spoil/material fails exact attribution or declared physical tolerance;
+   355→- an engine lease grants land rights, force, possession, or collision priority;
+   356→- stable ID decides a semantically unequal overlapping edit;
+   357→- collapse, pressure, flow, fire, or contamination freezes when detail demotes or the area unloads;
+   358→- a K3+/mass-topology operation commits outside `CatastropheContract`; or
+   359→- abort/save/reload duplicates work, material, damage, or recovery.
+   360→
+   361→---
+   362→
+   363→## 8. Gauntlet G7 — Protagonist advantage and universal NPC parity
+   364→
+   365→### Hypotheses
+   366→
+   367→1. Any selected protagonist advantage changes a narrow decision operation rather than granting output, truth, immunity, favorable RNG, or content delivery.
+   368→2. The game remains desirable with no advantage.
+   369→3. Every player UI/QoL compiler maps to ordinary actions available to an isomorphic NPC under the same state, even when NPCs do not use the player-facing interface.
+   370→
+   371→### Fixtures
+   372→
+   373→- `ADV-NONE-01`: all opening scenarios with no advantage.
+   374→- `ADV-A/B/C-01`: each candidate direction across mortal work, teacher choice, fraud, first perception, conflict, failure, and success.
+   375→- `ADV-REMOVE-01`: remove the advantage after history has formed; only its declared operation and downstream effects disappear.
+   376→- `ADV-COPY/LOSS-01`: transfer, theft, copy, possession, death, reincarnation, and suppression under each candidate identity model.
+   377→- `PARITY-COMPILER-01`: target proposals, radial filtering, accessibility geometry, doctrine, collection, terrain blueprint, formation/cohort macro, interruption, and reload.
+   378→- `PARITY-OPPORTUNITY-01`: matched player/NPC world-generation opportunity, warning, teacher, resource, and response state.
+   379→
+   380→### Measurements
+   381→
+   382→- direct contribution to reservoir, output, durability, claim scope/support, RNG, survival, and mountain work;
+   383→- changed action choices versus changed success rate;
+   384→- scenario decisions solved automatically;
+   385→- no-advantage desire to continue and perceived completeness;
+   386→- player/NPC normalized events, costs, timing, information, opportunities, and outcomes;
+   387→- social evidence, counters, loss, transfer, and responsibility.
+   388→
+   389→### Provisional fail thresholds
+   390→
+   391→- any candidate supplies undeclared force, resource, claim scope/support, truth, aim, immunity, survival, favorable RNG, or content spawn;
+   392→- any candidate automatically solves one golden scenario or becomes required to discover cultivation;
+   393→- removal erases ordinary memory, skill, relationships, injury, or world history;
+   394→- the no-advantage control is rated as an incomplete or punitive mode by at least 30% more participants than every advantage cohort;
+   395→- a player compiler adds knowledge, precision, targets, time, capacity, success, or priority unavailable to an isomorphic NPC request;
+   396→- any normalized isomorphic case differs; or
+   397→- generation places an opportunity because `isPlayer` rather than a declared admission/advantage contract was present.
+   398→
+   399→---
+   400→
+   401→## 9. Gauntlet G8 — High-realm macro play and action expressivity
+   402→
+   403→### Hypotheses
+   404→
+   405→1. Greater capability unlocks new decision families and consequence radii rather than larger numbers, larger radial menus, or perfect automation.
+   406→2. Macro-intents reduce clerical targeting while retaining exclusions, uncertainty, commitment, counterplay, delegation, and aftermath.
+   407→3. Institutions, dependents, territory, ecology, enemies, and prior history remain strategically relevant to powerful actors.
+   408→
+   409→### Fixtures
+   410→
+   411→- `MACRO-DEFENSE-01`: protect a route complex with limited attention/source while attacks target different dependencies.
+   412→- `MACRO-CONFLICT-01`: combat, evacuation, negotiation, deception, evidence, and terrain/ecology consequences compete.
+   413→- `MACRO-DELEGATE-01`: formation, cohort, sect/institution, and consenting specialist execute bounded delegated tasks with latency and error.
+   414→- `MACRO-UNCERTAIN-01`: incomplete maps, hidden populations, disguised medium, stale reports, and uncertain claim scope/support.
+   415→- `MACRO-COUNTER-01`: rival adapts to repeated doctrine and attacks preparation, reputation, source, route, or dependent rather than only the body.
+   416→- `MACRO-SCALE-01`: site, settlement, region, continent, and world-scale versions preserve the same causal rules with different consequence radii.
+   417→- `MACRO-NPC-01`: isomorphic high-realm NPC receives the same semantic macro request and support.
+   418→- `RITUAL-MEANING-01`: separately record any ontic effect, participant belief, public interpretation, material/time requirements, office/lineage standing, consent/coercion, witnesses, failure and aftermath; participant belief never proves the effect.
+   419→- `HIERARCHY-PLURAL-01`: matched power evidence across distinct cleared institutions/cultural contexts permits context-dependent flight, bargaining, protection of dependents, concealment, conditional surrender, dissent, ritual deference or refusal. Sect, lineage, clan, temple, monastery, court, household and state office remain different relation types.
+   420→
+   421→### Measurements
+   422→
+   423→- high-level commitments, target corrections, policy changes, and menu transitions per operation;
+   424→- reduction in individual target commands relative to a micro-command baseline;
+   425→- number of recognized response families and meaningful tradeoffs;
+   426→- dependency/institution/terrain/ecology outcomes;
+   427→- uncertainty errors and correction paths;
+   428→- counter adaptation and doctrine dominance;
+   429→- delegated latency, consent, attribution, and failure;
+   430→- parity across actor identity, render detail, and simulation tier.
+   431→- separation of ritual operation, belief, interpretation, standing, consent and aftermath;
+   432→- response diversity under matched power evidence across institution/context manifests.
+   433→
+   434→### Provisional fail thresholds
+   435→
+   436→- macro control reduces individual target commands by less than 90% in a cohort-scale task;
+   437→- more than 40% of experienced participants' decision wall time is spent paging/configuring rather than choosing objectives, tradeoffs, or responses;
+   438→- one doctrine/macro solves every fixture without changing policy, accepting loss, exposing a dependency, or consuming scarce support;
+   439→- a macro reads hidden targets/claims/danger or guarantees exclusions it cannot verify from available evidence;
+   440→- delegated actors lose consent, independent goals, evidence, attribution, or failure possibility;
+   441→- lower actors, institutions, territory, or ecology become irrelevant except as hit points; or
+   442→- ritual belief, office or deference automatically creates an ontic technique effect without its own contract;
+   443→- a power-gap label directly causes kowtow, insanity, obedience, moral deference, inventory surrender or one universal surrender response; or
+   444→- player/NPC, S-tier, worker-order, save/reload, or render state changes the canonical result.
+   445→
+   446→---
+   447→
+   448→## 10. Gauntlet G9 — Catastrophe, irreversible loss, saves, and continuation UX
+   449→
+   450→### Hypotheses
+   451→
+   452→1. Mortal and low-realm players can make consequential decisions without being able to defeat a world-scale source.
+   453→2. Warnings communicate available evidence, uncertainty, lead time, and response constraints without becoming omniscient quest markers.
+   454→3. Irreversible loss can feel caused and meaningful rather than arbitrary punishment or motivational scenery.
+   455→4. Save and viewpoint-continuation modes are understood before they matter and never hide protagonist immunity or cross-branch farming.
+   456→
+   457→### Fixtures
+   458→
+   459→- `LOSS-WARNING-01`: true warning with limited confidence and at least two low-realm response families.
+   460→- `LOSS-FALSE-01`: plausible false warning and politicized disbelief.
+   461→- `LOSS-UNSEEN-01`: no available warning; 1x and Advance reveal nothing before observable effect/incapacity/death.
+   462→- `LOSS-WORLD-01`: world is not saved; survivors, evidence, culture/ecology, injuries, displacement, blame, and future possibilities differ.
+   463→- `LOSS-DEATH-01`: protagonist dies; finality or disclosed viewpoint successor follows the selected identity model without asset, office, claim, or unique-relation transfer.
+   464→- `LOSS-SAVE-01`: Free, Bound, and Single Chronicle explanation and behavior; reload before/during/after catastrophe transaction.
+   465→- `LOSS-PARITY-01`: protagonist/NPC survival certificate and contribution-removal control.
+   466→- `LOSS-OPENING-01`: ordinary opening, Epic Protagonist, Lawful Chronicle, Unbounded Cosmos, and disclosed Doomed Prologue admission behavior.
+   467→
+   468→### Measurements
+   469→
+   470→- warning evidence, uncertainty, arrival window, and response comprehension;
+   471→- materially different reachable outcomes recognized and chosen;
+   472→- evacuation/shelter/preservation capacity and opportunity costs;
+   473→- causal explanation of survival, death, world loss, and successor state;
+   474→- perceived fairness before and after causal debrief;
+   475→- attachment/grief versus “scripted punishment” response;
+   476→- save-mode and character-knowledge comprehension;
+   477→- reload determinism, branch separation, and cross-branch exploit attempts;
+   478→- protagonist/NPC parity.
+   479→
+   480→### Provisional fail thresholds
+   481→
+   482→- a warning or Advance stop exposes information no authorized actor received;
+   483→- a warned low-realm fixture offers no consequence-changing response;
+   484→- every response differs only in dialogue while survivors, evidence, relationships, ecology, obligations, or future possibility remain identical;
+   485→- refuge, evacuation, teleport, ancestor rescue, or continuation appears because of protagonist status after commitment;
+   486→- after debrief, at least 40% still cannot identify the causal signal, decisive constraint, and reason their outcome occurred;
+   487→- fewer than 90% correctly distinguish player memory, character knowledge, branch history, numerical identity, and viewpoint continuation in the save/continuation tutorial;
+   488→- reload rerolls committed intent, fronts, warnings, victims, costs, rewards, or hidden facts within a branch;
+   489→- viewpoint continuation automatically grants a successor any of numerical identity, memory, bodily/cultivation continuity, custody/property, office or unique claim, legal liability, social blame, relationship recognition, oath obligation, or an optional karmic relation without a separately established transition for that domain; moral responsibility is evaluated, not transferred as an asset; or
+   490→- an isomorphic NPC taking the same survival action receives a different result.
+   491→
+   492→---
+   493→
+   494→## 11. Integrated exploit matrix
+   495→
+   496→The following combinations must run even if each subsystem passes alone:
+   497→
+   498→| Combined fixture | Systems under pressure | Required invariant |
+   499→|---|---|---|
+   500→| `X-01 Practice during catastrophe` | cultivation, Advance, warnings, injury, doctrine | earliest established-information interrupt; no hidden oracle or free recovery |
+   501→| `X-02 Loot during terrain collapse` | collection, custody, moving topology, remains, save/load | each item/body resolves exactly once; no lease immunity |
+   502→| `X-03 Nonlethal macro with concealed civilians` | intent, perception, high-realm geometry, catastrophe | no hidden safety guarantee; identities and collateral persist |
+   503→| `X-04 Advantage-assisted warning` | advantage, evidence, catastrophe, NPC parity | only declared bounded clue differs; no survival force appears |
+   504→| `X-05 Pocket-time work economy` | time domain, labor, cultivation, markets, aging | no free labor/resources; external commitments and aging remain |
+   505→| `X-06 Automated redirect into terrain` | doctrine, TECH-DAG, fracture, bystanders | conserved terminal reducer and dynamic intersection |
+   506→| `X-07 Death during collection/possession` | identity, custody, batch transaction, continuation | no duplication or silent transfer to successor/viewpoint |
+   507→| `X-08 Hard pause under multi-threat load` | controls, policies, preparation, accessibility | free thought/remap only; no zero-time arming or sensing |
+   508→| `X-09 High-realm NPC near mortal player` | agency, deterrence, perception, low-realm options | no player aggro script, scalar immunity, or pity rescue |
+   509→| `X-10 Long no-player era then promotion` | cohorts, history, catastrophe, terrain, institutions | future-refinement and protected-query parity |
+   510→
+   511→Any protected-state mismatch, hidden-information leak, infinite loop, duplicate, erased person/item/claim, or player/NPC physics difference is S0/S1 regardless of subjective ratings.
+   512→
+   513→---
+   514→
+   515→## 12. Sequencing and dependencies
+   516→
+   517→### Phase A — Lock evidence before testing
+   518→
+   519→1. Ratify metric definitions, provisional thresholds, severity rules, participant protocol, and fixture manifests.
+   520→2. Version `AuthorizedInformationView`, semantic action/transaction log, normalized NPC comparison, and outcome-difference rules.
+   521→3. Attach `CulturalContextManifest-v0.1` and `SourceBoundaryRecord` where applicable; clear culturally or source-distinctive content through the source-workplan originality red-team before confirmatory tuning.
+   522→4. Assign independent reviewers, including source/cultural reviewers for represented contexts, and freeze confirmatory seeds/scripts.
+   523→
+   524→**Exit gate:** every measurement can be reproduced from a fixture record; no success criterion is invented after results.
+   525→
+   526→### Phase B — Paper-system gauntlets
+   527→
+   528→Run `G1`, `G2`, `G7`, and `G9` at `E0/E1`, plus contract traces for `G4–G6`.
+   529→
+   530→Dependencies:
+   531→
+   532→- mortality and state-ledger rules before route/pacing judgment;
+   533→- identity/death choice before any continuation result can pass;
+   534→- perception/evidence contract before intent, doctrine, loot, or warning UX can pass;
+   535→- custody/ownership contract before collection can pass;
+   536→- terrain/material/topology contract before destructive or construction play can pass.
+   537→
+   538→**Exit gate:** no paper-level S0/S1; experiential uncertainties are recorded rather than promoted as facts.
+   539→
+   540→### Phase C — Low-fidelity control and information studies
+   541→
+   542→Run `G3`, warning/save-mode portions of `G9`, collection policy UX from `G5`, and macro-intent comprehension from `G8` at `E2`.
+   543→
+   544→**Exit gate:** the control surface, uncertainty language, mode explanations, and macro requests meet their provisional comprehension/workload thresholds without executable world simulation claims.
+   545→
+   546→### Phase D — Authorized subsystem prototypes
+   547→
+   548→Only after explicit code authorization, implement the smallest isolated prototypes needed for timing, deterministic transaction, control, and reference-hardware measurement:
+   549→
+   550→1. normalized input/control and intent uncertainty;
+   551→2. doctrine arbitration and recursive technique terminal reducers;
+   552→3. collection batch/custody contest;
+   553→4. sparse terrain transaction and moving occupancy;
+   554→5. accelerated routine and catastrophe-warning parity.
+   555→
+   556→**Exit gate:** `E3` determinism, parity, performance, save/reload, and exploit fixtures pass. Prototype success does not authorize production architecture.
+   557→
+   558→### Phase E — Integrated vertical slice
+   559→
+   560→Phase E may consume only versioned contracts that already pass E0. Identity/death, protagonist advantage, perception/evidence, custody, terrain and realm/macro contracts are explicit prerequisites for their dependent fixtures. Until those are selected/versioned and E0-passing, the authorized integrated scope stops at mortal-through-Qi-Condensation play; high-realm, unselected-advantage, identity-continuation and other candidate-dependent fixtures remain visibly `NOT RUN` rather than being approximated or allowed to block the bounded slice.
+   561→
+   562→Run all `X-*` combinations and the confirmatory human cohorts at `E4` across:
+   563→
+   564→- no advantage and each surviving candidate;
+   565→- mortal, Contact, later Qi Condensation, and high-realm fixtures;
+   566→- Free, Bound, and Single Chronicle modes;
+   567→- keyboard/mouse, controller, accessibility alternatives, 30/60/144 Hz presentation, renderer-disabled canon, and reference hardware;
+   568→- protagonist and isomorphic NPC controls.
+   569→
+   570→**Exit gate:** zero S0/S1, all locked confirmatory thresholds pass, and every result is traceable to fixture evidence. Failure returns only the affected contracts and downstream dependents to repair; it does not erase unrelated research.
+   571→
+   572→---
+   573→
+   574→## 13. Required outputs
+   575→
+   576→The next phase should produce:
+   577→
+   578→1. a ratified measurement and participant protocol;
+   579→2. versioned fixture manifests and facilitator scripts;
+   580→3. blinded discovery and confirmation reports with raw aggregate measures and dissent;
+   581→4. exploit traces and repair/re-audit ledger;
+   582→5. player/NPC normalized parity reports for every convenience compiler;
+   583→6. control workload/accessibility report;
+   584→7. mortal/cultivation pacing and voluntary-continuation report;
+   585→8. catastrophe/loss/save-mode comprehension report;
+   586→9. reference-hardware benchmark report only after authorized executable testing; and
+   587→10. a promotion index that says `PASS`, `FAIL`, or `NOT RUN` for every fixture without converting untested hypotheses into canon.
+   588→
+   589→No marketing claim may use “fun,” “AAA,” “living universe,” “infinite,” “fully simulated,” “fair,” or “playable” as a verified fact until the relevant locked evidence stage has passed.
+   590→

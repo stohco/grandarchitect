@@ -1,0 +1,516 @@
+     1→     1→# Apex Cosmology and Xianxia Continuity — Pre-Canon Candidate Review Draft v0.1
+     2→     2→
+     3→     3→**Status:** original design research; pre-canon; no realm ladder, cosmology, soul model, protagonist advantage, or game code authorized  
+     4→     4→**Purpose:** test whether several microcosm → macrocosm → apex structures can preserve xianxia cultivation, mortal continuity, ontological rigor, player/NPC parity, and original expression at extreme scale  
+     5→     5→**Consumes:** Cultivation Foundations Release Index, Terminology Foundation, Identity/Death Models, Qi Condensation Envelope, Time/Catastrophe Architecture, Er Gen/Gemini Mechanics Critique, Next-Phase Source Workplan, and Gameplay Gauntlet Workplan  
+     6→     6→**Project boundary:** every title and stage label below is a workshop description, not final lore or player-facing terminology
+     7→     7→
+     8→     8→---
+     9→     9→
+    10→    10→## 0. Review question
+    11→    11→
+    12→    12→The project needs an apex that feels like the culmination of cultivation rather than a change of genre into superhero statistics, strategy-game administration, abstract database access, or arbitrary omnipotence.
+    13→    13→
+    14→    14→This review asks:
+    15→    15→
+    16→    16→> Can mortal embodied practice grow into cosmological agency while body, qi, heart-mind, spirit, personhood, Dao/path, world patterns, relationships, institutions, and consequences remain meaningfully distinct?
+    17→    17→
+    18→    18→The candidates are deliberately incompatible emphases. They are not four regions of one secretly selected cosmology. The user may choose one, request hybrids only after a composition audit, defer all, or reject all.
+    19→    19→
+    20→    20→---
+    21→    21→
+    22→    22→## 1. Terms used only for analysis
+    23→    23→
+    24→    24→### 1.1 Microcosm, macrocosm, and apex
+    25→    25→
+    26→    26→- **Microcosm** means the cultivator's situated, embodied field of practice: body, qi relations, attention, heart-mind, learned operations, environment, teachers, materials, and consequences. It does not assert that “ancient Chinese people believed the body literally contained a universe.”
+    27→    27→- **Macrocosm** means progressively larger relations in which practice can participate: household, ecology, institution, terrain, region, world, routes between worlds, and long causal history. It does not mean a larger health bar.
+    28→    28→- **Apex** means the maximum player-facing cultivation condition under study. It is not a final realm name, numbered “step,” translator equivalence, or statement that nothing can exist beyond it.
+    29→    29→- **Apex immortal** is an analytical placeholder for a cultivator who has reached that candidate's highest tested condition. **Immortal** here does not guarantee absolute deathlessness, invulnerability, permanent identity, moral superiority, or exemption from causality.
+    30→    30→
+    31→    31→The research must locate the histories and modern genre uses of microcosm–macrocosm comparison and immortality/transcendence before any cultural claim is made. These English analytical terms create no historical lineage by themselves.
+    32→    32→
+    33→    33→### 1.2 No automatic ladder
+    34→    34→
+    35→    35→Each candidate is expressed as functional bands:
+    36→    36→
+    37→    37→```text
+    38→    38→mortal situated life
+    39→    39→→ embodied establishment
+    40→    40→→ relational enlargement
+    41→    41→→ world-participating practice
+    42→    42→→ apex condition
+    43→    43→```
+    44→    44→
+    45→    45→Those bands are comparison scaffolds. They do not select realm names, stage count, breakthrough order, lifespan, tribulations, required institutions, or final Chinese terminology.
+    46→    46→
+    47→    47→---
+    48→    48→
+    49→    49→## 2. Ontology separation contract
+    50→    50→
+    51→    51→No candidate advances until every row below has its own source status, project definition, operations, evidence, failure modes, and relation to the others.
+    52→    52→
+    53→    53→| Domain | Minimum distinction | Forbidden collapse |
+    54→    54→|---|---|---|
+    55→    55→| **body / embodiment** | material and other ratified forms through which an actor exists and acts; capacities, needs, injuries, senses, age, environment and accessibility remain specific | body is not merely an avatar, qi container, disposable shell, or automatic proof of identity |
+    56→    56→| **qi** | a project-selected medium or family of relations with explicit sources, transport, transformation, information limits, conservation and failure | qi is not generic mana, joules, breath, life, morality, fate, spirit, or permission |
+    57→    57→| **heart-mind** | *xin*-related attention, affect, desire, judgment and intention only as separately researched and selected | heart-mind is not a detachable soul, spirit token, sanity bar, moral alignment, or mind-control defense stat |
+    58→    58→| **spirit** | *shen* or any project spirit concept only in the exact selected sense: presence, numinous efficacy, conscious spirit, deity/spirit being, or another bounded referent | spirit does not automatically establish consciousness, personhood, numerical identity, memory or survival after death |
+    59→    59→| **consciousness and agency** | capacities for experience, choice and responsibility under a selected model | consciousness is not ownership, social recognition, legal standing or proof of one metaphysical substance |
+    60→    60→| **personhood and identity continuity** | numerical identity, bodily/psychological/causal/cultivation continuity, social recognition, legal standing, oath liability and viewpoint succession are separate judgments | a copy, restored pattern, body, memory, name, spirit or save file does not become “the same person” by label |
+    61→    61→| **Dao / a dao / path** | Dao and particular paths retain their researched semantic and project-specific roles as way, practice, orientation, possibility, proof or another selected sense | Dao is not statute, engine privilege, spell school, mana element, moral goodness, fate or world-editor authority |
+    62→    62→| **world patterns** | observed or established causal regularities and compatible media at local or cosmic scales | world patterns are not automatically Dao, Heaven, karma, laws in a statutory sense, or immutable code |
+    63→    63→| **institutions and offices** | actual roles, lineages, sects, courts, temples, vows, territories and custody relations with witnesses, succession and enforcement | social or divine office does not prove ontic supremacy, Dao truth, identity or universal jurisdiction |
+    64→    64→| **optional modules** | Heaven, karma, fate, destiny, mandate, tribulation, rebirth and cosmic office remain separately researched candidates | none may become reputation, morality meter, RNG, difficulty scaling, automatic punishment or protagonist rescue |
+    65→    65→
+    66→    66→### 2.1 Cross-domain rule
+    67→    67→
+    68→    68→A breakthrough may relate several domains, but no relation establishes identity. For example, a bodily transformation may alter qi routing and attention without producing a new spirit; a spirit continuity may persist without proving the same person; Dao insight may change practice without editing world truth; an institution may recognize an attainment without creating it.
+    69→    69→
+    70→    70→---
+    71→    71→
+    72→    72→## 3. What makes an apex remain xianxia
+    73→    73→
+    74→    74→Every candidate must retain all of the following:
+    75→    75→
+    76→    76→1. **Cultivation remains practiced transformation.** Teaching, self-correction, resources, body, environment, time, insight, failure and consequence matter at every scale.
+    77→    77→2. **Breakthroughs change relations and verbs.** They do not merely multiply damage, lifespan or menu permissions.
+    78→    78→3. **Dao/path remains lived and contestable.** A path is demonstrated through action, consequence and continued practice, not selected as a character class or declared true by UI.
+    79→    79→4. **The mortal world remains causally real.** Food, care, disability, labor, ritual, law, kinship, memory, places and institutions do not become meaningless scenery.
+    80→    80→5. **Lineage and transmission remain possible without becoming mandatory uniformity.** Teachers, students, rivals, texts, embodied demonstration, institutions and independent discovery can preserve or transform a practice.
+    81→    81→6. **Immortality remains a question, not a free premise.** Longevity, transformed embodiment, persistence, resurrection, reincarnation, successorhood and remembrance stay distinct.
+    82→    82→7. **Combat and noncombat agency grow together.** Preservation, travel, repair, teaching, mediation, concealment, construction, ecology, testimony and refusal remain as real as destruction.
+    83→    83→8. **Apex action has sources, preparation, interfaces, counters, uncertainty and aftermath.** No one gains root access to reality.
+    84→    84→9. **NPC parity survives.** An isomorphic non-player cultivator receives the same ontology, operations, costs, risks and possible apex.
+    85→    85→10. **Cultural fluency is carried by researched concepts and coherent practice, not decorative Chinese syllables or copied ladders.**
+    86→    86→
+    87→    87→---
+    88→    88→
+    89→    89→## 4. Common apex action contract
+    90→    90→
+    91→    91→Before any apex feat is admitted, it must declare:
+    92→    92→
+    93→    93→```text
+    94→    94→actor and embodiment state
+    95→    95→available evidence and uncertainty
+    96→    96→selected operation and target relation
+    97→    97→source and contribution ledger
+    98→    98→claim scope and support
+    99→    99→geometry, routes, anchors and compatible media
+   100→   100→preparation, reaction and commitment milestones
+   101→   101→duration, concurrency and attention
+   102→   102→counteractors and interruption surfaces
+   103→   103→body, qi, heart-mind and spirit consequences where applicable
+   104→   104→personhood/identity judgments touched, if any
+   105→   105→institutional, legal, ritual and ecological consequences
+   106→   106→optional Heaven/karma/fate/tribulation modules, if separately ratified
+   107→   107→failure transitions and irreversibility
+   108→   108→persistent aftermath and future-refinement obligations
+   109→   109→```
+   110→   110→
+   111→   111→Scale can enlarge these fields. It cannot remove them.
+   112→   112→
+   113→   113→---
+   114→   114→
+   115→   115→## 5. Candidate A — Reciprocal Microcosm
+   116→   116→
+   117→   117→**Workshop thesis:** cultivation deepens the ability to maintain coherent exchange among embodiment, environment and multiple incompatible conditions. The apex fantasy is not “a universe stored in the body”; it is becoming capable of hosting and mediating a bounded living concord without erasing its participants.
+   118→   118→
+   119→   119→### 5.1 Functional ascent
+   120→   120→
+   121→   121→| Band | Candidate transformation | New operation families |
+   122→   122→|---|---|---|
+   123→   123→| mortal situated life | learns bodily limits, care, craft, ecology and reciprocal dependence | observe, regulate, nourish, shelter, cooperate, recover |
+   124→   124→| embodied establishment | establishes a stable cultivated circulation and discriminates internal/external changes without treating the body as a closed machine | route, buffer, exchange, diagnose, vent, retain |
+   125→   125→| relational enlargement | extends supported exchange into tools, formations, sites, companions and local ecologies | couple, translate medium, quarantine, balance throughput, share burden |
+   126→   126→| world participation | mediates incompatible climates, qi ecologies, spatial conditions or world patterns across a bounded territory | establish interface, sustain refuge, reconcile boundary, restore cycle |
+   127→   127→| apex condition | can found and maintain a finite concordant habitat in which several otherwise incompatible causal ecologies coexist while retaining separate histories and agency | host, translate, partition, reconnect, seed succession, relinquish stewardship |
+   128→   128→
+   129→   129→### 5.2 Domain behavior
+   130→   130→
+   131→   131→- **Body:** remains the first learned ecology and a continuing source of vulnerability and knowledge; later embodiments do not become disposable.
+   132→   132→- **Qi:** transports and transforms contribution across interfaces; it is not the habitat's only substance or source.
+   133→   133→- **Heart-mind:** manages attention, intention, tolerance of contradiction and prioritization; it does not command inhabitants.
+   134→   134→- **Spirit:** may support presence or communication only if a selected spirit model permits it.
+   135→   135→- **Personhood:** every inhabitant remains a person under the selected ontology; being hosted creates no ownership or identity absorption.
+   136→   136→- **Dao/path:** demonstrated through sustaining reciprocal conditions and accepting constraints; not universal ecological morality.
+   137→   137→
+   138→   138→### 5.3 Apex immortal can
+   139→   139→
+   140→   140→- mediate a finite boundary between otherwise incompatible environments;
+   141→   141→- sustain a refuge or nursery through declared sources, anchors and maintenance;
+   142→   142→- translate some forces, qi expressions or local patterns across that boundary;
+   143→   143→- preserve histories, remains and causal traces through a world transition when physically and ontically supported;
+   144→   144→- teach others to operate parts of the concord independently; and
+   145→   145→- withdraw, leaving a viable successor system if enough structure and stewardship exist.
+   146→   146→
+   147→   147→### 5.4 Apex immortal cannot
+   148→   148→
+   149→   149→- create unlimited matter, qi, life or persons from nothing;
+   150→   150→- make hosted inhabitants extensions, inventory or dream-figures of the host;
+   151→   151→- become omniscient or omnipotent “inside” the habitat;
+   152→   152→- declare incompatible patterns compatible without transformation, loss or consequence;
+   153→   153→- guarantee ecological harmony, moral agreement or permanent stability;
+   154→   154→- restore numerical identity merely by preserving a pattern; or
+   155→   155→- hide external costs inside a private-world abstraction.
+   156→   156→
+   157→   157→### 5.5 Gameplay promise and risk
+   158→   158→
+   159→   159→**Promise:** habitat building, evacuation, mediation, ecological restoration, defensive combat and world-scale stewardship become one coherent family of increasingly expressive operations.
+   160→   160→
+   161→   161→**Risk:** it can collapse into a familiar inner-world inventory trope, a benevolent empire simulator, or omnipotence inside a pocket dimension. Any implementation that makes inhabitants nonpersons or turns hosting into owner permissions fails immediately.
+   162→   162→
+   163→   163→---
+   164→   164→
+   165→   165→## 6. Candidate B — Paths Across Horizons
+   166→   166→
+   167→   167→**Workshop thesis:** cultivation begins with learning routes through the body and matures into establishing traversable, maintained relations across otherwise separated places and conditions. The apex fantasy is opening a genuinely new cosmic path, not teleporting by menu or owning every destination.
+   168→   168→
+   169→   169→### 6.1 Functional ascent
+   170→   170→
+   171→   171→| Band | Candidate transformation | New operation families |
+   172→   172→|---|---|---|
+   173→   173→| mortal situated life | learns paths of labor, trade, kinship, pilgrimage, danger and return | navigate, remember route, guide, mark, negotiate passage |
+   174→   174→| embodied establishment | establishes reliable qi and attention routes with known bottlenecks and recovery | circulate, redirect, bypass, seal route, reopen route |
+   175→   175→| relational enlargement | reads and alters supported routes among people, techniques, terrain, institutions and local spaces | trace, bridge, divert, gate, escort, interdict with actual standing/support |
+   176→   176→| world participation | creates or repairs routes between distant regions or world conditions with anchors, schedules and transit ecology | establish corridor, translate transit state, maintain threshold, rescue stranded travelers |
+   177→   177→| apex condition | can originate a finite durable path between previously disconnected cosmic ecologies and make it independently traversable under explicit conditions | open horizon, stabilize passage, publish conditions, distribute anchors, close responsibly |
+   178→   178→
+   179→   179→### 6.2 Domain behavior
+   180→   180→
+   181→   181→- **Body:** teaches route, obstruction, rhythm, fatigue and adaptation; bodily routes are not maps of all reality.
+   182→   182→- **Qi:** supports traversal and route transformation but cannot carry arbitrary identity, ownership or truth.
+   183→   183→- **Heart-mind:** holds orientation, divided attention and intention under extreme distance; it is not a universal targeting system.
+   184→   184→- **Spirit:** may extend presence or signaling only through supported routes and the selected spirit ontology.
+   185→   185→- **Personhood:** transit, projection and remote embodiment each receive independent identity judgments.
+   186→   186→- **Dao/path:** “path” is operative as practiced possibility and passage, while Dao remains broader or different if canon selects it so; the English overlap does not prove identity.
+   187→   187→
+   188→   188→### 6.3 Apex immortal can
+   189→   189→
+   190→   190→- create a traversable relation where none previously existed, given sufficient knowledge, support and compatible endpoints;
+   191→   191→- make route conditions inspectable rather than secretly privileging the protagonist;
+   192→   192→- move or coordinate large cohorts without issuing one command per traveler;
+   193→   193→- redirect attacks, evacuations, trade, messages or ecological flows through maintained pathways;
+   194→   194→- contest another path by anchors, timing, medium, destination relations and support; and
+   195→   195→- leave routes that outlast the founder if maintenance and succession are real.
+   196→   196→
+   197→   197→### 6.4 Apex immortal cannot
+   198→   198→
+   199→   199→- arrive where no route, relation, anchor or compatible transition exists;
+   200→   200→- treat distance as deleted rather than transformed;
+   201→   201→- know what lies at an unobserved destination;
+   202→   202→- own people, places or goods merely because their route carried them;
+   203→   203→- make passage safe, instantaneous, costless or one-way by UI declaration;
+   204→   204→- merge endpoint laws, Daos, histories or identities; or
+   205→   205→- escape all confinement, causality or consequence by calling everything a path.
+   206→   206→
+   207→   207→### 6.5 Gameplay promise and risk
+   208→   208→
+   209→   209→**Promise:** bodily cultivation, movement combat, exploration, trade, rescue, migration, formation networks and cosmic travel share one deep grammar.
+   210→   210→
+   211→   211→**Risk:** it can become unrestricted fast travel, portal spam, administrative logistics, or a renamed spatial superpower. If route work no longer requires embodied understanding, endpoint relations, maintenance or uncertainty, the candidate fails.
+   212→   212→
+   213→   213→---
+   214→   214→
+   215→   215→## 7. Candidate C — Transformative Succession
+   216→   216→
+   217→   217→**Workshop thesis:** cultivation deepens the ability to carry viable relation and meaning through irreversible transformation. The apex fantasy is shepherding a dying world into a genuinely new successor ecology without pretending that loss, death or personal identity has been undone.
+   218→   218→
+   219→   219→### 7.1 Functional ascent
+   220→   220→
+   221→   221→| Band | Candidate transformation | New operation families |
+   222→   222→|---|---|---|
+   223→   223→| mortal situated life | lives through seasons, aging, injury, mourning, inheritance, repair and institutional memory | preserve, compost, repair, teach, mourn, bequeath |
+   224→   224→| embodied establishment | learns controlled refinement, shedding, healing and changed equilibrium without reset | transform residue, consolidate scar, redirect decay, recover differently |
+   225→   225→| relational enlargement | guides households, lineages, ecologies, techniques and settlements through disruptive change | triage, conserve seed, archive trace, transfer stewardship, adapt practice |
+   226→   226→| world participation | manages finite world-scale cycles of depletion, catastrophe, dormancy, migration and renewal | preserve viable relations, release failed structures, establish successor conditions |
+   227→   227→| apex condition | can guide a terminal world process into one or more successor ecologies while conserving declared matter, contribution, evidence and selected continuities | shepherd ending, partition inheritance, seed successor, witness loss, relinquish predecessor |
+   228→   228→
+   229→   229→### 7.2 Domain behavior
+   230→   230→
+   231→   231→- **Body:** aging, scars, death and transformation remain informative; refinement is not automatic rejuvenation.
+   232→   232→- **Qi:** can be conserved, transformed, dispersed or rendered unusable according to the selected model; it does not guarantee life.
+   233→   233→- **Heart-mind:** bears grief, judgment and changing commitment; emotional pain is not a resource or required moral purity.
+   234→   234→- **Spirit:** persistence, dissolution or transformation remains conditional on the selected spirit model.
+   235→   235→- **Personhood:** successor ecology, descendant, copy, reincarnation, restored memory and viewpoint continuation never prove numerical identity.
+   236→   236→- **Dao/path:** a path is shown by how it meets change and what it can carry forward, not by immunity to endings.
+   237→   237→
+   238→   238→### 7.3 Apex immortal can
+   239→   239→
+   240→   240→- perceive and influence some long processes of decay, exhaustion, migration and renewal;
+   241→   241→- preserve bounded archives, seeds, techniques, ecologies, remains and testimony through catastrophe;
+   242→   242→- allocate contribution among incompatible successor possibilities;
+   243→   243→- refuse false restoration and expose what cannot be conserved;
+   244→   244→- help institutions and peoples choose different continuities; and
+   245→   245→- continue acting through a selected survival/identity model if its conditions genuinely hold.
+   246→   246→
+   247→   247→### 7.4 Apex immortal cannot
+   248→   248→
+   249→   249→- rewind the world, restore every victim or make irreversible events unhappen;
+   250→   250→- declare a successor to be the same world or person;
+   251→   251→- preserve all information, species, cultures, obligations and possibilities simultaneously;
+   252→   252→- convert grief, sacrifice or death into guaranteed power;
+   253→   253→- make decay morally deserved or renewal morally superior;
+   254→   254→- exempt the protagonist from the same succession rules; or
+   255→   255→- call a branching copy “reincarnation” without a selected ontology.
+   256→   256→
+   257→   257→### 7.5 Gameplay promise and risk
+   258→   258→
+   259→   259→**Promise:** recovery, inheritance, ecology, catastrophe, death, archives and cosmic-scale cultivation remain part of one life rather than reset mechanics.
+   260→   260→
+   261→   261→**Risk:** it can aestheticize mass death, make catastrophe a progression resource, enforce sacrificial morality, or disguise save/reload as cosmology. Any design that requires disposable civilizations, compulsory grief, or identity hand-waving fails.
+   262→   262→
+   263→   263→---
+   264→   264→
+   265→   265→## 8. Candidate D — A Path That Outlives Its Founder
+   266→   266→
+   267→   267→**Workshop thesis:** cultivation culminates not in owning reality but in establishing a new, independently viable way of transformation that other persons can test, alter, refuse and carry beyond the founder. The apex fantasy is creating possibility rather than universal command.
+   268→   268→
+   269→   269→### 8.1 Functional ascent
+   270→   270→
+   271→   271→| Band | Candidate transformation | New operation families |
+   272→   272→|---|---|---|
+   273→   273→| mortal situated life | learns crafts, ethics, bodily practice, testimony, disagreement and teaching | imitate, question, demonstrate, revise, transmit |
+   274→   274→| embodied establishment | proves a bounded method through repeatable personal transformation and failure | practice, falsify, diagnose, correct, adapt |
+   275→   275→| relational enlargement | distinguishes transferable structure from founder-specific body, culture, resources and charisma | teach variants, compare evidence, establish lineage, permit dissent |
+   276→   276→| world participation | creates institutions, ecologies, materials and interfaces through which materially different beings can explore the path | publish conditions, distribute practice, protect plurality, expose failure |
+   277→   277→| apex condition | establishes an original path whose core transformation remains possible after the founder's withdrawal or death, without making every practitioner identical | found possibility, release monopoly, support divergence, receive contradiction |
+   278→   278→
+   279→   279→### 8.2 Domain behavior
+   280→   280→
+   281→   281→- **Body:** every practitioner must embody the path differently; no universal human male body becomes the template for all species or persons.
+   282→   282→- **Qi:** a path may use qi but cannot define all qi or deny other transformations by declaration.
+   283→   283→- **Heart-mind:** intention, affect and judgment influence practice without becoming mandatory personality or moral alignment.
+   284→   284→- **Spirit:** a path may cultivate a spirit relation only if separately established and cannot use it as automatic personhood proof.
+   285→   285→- **Personhood:** students, created consciousnesses and successors remain independent persons; lineage does not absorb identity.
+   286→   286→- **Dao/path:** this candidate makes a particular practiced path central while refusing the claim that one founded path exhausts Dao or all possible ways.
+   287→   287→
+   288→   288→### 8.3 Apex immortal can
+   289→   289→
+   290→   290→- establish a transformation that others can reproduce under disclosed conditions;
+   291→   291→- create methods, sites, institutions, artifacts or ecologies that support different embodiments of the path;
+   292→   292→- recognize valid divergence rather than only exact imitation;
+   293→   293→- contest rival claims through consequences, evidence and action;
+   294→   294→- relinquish control without the path vanishing immediately; and
+   295→   295→- remain influential through teaching and causal history without that influence proving personal survival.
+   296→   296→
+   297→   297→### 8.4 Apex immortal cannot
+   298→   298→
+   299→   299→- make belief true, compel disciples, own a lineage or monopolize Dao;
+   300→   300→- grant attainment through title, certification, worship or proximity alone;
+   301→   301→- ensure every body, culture, species or world can practice the same method;
+   302→   302→- define dissent as qi deviation, inner demon, sin or ontic corruption by default;
+   303→   303→- make institutional success proof of cosmological truth;
+   304→   304→- copy a famous fictional path, founder arc, ladder or signature method; or
+   305→   305→- turn all endgame play into sect administration.
+   306→   306→
+   307→   307→### 8.5 Gameplay promise and risk
+   308→   308→
+   309→   309→**Promise:** teaching, experimentation, institutions, companions, procedural variation, rivalry and legacy become genuine apex play while preserving individual agency.
+   310→   310→
+   311→   311→**Risk:** it can become a religion simulator, moral conquest, prestige tree, or passive empire management. If followers are resources, disagreement is always failure, or institutional scale replaces personal cultivation, the candidate fails.
+   312→   312→
+   313→   313→---
+   314→   314→
+   315→   315→## 9. Comparative matrix
+   316→   316→
+   317→   317→| Axis | Reciprocal Microcosm | Paths Across Horizons | Transformative Succession | Path Outliving Founder |
+   318→   318→|---|---|---|---|---|
+   319→   319→| central apex verb | host/mediate | connect/open | carry through change | establish/release |
+   320→   320→| mortal root | care and ecology | travel and relation | repair and inheritance | craft and teaching |
+   321→   321→| combat expression | medium translation, containment, refuge | route control, redirection, threshold contest | preservation, transformation, triage | adaptive methods, counter-proof, distributed practice |
+   322→   322→| noncombat expression | habitat, healing ecology, diplomacy | exploration, migration, communication, trade | recovery, archives, succession, catastrophe stewardship | teaching, research, institutions, plural lineages |
+   323→   323→| strongest temptation | private-world omnipotence | unrestricted teleportation | aestheticized catastrophe | compulsory doctrine/empire |
+   324→   324→| identity pressure | inhabitants inside hosted condition | transit/projection/remote embodiment | predecessor and successor sameness | founder survival through legacy |
+   325→   325→| minimum distinct counterplay | incompatible media, maintenance, inhabitant agency | broken endpoints, false maps, route contest | irrecoverable loss, competing successor claims | failure evidence, bodily difference, dissent |
+   326→   326→| apex remains finite because | habitat and attention are bounded | paths require endpoints/support | not all continuities can be preserved | path viability does not equal control |
+   327→   327→
+   328→   328→The candidates fail differentiation if playtests reduce all four to “place area effect, spend qi, receive followers, ignore distance.”
+   329→   329→
+   330→   330→---
+   331→   331→
+   332→   332→## 10. Universal apex permissions and prohibitions
+   333→   333→
+   334→   334→These are candidate-review constraints, not lore.
+   335→   335→
+   336→   336→### 10.1 An admitted apex may be able to
+   337→   337→
+   338→   338→- act across world-scale distances or durations through explicit routes, sources, anchors, embodiments or institutions;
+   339→   339→- alter bounded world conditions through supported operations and persistent contribution;
+   340→   340→- create habitats, routes, successor conditions or independently viable practices, depending on the selected candidate;
+   341→   341→- survive bodily destruction only if a separately selected identity/continuity model supports that exact transition;
+   342→   342→- perceive and coordinate far more than a lower cultivator while retaining uncertainty, attention limits, concealment and counter-detection;
+   343→   343→- preserve, transform, redirect or contain catastrophic processes without guaranteeing success; and
+   344→   344→- leave causal structures that outlast their immediate presence.
+   345→   345→
+   346→   346→### 10.2 No admitted apex may
+   347→   347→
+   348→   348→- edit engine variables, database state, narrative flags or “reality code” as its ontology;
+   349→   349→- become omnipotent, omniscient, omnipresent or infinitely concurrent;
+   350→   350→- create contribution, matter, qi, persons, identity, ownership, legitimacy or moral truth by declaration;
+   351→   351→- treat a world, species, population, disciple, copy, spirit or created consciousness as inventory;
+   352→   352→- make Dao equivalent to statutory law, universal permission or spell-school ownership;
+   353→   353→- make qi equivalent to a universal energy bar or sufficient proof of every capability;
+   354→   354→- make *xin*, *shen*, consciousness, soul, personhood, memory and identity interchangeable;
+   355→   355→- erase causal history, committed costs, witnesses, scars or externalized harm;
+   356→   356→- guarantee resurrection, reincarnation, restoration, refuge or successorhood because the actor is the protagonist;
+   357→   357→- automatically defeat lower beings, ignore uncovered interfaces, or trigger universal worship/kowtow;
+   358→   358→- convert karma, fate, Heaven, mandate, tribulation or office into a moralized difficulty controller; or
+   359→   359→- bypass the same semantic resolver, catastrophe contract and NPC-parity rules that govern everyone else.
+   360→   360→
+   361→   361→---
+   362→   362→
+   363→   363→## 11. Cultural and source research gates
+   364→   364→
+   365→   365→No candidate enters user selection until the Next-Phase Source Workplan passes for every claim it touches.
+   366→   366→
+   367→   367→### 11.1 Required claim-card families
+   368→   368→
+   369→   369→1. qi, Dao, *xin*, *shen*, *jing*, *xing* and *ming*;
+   370→   370→2. immortality, transcendence, longevity, transformed embodiment, ascent and celestial/divine office as distinct source concepts;
+   371→   371→3. microcosm–macrocosm language in the exact historical, religious, medical, literary and scholarly contexts used;
+   372→   372→4. body/landscape relation, inner alchemy, lineage, teaching, vows, domains, world patterns, creation/formation and cosmic cycles;
+   373→   373→5. Buddhist, Daoist, Confucian, local-religious, medical, literary and modern-genre identity/death materials kept in separate tracks;
+   374→   374→6. modern licensed xianxia depictions of inner worlds, domains, world creation, route transcendence, reincarnation, apex ranks and founded Daos; and
+   375→   375→7. translator notes and English terminology without treating translation aids as authorial identity.
+   376→   376→
+   377→   377→### 11.2 Cultural scope gates
+   378→   378→
+   379→   379→- No source may authorize “Chinese belief,” “Daoist cosmology,” “Buddhist reincarnation,” “the Chinese soul,” or “traditional cultivation” as a singular universal.
+   380→   380→- Historical/religious materials, modern lived practice, modern genre convention and original design remain visibly separate.
+   381→   381→- The body is not assumed male, able-bodied, human, reproductively normative or anatomically universal.
+   382→   382→- *Shen* is never translated into an identity-bearing soul without passage-level and ontology-level support.
+   383→   383→- Microcosm–macrocosm correspondence is not converted into literal anatomy or medical advice.
+   384→   384→- Immortality is not silently mapped to Western absolute deathlessness or moral divinity.
+   385→   385→- Ritual, hierarchy, lineage, office and deference remain culturally situated relations, not automatic mechanics.
+   386→   386→- Minority, frontier, diaspora and non-Han materials receive their own qualified scope and are not decorative variation on a Han default.
+   387→   387→
+   388→   388→### 11.3 Genre corpus gates
+   389→   389→
+   390→   390→- Any claim of a sampled genre convention meets the multilingual/licensed thresholds in the Source Workplan.
+   391→   391→- At least three materially different apex implementations and two counterexamples are coded before a project abstraction advances.
+   392→   392→- One author, translator, platform, fan chart or shared-universe comparison can never establish the project's apex.
+   393→   393→- Speaker-relative claims, poetic descriptions, feats, titles, ranks and translator mappings remain distinct.
+   394→   394→- Absence of a limit in one chapter is not evidence of omnipotence.
+   395→   395→
+   396→   396→### 11.4 Reviewer gate
+   397→   397→
+   398→   398→Source-language/translation, history of Chinese religions/philosophies, modern xianxia, identity/death, disability/body, cultural sensitivity, originality, gameplay and continuity reviewers must independently close their own domains. The synthesis author cannot close a cultural or originality S1 against their own draft.
+   399→   399→
+   400→   400→---
+   401→   401→
+   402→   402→## 12. Originality gate
+   403→   403→
+   404→   404→Every candidate must pass the Source Workplan's full originality red-team. At minimum:
+   405→   405→
+   406→   406→- workshop titles are replaced only after name-level corpus and linguistic review;
+   407→   407→- no named ladder, numbered “steps,” bridge sequence, immortal rank chain, signature artifact, famous technique, shared-world cosmology or protagonist-specific route is imported;
+   408→   408→- removing the strongest individual inspiration leaves the candidate's core operation, mortal root, progression, failure and apex intact;
+   409→   409→- changing proper nouns cannot be used to disguise copied structure;
+   410→   410→- the combination of operation, cost, progression, imagery, institution and climax does not identify one source to blinded reviewers;
+   411→   411→- no candidate is a collage of recognizable Er Gen or other popular-work parts;
+   412→   412→- visual identity, spatial motifs, breakthrough staging and catastrophe imagery receive the same review as prose/mechanics; and
+   413→   413→- procedural generation uses only cleared primitives and cannot reconstruct source fingerprints through recombination.
+   414→   414→
+   415→   415→These candidates are functional abstractions. Their eventual cultures, histories, terms, iconography and metaphors must be authored from the selected original universe rather than pasted onto this review.
+   416→   416→
+   417→   417→---
+   418→   418→
+   419→   419→## 13. Candidate-specific paper fixtures
+   420→   420→
+   421→   421→Each candidate must pass all fixtures at mortal, early Qi Condensation, later local, world-participating and apex bands.
+   422→   422→
+   423→   423→### 13.1 Common fixtures
+   424→   424→
+   425→   425→- **Mortal root:** show three ordinary-life decisions whose learned relations later matter at apex; no retroactive destiny marker.
+   426→   426→- **First cultivation:** produce a genuinely new verb without solving mortal food, care, disability, debt, law or relationship play.
+   427→   427→- **Peer conflict:** win, lose, disengage, negotiate and protect through different supported relations.
+   428→   428→- **Cross-band conflict:** a lower actor changes outcome through preparation, an uncovered interface, institution, environment, evidence or dependent relation.
+   429→   429→- **Teaching:** transmit something useful without copying attainment or personality.
+   430→   430→- **Catastrophe:** preserve or change consequences without erasing the event.
+   431→   431→- **Identity:** test body loss, copy, restored pattern, possession, reincarnation claim and viewpoint successor under every surviving identity model.
+   432→   432→- **Institution:** test recognition, dissent, succession, coercion and corruption without making status equal truth.
+   433→   433→- **No-protagonist:** an isomorphic NPC reaches and uses the same apex.
+   434→   434→- **Absence:** remove the apex actor; ordinary people, lower cultivators, ecologies and institutions still produce coherent history.
+   435→   435→
+   436→   436→### 13.2 Candidate discriminators
+   437→   437→
+   438→   438→- **Reciprocal Microcosm:** inhabitants successfully oppose the host; a habitat survives founder withdrawal; an incompatible medium cannot be wished away.
+   439→   439→- **Paths Across Horizons:** an unknown endpoint defeats perfect routing; a route carries no ownership; broken support strands the apex actor.
+   440→   440→- **Transformative Succession:** some valued continuity must be lost; a successor is not mislabeled identical; catastrophe cannot be profitably farmed.
+   441→   441→- **Path Outliving Founder:** students produce legitimate divergence; an institution succeeds while one doctrine claim fails; founder death does not answer identity through legacy.
+   442→   442→
+   443→   443→---
+   444→   444→
+   445→   445→## 14. Harsh failure criteria
+   446→   446→
+   447→   447→Any one of the following is S1 unless it causes foundational identity/causal corruption, in which case it is S0:
+   448→   448→
+   449→   449→1. The apex is describable as root access, world editing, admin privilege, reality code, omnipotence or “whatever the plot needs.”
+   450→   450→2. Progression reduces to one scalar power, lifespan, energy, comprehension or jurisdiction score.
+   451→   451→3. Body, qi, heart-mind, spirit, consciousness, personhood, identity and Dao/path become one substance or interchangeable bars.
+   452→   452→4. A copied body, memory, spirit, pattern, world or lineage is declared numerically identical without the selected identity model.
+   453→   453→5. Mortal care, work, disability, ritual, law, ecology, relationships or institutions become irrelevant at apex.
+   454→   454→6. Apex immortality requires male, human, able-bodied or reproductively normative embodiment.
+   455→   455→7. A candidate makes catastrophe, sacrifice, followers, worship, grief or lower lives into automatic cultivation fuel.
+   456→   456→8. A candidate requires universal kowtow, obedience, insanity, surrender, moral deference or protagonist rescue in response to power.
+   457→   457→9. Dao becomes statute or owned spell school; qi becomes mana; karma becomes reputation; Heaven becomes difficulty scaling; tribulation becomes loot delivery.
+   458→   458→10. Apex perception becomes an ownership, intent, morality, identity, inventory, safe-target or future-truth oracle.
+   459→   459→11. The apex can create persons and then treat them as extensions, simulations or property.
+   460→   460→12. The design has no costs, counters, preparation, failure, uncertainty, persistent aftermath or NPC parity.
+   461→   461→13. A lower actor cannot matter through any indirect, prepared, relational, environmental, institutional or informational interface.
+   462→   462→14. Two or more candidates converge to the same play with different nouns.
+   463→   463→15. The candidate's xianxia identity depends on unexplained romanization, decorative architecture, copied realm labels or generic VFX rather than cultivation practice.
+   464→   464→16. A cultural claim lacks a scoped card or merges distinct traditions into an “ancient Eastern” synthesis.
+   465→   465→17. A blinded originality review repeatedly identifies one protected source from the candidate's combined structure or expression.
+   466→   466→18. The candidate requires an unselected soul, Heaven, karma, fate, tribulation, reincarnation or world-law module to function.
+   467→   467→19. Player status supplies survival, opportunity, truth, resources or permissions unavailable to an isomorphic NPC.
+   468→   468→20. Presentation scale requires the renderer to own canon or whole-universe high-detail simulation.
+   469→   469→
+   470→   470→---
+   471→   471→
+   472→   472→## 15. Acceptance matrix
+   473→   473→
+   474→   474→A candidate may enter a user-facing comparison only when every row is PASS:
+   475→   475→
+   476→   476→| Gate | Required evidence |
+   477→   477→|---|---|
+   478→   478→| xianxia continuity | all ten constraints in section 3 pass across mortal through apex fixtures |
+   479→   479→| domain separation | every section 2 domain has an independent contract and cross-domain tests |
+   480→   480→| apex finitude | explicit can/cannot envelope, counteractors, resource/support and failure fixtures |
+   481→   481→| identity | cross-product result under every surviving identity/death model; no silent selection |
+   482→   482→| cultural/source | all dependent claim cards and track reviews pass section 11 |
+   483→   483→| originality | full red-team and blinded review pass section 12 |
+   484→   484→| gameplay differentiation | common fixtures plus candidate discriminators produce materially different decisions |
+   485→   485→| mortal continuity | at least three mortal-root facts remain causally relevant at apex without destiny retrofitting |
+   486→   486→| NPC parity | isomorphic NPC obtains and uses the apex under the same rules |
+   487→   487→| optional modules | candidate still coheres when every unselected Heaven/karma/fate/tribulation/office module is absent |
+   488→   488→| continuity/performance | canonical result survives save/load, tier change, renderer-disabled execution and bounded analytical resolution |
+   489→   489→| review status | zero open S0/S1 and all unrun evidence remains labeled `NOT RUN` |
+   490→   490→
+   491→   491→Passing means only that the candidate is coherent enough for user comparison. It does not make the candidate canon.
+   492→   492→
+   493→   493→---
+   494→   494→
+   495→   495→## 16. Decision questions reserved for the user
+   496→   496→
+   497→   497→After the gates pass, the user should receive concrete scenario comparisons addressing:
+   498→   498→
+   499→   499→1. Is the desired apex fantasy primarily **hosting**, **connecting**, **carrying through transformation**, **founding a path**, or none of these?
+   500→   500→2. Should an apex be able to leave autonomous worlds/routes/practices, or should all such works require continuing maintenance?
+   501→   501→3. How much irreversible loss should remain beyond apex intervention?
+   502→   502→4. Which identity/death model, if any, makes continued first-person play through extreme transformation acceptable?
+   503→   503→5. Should the maximum player-facing condition be cosmologically maximal, locally maximal, or explicitly open-ended?
+   504→   504→6. Should multiple apexes coexist through different structures, or must one architecture define the universe?
+   505→   505→7. Which candidate creates the best mortal-to-apex life rather than only the best final spectacle?
+   506→   506→
+   507→   507→“None; research new candidates” remains a required option.
+   508→   508→
+   509→   509→---
+   510→   510→
+   511→   511→## 17. Review disposition
+   512→   512→
+   513→   513→This draft proposes four original candidate structures for adversarial research. It selects none.
+   514→   514→
+   515→   515→No apex name, realm sequence, cosmology, identity outcome, cultural claim, visual language, technique, protagonist privilege or implementation follows from this document. The next valid action is source-card work, originality review, identity cross-testing and paper fixtures—not lore ratification or code.
+   516→   516→

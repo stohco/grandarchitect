@@ -1,0 +1,877 @@
+     1→# Apex Technical Stress Review — Micro-to-Macro Cosmology Simulation and Generation — Draft v0.1
+     2→
+     3→**Status:** adversarial pre-canon architecture review; no cosmology, apex realm, world law, or protagonist power is selected  
+     4→**Date:** 2026-08-02  
+     5→**Target:** browser-delivered single-player game using Three.js with WebGPU as the preferred presentation path and renderer-independent canonical simulation  
+     6→**Reference machine:** GTX 1070 8 GB, i5-3570K, 8 GB system memory; 1080p 30 fps quality floor and 60 fps ordinary-scene target remain benchmark hypotheses, not promises  
+     7→**Code status:** no production code, prototype, dependency installation, content generation, benchmark result, or implementation authorization is created by this document  
+     8→**Consumes:** Grand Architect Foundation Package v0.1; Cultivation Foundations Release v0.1; `SEM-NORM-v0.1`; `ResolutionPolicy-v0.1(S,R,P,N)`; `TECH-DAG-v0.1`; `CatastropheContract-v0.1`; `HISTORY-QUERY-v0.1`; identity/death candidate models; and the next-phase evidence workplans  
+     9→
+    10→---
+    11→
+    12→## 0. Review disposition
+    13→
+    14→The project can represent play from a mortal hand-scale action to world-founding or world-destroying consequences only if it rejects one seductive premise: **scale cannot mean uniform simulation detail**.
+    15→
+    16→A browser cannot simulate every grain, person, spirit, ecosystem, formation, star, and causal interaction at local combat resolution. Nor is that required for a coherent universe. What is required is that every scale use the same semantic laws, preserve the same protected facts, commit changes through the same causal rules, and refine any region without contradicting what has already become observable.
+    17→
+    18→The technically defensible architecture is therefore:
+    19→
+    20→```text
+    21→immutable semantic law and typed operations
+    22→→ hierarchical topology and coordinate patches
+    23→→ event/state truth with conservative analytical processes
+    24→→ orthogonal simulation, rendering, persistence and significance policies
+    25→→ bounded local realization around observation and active commitments
+    26→→ deterministic promotion/demotion with protected-query equivalence
+    27→→ Three.js/WebGPU presentation as a view, never as truth
+    28→```
+    29→
+    30→This disposition is conditional. It does not prove that the full game is feasible, fun, culturally coherent, or affordable. It defines the architecture and tests that could falsify those claims before production.
+    31→
+    32→### 0.1 S0/S1 rules for this review
+    33→
+    34→- **S0:** an architecture necessarily corrupts causality, identity, conservation, topology, or committed history; relies on player-only physics; cannot terminate; or makes the requested game structurally impossible.
+    35→- **S1:** an architecture has an unbounded operation, hidden oracle, LOD-dependent truth, save/load divergence, generator incoherence, dominant endgame exploit, misleading performance guarantee, or reference-hardware design that cannot degrade safely.
+    36→- **Repair band:** a bounded representation, scheduling, tuning, or usability deficiency whose correction does not change world law.
+    37→
+    38→Any S0/S1 blocks the affected package. Ambition, visual spectacle, or average-case performance cannot waive a failed invariant.
+    39→
+    40→---
+    41→
+    42→## 1. Locked technical principles
+    43→
+    44→1. **One universe, many representations.** A hand, village, continent, world-body, plane, or cosmological domain may have different data structures and update rates, but an action still needs a source, target relation, support, geometry, timing, cost, counter, commitment point, propagation, and aftermath.
+    45→2. **No scalar level resolves reality.** Realm, scale, energy, narrative importance, render detail, simulation tier, persistence and causal significance remain separate axes.
+    46→3. **Topology precedes coordinates.** Containment, adjacency, reachability, portals, boundaries and causal routes are canonical. One global floating-point coordinate system is not.
+    47→4. **Events and protected state are truth.** Meshes, particles, textures, GPU buffers, cached voxels, navigation meshes and instanced crowds are rebuildable views.
+    48→5. **Generation proposes; contracts admit.** A seed may propose content. It may not silently invent ontology, evade invariants, decide identity, or repair an impossible history.
+    49→6. **Distant does not mean nonexistent.** Offscreen agents and processes may demote to schedules, cohorts, envelopes and summaries only while every protected future observation remains recoverable or conservatively bounded.
+    50→7. **Apex power is not an engine API.** World founding is not `createScene`; world destruction is not `deleteWorld`; time manipulation is not changing a global multiplier; resurrection is not cloning a save record.
+    51→8. **Canonical order ignores runtime order.** Frame rate, worker completion, network timing, browser throttling, GPU execution and traversal order never choose history.
+    52→9. **Failure is data.** If a solver, migration, normalizer, generator or proof exceeds its declared bounds, it returns a versioned failure or deferred result. It never guesses.
+    53→10. **No implementation before evidence.** Interfaces in this review are candidate research contracts, not authorized code or ratified canon.
+    54→
+    55→---
+    56→
+    57→## 2. Scale-independent semantic operations
+    58→
+    59→### 2.1 Candidate `APEX-OP-v0.1`
+    60→
+    61→Every mechanically active mortal or apex operation is represented by the same outer contract:
+    62→
+    63→```text
+    64→OperationId / SchemaVersion / CausalDomain
+    65→ActorOrPhysicalSource / AuthorizedControllers
+    66→EvidenceView / BelievedModel / Unknowns
+    67→Intent / GoalPredicate / Exclusions / FailurePolicy
+    68→TargetSelector / TargetRelation / ClaimScope / Support
+    69→TopologyRevision / CoordinatePatchSet / SemanticGeometry
+    70→Inputs / Sources / Reservations / ContributionLedger
+    71→PrepareMilestones / IrreversibleCommitPredicate
+    72→PropagationModel / BoundaryConditions / CounterWindows
+    73→ConservationAndTransformationRules
+    74→IdentityCustodyConsentAndAuthorityTouches
+    75→ExpectedAndMaximumConsequenceEnvelope
+    76→CatastropheEscalationPredicate
+    77→Outcome / Residuals / Debts / Evidence / Aftermath
+    78→PersistenceClass / SignificanceClass / ProtectedQueries
+    79→```
+    80→
+    81→The contract does not grant capability. It describes an attempted operation that ordinary world law may reject, partially resolve, redirect, counter, or make catastrophically expensive.
+    82→
+    83→### 2.2 Semantic similarity across scale
+    84→
+    85→An operation is scale-independent when increasing its extent changes typed inputs and affected topology, not the core meaning of its verbs.
+    86→
+    87→| Verb family | Mortal/local example | Apex example | Invariant that cannot change |
+    88→|---|---|---|---|
+    89→| perceive | inspect a wound or footprint | survey a world boundary or causal route | only established information enters `AuthorizedInformationView` |
+    90→| move/transport | carry a basket | translate a city, world-body or bounded domain | path, capacity, custody, collisions, arrivals and aftermath remain explicit |
+    91→| cut/sever | cut timber | sever a route, formation graph, continental plate or world connection | target relation, boundary, support, propagation and residual topology are recorded |
+    92→| bind/connect | tie a support | join routes, formations, worlds or time domains | endpoints, compatibility, authorization, load and failure mode remain explicit |
+    93→| transform | refine ore or qi relation | alter atmosphere, terrain regime or permitted field relation | sources, conservation, excluded states, transition interval and debt remain explicit |
+    94→| shelter/protect | brace a roof | establish a refuge region or world envelope | protected predicates, coverage evidence, capacity, leakage and counter remain bounded |
+    95→| create/found | build a dwelling | found a habitat, world-body or domain | materials/support, topology, inhabitants, identity, history and maintenance cannot appear from an engine call |
+    96→| destroy/unmake | collapse a wall | render a continent/world/domain uninhabitable or topologically severed | propagation, victims, escapes, remains, evidence, debts and remnant state persist |
+    97→
+    98→### 2.3 Composition and boundedness
+    99→
+   100→`APEX-OP-v0.1` consumes rather than replaces `TECH-DAG-v0.1`:
+   101→
+   102→- at most 64 semantic operation nodes, width 8, nesting depth 4, and 256 same-instant closure evaluations in one admitted contract;
+   103→- a macro target selector denotes a bounded cohort, topology range, field basis or route set; it does not expand millions of hidden target nodes into the action graph;
+   104→- work above the admitted target or closure bound becomes scheduled successor transactions with stable causal-chain identifiers and conserved contributions;
+   105→- every recursively capable operation class supplies a conservative terminal reducer;
+   106→- reaching a bound is `SPECIFICATION_DEFECT` or an explicit capacity failure, never an arbitrary winner or erased effect;
+   107→- `SEM-NORM-v0.1` compares semantic novelty. Scale, name, color, animation, numeric magnitude or number of fungible targets alone cannot create a new verb.
+   108→
+   109→### 2.4 Prepare, commit, propagate, arrive
+   110→
+   111→Large operations must distinguish four times:
+   112→
+   113→1. **Prepare:** resources, routes, anchors, collaborators, evidence and topology ranges are assembled. They may be interrupted or invalidated.
+   114→2. **Commit:** a declared source change becomes irreversible without a new counterevent. This does not mutate distant targets early.
+   115→3. **Propagate:** influence travels through the then-current topology/field model with certificates and counterwindows.
+   116→4. **Arrive:** local intersections commit against arrival-time occupancy, identity, shelter, custody and topology revisions.
+   117→
+   118→An apex action cannot use scale to collapse these times into one global mutation.
+   119→
+   120→### 2.5 Targets are relations, not object handles
+   121→
+   122→“The world,” “the enemy,” “all treasure,” “every hostile,” or “everyone inside” is never a sufficient target. A lawful target declares:
+   123→
+   124→- a topological range or query;
+   125→- a relation such as containment, exposure, custody, causal dependence, oath, support or physical intersection;
+   126→- the evidence by which the actor selected it;
+   127→- boundary and exact-edge rules;
+   128→- whether future entrants/exits are included;
+   129→- identity/cohort treatment;
+   130→- a maximum cardinality, extent or refinement policy; and
+   131→- a failure behavior when the target cannot be resolved within bounds.
+   132→
+   133→Stable identifiers break only exact semantic ties. They never decide moral priority, rightful ownership, physical dominance or who survives.
+   134→
+   135→---
+   136→
+   137→## 3. Hierarchical topology and coordinate architecture
+   138→
+   139→### 3.1 Canonical topology graph
+   140→
+   141→The universe uses a versioned multigraph, not one enormous Cartesian space. Candidate node classes are intentionally ontology-neutral:
+   142→
+   143→```text
+   144→CosmologicalDomainCandidate
+   145→  → PlaneOrSystemCandidate
+   146→    → WorldBodyOrHabitat
+   147→      → Region
+   148→        → SiteOrRouteComplex
+   149→          → ScenePatch
+   150→            → SurfaceOrVolumePatch
+   151→```
+   152→
+   153→These names describe storage and navigation roles, not ratified cosmology. A selected universe may omit, rename, duplicate or alter layers, but it still needs bounded containment and reachability interfaces.
+   154→
+   155→Canonical edge families include:
+   156→
+   157→- physical adjacency and containment;
+   158→- traversable route with capacity, direction, cost and travel-time model;
+   159→- portal, gate, pocket boundary or discontinuity with explicit transform;
+   160→- causal reach for a typed field or signal;
+   161→- dependency/support relation;
+   162→- administrative, social or ritual claim, kept distinct from physical access;
+   163→- observation/communication route; and
+   164→- ancestry/provenance of topology revisions.
+   165→
+   166→No edge is created because two visual chunks happen to be adjacent in memory.
+   167→
+   168→### 3.2 Coordinate patches
+   169→
+   170→Local precision uses coordinate patches with stable topology anchors:
+   171→
+   172→- positions inside an active patch use fixed-point or bounded local numeric formats selected by schema;
+   173→- camera and rendering use camera-relative floating coordinates rebuilt from canonical values;
+   174→- region/world travel uses patch transitions and route parameters rather than subtracting planet-scale floats;
+   175→- portals and non-Euclidean connections use versioned transforms with handedness, orientation, metric and time-boundary behavior;
+   176→- no position is identified solely by a floating triple;
+   177→- reparenting a patch is a topology transaction, not a silent coordinate rewrite.
+   178→
+   179→The renderer may shift origin every frame. Canonical positions do not.
+   180→
+   181→### 3.3 Spatial indexes are caches with revision contracts
+   182→
+   183→Each topology scope may maintain bounding-volume hierarchies, grids, sparse voxel indexes, navigation structures, field acceleration structures and visibility clusters. These are derived indexes. Every query result carries the topology/occupancy revision it used.
+   184→
+   185→Before a topology write commits, the active-process spatial index identifies every front, route solver, occupancy certificate or lower-bound certificate that may change. Each affected process must recompute, prove nonimpact, or join one coupled transaction. A stale index cannot authorize a commit.
+   186→
+   187→### 3.4 Topology seam rule
+   188→
+   189→Promoting two neighboring regions, opening a portal, cutting a route, moving a world, or changing a boundary must satisfy:
+   190→
+   191→```text
+   192→shared boundary revision
+   193→matching conserved flux/history
+   194→matching named and unique occupants
+   195→matching claims/custody/evidence
+   196→compatible field boundary conditions
+   197→no event inserted into committed past
+   198→```
+   199→
+   200→Failure yields a visible blocked transaction or repair fixture. It never generates filler at the seam.
+   201→
+   202→---
+   203→
+   204→## 4. Hierarchical fields, matter and influence
+   205→
+   206→### 4.1 Field contract
+   207→
+   208→A field is not a texture and not a universal aura number. A candidate `FIELD-ATLAS-v0.1` entry records:
+   209→
+   210→```text
+   211→FieldKind / OntologyDependency
+   212→Sources / Sinks / StoredQuantityOrRelation
+   213→TopologyDomain / BoundaryConditions
+   214→PropagationKernel / MaximumInfluenceEnvelope
+   215→ResolutionBasis / ErrorEnvelope
+   216→Couplings / Exclusions / Instabilities
+   217→ObservationInterfaces / ConcealmentInterfaces
+   218→ConservationOrDeclaredNonconservationRule
+   219→Revision / ProtectedQueries / ResidualEvents
+   220→```
+   221→
+   222→Until qi, spirit, Dao, domain or world-law ontology is selected, their field kinds remain typed placeholders. The architecture cannot infer that every supernatural relation is a scalar field.
+   223→
+   224→### 4.2 Multi-resolution representation
+   225→
+   226→A large field may use three concurrent representations:
+   227→
+   228→1. **Analytical envelope:** conservative reach, earliest arrival, maximum magnitude and known exclusions.
+   229→2. **Regional basis:** cells, graph modes, cohorts, watershed/route segments or low-order coefficients sufficient for protected queries.
+   230→3. **Local realization:** high-resolution samples, bodies, volumes and interactions near observation or active commitments.
+   231→
+   232→Promotion constrains the local realization to reproduce the parent boundary conditions, conserved totals and historical measurements. Demotion projects local residuals back into the regional basis and creates explicit named exceptions where aggregation would erase identity or causality.
+   233→
+   234→### 4.3 Matter and terrain
+   235→
+   236→Matter is split by gameplay-relevant behavior rather than one universal voxel type:
+   237→
+   238→- named/unique bodies, artifacts, formations, structures, routes and remains keep identity-bearing records;
+   239→- bulk solids use sparse volumetric or surface operations plus material strata and conserved source attribution;
+   240→- fluids, gases, heat, pressure, fire and contamination use front/field solvers suited to their behavior;
+   241→- ordinary debris can aggregate into cohorts after identity, evidence, hazard and custody checks;
+   242→- visual fragments are presentation unless promoted by an interaction or protected observation.
+   243→
+   244→A planet-wide centimeter voxel array is prohibited. Persistent terrain truth is the initial material/topology frame plus versioned operations, remaps, residual processes and bounded checkpoints.
+   245→
+   246→### 4.4 Influence and domain-like mechanics
+   247→
+   248→If future canon admits domains, pressure, intent fields, formations, laws or authorities, each must declare which relation it actually changes. “Suppress all lower realms” or “control everything in my domain” is not executable.
+   249→
+   250→Possible typed effects include:
+   251→
+   252→- alter the cost or stability of a specific operation;
+   253→- provide a source or boundary condition;
+   254→- improve evidence through a declared sensing channel;
+   255→- create a claim whose support can be contested;
+   256→- impose a local transformation rule with exclusions and counters; or
+   257→- modify topology under an apex transaction.
+   258→
+   259→Institutional office, social authority, physical control, ritual recognition and ontic capability remain separate.
+   260→
+   261→---
+   262→
+   263→## 5. Intelligent procedural generation without noise
+   264→
+   265→### 5.1 Generation is a compiler pipeline
+   266→
+   267→The generator operates in layers:
+   268→
+   269→```text
+   270→ratified ontology and vocabulary
+   271→→ frozen regional/cultural/ecological constraints
+   272→→ causal-history skeleton
+   273→→ institutions, households, routes, dependencies and conflicts
+   274→→ topology/material/field realization
+   275→→ local affordance and encounter compilation
+   276→→ visual/audio presentation
+   277→→ invariant and originality admission
+   278→```
+   279→
+   280→Later layers may elaborate but cannot contradict earlier layers. A visual generator cannot invent a sect, species, Dao, soul rule, culture or catastrophe because a texture seed suggested one.
+   281→
+   282→### 5.2 Causal-domain randomness
+   283→
+   284→Every generative decision uses a stable semantic causal domain, versioned generator, declared inputs and local substream. Adding an unrelated cup to one home cannot rekey a dynasty, move a mountain or alter a distant person's ancestry.
+   285→
+   286→Generation records:
+   287→
+   288→- generator and schema revision;
+   289→- causal-domain identifier and parent decision;
+   290→- constraint/input hashes;
+   291→- selected branch and rejected alternatives where needed for proof;
+   292→- invariant/test results;
+   293→- authored or research-source boundaries; and
+   294→- dependencies that would require regeneration after a canon revision.
+   295→
+   296→Seeds reproduce proposals. Accepted event/state records are truth. A save is never only a seed.
+   297→
+   298→### 5.3 Coherence budget
+   299→
+   300→Each generated region has a finite coherence budget allocated to facts that players can investigate or affect:
+   301→
+   302→- material/ecological support;
+   303→- settlement and route causes;
+   304→- household and institutional dependencies;
+   305→- names, relationships and obligations;
+   306→- current pressures and latent conflicts;
+   307→- cultivation access/evidence consistent with selected lore;
+   308→- historical traces and contradictions;
+   309→- recoveries, ruins and consequences.
+   310→
+   311→Unobserved decorative variation consumes presentation budget, not canon budget. The generator must prefer fewer causally connected distinctions over thousands of unrelated adjectives.
+   312→
+   313→### 5.4 Semantic motif grammar
+   314→
+   315→A motif is a typed dependency pattern, not a prose trope. For example, a river-market motif may bind water timing, ferry rights, storage limits, labor schedules, kinship obligations, flood history and contested evidence. Names, architecture, ritual, law and gender roles cannot be filled until their cultural manifests permit it.
+   316→
+   317→Motifs may compose only when:
+   318→
+   319→- inputs and outputs match;
+   320→- no protected invariant conflicts;
+   321→- resource and population ledgers close;
+   322→- histories have a plausible causal ordering;
+   323→- cultural/originality boundaries pass;
+   324→- repeated combinations do not create a source fingerprint; and
+   325→- a bounded rejection path exists.
+   326→
+   327→Attempt exhaustion returns `GENERATION_CONSTRAINT_EXHAUSTED` with failed predicates. It does not loop or relax canon silently.
+   328→
+   329→### 5.5 Global history and local detail
+   330→
+   331→Long histories generate at event and aggregate level first. A promoted locality realizes detailed witnesses, objects and traces consistent with the recorded history. If the history says a bridge failed, a household migrated and a debt remained disputed, local generation must materialize compatible routes, absences, records and beliefs. It may choose among lawful underdetermined details but cannot erase the bridge failure or declare the debt settled.
+   332→
+   333→### 5.6 Anti-noise tests
+   334→
+   335→- Removing presentation adjectives leaves a causally distinct region graph.
+   336→- Two regions with different histories do not normalize to the same obligations, routes and pressures.
+   337→- Two regions with the same seed but one unrelated distant edit retain identical unaffected manifests.
+   338→- Every named local affordance traces to material, social, historical or selected supernatural support.
+   339→- A player can infer at least one nontrivial dependency from evidence rather than codex exposition.
+   340→- Generator repair does not rewrite already observed facts.
+   341→
+   342→---
+   343→
+   344→## 6. Simulation detail, locality and significance
+   345→
+   346→### 6.1 Four orthogonal policy axes
+   347→
+   348→This review adopts `ResolutionPolicy-v0.1(S,R,P,N)`:
+   349→
+   350→- `S0–S4`: canonical simulation resolution;
+   351→- `R0–R4`: presentation/render detail;
+   352→- `P0–P3`: persistence/protection class;
+   353→- `N0–N3`: causal/narrative significance.
+   354→
+   355→Examples:
+   356→
+   357→- a hidden named ancestor claim may be `S0/R0/P3/N2`;
+   358→- visible ordinary dust may be `S1/R4/P0/N0`;
+   359→- a distant migrating cohort may be `S0/R0/P1/N1`;
+   360→- a player's committed projectile may be `S3/R3/P2/N3` until arrival;
+   361→- a world-destruction front may use analytical `S0` propagation while carrying `P3/N3` commitments and local `S4` intersections.
+   362→
+   363→No renderer setting may lower P/N or change canonical outcomes.
+   364→
+   365→### 6.2 Promotion contract
+   366→
+   367→Promotion from a coarse representation must:
+   368→
+   369→1. freeze the parent state revision and supported-query set;
+   370→2. instantiate named exceptions exactly;
+   371→3. realize aggregate members using latent substreams and boundary totals;
+   372→4. satisfy prior observations, evidence, injuries, debts, custody, relationships and scheduled actions;
+   373→5. conserve declared quantities and causal contributions;
+   374→6. reproduce protected `HISTORY-QUERY-v0.1` answers; and
+   375→7. publish atomically or fail without partial truth.
+   376→
+   377→Promotion cannot create a secret murderer, treasure, teacher, escape route or relationship merely because local gameplay now needs content.
+   378→
+   379→### 6.3 Demotion contract
+   380→
+   381→Before demotion:
+   382→
+   383→- current action milestones commit or remain explicit pending transactions;
+   384→- named/unique/identity-bearing facts become exceptions;
+   385→- cohorts receive conserved counts, distributions and latent manifests;
+   386→- local fields project into regional bases plus residual events;
+   387→- evidence and unresolved claims persist;
+   388→- future event lower bounds remain valid; and
+   389→- a round-trip fixture verifies equivalent protected queries.
+   390→
+   391→If a scene cannot demote without loss, it remains resident in canonical storage even if its presentation unloads.
+   392→
+   393→### 6.4 Locality is causal, not camera-only
+   394→
+   395→The active simulation neighborhood is the union of:
+   396→
+   397→- protagonist sensory/action horizon;
+   398→- pending commitments and propagating fronts;
+   399→- named-agent schedules whose next decisions fall inside the safe horizon;
+   400→- topology edits and field instabilities;
+   401→- authorized monitors and communication arrivals;
+   402→- save/inspection queries; and
+   403→- high-significance exceptions.
+   404→
+   405→A camera cut does not suspend a collapse. A close camera does not force every unrelated atom to S4.
+   406→
+   407→---
+   408→
+   409→## 7. Canonical time and causal performance
+   410→
+   411→### 7.1 Clock separation
+   412→
+   413→Canonical time, presentation time, player deliberation time and compute time remain distinct. Canon uses exact integer instants/durations and declared epochs. `requestAnimationFrame`, OS time, browser throttling and worker latency never supply canonical timestamps.
+   414→
+   415→Hard pause freezes canon at an atomic barrier. Presentation may continue. Advance uses a signed authorization lease and stops only at an established-information barrier visible through `AuthorizedInformationView`.
+   416→
+   417→### 7.2 Scheduler hierarchy
+   418→
+   419→The scheduler is hierarchical but history is globally comparable:
+   420→
+   421→- each causal domain owns a deterministic event queue and safe horizon;
+   422→- cross-domain messages carry source commit, earliest arrival, topology revision and stable causal order;
+   423→- conservative lower bounds permit a domain to advance without inspecting every distant event;
+   424→- domain publication uses immutable batches and a deterministic merge rule;
+   425→- exact simultaneous semantic conflicts join one coupled transaction or a declared contest;
+   426→- worker execution may speculate, but only the canonical publication order commits.
+   427→
+   428→### 7.3 Analytical processes
+   429→
+   430→Slow or vast processes use analytical or cohort solvers when those solvers provide:
+   431→
+   432→- conservative earliest-event bounds;
+   433→- protected aggregate totals;
+   434→- named/unique exceptions;
+   435→- error envelopes and promotion rules;
+   436→- boundary fluxes and topology revisions;
+   437→- residual events; and
+   438→- a falsifiable comparison against higher-resolution fixtures.
+   439→
+   440→An analytical solver cannot average away a person, artifact, warning, wound, evacuation, claim or propagation front that later matters.
+   441→
+   442→### 7.4 Overload behavior
+   443→
+   444→When work exceeds its frame or memory budget, the runtime may:
+   445→
+   446→1. reduce `R` presentation detail;
+   447→2. delay noncanonical visual generation;
+   448→3. demote eligible `S` regions while preserving P/N and query invariants;
+   449→4. slice canonical work across more barriers;
+   450→5. slow or pause accelerated time;
+   451→6. stop at a safe horizon and expose a performance diagnostic; or
+   452→7. reject an unbounded operation before commitment.
+   453→
+   454→It may not drop events, skip costs, freeze hidden threats, reduce named casualties, invent an outcome, or let the player act while required canonical work is unknowably behind.
+   455→
+   456→### 7.5 Deterministic parallelism
+   457→
+   458→- Tasks read immutable revisions and produce proposed deltas.
+   459→- Deltas include complete read/write/range sets and contribution provenance.
+   460→- Conflicts resolve by semantic time, causal dependency, declared contest and exact semantic tie rules.
+   461→- Worker ID, completion time, hash-table enumeration and GPU scheduling are excluded.
+   462→- Any nondeterministic optimization must be presentation-only or produce a result verified against a canonical certificate before commit.
+   463→
+   464→---
+   465→
+   466→## 8. Persistence, history and migration
+   467→
+   468→### 8.1 Canonical save structure
+   469→
+   470→A save requires:
+   471→
+   472→- ratified canon and schema revision manifest;
+   473→- event-log segments and checkpoint roots;
+   474→- topology graph and patch revisions;
+   475→- named/unique entities and identity/continuity records;
+   476→- cohort ledgers and latent realization manifests;
+   477→- field bases, residual processes and frontier certificates;
+   478→- pending operations, reservations and contribution ledgers;
+   479→- authorized-information and evidence state;
+   480→- generator provenance and accepted branch manifests;
+   481→- protected-query indexes; and
+   482→- migration history.
+   483→
+   484→Derived meshes, textures, particles and rebuildable navigation/index caches need not be canonical.
+   485→
+   486→### 8.2 Snapshot and log policy
+   487→
+   488→Checkpoints are immutable, content-addressed roots over bounded pages. Event logs between checkpoints remain replayable. Compaction may replace old detail only after `HISTORY-QUERY-v0.1` answers, identity/custody provenance, causal commitments and future-refinement tests match.
+   489→
+   490→No save operation depends on serializing one live object graph in a single blocking frame.
+   491→
+   492→### 8.3 Save/load at apex scale
+   493→
+   494→Saving during world founding, world destruction, time-domain transition, possession, reincarnation or topology migration records the exact prepare/commit/propagation/arrival phase. Reload cannot:
+   495→
+   496→- reroll admitted intent or hidden state;
+   497→- duplicate a source, world, inhabitant, item or claimant;
+   498→- refund committed cost;
+   499→- create two topology roots with one identity;
+   500→- reset a catastrophe front;
+   501→- extend a time-domain lease; or
+   502→- turn a failed identity continuation into numerical survival.
+   503→
+   504→### 8.4 Version migration
+   505→
+   506→Every migration declares source/target schemas, input hashes, transformed records, protected queries, ambiguity failures and test bindings. A migration may conservatively increase simulation/persistence/significance but cannot lower a protected invariant. Ambiguous identity, topology, chronology or migrated legacy-F2 classification remains quarantined; it is never guessed.
+   507→
+   508→---
+   509→
+   510→## 9. Three.js/WebGPU presentation architecture
+   511→
+   512→### 9.1 Presentation boundary
+   513→
+   514→Three.js coordinates scenes, cameras, materials, animation and renderer resources. WebGPU is the preferred renderer path. Neither owns canonical time, collisions, identities, inventories, terrain truth, AI decisions, world topology or event ordering.
+   515→
+   516→Renderer loss or recreation must leave the canonical hash unchanged. A renderer-disabled test must run every simulation, persistence and catastrophe fixture.
+   517→
+   518→### 9.2 Multi-scale visual stack
+   519→
+   520→Candidate presentation techniques by scale include:
+   521→
+   522→- camera-relative transforms and clustered local scenes;
+   523→- instancing and GPU culling for repeated ordinary geometry;
+   524→- hierarchical meshes and impostors for distant structures/terrain;
+   525→- sparse clipmaps or virtualized tiles for terrain/material views;
+   526→- procedural shader detail that is explicitly noncanonical;
+   527→- analytical sky/atmosphere and distant world-body views;
+   528→- decoupled effects for fields/fronts whose authoritative envelopes live in simulation; and
+   529→- asynchronous asset realization with a deterministic placeholder state.
+   530→
+   531→An object becoming visible promotes presentation detail. It does not retroactively become real.
+   532→
+   533→### 9.3 Visual continuity obligations
+   534→
+   535→- topology seams remain visually and canonically aligned;
+   536→- scale transitions preserve apparent direction, travel history and landmarks;
+   537→- world-body/region/site coordinates use explicit transforms;
+   538→- destruction visuals follow committed front arrival rather than preplaying global aftermath;
+   539→- field effects never reveal hidden canonical state beyond authorized evidence;
+   540→- distant crowd/army visuals preserve cohort counts within declared display error but cannot be used as authoritative identity lists; and
+   541→- temporal interpolation never advances canonical collisions or damage.
+   542→
+   543→### 9.4 Renderer fallbacks
+   544→
+   545→WebGL fallback, reduced effects, lower texture resolution, simpler atmosphere, fewer presentation particles and lower mesh density are valid product options only when canonical play remains identical. If a mechanic can be aimed or understood only through one expensive effect, it fails accessibility and renderer-independence review.
+   546→
+   547→---
+   548→
+   549→## 10. Provisional reference-hardware envelope
+   550→
+   551→These figures are admission hypotheses for later measurement, not achieved benchmarks.
+   552→
+   553→### 10.1 Memory
+   554→
+   555→On the 8 GB system-memory reference machine:
+   556→
+   557→| Budget | Provisional envelope |
+   558→|---|---|
+   559→| browser game private working set, steady ordinary play | target ≤2.0 GiB |
+   560→| browser game private working set, short controlled peak | target ≤2.75 GiB with recovery; exceeding it fails the reference profile |
+   561→| canonical simulation + active generated state inside that working set | target ≤768 MiB steady |
+   562→| presentation CPU assets/caches inside that working set | target ≤768 MiB steady, aggressively evictable |
+   563→| GPU-resident resources on GTX 1070 | target ≤3.5 GiB steady and ≤4.5 GiB controlled peak despite nominal 8 GB VRAM |
+   564→| one atomic save/commit buffer | paged; no second full-world copy |
+   565→
+   566→OS, browser, driver and allocator overhead must be measured. Nominal hardware capacity is not an available game budget.
+   567→
+   568→### 10.2 Frame and responsiveness
+   569→
+   570→- 1080p 60 fps is an ordinary local-scene target after quality scaling.
+   571→- 1080p stable 30 fps is the proposed minimum quality floor.
+   572→- Canonical simulation may update at semantic rates independent of frames.
+   573→- Input acknowledgement targets remain ≤50 ms p95; pause acknowledgement remains ≤100 ms maximum on supported minimum hardware.
+   574→- No nonpreemptible canonical prepare/reduce/commit work may exceed the existing 50 ms ceiling.
+   575→- One expensive cosmological operation must schedule bounded work and visible progress; it cannot block the browser main thread while “the universe calculates.”
+   576→
+   577→### 10.3 Residency policy
+   578→
+   579→Resident data priority is:
+   580→
+   581→1. active transaction and safe-horizon state;
+   582→2. protagonist locality and established information;
+   583→3. named/unique entities and P3 identity/provenance;
+   584→4. frontier and topology certificates;
+   585→5. near-future event pages;
+   586→6. presentation resources; and
+   587→7. speculative generation/cache.
+   588→
+   589→Speculative assets are first to evict. Canonical protected data pages spill to persistent storage or force a safe stop; they are never discarded.
+   590→
+   591→### 10.4 Benchmark scenes required before any performance claim
+   592→
+   593→- dense mortal market in rain with schedules, interiors, inventories and dialogue pause;
+   594→- mixed one-versus-many combat with policies, debris, collection and bystanders;
+   595→- excavation intersecting water/gas/body/route fronts;
+   596→- fast travel and direct catch-up through one simulated year;
+   597→- world-scale catastrophe with local evacuation and renderer disabled;
+   598→- promotion of a historically dense region after centuries away;
+   599→- world-founding prepare/commit with inhabitants and active routes at the boundary;
+   600→- save/load at every apex transaction phase; and
+   601→- device-loss/rebuild while canonical simulation remains paused or safely advancing.
+   602→
+   603→Every benchmark reports frame-time distribution, long tasks, working set, GPU memory, event throughput, save size/time, promotion latency, cache misses and canonical hash parity. Average fps alone is insufficient.
+   604→
+   605→---
+   606→
+   607→## 11. Apex operation family: world founding
+   608→
+   609→### 11.1 Founding is transformation, not allocation
+   610→
+   611→A future ontology may allow new world-bodies, habitats, pocket domains or transformed regions. The architecture does not assume creation from nothing. `WORLD-FOUND-v0.1` is a candidate stress contract whose sources and ontology remain open.
+   612→
+   613→Required phases:
+   614→
+   615→1. **Charter the target predicate:** what counts as founded—habitable region, stable topology node, self-maintaining domain, transformed world-body, or something else.
+   616→2. **Declare sources/support:** matter, energy, qi-like relation, topology anchor, collaborators, artifacts, time and external contribution.
+   617→3. **Propose topology:** containment, routes, boundary transforms, coordinate patches, failure exits and relation to existing worlds.
+   618→4. **Select only ratified law parameters:** no generator-created physics, Dao or soul rule.
+   619→5. **Stress the boundary:** load, flux, ecology, atmosphere, field stability, route capacity, hostile interaction and catastrophe envelope.
+   620→6. **Resolve occupants/claims:** people, bodies, species, graves, artifacts, institutions, consent, custody and jurisdiction are not bulk decoration.
+   621→7. **Commit formation milestones:** partial founding may leave ruins, instability, debt or usable subregions.
+   622→8. **Propagate external consequences:** tides, routes, markets, deterrence, migration, warnings and world-system changes arrive causally.
+   623→9. **Record provenance/maintenance:** the founded place has history, dependencies and failure modes.
+   624→
+   625→### 11.2 Founding invariants
+   626→
+   627→- No inhabitant is created as an ownership appendage of the founder.
+   628→- No territory becomes legally or socially owned because an engine lease reserved its volume.
+   629→- Matter, source and external contribution remain attributed.
+   630→- A copied template does not copy numerical identity, unique artifacts, relationships or claims.
+   631→- The new topology cannot insert routes into committed past.
+   632→- A refuge guarantee states capacity, evidence, exclusions and failure conditions.
+   633→- Abandonment, founder death, save/load and detail demotion do not freeze maintenance or erase inhabitants.
+   634→- NPC founders with isomorphic operations receive the same law.
+   635→
+   636→### 11.3 Founding failures that must remain playable
+   637→
+   638→- stable but uninhabitable topology;
+   639→- habitable region with unsustainable dependencies;
+   640→- partial route formation isolating workers or populations;
+   641→- contested claims and migration;
+   642→- law/field incompatibility under the selected ontology;
+   643→- resource exhaustion after an irreversible milestone;
+   644→- catastrophe triggered by pressure, topology or ecology change;
+   645→- founder incapacitation, death, possession or identity dispute; and
+   646→- successful founding whose long-term culture rejects the founder's intended purpose.
+   647→
+   648→---
+   649→
+   650→## 12. Apex operation family: world destruction and severance
+   651→
+   652→### 12.1 Destruction is a typed predicate
+   653→
+   654→“Destroy world” may mean structural fragmentation, loss of habitability, topology severance, ecosystem collapse, field failure, route isolation, institutional extinction, or a selected ontological ending. These are not equivalent.
+   655→
+   656→`WORLD-SEVER-v0.1` must declare:
+   657→
+   658→- exact destruction predicate and scope;
+   659→- source intent or physical cause;
+   660→- preparation and irreversible commitment;
+   661→- propagation and earliest-arrival bounds;
+   662→- topology and field interactions;
+   663→- warnings available through actual channels;
+   664→- shelters, routes, counters and intervention windows;
+   665→- identity/remains/ecology/history treatment;
+   666→- local impact transactions;
+   667→- remnant topology and long recovery/finality; and
+   668→- responsibility/evidence records.
+   669→
+   670→Every qualifying action joins `CatastropheContract-v0.1`.
+   671→
+   672→### 12.2 No global affected set
+   673→
+   674→Source commitment records a conservative hazard envelope, not a frozen victim list. Arrival-time `IntersectionCertificate[]` resolves who and what is actually present using revisioned trajectories, shelters, vehicles, births, deaths, possession, custody, evacuation and topology.
+   675→
+   676→A person can flee, enter, hide, be carried, die earlier, be resurrected under a selected model, or cross a boundary. The system must resolve the actual state, not the source-time snapshot.
+   677→
+   678→### 12.3 Destruction invariants
+   679→
+   680→- Distant targets change only at lawful arrival/transition instants.
+   681→- Destroyed presentation chunks do not erase identity, evidence or remains.
+   682→- A world root is never deleted while incoming/outgoing routes, debts, descendants or pending operations reference it.
+   683→- Survivors and losses are consequences of ordinary actions and conditions, not protagonist protection.
+   684→- Rebuilding does not restore destroyed persons/items by reusing procedural identifiers.
+   685→- Offscreen and renderer-disabled runs produce the same canonical outcomes.
+   686→- Partial prevention remains meaningful: survivors, evidence, ecology, routes, culture, responsibility and future possibility may differ even if the world predicate ultimately fails.
+   687→
+   688→---
+   689→
+   690→## 13. Apex operation family: time domains
+   691→
+   692→### 13.1 Time-domain contract
+   693→
+   694→A time domain is not a scene with a different `deltaTime`. Candidate `TIME-DOMAIN-v0.1` records:
+   695→
+   696→```text
+   697→DomainBoundary / TopologyRevision
+   698→InternalToExternalInstantMapping
+   699→EntryAndExitPredicates
+   700→SignalsMatterAgencyAndFieldCrossingRules
+   701→AgingMetabolismCultivationAndMaintenanceRules
+   702→ExternalCommitmentAndDeadlineMapping
+   703→CapacitySourceStabilityAndFailure
+   704→ObservationAndWarningSemantics
+   705→SavePauseAdvanceAndCatchUpBehavior
+   706→IdentityContinuityDependencies
+   707→```
+   708→
+   709→Until cosmology selects otherwise, mappings must be monotonic and causal. Closed timelike curves, retroactive edits, duplicate exits or branches that exchange resources with their own past are prohibited rather than hand-waved.
+   710→
+   711→### 13.2 Anti-exploit obligations
+   712→
+   713→- Faster internal time also advances declared aging, metabolism, maintenance, ecology, injury, debt and labor.
+   714→- External markets, oaths, wars and relationships continue according to the boundary mapping.
+   715→- No free infinite training, crafting, farming or policy computation.
+   716→- Pausing the game freezes all canonical domains; it is not an in-world time technique.
+   717→- Save/load does not extend a lease, reroll an exit or duplicate boundary-crossing items.
+   718→- People entering/exiting retain identity/custody records according to the selected ontology.
+   719→- Signals and warnings cannot cross faster than the declared interface.
+   720→- Domain collapse commits boundary arrivals and trapped/escaping occupants exactly once.
+   721→
+   722→### 13.3 Nested-domain bound
+   723→
+   724→The initial candidate architecture admits at most four nested active time-domain boundaries in one operation chain, matching the semantic nesting bound. Deeper cosmology requires a separately reviewed analytical reduction. Recursion that cannot produce a conservative next-event bound is non-executable.
+   725→
+   726→---
+   727→
+   728→## 14. Apex identity, death and continuity stress
+   729→
+   730→The architecture remains compatible with the published identity candidates by separating:
+   731→
+   732→- body and embodiment;
+   733→- agency and control;
+   734→- memory and psychological structure;
+   735→- ontic identity resolution;
+   736→- domain-specific continuity judgments;
+   737→- causal/copy lineage;
+   738→- social/legal/ritual recognition;
+   739→- cultivation continuity;
+   740→- viewpoint continuation; and
+   741→- player memory.
+   742→
+   743→World-scale operations intensify rather than waive these distinctions.
+   744→
+   745→### 14.1 Required transactions
+   746→
+   747→- copied world containing a copied population while the source remains;
+   748→- founder dies during a partially committed world transaction;
+   749→- possessor and host cross a time-domain boundary at different phases;
+   750→- a world is severed while resurrection/reincarnation processes are pending;
+   751→- one person has valid claims in two topology scopes that later merge;
+   752→- postmortem ecology persists after the world that supported its institutions is lost;
+   753→- a viewpoint successor inherits access to play but not automatic numerical identity, memory, property, office, blame or cultivation;
+   754→- two lawful successors make rival claims after fission; and
+   755→- a copied unique artifact or anchor fails the selected uniqueness/identity rule without data loss.
+   756→
+   757→### 14.2 Architecture invariant
+   758→
+   759→No generic `alive`, `soulId`, `ownerId` or `isPlayer` field can settle these outcomes. Each selected ontology must supply falsifiable transition rules and migrations. Unselected fields remain unknown and block only dependent operations.
+   760→
+   761→---
+   762→
+   763→## 15. Micro-to-macro permanent fixtures
+   764→
+   765→| Fixture | Scale transition | Required result |
+   766→|---|---|---|
+   767→| `APEX-MICRO-01` | one tool edge cuts one marked material relation | geometry, force, material, custody, debris and injury resolve without realm/scalar shortcuts |
+   768→| `APEX-HOUSE-01` | household fire becomes site process | named occupants, routes, smoke/heat fronts, warnings and property claims survive demotion |
+   769→| `APEX-REGION-01` | watershed/route failure crosses multiple settlements | cohort totals, named exceptions, migration and evidence refine consistently |
+   770→| `APEX-SEAM-01` | two independently generated regions promote at one boundary | topology, history, field flux, roads and claims join without filler contradiction |
+   771→| `APEX-FIELD-01` | analytical world-scale front enters local S4 play | arrival and local effects match envelope, boundary and prior measurements |
+   772→| `APEX-FOUND-01` | world founding with existing routes and occupants | no ex nihilo ownership/identity; partial milestones, sources and aftermath persist |
+   773→| `APEX-FOUND-02` | founder dies, unloads and reloads mid-commit | transaction continues or fails by contract; no refund, orphaned duplicate or frozen maintenance |
+   774→| `APEX-SEVER-01` | world-destruction cause propagates across moving topology | no frozen affected set; arrival intersections resolve exactly once |
+   775→| `APEX-SEVER-02` | partial defense cannot save the world predicate | changed survivors/evidence/ecology/routes and responsibility remain canonical |
+   776→| `APEX-TIME-01` | one year inside a faster domain versus outside economy | labor, aging, supplies, promises and boundary signals close without free resources |
+   777→| `APEX-TIME-02` | nested domain collapses during save/load | exits, occupants, items, costs and timestamps occur once |
+   778→| `APEX-ID-01` | copied inhabited world | copied structures do not silently copy numerical identities, ownership or unique claims |
+   779→| `APEX-ID-02` | possession/reincarnation during world severance | each model yields its declared result; simulation detail cannot decide personhood |
+   780→| `APEX-LONG-01` | 1,000 no-player years then local promotion | all protected history queries and named exceptions remain consistent |
+   781→| `APEX-ORDER-01` | same history at 1×, Advance, varied workers and renderer off | identical canonical event order and root hash |
+   782→| `APEX-HW-01` | worst admitted local scene plus distant catastrophe | safe 30 fps floor or visible bounded degradation; never canonical loss |
+   783→| `APEX-SAVE-01` | save at every prepare/commit/propagate/arrival barrier | reload converges without duplication, reroll or event loss |
+   784→| `APEX-GEN-01` | unrelated distant generation inserted | unaffected causal-domain manifests and histories remain byte-identical |
+   785→
+   786→Any protected mismatch, nontermination, hidden-information leak, player/NPC law difference, duplicate/lost identity, stale topology commit or renderer-dependent outcome is S0/S1 regardless of visual quality.
+   787→
+   788→---
+   789→
+   790→## 16. Explicitly impossible or rejected designs
+   791→
+   792→The following are prohibited unless future evidence replaces the underlying architecture with something equally falsifiable:
+   793→
+   794→1. **Uniform full-fidelity universe simulation.** CPU, memory and storage are impossible on the reference machine, and it adds detail without protecting meaning.
+   795→2. **Every NPC thinking every frame.** Distant agents need schedules, institutions, cohorts and event-driven decisions with named exceptions.
+   796→3. **Planet-wide high-resolution voxels.** Use sparse operations, strata, fields and local realization.
+   797→4. **One global floating coordinate system.** Precision and non-Euclidean topology fail at cosmic scale.
+   798→5. **GPU-authoritative world truth.** Device variance, scheduling and loss make it unsuitable for canonical order unless independently certified.
+   799→6. **A save file that is only a seed.** It cannot preserve observation, agency, identity, partial transactions or historical consequences.
+   800→7. **Traversal-order procedural generation.** Unrelated edits would rekey reality.
+   801→8. **Unbounded rejection sampling.** Constraint failure must terminate with a certificate.
+   802→9. **Unbounded technique or doctrine recursion.** Same-instant closure remains capped with conservative reducers.
+   803→10. **Apex verbs as scene APIs.** `spawn`, `teleport`, `delete`, `freezeTime`, `setOwner`, `makeSafe` or `resurrect` cannot be world mechanics without ordinary semantic contracts.
+   804→11. **Instant global catastrophe mutation.** Source commitment, propagation, local arrival and aftermath must remain separate.
+   805→12. **Frozen catastrophe victim sets.** Occupancy and identity resolve at arrival.
+   806→13. **LOD-dependent causality or personhood.** Demotion cannot decide who exists, owns, remembers, suffers or survives.
+   807→14. **Procedural canon invention.** Unknown ontology cannot be filled by an LLM, noise function, asset generator or convenience heuristic.
+   808→15. **Universal scalar aura/domain contests.** Typed relations, evidence, geometry, sources and counters remain necessary.
+   809→16. **Perfect automatic safety or targeting.** Player intent cannot reveal hidden state or guarantee outcomes.
+   810→17. **Free time-domain economy.** Labor, aging, inputs, boundary commitments and maintenance must close.
+   811→18. **World founding as empty real estate.** Existing inhabitants, ecology, claims and history cannot be omitted.
+   812→19. **World destruction as garbage collection.** Remnants, references, victims, routes, debts and history persist.
+   813→20. **A fake infinity claim.** The game may support open-ended generation under bounded local work; it cannot promise actually infinite realized content, storage or computation.
+   814→21. **AAA fidelity as a design assumption.** Visual targets require measured budgets, art production and fallback tiers; prose cannot certify them.
+   815→22. **Reference-hardware promises without executable benchmarks.** All figures in this review remain hypotheses until authorized measurement.
+   816→
+   817→---
+   818→
+   819→## 17. Risk register and required evidence
+   820→
+   821→| Risk | Why it is apex-critical | Required evidence before promotion |
+   822→|---|---|---|
+   823→| semantic operations become wrappers around bespoke exceptions | high realms become authorial cheats | normalized operation graphs, NPC parity and removal tests |
+   824→| topology/field promotion produces seams | universe feels generated and contradicts itself | independent-region seam, portal, route and frontier fixtures |
+   825→| analytical solvers erase individuals | living world becomes aggregate theater | named-exception and future-refinement parity across S0↔S4 |
+   826→| persistence grows without bound | long-lived save becomes unusable | history-query quotas, compaction, export/restore and 1,000-year tests |
+   827→| endgame actions block the browser | spectacle becomes noninteractive | chunked progress, pause/cancel barriers and reference-hardware traces |
+   828→| high-realm controls become menu labor | power removes action play | E2/E3/E4 macro workload and accessibility evidence |
+   829→| generator creates attractive noise | places lack causal identity | motif/dependency, counterfactual and investigation tests |
+   830→| world founding becomes colonial ownership by default | severe agency/cultural failure | inhabitants/claims/consent and alternative founding contracts |
+   831→| destruction creates protagonist immunity | stakes become fake | opening/later admission distinction and post-commit parity tests |
+   832→| time domains create infinite economy | one mechanic dominates all systems | labor/aging/market/boundary conservation fixtures |
+   833→| identity breaks under copying or destruction | saves, successors and reincarnation corrupt | selected-model cross-product and exact migration tests |
+   834→| renderer leaks or changes truth | device and graphics settings change play | renderer-off/device-loss/hash-parity suite |
+   835→| memory profile assumes nominal 8 GB is free | browser crashes or thrashes | cold/warm long-session working-set measurements |
+   836→
+   837→---
+   838→
+   839→## 18. Promotion gates
+   840→
+   841→This architecture may advance to a prototype proposal only when:
+   842→
+   843→1. a finite Phase Scope Manifest names the operation, topology, field and identity candidates under test;
+   844→2. every dependent ontology is selected or explicitly typed unknown with dependent fixtures left `NOT RUN`;
+   845→3. `APEX-OP-v0.1` maps losslessly into existing semantic action and transaction contracts;
+   846→4. topology patches, coordinate transforms and field boundaries have exact revision and seam rules;
+   847→5. promotion/demotion preserves declared protected queries across at least local, regional and world-scale fixtures;
+   848→6. world founding, destruction and time-domain contracts terminate within declared specification bounds;
+   849→7. identity/death fixtures produce distinct, model-predicted outcomes without `isPlayer` privilege;
+   850→8. generation terminates, preserves unaffected causal domains and passes cultural/originality boundaries;
+   851→9. save/load at every apex barrier converges;
+   852→10. renderer-off, worker-count, frame-rate and device-loss tests preserve canonical hashes;
+   853→11. the reference-hardware budget is measured in an explicitly authorized prototype rather than inferred; and
+   854→12. independent technical, gameplay, cultural/source and graph-consistency reviews return zero S0/S1.
+   855→
+   856→Passing this review does not authorize production. It permits only a bounded prototype proposal for the smallest unresolved risk.
+   857→
+   858→---
+   859→
+   860→## 19. Open dependencies and handoff
+   861→
+   862→The following remain prerequisites rather than generator freedom:
+   863→
+   864→- selected cosmological topology candidates and maximum-realm ontology;
+   865→- world pattern, *fa*/method, Dao/path, domain and cross-realm contest candidates;
+   866→- qi/field and matter-coupling ontology;
+   867→- identity/death/reincarnation selection;
+   868→- protagonist operation selection or explicit no-advantage baseline;
+   869→- perception, concealment and evidence contract;
+   870→- custody, ownership, remains and storage contract;
+   871→- terrain/material/topology contract beyond the current stress interface;
+   872→- culture, language, institutions and first-region research;
+   873→- explicit authorized benchmark/prototype plan; and
+   874→- user ratification of every world-defining fork.
+   875→
+   876→The next technical artifact should not be a universe engine. It should be one bounded **causal-scale laboratory** that proves the same semantic operation can cross local, regional and world analytical representations, survive save/load and renderer removal, and reproduce protected outcomes on the reference machine. World founding, world destruction and time-domain play remain paper contracts until their dependencies and smaller-scale invariants pass.
+   877→

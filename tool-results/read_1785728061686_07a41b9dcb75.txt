@@ -1,0 +1,963 @@
+     1→     1→# Apex Gameplay Stress Review — Draft v0.1
+     2→     2→
+     3→     3→**Status:** Pre-canon hostile design review  
+     4→     4→**Evidence state:** All proposed contracts, scenarios, thresholds, and conclusions below are **NOT RATIFIED / NOT RUN** unless explicitly labeled otherwise.  
+     5→     5→**Scope:** Product and systems design only. No code. No final realm ladder, cosmology, metaphysics, or lore is selected here.
+     6→     6→
+     7→     7→## 0. Review verdict
+     8→     8→
+     9→     9→An apex-realm Xianxia game is viable only if “apex” means an exceptionally broad but still **situated capability envelope**. It cannot mean omniscience, omnipresence, unlimited concurrency, costless creation, perfect control, automatic obedience, unconditional resurrection, or a universal permission to rewrite state.
+    10→    10→
+    11→    11→The endgame must remain a game of:
+    12→    12→
+    13→    13→- incomplete knowledge;
+    14→    14→- incompatible values and substrates;
+    15→    15→- preparation, timing, and commitment;
+    16→    16→- contested relationships and jurisdictions;
+    17→    17→- embodied intervention as well as macro direction;
+    18→    18→- actors who possess their own goals and personhood;
+    19→    19→- actions whose consequences outlive the immediate spectacle;
+    20→    20→- meaningful failure that neither collapses into a health bar nor disappears on reload.
+    21→    21→
+    22→    22→This review therefore gives **no approval** to implement or canonize a maximum realm. It defines the conditions under which later apex prototypes may be allowed to claim that endgame play is interactive rather than omnipotence, menu work, or a renamed strategy-game layer.
+    23→    23→
+    24→    24→### Provisional severity result
+    25→    25→
+    26→    26→| Area | Current result | Reason |
+    27→    27→|---|---:|---|
+    28→    28→| Maximum-realm fantasy | **DESIGNABLE** | Broad capability can coexist with hard relational limits. |
+    29→    29→| Apex action combat | **UNPROVEN** | Needs fixtures proving readable peer counterplay across scale. |
+    30→    30→| World founding | **UNPROVEN** | Must be a staged intervention, not a creation menu. |
+    31→    31→| World alteration/destruction | **UNPROVEN** | Must satisfy catastrophe, continuity, identity, and conservation contracts. |
+    32→    32→| Lower-realm relevance | **UNPROVEN** | Must change outcomes without artificial “mortal chip damage.” |
+    33→    33→| Macro delegation | **UNPROVEN** | Must reduce chores without becoming autoplay or an omniscient dashboard. |
+    34→    34→| Long-duration life | **UNPROVEN** | Time acceleration, institutional continuity, and identity survival remain fixture work. |
+    35→    35→| Fun across the full ladder | **UNPROVEN** | Requires one continuous interaction grammar, not disconnected games per realm. |
+    36→    36→
+    37→    37→Any design that violates an anti-omnipotence invariant below is an **S0 gameplay blocker**, not a balance issue to fix later.
+    38→    38→
+    39→    39→---
+    40→    40→
+    41→    41→## 1. What the apex fantasy is allowed to promise
+    42→    42→
+    43→    43→The player may eventually be able to affect civilizations, worlds, inter-world routes, ecological lineages, temporal regions, metaphysical institutions, and catastrophic forces. The fantasy is not “everything obeys.” It is:
+    44→    44→
+    45→    45→> I have become capable of making commitments at cosmic scale, and therefore I can now perceive, attempt, contest, preserve, transform, or sacrifice things whose dependencies exceed any single body.
+    46→    46→
+    47→    47→This preserves escalation without deleting play. The player gains more verbs, longer horizons, more simultaneous obligations, and more severe consequences. They do not graduate from the simulation.
+    48→    48→
+    49→    49→### 1.1 Anti-omnipotence invariants
+    50→    50→
+    51→    51→Every apex design must preserve all of the following:
+    52→    52→
+    53→    53→1. **No universal read:** no actor can inspect all state, motives, futures, hidden structures, or causal dependencies on demand.
+    54→    54→2. **No universal write:** no actor can directly set arbitrary world state merely because their realm is high.
+    55→    55→3. **No infinite concurrency:** attention, embodiments, agents, formations, prepared operations, and maintained commitments are bounded.
+    56→    56→4. **No costless distance:** remote action requires a relation, route, anchor, witness, medium, prior preparation, or delegated actor.
+    57→    57→5. **No permissionless person control:** creation, seniority, protection, ownership, or superior force does not grant root access to persons.
+    58→    58→6. **No unconditional restoration:** repair, reconstruction, rebirth, copy, time reversal, and succession have typed evidence requirements and identity consequences.
+    59→    59→7. **No context-free superiority:** strength is a vector of contributions and relations, not a scalar that suppresses every lower system.
+    60→    60→8. **No silent action:** consequential actions expose preparations, traces, risks, reactions, aftermath, or some lawful combination of them.
+    61→    61→9. **No consequence-free abandonment:** maintained worlds, institutions, dependents, bodies, routes, and vows may persist, decay, adapt, defect, or fail when neglected.
+    62→    62→10. **No administrative shortcut around play:** a configuration screen cannot perform an act unless the same act is representable in the simulation and available to eligible NPCs.
+    63→    63→11. **No creator exception:** created beings and worlds use the same personhood, continuity, ownership, causality, and catastrophe rules as found ones.
+    64→    64→12. **No player exception:** protagonist protections may change presentation or continuation mode, but may not falsify simulation outcomes.
+    65→    65→
+    66→    66→### 1.2 What remains deliberately undecided
+    67→    67→
+    68→    68→This review does not select:
+    69→    69→
+    70→    70→- the name or count of realms;
+    71→    71→- whether an absolute “highest realm” exists in fiction;
+    72→    72→- a single metaphysics of qi, soul, law, dao, karma, fate, worlds, or time;
+    73→    73→- whether world founding is literal creation, assembly, cultivation, stabilization, discovery, or several distinct operations;
+    74→    74→- which forms of death, rebirth, copying, incarnation, avatar use, or succession are valid;
+    75→    75→- whether any specific capability is available to the player;
+    76→    76→- exact numerical limits, damage curves, resource names, visual motifs, or canon terms.
+    77→    77→
+    78→    78→Capability families below are test probes, not promises.
+    79→    79→
+    80→    80→---
+    81→    81→
+    82→    82→## 2. The Apex Capability Contract
+    83→    83→
+    84→    84→No proposed apex ability may enter a playable prototype as a sentence such as “rewrites laws,” “sees fate,” “creates universes,” or “erases beings.” Each operation must be expressed through an `APEX-CAPABILITY-CONTRACT-v0.1` with at least these fields:
+    85→    85→
+    86→    86→| Field | Required question |
+    87→    87→|---|---|
+    88→    88→| Intended outcome | What state or relationship is the actor trying to change? |
+    89→    89→| Valid targets | Which bodies, regions, systems, persons, claims, routes, histories, or patterns are addressable? |
+    90→    90→| Required relation | What allows the actor to reach or recognize this target: proximity, anchor, witness, lineage, treaty, route, domain, resonance, evidence, or prior preparation? |
+    91→    91→| Authorized information | What can the actor actually know when choosing the action, at what resolution and uncertainty? |
+    92→    92→| Preparation | What must be assembled, learned, negotiated, shaped, or exposed before commitment? |
+    93→    93→| Support | Which sources, embodiments, allies, infrastructures, environments, or maintained conditions contribute? |
+    94→    94→| Contribution vector | What does each contributor provide: power, precision, duration, range, stability, concealment, interpretation, throughput, recovery, legitimacy? |
+    95→    95→| Compatibility | Which substrates, ecologies, identities, laws, scales, and interfaces accept or reject the operation? |
+    96→    96→| Spatial and temporal envelope | Where and for how long can it act, propagate, persist, or be interrupted? |
+    97→    97→| Concurrency | Which other actions, embodiments, formations, perceptions, or obligations cannot be maintained simultaneously? |
+    98→    98→| Commitment points | At which stages can the actor revise, abort, redirect, or no longer recover inputs? |
+    99→    99→| Counterplay | What can peers, lower actors, institutions, environments, or the target do before, during, and after the act? |
+   100→   100→| Failure topology | Can it misidentify, partially apply, overshoot, fragment, stall, corrupt, rebound, or succeed at the wrong objective? |
+   101→   101→| Cost and exposure | What is consumed, occupied, risked, revealed, displaced, owed, or made unavailable? |
+   102→   102→| Recovery | What must happen before repeat use, repair, or safe disengagement? |
+   103→   103→| Causal footprint | Which witnesses, remnants, debts, signatures, ecological changes, records, and political consequences remain? |
+   104→   104→| Identity effects | What happens to bodies, copies, memories, successors, inhabitants, and continuity claims? |
+   105→   105→| Ownership and authority | Who may authorize the action, who may refuse, and what authority survives completion? |
+   106→   106→| NPC parity | Under what same eligibility rules can non-player actors perform, detect, counter, or suffer it? |
+   107→   107→| Verification | Which golden scenarios and adversarial tests would falsify the proposed behavior? |
+   108→   108→
+   109→   109→An ability that lacks any field is not mysterious; it is underspecified.
+   110→   110→
+   111→   111→### 2.1 Capability families to stress, not canonize
+   112→   112→
+   113→   113→Each family can contain many distinct operations. None implies a universal version.
+   114→   114→
+   115→   115→| Family | Possible apex fantasy | Required source of play |
+   116→   116→|---|---|---|
+   117→   117→| Perception and inference | Observe world-scale processes or causal patterns | Sampling limits, deception, interpretation, uncertainty, observer effects |
+   118→   118→| Embodiment and manifestation | Maintain avatars, bodies, projections, domains, or remote presences | Concurrency, latency, fidelity, vulnerability, identity continuity |
+   119→   119→| Matter/energy/pattern intervention | Shape terrain, formations, weather, resources, bodies, or persistent patterns | Support, compatibility, conservation, propagation, counterformation |
+   120→   120→| Boundary and route control | Open, stabilize, sever, or contest access between regions | Anchors, throughput, chokepoints, navigation, treaties, maintenance |
+   121→   121→| Preservation and restoration | Shelter, repair, reconstruct, reseed, remember, or continue damaged systems | Evidence, identity, lost information, triage, opportunity cost |
+   122→   122→| World founding | Assemble or stabilize a durable inhabited world-system | Long staged process, ecology, autonomy, governance, maintenance |
+   123→   123→| World alteration | Change foundational conditions of an existing world | Consent, migration, compatibility, catastrophe, irreversible losers |
+   124→   124→| World destruction or severance | Deliberately end, fragment, isolate, or transform a world-system | Warning, opposition, survival, remnants, identity, attribution |
+   125→   125→| Delegation and institution building | Act through disciples, coalitions, sects, civilizations, constructs, or protocols | Limited information, agency, refusal, drift, corruption, succession |
+   126→   126→| Historical commitment | Make vows, treaties, inheritances, records, protections, and long plans | Enforcement, interpretation, changing context, successors, breach |
+   127→   127→| Knowledge and cultural creation | Produce techniques, languages, arts, archives, institutions, and ways of life | Transmission, mutation, misuse, access, authorship, competing values |
+   128→   128→| Self-transformation | Change body, cognition, memory, scale, identity, or mode of existence | Irreversibility, incompatibility, loss, continuity dispute, new controls |
+   129→   129→
+   130→   130→The gauntlet must reject a family if its playable expression reduces to selecting an outcome from a menu and waiting for effects.
+   131→   131→
+   132→   132→---
+   133→   133→
+   134→   134→## 3. Why an apex actor still cannot do everything
+   135→   135→
+   136→   136→Realm is never a substitute for a dependency model. High capability creates leverage over some relations and new exposure to others.
+   137→   137→
+   138→   138→### 3.1 Mandatory limiting dimensions
+   139→   139→
+   140→   140→Every apex operation must be bounded on multiple independent dimensions. Increasing one dimension must not silently maximize all others.
+   141→   141→
+   142→   142→- **Resolution:** large-area action may lack person-level precision; fine intervention may reduce range or throughput.
+   143→   143→- **Range:** distant action needs routes, anchors, models, messengers, embodiments, or delay.
+   144→   144→- **Duration:** momentary power and stable maintenance are different contributions.
+   145→   145→- **Throughput:** an actor may affect a vast object but not every dependent component at once.
+   146→   146→- **Concurrency:** simultaneous bodies, battles, observations, vows, and interventions compete for control and support.
+   147→   147→- **Preparation:** some opportunities require years of positioning; others demand rapid imperfect response.
+   148→   148→- **Interpretation:** perceiving a signal does not supply its meaning, provenance, ethics, or future consequence.
+   149→   149→- **Compatibility:** a method effective in one world, species, body, law system, or ecology may fail elsewhere.
+   150→   150→- **Legitimacy:** force does not create trusted information, consent, social continuity, or enforceable agreement.
+   151→   151→- **Maintenance:** durable outcomes need caretakers, feedback, resources, institutions, or adaptive design.
+   152→   152→- **Exposure:** concentration, observation, travel, and large action create detectable commitments or vulnerable dependencies.
+   153→   153→- **Recovery:** damaged supports, exhausted contributors, lost anchors, public breaches, and identity harm do not reset between encounters.
+   154→   154→
+   155→   155→### 3.2 Hard sources of uncertainty
+   156→   156→
+   157→   157→Uncertainty may not be simulated merely by hiding exact numbers. It must arise from coherent world state:
+   158→   158→
+   159→   159→- partial or delayed observations;
+   160→   160→- incompatible sensing and conceptual schemes;
+   161→   161→- active deception and privacy;
+   162→   162→- emergent ecological and social response;
+   163→   163→- branching actions by independent agents;
+   164→   164→- unknown historical dependencies;
+   165→   165→- measurement disturbance;
+   166→   166→- causal depth beyond current instruments;
+   167→   167→- corrupted, politicized, or genuinely ambiguous testimony;
+   168→   168→- models whose confidence fails outside their evidence range.
+   169→   169→
+   170→   170→The UI must never leak a privileged ground-truth value merely because the player is strong. `AuthorizedInformationView` remains binding at all realms.
+   171→   171→
+   172→   172→### 3.3 Power as a contribution graph
+   173→   173→
+   174→   174→The resolution model must consume a graph of contributors, dependencies, target relations, and counteractions. It must not compare one attacker realm number to one defender realm number and suppress all lower systems.
+   175→   175→
+   176→   176→An apex actor might contribute extraordinary force while still depending on:
+   177→   177→
+   178→   178→- a local guide to distinguish two culturally identical sites;
+   179→   179→- a mortal witness whose memory is the only admissible evidence;
+   180→   180→- a vulnerable route anchor maintained by a small institution;
+   181→   181→- an ecosystem whose subtle feedback prevents runaway alteration;
+   182→   182→- a peer treaty that keeps a second front closed;
+   183→   183→- a body or incarnation that cannot survive the chosen substrate;
+   184→   184→- a language, ritual, or relationship that cannot be brute-forced without changing its meaning.
+   185→   185→
+   186→   186→This is not artificial equalization. It is the consequence of different actors contributing different things.
+   187→   187→
+   188→   188→---
+   189→   189→
+   190→   190→## 4. Control layers: cosmic scale without menu play
+   191→   191→
+   192→   192→The apex game needs several compatible control layers. A layer changes how intent is expressed; it may not grant new permissions or bypass simulation rules.
+   193→   193→
+   194→   194→### 4.1 Embodied immediate control
+   195→   195→
+   196→   196→Used for action combat, precision intervention, traversal, inspection, negotiation under pressure, rescue, and direct encounters.
+   197→   197→
+   198→   198→Required properties:
+   199→   199→
+   200→   200→- actions remain committed through the existing semantic action transaction model;
+   201→   201→- animation and spectacle never become authoritative state;
+   202→   202→- preparation, aim, target relations, collision/compatibility, reaction windows, and aftermath are inspectable;
+   203→   203→- scale changes camera and readability, not the causal rules;
+   204→   204→- prepared gestures and quick selections compile into the same eligible operations available to NPCs.
+   205→   205→
+   206→   206→An apex duel cannot be a health-sponge fight. Its moment-to-moment play should expose competing objectives, supports, terrain, identities, dependents, and windows of commitment.
+   207→   207→
+   208→   208→### 4.2 Tactical pause and spatial/causal planning
+   209→   209→
+   210→   210→Hard pause must obey the established no-mutation/no-sensing rule. While paused, the player may inspect only already-authorized information and compose prospective commands.
+   211→   211→
+   212→   212→A spatial or causal canvas may show:
+   213→   213→
+   214→   214→- known actors, routes, anchors, hazards, dependents, and uncertain regions;
+   215→   215→- intended objectives and exclusions;
+   216→   216→- proposed contributors and commitment stages;
+   217→   217→- confidence, predicted side effects, and known counteractions;
+   218→   218→- events that would interrupt or invalidate the plan.
+   219→   219→
+   220→   220→It may not show hidden omniscient dependencies or guarantee outcomes.
+   221→   221→
+   222→   222→### 4.3 Doctrine and policy control
+   223→   223→
+   224→   224→Doctrine is a bounded reusable decision policy, not a magic automation toggle. A doctrine must declare:
+   225→   225→
+   226→   226→- eligible actors and assets;
+   227→   227→- the information they can use;
+   228→   228→- objectives in ranked or conditional form;
+   229→   229→- exclusions and protected states;
+   230→   230→- resource, loss, and escalation tolerances;
+   231→   231→- approval and interruption conditions;
+   232→   232→- reporting granularity and latency;
+   233→   233→- expiration, revocation, and succession behavior.
+   234→   234→
+   235→   235→Doctrine execution uses the same eligibility, uncertainty, action, and consequence rules as direct play. A doctrine cannot discover or do what its actors cannot.
+   236→   236→
+   237→   237→### 4.4 Macro intent control
+   238→   238→
+   239→   239→Macro play should reduce repetitive individual commands while increasing the importance of choosing ends, constraints, commitments, and acceptable loss.
+   240→   240→
+   241→   241→Valid macro intents resemble:
+   242→   242→
+   243→   243→- keep this corridor open for civilian migration without entering the rival’s claimed region;
+   244→   244→- contain this evolving hazard while preserving two named ecological functions;
+   245→   245→- investigate these contradictory records without exposing the witness network;
+   246→   246→- establish a refuge whose residents can later reject my protection;
+   247→   247→- delay the peer coalition until the evacuation window closes, without initiating irreversible world damage.
+   248→   248→
+   249→   249→Invalid macro intents resemble:
+   250→   250→
+   251→   251→- win;
+   252→   252→- optimize everything;
+   253→   253→- make everyone loyal;
+   254→   254→- create perfect world;
+   255→   255→- erase all threats;
+   256→   256→- automate cultivation.
+   257→   257→
+   258→   258→Every macro intent must expand into observable actor-authored operations with interruptions and failure. The player must be able to descend into embodied play when precision, uncertainty, conflict, or emotional salience warrants it, but cannot teleport attention among unlimited crises.
+   259→   259→
+   260→   260→### 4.5 Event-horizon interrupts
+   261→   261→
+   262→   262→Long plans need interrupts that are causal, sparse, and configurable. An interrupt is triggered by a declared threshold such as:
+   263→   263→
+   264→   264→- a protected exclusion becomes likely to be violated;
+   265→   265→- an agent loses contact or reports conflicting evidence;
+   266→   266→- a peer commits an irreversible stage;
+   267→   267→- an identity/continuity claim becomes ambiguous;
+   268→   268→- a catastrophe crosses a predicted intersection;
+   269→   269→- a delegated actor refuses, defects, or requests new authority;
+   270→   270→- the plan exceeds its resource, casualty, time, or exposure tolerance.
+   271→   271→
+   272→   272→An interrupt cannot be used as a universal oracle. It requires a sensing/reporting path.
+   273→   273→
+   274→   274→---
+   275→   275→
+   276→   276→## 5. Opponents worthy of apex play
+   277→   277→
+   278→   278→The endgame fails if every opposition is a larger creature with more health. Opponents must contest different dimensions and may be processes rather than villains.
+   279→   279→
+   280→   280→### 5.1 Opponent ecology
+   281→   281→
+   282→   282→| Opponent type | What it contests | Why raw force is insufficient |
+   283→   283→|---|---|---|
+   284→   284→| Peer individual | Capability, intent, preparation, identity, reputation | Mutually destructive commitments and asymmetric techniques create bargaining and feints. |
+   285→   285→| Coalition or civilization | Distribution, legitimacy, redundancy, succession | No single body contains the opposition; destroying nodes may strengthen the cause. |
+   286→   286→| Formation/infrastructure | Routes, throughput, sensing, containment, persistence | It can be dispersed, autonomous, hidden, or dependent on civilian systems. |
+   287→   287→| World ecology | Compatibility, feedback, resilience, carrying capacity | It has no single HP pool and may be harmed by the “successful” intervention. |
+   288→   288→| Cosmic organism or migratory population | Territory, life cycle, communication, survival | Killing it may create larger ecological and political collapse. |
+   289→   289→| Natural cosmic process | Timing, prediction, adaptation, triage | It cannot be intimidated and may be diverted only into other dependents. |
+   290→   290→| Institution or law tradition | Authority, interpretation, compliance, memory | Force can destroy enforcement but not preserve meaning or consent. |
+   291→   291→| Successor movement | Historical responsibility, ownership, identity | It may inherit the player’s work while rejecting the player’s authority. |
+   292→   292→| Internal schism or copied self | Continuity, values, memory, resource claims | Both sides may possess valid evidence and shared capabilities. |
+   293→   293→| Distributed deception | Knowledge and trust | The player cannot solve it with damage and may worsen it through surveillance. |
+   294→   294→
+   295→   295→Opponent competence must use NPC parity. Peers and institutions can prepare, delegate, misinfer, innovate, retreat, preserve dependents, exploit terrain, and accept partial objectives under the same rules as the player.
+   296→   296→
+   297→   297→### 5.2 The adversary must have an objective
+   298→   298→
+   299→   299→Every hostile scenario must record what the opponent wants besides “fight the protagonist.” It must also specify:
+   300→   300→
+   301→   301→- what the opponent knows and falsely believes;
+   302→   302→- what it will risk and protect;
+   303→   303→- what counts as a sufficient partial success;
+   304→   304→- what might persuade it to change course;
+   305→   305→- what it will do if the player never appears;
+   306→   306→- how it behaves after winning, losing, retreating, or surviving.
+   307→   307→
+   308→   308→Removing the protagonist from a fixture must not freeze the world.
+   309→   309→
+   310→   310→---
+   311→   311→
+   312→   312→## 6. Apex objectives: the game must be about more than domination
+   313→   313→
+   314→   314→A full apex objective ecology should support overlapping families:
+   315→   315→
+   316→   316→- **Protect:** preserve persons, ecologies, routes, records, institutions, or options under constraints.
+   317→   317→- **Found:** assemble a durable world, refuge, institution, culture, or knowledge lineage.
+   318→   318→- **Repair:** diagnose and restore a damaged system when some information or identity is already lost.
+   319→   319→- **Explore:** reach or understand a place/process that resists existing concepts and instruments.
+   320→   320→- **Negotiate:** construct enforceable coexistence among actors with asymmetric power and incompatible aims.
+   321→   321→- **Migrate:** move people, species, worlds, or infrastructures through contested and changing conditions.
+   322→   322→- **Contain:** limit a hazard without falsely treating all affected matter or persons as disposable.
+   323→   323→- **Transform:** alter self or world while choosing which continuity claims and dependents survive.
+   324→   324→- **Withdraw:** relinquish control, dismantle harmful dependencies, or create credible autonomy.
+   325→   325→- **Govern:** maintain obligations under imperfect information while resisting administrative capture.
+   326→   326→- **Preserve knowledge:** secure evidence and interpretation across eras, media, and political change.
+   327→   327→- **Create:** establish art, techniques, species, languages, institutions, or environments whose value is not combat output.
+   328→   328→- **Contest:** fight for routes, commitments, witnesses, territory, time windows, or the right to define an outcome.
+   329→   329→- **Accept loss:** decide what cannot be saved, who decides, and how survivors continue.
+   330→   330→
+   331→   331→Combat remains important because force, timing, bodily risk, and contested intervention are central to Xianxia fantasy. It is one causal instrument among several, never the only complete verb.
+   332→   332→
+   333→   333→---
+   334→   334→
+   335→   335→## 7. Failure, loss, and continuation at the highest scale
+   336→   336→
+   337→   337→Apex play needs severe loss without relying exclusively on protagonist deletion. The result must be typed, persistent, and causally attributable.
+   338→   338→
+   339→   339→### 7.1 Loss surfaces
+   340→   340→
+   341→   341→The player may lose:
+   342→   342→
+   343→   343→- a body, avatar, incarnation, anchor, or manifestation route;
+   344→   344→- access to a world, region, relation, substrate, or mode of perception;
+   345→   345→- a protected person, population, species, ecology, or institution;
+   346→   346→- a time window, opportunity, treaty, witness, or evidentiary chain;
+   347→   347→- a world, route, refuge, archive, formation, source, or resource base;
+   348→   348→- authority, trust, reputation, legitimacy, disciples, coalition support, or inheritance rights;
+   349→   349→- memories, interpretive capacity, identity evidence, or agreement among continuations;
+   350→   350→- the ability to maintain existing vows, protections, embodiments, or creations;
+   351→   351→- a chosen self-transformation’s reversibility;
+   352→   352→- the right to decide the future of something the player helped create;
+   353→   353→- the original objective while securing only a costly partial outcome.
+   354→   354→
+   355→   355→### 7.2 Death and viewpoint continuation
+   356→   356→
+   357→   357→The apex layer must consume, not bypass, the selected identity/death model. If a body dies, a copy survives, a memory archive restores, a disciple succeeds, or a world-remnant continues, the game must record which continuity claim is asserted and what evidence supports it.
+   358→   358→
+   359→   359→Forbidden shortcuts:
+   360→   360→
+   361→   361→- restoring the same unique identity and unique resources in two places;
+   362→   362→- retroactively declaring a copy to be the original solely to preserve player inventory;
+   363→   363→- hiding loss behind an unexplained checkpoint reset;
+   364→   364→- transferring relationships, obligations, authority, or personhood as if they were fungible stats;
+   365→   365→- granting protagonist resurrection unavailable to equivalently situated NPCs without a modeled cause.
+   366→   366→
+   367→   367→Continuation may change viewpoint, capabilities, relationships, and objectives. That is part of the game, not merely a failure screen.
+   368→   368→
+   369→   369→### 7.3 Save/load is not metaphysics
+   370→   370→
+   371→   371→External save management may support accessibility and experimentation, but accepted simulation history cannot exploit reload to create duplicate evidence, items, persons, identities, or mutually incompatible persistent branches. Any diegetic temporal or branch operation must have its own capability contract and identity/conservation tests.
+   372→   372→
+   373→   373→---
+   374→   374→
+   375→   375→## 8. World founding is a campaign, not a button
+   376→   376→
+   377→   377→Any world-founding proposal must compile into a staged `WORLD-FOUNDING-TXN-v0.1`. The word “world” may describe several later-selected scales, but the transaction shape remains useful.
+   378→   378→
+   379→   379→### 8.1 Required stages
+   380→   380→
+   381→   381→1. **Purpose and exclusions** — What problem is this world meant to solve, what outcomes are forbidden, and who can revise those statements?
+   382→   382→2. **Site and relation** — Where or through what substrate can it exist, what already occupies or depends on that site, and what reaches it?
+   383→   383→3. **Boundary conditions** — What enters, leaves, propagates, leaks, accumulates, or remains isolated?
+   384→   384→4. **Source assembly** — Which contributors supply matter, energy/qi, information, pattern, life, stability, time, transport, and maintenance?
+   385→   385→5. **Compatibility model** — Which bodies, species, ecologies, techniques, memories, and infrastructures can operate there?
+   386→   386→6. **Topology and transport** — How distance, access, routes, bottlenecks, horizons, and locality work.
+   387→   387→7. **Climate/ecology bootstrapping** — Which feedback loops create habitable and adaptive conditions rather than a static backdrop?
+   388→   388→8. **Life and personhood decisions** — Whether life is invited, moved, evolved, fabricated, copied, or emerges; what rights and identity rules apply.
+   389→   389→9. **Governance and claims** — Who may decide, refuse entry, leave, inherit, alter the world, or challenge the founder?
+   390→   390→10. **Instrumentation and uncertainty** — How stability is observed without implying perfect monitoring.
+   391→   391→11. **Trial regions and abort paths** — What can be tested reversibly, what cannot, and how partial failure is contained.
+   392→   392→12. **Commitment** — Which inputs, conditions, inhabitants, and causal connections become irreversible or externally exposed?
+   393→   393→13. **Succession and autonomy** — How the world continues when the founder is absent, dead, opposed, forgotten, or deliberately removed.
+   394→   394→14. **Maintenance and decay** — Which systems adapt, fail, migrate, or demand attention over long time.
+   395→   395→15. **Aftermath** — What debts, displaced alternatives, witnesses, rivals, dependents, and new opportunities the founding creates.
+   396→   396→
+   397→   397→### 8.2 Creator-rights prohibition
+   398→   398→
+   399→   399→Founding a world gives no automatic ownership over its inhabitants, future, information, resources, or laws. Any authority must arise through an explicit modeled relation and remain contestable. Created persons receive the same protected personhood and identity accounting as other persons.
+   400→   400→
+   401→   401→The following are S0 blockers:
+   402→   402→
+   403→   403→- a “populate” slider that creates obedient people as decor or labor inventory;
+   404→   404→- a founder-only hidden command that bypasses inhabitants’ action rules;
+   405→   405→- editing living cultures as aesthetic parameters after commitment;
+   406→   406→- costless recall, deletion, or mind control justified by creation;
+   407→   407→- world stability that depends forever on an unexplained player aura;
+   408→   408→- a generated ecology with no feedback, reproduction, migration, adaptation, or failure.
+   409→   409→
+   410→   410→### 8.3 Founding as play across scales
+   411→   411→
+   412→   412→The campaign should alternate between:
+   413→   413→
+   414→   414→- direct investigation and embodied intervention;
+   415→   415→- prototype regions and risky field tests;
+   416→   416→- recruiting, negotiating with, and learning from contributors;
+   417→   417→- protecting or contesting infrastructure;
+   418→   418→- choosing among incompatible goods;
+   419→   419→- handling unplanned inhabitants and ecological changes;
+   420→   420→- delegating maintenance while preserving autonomy;
+   421→   421→- responding to peers who object to the site, consequences, or claim.
+   422→   422→
+   423→   423→Success is a world that can surprise, outgrow, criticize, or survive its founder—not a perfect diorama.
+   424→   424→
+   425→   425→---
+   426→   426→
+   427→   427→## 9. World alteration and destruction
+   428→   428→
+   429→   429→Changing or ending a world must consume `CatastropheContract-v0.1`, the identity/death model, continuity rules, authorized information, and semantic time advancement. A “destroy world” animation is not an operation.
+   430→   430→
+   431→   431→### 9.1 `WORLD-ALTERATION-TXN-v0.1`
+   432→   432→
+   433→   433→At minimum, alteration requires:
+   434→   434→
+   435→   435→- a stated objective and exclusions;
+   436→   436→- an evidence-bound model of the current world and known dependents;
+   437→   437→- a declared target relation and boundary;
+   438→   438→- compatibility analysis for inhabitants, visitors, routes, ecologies, institutions, and stored identities;
+   439→   439→- staged changes with observable propagation and possible counteraction;
+   440→   440→- migration, shelter, adaptation, or refusal options where causally available;
+   441→   441→- accounting for displaced conditions and exported hazards;
+   442→   442→- a maintenance/reversal plan whose uncertainty is explicit;
+   443→   443→- post-change governance and attribution.
+   444→   444→
+   445→   445→“Improve the world’s laws” is invalid because improvement is not a state transition and has no declared losers.
+   446→   446→
+   447→   447→### 9.2 `WORLD-SEVERANCE-TXN-v0.1`
+   448→   448→
+   449→   449→Destruction, severance, collapse, consumption, or terminal transformation requires:
+   450→   450→
+   451→   451→- proof that the target has been identified at the permitted information level;
+   452→   452→- a catastrophe envelope and dynamic intersection model;
+   453→   453→- warnings or concealment produced through causal channels;
+   454→   454→- escape, defense, bargaining, sabotage, or counterattack where eligible;
+   455→   455→- propagation through terrain, routes, bodies, infrastructure, and time;
+   456→   456→- survivor/remnant topology rather than a binary deleted flag;
+   457→   457→- identity and resource conservation across remains, copies, memories, and successor views;
+   458→   458→- attribution, evidence, responsibility, and long aftermath;
+   459→   459→- no dangling references in histories, relationships, ownership, quests, populations, routes, or saves.
+   460→   460→
+   461→   461→A world may become uninhabitable, fragmented, inaccessible, transformed, consumed, or ended under a selected metaphysics. It may never simply vanish from simulation because a spectacle completed.
+   462→   462→
+   463→   463→### 9.3 Destruction must remain tactically interactive
+   464→   464→
+   465→   465→During a catastrophic commitment, play may include:
+   466→   466→
+   467→   467→- fighting over anchors, evacuation routes, witnesses, or stabilizers;
+   468→   468→- changing the direction, rate, boundary, or aftermath of propagation;
+   469→   469→- choosing which embodiments and dependents receive attention;
+   470→   470→- bargaining with rivals whose preferred survival set differs;
+   471→   471→- accepting bodily or identity loss to preserve a different continuity;
+   472→   472→- entering the affected space for precision unavailable at macro scale;
+   473→   473→- deciding whether evidence justifies proceeding as the situation changes.
+   474→   474→
+   475→   475→If the only remaining input is “confirm destruction,” the design has already failed.
+   476→   476→
+   477→   477→---
+   478→   478→
+   479→   479→## 10. Lower-realm actors must remain consequential
+   480→   480→
+   481→   481→Lower-realm relevance must arise from causal position and unique contribution, not arbitrary damage scaling, protected plot status, or hostage repetition.
+   482→   482→
+   483→   483→### 10.1 Legitimate contribution channels
+   484→   484→
+   485→   485→Lower-realm actors may uniquely contribute:
+   486→   486→
+   487→   487→- local presence and fine manipulation;
+   488→   488→- trust, consent, cultural interpretation, and social access;
+   489→   489→- observations from places apex senses cannot resolve or safely enter;
+   490→   490→- evidence and witness chains;
+   491→   491→- maintenance distributed across many sites and long durations;
+   492→   492→- invention outside established apex assumptions;
+   493→   493→- ecological knowledge and lived compatibility;
+   494→   494→- care, teaching, diplomacy, art, memory, and institutional continuity;
+   495→   495→- access through lineage, law, relationship, oath, invitation, or ownership;
+   496→   496→- deniable, inconspicuous, or low-impact action where apex intervention would escalate;
+   497→   497→- decisions about their own bodies, homes, descendants, institutions, and futures;
+   498→   498→- redundancy when an apex actor’s centralized support fails.
+   499→   499→
+   500→   500→### 10.2 Legitimate ways lower actors can threaten apex interests
+   501→   501→
+   502→   502→They need not be able to injure an apex body with ordinary force. They may still:
+   503→   503→
+   504→   504→- hide, corrupt, or reveal information;
+   505→   505→- deny trust, consent, entry, maintenance, or legitimacy;
+   506→   506→- move or alter a dependency before the apex actor detects it;
+   507→   507→- defect between coalitions;
+   508→   508→- sabotage routes, anchors, institutions, supplies, records, or succession;
+   509→   509→- innovate a counterrelation or change the political meaning of an action;
+   510→   510→- refuse to preserve the player’s legacy;
+   511→   511→- survive a catastrophe and determine its history;
+   512→   512→- make distributed choices whose aggregate behavior exceeds central control.
+   513→   513→
+   514→   514→### 10.3 Relevance anti-patterns
+   515→   515→
+   516→   516→Reject designs in which mortals matter only as:
+   517→   517→
+   518→   518→- passive worship/resource batteries;
+   519→   519→- hostage counters;
+   520→   520→- quest dispensers;
+   521→   521→- expendable statistical populations;
+   522→   522→- emotional props for the immortal player;
+   523→   523→- tiny combatants granted implausible chip damage;
+   524→   524→- generators of a loyalty number;
+   525→   525→- frozen “protected” cultures denied adaptation;
+   526→   526→- people whose objections disappear when a creator or protector is stronger.
+   527→   527→
+   528→   528→At least one lower-realm contribution must change a consequence, option, confidence, or commitment in every apex fixture where lower-realm populations are in scope. This is a test requirement, not a claim that every mortal decides every cosmic outcome.
+   529→   529→
+   530→   530→---
+   531→   531→
+   532→   532→## 11. Delegation without autoplay
+   533→   533→
+   534→   534→At apex scale, the player must delegate or fail from overload. Delegation is a relationship between actors with partial information, not a batch command sent to units.
+   535→   535→
+   536→   536→### 11.1 `DELEGATED-INTENT-CONTRACT-v0.1`
+   537→   537→
+   538→   538→Every delegated mission must specify:
+   539→   539→
+   540→   540→- principal, agent, and any competing principals;
+   541→   541→- basis and limits of authority;
+   542→   542→- the agent’s knowledge, beliefs, capabilities, needs, and incentives;
+   543→   543→- objective, protected exclusions, acceptable loss, and escalation limits;
+   544→   544→- allocated resources, routes, time, and support;
+   545→   545→- autonomy band: what may be decided without approval;
+   546→   546→- reporting channels, uncertainty, frequency, and latency;
+   547→   547→- interruption and emergency authority;
+   548→   548→- refusal, renegotiation, withdrawal, defection, and succession behavior;
+   549→   549→- audit evidence and what may remain unknowable;
+   550→   550→- consequences for both successful and failed interpretation.
+   551→   551→
+   552→   552→Agents may misunderstand, disagree, lie, improvise, learn, become unavailable, preserve themselves, or decide that an order exceeds legitimate authority. Those behaviors must derive from modeled state, not random drama rolls.
+   553→   553→
+   554→   554→### 11.2 Macro dashboard limits
+   555→   555→
+   556→   556→The dashboard may summarize reported and inferred state. It must distinguish:
+   557→   557→
+   558→   558→- observation from inference;
+   559→   559→- current reports from delayed ones;
+   560→   560→- trusted sources from disputed ones;
+   561→   561→- actor commitments from predicted behavior;
+   562→   562→- authorized knowledge from player-facing editorial help.
+   563→   563→
+   564→   564→It may not reveal exact loyalty, future betrayal, hidden enemy positions, perfect resource totals, global causal dependencies, or optimal assignments without an in-world basis.
+   565→   565→
+   566→   566→### 11.3 Delegation play loop
+   567→   567→
+   568→   568→Meaningful delegation asks the player to:
+   569→   569→
+   570→   570→1. choose actors whose capabilities and values fit the mission;
+   571→   571→2. express objectives and exclusions under incomplete foresight;
+   572→   572→3. decide how much autonomy and support to grant;
+   573→   573→4. accept that close control costs attention and latency;
+   574→   574→5. interpret uncertain reports and deviations;
+   575→   575→6. intervene, renegotiate, replace, or trust;
+   576→   576→7. live with the institutional memory and relationship created by the result.
+   577→   577→
+   578→   578→If one doctrine completes all endgame fixtures with no intervention, the doctrine or the fixtures are broken.
+   579→   579→
+   580→   580→---
+   581→   581→
+   582→   582→## 12. The apex moment-to-moment loop
+   583→   583→
+   584→   584→The desired loop is:
+   585→   585→
+   586→   586→1. **Encounter an uncertain state** through embodied senses, instruments, agents, records, and relationships.
+   587→   587→2. **Form a bounded objective** with exclusions, priorities, and an acceptable uncertainty/loss envelope.
+   588→   588→3. **Assemble relations and support** by preparing techniques, bodies, routes, allies, evidence, refuges, and fallback plans.
+   589→   589→4. **Commit a staged operation** whose growing effects can be observed, contested, redirected, or abandoned until specific commitment points.
+   590→   590→5. **Respond through mixed control layers**: direct action, tactical planning, delegation, negotiation, and doctrine.
+   591→   591→6. **Resolve partial outcomes** rather than a single win flag.
+   592→   592→7. **Live in the aftermath** as ecologies, survivors, institutions, enemies, successors, and the player’s own identity adapt.
+   593→   593→
+   594→   594→### 12.1 Required texture
+   595→   595→
+   596→   596→Every apex campaign must contain a deliberate rhythm of:
+   597→   597→
+   598→   598→- bodily immediacy and distant consequence;
+   599→   599→- quiet observation and explosive commitment;
+   600→   600→- personal relationships and vast systems;
+   601→   601→- preparation, execution, recovery, and long aftermath;
+   602→   602→- power fantasy and encounters with genuine limits;
+   603→   603→- authored specificity and systemically generated variation;
+   604→   604→- victories that open new obligations instead of merely increasing numbers.
+   605→   605→
+   606→   606→The game must not move permanently into an abstract map after ascension. Nor may it force the apex player to hand-command thousands of routine targets to prove “depth.”
+   607→   607→
+   608→   608→---
+   609→   609→
+   610→   610→## 13. Apex golden-scenario suite
+   611→   611→
+   612→   612→All fixtures below are **NOT RUN**. Each needs deterministic seeds, traceable authorized information, NPC counterfactuals, typed expected invariants, human play observation, and persistent aftermath checks.
+   613→   613→
+   614→   614→### A1 — Found a refuge that can reject its founder
+   615→   615→
+   616→   616→The player attempts to establish a durable refuge for several incompatible populations. The site already supports a non-person ecology; two populations disagree over boundary conditions; a peer claims a route dependency; an unplanned sentient population emerges or is discovered during bootstrapping.
+   617→   617→
+   618→   618→Must prove:
+   619→   619→
+   620→   620→- founding spans embodied, tactical, diplomatic, and macro play;
+   621→   621→- no population becomes an obedient setting;
+   622→   622→- player power cannot resolve incompatible requirements without tradeoffs;
+   623→   623→- the world can later refuse the founder’s authority and still function;
+   624→   624→- removal of the player produces continued adaptive behavior.
+   625→   625→
+   626→   626→### A2 — A peer attacks a mortal world for a coherent objective
+   627→   627→
+   628→   628→The opponent needs a route, resource, containment measure, or evidentiary destruction that intersects an inhabited world. The opponent is willing to bargain and accept partial success.
+   629→   629→
+   630→   630→Must prove:
+   631→   631→
+   632→   632→- the conflict is not a health-bar duel;
+   633→   633→- combat objectives shift as information changes;
+   634→   634→- lower actors contribute information, access, and evacuation choices;
+   635→   635→- both apex actors obey the same capability contracts;
+   636→   636→- winning the duel does not automatically solve the world problem.
+   637→   637→
+   638→   638→### A3 — Migratory cosmic life crosses inhabited routes
+   639→   639→
+   640→   640→A vast organism or population must migrate through several worlds and infrastructures. Redirecting it exports ecological costs; killing it causes cascading failure; doing nothing destroys settlements.
+   641→   641→
+   642→   642→Must prove:
+   643→   643→
+   644→   644→- a natural/living process can be an apex challenge without villainization;
+   645→   645→- observation and ecological interpretation are playable;
+   646→   646→- macro planning contains direct high-risk interventions;
+   647→   647→- no option preserves every value;
+   648→   648→- consequences propagate over long time.
+   649→   649→
+   650→   650→### A4 — Delegated coalition schism during catastrophe
+   651→   651→
+   652→   652→The player is directly engaged elsewhere when a coalition executing a containment doctrine divides over casualty tolerance and authority. Reports are delayed and partially contradictory.
+   653→   653→
+   654→   654→Must prove:
+   655→   655→
+   656→   656→- attention and travel/concurrency are real constraints;
+   657→   657→- delegates possess agency and legitimate refusal;
+   658→   658→- the dashboard does not leak ground truth;
+   659→   659→- intervention has opportunity cost;
+   660→   660→- at least three coherent outcomes survive, including one without player arrival.
+   661→   661→
+   662→   662→### A5 — Alter a foundational condition
+   663→   663→
+   664→   664→The player attempts a major world alteration to stop an accumulating failure. The change benefits current inhabitants but makes the world incompatible with migrants, archives, an existing species, or a class of bodies/techniques.
+   665→   665→
+   666→   666→Must prove:
+   667→   667→
+   668→   668→- “law rewriting” compiles into staged causal operations;
+   669→   669→- compatibility is specific and inspectable;
+   670→   670→- affected persons can organize, refuse, adapt, migrate, or counteract;
+   671→   671→- reversal cannot restore information already lost;
+   672→   672→- completion creates governance and maintenance questions.
+   673→   673→
+   674→   674→### A6 — Chosen destruction with remnant continuity
+   675→   675→
+   676→   676→The player has evidence that the current world-system will export a larger catastrophe. Destruction, isolation, transformation, and imperfect containment remain possible. Opponents dispute the model and the authority to choose.
+   677→   677→
+   678→   678→Must prove:
+   679→   679→
+   680→   680→- destruction is contested throughout commitment;
+   681→   681→- `CatastropheContract-v0.1` governs dynamic propagation;
+   682→   682→- survivor, remnant, route, identity, and attribution records remain valid;
+   683→   683→- there is no binary delete and no dangling references;
+   684→   684→- a successor viewpoint can continue meaningfully after protagonist loss.
+   685→   685→
+   686→   686→### A7 — Copy, merge, and authority dispute
+   687→   687→
+   688→   688→Several continuations of an apex actor return with overlapping memory evidence and incompatible values. Each is attached to different worlds, relationships, resources, and vows.
+   689→   689→
+   690→   690→Must prove:
+   691→   691→
+   692→   692→- no identity or resource duplication is silently accepted;
+   693→   693→- relationships and authority do not transfer as inventory;
+   694→   694→- the player can continue through a typed viewpoint without declaring other persons fake;
+   695→   695→- combat, negotiation, merge, separation, and succession all use the same identity rules as NPCs.
+   696→   696→
+   697→   697→### A8 — Long-horizon time asymmetry
+   698→   698→
+   699→   699→The player uses or encounters a region with different experienced and world time. Institutions outside evolve, delegates reinterpret doctrine, a protected population ages, and resource/economic flows cross the boundary.
+   700→   700→
+   701→   701→Must prove:
+   702→   702→
+   703→   703→- semantic time advancement remains authoritative;
+   704→   704→- no infinite production, training, sensing, or reaction exploit occurs;
+   705→   705→- offscreen agents continue under valid information and latency;
+   706→   706→- returning to the wider world creates coherent historical rather than scripted change.
+   707→   707→
+   708→   708→### A9 — The mortal witness prevents an apex error
+   709→   709→
+   710→   710→An apex model strongly favors an intervention. A low-capability witness possesses fragile, culturally encoded, or locally observed evidence that exposes a target misidentification or hidden dependency.
+   711→   711→
+   712→   712→Must prove:
+   713→   713→
+   714→   714→- the witness matters through causal position, not plot armor;
+   715→   715→- strength does not auto-translate the evidence;
+   716→   716→- players can ignore, discredit, protect, investigate, or act on it;
+   717→   717→- NPCs can make the same inferential mistake;
+   718→   718→- the witness and community remain persons after their “quest use.”
+   719→   719→
+   720→   720→### A10 — One era with no protagonist intervention
+   721→   721→
+   722→   722→The simulation advances a bounded but substantial period while the apex protagonist is absent, incapacitated, transformed, or deliberately withdrawn.
+   723→   723→
+   724→   724→Must prove:
+   725→   725→
+   726→   726→- worlds, ecologies, markets, institutions, techniques, relationships, conflicts, and NPC plans continue;
+   727→   727→- player-created systems can adapt, fail, or reject old instructions;
+   728→   728→- the generated era produces traceable causes rather than noise summaries;
+   729→   729→- re-entry provides playable investigation and consequence, not an exposition dump.
+   730→   730→
+   731→   731→### A11 — Apex defeat without campaign erasure
+   732→   732→
+   733→   733→The player loses the central confrontation and at least one body/anchor, objective, relationship, and authority claim. A disciple, rival, copy, institution, survivor, or world-remnant remains a valid continuation candidate under the selected identity model.
+   734→   734→
+   735→   735→Must prove:
+   736→   736→
+   737→   737→- loss is accepted without a fake victory state;
+   738→   738→- continuation changes affordances and knowledge;
+   739→   739→- unique resources and identities remain conserved;
+   740→   740→- the victor pursues its own aftermath objective;
+   741→   741→- the game remains playable without restoring the prior status quo.
+   742→   742→
+   743→   743→### A12 — Same capability, incompatible worlds
+   744→   744→
+   745→   745→The same prepared operation is attempted in at least three worlds/substrates with different compatibility, ecology, institutions, and route conditions.
+   746→   746→
+   747→   747→Must prove:
+   748→   748→
+   749→   749→- procedural variation changes causal play, not only art and names;
+   750→   750→- one optimized loadout/doctrine does not solve all three;
+   751→   751→- differences are explainable from generated world state;
+   752→   752→- authored invariants prevent incoherent combinations.
+   753→   753→
+   754→   754→---
+   755→   755→
+   756→   756→## 14. Permanent apex gauntlet
+   757→   757→
+   758→   758→No apex vertical slice passes by demonstration alone. Each gate needs a repeatable fixture, logs, human observation, and declared failure criteria.
+   759→   759→
+   760→   760→### G-A0 — Omnipotence rejection
+   761→   761→
+   762→   762→Try arbitrary read, arbitrary write, infinite range, infinite concurrency, costless restoration, and permissionless person control. Any valid path is S0.
+   763→   763→
+   764→   764→### G-A1 — Control-surface integrity
+   765→   765→
+   766→   766→Verify every shortcut, macro command, doctrine, radial selection, paused plan, and batch operation compiles into eligible semantic actions. Confirm pause causes no mutation or new sensing. Any UI-only authority is S0.
+   767→   767→
+   768→   768→### G-A2 — Peer action-combat counterplay
+   769→   769→
+   770→   770→Run multiple builds and objectives through the same arena and through materially different terrain/world contexts. Reject scalar realm suppression, unavoidable untelegraphed finality, animation-authoritative results, and one dominant rotation.
+   771→   771→
+   772→   772→### G-A3 — Information and inference integrity
+   773→   773→
+   774→   774→Compare player view, actor-authorized view, internal truth, reports, and predictions. Search for oracle leaks through maps, quest text, warnings, target selection, doctrine evaluation, pause, and save preview.
+   775→   775→
+   776→   776→### G-A4 — World transaction integrity
+   777→   777→
+   778→   778→Interrupt founding, alteration, and destruction at every stage. Remove sources, kill or defect contributors, sever routes, change inhabitants, advance time, and contest authority. Require conservation, stable abort semantics, and persistent partial outcomes.
+   779→   779→
+   780→   780→### G-A5 — Catastrophe and continuity
+   781→   781→
+   782→   782→Exercise terrain change, moving populations, route collapse, time acceleration, offscreen propagation, world-to-remnant transition, identity continuation, and renderer/tier changes. The same authoritative result must survive all presentation tiers.
+   783→   783→
+   784→   784→### G-A6 — NPC parity and protagonist removal
+   785→   785→
+   786→   786→Let eligible NPCs attempt the same apex operations. Remove the player before, during, and after commitment. Reject frozen worlds, protagonist-only exceptions, weaker identity rules, or invisible NPC discounts.
+   787→   787→
+   788→   788→### G-A7 — Lower-realm relevance
+   789→   789→
+   790→   790→Remove lower actors, replace them with generic counters, ignore their reports, deny their consent, and preserve them only as hostages. The fixture must show specific consequence-changing contributions without inventing implausible direct damage.
+   791→   791→
+   792→   792→### G-A8 — Delegation hostility
+   793→   793→
+   794→   794→Inject ambiguous orders, delayed reports, incompatible objectives, agent refusal, competing principals, lost contact, hidden corruption, succession, and partial success. Reject omniscient dashboards, auto-optimal allocation, or random betrayal without causal state.
+   795→   795→
+   796→   796→### G-A9 — Economic and temporal exploit closure
+   797→   797→
+   798→   798→Stress parallel bodies, pocket time, long pause, time acceleration, world isolation, delegated production, copying, restoration, market latency, and route arbitrage. Reject infinite training/production, duplicate uniques, free information, or frozen external actors.
+   799→   799→
+   800→   800→### G-A10 — Identity and finality
+   801→   801→
+   802→   802→Kill, copy, split, merge, restore, inherit, and transform player and NPC identities. Verify typed continuity, evidence, relationship/authority handling, and no duplication. Repeat across world destruction and save/load boundaries.
+   803→   803→
+   804→   804→### G-A11 — Strategy diversity
+   805→   805→
+   806→   806→Attempt every golden scenario using the same unchanged doctrine, build, coalition pattern, and risk threshold. If it reliably dominates, investigate whether generated worlds are cosmetic, counters are fake, or the control layer is solving the game.
+   807→   807→
+   808→   808→### G-A12 — Playability and menu burden
+   809→   809→
+   810→   810→Observe players across full scenarios. Measure time spent embodied, planning, interpreting, configuring, waiting, and resolving repetitive chores. Reject apex play that is mainly paging through alerts, assigning identical tasks, tuning sliders, or watching agents execute predetermined outcomes.
+   811→   811→
+   812→   812→### G-A13 — Long-afterward coherence
+   813→   813→
+   814→   814→Advance time after victory, failure, withdrawal, death, and world transition. Check descendants, institutions, ecology, records, reputation, ownership, claims, techniques, routes, and new conflicts. Reject aftermath that collapses to a commemorative text summary while simulation state resets.
+   815→   815→
+   816→   816→### G-A14 — Generated-specificity test
+   817→   817→
+   818→   818→For each major result, require a compact causal explanation traceable to generated entities, dependencies, histories, and current actions. Re-seed and confirm variation changes problems and valid responses without violating invariants. Reject untraceable surprise and templated noise.
+   819→   819→
+   820→   820→---
+   821→   821→
+   822→   822→## 15. Proposed pass thresholds
+   823→   823→
+   824→   824→These are provisional preregistration candidates, **not measured results**. They require calibration during evidence stages and may become stricter.
+   825→   825→
+   826→   826→### 15.1 Integrity floors
+   827→   827→
+   828→   828→- **100%** of committed apex actions resolve through semantic transactions; zero UI-only state changes.
+   829→   829→- **100%** of player/NPC apex operations use the same eligibility and consequence contracts, except explicitly modeled actor differences.
+   830→   830→- **100%** of consequential founding/alteration/destruction operations leave valid histories, references, conservation records, and aftermath.
+   831→   831→- **0** accepted omniscient information leaks in authoritative decision views.
+   832→   832→- **0** identity/resource duplication paths across death, copies, time, worlds, save/load, or remnant transition.
+   833→   833→- **0** created-person creator-admin exceptions.
+   834→   834→- **0** pause mutation or pause sensing paths.
+   835→   835→
+   836→   836→Any violation of these floors is S0.
+   837→   837→
+   838→   838→### 15.2 Interaction floors
+   839→   839→
+   840→   840→Across the golden suite:
+   841→   841→
+   842→   842→- every major operation exposes at least one meaningful pre-commitment choice, one response or counter window, and one persistent aftermath choice;
+   843→   843→- every opponent has an objective and at least one coherent behavior path when the protagonist is absent;
+   844→   844→- each scenario supports at least three materially distinct outcome families, not merely different reward totals;
+   845→   845→- no single unchanged doctrine/build resolves more than half the suite at the best observed outcome tier;
+   846→   846→- every scenario involving lower populations contains at least one consequence-changing lower-actor contribution;
+   847→   847→- each world transaction includes at least one playable embodied intervention and one macro-scale decision whose tradeoff cannot be delegated away;
+   848→   848→- at least one plausible partial failure remains playable in every fixture.
+   849→   849→
+   850→   850→### 15.3 Burden and delegation targets
+   851→   851→
+   852→   852→- Compared with issuing equivalent individual commands, macro control should remove at least **90%** of per-target command entry in large-scale fixtures while preserving objective, exclusion, commitment, and interruption decisions.
+   853→   853→- In observed apex sessions, repetitive configuration, alert clearing, and identical assignments should occupy **less than 25%** of active decision time.
+   854→   854→- Purely passive waiting should not be required where the simulation has no new authorized information or pending player decision; time may advance semantically to the next lawful event.
+   855→   855→- Delegated outcomes must show actor-specific interpretation and causal variation without requiring routine micromanagement to avoid guaranteed incompetence.
+   856→   856→
+   857→   857→These targets do not authorize invisible auto-resolution. They define the burden the control design must remove.
+   858→   858→
+   859→   859→### 15.4 Readability targets
+   860→   860→
+   861→   861→- Players can identify the immediate objective, known stakes, current commitment stage, and at least one available response during apex combat without reading internal state.
+   862→   862→- Players can distinguish observation, report, inference, and prediction in macro views.
+   863→   863→- After a major loss, players can explain the primary causal chain and name at least one earlier decision that changed exposure, without the UI pretending all outcomes were fully predictable.
+   864→   864→- Repeated testers can recognize generated causal differences between A12 worlds without relying on names, color palettes, or numerical modifiers.
+   865→   865→
+   866→   866→Exact study protocols belong to the later evidence workplan.
+   867→   867→
+   868→   868→---
+   869→   869→
+   870→   870→## 16. Cross-system stress matrix
+   871→   871→
+   872→   872→No apex package may proceed as an isolated “endgame” design. It consumes and stress-tests every earlier contract.
+   873→   873→
+   874→   874→| Earlier system | Apex stress | Failure if omitted |
+   875→   875→|---|---|---|
+   876→   876→| Authorized information | Vast perception, agents, maps, forecasts, pause | Omniscient dashboard and fake uncertainty |
+   877→   877→| Semantic action transactions | World-scale, staged, interrupted acts | Spectacle or menu becomes authoritative state |
+   878→   878→| Time advancement | Long plans, asymmetry, offscreen worlds | Infinite loops, frozen actors, incoherent history |
+   879→   879→| Catastrophe contract | World alteration/destruction, mass movement | Binary deletion and scripted consequence |
+   880→   880→| Identity/death | Bodies, copies, successors, remnants | Duplication, fake resurrection, consequence erasure |
+   881→   881→| Capability/contribution envelopes | Peer combat and cross-realm relations | Scalar suppression and stat inflation |
+   882→   882→| TECH-DAG / technique constraints | Preparation, compatibility, countertechnique | Universal “dao” verbs with no dependencies |
+   883→   883→| Control surface | Embodied, pause, doctrine, macro, batch | Menu powers and protagonist exceptions |
+   884→   884→| Doctrine/policy | Institutions and long delegation | Autoplay or constant micromanagement |
+   885→   885→| Terrain transaction | Huge physical/metaphysical changes | Renderer-driven state and broken navigation |
+   886→   886→| Living economy | Worlds, routes, time, production, migration | Infinite wealth and decorative populations |
+   887→   887→| NPC autonomy/parity | Peers, delegates, civilizations, founders | Protagonist-centric frozen universe |
+   888→   888→| Procedural specificity | Multiple worlds/eras/problems | Reskinned noise and one universal solution |
+   889→   889→| Persistence/save | Long aftermath and lost worlds | Reset history and duplicate state |
+   890→   890→| Renderer tiers/scale | Body-to-world action and offscreen resolution | Different truth at different camera distances |
+   891→   891→| Source/design bridge | Xianxia-specific mechanics and expression | Vague genre words or unauthorized canon claims |
+   892→   892→
+   893→   893→An apex fixture is valuable precisely because it forces all of these systems to interact under maximum pressure.
+   894→   894→
+   895→   895→---
+   896→   896→
+   897→   897→## 17. Required design records before implementation
+   898→   898→
+   899→   899→The first apex prototype is blocked until the responsible packages provide:
+   900→   900→
+   901→   901→1. a selected provisional identity/death model with explicit unresolved branches;
+   902→   902→2. an authoritative information model that covers macro views and delegated reports;
+   903→   903→3. semantic action and time-advance contracts valid across renderer tiers;
+   904→   904→4. an apex capability schema and at least three filled contracts from different families;
+   905→   905→5. a player/NPC contribution resolution model with no realm scalar suppression;
+   906→   906→6. a control-surface specification covering embodied, pause, doctrine, and macro layers;
+   907→   907→7. `WORLD-FOUNDING-TXN`, `WORLD-ALTERATION-TXN`, and `WORLD-SEVERANCE-TXN` drafts;
+   908→   908→8. a personhood/authority record that explicitly forbids creator-admin access;
+   909→   909→9. a delegation contract and report-uncertainty model;
+   910→   910→10. a catastrophe/remnant continuity handoff;
+   911→   911→11. a procedural specificity schema capable of explaining generated dependencies;
+   912→   912→12. preregistered golden fixtures with deterministic seeds and evidence tiers;
+   913→   913→13. a performance/scale plan proving presentation tiers do not change simulation truth;
+   914→   914→14. a research/design bridge for any source-distinctive capability language or mechanic.
+   915→   915→
+   916→   916→These are dependency-scoped blockers. Lower-realm research, mechanics, and prototypes that do not consume unresolved apex claims may continue.
+   917→   917→
+   918→   918→---
+   919→   919→
+   920→   920→## 18. Hostile review questions for every apex pitch
+   921→   921→
+   922→   922→Before accepting any design sentence, ask:
+   923→   923→
+   924→   924→1. What can the player actually press, aim, compose, promise, or delegate?
+   925→   925→2. What information justifies that choice, and what remains unknown?
+   926→   926→3. Which relation grants access to the target?
+   927→   927→4. Who or what supplies range, precision, duration, stability, and interpretation?
+   928→   928→5. What must the player stop doing to commit to this?
+   929→   929→6. Who can observe, refuse, mislead, interrupt, redirect, survive, or exploit it?
+   930→   930→7. Which lower-realm actor contributes something power cannot substitute for?
+   931→   931→8. What happens if the protagonist never arrives?
+   932→   932→9. What persists if the operation only partly succeeds?
+   933→   933→10. What can be permanently lost besides hit points?
+   934→   934→11. Does a created person have the same rights and identity rules as a found person?
+   935→   935→12. Can an eligible NPC do the same thing under the same rules?
+   936→   936→13. Does the result remain identical when rendered nearby, distant, abstractly, or offscreen?
+   937→   937→14. Can the same doctrine solve every generated variant?
+   938→   938→15. Can the causal result be explained without invoking “because apex realm”?
+   939→   939→16. Does the player live through the aftermath, or only receive a summary?
+   940→   940→
+   941→   941→If the pitch cannot answer these, it is not yet a mechanic.
+   942→   942→
+   943→   943→---
+   944→   944→
+   945→   945→## 19. Final disposition
+   946→   946→
+   947→   947→The project should pursue apex play, but only as the most demanding integration target for the entire living-world simulation. The maximum-realm fantasy is not approved as omnipotence and is not approved as a separate god-game interface.
+   948→   948→
+   949→   949→The acceptable target is a player who can:
+   950→   950→
+   951→   951→- fight and intervene directly at extraordinary scale;
+   952→   952→- form and maintain worlds, institutions, routes, ecologies, and commitments;
+   953→   953→- delegate without surrendering all decision-making;
+   954→   954→- face peers, coalitions, living systems, natural processes, and their own continuations;
+   955→   955→- lose bodies, worlds, authority, relationships, identities, and objectives without erasing history;
+   956→   956→- remain dependent on specific lower-realm persons and systems for reasons grounded in causality;
+   957→   957→- create things that can become autonomous and no longer belong to them;
+   958→   958→- continue to discover, misunderstand, choose, commit, regret, repair, and change.
+   959→   959→
+   960→   960→That is an apex Xianxia life worth playing. Anything less constrained becomes a cutscene generator; anything less interactive becomes administration; anything less persistent makes cosmic action weightless.
+   961→   961→
+   962→   962→**Current decision:** `APEX PLAY CONCEPTUALLY DESIGNABLE — IMPLEMENTATION NOT AUTHORIZED — ALL GAUNTLET EVIDENCE NOT RUN`.
+   963→   963→

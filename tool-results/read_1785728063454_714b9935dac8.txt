@@ -1,0 +1,817 @@
+     1→     1→# Microcosm, Macrocosm, and Apex Cultivation Stress Architecture — Draft v0.1
+     2→     2→
+     3→     3→**Status:** original pre-canon architecture candidate; independent reviews pending  
+     4→     4→**Purpose:** place a deliberately extreme provisional endgame above the mortal opening so every realm, system, generator, control surface, persistence rule and performance strategy must prove it can span the whole game  
+     5→     5→**Does not select:** final cosmology, realm names, number of realms, qi ontology, soul model, Heaven, karma/fate, tribulations, inner worlds, protagonist advantage, or an apex title  
+     6→     6→**Governing dependency:** Next-Phase Xianxia Source, Terminology, and Originality Workplan v0.1; no candidate bypasses its finite claim-card, cultural-track, translation, originality or `DESIGN-BRIDGE-v0.1` gates  
+     7→     7→**Code status:** no production code or implementation authorization
+     8→     8→
+     9→     9→---
+    10→    10→
+    11→    11→## 0. Architectural verdict
+    12→    12→
+    13→    13→The game should be designed from both ends and verified toward the middle:
+    14→    14→
+    15→    15→```text
+    16→    16→MORTAL END                                              APEX STRESS END
+    17→    17→one body, one household, uncertain world                candidate-dependent extreme operations
+    18→    18→food, care, work, evidence, danger                       identity and embodiment outcomes remain open
+    19→    19→small acts with dense consequence                        enormous acts with exact consequence boundaries
+    20→    20→             └──────── every realm must form a proved bridge ────────┘
+    21→    21→```
+    22→    22→
+    23→    23→The mortal end prevents the universe from becoming empty scale. The apex end prevents the architecture from assuming that combat, terrain, identity, society and generation will always remain human-sized.
+    24→    24→
+    25→    25→The provisional ceiling is an **`APEX-STRESS-SUITE`**, not one actor, realm or destined player package. It is the union of independent cases the architecture may need to support. An eventual apex candidate receives only the operation families entailed by its path, must name constitutive blind spots, and must lack at least two other apex families. The suite includes separate cases for:
+    26→    26→
+    27→    27→- attempted continuity after loss of ordinary bodily support;
+    28→    28→- cross-context traversal or translation;
+    29→    29→- founding a self-developing habitat where a candidate permits it;
+    30→    30→- altering one selected deep relation inside an explicitly bounded domain;
+    31→    31→- concurrent or branching embodiment where an identity model permits it;
+    32→    32→- preserving, relocating or transforming habitat-scale structures;
+    33→    33→- responding to topology-neutral habitat-support failure;
+    34→    34→- confronting another apex path that cannot be reduced to a larger health bar; and
+    35→    35→- causing or preventing large-context catastrophe while every affected person, ecology, claim, history and remnant still resolves.
+    36→    36→
+    37→    37→No actor is assumed to possess all cases. Persistence, embodiment, habitat survival, reintegration and cross-context continuation are optional candidate tests. Each is run under identity outcomes including: continuation is impossible; final death; a successor rather than the same person; branching persons; uncertain continuity; and genuine same-person continuation only where the selected model proves it.
+    38→    38→
+    39→    39→No `APEX-STRESS-SUITE` case permits omnipotence. A candidate cannot know everything, act everywhere, make contradictions true, define another person's identity by declaration, retroactively uncommit history, create infinite usable resources, guarantee obedience, erase incompatible paths without a contest, or treat the universe as developer data.
+    40→    40→
+    41→    41→If the architecture cannot express this ceiling coherently and keep it playable, the realm bridge is rejected before canon—not patched at the end of production.
+    42→    42→
+    43→    43→---
+    44→    44→
+    45→    45→## 1. What “microcosm” means here
+    46→    46→
+    47→    47→The microcosm is not automatically “a tiny universe inside every cultivator.” It is the smallest causally complete model of a cultivating person that the selected path requires. Candidate domains remain separate until canon relates them.
+    48→    48→
+    49→    49→| Microcosmic domain | Questions the eventual ontology must answer | What is forbidden by default |
+    50→    50→|---|---|---|
+    51→    51→| material embodiment | tissues/materials, structure, temperature, pressure, injury, aging, nourishment, waste, species variation | universal human anatomy; realm label as hit-point multiplier |
+    52→    52→| conduits and boundaries | what can enter, circulate, transform, leak, block, scar or leave; whether meridians/dantian exist for this path/species | treating real-world medical meridians as verified anatomy; one universal conduit graph |
+    53→    53→| qi participation | ambient/personal relation, storage, throughput, signature, compatibility, contamination, conversion, recovery | generic mana bar; free energy; one scalar for every action |
+    54→    54→| perception and attention | sense modalities, evidence, focus, resolution/range tradeoff, false positives, counter-detection | omniscient divine-sense radar or inventory/intent labels |
+    55→    55→| heart-mind | attention, intention, affect, desire, fear, resolve, habit, self-interpretation | *xin* as detached soul, morality stat or guaranteed “Dao heart” immunity |
+    56→    56→| spirit | whatever selected ontology means by spirit/*shen*, including the possibility that no detachable entity exists | automatic personhood, numerical identity or afterlife |
+    57→    57→| personhood and continuity | consciousness, agency, memory, body, social/legal recognition, numerical identity, copies, succession | slash-equating soul/spirit/person; player-owned identity exceptions |
+    58→    58→| practiced patterns | learned transformations, timing, embodied skill, teacher/manual provenance, correction, failure and recovery | knowing prose equals executable mastery; technique as VFX hotbar entry |
+    59→    59→| internal ecology | symbionts, parasites, medicines, residues, injuries, deviations, created entities and long-term adaptation where selected | consequence-free pill spam; every inner entity as inventory |
+    60→    60→| inner topology | ordinary body regions, cultivated chambers, stable circuits, held patterns, inner landscape or world only if earned/selected | assuming metaphor is literally a pocket universe from Qi Condensation |
+    61→    61→
+    62→    62→### 1.1 The microcosmic progression rule
+    63→    63→
+    64→    64→Cultivation can add, refine, externalize, internalize, stabilize or transform relations in this model. It cannot merely replace the body sheet with a larger sheet.
+    65→    65→
+    66→    66→A valid breakthrough therefore declares:
+    67→    67→
+    68→    68→```text
+    69→    69→previous microstate and unresolved uncertainty
+    70→    70→practice/resource/environment/relationship prerequisites
+    71→    71→transition milestones and interrupt windows
+    72→    72→new stable relation or topology
+    73→    73→new player verbs and perception
+    74→    74→lost/changed affordances
+    75→    75→failure, deviation and recovery states
+    76→    76→socially observable evidence
+    77→    77→identity/death implications
+    78→    78→macro-environment interfaces
+    79→    79→```
+    80→    80→
+    81→    81→An “inner world” is one possible late candidate, not the universal destination. If selected, its contents, time, exports, persons, ecology and collapse follow the same conservation, identity and causality rules as any other world-habitat.
+    82→    82→
+    83→    83→---
+    84→    84→
+    85→    85→## 2. The missing middle: person, household, institution, landscape
+    86→    86→
+    87→    87→Micro and macro cannot connect through combat power alone. The bridge passes through social and ecological scales:
+    88→    88→
+    89→    89→```text
+    90→    90→body/person
+    91→    91→→ household/care network
+    92→    92→→ workshop/farm/route/neighborhood
+    93→    93→→ lineage/sect/temple/court/guild or other distinct institution
+    94→    94→→ watershed/ecoregion/settlement system
+    95→    95→→ polity and cultivation-resource ecology
+    96→    96→→ mortal world-habitat
+    97→    97→→ inter-world context
+    98→    98→→ cosmological habitat network
+    99→    99→```
+   100→   100→
+   101→   101→Each scale has boundaries, flows, storage, maintenance, memory, conflict, failure and repair. The recurrence is a design analogy and possible source of path insight; it is **not** proof that a dantian is a planet, a meridian is a river, a sect is a body, or a ruler is Heaven.
+   102→   102→
+   103→   103→| Recurring problem | Person scale | Social/ecological scale | Cosmological scale |
+   104→   104→|---|---|---|---|
+   105→   105→| boundary | skin, attention, cultivated defense | walls, customs, law, consent, territory | world membrane, domain interface, crossing condition |
+   106→   106→| circulation | blood/material flow, qi where selected | food, water, care, trade, messages, pilgrimage | separately typed matter, qi, information and cultivated-pattern flows among habitats |
+   107→   107→| storage | tissue, vessel, memory, prepared pattern | granary, archive, treasury, lineage memory | world reserves, remnant archives, long-cycle sources |
+   108→   108→| transformation | digestion, healing, practice, breakthrough | craft, education, ritual, institution, ecology | world formation, decay, pattern change, cosmological cycle |
+   109→   109→| failure | injury, deviation, confusion, death | famine, schism, coercion, collapse, forgetting | habitat failure, boundary rupture, realm catastrophe |
+   110→   110→| repair | rest, medicine, teaching, changed practice | care, rebuilding, reform, migration, succession | stabilization, remnant seeding, world restoration/founding |
+   111→   111→
+   112→   112→High cultivation must make these middle scales more—not less—important. Greater personal power creates larger dependencies, witnesses, responsibilities, enemies, promises and consequence radii.
+   113→   113→
+   114→   114→---
+   115→   115→
+   116→   116→## 3. Macrocosm: topology before names
+   117→   117→
+   118→   118→Before we invent poetic lore names, the architecture uses neutral habitat/topology classes.
+   119→   119→
+   120→   120→### 3.1 Neutral composable topology tags
+   121→   121→
+   122→   122→| Tag | Architectural meaning | It need not be |
+   123→   123→|---|---|---|
+   124→   124→| `site` | room, cave, field, formation, ruin, battlefield or other locally interactive volume | Euclidean, outdoor or permanently stable |
+   125→   125→| `region` | connected livelihood/ecology/institution network with routes and shared hazards | one biome, country or square map chunk |
+   126→   126→| `habitat` | causally integrated long-lived environment able to support histories, ecologies and cultivation systems | spherical planet, one continent or one culture |
+   127→   127→| `habitat-network` | multiple habitats sharing transport, deep ecology, cycles, sources or boundaries | solar system, galaxy or “upper realm” |
+   128→   128→| `boundary` | a typed interface, separation or translation relation between compatible or incompatible contexts | a physical wall, hierarchy or higher power |
+   129→   129→| `cyclic-context` | topology/history whose routes or supporting relations recur, transform or close | an ascending stack or forced universal reset |
+   130→   130→| `foundable-context` | optional candidate tag for a self-developing habitat context that can be established/sustained through supported work | infinite reality, universal apex permission or consequence-free sandbox |
+   131→   131→| `external-transition` | optional candidate tag for a relation to a context not contained by the current constitution | mandatory “beyond,” developer database or automatically higher realm |
+   132→   132→
+   133→   133→Tags compose and do not sort into an ordinal ladder. A selected cosmology may be one finite context, a cyclic topology, a flat habitat network, nested habitats, or another cleared form, and may contain no external transition or foundable context. Planetary and stellar scenes are optional presentation/fiction variants of habitat-support tests, never cultivation milestones.
+   134→   134→
+   135→   135→`COSMOS-TOPOLOGY-v0.1` stores revisioned nodes and edges rather than deriving truth from render coordinates:
+   136→   136→
+   137→   137→```text
+   138→   138→TopologyNode:
+   139→   139→  stable TopologyId + revision + composable tags
+   140→   140→  parent/containment claims where applicable
+   141→   141→  bounded fixed-point CoordinatePatchId
+   142→   142→  stable anchors + occupants/claims indexes
+   143→   143→
+   144→   144→TopologyEdge:
+   145→   145→  stable EdgeId + revision
+   146→   146→  containment | adjacency | route | portal | boundary | dependency
+   147→   147→  directed/undirected semantics
+   148→   148→  crossing preconditions and transform revision
+   149→   149→  capacity, latency, occlusion and failure behavior
+   150→   150→```
+   151→   151→
+   152→   152→A canonical address is a stable topology-anchor/patch chain plus fixed-point local coordinate, never a floating world-space vector. Renderer transforms are camera-relative caches. Portal/boundary crossings use versioned transforms and a `TopologySeamCertificate` proving round-trip tolerance, identity/custody preservation, route connectivity and which quantities may change. Any topology write atomically invalidates/rebuilds affected spatial indexes and recertifies active catastrophe fronts, routes, leases and seam certificates before commit.
+   153→   153→
+   154→   154→Topology tags are orthogonal to cultivation realm, K0–K7 catastrophe impact, `S0–S4 SimulationResolution`, `R0–R5 RenderLOD`, `P0–P3 PersistenceClass` and `N0–N3 CausalSignificance`. None may be inferred from another.
+   155→   155→
+   156→   156→### 3.2 Two independent scale axes
+   157→   157→
+   158→   158→Every place, actor and action has at least two independent scale coordinates:
+   159→   159→
+   160→   160→1. **extent** — how much material, distance, population and duration the action spans;
+   161→   161→2. **ontological depth** — which boundary, pattern, identity, time or world-forming relations it can actually affect.
+   162→   162→
+   163→   163→A huge low-depth explosion can devastate a continent without crossing a world boundary. A tiny high-depth operation can alter one oath, one reincarnation relation or one boundary key without producing a crater. Neither is automatically “higher” in every contest.
+   164→   164→
+   165→   165→---
+   166→   166→
+   167→   167→## 4. Original macrocosm candidate families
+   168→   168→
+   169→   169→These families are research probes. We may combine cleared operations later, but not their imagery by default.
+   170→   170→
+   171→   171→### Candidate A — Nested cultivated habitats
+   172→   172→
+   173→   173→Worlds are complete but permeable habitats embedded in larger sustaining contexts. **If a candidate uses ascension for habitat crossing**, that candidate must define how continuity is attempted when leaving one habitat's supporting conditions and must allow failure, death, transformation or succession under the selected identity model. A larger context is not intrinsically morally or spiritually superior.
+   174→   174→
+   175→   175→**Strengths:** clean travel/topology; strong ecology; easy mortal-to-cosmic continuity.  
+   176→   176→**Risks:** degenerates into “lower/upper realm map ladder”; habitats become disposable tiers.
+   177→   177→
+   178→   178→### Candidate B — Interwoven world currents
+   179→   179→
+   180→   180→World-habitats condense, drift, exchange and decay inside long-lived, separately typed currents of matter, qi where selected, information and cultivated patterns. Whether qi can carry information is a selected qi property with bandwidth, observability, transformation and failure behavior. Routes are seasonal/historical rather than permanent loading screens. Worlds affect one another through migration, debris, trade, predation, refuge and resonance.
+   181→   181→
+   182→   182→**Strengths:** living macro ecology; travel and catastrophe remain systemic.  
+   183→   183→**Risks:** qi becomes universal space-fluid; currents become procedural noise without stable histories.
+   184→   184→
+   185→   185→### Candidate C — Layered causal constitutions
+   186→   186→
+   187→   187→Different contexts permit different stable relations. Crossing is a translation problem: body, technique, artifact, oath, memory or inner world may fail, transform or require support. Cultivation develops portability and the ability to establish a bounded compatible domain without declaring universal control.
+   188→   188→
+   189→   189→**Strengths:** makes transcendence qualitative; supports original paths and counters.  
+   190→   190→**Risks:** arbitrary authorial “laws”; excessive rule exceptions; unreadable combat.
+   191→   191→
+   192→   192→### Candidate D — Cyclic creation and remnant ecology
+   193→   193→
+   194→   194→Worlds and larger contexts have births, flourishing, senescence, catastrophe, remnant phases and reseeding. Immortality is not immunity to change; apex actors decide what to preserve, release, transform or found across cycles.
+   195→   195→
+   196→   196→**Strengths:** death/history/remnants matter at every scale; endgame goals beyond domination.  
+   197→   197→**Risks:** forced cosmic reset; nihilism; deterministic cycles that erase agency.
+   198→   198→
+   199→   199→The likely robust architecture is topology-compatible with all four while canon selects a bounded synthesis. It should not require all four to be literally true.
+   200→   200→
+   201→   201→---
+   202→   202→
+   203→   203→## 5. Provisional apex capability envelope
+   204→   204→
+   205→   205→The stress ceiling is a union of hard cases the engine must support. The eventual highest realm may grant only a coherent subset.
+   206→   206→
+   207→   207→### 5.1 Supported apex operation families
+   208→   208→
+   209→   209→| Operation family | Apex-scale expression | Required restraint |
+   210→   210→|---|---|---|
+   211→   211→| persist | continue through loss of ordinary body/world support | selected identity model; no automatic copy identity |
+   212→   212→| embody (optional) | create, inhabit or release bounded manifestations only where a candidate/identity model permits | source, concurrency, knowledge separation, custody and death rules |
+   213→   213→| traverse | cross world/context boundaries | compatibility, route, evidence, preparation, failure and arrival aftermath |
+   214→   214→| attend | perceive large causal structures or focused remote relations | no omniscience; resolution/range/attention tradeoffs; concealment |
+   215→   215→| establish | sustain a bounded pattern/domain where local conditions allow | upkeep, anchors, inhabitants' agency, incompatible claims and visible trace |
+   216→   216→| transform | change selected material/qi/pattern relations | explicit target interface, conservation/source, dependency impact and reversibility |
+   217→   217→| found | seed a self-developing world-habitat or foundable cosmos | finite seed/support, long development, independent persons/history, failure/collapse |
+   218→   218→| preserve | carry archives, species, persons, places or patterns through catastrophe | consent/custody/identity, capacity, selection consequences, no perfect snapshot |
+   219→   219→| sever/join | change routes, boundaries, dependencies or context connections | topology transaction, stranded populations, downstream flows and counterclaims |
+   220→   220→| end | dismantle a maintained structure or permit a world/path manifestation to cease | no generic existence delete; remnant, energy, memory, liability and identity resolution |
+   221→   221→| witness/testify | establish and preserve evidence through supported observation/testimony | no truth-by-UI, no forced social/religious recognition, falsifiers remain |
+   222→   222→| name (optional) | candidate-specific ontic naming operation only if separately researched and ratified | ordinary naming, titles and testimony never alter reality by default |
+   223→   223→
+   224→   224→### 5.2 Apex limits that remain gameplay
+   225→   225→
+   226→   226→Across the stress suite, an applicable candidate still has the relevant limits below; no candidate is assumed to have manifestations, founded worlds or cross-context bodies:
+   227→   227→
+   228→   228→- finite attention and concurrent precision;
+   229→   229→- where manifestations are admitted, finite counts, shared attention and communication delay;
+   230→   230→- incomplete information and adversarial concealment;
+   231→   231→- path-specific blind spots and incompatible contexts;
+   232→   232→- sources, anchors, maintained relations and recovery;
+   233→   233→- dependents, created-world obligations, reputation and historical commitments;
+   234→   234→- where multiple embodiments/patterns are admitted, model-specific coherence, separation or branching risk;
+   235→   235→- opponents that attack routes, archives, inhabitants, promises, interpretations and support rather than only a body;
+   236→   236→- irreversible choices where preserving one world/history can exclude another; and
+   237→   237→- the possibility of error, loss, transformation, succession or final ending under the selected identity model.
+   238→   238→
+   239→   239→### 5.3 Forbidden apex shortcuts
+   240→   240→
+   241→   241→The architecture fails if any “highest realm” action means:
+   242→   242→
+   243→   243→```text
+   244→   244→delete arbitrary canonical object
+   245→   245→set any property to any value
+   246→   246→ignore causal history or contribution
+   247→   247→read the whole universe truth table
+   248→   248→pause only enemies while acting for free
+   249→   249→make NPCs obey because realm gap
+   250→   250→spawn finished inhabited worlds without history/personhood
+   251→   251→copy people/items/resources without identity/custody/conservation
+   252→   252→retroactively create the one escape needed by the player
+   253→   253→convert renderer scale into canonical power
+   254→   254→```
+   255→   255→
+   256→   256→---
+   257→   257→
+   258→   258→## 6. Apex cultivation remains xianxia
+   259→   259→
+   260→   260→The endgame remains cultivation rather than a generic superhero or reality-editor game when:
+   261→   261→
+   262→   262→1. power still follows transformed self–world relations, practice, insight, lineage/encounter and consequence;
+   263→   263→2. immortality remains a contested mode of continuity, not simply infinite hit points;
+   264→   264→3. Dao/path is lived orientation and attained capability, not a code permission or damage element;
+   265→   265→4. where a selected candidate includes world founding, it externalizes cultivated coherence and responsibility rather than opening a level editor; world founding is not required for xianxia;
+   266→   266→5. transcendence changes what conditions the actor requires and can sustain;
+   267→   267→6. technique names/descriptions compile to actual operations while metaphor, belief and unreliable narration remain possible;
+   268→   268→7. sects, teachers, rivals, dependents, rituals, institutions and mortal histories still matter; and
+   269→   269→8. the apex question is not only “what can I destroy?” but “what can I become, carry, repair, found, relinquish and answer for?”
+   270→   270→
+   271→   271→No real religious, philosophical or medical tradition is claimed to authorize this design. Comparative research provides guardrails and questions; the cosmology is original project invention if selected.
+   272→   272→
+   273→   273→### 6.1 Source, xianxia, and originality promotion gate
+   274→   274→
+   275→   275→Every macro/apex candidate and any eventual synthesis requires:
+   276→   276→
+   277→   277→- `SourceBoundaryRecord`, inspiration ledger and dependency-scoped claim cards;
+   278→   278→- single-source distinctive-dependency subtraction;
+   279→   279→- translation-camouflage and signature-combination tests;
+   280→   280→- controlled blinded reverse-identification with matched generic/famous controls;
+   281→   281→- relevant independent cultural/source and originality review; and
+   282→   282→- a `DESIGN-BRIDGE-v0.1` connecting bounded observations to original player/world operations and tests.
+   283→   283→
+   284→   284→Claim-card families are required before candidate prose uses microcosm–macrocosm analogy, *xian*/immortality, inner worlds, multiple embodiments, domains, world creation, cosmic cycles, ascension or ontic naming. Standard seasoned English xianxia vocabulary may remain, but a familiar word never selects mechanics.
+   285→   285→
+   286→   286→Every complete candidate must show its own mortal practice, embodied transition logic, teaching/transmission and failure, changed verbs at intermediate bands, social/ecological consequences and apex culmination. A generic cosmological capability envelope does not establish xianxia. Promotion fails if the candidate's identity comes primarily from copied scale escalation, unexplained romanization, hidden world-layer inflation or a recognizable combination from one source.
+   287→   287→
+   288→   288→---
+   289→   289→
+   290→   290→## 7. Highest-realm real-time play
+   291→   291→
+   292→   292→The apex control problem is not solved by adding hundreds of abilities. It uses the same bounded layers as lower play at different semantic scales:
+   293→   293→
+   294→   294→### 7.1 Immediate embodiment layer
+   295→   295→
+   296→   296→The player directly inhabits the currently selected body, embodiment or other ontology-supported viewpoint. Movement, perception, technique timing, defense, conversation, craft and close terrain interaction remain action play. An apex may be overwhelming locally, but precision and incomplete information still matter. If the selected identity model leaves no supported viewpoint, play ends rather than continuing through an invented remnant.
+   297→   297→
+   298→   298→### 7.2 Strategic focus layer
+   299→   299→
+   300→   300→Hard pause/Tactical Focus lets the player inspect **known** dependencies, choose intent, draw boundaries/routes/volumes and assign support. It grants thought time, not extra fictional perception or preparation.
+   301→   301→
+   302→   302→### 7.3 Doctrine and delegation layer
+   303→   303→
+   304→   304→The player can maintain bounded policies and delegate to formations, institutions, consenting specialists, created stewards or other embodiments. Each has information, latency, goals, actual standing/claim support where established, resource and failure limits. Delegation is not simulation skip or automatic obedience.
+   305→   305→
+   306→   306→`DELEGATED-INTENT-v0.1` records principal(s), actual standing/claim relation, delegate, objective, exclusions, autonomy band, resources, decision deadline, reporting channels and uncertainty, refusal/renegotiation/defection rights, competing principals, audit evidence, revocation, succession and failure/aftermath. Reports are observations or testimony with provenance; the dashboard distinguishes report, inference and verified observation and never exposes ground truth.
+   307→   307→
+   308→   308→`DELEGATE-SCHISM-01` places a coalition inside a habitat catastrophe with delayed contradictory reports, a legitimate refusal, competing principals and an opportunity cost for direct player intervention. The player may negotiate, replace, narrow, accept the refusal, intervene bodily or allow the delegate's plan. The no-player run remains coherent and can succeed, fail or split the coalition for its own reasons.
+   309→   309→
+   310→   310→### 7.4 Cosmological operation layer
+   311→   311→
+   312→   312→Optional world founding, boundary surgery, preservation and large pattern changes occur through staged semantic projects when a selected candidate supports them:
+   313→   313→
+   314→   314→```text
+   315→   315→Investigate
+   316→   316→→ State Intent and Exclusions
+   317→   317→→ Define Domain/Topology
+   318→   318→→ Establish Source and Support
+   319→   319→→ Model Known Dependencies
+   320→   320→→ Invite/Contest/Negotiate Affected Claims
+   321→   321→→ Prepare Anchors and Embodiments
+   322→   322→→ Commit Bounded Milestones
+   323→   323→→ Observe Emergence and Adversarial Response
+   324→   324→→ Stabilize, Revise, Release or Accept Failure
+   325→   325→→ Persist Remnants, Duties and History
+   326→   326→```
+   327→   327→
+   328→   328→The stages create gameplay at high scale: reconnaissance, diplomacy, resource movement, protection, artifact/formation construction, rival intervention, ethical tradeoffs, catastrophe response and precise local action. They do not reduce the operation to a progress bar.
+   329→   329→
+   330→   330→Macro commands use a bounded grammar:
+   331→   331→
+   332→   332→```text
+   333→   333→Objective + TargetCohort/TopologySelector
+   334→   334→+ Exclusions + RiskBudget + Resource/AttentionBudget
+   335→   335→+ CommitmentPoint + Interrupt/ReportPolicy + FailureAction
+   336→   336→```
+   337→   337→
+   338→   338→`win`, `optimize`, `make safe`, `make loyal`, `eliminate all threats` and any command whose success/failure cannot be compiled from available information are invalid. In cohort-scale fixtures, macro control must remove at least 90% of per-target command entry, while repetitive configuration/alert clearing must remain below 25% of active decision time. Every world-scale project includes at least one embodied intervention and one nondelegable macro tradeoff; otherwise it is management autoplay.
+   339→   339→
+   340→   340→### 7.5 Optional voluntary descent and narrow embodiment
+   341→   341→
+   342→   342→Where a candidate supports it, a powerful player may choose a bounded body, sealed perception, reduced manifestation or local social role/presentation for precision, concealment, learning, relationship, ritual, investigation or simple lived experience. Numerical identity and continuity remain separate judgments. This cannot be a consequence-free difficulty toggle:
+   343→   343→
+   344→   344→- the seal/embodiment has a source and release condition;
+   345→   345→- other embodiments do not secretly solve local problems unless authorized;
+   346→   346→- knowledge boundaries and communication delays persist;
+   347→   347→- local harm can matter through identity/relationship contracts; and
+   348→   348→- NPCs can use isomorphic embodiment methods.
+   349→   349→
+   350→   350→This allows the endgame to revisit mortal-scale places without making them decorative.
+   351→   351→
+   352→   352→### 7.6 Shared attention and concurrency
+   353→   353→
+   354→   354→`APEX-ATTENTION-v0.1` is one rolling ledger across whatever the candidate actually supports: one ordinary body, a transformed embodiment, multiple embodiments, successor viewpoints, remote perception, live combat, project supervision, communication, doctrines and delegation. Each allocation declares required resolution, latency, target/concurrency slots, switching cost, unattended behavior, fatigue/recovery and failure mode. The capability contract supplies finite maxima; splitting an action or spawning a low-precision embodiment cannot refresh them. A final-ending candidate has no post-ending attention ledger.
+   355→   355→
+   356→   356→The paper stress fixture pins one immediate high-resolution focus, two supervised lanes and eight low-resolution maintained policies. Moving high-resolution focus consumes one canonical preparation/switch milestone unless an already maintained coupling entails it. An unattended lane follows its declared bounded doctrine, degrades resolution/response, pauses at the next safe milestone or fails; it never receives player-quality decisions offscreen.
+   357→   357→
+   358→   358→`APEX-CRISIS-CHOICE-01` simultaneously threatens a direct combat objective, a distant habitat support, an ally negotiation and a founding/severance project. The actor cannot supervise all four. The player must abandon, entrust or accept degraded resolution for at least one; all choices preserve loss and produce a coherent no-player/NPC outcome.
+   359→   359→
+   360→   360→### 7.7 Bounded peer-conflict trace
+   361→   361→
+   362→   362→`APEX-PEER-TRACE-01` begins with the viewpoint embodiment defending a boundary anchor and inhabited route while a peer attempts to sever support to force a withdrawal. The attacker knows the public route, one anchor signature and the defender's repeated doctrine but not a concealed evacuation path. The defender's `AuthorizedInformationView` contains visible anchor strain, two credible reports (one wrong), a propagating ecology hazard and no truth about the attacker's hidden secondary support.
+   363→   363→
+   364→   364→Player controls are exact:
+   365→   365→
+   366→   366→- **immediate:** move/embody within the active patch, aim/lock a perceived relation, execute one prepared technique, interrupt/cancel only at declared windows;
+   367→   367→- **hard pause/Tactical Focus:** world mutation and sensing both stop; inspect only frozen known state, choose intent/exclusions, rebind already prepared controls, issue a bounded macro/delegated request;
+   368→   368→- **macro:** choose one objective/selector/exclusion/risk/commit/interrupt policy, consuming the shared attention ledger.
+   369→   369→
+   370→   370→Three windows resolve:
+   371→   371→
+   372→   372→1. **telegraph/prepare (six canonical action steps):** the peer exposes one support channel; the defender may investigate, feint, evacuate, reinforce or counter-prepare while the peer may change uncommitted preparation;
+   373→   373→2. **irreversible commitment (two canonical action steps):** the peer commits severance; the defender may contest the anchor, disrupt support, redirect the front or accept local loss to protect the route, but cannot pause-arm an unprepared answer;
+   374→   374→3. **propagation/arrival:** fronts reach revised occupants at certified times; both sides may shelter, repair, withdraw or change future objectives, not erase arrived effects.
+   375→   375→
+   376→   376→The pinned partial result preserves the route and most evacuees but loses one anchor, injures an ally, exposes the concealed path and leaves the attacker able to withdraw. Other supported choices produce different persisted topology, relationships, evidence and future objectives. Replay permutes workers, renderer, actor identity, pause duration and save at every window; normalized canonical outcomes remain identical.
+   377→   377→
+   378→   378→### 7.8 Opponent, objective and defeat ecology
+   379→   379→
+   380→   380→| Opposition type | Objective and knowledge/error | Protected value / risk tolerance | Counters, partial success and withdrawal | No-protagonist behavior |
+   381→   381→|---|---|---|---|---|
+   382→   382→| peer path actor | secure route/source, preserve doctrine or prevent rival founding; incomplete maps and opponent model | embodiments, dependents, path coherence, reputation; may trade territory for survival | feint, anchor contest, negotiate, expose evidence, retreat with remnant | pursues the same goal against institutions/other peers or withdraws when cost exceeds policy |
+   383→   383→| coalition/institution | evacuate, monopolize, regulate, defend or reform through disputed reports | people, legitimacy, offices, stores, internal unity; heterogeneous risk | bargain, split, refuse, sabotage, change leadership, conditional surrender | factions deliberate and act from their own commitments; no automatic player alignment |
+   384→   384→| distributed formation/network | maintain an encoded function under local sensors and bounded doctrine | anchors, connectivity, source and authorized objective | saturate, isolate nodes, spoof evidence, reroute, degrade, shut down | continues its declared maintained function or fails safely; it has no invented personality unless sapient |
+   385→   385→| living habitat/ecology (only if selected) | survive, feed, migrate, reproduce or maintain cycles without strategic omniscience | populations, niches and flows; local/adaptive risk | adapt, flee, overgrow, symbiosis, reject intervention, partial dieback | ecological processes continue causally; they are not a boss awaiting aggro |
+   386→   386→| natural/cosmological process | follow typed dynamics such as decay, pressure, fracture, cycle or boundary drift | no goal or moral preference | predict, shelter, redirect, damp, adapt, accept loss; no negotiation unless an agent exists | progresses through its process contract and can create opportunities without targeting the player |
+   387→   387→
+   388→   388→`APEX-DEFEAT-01` removes one candidate-supported body/embodiment, one anchor, the stated objective, one relationship and one office/claim from the viewpoint actor. Play continues only through an identity-model-allowed surviving viewpoint or explicitly disclosed successor. If none exists, that chronicle ends; a “remnant” is not automatically a viewpoint. The outcome does not reset the world, restore the lost objective or silently transfer property/status. The opponent and affected populations continue their own plans.
+   389→   389→
+   390→   390→### 7.9 Lower-realm causal relevance without contrivance
+   391→   391→
+   392→   392→Valid contribution channels are local precision, firsthand evidence, trust/consent, relationship access, embodied maintenance, cultural/linguistic interpretation, distributed simultaneous action, custody/standing and freely chosen cooperation. Lower actors do not need implausible chip damage to matter.
+   393→   393→
+   394→   394→Forbidden patterns are mortal-as-battery, hostage/dependent as the only difficulty lever, unexplained chosen-one key, loyalty counter, sacrificial fuel, automatic worship, plot-delivery witness, or a task the apex could trivially replace but refuses only to preserve gameplay.
+   395→   395→
+   396→   396→Every apex fixture containing lower populations identifies one specific consequence-changing contribution and runs three traces: that contributor present; removed; and replaced by a generic actor with the same nominal realm but not the same knowledge/relationship/skill. The outcome must change for the declared causal reason rather than `isPlayer`, sentimental immunity or scalar damage. A population may refuse to contribute and remains consequential through its own actions.
+   397→   397→
+   398→   398→---
+   399→   399→
+   400→   400→## 8. Scale-independent apex operation profile
+   401→   401→
+   402→   402→There is no parallel cosmological action engine. Every apex operation is an `APEX-OP-v0.1` profile of the foundation `SemanticActionSignature` and consumes `TECH-DAG-v0.1` unchanged:
+   403→   403→
+   404→   404→```text
+   405→   405→APEX-OP-v0.1
+   406→   406→  actor / embodiments / represented dependents
+   407→   407→  AuthorizedInformationView
+   408→   408→  source + operation + target query
+   409→   409→  spatial/topological/causal domain
+   410→   410→  magnitude / resolution / duration / concurrency
+   411→   411→  claim scope and support
+   412→   412→  intent / uncertainty / exclusions / safety preferences
+   413→   413→  reads / writes / predicate reads / reservations
+   414→   414→  contribution, maintenance and recovery ledgers
+   415→   415→  milestones / interruptions / partial commitments
+   416→   416→  counters / incompatible patterns / contest resolver
+   417→   417→  identity / personhood / custody / office / obligation interfaces
+   418→   418→  observables / evidence / interpretations
+   419→   419→  local impacts / propagation fronts / remnants
+   420→   420→  persistence / compaction / future-refinement obligations
+   421→   421→```
+   422→   422→
+   423→   423→Each executable DAG remains capped at 64 nodes, width 8, nesting depth 4 and 256 same-instant closure evaluations. Selectors state exact finite bounds over cohorts, topology ranges, relations and dependent exceptions; a selector that cannot be certified returns `TARGET_SET_INDETERMINATE`. Larger projects schedule versioned successor transactions rather than expanding one DAG. Recursive counters use conservative terminal reducers, and closure/bound exhaustion is `SPECIFICATION_DEFECT`, never a gameplay outcome.
+   424→   424→
+   425→   425→Every apex operation has `prepare → irreversible-commit → propagate → arrive/local-impact → aftermath` phases with exact barriers. Prepare may abort according to declared sunk costs. Irreversible commit fixes source intent and causal propagation; later choices may counter, redirect, shelter, bargain or change objectives only through new ordinary operations. Scale changes the number/type of dependent records, resolution strategy and consequence radius. It never creates an untyped “cosmic command.”
+   426→   426→
+   427→   427→### 8.1 One rule, different resolution
+   428→   428→
+   429→   429→- A hand closes a wound through local embodied processes.
+   430→   430→- A formation stabilizes a landslide through local topology and material support.
+   431→   431→- An immortal stabilizes a world boundary through large sources, anchors and pattern compatibility.
+   432→   432→
+   433→   433→All three reserve contributions, interact with dependencies, can fail partially, leave evidence and produce aftermath. They need not use the same fiction or numerical solver.
+   434→   434→
+   435→   435→### 8.2 Domain changes are migrations, not variable edits
+   436→   436→
+   437→   437→Candidate-specific changes to gravity/weight, time rate, qi compatibility, death behavior or another deep relation—only if separately selected and ratified—require:
+   438→   438→
+   439→   439→1. a typed old constitution and proposed new constitution;
+   440→   440→2. a bounded domain and boundary interface;
+   441→   441→3. dependency queries for bodies, ecologies, techniques, structures, persons and histories;
+   442→   442→4. migration/compatibility behavior for every protected class;
+   443→   443→5. consent/claim/office handling where relevant;
+   444→   444→6. source, maintenance, counter and collapse behavior;
+   445→   445→7. a staged trial or refuge path where the actor intends protection; and
+   446→   446→8. a remnant/recovery state if the change fails.
+   447→   447→
+   448→   448→No button directly assigns a new constant to inhabited reality.
+   449→   449→
+   450→   450→### 8.3 `TIME-DOMAIN-v0.1` (optional candidate contract)
+   451→   451→
+   452→   452→A selected time-domain operation declares a piecewise exact rational, strictly monotonic mapping from active internal canonical ticks to the parent domain's `CanonicalInstant`. A suspended segment advances no internal action and emits no free work; its externally scheduled boundary/maintenance events still resolve. The contract records entry/exit crossings, simultaneous-boundary order, signal propagation, aging/hunger/injury/cultivation/labor, resource and qi flow, maintenance, external obligations, collapse and save behavior. Matter, persons and messages crossing the boundary receive exact before/after instants and cannot appear twice.
+   453→   453→
+   454→   454→At most four active time-domain boundaries may nest in v0.1. Deeper proposals are `TIME_DOMAIN_NESTING_UNSUPPORTED`; they do not approximate. Pocket time cannot create free labor, training, crops or production because bodies, ecology, inputs, aging and exports all advance under the mapping. Save/load at every crossing, rate change, suspension and collapse must converge.
+   455→   455→
+   456→   456→### 8.4 Multiple embodiment and identity profile (optional)
+   457→   457→
+   458→   458→Every body/manifestation separately records body/material state, agency/control, consciousness, memory, current knowledge, causal lineage, claimed ontic identity, custody/property, office/obligation and player viewpoint. Shared control or communication does not prove shared identity. Copy, fork, merger, dormancy, severance, death and reintegration each invoke the selected identity model's transaction and domain-specific continuity judgments. If merger/reintegration identity is ambiguous, the operation blocks with `IDENTITY_TRANSITION_UNRESOLVED` or produces explicitly separate persons according to the selected model; it never guesses that the player remains numerically identical.
+   459→   459→
+   460→   460→---
+   461→   461→
+   462→   462→## 9. Optional constructive apex stress families
+   463→   463→
+   464→   464→`WORLD-FOUND-v0.1` is one optional hard constructive oracle only for candidates that permit founding. Every apex candidate must instead pass at least one path-entailed constructive oracle: found a habitat, preserve an existing habitat, repair a boundary, open/maintain a route, shepherd a succession, or establish a transmissible path. No one option is universal.
+   465→   465→
+   466→   466→### 9.1 `WORLD-FOUND-v0.1` transaction
+   467→   467→
+   468→   468→The founding request declares purpose, site/topology scope, existing inhabitants/ecologies/routes/claims, proposed governance/stewardship relation, instrumentation, known uncertainty, source/support, founder exclusions and exact success predicate. Success means: the committed bounded habitat relations remain inside certified stability/carrying envelopes for the declared trial interval; every crossing route and protected occupant query resolves; and the candidate can enter its declared maintenance or independent-succession state. It does not mean “a world exists because the progress bar filled.”
+   469→   469→
+   470→   470→```text
+   471→   471→Survey and Evidence
+   472→   472→→ Existing Claims/Persons/Ecology Review
+   473→   473→→ Candidate Constitution and Dependency Migration Plan
+   474→   474→→ Instrumented Reversible Trial
+   475→   475→→ Prepare Sources/Anchors/Routes/Refuges
+   476→   476→→ Irreversible Topology/Seed Commitment
+   477→   477→→ Bounded Propagation and Arrival-Time Local Impacts
+   478→   478→→ Stabilize / Renegotiate / Partial-Failure Containment
+   479→   479→→ Maintenance, Independent Succession or Responsible Abort
+   480→   480→→ Persistent Duties, Remnants and Audit
+   481→   481→```
+   482→   482→
+   483→   483→Before irreversible commit, trial/prepare can abort with declared sunk costs. After commit, no menu abort erases propagation. Eligible counters include evidence challenge, refusal/claim contest, source/anchor disruption, evacuation, compatibility repair, rival founding, route severance and stabilization. A permanent fixture interrupts, saves, reloads and introduces a competing action at every phase.
+   484→   484→
+   485→   485→### 9.2 World seed contents
+   486→   486→
+   487→   487→A seed may establish only what its contract supports:
+   488→   488→
+   489→   489→- topology/boundary and relation to a parent context;
+   490→   490→- separately typed matter, qi where selected, other source budgets and continuing inputs;
+   491→   491→- stable local pattern candidates and compatibility envelope;
+   492→   492→- time relation and communication/crossing behavior;
+   493→   493→- initial geology/material distributions and long processes;
+   494→   494→- ecology prerequisites or introduced populations with custody/consent;
+   495→   495→- unresolved degrees of freedom and generator versions;
+   496→   496→- founder anchors, access, duties and failure relation; and
+   497→   497→- what the founder explicitly cannot determine.
+   498→   498→
+   499→   499→### 9.3 Independent emergence
+   500→   500→
+   501→   501→Founding a habitat does not entitle the founder to control its future. Climate, ecology, migration, persons, institutions, beliefs, conflict and history emerge through the ordinary causal generators. Persons who later arise within or are introduced into the habitat are not NPC properties of the founder. Ontogenesis/consciousness creation is a separate optional contract and is never implied by founding.
+   502→   502→
+   503→   503→### 9.4 No free recursive universes
+   504→   504→
+   505→   505→Every exported inner/pocket/founded world declares:
+   506→   506→
+   507→   507→- source and carrying capacity;
+   508→   508→- time-rate costs and boundary traffic;
+   509→   509→- whether it can itself support world founding;
+   510→   510→- recursion depth/concurrency budgets;
+   511→   511→- identity, archive and unique-resource export rules;
+   512→   512→- collapse propagation and rescue limits; and
+   513→   513→- branch/save behavior.
+   514→   514→
+   515→   515→The architecture permits recursively meaningful worlds only if the selected cosmology admits them, through finite active horizons and compacted independent histories. Inner/recursive-world fixtures remain `NOT RUN` otherwise. It never expands an actual infinity in memory.
+   516→   516→
+   517→   517→---
+   518→   518→
+   519→   519→## 10. Destruction and ending
+   520→   520→
+   521→   521→An apex can be allowed to destroy a world without a special “delete world” operation.
+   522→   522→
+   523→   523→`WORLD-SEVER-v0.1` defines destruction as a typed predicate over support/topology/ecology, not disappearance. The request declares which sustaining relations are intended to end, source/support, evidence, claims/standing, warnings, alternatives, exact commit barrier and success/failure predicate.
+   524→   524→
+   525→   525→```text
+   526→   526→Investigate Support and Hidden Dependencies
+   527→   527→→ Signal / Warn / Bargain / Evacuate / Prepare Defense
+   528→   528→→ Select Initial Objective and Permitted Loss
+   529→   529→→ Prepare Counterable Severance
+   530→   530→→ Irreversible Source Commitment
+   531→   531→→ Catastrophe Hazard-Envelope Commitment
+   532→   532→→ Revisioned Arrival-Time Intersection Certificates
+   533→   533→→ Local Impact Transactions / Counteraction / Objective Revision
+   534→   534→→ Topology Remap and Remnant Stabilization
+   535→   535→→ Attribution, Refuge, Recovery, Liability and History
+   536→   536→```
+   537→   537→
+   538→   538→Every qualifying severance joins `CatastropheContract-v0.1`; it never freezes one victim set at source commitment. During propagation, defenders may shelter, redirect, repair supports, sever a secondary route, negotiate a stop, preserve evidence or choose different losses through ordinary actions. The originator may change future objectives but cannot uncommit arrived effects. A permanent adversarial fixture interrupts, opposes, saves and reloads every phase and proves exact remnant convergence.
+   539→   539→
+   540→   540→World destruction is the causal result of operations that break supporting relations:
+   541→   541→
+   542→   542→- material disassembly or energy/qi catastrophe;
+   543→   543→- atmosphere/ecology loss;
+   544→   544→- boundary rupture;
+   545→   545→- source/anchor severance;
+   546→   546→- incompatible pattern propagation;
+   547→   547→- route isolation and long collapse;
+   548→   548→- deliberate dismantling of a maintained constructed world; or
+   549→   549→- selected cosmological senescence/cycle.
+   550→   550→
+   551→   551→The source commitment, propagation fronts, arrival-time intersections, local impacts, topology remaps, deaths/continuities, surviving habitats, refugees, artifacts, records, obligations and remnant ecology persist separately. A destroyed world can remain an archaeological, spiritual, political, ecological and causal place.
+   552→   552→
+   553→   553→An apex actor may survive the destruction and still lose embodiments, relationships, inhabitants, archives, anchors, reputation, future options or part of their path. “The health bar did not move” is not “nothing happened.”
+   554→   554→
+   555→   555→---
+   556→   556→
+   557→   557→## 11. Top-down and bottom-up generation must meet
+   558→   558→
+   559→   559→The generator cannot begin with random villages and hope a cosmology appears, nor begin with a poetic multiverse and treat people as decoration.
+   560→   560→
+   561→   561→### 11.1 Top-down constraints
+   562→   562→
+   563→   563→```text
+   564→   564→cosmological constitution candidate
+   565→   565→→ address/topology and context boundaries
+   566→   566→→ allowed stable material/qi/pattern/ecology relations
+   567→   567→→ world-habitat carrying capacities and long cycles
+   568→   568→→ routes, catastrophe families and compatibility gradients
+   569→   569→→ regional opportunity/resource constraints
+   570→   570→```
+   571→   571→
+   572→   572→### 11.2 Bottom-up histories
+   573→   573→
+   574→   574→```text
+   575→   575→persons/bodies/households
+   576→   576→→ livelihoods, care, craft, belief and conflict
+   577→   577→→ institutions, settlements, routes and ecologies
+   578→   578→→ cultivation lineages, techniques and resource transformations
+   579→   579→→ polities, migrations, disasters and archives
+   580→   580→→ world-scale histories and inter-world relations
+   581→   581→```
+   582→   582→
+   583→   583→### 11.3 Consistency junctions
+   584→   584→
+   585→   585→At each meeting point the generator proves:
+   586→   586→
+   587→   587→- every active local affordance has a supporting path through world rules/history;
+   588→   588→- every macro claim has at least one locally inspectable consequence;
+   589→   589→- stocks, populations, identities, unique objects and routes reconcile;
+   590→   590→- culture is not derived mechanically from biome or qi type;
+   591→   591→- rare cultivation phenomena have causal histories and institutional response;
+   592→   592→- apex legacies do not become convenient treasure-delivery systems; and
+   593→   593→- unresolved detail remains bounded without contradicting existing observations.
+   594→   594→
+   595→   595→Generation proceeds by causal-domain manifests. Rejecting one impossible apex history cannot globally rekey unrelated mortal lives.
+   596→   596→
+   597→   597→### 11.4 `FIELD-ATLAS-v0.1` and S/R/P/N continuity
+   598→   598→
+   599→   599→Every continuous or analytical world quantity—matter density, temperature, pressure, qi where selected, ecology, influence, contamination or catastrophe potential—declares:
+   600→   600→
+   601→   601→```text
+   602→   602→FieldId / revision / unit and numeric policy
+   603→   603→sources / sinks / transport or influence kernel
+   604→   604→boundary and topology interfaces
+   605→   605→conservation or explicitly nonconserved contribution law
+   606→   606→analytical envelope and error bound
+   607→   607→regional basis/cohort representation
+   608→   608→local realization and refinement seed
+   609→   609→protected queries and observations
+   610→   610→named/unique exception ledger
+   611→   611→residual events, thresholds and active fronts
+   612→   612→```
+   613→   613→
+   614→   614→Each field consumes `ResolutionPolicy-v0.1(S,R,P,N)`. Promotion from analytical/regional to local realizes only unresolved degrees of freedom and preserves totals, identities, prior observations, evidence, pending commitments and `HISTORY-QUERY-v0.1` answers. Demotion emits residual events/fronts, pins named/unique exceptions and proves each protected query remains inside its declared envelope. Render LOD never selects simulation resolution or field truth.
+   615→   615→
+   616→   616→### 11.5 Generation termination and admission
+   617→   617→
+   618→   618→Every generation job freezes `GEN-MANIFEST-v0.1`: generator/schema/input hashes, finite constraint IDs, dependency scope, stable causal-domain substreams, maximum candidate attempts and review/originality predicates. Attempts cannot weaken constraints or rekey accepted domains. A candidate enters history only after all consumed invariants and source/originality gates pass; the immutable accepted event/state hash then outranks its seed. Exhaustion returns `GENERATION_CONSTRAINT_EXHAUSTED` with failed predicates and offers a new top-level seed or explicit design repair. A seed reproduces proposals, never overwrites a save or already accepted history.
+   619→   619→
+   620→   620→---
+   621→   621→
+   622→   622→## 12. Realm-bridge proof
+   623→   623→
+   624→   624→The final realm ladder must be derived only after the micro/macro ontology is selected. Every major transition supplies a bridge row:
+   625→   625→
+   626→   626→| Proof dimension | Required question |
+   627→   627→|---|---|
+   628→   628→| embodiment | What body/support conditions are changed, added or shed? |
+   629→   629→| qi/source | What new throughput/storage/transformation exists, and what constrains it? |
+   630→   630→| perception | What new evidence can be obtained, at what uncertainty/attention cost? |
+   631→   631→| action | Which genuinely new verbs appear outside damage and travel speed? |
+   632→   632→| persistence | What survives injury, dormancy, death, world crossing or time? |
+   633→   633→| extent/depth | Which spatial scale and which ontological relations become reachable? |
+   634→   634→| society | How do household, lineage, institution, law, ritual, economy and war respond? |
+   635→   635→| ecology | What does the state consume, damage, cultivate, maintain or protect? |
+   636→   636→| counterplay | What can peers, lower actors, environments and prepared structures still do? |
+   637→   637→| failure | What deviation, regression, fragmentation, debt or ending becomes possible? |
+   638→   638→| controls | How is the new agency expressed in real time without menu explosion? |
+   639→   639→| simulation | How does S/R/P/N resolution preserve it offscreen and after compaction? |
+   640→   640→
+   641→   641→No bridge may contain “same action, larger number” in every row. No realm receives an operation that the foundational contracts cannot represent.
+   642→   642→
+   643→   643→---
+   644→   644→
+   645→   645→## 13. Provisional apex golden scenarios
+   646→   646→
+   647→   647→These are paper stress cases, not lore events.
+   648→   648→
+   649→   649→Every scenario is `NOT RUN` until it has a versioned fixture containing:
+   650→   650→
+   651→   651→```text
+   652→   652→FixtureId / revision / ontology and candidate dependencies
+   653→   653→finite initial state + deterministic SeedManifest + state hash
+   654→   654→AuthorizedInformationView for every decision-maker
+   655→   655→available player/NPC operations and normalized controls
+   656→   656→adversary/process policy, knowledge/error and no-player behavior
+   657→   657→scheduled interrupts and prepare/commit/propagate/arrival barriers
+   658→   658→expected invariant trace and allowed outcome envelope
+   659→   659→measurements, S0/S1 failure criteria and exploit probes
+   660→   660→persistent aftermath queries + ending state hash
+   661→   661→isomorphic NPC, contributor-removal/substitution and renderer-off controls
+   662→   662→```
+   663→   663→
+   664→   664→Each fixture includes at least one explicit second-to-second or decision-to-decision interaction trace; a prose premise alone is no evidence.
+   665→   665→
+   666→   666→1. **Constructive apex case:** according to the candidate, found a refuge, preserve an existing habitat, repair a boundary, open a route, shepherd succession or establish a transmissible path without perfect knowledge or forced assimilation.
+   667→   667→2. **Candidate-specific deep relation:** only where selected, establish one bounded time/weight/qi/death-related change while migrating dependents and handling an opponent who exploits the boundary.
+   668→   668→3. **Meet an incompatible apex:** neither path can nullify the other; the conflict admits combat, negotiation, separation, mutual transformation and costly withdrawal.
+   669→   669→4. **Lose the current habitat:** run death/ending, transformation, successorhood, uncertain continuity and genuine survival as separate identity-model outcomes; archives, people, routes and obligations produce materially different futures.
+   670→   670→5. **Multiple embodiments disagree (optional):** where admitted, concurrent manifestations receive different evidence and commitments. Merger/reintegration is never presumed possible or identity-preserving; ambiguous cases block rather than guess.
+   671→   671→6. **Persons refuse a founder (optional):** persons living in or emerging within a founded habitat reject the founder's plan; habitat founding confers no ownership. Ontogenesis or consciousness creation requires a separately selected contract and is not implied by ecological/cultural emergence.
+   672→   672→7. **A lower actor matters:** a mortal or early cultivator possesses local knowledge, relationship, consent, evidence or exact action the apex cannot replace with force.
+   673→   673→8. **Cross an incompatible context:** techniques, body/support and artifacts require migration; some capabilities fail or transform without arbitrary debuffing.
+   674→   674→9. **Recursive habitat pressure (optional):** only if admitted, an inner/founded habitat contains dependent habitats; a boundary crisis tests recursion caps, evacuation and identity.
+   675→   675→10. **End a maintained cosmos:** dismantling or releasing it preserves persons/remnants and exposes whether “end” was secretly delete.
+   676→   676→11. **Apex catastrophe during hard pause/Advance:** clock, doctrine, candidate-supported bodies/viewpoints and offscreen histories remain deterministic and non-oracular.
+   677→   677→12. **Final ending or succession:** separately resolve numerical identity, memory, bodily/cultivation continuity, property/custody, office/claim, legal liability, social blame, remembered relationships, oath obligations and optional karmic relations. Moral responsibility is evaluated, never inherited as an asset.
+   678→   678→
+   679→   679→Every scenario must run with an isomorphic NPC apex and with rendering disabled.
+   680→   680→
+   681→   681→| Scenario | Minimum interaction kernel before admission |
+   682→   682→|---|---|
+   683→   683→| 1 | survey two candidate sites/options; investigate claims; negotiate/refusal; run reversible trial; respond to one rival intervention; choose partial refuge/preservation versus delay; commit and stabilize or abort |
+   684→   684→| 2 | map known dependents; instrument a bounded trial; expose one concealed incompatibility; choose migration/exclusion; contest the boundary during three commit windows; accept one irreversible residual |
+   685→   685→| 3 | execute `APEX-PEER-TRACE-01` with prepared controls, attention allocation, three counter windows, partial anchor/relationship loss and peer withdrawal |
+   686→   686→| 4 | interpret uncertain warning; allocate evacuation/preservation; face a changing front; choose one unsaved dependency; then execute each selected identity outcome without retroactive rescue |
+   687→   687→| 5 | allocate shared attention among conflicting embodiment reports; authorize/refuse one local commitment; lose communication; resolve fork/death/continued separation before any optional merger attempt |
+   688→   688→| 6 | receive refusal through uncertain reports; distinguish governance claim from creator assumption; bargain, withdraw, coerce-and-face-resistance, or transfer stewardship; preserve inhabitants' independent action |
+   689→   689→| 7 | obtain a local contribution through trust/evidence/precision; run present/removed/generic-substitute traces; let the contributor refuse; forbid chip-damage/key-person substitution |
+   690→   690→| 8 | scout an endpoint/context; prepare body/technique/artifact migration; choose what cannot cross; respond to one mid-transition failure; arrive, retreat, transform or die under exact seam/identity rules |
+   691→   691→| 9 | allocate finite recursion/attention capacity; receive delayed nested reports; choose evacuation, isolation, collapse or outside support; prove no free world/export/identity |
+   692→   692→| 10 | investigate support, warn/bargain/evacuate, commit severance, react to defender counter during propagation, change only future objectives and stabilize remnants |
+   693→   693→| 11 | start simultaneous crisis and Advance; hard-pause at each barrier; issue one macro and one embodied response; cancel catch-up; prove same first information-available interrupt and hash |
+   694→   694→| 12 | select relinquishment/death/transformation; settle bodies, memory, custody, office, obligations and relationships independently; continue only through a model-permitted viewpoint or end the chronicle |
+   695→   695→
+   696→   696→### 13.1 Apex exploit family
+   697→   697→
+   698→   698→| Fixture | Required zero-tolerance invariant |
+   699→   699→|---|---|
+   700→   700→| `APEX-X-TIME-ASYMMETRY` | no free training/labor/production, signal or deadline advantage across time-rate boundaries |
+   701→   701→| `APEX-X-PARALLEL-BODIES` | no free sensing/reaction, attention refresh, resource duplication or guessed identity merge |
+   702→   702→| `APEX-X-POCKET/FOUNDED` | no recursive free worlds, exports, persons, archives or branch laundering |
+   703→   703→| `APEX-X-DELEGATED-PRODUCTION` | real inputs, latency, refusal, custody, market/ecology response and no unattended infinite output |
+   704→   704→| `APEX-X-MARKET-LATENCY` | distant information/prices/claims update through causal reports; no universal economy oracle |
+   705→   705→| `APEX-X-COPY-MERGE` | identities, bodies, memories, property, offices and uniques resolve separately and exactly once |
+   706→   706→| `APEX-X-SAVE-EVERY-BARRIER` | no reroll, duplicate, refund, victim change, hidden-state leak or cross-branch import |
+   707→   707→| `APEX-X-OFFSCREEN-RESOLUTION` | protected truth is identical across S tiers, renderer-off, worker counts and later promotion |
+   708→   708→
+   709→   709→Any duplicate identity/unique object, free sensing/reaction, infinite training/production, nontermination, or renderer/tier-dependent canon is S0, independent of subjective fun ratings.
+   710→   710→
+   711→   711→---
+   712→   712→
+   713→   713→## 14. Architecture-killer gauntlet
+   714→   714→
+   715→   715→The entire project fails its apex stress gate if any answer is yes:
+   716→   716→
+   717→   717→1. **S1:** Does the highest realm require developer/database metaphors to explain an action?
+   718→   718→2. **S0:** Can one operation ignore target relations, dependencies, contribution, identity or aftermath because it is “higher law”?
+   719→   719→3. **S0:** Does founding a world generate finished persons, cultures, resources or histories for free?
+   720→   720→4. **S0:** Does destroying a world reduce to removing a scene/map record?
+   721→   721→5. **S0:** Can inner worlds, time domains or avatars duplicate resources, labor, identity or information?
+   722→   722→6. **S0:** Does macro control read unauthorized hidden truth or provide an oracular safety guarantee, or does hard pause grant any world mutation, sensing, preparation, reaction, resource reservation or other canonical advantage? A bounded presentation/legibility defect that reveals no unauthorized information and confers no advantage may be S1, but it is a different finding.
+   723→   723→7. **S1:** Does power disparity directly cause surrender, worship, kowtow, madness or obedience?
+   724→   724→8. **S1:** Are lower realms relevant only through contrived immunity, keys or cutscenes rather than real information/relationship/local-action constraints?
+   725→   725→9. **S1:** Does an apex actor need hundreds of hotbar entries or spend most decision time paging policies?
+   726→   726→10. **S0:** Can offscreen cosmological events resolve only by simulating every local entity at encounter detail?
+   727→   727→11. **S0:** Can detail demotion, compaction, save/load, device loss or renderer choice change world founding/destruction outcomes?
+   728→   728→12. **S1:** Can the generator admit a world/culture/technique whose local causes cannot be queried?
+   729→   729→13. **S1:** Does one cultural source, novel or familiar ladder visibly determine the macrocosm?
+   730→   730→14. **S1:** Is the apex invulnerable to loss except by a stronger scalar rank?
+   731→   731→15. **S0:** Does “infinite” mean unbounded runtime work, memory, archive, search or content generation?
+   732→   732→16. **S0:** Can the protagonist survive an apex event only because content or physics checks `isPlayer` after commitment?
+   733→   733→
+   734→   734→Any yes fails at its preassigned severity; reviewers do not downgrade it after seeing a desirable result.
+   735→   735→
+   736→   736→---
+   737→   737→
+   738→   738→## 15. Reference-hardware consequence
+   739→   739→
+   740→   740→The reference machine cannot hold a detailed cosmos in memory. The architecture remains viable only if:
+   741→   741→
+   742→   742→- canonical truth is a deterministic event/state graph with hierarchical spatial/topological indices;
+   743→   743→- world-scale fields and catastrophe envelopes are analytical/sparse until local detail is queried;
+   744→   744→- named/unique persons, objects, claims, observations and commitments remain exceptions through every aggregate tier;
+   745→   745→- world founding generates constraints and histories incrementally rather than materializing a whole cosmos;
+   746→   746→- candidate-supported bodies/embodiments and visible habitats promote near the viewpoint; distant ones remain exact at supported queries with bounded error;
+   747→   747→- rendering uses instancing, impostors, procedural reconstruction and independent quality scaling;
+   748→   748→- cosmic VFX are local representations of canonical operations, not one particle/voxel per affected unit; and
+   749→   749→- every feature has a renderer-disabled oracle and reference-hardware benchmark before production.
+   750→   750→
+   751→   751→### 15.1 Scheduler and safe overload
+   752→   752→
+   753→   753→The suite consumes the foundation canonical clocks, `INPUT-BARRIER-v0.1` and `AdvanceAuthorizationLease`; wall time, frames, Promise completion and worker order never timestamp canon. Causal-domain queues order eligible work by `CanonicalInstant`, semantic priority and stable event ID. Every domain publishes a conservative next-event lower bound; the global safe horizon is the minimum of all process/front/boundary bounds. Catch-up may prepare beyond the visible horizon but commits only through deterministic publication barriers.
+   754→   754→
+   755→   755→Each work chunk yields after at most 2,048 profiled specification operations and a 4 ms wall-time scheduling check. Overload may yield, slow/stop Advance, reduce rendering, evict speculative caches or defer uncommitted generation. It cannot drop events, change solver semantics, freeze fronts, omit victims, change a decision deadline or demote an active transaction.
+   756→   756→
+   757→   757→### 15.2 Three.js/WebGPU presentation boundary
+   758→   758→
+   759→   759→Three.js/WebGPU (with the project's required WebGL2 fallback) presents immutable/interpolated canonical snapshots through camera-relative transforms. It never owns topology, physics, damage, visibility truth, time or identity. Device loss rebuilds presentation resources from canonical state; renderer-disabled, WebGPU, WebGL2, different frame-rate and different worker-count runs must retain the same protected hashes. No per-frame GPU readback may be required for canon.
+   760→   760→
+   761→   761→### 15.3 Provisional reference-machine gates
+   762→   762→
+   763→   763→For the GTX 1070 8 GB / i5-3570K 4C/4T / 8 GB DDR3 machine, these are **unverified admission hypotheses**, not achieved performance:
+   764→   764→
+   765→   765→| Gate | Provisional target |
+   766→   766→|---|---|
+   767→   767→| browser-game private working set | ≤2.0 GiB steady; ≤2.75 GiB controlled peak with recovery |
+   768→   768→| canonical simulation/generated active state inside that set | ≤768 MiB steady |
+   769→   769→| presentation CPU assets/caches inside that set | ≤768 MiB steady and aggressively evictable |
+   770→   770→| GPU-resident resources | ≤3.5 GiB steady; ≤4.5 GiB controlled peak |
+   771→   771→| presentation | stable 1080p 30 fps floor; 60 fps ordinary-scene target after scaling |
+   772→   772→| input/pause | ≤50 ms p95 input acknowledgement; ≤100 ms maximum pause acknowledgement |
+   773→   773→
+   774→   774→OS/browser/driver overhead is measured; nominal capacity is not the budget. One expensive apex operation schedules bounded work and visible semantic progress and cannot block the browser main thread. Required reports include frame-time distribution, long tasks, working set, GPU memory, event throughput, save size/time, promotion latency and hash parity.
+   775→   775→
+   776→   776→“AAA” at this scale means composition, art direction, animation priority, material/lighting discipline, sound, scale cues and consequence continuity—not simultaneous film-quality detail across a universe.
+   777→   777→
+   778→   778→### 15.4 Apex save, compaction and migration
+   779→   779→
+   780→   780→A canonical save contains immutable checkpoint/log-page hashes plus:
+   781→   781→
+   782→   782→- clock/barrier state and `AdvanceAuthorizationLease` if active;
+   783→   783→- topology nodes/edges, coordinate-patch and seam revisions;
+   784→   784→- field-atlas revisions/envelopes, named exceptions and protected-query indexes;
+   785→   785→- entities/cohorts, identities, bodies/remains, custody, offices/claims and obligations;
+   786→   786→- pending `APEX-OP`, `WORLD-FOUND`, `WORLD-SEVER`, `TIME-DOMAIN` and identity transactions at exact milestones;
+   787→   787→- catastrophe fronts, arrival/intersection certificates and residual events;
+   788→   788→- observations, evidence, authorized-information views and history-query pages; and
+   789→   789→- generator/schema/input hashes, accepted event/state hashes and unresolved-detail manifests.
+   790→   790→
+   791→   791→Compaction may replace pages only when every protected query, identity, total, causal order, pending commitment and future-refinement result is equivalent. Migration records old/new schema and record hashes, resolver version, rewritten graph/test bindings and query comparison. Identity, topology or chronology ambiguity returns a quarantined migration result; it never guesses. Seeds reproduce uncommitted proposals, never canonical truth. Save/crash/reload at every apex prepare/commit/propagate/arrival/aftermath barrier must converge to the same hashes.
+   792→   792→
+   793→   793→---
+   794→   794→
+   795→   795→## 16. Decisions this draft recommends
+   796→   796→
+   797→   797→1. Ratify **two-ended architecture**: mortal life and the independent cases in `APEX-STRESS-SUITE` are architecture probes before choosing the ladder; the suite is not one player destiny or guaranteed capability bundle.
+   798→   798→2. Ratify extent and ontological depth as separate axes.
+   799→   799→3. Keep body, qi, heart-mind, spirit, personhood and identity-continuity judgments, and inner topology separately typed until selected canon relates them.
+   800→   800→4. Treat macro topology through nonordinal composable tags; permit one finite context, cycles, flat networks, nested habitats or no external “beyond.”
+   801→   801→5. Gate optional world founding, deep-relation change, recursive habitats, multiple embodiment and cross-context continuity only for candidates that select them; every candidate still passes a path-entailed constructive case, habitat-support failure/remnants and identity outcomes.
+   802→   802→6. Forbid apex omnipotence, database access, infinite concurrency, personhood by declaration and consequence-free creation/deletion.
+   803→   803→7. Require every realm to bridge the full proof matrix in section 12.
+   804→   804→8. Do not select the final apex title, exact capabilities, number of layers or cosmological imagery until source/originality, identity and gameplay reviews pass.
+   805→   805→
+   806→   806→---
+   807→   807→
+   808→   808→## 17. Next gate
+   809→   809→
+   810→   810→This draft now requires three independent reviews:
+   811→   811→
+   812→   812→- xianxia/cultural/originality: does the architecture remain xianxia and original without flattening Dao/body/spirit traditions?
+   813→   813→- gameplay/exploit: can apex play remain interactive, legible, fallible and fun without lower-realm irrelevance or macro-menu domination?
+   814→   814→- technical/generation: can every operation resolve deterministically across S/R/P/N tiers, persistence, saves and the reference hardware?
+   815→   815→
+   816→   816→After repair, the user should receive two or three complete micro–macro–apex cosmology candidates, not one disguised default. The selected candidate then constrains—but does not automatically name—the realm ladder.
+   817→   817→

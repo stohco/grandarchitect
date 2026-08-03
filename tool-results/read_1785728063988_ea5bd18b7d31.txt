@@ -1,0 +1,576 @@
+     1→     1→# Next-Phase Xianxia Source, Terminology, and Originality Workplan — Draft v0.1
+     2→     2→
+     3→     3→**Status:** reviewed pre-canon research workplan; all research tasks remain `NOT RUN`; no game code authorized  
+     4→     4→**Purpose:** turn the foundation release's cultural and genre unknowns into claim-level evidence, reviewed terminology, bounded comparison sets, and originality decisions before any **dependent** lore, realm, cosmology, technique, or PRD claim advances  
+     5→     5→**Consumes:** Terminology and Cultivation Foundation, Mortal Year Atlas, Identity/Death Models, Qi Condensation Envelope, Er Gen/Gemini Mechanics Critique, release audit, and Research Graph governance  
+     6→     6→**Does not authorize:** canon, a historical reconstruction, religious claims, medical instruction, Chinese names for project-native inventions, production code, data scraping outside license/terms, or copying a source's distinctive expression
+     7→     7→
+     8→     8→---
+     9→     9→
+    10→    10→## 0. Research outcome
+    11→    11→
+    12→    12→This phase must answer a narrower question than “what is our cultivation universe?”:
+    13→    13→
+    14→    14→> Which meanings, English genre terms, cultural distinctions, comparative mechanics, and originality boundaries are supported strongly enough to present as explicitly non-canon design candidates?
+    15→    15→
+    16→    16→The output is a reviewed evidence package. It may establish vocabulary policy, reject conflations, identify recurring genre affordances, and propose decision options. It may not decide what qi ultimately is, whether Dao is ontically real, whether persons possess a soul, whether tribulations exist, what a domain does, or which candidate enters canon.
+    17→    17→
+    18→    18→Unknown and disputed claims remain typed unknowns. Absence of evidence is recorded; it is never repaired by plausible-sounding invention.
+    19→    19→
+    20→    20→`RESEARCH-INVENTORY-v0.1` freezes this release to seven core-term tracks and four genre-mechanic families plus their explicitly registered cultural/originality dependencies. Every claim, card, memorandum, dossier and handoff has dependency edges. A partial evidence tranche may pass and release an unrelated handoff while another track remains unknown; one unresolved *ming*, tribulation or living-practice claim cannot freeze source-neutral control, terrain, collection or perception-interface research. Parallel design work may use typed placeholders such as `ontology: unknown` and must prove that its operation does not assume an answer.
+    21→    21→
+    22→    22→Every track receives a `TrackBudget-v0.1` before acquisition. The default ceiling per v0.1 core-term track is 60 claim cards, 80 researcher-hours, two independent review rounds and three repair cycles; per mechanic family it is 180 passage cards inside the frozen corpus, 120 researcher/coder-hours, two independent review rounds and three repair cycles; per cultural memorandum it is 40 source records, 80 researcher-hours, two review rounds and three repair cycles. A lead may propose a different bounded budget before work begins with rationale and dependency impact. Exhaustion yields `DEFERRED_UNKNOWN` or `REJECTED` for that claim/track. Further acquisition requires a separately approved new revision; it is never the automatic response to a failed gate.
+    23→    23→
+    24→    24→---
+    25→    25→
+    26→    26→## 1. Required deliverables
+    27→    27→
+    28→    28→1. **Core-Term Claim Card Set v0.1** for qi, Dao, *xin*, *shen*, *jing*, *xing*, and *ming*.
+    29→    29→2. **Genre Mechanics Corpus v0.1** for divine sense, cultivation methods, domains/fields, and tribulations.
+    30→    30→3. **Translation and Terminology Register v0.2** distinguishing seasoned English, context-dependent translation, first-use gloss, research-only romanization, and prohibited flattening.
+    31→    31→4. **Cultural Track Memoranda v0.1** produced independently before cross-track comparison.
+    32→    32→5. **Originality Red-Team Report v0.1** covering terminology, realm structures, techniques, protagonist advantages, institutions, artifacts, cosmology, and scenario sequences.
+    33→    33→6. **Contradiction and Unknown Register v0.1** preserving disagreements, source gaps, edition problems, and meanings that cannot yet be reconciled.
+    34→    34→7. **Candidate Decision Dossiers v0.1** containing two or more bounded options for each fork enumerated in the Stage-A `PhaseScopeManifest-v0.1`, including a “defer / select none” option. A newly discovered fork enters the unknown/deferred register for a later revision and does not expand the active gate.
+    35→    35→8. **Research-Gate Audit v0.1** recording pass/fail evidence for every acceptance gate in section 12.
+    36→    36→9. **Research Inventory and Dependency Manifest v0.1** fixing claim scope, track budgets, tranche boundaries, consumers, and blocked/unblocked handoffs.
+    37→    37→10. **Design Bridge Set v0.1** for every design-bearing synthesis; vocabulary-only and research-only findings remain explicitly nonmechanical.
+    38→    38→
+    39→    39→Every deliverable remains pre-canon. Deliverables may publish by dependency-complete tranche. A user decision and a separate canon revision are required before any candidate becomes world truth.
+    40→    40→
+    41→    41→---
+    42→    42→
+    43→    43→## 2. Claim-level source card contract
+    44→    44→
+    45→    45→Every substantive historical, religious, linguistic, modern-cultural, translation, or genre-frequency claim receives one stable `CLAIM-*` record. A bibliography entry without a claim card is discovery material, not evidence.
+    46→    46→
+    47→    47→### 2.1 Mandatory fields
+    48→    48→
+    49→    49→```text
+    50→    50→Claim ID and revision
+    51→    51→Exact bounded claim
+    52→    52→Claim class
+    53→    53→  historical | philosophical interpretation | religious/traditional
+    54→    54→  medical history | contemporary lived practice | modern genre
+    55→    55→  translation/localization | reader expectation | design inference
+    56→    56→Source ID, edition, author/editor/translator, publisher, date
+    57→    57→Language and access/licensing status
+    58→    58→Exact location: page, section, chapter, line, timestamp, or entry
+    59→    59→Minimal quotation or precise paraphrase
+    60→    60→Hanzi/orthography and tonal pinyin when relevant
+    61→    61→Candidate English renderings and rejected renderings
+    62→    62→Speaker/narrator/translator/editor and their epistemic position
+    63→    63→Tradition, period, region, community, genre, and work scope
+    64→    64→What the source supports
+    65→    65→What the source does not support
+    66→    66→Known counterevidence or disagreement
+    67→    67→Inference distance: direct | close interpretation | comparative inference
+    68→    68→Confidence and open verification work
+    69→    69→Cultural, medical, copyright, and spoiler cautions
+    70→    70→Independent reviewer and disposition
+    71→    71→Research Graph edges to terms, mechanics, contradictions, and candidates
+    72→    72→```
+    73→    73→
+    74→    74→### 2.2 Evidence labels
+    75→    75→
+    76→    76→- **Primary historical text:** evidence for the located passage, not automatic evidence for a whole civilization or later tradition.
+    77→    77→- **Critical edition or qualified translation:** edition-bearing interpretation whose choices remain visible.
+    78→    78→- **Specialist scholarship:** an argued scholarly position, never a neutral consensus token.
+    79→    79→- **Contemporary lived-practice source:** evidence limited to the represented community, period, and research method.
+    80→    80→- **Modern genre primary source:** evidence for that work and edition; multiple works are required for a corpus claim.
+    81→    81→- **Licensed translation:** evidence for established English usage in that translation, not automatic identity with the Chinese term.
+    82→    82→- **Translator/editor note:** valuable translation evidence; not authorial cosmology unless separately established.
+    83→    83→- **Fan wiki, forum, machine summary, or search snippet:** discovery-only unless it points to a verifiable primary passage.
+    84→    84→- **Original design inference:** project reasoning that cites its inputs and is never presented as cultural fact.
+    85→    85→
+    86→    86→### 2.3 Card rejection rules
+    87→    87→
+    88→    88→A card fails if it lacks an exact source location, silently back-translates English into invented Hanzi, treats one translation as universal, uses a decontextualized dictionary gloss as ontology, generalizes one author to xianxia as a whole, turns a living practice into supernatural proof, or hides a material source disagreement.
+    89→    89→
+    90→    90→---
+    91→    91→
+    92→    92→## 3. Core-term research tracks
+    93→    93→
+    94→    94→The seven tracks are investigated separately before any synthesis. Their purpose is to map semantic ranges and guardrails, not to find one “true ancient system.”
+    95→    95→
+    96→    96→### 3.1 Qi — 氣/气, *qì*
+    97→    97→
+    98→    98→Required questions:
+    99→    99→
+   100→   100→- What do the selected early texts, later religious materials, medical histories, philosophical scholarship, modern genre works, and licensed translations each mean by qi?
+   101→   101→- When do “breath,” “vital breath,” “material force,” “energy,” “氣,” or unglossed **qi** illuminate a passage, and when do they distort it?
+   102→   102→- Which genre mechanics are work-local: ambient qi, personal reserves, signatures, elemental affinities, circulation, contamination, or conversion?
+   103→   103→- What conservation, information-carrying, bodily, environmental, and measurement properties remain project inventions?
+   104→   104→
+   105→   105→Prohibited conclusion: qi is merely mana, joules, breath, electricity, morality, life force, or one universal substance because one source uses a convenient English gloss.
+   106→   106→
+   107→   107→### 3.2 Dao — 道, *dào*
+   108→   108→
+   109→   109→Required questions:
+   110→   110→
+   111→   111→- How do selected sources use Dao as way, path, guidance, practice, possibility, cosmological referent, discourse, or other context-bearing sense?
+   112→   112→- How do modern genre texts distinguish the Dao, a dao/path, comprehension, doctrine, pattern, domain, technique, and world rule?
+   113→   113→- When is capitalization an English editorial choice rather than a source-language distinction?
+   114→   114→- Which gameable world patterns, claims, offices, vows, or boundaries must remain original rather than being mislabeled “Dao authority”?
+   115→   115→
+   116→   116→Prohibited conclusion: Dao is a mana element, statutory law, moral alignment, universal spell school, database permission, or a single meter.
+   117→   117→
+   118→   118→### 3.3 *Xin* — 心, *xīn*
+   119→   119→
+   120→   120→Required questions:
+   121→   121→
+   122→   122→- When is **heart-mind** the least misleading English, and when is a narrower heart, mind, intention, attention, desire, or affect rendering justified?
+   123→   123→- How do the selected traditions disagree about cognition, affect, embodiment, cultivation, and moral psychology?
+   124→   124→- Which genre uses of “Dao heart,” mental state, will, obsession, or inner conflict are source-local?
+   125→   125→
+   126→   126→Prohibited conclusion: *xin* is an immaterial rational mind, an emotion bar, a detachable soul, or a synonym for *shen*.
+   127→   127→
+   128→   128→### 3.4 *Shen* — 神, *shén*
+   129→   129→
+   130→   130→Required questions:
+   131→   131→
+   132→   132→- Which passages refer to spirit, numinous efficacy, conscious spirit, a deity/spirit being, attentional vitality, or another referent?
+   133→   133→- How do licensed translations disambiguate *shen*, soul terminology, divine sense, spirit consciousness, gods, and spirit entities?
+   134→   134→- What would count as evidence for a detachable or persistent project entity, rather than a translation assumption?
+   135→   135→
+   136→   136→Prohibited conclusion: every *shen* is a human soul token, every spirit is a god, or spirit automatically establishes personhood or numerical identity.
+   137→   137→
+   138→   138→### 3.5 *Jing* — 精, *jīng*
+   139→   139→
+   140→   140→Required questions:
+   141→   141→
+   142→   142→- How do essence, vital essence, refinement, material/reproductive associations, and alchemical contexts vary?
+   143→   143→- Which modern genre uses turn *jing* or “essence” into a resource, constitution, lifespan, bloodline, or refinement mechanic?
+   144→   144→- What gendered, reproductive, age, disability, and body assumptions would a project model import?
+   145→   145→
+   146→   146→Prohibited conclusion: *jing* is one universal reproductive substance, stamina bar, genetic purity score, or interchangeable synonym for qi.
+   147→   147→
+   148→   148→### 3.6 *Xing* — 性, *xìng*
+   149→   149→
+   150→   150→Required questions:
+   151→   151→
+   152→   152→- How do inner nature, nature, disposition, and tradition-specific philosophical or alchemical senses differ?
+   153→   153→- When does *xing* pair with *ming*, and when would importing that pair misrepresent the source?
+   154→   154→- How can character nature, moral judgment, species traits, temperament, and cultivation orientation remain separate?
+   155→   155→
+   156→   156→Prohibited conclusion: *xing* is personality alignment, biological essence, moral worth, or a universally stable metaphysical component.
+   157→   157→
+   158→   158→### 3.7 *Ming* — 命, *mìng*
+   159→   159→
+   160→   160→Required questions:
+   161→   161→
+   162→   162→- Which contexts support life, existence, lifespan, allotment, command, mandate, fate, destiny, or another rendering?
+   163→   163→- How do *ming*, political mandate, bodily vitality, predicted future, luck, karma, and causal relation remain distinct?
+   164→   164→- Which identity/death candidates need a *ming*-like category, and which do not?
+   165→   165→
+   166→   166→Prohibited conclusion: lifespan, destiny, Heaven's mandate, legal command, karma, and personal identity are one stat.
+   167→   167→
+   168→   168→### 3.8 Core-term synthesis rule
+   169→   169→
+   170→   170→No combined `jing–qi–shen`, `xing–ming`, body–qi–spirit, or Dao/world-law model is admitted merely because a historical or genre source relates those terms. Synthesis requires a named project purpose, explicit source scope, an original operation model, counterexamples, and independent cultural review. Personhood and identity-continuity judgments remain separate unless a later selected ontology explicitly relates them.
+   171→   171→
+   172→   172→---
+   173→   173→
+   174→   174→## 4. Genre-mechanics evidence program
+   175→   175→
+   176→   176→The corpus asks what licensed works actually depict. It does not search for a universal xianxia rule.
+   177→   177→
+   178→   178→### 4.1 Divine sense and related translations
+   179→   179→
+   180→   180→Code separately:
+   181→   181→
+   182→   182→- source-language term and licensed English rendering;
+   183→   183→- acquisition or awakening conditions;
+   184→   184→- modality and targets;
+   185→   185→- all-direction versus focused use;
+   186→   186→- range, resolution, attention, concurrency, medium, occlusion, concealment, and counter-detection;
+   187→   187→- whether it reads surfaces, interiors, qi, living beings, souls, intent, ownership, cultivation state, memories, or none of those;
+   188→   188→- active/passive status, signature, cost, injury, false positives, and contest behavior; and
+   189→   189→- narrator fact versus character belief.
+   190→   190→
+   191→   191→Existing Er Gen examples are seed cards only. They may prove that ISSTH or another named work depicts a mechanic; they cannot authorize a universal project radar.
+   192→   192→
+   193→   193→### 4.2 Methods, arts, techniques, formulae, and transmission
+   194→   194→
+   195→   195→Track source terms and translations such as *gongfa*, *fa*, *jue*, *shu*, art, method, scripture, manual, formula, technique, ability, and spell without assuming equivalence. Code:
+   196→   196→
+   197→   197→- curriculum versus bounded operation;
+   198→   198→- oral, textual, embodied, ritual, initiatory, lineage, or environmental transmission;
+   199→   199→- prerequisites and body assumptions;
+   200→   200→- interpretation, teacher correction, secrecy, forgery, incompleteness, and translation error;
+   201→   201→- practice schedule, resources, feedback, deviation, and institutional recognition; and
+   202→   202→- whether a name describes mechanism, lineage, image, aspiration, founder, place, or marketing.
+   203→   203→
+   204→   204→The research output may recommend project-English distinctions such as **cultivation method** and **technique**. It must not claim that one Chinese source term maps cleanly to one English game category across works.
+   205→   205→
+   206→   206→### 4.3 Domains, fields, territories, and bounded influence
+   207→   207→
+   208→   208→Do not assume one Chinese term or one mechanic behind English **domain**. For every occurrence, record:
+   209→   209→
+   210→   210→- source term, translator choice, work, realm/rank, and speaker;
+   211→   211→- spatial boundary, target relation, persistence, anchors, source, and mobility;
+   212→   212→- whether it is perception, pressure, formation, territorial office, projected environment, technique effect, claimed region, or metaphor;
+   213→   213→- admission/exclusion behavior and actual counters;
+   214→   214→- relation to Dao/path attainment, local world patterns, institution, artifact, vow, or geography; and
+   215→   215→- demonstrated limits and contradictory scenes.
+   216→   216→
+   217→   217→No generic “domain expansion,” world editor, or jurisdiction mechanic survives without an original contract and a non-copying gameplay need.
+   218→   218→
+   219→   219→### 4.4 Tribulations and calamity language
+   220→   220→
+   221→   221→Separate at least:
+   222→   222→
+   223→   223→- historical/religious/literary uses of 劫 *jie* and related calamity language;
+   224→   224→- modern genre breakthrough tribulations;
+   225→   225→- lightning, fire, wind, heart-mind, karmic, social, institutional, environmental, or other work-local forms;
+   226→   226→- Heaven as person, order, process, institution, ecology, interpretation, or absent cause;
+   227→   227→- trigger, detection, target selection, escalation, witnesses, intervention, aftermath, and repeatability; and
+   228→   228→- narrator mechanism versus character theology.
+   229→   229→
+   230→   230→The familiar individualized lightning breakthrough remains a modern-genre hypothesis until its genealogy is completed. The project does not select tribulations merely by keeping the seasoned English word.
+   231→   231→
+   232→   232→---
+   233→   233→
+   234→   234→## 5. Multilingual licensed-corpus methodology
+   235→   235→
+   236→   236→### 5.1 Corpus strata
+   237→   237→
+   238→   238→Maintain separate, filterable strata:
+   239→   239→
+   240→   240→1. historical primary texts in identified editions;
+   241→   241→2. qualified translations and critical editions;
+   242→   242→3. specialist historical, philosophical, religious, medical, literary, and anthropological scholarship;
+   243→   243→4. contemporary lived-practice research;
+   244→   244→5. Chinese-language modern genre primary texts accessed under lawful terms;
+   245→   245→6. licensed English translations and official localizations;
+   246→   246→7. translator/editor notes;
+   247→   247→8. genre scholarship; and
+   248→   248→9. fan/discovery material that cannot carry a claim.
+   249→   249→
+   250→   250→No stratum votes another into equivalence. A recurring licensed English term establishes translation practice in the sample, not historical ontology.
+   251→   251→
+   252→   252→### 5.2 Sampling controls
+   253→   253→
+   254→   254→- Preregister a maximum-variation matrix before selecting works: subgenre and tone; publication period; platform/publisher; source and licensed-translation lineage; protagonist gender/body/social position and cultivation relationship; mortal/institutional emphasis; popularity band; completion status; and region/language of publication where relevant. Author demographics may be recorded only when self-disclosed or responsibly sourced; never inferred from a name.
+   255→   255→- Record author, work, publication year, platform/publisher, subgenre, completion status, source language, translator, edition, and accessible chapter range.
+   256→   256→- Avoid one-author, one-platform, one-translator, one-decade, and bestseller-only concentration.
+   257→   257→- Sample ordinary scenes as well as glossary-like exposition and late-series power-scaling passages.
+   258→   258→- Include counterexamples and works that omit the proposed convention.
+   259→   259→- Distinguish independent translations from shared terminology inherited through one translation lineage.
+   260→   260→- Preserve spoiler grades and never expose avoidable spoilers in player-facing terminology decisions.
+   261→   261→- Do not bulk scrape, bypass access controls, reproduce substantial copyrighted text, or treat an unofficial mirror as the preferred source.
+   262→   262→- Store minimal quotations; prefer claim-level paraphrase plus an exact licensed location.
+   263→   263→- Collapse translations/localizations derived from one source translation or editorial lineage into one dependency unit for independence claims, while retaining their distinct player-facing wording as localization evidence.
+   264→   264→- Publish sample denominators, inaccessible/unknown strata, missing chapters and the coverage cell of every included work. No result may use population-frequency language such as “most xianxia” without a defensible sampling frame; ordinary results are descriptions of the frozen sample only.
+   265→   265→
+   266→   266→### 5.3 Minimum sample-coverage and coding thresholds
+   267→   267→
+   268→   268→These are coverage floors for a bounded sample, not estimates of xianxia prevalence, truth or independent invention. Counts do not authorize an original mechanic and are never required for a source-neutral mechanic motivated by an independent player/world problem.
+   269→   269→
+   270→   270→| Proposed claim | Minimum evidence before review |
+   271→   271→|---|---|
+   272→   272→| established licensed-English term **in the sample** | occurrences in at least 8 series, 4 authors, 2 independent licensed publishers/platforms or localization lineages, with translation variance, dependency collapse and counterexamples recorded |
+   273→   273→| sampled-corpus convention | at least 12 series, 6 authors, 2 publication periods, and 2 independent platforms/publishers, with the preregistered maximum-variation cells reported; code both presence and meaningful absence |
+   274→   274→| comparative mechanic family used to inform a project abstraction | at least 8 independently authored works plus 3 materially different implementations and 2 counterexamples; abstraction must omit source-distinctive expression. An independently motivated original mechanic may instead use a `DESIGN-BRIDGE` with zero corpus-frequency claim |
+   275→   275→| exact translation equivalence | bilingual review of the exact passages in at least 3 independent contexts; otherwise label contextual rendering or unknown |
+   276→   276→| historical semantic claim | exact primary location where available, qualified translation/edition, and at least 2 relevant specialist discussions or one critical edition plus one independent specialist |
+   277→   277→| contemporary living-culture claim | current qualified research scoped to the represented community plus an appropriate cultural reviewer; classics alone cannot satisfy it |
+   278→   278→
+   279→   279→Counts measure coverage, not truth. A material contradiction blocks a universal claim even when the numerical threshold is met. All high-risk cultural, historical, translation-equivalence and living-practice fields receive 100% independent double review. Other categorical coding fields preregister Krippendorff's alpha ≥0.80; interpretive fields preregister alpha ≥0.67 plus adjudication of every disagreement. A field below its floor triggers codebook repair and full-field recoding, not selective correction or threshold weakening. If alpha is unsuitable for a field, the manifest must preregister an exact-agreement alternative and rationale before coding.
+   280→   280→
+   281→   281→### 5.4 Translation workflow
+   282→   282→
+   283→   283→1. Transcribe the exact source expression and variants.
+   284→   284→2. Record tonal pinyin as metadata, not decorative prose.
+   285→   285→3. Compare the licensed translation, at least one qualified reference translation where relevant, and bilingual reviewer analysis.
+   286→   286→4. Describe what each rendering foregrounds or loses.
+   287→   287→5. Choose a project-English term only for a bounded project concept.
+   288→   288→6. Never fabricate Hanzi for an English-first project invention.
+   289→   289→7. Preserve unresolved alternatives in the register.
+   290→   290→
+   291→   291→Machine translation may assist discovery or alignment only. It cannot close a translation card.
+   292→   292→
+   293→   293→---
+   294→   294→
+   295→   295→## 6. Cultural track separation
+   296→   296→
+   297→   297→Each track produces its own memorandum before a synthesis meeting. Reviewers may identify exchange and overlap, but no “Three Teachings,” “ancient Chinese,” or “Eastern spirituality” super-system is permitted.
+   298→   298→
+   299→   299→Required tracks:
+   300→   300→
+   301→   301→1. early and medieval Chinese philosophical texts, with schools and dates kept explicit;
+   302→   302→2. historical and contemporary Daoist traditions, internally plural;
+   303→   303→3. Buddhist philosophies, ritual traditions, monastic and lay contexts, and rebirth/personhood debates, internally plural;
+   304→   304→4. Confucian and Neo-Confucian cultivation, ethics, ritual, education, family, and governance, internally plural;
+   305→   305→5. medical-body history and living health practices, separated from supernatural truth and clinical advice;
+   306→   306→6. local religion, temples, deity/spirit relations, ancestors, divination, festivals, and funerary practice, regionally scoped;
+   307→   307→7. literature, mythology, opera, vernacular religion, wuxia, xianxia, games, and platform culture as distinct media histories;
+   308→   308→8. imperial law, office, mandate, land, kinship, labor, and institutions without treating one dynasty as default China;
+   309→   309→9. minority, frontier, transregional, diaspora, and non-Han histories represented by qualified sources and reviewers rather than decorative borrowing; and
+   310→   310→10. gender, sexuality, reproduction, disability, age, class, coercion, and body variation across all tracks.
+   311→   311→
+   312→   312→### 6.1 Cross-track synthesis gate
+   313→   313→
+   314→   314→A synthesis statement must name the contributing tracks, preserve their disagreements, state whether the relation is historical contact, shared vocabulary, later reinterpretation, modern genre recombination, or original design, and identify what cannot be generalized. If it cannot do so, the statement remains track-local.
+   315→   315→
+   316→   316→### 6.2 `DESIGN-BRIDGE-v0.1`
+   317→   317→
+   318→   318→Research does not become game architecture merely by being accurate. Every design-bearing synthesis must produce a bridge record containing:
+   319→   319→
+   320→   320→```text
+   321→   321→bounded source observation and claim-card dependencies
+   322→   322→source-local/distinctive elements explicitly excluded
+   323→   323→independent player/world problem
+   324→   324→proposed operation and information interface
+   325→   325→cost, preparation, failure, counter and recovery
+   326→   326→persistence/aftermath and affected institutions/ecology
+   327→   327→player/NPC parity projection
+   328→   328→at least two materially different scenario fixtures
+   329→   329→no-source and no-mechanic control fixtures
+   330→   330→single-source distinctive-expression subtraction result
+   331→   331→affected downstream contracts and test obligations
+   332→   332→```
+   333→   333→
+   334→   334→A vocabulary-only or research-only finding may remain nonmechanical and cannot block an unrelated design handoff. Candidate dossiers must present mechanically distinct options plus `none/defer`; a frequency count or cultural analogy cannot select an option.
+   335→   335→
+   336→   336→---
+   337→   337→
+   338→   338→## 7. Seasoned English and romanization policy
+   339→   339→
+   340→   340→### 7.1 Retain fluent xianxia English
+   341→   341→
+   342→   342→Use **qi**, **Dao**, **cultivation**, **cultivator**, and **Qi Condensation** in ordinary project English. When the corresponding concepts are selected, established terms such as **yin–yang**, **spiritual roots**, **meridians**, **dantian**, **breakthrough**, **tribulation**, **sect**, and **lineage** are preferred to awkward literal replacements. Keeping a term does not select its ontology or import another work's mechanics.
+   343→   343→
+   344→   344→Do not replace qi with “energy” or “vital breath” by default, and do not rename Qi Condensation “Vital Breath Condensation.” Do not use Dao as a synonym for statute, damage type, mana, moral goodness, or generic system permission.
+   345→   345→
+   346→   346→### 7.2 Gloss niche or ambiguous romanization
+   347→   347→
+   348→   348→- Ordinary player prose defaults to clear English.
+   349→   349→- At first relevant scholarly/codex use, write `clear English (Hanzi, tonal pinyin)` when the source-language distinction materially matters.
+   350→   350→- Later prose uses the chosen English unless characters' language, scholarship, ritual, or translation dispute makes the source term important.
+   351→   351→- Research records always retain Hanzi, tonal pinyin, source location, contextual meanings, and alternative translations where relevant.
+   352→   352→- Do not stack unexplained pinyin to manufacture exoticism.
+   353→   353→- Do not use a literal gloss as if it were a complete definition.
+   354→   354→- Do not randomly alternate English and romanized terms as false synonyms.
+   355→   355→- Names of project-native English concepts do not receive decorative pseudo-Chinese back-translations.
+   356→   356→
+   357→   357→### 7.3 Mandatory distinctions
+   358→   358→
+   359→   359→The register must never silently merge:
+   360→   360→
+   361→   361→- qi, vital essence, spirit, breath, force, and generic energy;
+   362→   362→- Dao, a path, doctrine, method, technique, pattern, statute, office, and fate;
+   363→   363→- heart-mind, spirit, consciousness, soul, personhood, memory, and identity;
+   364→   364→- lifespan, vitality, destiny, mandate, luck, karma, reputation, and causal debt;
+   365→   365→- sect, lineage, clan, school, temple, monastery, guild, court, and state office; or
+   366→   366→- realm, rank, title, office, attainment, technique, transformation, and translator comparison aid.
+   367→   367→
+   368→   368→---
+   369→   369→
+   370→   370→## 8. Originality red-team
+   371→   371→
+   372→   372→The red-team protects both legal/IP boundaries and the project's creative identity. It is a design safeguard, not a substitute for qualified legal review.
+   373→   373→
+   374→   374→### 8.1 Comparison units
+   375→   375→
+   376→   376→Decompose every candidate into:
+   377→   377→
+   378→   378→- name, translation, imagery, symbols, and visual silhouette;
+   379→   379→- operation graph and failure behavior;
+   380→   380→- acquisition, growth, cost, counter, and transfer/death rules;
+   381→   381→- realm placement and transition sequence;
+   382→   382→- institution, economy, ritual, and social consequences;
+   383→   383→- protagonist relationship and narrative function;
+   384→   384→- scenario order, reveal structure, and set pieces; and
+   385→   385→- combinations that may be distinctive even when individual tropes are common.
+   386→   386→
+   387→   387→### 8.2 Required tests
+   388→   388→
+   389→   389→1. **Single-source distinctive-dependency subtraction:** remove source-distinctive expression, ordered dependencies, signature combinations and work-local mechanics traceable to the strongest inspiration; the candidate must remain coherent and desirable. Common genre vocabulary/tropes are not removed merely because a famous source also uses them.
+   390→   390→2. **Signature-combination test:** compare the whole mechanic/name/progression/narrative bundle, not isolated generic tropes.
+   391→   391→3. **Sequence test:** compare ordered realm transitions, acquisition beats, costs, reversals, and climactic uses.
+   392→   392→4. **Controlled reverse-identification test:** blinded reviewers compare the candidate against matched generic-trope controls and famous-source controls. A redesign signal requires a preregistered excess-over-control agreement threshold **and** concrete identification of a distinctive combination, sequence, expression or dependency. Unsupported famous-work guesses are noise, not vetoes.
+   393→   393→5. **Translation camouflage test:** changing names or translating them differently must not be treated as originality.
+   394→   394→6. **Cross-source laundering test:** combining recognizable pieces from several works does not automatically create an original system.
+   395→   395→7. **Generic-trope necessity test:** every retained trope needs an independent gameplay/worldbuilding function and original implementation.
+   396→   396→8. **Prose and visual test:** no copied phrasing, emblematic composition, artifact silhouette, character likeness, or signature scene blocking.
+   397→   397→9. **Procedural recombination test:** the generator may combine only cleared primitives; it may not accidentally reconstruct a source fingerprint.
+   398→   398→10. **Expansion test:** future generated variants must remain inside the cleared abstraction rather than drifting toward the nearest source example.
+   399→   399→
+   400→   400→### 8.3 Red-team dispositions
+   401→   401→
+   402→   402→- **Reject:** copied or closely paraphrased prose; protected characters or settings; distinctive named artifacts, techniques, ladders, cosmologies, or signature scenes; a renamed source mechanic whose operation/progression remains substantially source-identifying.
+   403→   403→- **Redesign:** supported repeated identification of a distinctive combination, ordered sequence, silhouette, protagonist advantage, institution or expression above the matched-control threshold; fame association with a generic trope is insufficient.
+   404→   404→- **Research-only:** useful comparative observation that cannot enter the design without further abstraction.
+   405→   405→- **Candidate:** independently motivated abstraction with cleared expression, materially different operations and consequences, documented source boundaries, and passing reverse-identification review.
+   406→   406→
+   407→   407→Every candidate keeps an inspiration ledger. “AI generated it” is never evidence of originality.
+   408→   408→
+   409→   409→The originality diagnostic and qualified legal/IP review are separate dispositions. A controlled reverse-identification pass is not legal clearance; an unsupported reviewer association is not evidence of infringement.
+   410→   410→
+   411→   411→---
+   412→   412→
+   413→   413→## 9. Work sequence
+   414→   414→
+   415→   415→### Stage A — Registry and acquisition
+   416→   416→
+   417→   417→- Freeze `PhaseScopeManifest-v0.1`, `RESEARCH-INVENTORY-v0.1`, dependency graph, tranche boundaries and every `TrackBudget-v0.1`; newly discovered forks/claims enter the deferred register rather than expanding v0.1.
+   418→   418→- Create source, edition, translator, license/access, and reviewer records.
+   419→   419→- Convert existing foundation citations into claim cards rather than assuming they are complete.
+   420→   420→- Mark discovery-only and inaccessible materials.
+   421→   421→- Assign source gaps before synthesis begins.
+   422→   422→
+   423→   423→### Stage B — Independent term and cultural tracks
+   424→   424→
+   425→   425→- Complete the seven core-term card sets.
+   426→   426→- Produce cultural memoranda independently.
+   427→   427→- Record contradiction edges and prohibited universalizations.
+   428→   428→- Do not design a combined ontology yet.
+   429→   429→
+   430→   430→### Stage C — Genre corpus coding
+   431→   431→
+   432→   432→- Freeze the sample manifest before interpreting frequency.
+   433→   433→- Double-code a calibration subset and reconcile the coding guide.
+   434→   434→- Code divine sense, methods, domains, and tribulations at passage level.
+   435→   435→- Publish counts with denominators, missing chapters, and selection bias.
+   436→   436→
+   437→   437→### Stage D — Bounded synthesis
+   438→   438→
+   439→   439→- Separate supported vocabulary, sampled convention, source-local mechanic, disputed claim, and original design opportunity.
+   440→   440→- Produce multiple candidate abstractions rather than one merged “authentic” system.
+   441→   441→- Produce `DESIGN-BRIDGE-v0.1` only for design-bearing syntheses; source-neutral designs may proceed using typed unknown placeholders and no unsupported cultural claim.
+   442→   442→- State which questions remain unknown.
+   443→   443→
+   444→   444→### Stage E — Originality and cultural adversarial review
+   445→   445→
+   446→   446→- Run the red-team tests.
+   447→   447→- Route every culturally material synthesis back to the relevant track reviewers.
+   448→   448→- Reject designs that require stereotypes, false history, fabricated translations, or source-signature dependence.
+   449→   449→
+   450→   450→### Stage F — User decision preparation
+   451→   451→
+   452→   452→- Present tradeoffs, not a recommendation disguised as inevitability.
+   453→   453→- Show what each choice enables, excludes, risks, and leaves unknown.
+   454→   454→- Include “select none / research further.”
+   455→   455→- No candidate is promoted by silence, popularity, corpus count, or reviewer majority alone.
+   456→   456→- Publish each dependency-complete tranche with explicit blocked/unblocked consumers. A failed unrelated track does not withhold a passed dossier.
+   457→   457→
+   458→   458→---
+   459→   459→
+   460→   460→## 10. Review roles and independence
+   461→   461→
+   462→   462→At minimum, the gate requires distinct review responsibility for:
+   463→   463→
+   464→   464→- source-language and translation accuracy;
+   465→   465→- history of Chinese religions/philosophies;
+   466→   466→- modern Chinese genre and platform context;
+   467→   467→- contemporary cultural sensitivity and living-practice scope;
+   468→   468→- identity, death, disability, gender/body, and medical-safety implications;
+   469→   469→- originality/IP red-team;
+   470→   470→- gameplay/system abstraction; and
+   471→   471→- Research Graph provenance and release consistency.
+   472→   472→
+   473→   473→One person may hold more than one role only when the overlap and conflict risk are disclosed. Synthesis authors do not close their own S1 findings.
+   474→   474→
+   475→   475→---
+   476→   476→
+   477→   477→## 11. Starting source queue and limitations
+   478→   478→
+   479→   479→The current foundation provides a discovery queue, not a closed canon bibliography:
+   480→   480→
+   481→   481→- identified passages and critical-edition work for the *Daodejing*, *Neiye*, *Zhuangzi*, medical channel texts, alchemical sources, and later manuals;
+   482→   482→- specialist reference work on Daoism, religious Daoism, Chinese metaphysics, heart-mind, inner alchemy, body history, and modern genre formation;
+   483→   483→- licensed modern-fiction passages already used to audit local Er Gen mechanics;
+   484→   484→- translator notes that identify translation differences without converting them into authorial cosmology; and
+   485→   485→- modern xianxia/game scholarship used as a map to a larger licensed corpus.
+   486→   486→
+   487→   487→Known limitations remain blocking for strong universal claims: English-language scholarship bias, insufficient Chinese- and other-language specialist coverage, no finished licensed convention corpus, male-default/body bias, incomplete Buddhist/Confucian/local-religion/minority/frontier coverage, edition gaps, and no standing cultural review panel.
+   488→   488→
+   489→   489→---
+   490→   490→
+   491→   491→## 12. Exact acceptance gates
+   492→   492→
+   493→   493→Each bounded tranche passes only when every gate it consumes is evidenced in the audit. “Substantially complete” is not a pass for that tranche. The overall phase index may publish a mixture of `PASS`, `DEFERRED_UNKNOWN`, `REJECTED`, and still-active tranches; an unresolved track blocks only its declared consumers.
+   494→   494→
+   495→   495→### 12.1 Source and claim gate
+   496→   496→
+   497→   497→- 100% of substantive cultural, historical, religious, linguistic, living-practice, and sampled-genre claims consumed by the tranche have versioned claim cards.
+   498→   498→- 100% of consumed cards identify source class, exact location, scope, inference distance, support/non-support, access status, and reviewer.
+   499→   499→- Every historical semantic claim meets section 5.3 or is explicitly downgraded to an open hypothesis.
+   500→   500→- Every direct quotation has edition/translator attribution and remains within copyright limits.
+   501→   501→- Contradictions, inaccessible evidence, and negative findings are present in the graph.
+   502→   502→
+   503→   503→### 12.2 Translation and terminology gate
+   504→   504→
+   505→   505→- All Hanzi and tonal pinyin used in research records are checked by a qualified source-language reviewer.
+   506→   506→- No project-native English concept has fabricated Hanzi.
+   507→   507→- No exact translation equivalence is asserted without the section 5.3 threshold.
+   508→   508→- The seasoned-English register and first-use gloss rules pass a terminology audit.
+   509→   509→- Qi, Dao, *xin*, *shen*, *jing*, *xing*, *ming*, soul, personhood, karma, fate, mandate, law, and reputation remain distinct unless a bounded source claim explicitly relates them.
+   510→   510→
+   511→   511→### 12.3 Corpus gate
+   512→   512→
+   513→   513→- The frozen manifest records all inclusion/exclusion criteria and missing-access bias.
+   514→   514→- Every “established term in the sample,” “sampled convention,” and comparative mechanic-family claim meets its sample-coverage threshold and uses no unsupported population-prevalence language.
+   515→   515→- High-risk fields are 100% independently double-reviewed. Other fields meet their preregistered agreement floor; any failed field is fully recoded after codebook repair. Agreement, dependence collapse and adjudicated disagreements are published.
+   516→   516→- No author, translator, publisher/platform, or series supplies more than 25% of the evidence for a cross-genre claim.
+   517→   517→- Counterexamples and meaningful absences are coded, not discarded.
+   518→   518→
+   519→   519→### 12.4 Cultural separation gate
+   520→   520→
+   521→   521→- Every required track has a memorandum or an explicit recorded deferral that prevents dependent claims from advancing.
+   522→   522→- Every cross-track synthesis names its source tracks, relation type, disagreement, and non-generalization boundary.
+   523→   523→- No historical or living tradition is presented as proof of supernatural mechanics.
+   524→   524→- Medical/body material is non-actionable and reviewed for safety, disability, gender, age, and reproductive assumptions.
+   525→   525→
+   526→   526→### 12.5 Originality gate
+   527→   527→
+   528→   528→- Every candidate has a source/inspiration ledger and passes all ten red-team tests, including matched controls and the preregistered evidence-bearing reverse-identification threshold.
+   529→   529→- Zero copied prose, protected characters/settings, or source-distinctive named mechanics enter the candidate set.
+   530→   530→- No candidate depends on one source for its name, operation graph, progression, and narrative role in combination.
+   531→   531→- Blinded controlled reverse-identification does not exceed the preregistered matched-control threshold with a concrete distinctive fingerprint; unsupported repeated guesses do not trigger redesign.
+   532→   532→- Procedural primitives and combination rules are cleared independently, including expansion tests.
+   533→   533→
+   534→   534→### 12.6 Design-status gate
+   535→   535→
+   536→   536→- Every output is labeled evidence, interpretation, sampled convention, original proposal, disputed, unknown, rejected, or user-ratified.
+   537→   537→- No realm ladder, cosmology, soul model, tribulation ontology, protagonist advantage, domain system, or qi ontology is silently selected.
+   538→   538→- Every design-bearing synthesis has a complete `DESIGN-BRIDGE-v0.1`; vocabulary-only/research-only results are labeled nonmechanical.
+   539→   539→- Candidate dossiers for every fork frozen in `PhaseScopeManifest-v0.1` contain at least two materially distinct choices plus “defer / none.” Newly discovered forks remain deferred to a later revision.
+   540→   540→- Zero open S0/S1 findings remain after independent cultural, source, originality, gameplay, and graph-consistency re-audits.
+   541→   541→- No code, scaffold, implementation dependency, or production authorization is created by this phase.
+   542→   542→
+   543→   543→---
+   544→   544→
+   545→   545→## 13. Stop conditions
+   546→   546→
+   547→   547→Pause synthesis and return to research when:
+   548→   548→
+   549→   549→- a key term cannot be disambiguated at the needed scope;
+   550→   550→- a licensed translation conflicts materially with the source-language reading;
+   551→   551→- a living-culture claim lacks an appropriately scoped source or reviewer;
+   552→   552→- a proposed mechanic depends on a fan taxonomy or one author's cosmology;
+   553→   553→- cultural tracks disagree in a way the candidate would erase;
+   554→   554→- the originality red-team repeatedly identifies one source;
+   555→   555→- required corpus access cannot be obtained lawfully; or
+   556→   556→- the user-facing decision would be false because all options smuggle in the same unexamined ontology.
+   557→   557→
+   558→   558→Any track also stops at its source/hour/reviewer ceiling or third failed repair cycle. Its exact disposition becomes `DEFERRED_UNKNOWN` when evidence/access is insufficient or `REJECTED` when a tested claim/candidate fails; the default is never unbounded further research.
+   559→   559→
+   560→   560→The correct output at a stop condition is a bounded unknown, revised acquisition plan, or rejected candidate—not invented certainty.
+   561→   561→
+   562→   562→---
+   563→   563→
+   564→   564→## 14. Handoff to the following phase
+   565→   565→
+   566→   566→If and only if the relevant dependency tranche passes its consumed section-12 gates, the project may prepare the corresponding non-canon candidate package. Other tracks may remain deferred or active. Possible handoffs include:
+   567→   567→
+   568→   568→1. semantic technique grammar and intent controls;
+   569→   569→2. perception, divine sense, concealment, and evidence;
+   570→   570→3. world patterns, *fa*/methods, Daos/paths, domains, and cross-realm contests;
+   571→   571→4. identity/death/reincarnation decision options;
+   572→   572→5. tribulation, Heaven, fate/karma, office, and world-pattern options; and
+   573→   573→6. original realm-ladder architecture research.
+   574→   574→
+   575→   575→That handoff still does not authorize lore or code. World-defining selections remain with the user and must enter canon through a separate, versioned decision.
+   576→   576→
