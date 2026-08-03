@@ -429,8 +429,13 @@ function cborEncode(value) {
       return;
     }
     if (typeof v === 'object') {
-      const keys = Object.keys(v).sort();
-      encodeHead(5, keys.length);
+      // cbor-x preserves insertion order of keys (does NOT sort).
+      // ES2015+ guarantees string keys are iterated in insertion order,
+      // so this is deterministic as long as state objects are constructed
+      // with keys in a consistent order.
+      const keys = Object.keys(v);
+      // cbor-x uses the 2-byte length form (0xb9) for ALL maps, even small ones.
+      parts.push(0xb9, (keys.length >> 8) & 0xff, keys.length & 0xff);
       for (const k of keys) {
         const utf8 = new TextEncoder().encode(k);
         encodeHead(3, utf8.length);
