@@ -368,7 +368,7 @@ The doctrine (AGENTS.md Part 3) says: "Design for joy first; the system serves t
 
 ### 13.1 The first verb
 
-**Carry water.** Session 1, morning. The protagonist takes the shoulder-pole and two buckets to the river, fills them, carries them up the rutted path to the household cistern. The water is heavy; the path is rutted; the autumn morning fog is cold. This is the substrate verb (doc 04), the first verb of a life, not a tutorial. The verb is the through-line: the protagonist carries water as a mortal (heavy, slow), routes qi to carry water as a Qi Condensation cultivator (lighter, faster), and at Foundation Establishment can lift the cistern itself (the verb transforms, but it is the same verb). At the end of the game, in the "found a lineage" ending, the protagonist watches a student carry water — and perceives, in the student's residue, the traces of their own teaching.
+**Carry water.** Session 1, morning. The protagonist takes the shoulder-pole and two buckets to the well, fills them, carries them up the rutted path to the household cistern. The water is heavy; the path is rutted; the spring morning mist is cold. This is the substrate verb (doc 04), the first verb of a life, not a tutorial. The verb is the through-line: the protagonist carries water as a mortal (heavy, slow), routes qi to carry water as a Qi Condensation cultivator (lighter, faster), and at Foundation Establishment can lift the cistern itself (the verb transforms, but it is the same verb). At the end of the game, in the "found a lineage" ending, the protagonist watches a student carry water — and perceives, in the student's residue, the traces of their own teaching.
 
 ### 13.2 The first awe
 

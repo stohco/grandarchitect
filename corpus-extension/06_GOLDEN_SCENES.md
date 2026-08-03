@@ -23,7 +23,7 @@ Each scene is specified with:
 ## Scene 1: The First Teacher (Wang Lun's Hexagram)
 
 ### Setting
-Wang Family Bend, the lineage hall's side room (the school), late autumn of the player's 16th year. The player has been perceiving qi faintly for weeks — brief, uncertain onsets that they have not told anyone about, because they do not have words for what they are experiencing.
+Wang Family Bend, the lineage hall's side room (the school), spring (Qingming), the player's 16th year. The player has been perceiving qi faintly for weeks — brief, uncertain onsets that they have not told anyone about, because they do not have words for what they are experiencing.
 
 Wang Lun (王倫, 41, the lineage school teacher, a failed county exam candidate) has noticed. He has noticed because the player has been distracted in lessons, because the player has been staring at the lineage hall's incense with an attention that is not ordinary, and because Wang Lun, in his youth, had a single qi perception himself — once, briefly, never repeated — and recognizes the signs.
 
@@ -58,7 +58,7 @@ Wang Lun (王倫, 41, the lineage school teacher, a failed county exam candidate
 - Wang Lun's letter of introduction is a persistent object in the player's inventory. Old Chen's reaction to the player is modified by its presence.
 
 ### Rendering implications
-- The scene is in the lineage hall's side room: a small space, a low table, brush and ink and yarrow stalks, the ancestor tablets visible through the door. The lighting is dim (autumn afternoon, paper windows). The incense is burning — its qi is perceptible (dense, old, human).
+- The scene is in the lineage hall's side room: a small space, a low table, brush and ink and yarrow stalks, the ancestor tablets visible through the door. The lighting is dim (spring afternoon, paper windows). The incense is burning — its qi is perceptible (dense, old, human).
 - Wang Lun's animation: the careful casting of the hexagram (the yarrow stalks divided and counted, the hexagram drawn on paper with brush and ink). This is a real divination procedure, rendered accurately.
 - The player-character's perception mode (if active) renders the cross-modal effect. Wang Lun's own qi is faint — barely perceptible, a single point of warmth in his chest, the residue of his one perception decades ago.
 
