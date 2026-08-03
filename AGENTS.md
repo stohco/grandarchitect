@@ -115,4 +115,55 @@ Source: `github.com/davidondrej/skills` (MIT, 3.0k stars, verified Aug 2026). A 
 - When the task calls for a workflow tool: consult Part 4. Load the skill on demand.
 - When you find yourself adding a gate, a contract, or a red-team test: stop. Ask whether you are adding brake or engine. If only brake, also write the engine.
 - When you find yourself deferring a decision: ask whether deferral is honesty or refusal. If the latter, decide. Use `/next-decision` to make yourself pick.
+
+## Part 5 — Autonomous Iteration Safety
+
+1. Every invocation must acquire an exclusive project lease. Never run two
+   modifying iterations concurrently.
+
+2. Work must occur in an isolated Git worktree based on the last approved
+   commit. Failed iterations must not alter the approved branch.
+
+3. The machine-readable roadmap state is authoritative. The worklog is
+   explanatory and must not independently determine the next task.
+
+4. A task is complete only when all declared acceptance tests, security tests,
+   replay tests, and applicable performance budgets pass.
+
+5. The implementer may not be the only evaluator. Every change requires a
+   separate adversarial review and test-audit stage.
+
+6. Do not modify AGENTS.md, permission boundaries, authentication, audit
+   systems, branch protections, the autonomous runner, or its approval logic
+   without an explicitly authorized security task.
+
+7. The Grand Architect Control Plane must be implemented in progressive
+   authority levels: Observe, Diagnose, Sandbox, Branch, Integrate, Release.
+   Never silently expand the agent's own authority.
+
+8. Do not install or adopt a dependency until license, maintenance, browser
+   compatibility, security, deterministic impact, bundle impact, and adapter
+   strategy are recorded and validated in an isolated research workspace.
+
+9. Architecture documents are baselined and change-controlled, not infallible.
+   Change architecture only when implementation evidence demonstrates a
+   blocker or contradiction, and record the decision formally.
+
+10. Authoritative simulation must use approved deterministic random and math
+    services. Presentation-only systems may use native floating-point functions
+    when they cannot affect authoritative outcomes.
+
+11. After three failed approaches to the same task, stop implementation and
+    produce a blocker report. Do not continue speculative patching.
+
+12. Every accepted commit must include an evidence record containing commands,
+    results, replay hashes, benchmarks, changed capabilities, permission or
+    dependency changes, known limitations, and rollback instructions.
+
+13. A passing page load, successful compilation, or favorable VLM description
+    is never sufficient evidence of correctness.
+
+14. Stop immediately on suspected repository corruption, save corruption,
+    credential exposure, unauthorized permission expansion, irreproducible
+    failures, or unexplained divergence from the approved base commit.
 - When you finish a task: cite which principles you honored and which you violated, and why. Use `/decisions` to surface the doubts you are not confident about. The citation is the review.

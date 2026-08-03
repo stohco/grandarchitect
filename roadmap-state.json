@@ -1,0 +1,148 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-08-04T06:35:00Z",
+  "currentPhase": "2",
+  "currentTask": "GA-2A.1",
+  "status": "in_progress",
+  "activeIteration": null,
+  "approvedCommit": null,
+  "phases": [
+    {
+      "id": "0",
+      "name": "Determinism Stack",
+      "status": "complete",
+      "exitCriteria": "Cross-browser hash parity verified",
+      "evidence": "hash 7fde855dc9d17c7ba11c7d40c1dda10535a10dd269af0b37149104c256213f75"
+    },
+    {
+      "id": "1",
+      "name": "Kernel + Plugin SDK",
+      "status": "complete",
+      "exitCriteria": "Two reference plugins pass conformance",
+      "evidence": "37/37 conformance tests pass (ga:determinism)"
+    },
+    {
+      "id": "2",
+      "name": "Grand Architect Control Plane",
+      "status": "in_progress",
+      "subPhases": [
+        {
+          "id": "2A",
+          "name": "Observe",
+          "authority": "read-only",
+          "tasks": [
+            {
+              "id": "GA-2A.1",
+              "objective": "Implement architect types, tool registry (read-only tools), world oracle, and decision ledger",
+              "permittedFiles": [
+                "src/engine/architect/types.ts",
+                "src/engine/architect/tool-protocol.ts",
+                "src/engine/architect/world-oracle.ts",
+                "src/engine/architect/decision-ledger.ts",
+                "src/engine/architect/permissions.ts",
+                "src/engine/architect/audit.ts",
+                "src/engine/architect/gateway.ts",
+                "src/engine/architect/conformance-test.ts",
+                "roadmap-state.json"
+              ],
+              "prerequisites": ["kernel-conformance-green"],
+              "acceptanceTests": [
+                "architect-tool-registration",
+                "read-only-resource-access",
+                "permission-denial-test",
+                "audit-log-test",
+                "world-oracle-query-test",
+                "decision-ledger-test",
+                "stale-lock-recovery-test"
+              ],
+              "blockedBy": [],
+              "attempt": 0,
+              "maxAttempts": 3,
+              "status": "in_progress"
+            }
+          ]
+        },
+        {
+          "id": "2B",
+          "name": "Diagnose",
+          "authority": "read + execute-tests",
+          "tasks": [],
+          "blockedBy": ["GA-2A.1"]
+        },
+        {
+          "id": "2C",
+          "name": "Sandbox",
+          "authority": "temporary-mutation",
+          "tasks": [],
+          "blockedBy": ["GA-2B-complete"]
+        },
+        {
+          "id": "2D",
+          "name": "Branch",
+          "authority": "persistent-commits-on-dev-branch",
+          "tasks": [],
+          "blockedBy": ["GA-2C-complete"]
+        },
+        {
+          "id": "2E",
+          "name": "Integrate",
+          "authority": "merge-to-main-with-approval",
+          "tasks": [],
+          "blockedBy": ["GA-2D-complete"]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Reference Plugins",
+      "status": "pending",
+      "blockedBy": ["GA-2A.1"]
+    },
+    {
+      "id": "4",
+      "name": "Simulation Systems",
+      "status": "pending",
+      "blockedBy": ["phase-3-complete"]
+    },
+    {
+      "id": "5",
+      "name": "Game Systems",
+      "status": "pending",
+      "blockedBy": ["phase-4-complete"]
+    },
+    {
+      "id": "6",
+      "name": "Content Generation",
+      "status": "pending",
+      "blockedBy": ["phase-5-complete"]
+    },
+    {
+      "id": "7",
+      "name": "Vertical Slice",
+      "status": "pending",
+      "blockedBy": ["phase-6-complete"]
+    }
+  ],
+  "stopConditions": [
+    "same-task-fails-3-times",
+    "tests-flaky",
+    "architecture-implementation-contradiction",
+    "incompatible-license",
+    "credentials-missing",
+    "migration-damages-saves",
+    "performance-regression-beyond-budget",
+    "disk-memory-build-time-exceeds-limits",
+    "branch-diverges-unexpectedly",
+    "protected-files-need-modification",
+    "next-action-ambiguous",
+    "failure-cannot-be-reproduced",
+    "corruption-or-security-exposure-suspected"
+  ],
+  "protectedFiles": [
+    "AGENTS.md",
+    "roadmap-state.json",
+    "src/engine/architect/permissions.ts",
+    "src/engine/architect/audit.ts",
+    "src/engine/architect/gateway.ts"
+  ]
+}
