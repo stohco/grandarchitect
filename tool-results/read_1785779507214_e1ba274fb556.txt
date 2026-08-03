@@ -1,0 +1,402 @@
+     1→# 36 — Cosmic Geography
+     2→
+     3→**Status:** Candidate canon. The spatial structure of the cosmos. Compliance with 00_FOUNDATIONAL_DECISIONS §1 (cosmology, finiteness), 24_RECONCILIATION_AND_DECISIONS §2.6 (generative descent, Origin is not a place), 15_PRECELESTIAL_AND_TRIBULATION §1.5 (the Precelestial's four zones), 19_GROTTO_HEAVENS §2 (grotto-heavens nested in the Acquired, anchored to the Mortal), and 14_ECOLOGY_AND_QI §1 (spirit veins cross the stratum boundary).
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. Why this document exists
+     9→
+    10→The bible has topology (three qi-density strata) but no geography. Topology tells you that the Precelestial is denser than the Acquired; it does not tell you what a cultivator sees when they look up from Wang Family Bend at night, what the stars are, how big the world is, where the Courts of Heaven sit relative to the Spirit Wilds, what lies beyond the edge of the cosmos, or how long it takes to cross a continent at Core Formation. This document commits to all of that. It is the map every subsequent cosmic document depends on.
+    11→
+    12→**Conventions.** Hanzi appear in parentheses after the English term on first use. No pinyin romanization with tone marks is used, per the project's writing brief. The 1:365 time-debt (doc 15 §7) is referenced throughout. Distances use the heaven-stride (天步, §6.1), not the li, at cosmic scale; the li remains the unit for mortal-scale distances.
+    13→
+    14→---
+    15→
+    16→## 1. The shape of the cosmos
+    17→
+    18→### 1.1 The lens
+    19→
+    20→The cosmos is a **finite lenticular volume** — a flattened oblate spheroid, wider than it is tall, like a contact lens or a double-convex mirror pressed thin. Its horizontal extent is roughly ten times its vertical height. It has a top, a bottom, an edge, and an interior; it does not have an outside, because "outside" is a relation that only obtains between two things that exist, and the cosmos is the only thing that exists in the sense that matters here.
+    21→
+    22→The three strata are not concentric shells; they are **three horizontal layers within the lens**, stacked along the vertical axis:
+    23→
+    24→- **The Precelestial Stratum (先天境)** occupies the upper third of the lens — the thinnest, smallest-horizontal-extent, densest-qi layer.
+    25→- **The Acquired Stratum (后天境)** occupies the middle bulge — the widest layer, where the lens reaches its greatest horizontal extent.
+    26→- **The Mortal Stratum (凡尘境)** occupies the lower third — narrower than the Acquired but wider than the Precelestial, the diffuse-qi bottom of the lens.
+    27→
+    28→The three are **coextensive in horizontal position** (a vertical line through any point in the lens crosses all three strata at that horizontal coordinate) and **distinct in altitude** (qi-density varies along the vertical axis). This is what makes grotto-heaven anchors possible: a grotto-heaven in the Acquired Stratum connects downward through the stratum boundary to a geographic anchor in the Mortal Stratum at the same horizontal coordinate. It is also what makes Tribulation Crossing possible: the cultivator ascends vertically through the Acquired-Precelestial boundary at the place where they stand.
+    29→
+    30→The cosmos is **not spherical, not disk-shaped, not infinite, not cyclic**. It is a finite lens with a measurable diameter, a measurable height, a measurable qi-budget, and a measurable law-substrate. A sufficiently advanced cultivator can, in principle, map it entire. No cultivator can own it.
+    31→
+    32→### 1.2 The Outer Margin (the edge)
+    33→
+    34→The edge of the cosmos is the **Outer Margin (外涯)**. It is not a wall, not a membrane, not a hard edge; it is the place where the generative function's output has reached its limit. The qi thins as one approaches the Margin — not abruptly, but in a long slow taper, like the air thinning at the edge of an atmosphere. The law also thins: the inscriptions that hold the world's regularities become sparser, fainter, less reliably enforced.
+    35→
+    36→A mortal who sails east from the Eastern Sea (東海), past the last charted island, past the last sea-beast's territory, into the open water beyond any chart, eventually perceives the sky lowering. Not physically — the dome does not move — but perceptually, the horizon rises to meet the zenith, the air stills, the qi drops to a thinness where breathing becomes a chore. The sea grows glassy. The wind dies. The compass-needle of a Core Formation cultivator's qi-sense, which always points toward the densest qi (the Central Continent, the Cangli Riverlands' vein-system, the spirit-vein network's main current), begins to wander, then spins, then goes silent. The mortal sailor, lacking qi-sense, perceives only the stillness and the dread. They turn back. They always turn back, if they are wise. Those who do not turn back reach the Margin and pass through it, and there is no record of what they find, because there is nothing to find.
+    37→
+    38→A Mahayana cultivator standing at the Margin perceives it differently. They perceive the law-substrate ending — not violently, not catastrophically, but the way a sentence ends, with a period and then silence. The qi does not run out; the conditions for qi's existence run out. The Margin is the lawful edge of *being*. Beyond it, the question "what is there?" has no answer, because the verbs *is* and *there* do not hold.
+    39→
+    40→### 1.3 The Unwritten (beyond the edge)
+    41→
+    42→Beyond the Outer Margin is the **Unwritten (未書)**. The Unwritten is not void, not chaos, not emptiness, not nothing. It is the **condition prior to the conditions of existence** — the unresolved possibility of generation, the raw output of the generative function that has not yet condensed into anything.
+    43→
+    44→The Unwritten is not a place. You cannot go there. You cannot perceive it, because perception is a function of law, and the Unwritten is where law has not been inscribed. A Mahayana cultivator at the Margin who attempts to extend their perception past the edge perceives — for the briefest, vertiginous moment — the absence of the conditions of perception, and then their perception simply stops, the way a candle-flame stops at the edge of the air. There is no darkness beyond the Margin; darkness is a state of light's absence, and light is a law-phenomenon. There is no silence; silence is a state of sound's absence, and sound is a law-phenomenon. There is, in the most literal sense the word can bear, nothing — not even nothingness.
+    45→
+    46→This is the cosmos's hard finite edge. The Unwritten is not the Nameless Origin (§1.4). It is what the Origin's generative function has not yet generated.
+    47→
+    48→### 1.4 Where the Origin is (and is not)
+    49→
+    50→The **Nameless Origin (無名之始)** is not at the center of the cosmos, not at the edge, not beyond the edge, not "everywhere," and not "nowhere." It is not in the cosmos at all, because *being in the cosmos* is a relation the cosmos's interior things bear to one another, and the Origin is not an interior thing. The Origin is the **generative function** — the condition that makes the lens possible. The lens is the output; the Origin is the function.
+    51→
+    52→A mortal who asks "where is the Origin?" has made a category error, like asking where the rule "x plus x equals two x" is located in the equation "two plus two equals four." The rule is not in the equation; the rule is what makes the equation possible. The Origin is not in the cosmos; the Origin is what makes the cosmos possible.
+    53→
+    54→This is the project's hard commitment (per doc 24 §2.6) against the "the Origin is a place you can go" trope. No cultivator can travel to the Origin. No Mahayana law-authorship can write the Origin. No being can become the Origin. The Origin is the absolute Dao boundary (doc 00 §1) — the limit that prevents any cultivator, including the protagonist, from becoming omnipotent. It is honored by its absence from the map. The map shows the cosmos; the Origin is the frame around the map.
+    55→
+    56→---
+    57→
+    58→## 2. The Mortal Stratum's spatial structure
+    59→
+    60→### 2.1 The planet: the Mortal World (凡塵)
+    61→
+    62→The Mortal Stratum contains one planet: the **Mortal World (凡塵)**. It is a sphere. Its circumference is roughly 36,000 li (about 18,000 km), its diameter roughly 11,500 li — a finite, Earth-sized world, small enough to be circumnavigated by a Core Formation cultivator in a week of sustained flight, large enough that no mortal empire has ever mapped more than a quarter of it.
+    63→
+    64→The Mortal World sits at the **center of the Mortal Stratum's horizontal extent** — not at the geometric center of the lens (which is in the Acquired Stratum, above the planet), but at the center of the Mortal Stratum's lowest layer. It is the densest material object in the cosmos: a sphere of rock, water, air, and life, threaded by the surface traces of spirit veins (doc 14 §1) that descend from the Acquired Stratum above.
+    65→
+    66→The planet is the only world in the Mortal Stratum. There are no other planets. There are no other solar systems. The cosmos contains exactly one Mortal-Stratum planet, one Acquired-Stratum interior, one Precelestial-Stratum region — finite, knowable, mappable.
+    67→
+    68→### 2.2 The sun and the moon
+    69→
+    70→The sun and the moon are not other worlds. They are **luminous qi-formations embedded in the Mortal Stratum's upper boundary** — the underside of the Cloud Veil (§5.1), the inner surface of the Mortal sky's dome.
+    71→
+    72→The **Sun (日)** is a vast slow vortex of fire-phase and yang-dominant qi, condensed against the underside of the Cloud Veil and circling the Mortal World once per day. It is not a ball of gas; it is a ball of *qi*, and its qi is the densest fire-phase qi in the Mortal Stratum. The Sun's circuit is lawful: it rises in the east, arcs across the sky, sets in the west, and passes beneath the Mortal World's horizon during the night (its light does not reach the night side directly; it is occluded by the planet). The Sun's phase-peak in summer (summer solstice, doc 14 §9.3) and its phase-trough in winter (winter solstice, doc 14 §9.5) are the qi-year's heartbeat.
+    73→
+    74→The **Moon (月)** is a smaller, slower vortex of water-phase and yin-dominant qi, condensed against the same surface, circling the Mortal World roughly once per month. Its phases are the waxing and waning of its yin-density as it circuits. The Moon's light is reflected yin-qi — cold, still, condensing — and the Mid-Autumn full moon (doc 04) is the night when the Moon's yin-qi is densest at the Mortal surface. Cultivators of yin-phase and water-phase technique practice at midnight on the full moon for maximum effect.
+    75→
+    76→The Sun and the Moon are not alive. They are not gods. They are not worshipped (the folk religion of the Cangli Riverlands has shrines to the earth-god, the river-god, the stove-god, but not to the Sun or Moon; those are too vast and too impersonal to be petitioned). They are qi-formations, sustained by the stratum boundary's law, and they will persist as long as that law holds.
+    77→
+    78→### 2.3 The stars
+    79→
+    80→The stars are the night sky's great revelation, and a cultivator who reaches Core Formation and looks up for the first time with a Core Formation cultivator's perception understands, with a vertigo that does not fully pass, what the stars actually are.
+    81→
+    82→**A star is a pinhole-leak of Acquired qi through the Cloud Veil.** Where an Acquired spirit vein (doc 14 §1) presses upward against the underside of the Cloud Veil with sufficient force, the boundary yields at a single point, and a thread of Acquired qi — denser, purer, more luminous than anything in the Mortal Stratum — shines through. From the Mortal surface, the thread is seen as a point of light in the night sky. The brighter the star, the larger the pinhole and the denser the vein.
+    83→
+    84→This means: **the stars are the surface-traces of Acquired spirit veins, seen from below.** They are not other worlds. They are not distant suns. They are the qi-topography of the Acquired Stratum, projected onto the Mortal sky as points of light. A Core Formation cultivator with a good star-chart and a good Acquired-stratum map can correlate the two: this bright star in the eastern sky corresponds to a major spirit vein in the Acquired Stratum's eastern quarter, that dim cluster in the north corresponds to a constellation of minor veins around an Acquired Broad Land (§3.3).
+    85→
+    86→The constellations are not arbitrary. They are the Acquired Stratum's vein-network, projected and named. The **Northern Dipper (北斗)** is a chain of seven major metal-phase veins in the Acquired Stratum's north, their pinhole-leaks tracing a dipper-shape in the Mortal sky. The **Southern Gate (南門)** is a pair of fire-phase veins flanking an Acquired Broad Land. The **Cangwu Bow (蒼梧弓)** — a constellation known to the Cangli Riverlands but not to the northern provinces — is a curving arc of wood-phase veins that trace the Acquired-stratum extension of the Cangwu Mountains (蒼梧山脈) themselves. A cultivator who has memorized the Acquired-stratum map can read the night sky as a real map of what lies above.
+    87→
+    88→The stars do not twinkle randomly. They pulse with the slow rhythm of their underlying veins. A star that pulses fast is a vein under stress — perhaps being over-tapped by a sect in the Acquired Stratum, perhaps being sealed by an enemy. A star that has dimmed over decades is a dying vein. A star that has brightened is a vein newly opened, or newly tapped from above. The Courts of Heaven (天庭) maintain a star-watch (司星) whose sole function is to record the stars' variation and report it as intelligence about the Acquired Stratum's vein-economy. A Mahayana cultivator with deep preparation can read a single star's pulse and infer, within a few li, where a new Acquired sect has begun tapping a previously-unmapped vein.
+    89→
+    90→The night sky, to a mortal, is a field of light. To a Core Formation cultivator, it is a real-time map of the qi-economy of the entire Acquired Stratum. To a Mahayana cultivator, it is the surface of the world they have spent their life learning to read.
+    91→
+    92→### 2.4 The sky
+    93→
+    94→The Mortal sky — the blue dome of day, the black field of night — is **the underside of the Cloud Veil (雲幕)**, the stratum boundary between the Mortal and Acquired Strata (§5.1). Mortals perceive it as air and emptiness; cultivators perceive it as a membrane. The blue of the daytime sky is the Cloud Veil's qi scattering the Sun's fire-phase light — the same physics, on a vaster scale, that scatters light through mortal air. The black of the night sky is the Cloud Veil seen without the Sun's illumination, with the Acquired qi-leaks (the stars) showing through.
+    95→
+    96→The sky is not infinitely high. The Cloud Veil sits at an altitude of roughly 1,000 li above the Mortal surface (about 500 km). A Foundation Establishment cultivator in sustained flight can reach it in a day; a Core Formation cultivator in an hour. The Cloud Veil is, however, opaque to mortal vision and impermeable to mortal flight. A bird that flies high enough reaches the Cloud Veil and turns back, instinctively, without perceiving why. A mortal who ascends in a hot-air balloon (the genre's rare inventors have tried) reaches the Cloud Veil and suffocates — not for lack of air, but for qi-thinness, the body's inability to sustain itself in the boundary's gradient.
+    97→
+    98→### 2.5 The continents
+    99→
+   100→The Mortal World has five continents, separated by oceans. The named continents, in the order a Cangli Riverlands mortal would learn them:
+   101→
+   102→1. **The Central Continent (中洲, Zhongzhou)** — the continent the Great Yan Dynasty (大燕朝) sits on. The Cangli Riverlands is on the Central Continent's eastern coast, where the Cangli River (沧篱江) empties into the Eastern Sea. The Central Continent is the largest continent and the most qi-dense; the cosmic center of the Mortal Stratum's horizontal extent lies under it. Its western interior is dry, mountainous, and sparsely populated; its eastern and southern coasts are wet-rice lowland.
+   103→2. **The Eastern Continent (東洲, Dongzhou)** — across the Eastern Sea, two months' sail from the Central Continent's coast. The Jade Void Holy Land (玉虛聖地, doc 24 §4.3) is on the Eastern Continent. The Eastern Continent's mortal population is smaller than the Central's, but its Acquired-stratum qi-density is higher, and its sects are correspondingly stronger.
+   104→3. **The Western Continent (西洲, Xizhou)** — across the Western Ocean, beyond the Central Continent's western deserts. Few Central Continent mortals have heard of it; fewer have traveled there. Its spirit veins run deep and metal-dominant.
+   105→4. **The Southern Continent (南洲, Nanzhou)** — tropical, archipelagic, monsoon-rotated. Its mortal population is dense along its coasts and sparse in its jungle interior. Its qi is wood-dominant and water-dominant.
+   106→5. **The Northern Continent (北洲, Beizhou)** — cold, subarctic, mostly uninhabitable by wet-rice agriculture. Its mortal population is nomadic, pastoral, and culturally distinct from the Central Continent. Its qi is water-dominant and yin-dominant; its spirit veins run cold and deep.
+   107→
+   108→The five continents are the horizontal structure of the Mortal Stratum's surface. They are not the only mortal land — there are islands, archipelagoes, subcontinents — but they are the five continental masses. A mortal empire has never held more than one. A Core Formation cultivator can fly between them in days; a Nascent Soul cultivator in hours.
+   109→
+   110→### 2.6 What a mortal sees at night
+   111→
+   112→A mortal in Wang Family Bend, on a clear night in early autumn, looking up: the Milky Way (銀河) is a luminous band across the sky — the projection of the Acquired Stratum's main vein-network, the great rivers of qi that flow above. The Northern Dipper (北斗) hangs in the north, its seven stars bright and steady — the seven major metal-phase veins of the Acquired north. The Cangwu Bow (蒼梧弓) arcs across the southern sky, its wood-phase qi faintly green to a Core Formation eye, merely white to a mortal. The moon, full, casts its cold yin-light on the paddies. The night is vast, and the mortal knows the stars are far away, and the mortal is wrong about that, and right about the vastness.
+   113→
+   114→---
+   115→
+   116→## 3. The Acquired Stratum's spatial structure
+   117→
+   118→### 3.1 Coextensive, not coincident
+   119→
+   120→The Acquired Stratum is **coextensive in horizontal position with the Mortal Stratum** (every horizontal coordinate in the Mortal Stratum has a corresponding horizontal coordinate in the Acquired Stratum, directly above it) but **not coincident in space** (the two strata occupy different vertical layers, separated by the Cloud Veil). They are not the same place at different qi-densities; they are two distinct places, vertically stacked, that share a coordinate system.
+   121→
+   122→This is the foundation of the grotto-heaven anchor (doc 19 §2.3): the anchor in the Mortal Stratum and the grotto-heaven interior in the Acquired Stratum share a horizontal coordinate, and the door between them is a vertical passage through the Cloud Veil.
+   123→
+   124→### 3.2 The qi-medium
+   125→
+   126→The Acquired Stratum is not a void. It is a **three-dimensional qi-medium** — a vast luminous ocean of differentiated qi, denser than the Mortal Stratum's ambient qi by a factor of one hundred to one thousand (doc 19 §3.2). It is the place where the five phases (五行) differentiate fully, where yin-yang polarity runs clear, where spirit veins (靈脈) are not narrow underground channels but wide luminous rivers flowing through open space.
+   127→
+   128→To a Core Formation cultivator who has crossed the Cloud Veil for the first time, the Acquired Stratum looks like this: an endless luminous sky in every direction, including down. There is no ground; the qi-medium itself has substance, and the cultivator floats in it. Spirit-vein rivers flow past in curves of light — a wood-phase vein glows green-gold, a water-phase vein deep blue, a metal-phase vein white-silver, a fire-phase vein red-orange, an earth-phase vein ochre-yellow. The veins are miles wide and continent-long; their currents move at the pace of a slow river. The qi is breathable; it sustains a Core Formation cultivator indefinitely. The light is diffuse and sourceless, like an overcast day that never ends.
+   129→
+   130→The Acquired Stratum has its own weather: qi-storms, phase-fronts where two incompatible phase-veins meet and clash, yin-yang inversions where the polarity flips over vast regions and qi-behavior inverts. A Core Formation cultivator caught in an Acquired qi-storm survives; a Foundation Establishment cultivator does not.
+   131→
+   132→### 3.3 The Broad Lands (Acquired-scale worlds that are not grotto-heavens)
+   133→
+   134→Grotto-heavens (洞天, doc 19) are pocket-worlds — bounded, finite, anchored to the Mortal Stratum. But the Acquired Stratum also contains **Broad Lands (廣地)**: full-sized regions at Acquired qi-density, too large to be pocketed into a grotto-heaven, inhabited by Acquired-native beings.
+   135→
+   136→A Broad Land is a stable region of the Acquired Stratum where the qi-medium has condensed into something approaching landscape — floating continents of qi-substance, hundreds of li across, with their own terrain, ecology, and inhabitants. They are not grotto-heavens (they have no Mortal-Stratum anchor; they are not pocket-worlds; they are not bounded by grotto-heaven law-walls). They are the Acquired Stratum's own native geography.
+   137→
+   138→The Broad Lands are sparsely inhabited. Their inhabitants include:
+   139→
+   140→- **Peak-tier beasts who have ascended** (doc 14 §2.2) — beasts that crossed from the Mortal Stratum to the Acquired and became something else (妖仙, wayward immortals). They are the Acquired Stratum's apex predators.
+   141→- **Ancient cultivators in seclusion** — Foundation Establishment+ cultivators who withdrew from the Mortal Stratum centuries or millennia ago and persist in the Acquired Stratum. Some are still sane; some are not.
+   142→- **Acquired-native spirits** — beings born of the Acquired Stratum's own qi, never mortal, never beast. They are rare and strange.
+   143→- **The ruins of past Acquired civilizations** — sects that withdrew into the Acquired Stratum, flourished for a millennium, and collapsed. Their ruins persist, often inhabited by their degenerate descendants or by colonists from below.
+   144→
+   145→Most cultivators never visit a Broad Land. The Cloud Veil crossing (§5.1) is hard enough; finding a Broad Land in the Acquired Stratum's vast interior is harder; surviving its inhabitants is harder still. The Broad Lands are the Acquired Stratum's deep interior — the equivalent, in the Mortal Stratum, of the open ocean beyond any chart.
+   146→
+   147→### 3.4 The Lower Surface (where grotto-heavens anchor)
+   148→
+   149→The Acquired Stratum has a **Lower Surface (下界)** — its boundary with the Cloud Veil, the underside of its layer. From below (from the Mortal Stratum), this surface is the sky. From above (from within the Acquired Stratum), it is a vast curving floor — translucent, faintly luminous, marked by the bright pinhole-leaks that the Mortal Stratum perceives as stars.
+   150→
+   151→Grotto-heavens sit on this Lower Surface like barnacles on the underside of a hull. Each grotto-heaven is a pocket of Acquired qi-substance, bounded by its law-wall, anchored to the Lower Surface at a specific point. The anchor's geographic feature in the Mortal Stratum (the cave behind the waterfall, the sealed gate, the ancient tree) is the Mortal-Stratum end of the passage; the grotto-heaven interior is the Acquired-Stratum end. The passage between is a vertical channel through the Cloud Veil, sustained by the grotto-heaven's own law.
+   152→
+   153→A Core Formation cultivator flying across the Acquired Stratum's Lower Surface sees the grotto-heavens as bright nodules — pearls strung along the underside of the world. A major grotto-heaven glows like a small sun; a minor grotto-heaven glimmers like a distant lantern. The Lower Surface is, in this sense, a map of the Mortal Stratum's grotto-heaven geography, seen from above.
+   154→
+   155→### 3.5 The Acquired's own stars
+   156→
+   157→The Acquired Stratum has its own luminous bodies — not the Sun and Moon (those are Mortal-Stratum phenomena, condensed against the underside of the Cloud Veil) but **Acquired-condensations (後天凝光)**: vast slow clouds of phase-aligned qi that glow in the Acquired sky. They are dimmer than the Mortal Sun but more various; the Acquired sky has dozens of them, each the size of a continent, each slowly drifting. They give the Acquired Stratum its diffuse sourceless light.
+   158→
+   159→A Core Formation cultivator in the Acquired Stratum perceives these condensations as the Acquired sky's clouds. They are not worshipped; they are not named (except by the Courts of Heaven's cataloguers, who number them for record-keeping). They are the Acquired Stratum's weather.
+   160→
+   161→---
+   162→
+   163→## 4. The Precelestial Stratum's spatial structure
+   164→
+   165→### 4.1 The smallest, densest layer
+   166→
+   167→The Precelestial Stratum (先天境) is the smallest of the three strata by horizontal extent — roughly one-tenth the area of the Acquired Stratum — and the densest by qi-density. It sits at the top of the cosmic lens, above the Acquired Stratum, separated from it by the **Heavenly Stem (天樞, §5.2)**. It is the uppermost layer of the cosmos, the place where qi is undifferentiated, where law is not yet fixed, where time runs slow (1 Precelestial day ≈ 1 Acquired year, doc 15 §1.4).
+   168→
+   169→The Precelestial is not infinite. Its horizontal extent is roughly 3 heaven-strides (§6.1) across — vast by mortal standards, traversable in months by a Tribulation Crossing cultivator on the maintained roads, finite and mappable. A Mahayana cultivator with sufficient time can walk its entire extent. The Precelestial is finite because the cosmos is finite (doc 00 §1); it is small because qi-density is inverse to volume, and the Precelestial's qi is the densest.
+   170→
+   171→### 4.2 The four zones and where they sit
+   172→
+   173→The four zones of the Precelestial (doc 15 §1.5) are not abstract categories; they are **geographic regions with relative positions**.
+   174→
+   175→1. **The Courts of Heaven (天庭)** sit at the geographic center of the Precelestial — the densest-qi point of the densest stratum, the apex of the cosmic lens. This is where the qi is heaviest and the law is firmest. The Courts occupy the central hundred li of the Precelestial's horizontal extent, a vast institutional landscape of palaces, archives, courtyards, and maintained roads. From the Courts, the maintained roads (官道) radiate outward in all directions, like spokes from a hub.
+   176→2. **The Ancestral Courts (宗祠)** are scattered through the Precelestial like islands, each tethered to the lineage it serves. Each ancestral court is a small region (a few li across) where the lineage's first great cultivator's anchor persists. They cluster more densely near the Courts of Heaven (where the law is firm and the courts' protection extends) but extend outward into the Spirit Wilds (where lineages have claimed territory beyond the courts' jurisdiction). A lineage's ancestral court is, in principle, locatable by any cultivator of that lineage who has reached Nascent Soul; the lineage's retrieval rite (doc 15 §3.2) opens a path to it.
+   177→3. **The Spirit Wilds (靈荒)** fill the gaps between jurisdictions. They are the Precelestial's vast interior — most of the Precelestial's horizontal extent is Spirit Wilds. The wilds are not empty (doc 15 §4.1); they are full of things that do not exist by the rules of the lower strata. The wilds begin where the maintained roads end; they extend outward to the Precelestial's edge, where they thin into the Law Reaches.
+   178→4. **The Law Reaches (法域)** are at the Precelestial's edge — the regions where even the substrate-law of the Precelestial has thinned or never formed. They are the Precelestial's wounds, the places where law is *pending*. They are deepest at the Precelestial's outer ring (near the cosmic Outer Margin) and shallowest near the Courts of Heaven. The Mahayana cultivator's endgame (doc 15 §5) takes place in the deep reaches, where the law is most absent and the authorship is most consequential.
+   179→
+   180→The four zones are not contiguous in any simple sense (doc 15 §1.5). The Courts are a coherent territory; the ancestral courts are islands; the wilds are the sea between them; the reaches are the void beyond the sea. A Tribulation Crossing cultivator traveling from the Courts to a deep Law Reach crosses maintained road, then wild path, then reaches — three different law-states, three different dangers.
+   181→
+   182→### 4.3 The Precelestial's sky
+   183→
+   184→The Precelestial's sky is **the inner surface of the cosmic lens's upper boundary** — the inside of the top of the cosmos. It is not blue; it is not black; it is **a slow luminous gray, like the inside of a pearl, with faint shifting colors that correspond to no Mortal or Acquired phenomenon.** The colors are the perception of undifferentiated qi — the eye, looking for phase, finds all phases present and none stable, and reports this as a shimmer that is not quite a color.
+   185→
+   186→There are no stars in the Precelestial sky. There is no sun, no moon. The light is sourceless and constant; the Precelestial has no day-night cycle in the Mortal sense. Time runs slow (1 Precelestial day = 1 Acquired year), but the slowness is not marked by a sun's circuit; it is marked by the cultivator's own perception of the qi's thickness. A Precelestial day is as long as an Acquired year, and it feels as long.
+   187→
+   188→The Precelestial sky is **finite**. A Tribulation Crossing cultivator who flies upward from the Courts of Heaven, accelerating through the dense qi, reaches the upper boundary in a few days of Precelestial time (a few years of Acquired time — a devastating cost). At the boundary, they perceive the same Outer Margin (§1.2) that a mortal sailor perceives at the edge of the Eastern Sea — the slow taper of law, the silence of being's conditions. The Precelestial's sky is the inside of the cosmos's top; beyond it is the Unwritten.
+   189→
+   190→### 4.4 The Law Reaches at the edge
+   191→
+   192→The Law Reaches (法域) are deepest where the Precelestial's qi is thinnest — at the Precelestial's outer ring, where the stratum approaches the cosmic Outer Margin. This is not coincidence. The Law Reaches exist because the Precelestial's law-substrate was authored in historical time (doc 15 §5.2), and the authorship was thinnest at the edges, where the qi was already thin and the substrate already weak. The reaches are the Precelestial's frontier — the place where the law runs out.
+   193→
+   194→A Mahayana cultivator standing in a deep Law Reach, looking outward, perceives the cosmic Outer Margin directly: the slow taper of law, the silence, the Unwritten. Looking inward, they perceive the Precelestial's maintained regions: the Courts' distant light, the ancestral courts' scattered glimmers, the wilds' vast indifference. The Law Reach is the place in the cosmos where the cultivator can most clearly perceive that the law is *authored* — that it was made, that it could have been made differently, that it could be made differently now, by them.
+   195→
+   196→This is why the reaches are the Mahayana endgame (doc 15 §5.3). Not because they are powerful, but because they are the place where the question "what law should hold here?" is actually open.
+   197→
+   198→---
+   199→
+   200→## 5. The stratum interfaces
+   201→
+   202→### 5.1 The Cloud Veil (Mortal-Acquired boundary)
+   203→
+   204→The boundary between the Mortal Stratum and the Acquired Stratum is the **Cloud Veil (雲幕)**. It is a **qi-density gradient**, not a hard edge — a region roughly 100 li thick (50 km) where the ambient qi density rises from the Mortal Stratum's thin ambient to the Acquired Stratum's luminous medium. The gradient is lawful and symmetric; it is the same at every horizontal coordinate.
+   205→
+   206→To a mortal, the Cloud Veil is the sky. Mortals do not perceive the gradient; they perceive only the air thinning with altitude and the blue of the sky darkening to black. To a Foundation Establishment cultivator, the Cloud Veil is perceptible as a *thickness* — the air does not thin; it thickens, with qi, and the cultivator's meridians begin to resonate with the qi even as their body struggles with the thinning air. To a Core Formation cultivator, the Cloud Veil is a membrane they can cross at will — they fly up, they pass through, they are in the Acquired Stratum.
+   207→
+   208→Crossing the Cloud Veil takes roughly an hour at Core Formation cruising speed. It feels like **diving into water**: the air's resistance increases, the qi's pressure increases, the body's metabolism shifts from mortal-air-breathing to Acquired-qi-circulation. A Core Formation cultivator who crosses for the first time reports a moment of suffocation — the body, still expecting mortal air, finds Acquired qi instead — followed by a moment of recognition, as the integrated system's qi-circulation kicks in and the cultivator realizes they can *breathe* the Acquired medium.
+   209→
+   210→### 5.2 The Heavenly Stem (Acquired-Precelestial boundary)
+   211→
+   212→The boundary between the Acquired Stratum and the Precelestial Stratum is the **Heavenly Stem (天樞)**. It is far denser, far harder, and far more consequential than the Cloud Veil. It is not a gradient; it is a **law-state discontinuity** — the place where the Acquired's differentiated qi gives way to the Precelestial's undifferentiated qi, where the Acquired's inscribed law gives way to the Precelestial's pending law.
+   213→
+   214→The Heavenly Stem is roughly 10 li thick (5 km), but its thinness is misleading; it is the densest, most law-saturated region in the cosmos, and crossing it is the single most dangerous verb in cultivation (doc 15 §8.1). The Stem is **not crossable by force**. A Core Formation cultivator who attempts to force their way through the Stem is metabolized — their differentiated qi, encountering the undifferentiated qi of the Stem, is un-differentiated, and the cultivator's anchor disperses. A Nascent Soul cultivator who attempts it survives marginally longer and disperses more slowly. A Spirit Severance cultivator with a powerful domain can hold the Stem's qi at bay for minutes. A Void Amalgamation cultivator bonded to a sacred mountain can draw on the mountain's qi to resist the Stem for hours. None of them cross.
+   215→
+   216→Only a Tribulation Crossing cultivator, mid-tribulation, can cross. The tribulation (doc 15 §6, §8) is the proof that the cultivator's internal architecture can sustain the Precelestial's undifferentiated qi. If the proof holds, the Stem opens for them — not violently, not as a gate, but as a *recognition*: the Stem's qi, which would have metabolized them a moment before, now admits them, because their architecture has been transformed into one the Stem recognizes as compatible. The cultivator ascends.
+   217→
+   218→### 5.3 What crossing feels like
+   219→
+   220→**Crossing the Cloud Veil (Mortal to Acquired)**: the cultivator flies upward, the air thickens with qi, the body suffocates briefly, the integrated system's qi-circulation kicks in, the cultivator perceives the Acquired Stratum's luminous medium for the first time. The crossing takes about an hour. The sensation is **like diving into warm water**: pressure, brief struggle, then the new medium's embrace. Foundation Establishment cultivators describe the first crossing as the moment they understood, viscerally, that the sky was not empty.
+   221→
+   222→**Crossing the Heavenly Stem (Acquired to Precelestial)**: the cultivator is mid-tribulation. The tribulation has tested their qi-reservoir, their meridian-integrity, their heart-mind, their karmic-ledger (if karma is ratified, doc 15 §6.3.4). The tribulation's final proof is the Stem-crossing itself. The cultivator, transformed by the tribulation's pressure into a being whose internal architecture can sustain undifferentiated qi, perceives the Stem's qi as it actually is — not as a barrier, but as a *medium they are now adapted to*. They ascend. The crossing takes, by Acquired time, less than a second; by Precelestial time, it takes a day (the ratio inverts at the Stem: the cultivator's last Acquired-second is their first Precelestial-day). The sensation is described by those who survive (doc 15 §8.4) as **the world's time suddenly rushing, then thickening to a halt**: the Acquired world's fast-time accelerates to a blur, then stops, and the cultivator is in the Precelestial, where time is thick, and they are a heavenly immortal (天仙).
+   223→
+   224→### 5.4 The Tribulation Crossing ascent
+   225→
+   226→A Tribulation Crossing cultivator does not physically ascend through the strata in the sense of flying upward through them. The ascent is the **transformation itself**: the cultivator's internal architecture is re-tuned, during the tribulation, to a state that the Heavenly Stem recognizes as compatible. When the proof is demonstrated, the Stem admits them, and they are — *are*, not *fly to* — in the Precelestial. The geographic location of their ascent (the spot where they stood during the tribulation) is the spot in the Precelestial where they now stand. The horizontal coordinate is preserved; only the vertical layer has changed.
+   227→
+   228→This is why tribulations are visible from the Mortal Stratum (doc 15 §6.5): the tribulation's lightning, the law-resistance, the qi-residue, all manifest at the Mortal-Stratum location of the ascending cultivator. A mortal who witnesses a Tribulation Crossing tribulation sees the sky split, the lightning fall, the world shake — and then sees the cultivator gone, leaving behind a saturated site of qi-residue. The cultivator has not flown away; the cultivator has *ascended through the strata*, and the Mortal-Stratum sky above the tribulation-site now corresponds, in the Precelestial, to the place where the cultivator stands.
+   229→
+   230→---
+   231→
+   232→## 6. Cosmic distances
+   233→
+   234→### 6.1 The heaven-stride
+   235→
+   236→The cosmic distance unit is the **heaven-stride (天步)**: the distance a Core Formation cultivator flies in one day at sustained cruising pace in the Acquired Stratum's qi-medium. One heaven-stride is roughly 10,000 li (about 5,000 km). The heaven-stride is not a precise unit (different Core Formation cultivators cruise at somewhat different speeds), but it is the unit cultivators use for cosmic-scale distances, the way mortals use the li for overland distances.
+   237→
+   238→The heaven-stride is used for distances *within* a stratum (crossing a continent, crossing the Acquired Stratum, crossing the Precelestial) and for *vertical* distances (the Cloud Veil's thickness, the Heavenly Stem's thickness). It is not used for mortal-scale distances (the Cangli Riverlands is 200 li from the Eastern Sea, not 0.02 heaven-strides; the unit would be absurd at that scale).
+   239→
+   240→### 6.2 Distance table
+   241→
+   242→| Distance | In li | In heaven-strides | Notes |
+   243→|---|---|---|---|
+   244→| Wang Family Bend to Qinghe Market Town | 15 li | — | mortal scale |
+   245→| Wang Family Bend to Eastern Sea | 200 li | — | mortal scale |
+   246→| Wang Family Bend to Azure Sword Sect | 500 li | — | mortal scale |
+   247→| Diameter of the Mortal World (planet) | ~11,500 li | ~1.1 | Earth-sized |
+   248→| Circumference of the Mortal World | ~36,000 li | ~3.6 | a Core Formation cultivator circumnavigates in a week |
+   249→| Central Continent, east to west | ~12,000 li | ~1.2 | a Core Formation cultivator crosses in a day |
+   250→| Central Continent to Eastern Continent | ~30,000 li | ~3 | two months by mortal sail; a day by Core Formation flight; an hour by Nascent Soul |
+   251→| Horizontal extent of the Mortal Stratum | ~300,000 li | ~30 | the dome of the Mortal sky, edge to edge |
+   252→| Altitude of the Cloud Veil | ~1,000 li | ~0.1 | a Foundation Establishment cultivator reaches it in a day |
+   253→| Thickness of the Cloud Veil | ~100 li | ~0.01 | crossed in an hour at Core Formation speed |
+   254→| Horizontal extent of the Acquired Stratum | ~300,000 li | ~30 | coextensive with the Mortal Stratum |
+   255→| Crossing the Acquired Stratum (edge to edge) | ~300,000 li | ~30 | a Core Formation cultivator crosses in a month; Nascent Soul in days; Spirit Severance via domain-portal, hours |
+   256→| Thickness of the Heavenly Stem | ~10 li | ~0.001 | only crossable mid-tribulation |
+   257→| Horizontal extent of the Precelestial Stratum | ~30,000 li | ~3 | one-tenth the Acquired's extent |
+   258→| Crossing the Precelestial (Courts to deep Law Reach) | ~15,000 li | ~1.5 | a Tribulation Crossing cultivator on maintained roads: weeks; through wild paths: months |
+   259→| Diameter of the cosmos (Outer Margin to Outer Margin) | ~330,000 li | ~33 | the lens's horizontal extent |
+   260→
+   261→### 6.3 Travel times by tier
+   262→
+   263→These are typical travel times for a cultivator at each station, in the Acquired Stratum (the Mortal Stratum is slower by a factor of two or three, due to air-resistance and terrain; the Precelestial is slower by a factor of three hundred sixty-five, due to the time-debt). See §10 for the full travel grammar.
+   264→
+   265→- **Mortal**: 30-50 li/day overland; 100 li/day by boat downriver. Crossing the Central Continent: ~300 days.
+   266→- **Qi Induction**: as mortal; no real speed gain.
+   267→- **Qi Condensation**: 200-500 li/day overland (light footwork, 輕功). Crossing the Central Continent: ~30-60 days.
+   268→- **Foundation Establishment**: 1,000-3,000 li/day by short-range flight. Crossing the Central Continent: ~4-12 days. Cannot cross the Cloud Veil.
+   269→- **Core Formation**: 5,000-10,000 li/day by long-range flight. Crossing the Central Continent: ~1-2 days. Crossing the Mortal Stratum edge-to-edge: ~30-60 days. Can cross the Cloud Veil.
+   270→- **Nascent Soul**: 10,000-30,000 li/day by sustained flight; can project spirit (元神出竅) for short-range scouting. Crossing the Mortal Stratum: ~10-30 days. Cannot cross the Heavenly Stem.
+   271→- **Spirit Severance**: instantaneous travel within one's domain (領域); outside the domain, ~50,000 li/day. Crossing the Acquired Stratum: hours within the domain, days outside.
+   272→- **Void Amalgamation**: instantaneous step between any of the places bonded to (地仙網絡); effectively a network of portals. Crossing the Acquired Stratum: instantaneous, if both endpoints are bonded.
+   273→- **Tribulation Crossing**: can cross the Heavenly Stem (mid-tribulation); within the Precelestial, ~10,000 li/day on maintained roads (官道), much slower on wild paths (荒徑).
+   274→- **Mahayana**: law-authorship as travel (§10); within the scope of an authored locality-law, distance is whatever the law says it is.
+   275→
+   276→---
+   277→
+   278→## 7. The cosmic map (a Mahayana cultivator's view)
+   279→
+   280→A Mahayana cultivator's map of the cosmos, drawn from the perspective of the Courts of Heaven (the geographic center of the Precelestial, the apex of the lens), is a **vertical cross-section of the lens**, oriented so that the Precelestial is at the top, the Acquired in the middle, the Mortal at the bottom. The map is read top-down.
+   281→
+   282→**Top layer (the Precelestial)**: At the center, the Courts of Heaven — a dense cluster of institutions, maintained roads radiating outward. Around the Courts, scattered islands: the ancestral courts (宗祠) of the great lineages, each marked with its lineage's name. Between them, the gray-shaded Spirit Wilds (靈荒), marked with known beast-territories, lost-inheritance sites, and the wild paths that connect them. At the Precelestial's outer ring, the Law Reaches (法域) — marked in white, with the deepest reaches (where Mahayana authorship is most consequential) closest to the Outer Margin. Beyond the reaches, the Outer Margin itself — drawn as a thin line, the edge of the map.
+   283→
+   284→**Middle layer (the Acquired)**: A vast luminous region, drawn with spirit-vein rivers as colored lines (green for wood, blue for water, white for metal, red for fire, ochre for earth). The Broad Lands (廣地) marked as large floating regions. Grotto-heavens (洞天) marked as small bright nodules on the Lower Surface. The Cloud Veil at the bottom, drawn as a translucent layer.
+   285→
+   286→**Bottom layer (the Mortal)**: The Mortal World (凡塵) at the center — a small circle, the planet. The five continents marked. The Eastern Sea (東海) marked, with the Cangli Riverlands (沧篱江乡) marked as a small dot on the Central Continent's eastern coast. The Mortal Stratum's outer dome marked. The Sun and Moon marked as luminous symbols on the Cloud Veil's underside. The stars marked as a faint field of dots, with the major constellations (Northern Dipper, Southern Gate, Cangwu Bow) labeled.
+   287→
+   288→**The Outer Margin**: drawn as a single line around the entire cross-section, the boundary of the map. Beyond the Margin, the map is blank — not white, not black, but the unpaper of the Unwritten.
+   289→
+   290→**The Origin**: not on the map. The map's frame is inscribed, in the Mahayana cultivator's hand, with the words: **"The map is the cosmos. The frame is the Origin."** This is the only correct representation of the Origin's spatial relationship to the cosmos.
+   291→
+   292→From the Cangli Riverlands to the edge of the cosmos, the path is: east 200 li to the Eastern Sea, east across the Eastern Sea to the Eastern Continent, east across the Eastern Continent to the Mortal Stratum's eastern shore, east across the open ocean to the Outer Margin — and there the path ends. Or, instead of east: up. Up through the Cloud Veil into the Acquired Stratum. Up through the Acquired Stratum's middle. Up through the Heavenly Stem (mid-tribulation, if you can survive it). Up into the Precelestial. From the Precelestial's Courts, outward through the wilds to the Law Reaches. From the deep reaches, the Outer Margin is visible, and beyond it the Unwritten.
+   293→
+   294→The Mahayana cultivator who walks this path entire — from Wang Family Bend to the deep Law Reaches — has walked the cosmos's full vertical extent. They have not walked its full horizontal extent (that would require circumnavigating the lens, which few Mahayana cultivators bother with). They have, however, walked from the densest mortal village to the edge of the Unwritten, and they know, in their body, what the cosmos is.
+   295→
+   296→---
+   297→
+   298→## 8. The nesting structure
+   299→
+   300→### 8.1 What nests where
+   301→
+   302→The cosmos has a clear nesting structure, vertical and lawful:
+   303→
+   304→- **The Mortal Stratum contains**: the Mortal World (planet), the Sun, the Moon, the stars (pinhole-leaks), the Cloud Veil's underside (the sky), and the grotto-heaven anchors (the Mortal-Stratum ends of vertical passages to grotto-heavens).
+   305→- **The Acquired Stratum contains**: the qi-medium, the spirit-vein rivers, the Broad Lands, the grotto-heavens (pocket-worlds on the Lower Surface), the Acquired-condensations (the Acquired's own luminous bodies), and the Heavenly Stem's underside.
+   306→- **The Precelestial Stratum contains**: the Courts of Heaven, the Ancestral Courts, the Spirit Wilds, the Law Reaches, the maintained roads (官道), the ancestral roads (宗道), the wild paths (荒徑), and the cosmic Outer Margin at its outer ring.
+   307→
+   308→What nests **above** the Precelestial? Nothing. The Precelestial is the uppermost stratum; above it is the Outer Margin and the Unwritten. There is no fourth stratum. There is no "above the Precelestial" except in the literal sense of "outside the cosmos," which is the Unwritten, which is not a place.
+   309→
+   310→This is the project's hard commitment (doc 00 §1) against the "infinite ladder of realms" trope. The cosmos is finite; the strata are three; above the third is the Unwritten. A Mahayana cultivator who has exhausted the Precelestial's possibilities (a theoretical endpoint no cultivator in the cosmos's history has reached) does not ascend to a fourth stratum; they reach the Outer Margin and perceive the Unwritten, and they understand, finally, that the cosmos is what there is.
+   311→
+   312→### 8.2 The Origin's spatial relationship
+   313→
+   314→The Nameless Origin has **no spatial relationship to the Precelestial**, because the Origin is not a spatial entity. The Origin is the generative function (§1.4). Asking whether the Origin is "above" the Precelestial, "at the center" of the cosmos, "everywhere," or "nowhere" is to ask a category-confused question.
+   315→
+   316→The Mahayana cultivator's map (§7) inscribes the Origin as the *frame* of the map, not as a feature on the map. This is the correct representation. The Origin is what makes the map possible; the Origin is not on the map. The Precelestial is the uppermost thing *on* the map; the Origin is the *frame*, the condition of the map's existence.
+   317→
+   318→A Mahayana cultivator preparing to author a law in a Law Reach (doc 15 §5.3) is, in a sense, approaching the Origin — not spatially, but *metaphysically*. The Reach is where the law is pending; the Origin is where the law is generated. The cultivator who authors a law in a Reach participates, in a small and bounded way, in the kind of act the Origin performs without bound. This is why Reach-authorship is the endgame (doc 24 §1.1): it is the closest a cultivator can come to the Origin's act without crossing the absolute Dao boundary.
+   319→
+   320→---
+   321→
+   322→## 9. The horizontal structure (the "star ring" equivalent)
+   323→
+   324→### 9.1 The Four Quarters and the Central Region
+   325→
+   326→The cosmos's vertical structure (three strata) is its primary axis. Its horizontal structure — the division of each stratum into regions — is its secondary axis. This bible forbids multiverse (doc 00 §1) but requires a horizontal cosmic geography that gives the cosmos regional character. The structure is the **Four Quarters and the Central Region (四隅中)**.
+   327→
+   328→Each stratum is divided horizontally into five regions:
+   329→
+   330→1. **The Central Region (中域)** — the geographic center of the stratum, where the qi is densest and the law is firmest. The Courts of Heaven are in the Precelestial's Central Region; the Cangli Riverlands' continent (the Central Continent) is in the Mortal Stratum's Central Region; the densest Broad Lands are in the Acquired Stratum's Central Region.
+   331→2. **The Eastern Quarter (東隅)** — wood-phase dominant. The Eastern Continent (Mortal), the Eastern Broad Lands (Acquired), the Eastern Spirit Wilds (Precelestial).
+   332→3. **The Southern Quarter (南隅)** — fire-phase dominant. The Southern Continent (Mortal), the Southern Broad Lands, the Southern Spirit Wilds.
+   333→4. **The Western Quarter (西隅)** — metal-phase dominant. The Western Continent, the Western Broad Lands, the Western Spirit Wilds.
+   334→5. **The Northern Quarter (北隅)** — water-phase dominant. The Northern Continent, the Northern Broad Lands, the Northern Spirit Wilds.
+   335→
+   336→The earth-phase (土) is the substrate of all five regions and does not have its own quarter; it is most active in the transitions between quarters, the way it is most active in the transitions between seasons (doc 14 §9.6).
+   337→
+   338→The Four Quarters and the Central Region are **not symmetric**. The Central Region is the densest and most populated; the Quarters thin outward toward the Outer Margin. The Cangli Riverlands is in the Central Continent, in the Mortal Stratum's Central Region — the cosmic center of the Mortal Stratum's horizontal extent. This is not coincidence; the densest qi attracts the densest mortal settlement, and the densest mortal settlement is the Cangli Riverlands' cultural sphere.
+   339→
+   340→### 9.2 Regional character
+   341→
+   342→The Five Regions have distinct character, in each stratum:
+   343→
+   344→- **Central**: densest qi, firmest law, most institutions, most politics. The Courts of Heaven (Precelestial), the great Broad Lands and the major grotto-heavens (Acquired), the Central Continent and the Great Yan Dynasty (Mortal). Where the action is.
+   345→- **Eastern**: wood-phase, growth, vitality, expansion. The Eastern Continent is wetter, lusher, younger-sect-dominated. The Eastern Spirit Wilds are densest in ancient-beast life.
+   346→- **Southern**: fire-phase, intensity, conflict, transformation. The Southern Continent is tropical, monsoon-rotated, sect-politically fragmented. The Southern Spirit Wilds are most prone to qi-storms.
+   347→- **Western**: metal-phase, sharpness, cutting, endings. The Western Continent is dry, mountainous, nomadic. The Western Spirit Wilds are where the most Law Reaches are found.
+   348→- **Northern**: water-phase, stillness, storage, depth. The Northern Continent is cold, subarctic, nomadic. The Northern Spirit Wilds are deepest and oldest; the northern ancestral courts are the oldest in the Precelestial.
+   349→
+   350→A cultivator traveling from the Cangli Riverlands (Central) to the deep Law Reaches of the Western Quarter (where Mahayana authorship is most consequential) traverses five horizontal regions and three vertical strata. The journey is the late-game's spatial structure.
+   351→
+   352→---
+   353→
+   354→## 10. Travel grammar at cosmic scale
+   355→
+   356→Travel at cosmic scale is not a single verb. It is a **grammar** that varies by realm, by stratum, and by region. The grammar is specified here per tier, from Mortal to Mahayana.
+   357→
+   358→### 10.1 Mortal
+   359→
+   360→**Verbs**: walk, boat, horse, cart. **Speed**: 30-50 li/day overland; 100-200 li/day by boat downriver. **Range**: a single province, in a lifetime. **Strata accessible**: the Mortal Stratum only. A mortal cannot cross the Cloud Veil. **Cosmic scale**: irrelevant. A mortal's travel is the li-scale, not the heaven-stride scale. The Cangli Riverlands is the mortal's cosmos; the Eastern Sea is its edge.
+   361→
+   362→### 10.2 Qi Induction
+   363→
+   364→**Verbs**: as mortal, plus qi-perception of the route. **Speed**: as mortal. **Range**: as mortal. **Strata accessible**: the Mortal Stratum only. **Cosmic scale**: still irrelevant. The Qi Induction cultivator perceives more of the Mortal Stratum than a mortal does, but they do not travel faster or further.
+   365→
+   366→### 10.3 Qi Condensation
+   367→
+   368→**Verbs**: walk, boat, horse, plus **light footwork (輕功)** — sustained qi-enhanced running and jumping. **Speed**: 200-500 li/day overland; leaps of 10-30 li per burst. **Range**: a province in a week; a continent in a season. **Strata accessible**: the Mortal Stratum only. **Cosmic scale**: still mortal-scale; the heaven-stride is not yet meaningful. The Qi Condensation cultivator can cross the Cangli Riverlands in a day, the Central Continent in a season, but they cannot cross the Eastern Sea (the boat journey is too long for their supplies, and their footwork does not work on water).
+   369→
+   370→### 10.4 Foundation Establishment
+   371→
+   372→**Verbs**: as Qi Condensation, plus **short-range flight (飛行)** — sustained flight within the Mortal Stratum's air. **Speed**: 1,000-3,000 li/day by flight; flight duration limited to a few hours before qi-reservoir depletion. **Range**: a continent in days. **Strata accessible**: the Mortal Stratum only. A Foundation Establishment cultivator can brush the Cloud Veil (reach the sky's blue dome) but cannot cross it; the Veil's qi-gradient exceeds their meridians' capacity. **Cosmic scale**: the heaven-stride becomes meaningful. A Foundation Establishment cultivator crosses the Central Continent in 4-12 days; they cannot cross the Eastern Sea in a single flight (the open ocean exceeds their range), but they can island-hop.
+   373→
+   374→### 10.5 Core Formation
+   375→
+   376→**Verbs**: as Foundation Establishment, plus **long-range flight** — sustained flight for days, between continents. **Speed**: 5,000-10,000 li/day by flight; flight limited by qi-reservoir, but the Core Formation cultivator's core is self-sustaining (doc 00 §3) and can replenish from ambient qi during flight. **Range**: a stratum in weeks. **Strata accessible**: the Mortal Stratum and the Acquired Stratum. A Core Formation cultivator can cross the Cloud Veil (§5.1) in an hour of sustained flight. **Cosmic scale**: the heaven-stride is the native unit. A Core Formation cultivator crosses the Mortal Stratum's dome in 30-60 days; the Acquired Stratum's horizontal extent in the same. They are the first tier at which cosmic-scale travel is practical.
+   377→
+   378→### 10.6 Nascent Soul
+   379→
+   380→**Verbs**: as Core Formation, plus **spirit projection (元神出竅)** — the cultivator's spirit (元嬰) can leave the body and travel independently, perceiving at a distance. **Speed**: 10,000-30,000 li/day by sustained flight; spirit-projection covers similar distances but the spirit cannot act on the world at full power. **Range**: a stratum in days. **Strata accessible**: the Mortal Stratum and the Acquired Stratum. A Nascent Soul cultivator can briefly touch the Heavenly Stem's underside but cannot cross it; their spirit, projected upward, is metabolized by the Stem's undifferentiated qi within seconds. **Cosmic scale**: the cosmos is traversable in months. The Nascent Soul cultivator is the first tier for whom the entire Acquired Stratum is, in principle, reachable.
+   381→
+   382→### 10.7 Spirit Severance
+   383→
+   384→**Verbs**: as Nascent Soul, plus **domain-portal (領域門)** — within the cultivator's own domain (領域, doc 00 §3), instantaneous travel between any two points. **Speed**: instantaneous within the domain; ~50,000 li/day outside the domain. **Range**: the domain (typically a region of 100-1,000 li across) is the cultivator's sovereign territory; outside the domain, the cultivator flies at Nascent Soul speeds. **Strata accessible**: the Mortal Stratum and the Acquired Stratum; the domain, if opened in the Acquired Stratum, can extend across the Cloud Veil into the Mortal. **Cosmic scale**: the Spirit Severance cultivator's domain is a portable portal-network. Within the domain, distance is whatever the cultivator says it is. Outside the domain, distance is again real.
+   385→
+   386→### 10.8 Void Amalgamation
+   387→
+   388→**Verbs**: as Spirit Severance, plus **bonded-place network (地網)** — instantaneous step between any of the places the cultivator has bonded to (doc 00 §3, doc 15 §1.6). A Void Amalgamation cultivator typically bonds to one to seven places (a grotto-heaven, a sacred mountain, a region); the bond makes each place a node in their personal network. **Speed**: instantaneous between bonded places; otherwise as Spirit Severance. **Range**: the network's extent. A cultivator bonded to places on three continents can step between them at will; a cultivator bonded only to one place is, effectively, tethered. **Strata accessible**: the Mortal Stratum and the Acquired Stratum; the bonded places can be in either stratum. **Cosmic scale**: the Void Amalgamation cultivator's network is their travel grammar. They do not cross the cosmos; they cross their network.
+   389→
+   390→### 10.9 Tribulation Crossing
+   391→
+   392→**Verbs**: as Void Amalgamation, plus **stratum-crossing (昇降)** — the cultivator can cross the Heavenly Stem (mid-tribulation, doc 15 §8) and travel between the Acquired and Precelestial Strata. Within the Precelestial, the cultivator uses the maintained roads (官道, fast and monitored), the ancestral roads (宗道, slower and lineage-private), or the wild paths (荒徑, slow and dangerous). **Speed**: ~10,000 li/day on maintained roads; 3,000-5,000 li/day on ancestral roads; 1,000 li/day or less on wild paths. **Range**: the Precelestial's full extent. **Strata accessible**: all three strata. **Cosmic scale**: the Tribulation Crossing cultivator is the first tier for whom the Precelestial is a travel-space. They are also the first tier for whom the time-debt (1 Precelestial day = 1 Acquired year) is a constant constraint on every trip. A Tribulation Crossing cultivator who spends a month in the Precelestial returns to an Acquired Stratum that has aged thirty years.
+   393→
+   394→### 10.10 Mahayana
+   395→
+   396→**Verbs**: as Tribulation Crossing, plus **law-authorship as travel (法行)** — the cultivator authors a scoped law (doc 00 §3, doc 15 §5.3, doc 24 §1.1) that defines the relationship between two places. The simplest form: "this place and that place are the same." The law, if it holds (the tribulation tests compatibility, doc 15 §6.3.3), makes the two places effectively identical for the cultivator's travel. The cultivator steps from one to the other as if crossing a threshold. **Speed**: instantaneous, within the scope of an authored law. **Range**: the scope of the law, which is bounded by the cultivator's authorship-power and the law's compatibility with existing law. A typical Mahayana travel-law covers a region of 100-1,000 li; a powerful Mahayana cultivator can extend it across a stratum. **Strata accessible**: all three strata, plus (in the Law Reaches) the regions where law is pending and authorship is most consequential. **Cosmic scale**: the Mahayana cultivator's travel grammar is the most powerful in the cosmos. They do not cross the cosmos by flying; they cross it by *redefining what is adjacent to what*. The cosmos remains finite (doc 00 §1); the Mahayana cultivator does not make it infinite. They make its finite extent more traversable, within the scope of their law.
+   397→
+   398→---
+   399→
+   400→## 11. What this document enables
+
+[showing lines 1-400 of 425; use offset=401 with limit to continue reading]
