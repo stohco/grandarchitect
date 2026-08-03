@@ -1,0 +1,566 @@
+     1→     1→# 11 — Persistence, Saves, and Migration
+     2→     2→
+     3→     3→**Status:** Foundation architecture. The save system: canonical format, tiered storage, migration, branching.
+     4→     4→**Date:** 2026-08-03
+     5→     5→**Engine:** Grand Architect (browser-native plugin host, deterministic contract)
+     6→     6→**Depends on:** `ga:determinism` (CBOR, SHA-256, DeterminismFingerprint — `src/lib/determinism/fingerprint.ts`), `ga:core`, `07_SCHEDULER_FRAME_LOOP_TIME_DOMAINS` (tick for checkpoint stamping), `10_EVENTS_COMMANDS_QUERIES_TRANSACTIONS` (input log)
+     7→     7→**Read with:** `17_ENGINE_ARCHITECTURE §1.4` (ga:save plugin), `07_PROCEDURAL_GENERATION_IMPLICATIONS §6.3` (determinism infrastructure: SQLite-WASM + OPFS)
+     8→     8→
+     9→     9→---
+    10→    10→
+    11→    11→## 0. What this document is
+    12→    12→
+    13→    13→The save system is the engine's long-term memory. This document specifies the canonical save format (version, fingerprint, tick, seed, inputLog, pluginSlices, hash); the storage substrate (SQLite-WASM over OPFS, with warm OPFS blobs and cold IndexedDB archive); checkpoint frequency and compaction; the per-plugin schema migration hook; save versioning; corruption recovery; the DeterminismFingerprint that gates which engine can load which save; and the branching-save feature that lets a player explore a "what if" without overwriting the parent.
+    14→    14→
+    15→    15→The central tension: **saves must be byte-stable across engine versions (so a player's 100-hour save loads after a patch), but the engine must be free to fix bugs (which change the determinism hash).** The resolution is the DeterminismFingerprint: a save records the exact fingerprint of the engine that produced it, and a save loads only in a fingerprint-compatible engine (or via a documented migration path). When the fingerprint changes, old saves are *flagged* for migration, not silently mis-loaded.
+    16→    16→
+    17→    17→---
+    18→    18→
+    19→    19→## 1. The canonical save format
+    20→    20→
+    21→    21→### 1.1 The save envelope
+    22→    22→
+    23→    23→A save is a single CBOR-encoded document with the following structure:
+    24→    24→
+    25→    25→```typescript
+    26→    26→interface SaveEnvelope {
+    27→    27→  /** The save format's schema version. Bumped only on incompatible envelope changes. */
+    28→    28→  formatVersion: string;            // '0.1.0'
+    29→    29→  /** The fingerprint of the engine that produced this save. §6. */
+    30→    30→  fingerprint: DeterminismFingerprint;
+    31→    31→  /** The fixed tick at which this save was checkpointed. */
+    32→    32→  tick: bigint;
+    33→    33→  /** The world seed. */
+    34→    34→  seed: bigint;
+    35→    35→  /** The save's own SHA-256 hash, computed over everything except this field. */
+    36→    36→  hash: string;                      // hex
+    37→    37→  /** The hash of the parent save (for branches). Null for a root save. */
+    38→    38→  parentHash: string | null;
+    39→    39→  /** The branch ID. Zero for the mainline; non-zero for branches. §8. */
+    40→    40→  branchId: bigint;
+    41→    41→  /** The save's human-readable label. */
+    42→    42→  label: string;                     // 'Autosave 2026-08-03 14:23'
+    43→    43→  /** When the save was created (real time, for the UI only — NOT used by sim). */
+    44→    44→  createdAt: string;                 // ISO 8601
+    45→    45→  /** Spiral-of-death count since the previous checkpoint. §7 doc 07. */
+    46→    46→  spiralDrops: number;
+    47→    47→  /** The plugin slices. Each plugin owns one slice. */
+    48→    48→  pluginSlices: Record<string, PluginSlice>;
+    49→    49→  /** The input log from the parent checkpoint to this tick. May be empty
+    50→    50→   *  if this save is itself a checkpoint. */
+    51→    51→  inputLog: InputLogEntry[] | InputLogReference;
+    52→    52→  /** Asset references: hashes of all assets the save depends on. */
+    53→    53→  assetHashes: string[];
+    54→    54→  /** Migration metadata. Populated by the migrator. §5. */
+    55→    55→  migration: MigrationMetadata | null;
+    56→    56→}
+    57→    57→
+    58→    58→interface PluginSlice {
+    59→    59→  /** The plugin's ID, e.g. 'ga:npc-sim'. */
+    60→    60→  pluginId: string;
+    61→    61→  /** The plugin's version, e.g. '0.2.1'. */
+    62→    62→  pluginVersion: string;
+    63→    63→  /** The schema hash of the plugin's state at save time. */
+    64→    64→  schemaHash: string;
+    65→    65→  /** The CBOR-encoded state slice. */
+    66→    66→  state: Uint8Array;
+    67→    67→}
+    68→    68→
+    69→    69→interface InputLogReference {
+    70→    70→  /** When the input log is too large to inline, it lives in a separate OPFS blob. */
+    71→    71→  blobId: string;                    // 'inputlog-7fde855dc9d17c7b...'
+    72→    72→  /** The tick range covered. */
+    73→    73→  fromTick: bigint;
+    74→    74→  toTick: bigint;
+    75→    75→  /** The entry count, for sanity checks. */
+    76→    76→  count: number;
+    77→    77→  /** The hash of the blob, for integrity. */
+    78→    78→  hash: string;
+    79→    79→}
+    80→    80→
+    81→    81→interface MigrationMetadata {
+    82→    82→  /** The fingerprint the save was originally produced with. */
+    83→    83→  fromFingerprint: DeterminismFingerprint;
+    84→    84→  /** The fingerprint after migration. */
+    85→    85→  toFingerprint: DeterminismFingerprint;
+    86→    86→  /** The migration steps applied. */
+    87→    87→  steps: MigrationStep[];
+    88→    88→  /** When the migration ran. */
+    89→    89→  migratedAt: string;
+    90→    90→}
+    91→    91→```
+    92→    92→
+    93→    93→### 1.2 Why this shape
+    94→    94→
+    95→    95→- **formatVersion** is the envelope's schema. It changes only when the *envelope itself* changes (a new field is added to `SaveEnvelope`). It does *not* change when plugin schemas change — that's `PluginSlice.schemaHash`.
+    96→    96→- **fingerprint** gates cross-engine compatibility (§6). A save from fingerprint X loads only in fingerprint X (or via migration).
+    97→    97→- **tick** is the canonical replay position. Restoring the save = restoring the state at this tick.
+    98→    98→- **seed** is the world seed. It must match the save's parent's seed (branches share the seed).
+    99→    99→- **hash** is computed over the CBOR encoding of the envelope *minus the hash field*. This is the determinism proof: two engines that produced the same save produce the same hash.
+   100→   100→- **parentHash** enables branching (§8). A branch's parent is the save it forked from.
+   101→   101→- **pluginSlices** let each plugin own its serialization. The engine does not know what's inside a slice; it only knows the slice's schema hash.
+   102→   102→- **inputLog** is the replay record. For checkpoints (frequent), it's empty. For non-checkpoint saves, it's the log from the previous checkpoint to the save's tick.
+   103→   103→- **assetHashes** pin the save's asset dependencies. If an asset's hash changes (the pipeline re-bakes a texture), the save flags a re-download.
+   104→   104→
+   105→   105→---
+   106→   106→
+   107→   107→## 2. SQLite-WASM + OPFS
+   108→   108→
+   109→   109→### 2.1 Why SQLite-WASM
+   110→   110→
+   111→   111→The browser offers several storage options: `localStorage` (small, synchronous, blocked), `IndexedDB` (large, async, key-value), OPFS (large, async, file-like). None of them is a *database* — they are storage. SQLite-WASM (compiled from SQLite via Emscripten) gives the engine a real relational database with transactions, queries, and crash safety, running in the browser.
+   112→   112→
+   113→   113→The project uses the `sqlite-wasm` package with the **opfs-sahpool** VFS, which provides a file-like abstraction over OPFS. This is the only OPFS-backed VFS for SQLite-WASM that supports concurrent read/write without corruption.
+   114→   114→
+   115→   115→### 2.2 The schema
+   116→   116→
+   117→   117→```sql
+   118→   118→-- The saves table: one row per save.
+   119→   119→CREATE TABLE saves (
+   120→   120→  hash           TEXT PRIMARY KEY,        -- SHA-256 hex
+   121→   121→  parent_hash    TEXT,                    -- nullable
+   122→   122→  branch_id      INTEGER NOT NULL,
+   123→   123→  tick           INTEGER NOT NULL,        -- BigInt stored as text
+   124→   124→  label          TEXT NOT NULL,
+   125→   125→  created_at     TEXT NOT NULL,
+   126→   126→  format_version TEXT NOT NULL,
+   127→   127→  fingerprint    TEXT NOT NULL,           -- CBOR-encoded
+   128→   128→  seed           TEXT NOT NULL,           -- BigInt as text
+   129→   129→  spiral_drops   INTEGER NOT NULL,
+   130→   130→  envelope_cbor  BLOB NOT NULL,           -- the full SaveEnvelope, minus inputLog
+   131→   131→  is_checkpoint  INTEGER NOT NULL,        -- 1 if inputLog is empty
+   132→   132→  status         TEXT NOT NULL            -- 'active' | 'archived' | 'corrupt'
+   133→   133→);
+   134→   134→
+   135→   135→-- The input log table: one row per log entry.
+   136→   136→CREATE TABLE input_log (
+   137→   137→  hash        TEXT NOT NULL,              -- the save's hash
+   138→   138→  seq         INTEGER NOT NULL,           -- within-tick sequence
+   139→   139→  tick        INTEGER NOT NULL,
+   140→   140→  kind        TEXT NOT NULL,              -- 'event' | 'command'
+   141→   141→  type        TEXT NOT NULL,
+   142→   142→  source      TEXT NOT NULL,
+   143→   143→  payload     BLOB NOT NULL,              -- CBOR
+   144→   144→  result      BLOB,                       -- CBOR, for commands
+   145→   145→  PRIMARY KEY (hash, seq)
+   146→   146→);
+   147→   147→
+   148→   148→-- The asset reference table: hashes that a save depends on.
+   149→   149→CREATE TABLE save_assets (
+   150→   150→  save_hash TEXT NOT NULL,
+   151→   151→  asset_hash TEXT NOT NULL,
+   152→   152→  PRIMARY KEY (save_hash, asset_hash)
+   153→   153→);
+   154→   154→
+   155→   155→-- The branch table: metadata for branches.
+   156→   156→CREATE TABLE branches (
+   157→   157→  branch_id    INTEGER PRIMARY KEY,
+   158→   158→  parent_hash  TEXT NOT NULL,
+   159→   159→  fork_tick    INTEGER NOT NULL,
+   160→   160→  label        TEXT NOT NULL,
+   161→   161→  created_at   TEXT NOT NULL
+   162→   162→);
+   163→   163→
+   164→   164→-- The migration registry: which migrations have been applied.
+   165→   165→CREATE TABLE migrations (
+   166→   166→  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+   167→   167→  save_hash    TEXT NOT NULL,
+   168→   168→  plugin_id    TEXT NOT NULL,
+   169→   169→  from_version TEXT NOT NULL,
+   170→   170→  to_version   TEXT NOT NULL,
+   171→   171→  applied_at   TEXT NOT NULL
+   172→   172→);
+   173→   173→```
+   174→   174→
+   175→   175→### 2.3 Why one table for saves, not one row per slice
+   176→   176→
+   177→   177→Slices are stored *inside* the `envelope_cbor` BLOB, not in a separate `slices` table. This is because the save's hash is computed over the full envelope (including slices), and SQLite's row-level atomicity guarantees the envelope is written atomically. A separate `slices` table would require a multi-row transaction for one save, with no benefit (we never query slices independently).
+   178→   178→
+   179→   179→---
+   180→   180→
+   181→   181→## 3. Tiered storage
+   182→   182→
+   183→   183→```
+   184→   184→┌──────────────────────────────────────────────────────────────────┐
+   185→   185→│                    TIERED STORAGE                                │
+   186→   186→│                                                                  │
+   187→   187→│  HOT      ── SQLite-WASM + opfs-sahpool VFS                     │
+   188→   188→│     ▼        • The most recent N saves (default N=20)           │
+   189→   189→│  ┌──────┐   • The active branch's input log                     │
+   190→   190→│  │ OPFS │   • The current world state (for fast resume)         │
+   191→   191→│  └──────┘   Access: ms                                      │
+   192→   192→│                                                                  │
+   193→   193→│  WARM     ── OPFS blobs (raw files, not SQLite)                  │
+   194→   194→│     ▼        • Older saves (N+1 to N+100)                       │
+   195→   195→│  ┌──────┐   • Larger input log segments                         │
+   196→   196→│  │ OPFS │   • Asset blobs (glTF, KTX2, meshopt)                 │
+   197→   197→│  └──────┘   Access: ms                                      │
+   198→   198→│                                                                  │
+   199→   199→│  COLD     ── IndexedDB                                            │
+   200→   200→│     ▼        • Archived saves (N+100+)                          │
+   201→   201→│  ┌──────┐   • Compacted input logs (after checkpoint)           │
+   202→   202→│  │ IDB  │   • Old asset versions (for migration)                │
+   203→   203→│  └──────┘   Access: 10-100 ms                                │
+   204→   204→│                                                                  │
+   205→   205→│  DOWNLOAD ── Export to user's filesystem                          │
+   206→   206→│     ▼        • Manual backup as a .ga-save file (CBOR + assets) │
+   207→   207→│  ┌──────┐   • Encrypted with a user-provided passphrase         │
+   208→   208→│  │ FS   │   Access: user-initiated                             │
+   209→   209→│  └──────┘                                                      │
+   210→   210→└──────────────────────────────────────────────────────────────────┘
+   211→   211→```
+   212→   212→
+   213→   213→### 3.1 Hot tier
+   214→   214→
+   215→   215→The hot tier is the SQLite database itself, backed by the opfs-sahpool VFS. It holds the most recent 20 saves (configurable) and the active branch's full input log. Reads and writes are sub-millisecond. This is the tier the engine reads on resume.
+   216→   216→
+   217→   217→### 3.2 Warm tier
+   218→   218→
+   219→   219→The warm tier is OPFS blobs (raw files accessed via `FileSystemSyncAccessHandle` from the persistence worker). It holds older saves (positions 21–100) and large input-log segments that were compacted out of the hot tier. Access is still sub-millisecond (OPFS is fast) but the engine must explicitly fetch a blob into the hot tier before reading it.
+   220→   220→
+   221→   221→### 3.3 Cold tier
+   222→   222→
+   223→   223→The cold tier is IndexedDB. It holds archived saves (100+) and compacted input logs. IndexedDB is slower (10–100 ms per read) but has a much larger quota than OPFS (typically multiple GB vs. OPFS's few-hundred-MB practical limit). The engine moves saves from warm to cold on a least-recently-accessed basis.
+   224→   224→
+   225→   225→### 3.4 Downloadable backup
+   226→   226→
+   227→   227→The player can export any save to a `.ga-save` file. The file is a self-contained CBOR envelope plus the asset blobs it depends on, encrypted with a user-provided passphrase (AES-GCM via `crypto.subtle`). The file can be imported on any engine instance (same or different browser, same or different machine), restoring the save and its asset dependencies.
+   228→   228→
+   229→   229→---
+   230→   230→
+   231→   231→## 4. Checkpoint frequency and compaction
+   232→   232→
+   233→   233→### 4.1 Checkpoint frequency
+   234→   234→
+   235→   235→The engine checkpoints every **60 fixed ticks** (one strategic tick, ~1 second of gameplay). Each checkpoint is a full `SaveEnvelope` with an empty `inputLog`. The input log between checkpoints is appended to the hot tier's `input_log` table.
+   236→   236→
+   237→   237→Between checkpoints, the engine keeps a *rolling* input log in memory and flushes it to SQLite at each checkpoint. If the tab crashes, the engine recovers from the most recent checkpoint + the in-memory log's flushed tail (the persistence worker flushes every 10 ticks).
+   238→   238→
+   239→   239→### 4.2 Compaction
+   240→   240→
+   241→   241→Every **3600 fixed ticks** (~1 minute of gameplay), the engine compacts:
+   242→   242→
+   243→   243→1. Take a new full checkpoint at the current tick.
+   244→   244→2. Discard all input-log entries between the previous checkpoint and this one.
+   245→   245→3. Move the previous checkpoint to the warm tier (if it's > 60 seconds old) or cold tier (if > 10 minutes old).
+   246→   246→
+   247→   247→Compaction keeps the hot tier's `input_log` table small (typically < 60 entries). The trade-off: a save taken between checkpoints requires replaying the input log from the most recent checkpoint, which is at most 60 ticks (~1 second of replay).
+   248→   248→
+   249→   249→### 4.3 The compaction worker
+   250→   250→
+   251→   251→Compaction runs on the PERSISTENCE worker (doc 08). It does not block the sim. The worker receives a "compact" command, takes a snapshot of the current state (read from the frame ring buffer), serializes it to CBOR, hashes it, and writes the new checkpoint to SQLite. The sim continues running during compaction; the next checkpoint simply uses the post-compaction state.
+   252→   252→
+   253→   253→---
+   254→   254→
+   255→   255→## 5. Schema migration
+   256→   256→
+   257→   257→### 5.1 The per-plugin migrate hook
+   258→   258→
+   259→   259→Each plugin can register a `migrate` function:
+   260→   260→
+   261→   261→```typescript
+   262→   262→interface PluginMigration {
+   263→   263→  /** The plugin this migration applies to. */
+   264→   264→  pluginId: string;
+   265→   265→  /** The version this migration migrates FROM. */
+   266→   266→  fromVersion: string;
+   267→   267→  /** The version this migration migrates TO. */
+   268→   268→  toVersion: string;
+   269→   269→  /** The schema hash this migration expects as input. */
+   270→   270→  fromSchemaHash: string;
+   271→   271→  /** The schema hash this migration produces. */
+   272→   272→  toSchemaHash: string;
+   273→   273→  /** The migration function. Takes the old state, returns the new state. */
+   274→   274→  migrate(oldState: Uint8Array, ctx: MigrationContext): Uint8Array;
+   275→   275→  /** Whether this migration is reversible. */
+   276→   276→  reversible: boolean;
+   277→   277→  /** If reversible, the downgrade function. */
+   278→   278→  downgrade?: (newState: Uint8Array, ctx: MigrationContext) => Uint8Array;
+   279→   279→}
+   280→   280→
+   281→   281→interface MigrationContext {
+   282→   282→  /** The tick at which the save was created. */
+   283→   283→  tick: bigint;
+   284→   284→  /** The world seed. */
+   285→   285→  seed: bigint;
+   286→   286→  /** A deterministic RNG, seeded from (seed, tick, pluginId). */
+   287→   287→  rng: RngSubstream;
+   288→   288→  /** A logger. */
+   289→   289→  log: (level: 'info' | 'warn' | 'error', message: string) => void;
+   290→   290→}
+   291→   291→```
+   292→   292→
+   293→   293→### 5.2 The migration algorithm
+   294→   294→
+   295→   295→When the engine loads a save whose fingerprint differs from the current engine's fingerprint, the migrator:
+   296→   296→
+   297→   297→1. Computes the *path* from the save's fingerprint to the current engine's fingerprint, by chaining `PluginMigration` records.
+   298→   298→2. For each plugin slice in the save, finds the migration chain for that plugin.
+   299→   299→3. Applies each migration in order. Each migration's `migrate` function takes the previous state (as CBOR bytes) and returns the new state (as CBOR bytes).
+   300→   300→4. After all migrations, the save's fingerprint is updated to the current engine's fingerprint. The save's `migration` metadata records the chain applied.
+   301→   301→5. The migrated save is written back to SQLite as a *new* save (the original is preserved for fallback).
+   302→   302→
+   303→   303→### 5.3 Why migrations are explicit (not auto-derived)
+   304→   304→
+   305→   305→A migration that adds a field with a default value *could* be auto-derived. But a migration that splits a field, merges two fields, or changes a field's semantics (e.g., "age was in years, now in days") cannot. The engine requires explicit migrations for *every* schema change. This is more work for plugin authors, but it eliminates the "silent mis-load" failure mode that the DeterminismFingerprint exists to prevent.
+   306→   306→
+   307→   307→### 5.4 Migration failure
+   308→   308→
+   309→   309→If a migration throws, the engine:
+   310→   310→
+   311→   311→1. Marks the save as `status = 'corrupt'`.
+   312→   312→2. Logs the error and the migration step that failed.
+   313→   313→3. Offers the player the choice: revert to the pre-migration save (which loads in the old engine, if available), or abandon the save.
+   314→   314→
+   315→   315→The engine never silently loads a partially-migrated save.
+   316→   316→
+   317→   317→---
+   318→   318→
+   319→   319→## 6. Save versioning and the DeterminismFingerprint
+   320→   320→
+   321→   321→### 6.1 The fingerprint
+   322→   322→
+   323→   323→From `src/lib/determinism/fingerprint.ts`:
+   324→   324→
+   325→   325→```typescript
+   326→   326→interface DeterminismFingerprint {
+   327→   327→  schemaVersion: string;
+   328→   328→  rng: { algorithm: string; version: string };
+   329→   329→  transcendentals: { method: string; version: string };
+   330→   330→  fixedPoint: { method: string; version: string };
+   331→   331→  serialization: { format: string; version: string };
+   332→   332→  hash: { algorithm: string; libraries: string };
+   333→   333→  generatedAt: string;  // for debugging only
+   334→   334→}
+   335→   335→```
+   336→   336→
+   337→   337→The fingerprint records the exact versions of every determinism-affecting component. A save from fingerprint X loads only in an engine with fingerprint X (strict equality, ignoring `generatedAt`).
+   338→   338→
+   339→   339→### 6.2 When the fingerprint changes
+   340→   340→
+   341→   341→The fingerprint changes when *any* of its components change:
+   342→   342→- The RNG algorithm or version (e.g., xoshiro256\*\* 0.1.0 → 0.2.0)
+   343→   343→- The transcendentals method or version (e.g., Cody-Waite → a new polynomial)
+   344→   344→- The fixed-point method or version
+   345→   345→- The serialization format or version
+   346→   346→- The hash algorithm
+   347→   347→
+   348→   348→When the fingerprint changes, *all* existing saves are flagged for migration. The migration system must provide a path from the old fingerprint to the new one. If no path exists, the saves are unreadable in the new engine (the player is informed; they can keep using the old engine).
+   349→   349→
+   350→   350→### 6.3 The fingerprint contract
+   351→   351→
+   352→   352→The fingerprint is the *only* thing that determines save compatibility. Plugin versions, asset versions, and engine versions are *not* part of the fingerprint — they are handled by the per-plugin migration system (§5) and the asset hash system (§1.1's `assetHashes`).
+   353→   353→
+   354→   354→This separation is deliberate: the fingerprint is the *determinism* boundary; plugin versions are the *schema* boundary; asset hashes are the *content* boundary. Three independent systems, three independent migration paths.
+   355→   355→
+   356→   356→---
+   357→   357→
+   358→   358→## 7. Corruption recovery
+   359→   359→
+   360→   360→### 7.1 Detection
+   361→   361→
+   362→   362→The engine detects corruption in three ways:
+   363→   363→
+   364→   364→1. **Hash mismatch.** When loading a save, the engine recomputes the hash of the envelope (minus the hash field). If it doesn't match `SaveEnvelope.hash`, the save is corrupt.
+   365→   365→2. **CBOR decode failure.** If the envelope's CBOR cannot be decoded, the save is corrupt.
+   366→   366→3. **Schema hash mismatch without migration.** If a plugin slice's `schemaHash` does not match the current engine's schema hash *and* no migration is registered, the save is unreadable (a special case of corruption).
+   367→   367→
+   368→   368→### 7.2 Recovery
+   369→   369→
+   370→   370→```
+   371→   371→Save fails to load
+   372→   372→  → engine checks: is there a parent save?
+   373→   373→    → YES: load the parent, replay the input log to the failed save's tick.
+   374→   374→       If replay succeeds, use the replayed state (the failed save's data is lost;
+   375→   375→       the parent + log is the recovery).
+   376→   376→       If replay fails: recurse to the parent's parent.
+   377→   377→    → NO (the failed save is a root): mark as corrupt; offer the player
+   378→   378→       "start a new world with the same seed" (the world's seed is recoverable
+   379→   379→       from the save's `seed` field even if the state is not).
+   380→   380→```
+   381→   381→
+   382→   382→### 7.3 The checkpoint guarantee
+   383→   383→
+   384→   384→Because the engine checkpoints every 60 ticks and flushes the input log every 10 ticks, the worst-case data loss on tab crash is **10 ticks** (~166 ms of gameplay). The player might lose a single input event; the world state is recoverable from the most recent checkpoint + the flushed log tail.
+   385→   385→
+   386→   386→### 7.4 The backup recommendation
+   387→   387→
+   388→   388→The engine recommends the player export a `.ga-save` backup at session boundaries (the UI nags after 30 minutes of unsaved play). The backup is encrypted and self-contained; it survives browser data clearing and machine changes.
+   389→   389→
+   390→   390→---
+   391→   391→
+   392→   392→## 8. Branching saves
+   393→   393→
+   394→   394→### 8.1 The branch concept
+   395→   395→
+   396→   396→A branch is a fork of the input log at a chosen tick. The player can create a branch, play it forward, and the parent save is untouched. Branches share the world seed but diverge from the fork tick onward.
+   397→   397→
+   398→   398→```
+   399→   399→Parent save (tick 60000, hash H_parent)
+   400→   400→   │
+   401→   401→   ├── player creates branch "what if I joined the sect?"
+   402→   402→   │     → branch_id = 1, parent_hash = H_parent, fork_tick = 60000
+   403→   403→   │     → new saves in branch 1 are stamped branch_id = 1
+   404→   404→   │     → branch 1's input log is empty at fork; grows as the player plays
+   405→   405→   │
+   406→   406→   ├── player creates branch "what if I refused the teacher?"
+   407→   407→   │     → branch_id = 2, parent_hash = H_parent, fork_tick = 60000
+   408→   408→   │     → ...
+   409→   409→   │
+   410→   410→   └── mainline continues
+   411→   411→         → branch_id = 0
+   412→   412→         → parent_hash = H_parent (still)
+   413→   413→         → tick 60001, 60002, ...
+   414→   414→```
+   415→   415→
+   416→   416→### 8.2 The branch interface
+   417→   417→
+   418→   418→```typescript
+   419→   419→interface BranchApi {
+   420→   420→  /** Create a new branch from a save. */
+   421→   421→  createBranch(parentHash: string, forkTick: bigint, label: string): BranchId;
+   422→   422→  /** List all branches. */
+   423→   423→  listBranches(): BranchInfo[];
+   424→   424→  /** Switch the active branch. The sim loads the branch's latest save. */
+   425→   425→  switchBranch(branchId: BranchId): Promise<void>;
+   426→   426→  /** Merge a branch back into the mainline. DANGEROUS — see §8.4. */
+   427→   427→  mergeBranch(branchId: BranchId, strategy: 'fast-forward' | 'three-way'): Promise<MergeResult>;
+   428→   428→  /** Delete a branch. Its saves are moved to the cold tier for 30 days, then purged. */
+   429→   429→  deleteBranch(branchId: BranchId): Promise<void>;
+   430→   430→}
+   431→   431→
+   432→   432→interface BranchInfo {
+   433→   433→  branchId: BranchId;
+   434→   434→  parentHash: string;
+   435→   435→  forkTick: bigint;
+   436→   436→  label: string;
+   437→   437→  createdAt: string;
+   438→   438→  /** The latest save in this branch. */
+   439→   439→  latestSaveHash: string;
+   440→   440→  latestSaveTick: bigint;
+   441→   441→}
+   442→   442→```
+   443→   443→
+   444→   444→### 8.3 Branch determinism
+   445→   445→
+   446→   446→Branches are deterministic: a branch's state at tick N (N > forkTick) is a function of (parent state at forkTick, branch's inputLog[forkTick..N]). Two players who create the same branch and play the same inputs see the same state.
+   447→   447→
+   448→   448→The branch's entity IDs (doc 09 §2) carry the branch ID in the high 64 bits, so entities created in different branches never collide. An entity from the parent (referenced by ID in the branch) is *read-only* in the branch's sim — the branch cannot mutate the parent's entity, only its own copy.
+   449→   449→
+   450→   450→### 8.4 Why merging is dangerous
+   451→   451→
+   452→   452→Merging a branch back into the mainline is the one operation that can break the input-log invariant: the merge introduces state that is *not* a function of (parent state, mainline inputLog). The engine supports only two merge strategies:
+   453→   453→
+   454→   454→- **Fast-forward**: the mainline has not advanced since the branch forked. The branch's input log simply appends to the mainline's. No conflicts.
+   455→   455→- **Three-way**: the mainline has advanced. The merge replays both branches' input logs from the fork tick, attempting to interleave them. Conflicts (two events writing the same component) are reported to the player, who must resolve them manually (choose which side wins).
+   456→   456→
+   457→   457→Three-way merge is *not* guaranteed to produce a deterministic state — it's a player-driven operation, not a sim invariant. The merge result is saved as a *new* save (not a checkpoint), with a special `mergeResult: true` flag, so the engine knows its input log is not a simple linear replay.
+   458→   458→
+   459→   459→---
+   460→   460→
+   461→   461→## 9. 16 questions answered
+   462→   462→
+   463→   463→1. **What is this system?** The save system: canonical CBOR envelope, SQLite-WASM + OPFS tiered storage, per-plugin migration, DeterminismFingerprint gating, branching.
+   464→   464→
+   465→   465→2. **What problem does it solve?** Saves must be byte-stable across versions, but the engine must be free to fix bugs. The fingerprint + migration system makes this an explicit, detectable transition instead of a silent mis-load.
+   466→   466→
+   467→   467→3. **Core abstractions?** `SaveEnvelope`, `PluginSlice`, `InputLogEntry`, `InputLogReference`, `DeterminismFingerprint`, `PluginMigration`, `MigrationContext`, `BranchInfo`, `MergeResult`.
+   468→   468→
+   469→   469→4. **Data flow?** Sim runs → checkpoint every 60 ticks → PERSISTENCE worker serializes slices + input log → CBOR encode → SHA-256 hash → SQLite write (hot) → age out to warm/cold. On load: SQLite read → CBOR decode → fingerprint check → migrate if needed → restore slices → replay input log to target tick.
+   470→   470→
+   471→   471→5. **Lifecycle?** Save created (checkpoint or manual) → active (hot tier) → aging (warm tier) → archived (cold tier) → exported (downloadable backup) → deleted (after 30-day grace period in cold tier).
+   472→   472→
+   473→   473→6. **Invariants?** (a) A save's hash is reproducible across browsers. (b) A save loads only in a fingerprint-compatible engine (or via migration). (c) Checkpoint every 60 ticks; flush every 10 ticks; worst-case crash loss is 10 ticks. (d) Branches are deterministic; merges are player-driven and flagged.
+   474→   474→
+   475→   475→7. **Inputs?** The sim state (from the frame ring buffer), the input log (from the event bus), the asset hashes (from the asset worker), the fingerprint (from `ga:determinism`).
+   476→   476→
+   477→   477→8. **Outputs?** Save files in SQLite/OPFS/IndexedDB, exported `.ga-save` files, migration reports, branch listings.
+   478→   478→
+   479→   479→9. **Failure modes?** Hash mismatch (corruption), CBOR decode failure (corruption), schema mismatch without migration (unreadable), OPFS quota exceeded (move to cold tier; if full, halt with SaveFailure), migration throw (mark corrupt; offer parent fallback), branch merge conflict (player resolves).
+   480→   480→
+   481→   481→10. **Performance budget?** Checkpoint write < 4 ms (amortized). Compaction < 50 ms (runs on PERSISTENCE worker, does not block sim). Save load < 100 ms (hot tier) or < 1 s (cold tier). Migration < 1 s per plugin slice.
+   482→   482→
+   483→   483→11. **Test requirements?** Hash reproducibility across browsers, fingerprint compatibility check, migration idempotence (migrate forward then back = original), checkpoint+replay = full state, branching determinism, corruption recovery from parent, OPFS quota exhaustion handling.
+   484→   484→
+   485→   485→12. **Extension points?** Plugins register `PluginMigration` records. New storage tiers require a core-engine change (the four tiers are closed). New merge strategies require a core-engine change (the two are closed).
+   486→   486→
+   487→   487→13. **Security/isolation?** Saves are encrypted at rest (OPFS-level, optional). Downloadable backups are AES-GCM encrypted with a user passphrase. The PERSISTENCE worker is the only writer to SQLite; the sim never touches SQLite directly. Untrusted plugins cannot register migrations (migrations are core-engine-trusted).
+   488→   488→
+   489→   489→14. **Rejected alternatives?** (a) JSON saves — rejected because JSON key ordering is not deterministic across engines. (b) One file per save — rejected because OPFS file count is limited and SQLite's transactional semantics are better. (c) Server-side saves — rejected because the engine is browser-native; the player owns their saves. (d) Auto-derived migrations — rejected because they cannot handle semantic changes. (e) Save stacking (each save is a delta from the previous) — rejected because delta chains break if any link is corrupt; checkpoints + input log is more robust. (f) Branchless saves (only mainline) — rejected because the player wants to explore "what if" without losing progress; branches are the genre's save-scumming made honest.
+   490→   490→
+   491→   491→15. **Dependencies?** Depends on `ga:determinism` (CBOR, SHA-256, fingerprint), `ga:core`, `07_SCHEDULER` (tick boundaries), `10_EVENTS` (input log). Depended on by every gameplay plugin (for state serialization) and the WebSocket API (for `save()`/`load()`).
+   492→   492→
+   493→   493→16. **What this enables?** 100-hour playthroughs that survive engine patches; branching exploration without loss; crash recovery with < 200 ms of lost play; cross-machine transfer via encrypted backup; and the AI's century-absence test (doc 17 §6.1), which runs the sim for 1000 years and checkpoints every strategic tick.
+   494→   494→
+   495→   495→---
+   496→   496→
+   497→   497→## 10. Test requirements (detailed)
+   498→   498→
+   499→   499→### 10.1 Hash reproducibility
+   500→   500→
+   501→   501→Create a save on Chrome. Read the raw bytes from OPFS. Repeat on Firefox and Safari. Assert byte-identical envelopes (modulo `createdAt`).
+   502→   502→
+   503→   503→### 10.2 Fingerprint compatibility
+   504→   504→
+   505→   505→Create a save with fingerprint X. Attempt to load in an engine with fingerprint Y (X ≠ Y). Assert the load is rejected with `FingerprintMismatch`. Assert the migrator is invoked.
+   506→   506→
+   507→   507→### 10.3 Migration idempotence
+   508→   508→
+   509→   509→For each registered migration, migrate a fixture save forward, then downgrade. Assert the result is byte-identical to the original (for reversible migrations). For non-reversible migrations, assert the forward-only path is documented.
+   510→   510→
+   511→   511→### 10.4 Checkpoint + replay = full state
+   512→   512→
+   513→   513→Run a 1000-tick sim. Checkpoint at tick 500. Continue to tick 1000. Restore the checkpoint at tick 500. Replay the input log to tick 1000. Assert the final state's hash matches the original sim's hash at tick 1000.
+   514→   514→
+   515→   515→### 10.5 Branching determinism
+   516→   516→
+   517→   517→Create a branch at tick 500 of a 1000-tick sim. Play the branch forward 500 ticks with a fixed input sequence. Repeat on a second browser. Assert the branch's final hash is identical.
+   518→   518→
+   519→   519→### 10.6 Corruption recovery
+   520→   520→
+   521→   521→Manually corrupt a save's `envelope_cbor` (flip one byte). Attempt to load. Assert the engine detects the corruption, falls back to the parent save, and replays the input log. Assert the recovered state matches the parent + log replay.
+   522→   522→
+   523→   523→### 10.7 OPFS quota exhaustion
+   524→   524→
+   525→   525→Fill OPFS to 95% capacity. Run the sim until the next checkpoint fails. Assert the engine moves older saves to the cold tier (IndexedDB) and retries the checkpoint. Assert no data loss.
+   526→   526→
+   527→   527→---
+   528→   528→
+   529→   529→## 11. Failure cases and recovery (summary table)
+   530→   530→
+   531→   531→| Failure | Detection | Recovery |
+   532→   532→|---|---|---|
+   533→   533→| Hash mismatch | Recompute on load | Fall back to parent + replay log |
+   534→   534→| CBOR decode failure | Decode throws | Fall back to parent + replay log |
+   535→   535→| Schema mismatch without migration | Schema hash check | Mark unreadable; offer "new world with same seed" |
+   536→   536→| OPFS quota exceeded | Write fails | Move old saves to cold tier; retry |
+   537→   537→| SQLite-WASM crash | Worker watchdog | Restart worker; re-open database from OPFS |
+   538→   538→| Migration throw | Try/catch in migrator | Mark corrupt; preserve pre-migration save |
+   539→   539→| Branch merge conflict | Three-way merge detects | Player resolves manually |
+   540→   540→| Tab crash mid-flush | Checkpoint + flushed log tail | Replay from last checkpoint + tail (≤ 10 ticks loss) |
+   541→   541→| Browser data clearing | OPFS empty | Offer "import .ga-save backup" |
+   542→   542→
+   543→   543→---
+   544→   544→
+   545→   545→## 12. Rejected alternatives (summary)
+   546→   546→
+   547→   547→- **JSON saves.** Key ordering nondeterminism. Rejected.
+   548→   548→- **One file per save.** OPFS file-count limits; worse transactional semantics. Rejected.
+   549→   549→- **Server-side saves.** Violates browser-native thesis. Rejected.
+   550→   550→- **Auto-derived migrations.** Cannot handle semantic changes. Rejected.
+   551→   551→- **Delta-stacked saves.** Brittle chains. Rejected in favor of checkpoints + input log.
+   552→   552→- **Branchless saves.** No "what if" exploration. Rejected.
+   553→   553→- **Per-plugin save files.** Cross-plugin transactions would require multi-file atomicity, which OPFS does not guarantee. Rejected in favor of one envelope per save.
+   554→   554→
+   555→   555→---
+   556→   556→
+   557→   557→## 13. What this document enables
+   558→   558→
+   559→   559→- **100-hour playthroughs** that survive engine patches, via the fingerprint + migration system.
+   560→   560→- **Branching exploration** via the branch API, with deterministic state and player-driven merges.
+   561→   561→- **Crash recovery** with < 200 ms of lost play, via the 60-tick checkpoint + 10-tick flush.
+   562→   562→- **Cross-machine transfer** via encrypted `.ga-save` backups.
+   563→   563→- **The AI's century-absence test** (doc 17 §6.1): a 1000-year headless sim that checkpoints every strategic tick, producing a single hash that proves the sim is deterministic at century scale.
+   564→   564→
+   565→   565→The save system is the engine's promise to the player: your world is permanent, your choices are yours, and the engine will not silently forget or rewrite what you built. The DeterminismFingerprint is the engine's promise to itself: when we change the rules, we will tell the player, not pretend nothing changed.
+   566→   566→
