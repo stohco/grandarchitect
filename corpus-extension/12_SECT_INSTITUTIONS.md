@@ -1,0 +1,454 @@
+# 12 — Sect Institutions
+
+**Status:** Candidate canon. The institutional spine of the cultivation world.
+**Date:** 2026-08-03
+
+---
+
+## 0. What this document is for
+
+The prior documents specified the cosmos (00 §1), the soul (00 §2), the ladder of stations (03), and the mortal substrate the player begins in (04). None of them answered the question every player eventually asks: *who runs the cultivation world, and why does it not fly apart?*
+
+This document answers it. It specifies six institution types — the sect, the lineage, the academy, the temple, the court, and the immortal alliance — and three cross-cutting systems that govern them all: the sect ranking system, the disciple progression, and the oath system.
+
+Every institution here is grounded in three decisions from 00:
+
+1. **The ten-station realm ladder.** The protagonist's relationship to each institution is specified at six stations: Mortal, Qi Induction, Qi Condensation, Foundation Establishment, Core Formation, Nascent Soul. The upper four stations (Spirit Severance, Void Amalgamation, Tribulation Crossing, Mahayana) are endgame and out of scope for the per-realm entries; they appear only where an institution's governance requires them.
+2. **The Anchored Spirit Continuant.** The noncopyable spirit anchor (靈樞) is the spine of oath enforcement, lineage continuity, and succession legitimacy. A Core Formation cultivator can perceive anchors; this is why oath-witnessing begins at Core Formation. A Nascent Soul cultivator can survive bodily death if the anchor is preserved; this is why lineage founding begins at Nascent Soul.
+3. **The three-strata cosmology.** Most institutions are in the Acquired Stratum (后天境). The Precelestial courts (天庭) are an institution in the Precelestial Stratum (先天境), not its source. Temples relate to the courts partially, never wholly. The Mortal Stratum (凡尘境) is where the court operates; the court cannot reach into the Acquired Stratum to police a Core Formation cultivator, and this incapacity is the engine of the tension between mortal law and cultivation power.
+
+No pinyin romanization is used in this document. Terms appear as English xianxia vocabulary with Hanzi in parentheses on first mention, then as English thereafter. This is a deliberate divergence from the style of 00–05, made because this document describes institutions the reader must be able to envision, and the pinyin tone-mark apparatus obscures the picture.
+
+---
+
+## 1. The Sect (宗門)
+
+### 1.1 What a sect is
+
+A sect is a fortified monastic-craft guild built around a spirit vein (靈脈). It is part monastery, part martial academy, part mining cartel, part minor kingdom. The spirit vein is the reason it exists: a slow upwelling of Acquired-stratum qi through a geological fault, dense enough to sustain cultivation practice at a rate the ambient qi of the mortal world cannot match. Without the vein, the sect disperses. With it, the sect can support a population of cultivators who would otherwise starve for qi.
+
+Picture it: a mountain or ridge, often terraced, with a walled compound at the qi-densest point. The compound has a gate hall where outer disciples are examined, a merit hall where tasks are posted and rewarded, a scripture pavilion where practice manuals are stored under ward, a pill hall where the sect's apothecaries work, and a founder's hall where the founder's tablet — and for older sects, the founder's preserved anchor — is enshrined. Behind the compound, the spirit vein breaks the surface as a spring or a grove or a luminous crack in the rock. Around the mountain, tenant villages work sect land and pay rent in grain and labor.
+
+### 1.2 What holds it together
+
+Three things, in order of importance:
+
+1. **The spirit vein.** The qi source is the material base. Lose it and the sect's reason for being evaporates; the cultivators drift to other veins.
+2. **The founder's Dao.** Every sect is built around a specific practice lineage — a way of circulating qi, a phase-affinity, a posture toward the cosmos. The founder's Dao is the sect's constitution. It is recorded in the founder's manual, stored in the scripture pavilion, and sworn to by every inner disciple at Foundation Establishment.
+3. **The oath of office (受職).** The verb *bear an oath of office* (03 §Station 4) is the legal spine. Each elder, peak master, and sect master swears a soul oath to uphold the founder's Dao and the sect's rules. The oath is qi-bound into the swearer's anchor; breaking it has real spiritual cost (see §9 below). Without the oath, a sect is a gang; with it, a body politic.
+
+### 1.3 Governance structure
+
+A mature sect has six strata of authority, mirroring the disciple progression (see §8 for full definitions):
+
+- **The sect master (宗主 / 掌門).** Final authority. Holds the founder's token — a physical object (a jade seal, a sword, a cauldron) qi-bound to the founder's anchor. The token resonates with the sect's spirit vein; a sect master without it is a usurper in the qi-perception of every elder who looks. Core Formation minimum; Nascent Soul in a great sect.
+- **The elder council (長老會).** The deliberative body. Composed of all Foundation Establishment+ elders, plus the heads of the scripture, pill, merit, and punishment halls. Meets on the 1st and 15th of each lunar month. Elects the sect master on succession; can censure but not remove (removal requires the founder's token to be reclaimed, which usually means the master is dead or has voluntarily abdicated).
+- **Peak masters (峰主).** Semi-autonomous rulers of the sect mountain's peaks. Each peak has its own sub-tradition within the founder's Dao, its own disciple cohort, its own spirit-herb gardens and craft workshops. A peak master pays a fraction of the peak's yield to the sect and owes military service in time of war; otherwise, the peak is theirs. This is why schisms run along peak lines.
+- **Hall heads (堂主).** The bureaucratic tier. The merit hall posts and adjudicates tasks; the scripture hall controls access to manuals; the pill hall produces and rations medicine; the punishment hall investigates and sentences. Hall heads are elders without a peak; their power is institutional, not territorial.
+- **Core disciples (核心弟子 / 真傳弟子).** Personal students of elders. Not yet authority, but candidates for it.
+- **Inner and outer disciples (內門 / 外門弟子).** The labor base and the recruitment pool.
+
+### 1.4 Succession rules
+
+When a sect master dies, abdicates, or is incapacitated, the elder council convenes within 30 days. Three modes of succession are recognized, in descending order of legitimacy:
+
+1. **Designation (傳位).** The departing master names a successor in front of the council and hands over the founder's token. The successor swears the master's oath before the assembled elders and the founder's tablet. Clean, fast, rare.
+2. **Council election (公舉).** The council votes. A Core Formation elder needs a two-thirds majority; the winner swears the oath and receives the token from the founder's hall (where it has been kept in escrow). Common in mid-size sects; politically fraught.
+3. **Trial (試煉).** The candidates compete in a formally bounded contest — a tournament, a hunt, a quest for a specific relic. The trial's rules are set by the council; the winner takes the token. Used when the council is deadlocked or when no candidate has a clear majority. In great sects, the trial is often lethal.
+
+If no successor is chosen within one year, the sect enters interregnum. Peak masters stop paying tribute; outer disciples drift away; the spirit vein, untended, begins to disperse. Interregnum past three years is usually fatal.
+
+### 1.5 Schism conditions
+
+A sect splits when one of the binding three (vein, Dao, oath) fails or is contested:
+
+- **Peak schism.** A peak master with a Core Formation elder backing them declares independence, taking their peak's disciples, gardens, and segment of the spirit vein. The sect master either negotiates a peaceful departure (rare) or marches on the peak (common). If the schismatic peak wins or holds, the sect is split; the two halves may coexist as rival sects, or one may absorb the other after a generation.
+- **Dao schism.** Two factions disagree on the founder's Dao — whether a new practice is orthodox or heretical, whether an old prohibition still applies. The loser is often purged; if the loser is strong enough, they leave and found a rival sect claiming the true lineage. Dao schisms are the most bitter because they are fought over meaning, not resources.
+- **Oath schism.** A sect master is revealed to have broken the master's oath. The council is constitutionally obligated to depose — but if the master refuses and has the military strength to hold the compound, the sect is in civil war. Oath schisms are the rarest and the most destructive; they often end with the spirit vein itself damaged.
+
+### 1.6 Economic base
+
+What comes in:
+
+- **Spirit-vein qi.** The base resource. Allocated to disciples for practice; the allocation is the sect master's most exercised prerogative.
+- **Tenant rent.** Sect land is farmed by mortal villages under terms similar to the mortal substrate (04 §6): the sect holds the subsoil right (田底), tenants hold the surface right (田面), rent is paid in grain and labor. A mid-size sect may have 5-20 tenant villages; a great sect, hundreds.
+- **Mission fees.** The sect takes a fraction of every mission its disciples complete in the mortal world — exorcisms, escorts, herb-gathering, the suppression of bandits or beasts.
+- **Tribute from vassal sects.** Small sects that cannot survive alone pay tribute (in qi-stones, herbs, disciples) to a mid-size or great sect in exchange for protection.
+- **Pill and artifact production.** The pill hall produces medicine that money cannot easily buy; the sect sells surplus to other sects and to wealthy mortals.
+
+What goes out:
+
+- **Disciple stipends.** Each inner disciple receives a monthly allocation of qi-stones, herbs, and grain.
+- **Spirit-vein maintenance.** The vein must be tended — formations renewed, sink-vents cleared, contamination purged. This is the peak masters' heaviest expense.
+- **Tribute upward.** If the sect is itself a vassal, it pays upward.
+- **Alliance dues.** The immortal alliance (§6) levies dues on every member sect, proportional to rank.
+
+### 1.7 Relationship to mortal society
+
+The sect is invisible to most mortals most of the time, but not always. Tenant villages know the sect as their landlord: a representative (often a Qi Condensation outer disciple acting as steward) collects rent and adjudicates disputes that exceed the lineage council's competence. The sect does not interfere in village ritual life, marriage, or inheritance unless a tenant challenge threatens the rent.
+
+The sect recruits from mortal society. Every three to seven years, elders or senior disciples tour the region's villages and market towns, testing children for spiritual roots (靈根). A child with strong roots is offered a place as an outer disciple; the family receives a gift of silver and the loss of a son or daughter. This is the central transaction between sect and mortal world: the sect takes the qi-gifted children and gives back silver, protection from beasts and bandits, and the prestige of having a cultivator in the family. It is not a fair exchange, but it is a stable one.
+
+When a cultivator harms mortals at scale — a Qi Condensation disciple gone rogue, a Core Formation elder whose domain-battle flattened a village — the sect is liable. The court (§5) cannot enforce this liability; the alliance (§6) can. A sect that ignores its liability finds its alliance seat contested.
+
+### 1.8 Relationship to other institutions
+
+- **To other sects:** competition for spirit veins, disciples, grotto-heavens (洞天), and alliance standing. Alliances of convenience against common enemies; long feuds over contested veins.
+- **To lineages (§2):** recruitment pipeline. A lineage that produces a cultivator may negotiate a favorable placement for its child in a sect; in return, the sect gets the child and the lineage gets a cultivator-patron.
+- **To academies (§3):** academies feed literate, qi-aware students to sects; sects sponsor academies to ensure a recruitment pipeline and a route for washed-out outer disciples to re-enter mortal gentry society.
+- **To temples (§4):** rivalry over mortuary and healing practice; shared interest in suppressing demonic cultivation. A sect with a temple ally can call on the temple's bardo-expertise; a sect without one must handle its own dead.
+- **To the court (§5):** tense silence. The court pretends the sect does not exist; the sect pretends the court's decrees do not apply. Both know this is a fiction.
+- **To the alliance (§6):** member, dues-payer, oath-bound.
+
+### 1.9 Failure modes
+
+- **Vein exhaustion.** The spirit vein disperses or is drained (by over-allocation, by a competing sect's mining, by a tribulation that cracks the geology). Without the vein, the sect is a school without a campus; it disperses within a generation.
+- **Masterless interregnum.** See §1.4.
+- **Demonic infiltration.** A demonic cultivator (a deviator who has integrated 心魔 into their practice) infiltrates the disciple cohort and corrupts the scripture hall. The sect's practices begin to produce deviation; the council must purge, and purges leave scars.
+- **Mass deviation.** A flawed manual, a contaminated pill batch, a tribulation that scatters qi-residue across the compound — a dozen disciples deviate in the same season. The sect's credibility collapses; recruitment dries up.
+- **Conquest.** A rival sect or a holy land (§7) takes the compound and the vein by force. The conquered sect's survivors may be absorbed, exiled, or executed.
+
+### 1.10 The protagonist at each realm
+
+- **Mortal:** the sect is a rumor. The protagonist may see a flying sword in the sky once, at age seven, and be told to forget it.
+- **Qi Induction:** the sect is a possible destination. An elder tours the village; the protagonist is tested; if accepted, they leave as an outer disciple.
+- **Qi Condensation:** the protagonist is an inner disciple. They owe labor, take missions, and learn the sect's foundational practice. The sect is their world.
+- **Foundation Establishment:** the protagonist is a core disciple or a junior elder. They have sworn the oath of office. They can leave the sect for extended periods and represent it to the alliance.
+- **Core Formation:** the protagonist is an elder with a hall or a peak. They can perceive anchors and witness oaths. They are now a political actor inside the sect; their faction matters.
+- **Nascent Soul:** the protagonist is a candidate for sect master or the founder of a schismatic lineage. They can survive bodily death if their anchor is preserved. The sect's continuation is now partly their responsibility.
+
+---
+
+## 2. The Lineage (宗族) — cultivation expansion
+
+### 2.1 Mortal lineage and cultivation lineage
+
+The mortal lineage is specified in 04 §5.1: a corporate body with a hall, genealogy, fields, rules, and a school, governing marriage, inheritance, and dispute resolution for its members. Every mortal village is built around one or more lineages.
+
+A **cultivation lineage (修真宗族)** is a lineage that has produced at least one Nascent Soul cultivator in its recorded history and whose founder's anchor persists in bardo (中陰). It is the same kind of institution — patrilineal, hall-centered, genealogy-keeping — but it operates on a longer timescale and across a deeper cosmology. The Wang lineage of Wang Family Bend (04 §2.1) is a mortal lineage; if a Wang son reaches Nascent Soul and persists his anchor, the lineage becomes a cultivation lineage nine generations later.
+
+The transition is not formal. There is no ceremony that makes a mortal lineage into a cultivation lineage. What happens is that the founder's anchor, sustained by the rites, begins to be *perceptible* — first to Core Formation descendants who attend the ancestor rite, then to Nascent Soul descendants who can commune with it. The genealogy gains a second column: the qi-lineage, recording which descendants cultivated and to what station. The hall's qi (already dense from generations of mortal rite — see 05 §1) gains a different quality: not just old human residue, but the residue of a persisting will.
+
+### 2.2 The lineage hall's role in cultivation
+
+In a mortal lineage, the hall is a ritual and administrative center. In a cultivation lineage, it is also:
+
+- **A qi-anchor.** The hall's orientation, materials, and accumulated rite-residue make it a minor qi-sink. A Qi Condensation descendant can practice more efficiently in the hall than elsewhere; a Core Formation descendant can commune with the founder's bardo-anchor through the hall's main tablet.
+- **A succession registry.** The genealogy's qi-column records every cultivator descendant, their station, their practice lineage, and (if applicable) the circumstances of their final death (寂滅). This record is the lineage's claim to cultivation status and its negotiation tool with sects.
+- **An oath-witnessing site.** Lineage oaths — marriage alliances between cultivation lineages, the swearing-in of a new lineage head, the adoption of a qi-gifted child from a mortal branch — are sworn at the founder's tablet. The founder's anchor (if present) is the witness; this is why a cultivation lineage's oaths are harder to break than a mortal lineage's.
+- **A bardo-relay.** When a cultivation-lineage member dies bodily, their anchor enters bardo. The lineage hall's rites sustain the anchor in bardo longer than it would persist unaided, giving descendants time to retrieve it (if the deceased was Core Formation+) or to confirm its passage to reincarnation. A lineage that loses its hall loses this relay; its dead become orphans.
+
+### 2.3 Bloodline inheritance of spiritual roots
+
+Spiritual roots (00 §6) are a developing topology of qi-access, not a birth-lottery aptitude score. But they are not uncorrelated with birth. A cultivation lineage's accumulated practice-residue modifies the qi-environment of the womb; children of cultivation-lineage parents are more likely to be born with already-developed root-sensitivity in the lineage's phase-affinity. This is not determinism — a Wang lineage child may be born with no roots, and a mortal beggar's child may be born with strong roots — but it is a real bias.
+
+This bias is the economic base of the cultivation lineage. A lineage with a strong fire-phase tradition produces fire-phase-rooted children at above-chance rates; these children are valuable to fire-phase sects, who pay bride-price and dowry to secure marriage alliances that concentrate the trait. The lineage's marriage rules (04 §5.1) are, in a cultivation lineage, also a eugenics program — restrained by the fact that roots can develop in any direction with practice, so the program is never as deterministic as its architects hope.
+
+### 2.4 What holds it together, succession, schism, economics, failure
+
+**What holds it together:** blood, the founder's anchor, and the genealogy. The blood is the material substrate; the anchor is the spiritual substrate; the genealogy is the legal substrate. Lose the genealogy and the lineage cannot prove who is a member; lose the anchor and the lineage loses its cultivation status; lose the blood (all descendants dead or dispersed) and the lineage is gone.
+
+**Succession:** the lineage head (族長) is the senior male of the senior branch, as in the mortal lineage (04 §5.1). In a cultivation lineage, "senior" is modified by station: a Core Formation uncle outranks a Foundation Establishment eldest son. If no cultivator descendant survives, the lineage reverts to mortal succession rules. The head's authority is bounded by the elder council, which in a cultivation lineage includes any Core Formation+ member regardless of age or gender (a departure from the mortal pattern).
+
+**Schism:** a cultivation lineage schisms when a junior branch produces a Nascent Soul cultivator who refuses to acknowledge the senior branch's head. The junior branch founds a new hall, copies the genealogy up to the schism point, and claims its own founder. This is rare — Nascent Soul cultivators are rare — but it is the origin of most cultivation lineages: every cultivation lineage is a schismatic offshoot of an older one, except the first.
+
+**Economic base:** mortal lineage fields and rent (04 §6), plus spirit-herb gardens tended by Qi Condensation members, plus bride-price and dowry from marriage alliances with sects and other lineages, plus the labor of mortal branches who farm the lineage's land. A cultivation lineage does not need a spirit vein; it needs a hall and a sustained rite. This is why cultivation lineages and sects are not in direct competition: they occupy different niches.
+
+**Failure modes:** the genealogy is burned (in a fire, a war, a purge); the founder's anchor is dispersed (by a tribulation, a demonic cultivator, the natural expiry of the bardo window); the bloodline thins below the threshold where the lineage can produce cultivators at all (a "qi-dead" lineage, which reverts to mortal status over two or three generations); the lineage is exterminated by a sect or court that resents its power.
+
+### 2.5 The protagonist at each realm
+
+- **Mortal:** the protagonist is a member of a mortal lineage (the Wang, per 04). The lineage is their world.
+- **Qi Induction:** the protagonist begins to perceive the hall's qi-density. They may notice that the founder's tablet "feels different" — the first hint of a cultivation lineage latent in their own.
+- **Qi Condensation:** the protagonist is a lineage asset. The elder council may assign them a role in the hall's rites; they may be betrothed (marriage alliance) to another lineage or to a sect.
+- **Foundation Establishment:** the protagonist can swear the lineage oath and hold lineage office. They are now a candidate for lineage head if they are senior enough.
+- **Core Formation:** the protagonist can perceive the founder's anchor (if it exists). They can commune with it through the hall's tablet. They can witness lineage oaths.
+- **Nascent Soul:** the protagonist can persist their own anchor in bardo, becoming (after their bodily death) the founder of a new cultivation lineage, or the second anchor of an existing one. This is the station at which a lineage is made or remade.
+
+---
+
+## 3. The Academy (書院)
+
+### 3.1 What an academy is
+
+An academy is a school that teaches literacy, history, law, the classics, and the basics of cultivation, all together. It is not a sect — it has no spirit vein, no founder's Dao, no oath of office. It is not a lineage school (義學, 04 §2.1) — it is larger, open to non-lineage students, and its curriculum extends beyond basic literacy. It sits between the mortal world and the cultivation world: its students are mostly mortal or Qi Induction, its teachers are Foundation Establishment wash-outs and failed court candidates, and its patrons are sects, courts, and wealthy lineages who want their children literate before deciding whether to send them to a sect.
+
+Picture it: a walled compound on a hill outside a market town, with a library hall (藏書樓) of three or four stories, lecture halls opening onto courtyards, dormitories for resident students, and a kitchen that feeds everyone porridge and pickled vegetables twice a day. The library smells of ink, old paper, and the sandalwood incense burned to deter bookworms. The courtyards echo with recitation — the Three Character Classic, the Analects, the Dao De Jing, the basic qi-circulation chants — from dawn to dusk.
+
+### 3.2 Governance, succession, schism, economics
+
+**Governance:** the headmaster (山長) is chosen by the faculty council from among the senior teachers. The council meets monthly to set curriculum, admit students, and adjudicate faculty disputes. There is no founder's token; the academy's authority is its library and its examination lineage — the chain of teachers who taught the teachers, traceable back to the academy's founding.
+
+**Succession:** the headmaster designates a successor, ratified by the council. If the council rejects the designation, it elects; if it cannot elect, the academy enters interregnum and a patron (usually a sect or the court) appoints a caretaker.
+
+**Schism:** an academy schisms when the faculty divides over doctrine — a Confucian faction versus a Daoist faction, a reform faction versus a traditionalist one. The losers leave and found a rival academy, often taking copies of the library's core texts. Academy schisms are intellectually productive; they produce new schools of thought, some of which become sects a generation later.
+
+**Economics:** endowment lands (donated by patrons, farmed by tenants), student fees (in cash, grain, or labor), examination patronage (the court pays academies that produce examination-passing students), and direct sponsorship from sects (who fund academies in exchange for first refusal on qi-gifted graduates).
+
+### 3.3 Relationship to mortal society and other institutions
+
+The academy is the bridge by which a mortal child becomes a literate adult who *might* become a cultivator. It teaches the classics the court examines on, the literacy the sect requires, and the qi-basics that let a student discover whether they have roots. It is the only institution that serves mortal, Qi Induction, and Qi Condensation students in the same classrooms.
+
+To the court: a recruitment pipeline for officials. To the sect: a recruitment pipeline for disciples. To the lineage: a place to send the second son who will not inherit land. To the temple: a rival for the same student population (temples also teach literacy). To the alliance: irrelevant; academies have no alliance standing.
+
+### 3.4 Failure modes
+
+Loss of endowment (a patron withdraws, the land is seized); loss of faculty (a purge, a plague, a defection to a rival); loss of students (a generation that prefers the sect or the temple); destruction of the library (fire, war, deliberate burning by a court that fears the academy's doctrines).
+
+### 3.5 The protagonist at each realm
+
+- **Mortal:** the protagonist may attend an academy if their lineage can pay the fees. This is the route out of the village that is not the sect.
+- **Qi Induction:** the protagonist can study qi-theory systematically. Academies teach what sects assume you already know.
+- **Qi Condensation:** the protagonist is approaching the limit of what the academy can teach. They may stay as a teaching assistant; they may leave for a sect.
+- **Foundation Establishment:** the protagonist can teach at an academy. This is the respectable fallback for cultivators who wash out of sect politics.
+- **Core Formation:** the protagonist is overqualified for an academy. They may sit on the board of patrons; they may endow a chair; they have no further role inside the institution.
+- **Nascent Soul:** the protagonist is the kind of figure an academy names a hall after. They have no direct relationship to the academy's daily life.
+
+---
+
+## 4. The Temple (寺 / 觀)
+
+### 4.1 What a temple is
+
+There are two kinds of temple: the Buddhist temple (寺) and the Daoist temple (觀). They are distinguished by their precept lineage, their founder, their canon, and their relationship to the Precelestial courts. Both are religious institutions with cultivation traditions; both accept disciples who are not qi-gifted (the lay congregation); both maintain a round of daily rite; both own land; both are rivals with each other and with the sects for the same mortal population.
+
+A Buddhist temple is a monastic community. The monks (僧) shave their heads, wear saffron or grey robes, eat one meal before noon, and observe the precepts (no killing, no stealing, no sexual misconduct, no lying, no intoxication). The temple's main hall holds a statue of the Buddha or a bodhisattva; the sutra library holds the canon; the meditation hall is where cultivators sit. The temple's cultivation tradition is contemplative: qi-circulation through stillness, the perception of bardo, the cultivation of compassion as a qi-stabilizing practice.
+
+A Daoist temple is a hermit community. The priests (道士) may be monastic (Quanzhen 全真 tradition: celibate, vegetarian, living in the temple) or household (Zhengyi 正一 tradition: married, eating meat, living in the market town and summoned for rites — see 04 §5.3). The temple's main hall holds an image of a Daoist deity or immortal; the scripture library holds the Daoist canon; the alchemy chamber is where cultivators work. The Daoist cultivation tradition is alchemical: qi-circulation through breath and movement, the manipulation of yin-yang and wuxing, the pursuit of immortality as a literal goal.
+
+### 4.2 Governance, succession, schism, economics
+
+**Governance:** the abbot (方丈, Buddhist; 住持, either) is chosen by the precept lineage. The previous abbot designates a dharma heir (法嗣) — a senior monk or priest who has received the full transmission of the temple's practice. The designation is ratified by the community. There is no election; the transmission is the authority.
+
+**Succession:** when the abbot dies or retires, the dharma heir takes over. If the heir predeceased the abbot or is unfit, the community's senior members convene and request transmission from a sister temple in the same lineage. A temple without an heir must request a new abbot from outside; this is a humiliation and often marks the temple's decline.
+
+**Schism:** a temple schisms when a reform movement within the community rejects the abbot's transmission and founds a new temple nearby with a rival claim to the precept lineage. Buddhist schisms produce new schools (a Chan school versus a Pure Land school, a reformist Chan versus a traditionalist Chan); Daoist schisms produce new lineages (a Quanzhen splinter, a Zhengyi offshoot). Temple schisms are doctrinal and can persist for centuries.
+
+**Economics:** donation lands (donated by devotees, farmed by tenants or lay congregants), alms (for Buddhist monasteries on begging rounds), festival fees (the temple charges for major rites — New Year, Ghost Festival, funerals), mortuary fees (the temple charges for preparing the dead, sustaining the bardo-passage, and installing the ancestor tablet), and direct patronage from wealthy cultivators who want the temple's prayers.
+
+### 4.3 Relationship to the Precelestial courts
+
+The courts of Heaven (天庭) are an institution in the Precelestial Stratum (00 §1). They have jurisdiction over specific matters — records of the dead, enforcement of certain oaths — and no jurisdiction over others. They can be wrong, corrupt, or contested.
+
+Buddhist temples relate to the courts indirectly. The Buddhist cosmology posits a bardo-passage and a reincarnation cycle that the courts oversee but do not own; the temple's rites sustain the passage but do not bargain with the courts. A Buddhist temple that claims direct court-authority is heterodox.
+
+Daoist temples relate to the courts directly. The Daoist canon includes protocols for petitioning the courts — for rain, for a verdict on a contested oath, for the registration of a new deity. A senior Daoist priest can, in principle, file a petition that the courts must answer; in practice, the courts answer slowly, partially, or not at all. The relationship is bureaucratic, not devotional.
+
+Neither kind of temple worships the courts. The courts are an institution, not gods. This is a point the mortal laity often misunderstands and the temple does not correct, because the misunderstanding is good for donations.
+
+### 4.4 Failure modes
+
+The icon is destroyed (the temple's main image is broken, desecrated, or stolen — a blow to morale and legitimacy that often leads to abandonment); the precept lineage is broken (the last abbot dies without designating an heir, and no sister temple can supply one — the temple becomes a ruin with a custodian); the temple is burned (by a court purge, a sectarian rival, a demonic cult); the congregation drifts away (a generation that no longer believes, or that has found a rival temple more responsive to its needs).
+
+### 4.5 The protagonist at each realm
+
+- **Mortal:** the protagonist may visit a temple on festival days, be taken there by a devout parent, or be left there as an oblate (a child given to the temple by a family that cannot feed it).
+- **Qi Induction:** the protagonist can begin to learn the temple's contemplative or alchemical basics. Temples are the most accessible cultivation instruction for qi-gifted children who cannot get into a sect.
+- **Qi Condensation:** the protagonist may take lay vows (not full ordination) and continue practice. The temple's slower, gentler practice is a real alternative to the sect's intense, oath-bound path.
+- **Foundation Establishment:** the protagonist can be ordained. They can receive the precept transmission. They are now a full member of the temple and can perform rites.
+- **Core Formation:** the protagonist can perceive the bardo-anchors the temple tends. They can perform the high mortuary rites. They are a candidate for abbacy.
+- **Nascent Soul:** the protagonist can persist their own anchor through the temple's bardo-relay, guaranteeing a long, semi-conscious afterlife in the temple's hall. This is the Daoist "earth immortal" (地仙) path in miniature — a stationary immortality, place-bound, peaceful.
+
+---
+
+## 5. The Court (朝廷)
+
+### 5.1 What the mortal court is
+
+The court is the mortal imperial state: the emperor, the bureaucracy, the military, the tax system, the law. It operates in the Mortal Stratum and claims sovereignty over the mortal world. It does not claim sovereignty over the Acquired Stratum and could not enforce the claim if it made one. Its relationship to cultivators is therefore a constant negotiation: the court pretends to rule everyone; cultivators pretend to obey; both know the pretense breaks down at Core Formation.
+
+The court is specified in its mortal substrate in 04 §5.2: the county magistrate (縣令), the tax collector (里長), the baojia mutual-policing system (保甲), the yamen runners (衙役), the salt monopoly (鹽法). This section specifies the court as a cultivation-world institution: how it relates to cultivators, where its authority ends, and what happens at the boundary.
+
+### 5.2 The magistrate system and the cultivation boundary
+
+The county magistrate is the court's lowest direct representative. He is a mortal, usually a former academy student who passed the imperial examination. His jurisdiction extends to all mortals in his county and to Qi Induction and Qi Condensation cultivators who have not sworn a sect oath. A Foundation Establishment cultivator is technically his subject; practically, the magistrate writes a polite letter rather than issuing a summons. A Core Formation cultivator is outside his effective jurisdiction; the magistrate refers any matter involving one to the alliance's regional office.
+
+This boundary is the engine of the court-cultivator tension. A Qi Condensation cultivator who commits a crime against a mortal is the magistrate's problem; a Core Formation cultivator who commits the same crime is the alliance's problem. The mortal family of the victim experiences this as injustice: the strong cultivator escapes the law that the weak one cannot. The court experiences it as humiliation: it cannot enforce its own law within its own territory. The alliance experiences it as burden: it must police cultivators it did not recruit and cannot easily discipline.
+
+### 5.3 The tension between mortal law and cultivation power
+
+Mortal law is procedural, evidentiary, and bounded by precedent. It assumes witnesses can be compelled, evidence can be seized, and force can be applied by the yamen runners. None of these assumptions hold against a Foundation Establishment cultivator, who can outrun the runners, deflect their weapons, and (if pressed) kill them. The court's solution, developed over centuries, is threefold:
+
+1. **Delegation.** The court deputizes Qi Condensation cultivators as "suppression captains" (緝捕使) with legal authority to investigate and arrest Qi Induction and Qi Condensation cultivators. These captains are paid from a special tax on sects operating in the region — a tax the sects pay because the alternative is the court banning them from the region.
+2. **Referral.** Cases involving Foundation Establishment+ cultivators are referred to the alliance. The court keeps a register of referrals; if the alliance fails to act, the court uses the register as diplomatic leverage at the alliance's next assembly.
+3. **Taboo.** The court enforces a strict taboo: cultivators may not display their power in mortal settlements, may not recruit children without the family's consent, may not settle disputes with qi in the presence of mortals. Violations are referred to the alliance as "taboo breaches" and treated severely, because the taboo is what keeps the mortal world governable at all.
+
+### 5.4 Governance, succession, schism, economics, failure
+
+**Governance:** the emperor, the imperial court, the six ministries (Personnel, Revenue, Rites, War, Justice, Public Works), the provincial governors, the county magistrates. Standard late-imperial bureaucracy, descended from the historical synthesis the corpus engages honestly (00 §4, 04 §5.2).
+
+**Succession:** hereditary primogeniture, modified by the emperor's designation. Contested successions produce civil war. A cultivator-emperor (an emperor who is himself a Foundation Establishment+ cultivator) is rare and destabilizing; the court's apparatus is designed for mortal emperors and breaks under a cultivator's lifespan.
+
+**Schism:** the court schisms in a succession war, a regional rebellion, or a foreign conquest. A schismatic court (a rival claimant with a rival capital) can persist for generations; the cultivation world treats both courts as legitimate for as long as both can collect tax.
+
+**Economics:** land tax (田賦), salt monopoly (鹽法), corvée (徭役, commuted to silver post-Single-Whip), mining, customs. The court's revenue is denominated in silver and grain; it cannot tax qi. This is the court's fundamental fiscal weakness: the most valuable resource in its territory (spirit veins, grotto-heavens, qi-stones) is outside its tax base.
+
+**Failure modes:** loss of the Mandate (天命 — the cosmic legitimacy-claim that the court's ideology asserts); fiscal collapse (the tax base erodes faster than the bureaucracy can shrink); regional rebellion that the army cannot suppress; foreign conquest; and — the cultivation-specific failure — a Core Formation or Nascent Soul cultivator who decides to take the throne. This last has happened; the results are uniformly catastrophic, because a cultivator-emperor cannot govern mortals without the bureaucracy, and the bureaucracy cannot serve a sovereign whose lifespan exceeds its own institutional memory.
+
+### 5.5 The protagonist at each realm
+
+- **Mortal:** the court is the tax collector and the magistrate. The protagonist owes tax, corvée, and obedience.
+- **Qi Induction:** unchanged. The court does not recognize Qi Induction as a distinct legal category.
+- **Qi Condensation:** the protagonist may be deputized as a suppression captain, or may be summoned for a specific investigation. They are now a marginal actor in the court's system.
+- **Foundation Establishment:** the protagonist is past the magistrate's effective jurisdiction. They are a person to whom the court writes polite letters. They may accept a court commission (a formal role with a stipend) or decline it.
+- **Core Formation:** the protagonist is outside the court's jurisdiction entirely. The court refers any matter involving them to the alliance. The protagonist may be asked to mediate; they may refuse.
+- **Nascent Soul:** the protagonist is a power the court must reckon with. They may be offered a dukedom, a regional governorship, or a seat on the privy council. They may accept, decline, or ignore. If they take the throne, the campaign enters its endgame and the world changes.
+
+---
+
+## 6. The Immortal Alliance (仙盟)
+
+### 6.1 What the alliance is
+
+The immortal alliance is the political structure of the cultivation world itself. It is not a state — it has no territory, no citizens, no tax base. It is a treaty organization: a set of oaths sworn by the great sects and holy lands to resolve disputes without open war, to suppress demonic cultivation, to enforce the taboo (§5.3) between cultivators and mortals, and to allocate contested resources (grotto-heavens, newly discovered spirit veins, the relics of fallen sects).
+
+Picture it: no capital, no palace. The alliance's business is conducted at periodic assemblies (仙盟大會) held at a rotating neutral site — a great sect's guest-hall one year, a holy land's subsidiary grotto-heaven the next. Between assemblies, a standing secretariat (盟府) of Foundation Establishment clerks in a small walled compound handles correspondence, registers treaties, and maintains the rolls of member sects. The secretariat has no enforcement power; it is a registry and a post office.
+
+### 6.2 What holds it together
+
+Four things:
+
+1. **The founding oaths.** The great powers that founded the alliance swore Dao oaths (§9) to uphold its treaty. Breaking a Dao oath produces deviation; the founders cannot casually withdraw.
+2. **The cost of war.** Open war between great sects cracks spirit veins, scatters qi-residue across regions, and produces tribulation (天劫) when the killing reaches a threshold. The last great-sect war dispersed three spirit veins and produced a tribulation that leveled a mortal city; the alliance was founded in the aftermath, and the memory of that war is the alliance's strongest glue.
+3. **The demonic threat.** Demonic cultivators (deviators who have integrated 心魔 into their practice) are a persistent low-level threat that no single sect can suppress across a region. The alliance coordinates suppression; without it, each sect would face demonic incursion alone.
+4. **The taboo.** The alliance enforces the taboo (§5.3) because the alternative — the court mobilizing mortal armies against cultivators — is worse for every sect. The taboo protects cultivators from mortal politics as much as it protects mortals from cultivator power.
+
+### 6.3 How sects resolve disputes
+
+The alliance's dispute-resolution procedure is the central service it provides:
+
+1. **Petition.** A member sect files a petition with the secretariat, stating the grievance and the remedy sought.
+2. **Arbitration.** A senior elder from a neutral member sect is appointed arbitrator. Both parties submit written arguments; the arbitrator issues a verdict within a stated time.
+3. **Appeal.** Either party may appeal the verdict to the assembly. The assembly votes; the great powers' votes carry more weight (a weighted suffrage that small sects resent but accept).
+4. **Enforcement.** If a party refuses to comply with the verdict, the alliance authorizes sanctions: loss of alliance standing, a ban on recruitment in the region, or — in extreme cases — a coordinated military action by member sects against the non-compliant party.
+
+This system works for most disputes most of the time. It fails when a great power is the non-compliant party, because no coalition of member sects can credibly threaten a holy land with military action. When great powers refuse to comply, the alliance enters crisis (§6.5).
+
+### 6.4 Governance, succession, schism, economics, failure
+
+**Governance:** the alliance has no single leader. The assembly is sovereign; between assemblies, a rotating council of three great-power representatives (the "troika") handles routine business. The secretariat is civil-service staff, not political leadership.
+
+**Succession:** the troika rotates annually. The assembly meets every three years, or in emergency session if a troika member calls one. There is no "alliance master"; the office does not exist because the great powers would not tolerate a peer above them.
+
+**Schism:** the alliance schisms when two great powers go to war despite the treaty. If the war is brief and contained, the alliance survives with a revised treaty. If the war is broad, the alliance fractures into two rival alliances, each backed by a coalition of great powers. This has happened twice in the alliance's history; both fractures ended in a broader war and a re-founding.
+
+**Economics:** dues from member sects (proportional to rank — small sects pay little, holy lands pay much), arbitration fees (the loser of an arbitration pays the arbitrator's stipend), and control of certain grotto-heaven access points (the alliance allocates access to contested grotto-heavens; member sects pay in kind for their allocations).
+
+**Failure modes:** great-power war (the founding oaths break); demonic cult resurgence (the alliance's suppression mandate fails and member sects blame each other); corruption of the oath-mechanism (a great power discovers a way to break a Dao oath without deviation — the alliance's entire legitimacy collapses); and the long peace (if no great-power war occurs for too long, the memory fades, the founding oaths feel like archaic constraints, and the alliance drifts toward irrelevance until a crisis reveals it cannot respond).
+
+### 6.5 The fragile peace
+
+The alliance's peace is fragile because it rests on a balance of power that no one designed and no one maintains. The great powers refrain from war because war is costly; they refrain from open rivalry because the treaty binds them; they refrain from breaking the treaty because the Dao oath binds their cultivation. But each of these restraints can fail: a new resource (a newly discovered grotto-heaven, a relic that promises Mahayana-level law-authority) can make war worth the cost; a great power's succession crisis can make the treaty feel like a dead hand; a cultivator who finds a way to break a Dao oath can free their sect from the founding bind.
+
+The alliance's continued existence is therefore not a stable equilibrium but a slow, negotiated, anxious peace that requires constant maintenance. Every assembly is a test. Every great-power succession is a crisis. Every demonic incursion is a reminder of why the alliance exists. The cultivation world is at peace the way a tense ceasefire is at peace: not because the war is over, but because no one has yet decided to restart it.
+
+### 6.6 The protagonist at each realm
+
+- **Mortal:** the alliance is invisible. The protagonist has never heard of it.
+- **Qi Induction:** the alliance is a name invoked in sect scripture halls. The protagonist learns it exists.
+- **Qi Condensation:** the protagonist may be assigned to an alliance mission (a demonic suppression, a taboo-breach investigation) as part of a sect contingent. They are a foot-soldier of the alliance's enforcement arm.
+- **Foundation Establishment:** the protagonist can be an alliance arbitrator's clerk, or a sect's representative to a regional alliance office. They are now a participant in the alliance's machinery.
+- **Core Formation:** the protagonist can serve as an arbitrator in minor disputes. They are a person whose name is recorded in the alliance's rolls as a reliable neutral.
+- **Nascent Soul:** the protagonist is a political actor at the assembly level. Their sect's vote (if they hold one) is consequential. They may be offered a troika seat. Their cultivation is now bound up with the alliance's fate: if the alliance fractures, their oath-bound role fragments with it.
+
+---
+
+## 7. The sect ranking system
+
+### 7.1 Small sect (小宗)
+
+A single Foundation Establishment elder, a handful of Qi Condensation disciples, one minor spirit vein (or a share of a greater one), perhaps 20-50 members total. Cannot stand alone against a mid-size sect; survives by paying tribute to one. The elder is often a wash-out from a greater sect who gathered a few students and found a thin vein. The small sect's horizon is survival; its time-scale is one elder's lifespan (200 years); its failure mode is the elder's death without a Foundation Establishment heir.
+
+### 7.2 Mid-size sect (中宗)
+
+Several Foundation Establishment elders, one Core Formation ancestor (often in long seclusion), a moderate spirit vein, 100-300 members. Can defend its territory against another mid-size sect; cannot project power far. The ancestor is the sect's insurance: in a crisis, they emerge from seclusion. The mid-size sect's horizon is regional stability; its time-scale is the ancestor's lifespan (500 years); its failure mode is the ancestor's final death without a Core Formation successor.
+
+### 7.3 Great sect (大宗)
+
+A Core Formation sect master, multiple Core Formation elders, a Nascent Soul ancestor in seclusion, a major spirit vein or a share of a grotto-heaven, 500-2000 members. Projects power across a region; can field an army of cultivators; holds a weighted vote in the alliance assembly. The great sect's horizon is the region; its time-scale is the ancestor's lifespan (1000 years); its failure mode is a schism between Nascent Soul claimants or a holy land's intervention.
+
+### 7.4 Holy land (聖地)
+
+A Spirit Severance patriarch (化神) whose domain (領域) overlaps the sect's territory, multiple Nascent Soul elders, control of a grotto-heaven or a sacred mountain, 2000-10000 members. The patriarch's domain IS the local law within the holy land's territory; a Core Formation cultivator entering the domain without permission is subject to the patriarch's will. The holy land's horizon is the law; its time-scale is the patriarch's lifespan (2000+ years); its failure mode is the patriarch's tribulation (attempts Void Amalgamation or Tribulation Crossing and dies) or the grotto-heaven's exhaustion.
+
+### 7.5 What distinguishes each
+
+Not numbers. The distinguishing factor is the relationship to law. A small sect obeys the law; a mid-size sect negotiates with it; a great sect shapes it regionally; a holy land authors it within its domain. The ladder is a ladder of law-authorship, not of headcount. A small sect with 2000 members is still a small sect if its highest active member is Foundation Establishment; a holy land with 500 members is still a holy land if its patriarch is Spirit Severance and its domain holds.
+
+---
+
+## 8. The disciple progression
+
+### 8.1 Outer disciple (外門弟子)
+
+The trial rank. Lives in the outer quarters — dormitories outside the inner compound's wall. Does menial labor (sweeping, hauling, kitchen duty, garden tending). Learns basic literacy (if not already literate) and the Qi Induction practice. Receives a small grain stipend and one qi-allocation per week. May wash out at any time; most do. Typical tenure: 3-5 years, after which the disciple is either promoted to inner or sent home with a small gift of silver. Authority: none. Obedience: total.
+
+### 8.2 Inner disciple (內門弟子)
+
+The admitted rank. Lives in the inner compound. Receives a Qi Condensation practice suited to their roots. Owes the sect labor (mission rotations, peak service) and obedience. Receives a monthly stipend of qi-stones, herbs, and grain. The bulk of a sect's membership. Eligible to be chosen as a core disciple by an elder. Authority: over outer disciples (in the merit hall's hierarchy). Obedience: to elders and peak masters.
+
+### 8.3 Core disciple (核心弟子 / 真傳弟子)
+
+The chosen rank. Personal student of an elder. Receives the elder's lineage practice — the specific sub-tradition within the founder's Dao that the elder has integrated. Eligible for Foundation Establishment resources (qi-denser practice chambers, higher-grade pills, access to the scripture pavilion's restricted floor). Few in number; a peak with 50 inner disciples may have 3-5 core. Authority: over inner disciples of their peak (delegated by their elder). Obedience: to their elder personally, and to the sect through the elder.
+
+### 8.4 Elder (長老)
+
+The Foundation Establishment+ rank. Holds a sect office: a hall headship, a craft mastership, a teaching post, or (rarely) a peak. Has authority over disciples and resources within their office's scope. May take core disciples. Sits on the elder council. Has sworn the oath of office. Authority: over their office and its dependents. Obedience: to the sect master and the council.
+
+### 8.5 Peak master (峰主)
+
+The territorial rank. Foundation Establishment+, often Core Formation. Rules one peak of the sect mountain. Semi-autonomous: sets the peak's practice schedule, allocates the peak's qi-share, disciplines the peak's disciples, and pays a fraction of the peak's yield to the sect. Owes military service in time of war. The peak master is a sect-within-a-sect; this is why schisms run along peak lines (§1.5). Authority: over the peak and all its inhabitants. Obedience: to the sect master, but only on matters the sect master has the authority to command.
+
+### 8.6 Sect master (宗主 / 掌門)
+
+The final authority. Core Formation+; Nascent Soul in a great sect. Holds the founder's token. Commands the sect's spirit-vein allocation. Represents the sect to the alliance. Calls the elder council. Decides war and peace. The sect master is not a tyrant — the council can censure, the peak masters can resist, the founder's Dao constrains — but within those bounds, the master's word is law. Authority: over the whole sect. Obedience: to the founder's Dao, embodied in the oath sworn at succession.
+
+### 8.7 What each rank means
+
+The progression is not just seniority; it is a progression of oath-burden. An outer disciple owes labor; an inner disciple owes labor and obedience; a core disciple owes labor, obedience, and lineage loyalty; an elder owes labor, obedience, lineage loyalty, and office; a peak master owes all of those plus territorial sovereignty; a sect master owes all of those plus the founder's Dao itself. Each rank's authority is purchased by a deeper oath. A cultivator who reaches elder and finds the oath unbearable can resign the office and revert to core disciple; a cultivator who reaches sect master and finds the oath unbearable can abdicate — but the oath remains in the anchor, and the next life carries its trace.
+
+---
+
+## 9. The oath system
+
+### 9.1 Three kinds of oath
+
+There are three kinds of binding oath in the cultivation world, distinguished by what they bind and how they are enforced.
+
+### 9.2 The blood oath (血誓)
+
+The blood oath binds the body. It is sworn by two or more parties who share a bloodline (lineage members, sworn siblings, marriage partners) or who mix their blood into a shared cup. The oath is qi-bound through the shared blood's resonance: the qi of one party's blood recognizes the qi of the other's, and a violation produces a qi-rebellion in the violator's own blood.
+
+**How it is enforced:** self-enforcing. No external witness is required. The violator's blood "rebels" — it heats, it thickens, it ruptures the smaller meridians. The violator's practice stalls; their Qi Condensation circulation becomes erratic; they develop the early stages of somatic deviation.
+
+**What breaking it costs:** physical suffering, meridian damage, practice regression. A Qi Condensation cultivator who breaks a blood oath may lose months of practice progress; a Foundation Establishment cultivator may crack a meridian. Death is rare but possible if the oath was sworn on a major bloodline (a parent-child oath, a lineage-heir oath). Blood oaths are used for lineage matters, marriage alliances, sworn brotherhood, and the adoption of heirs.
+
+### 9.3 The soul oath (魂誓)
+
+The soul oath binds the spirit anchor (靈樞). It is sworn on the anchor itself: the swearer opens their anchor to perception by a witness, who inscribes the oath's terms into the anchor's qi-pattern. The inscription persists across embodiment: a soul oath sworn in one life binds the swearer's next incarnation, who may not remember swearing it but whose anchor carries the trace.
+
+**How it is enforced:** by the witness. The witness must be Core Formation or higher (the station at which anchor-perception becomes possible, per 00 §2 and 03 §Station 5). The witness can, at any later time, perceive whether the oath is intact. If the oath is broken, the witness can perceive the break and report it. The oath itself is also partially self-enforcing: a broken soul oath marks the anchor, impairing the violator's ability to perceive their own anchor and stalling their cultivation at the next threshold.
+
+**What breaking it costs:** anchor-marking, impaired reincarnation, cultivation stall. The violator cannot clearly perceive their own anchor (a serious disability for a Core Formation+ cultivator, whose practice depends on anchor-perception). Their next incarnation carries the mark, manifesting as an inexplicable cultivation block that the new self cannot diagnose without a Core Formation witness to read the anchor. Soul oaths are used for sect oaths of office, master-disciple transmissions, major contracts, and the treaties of the immortal alliance (the soul oath is the alliance's working currency; the Dao oath is reserved for the founding treaties).
+
+### 9.4 The Dao oath (道誓)
+
+The Dao oath binds the cultivator's cultivation itself — their relationship to the Dao, their practice, their core. It is sworn on the Dao, not on the body or the anchor: the swearer declares that a specific act or inaction is now a condition of their cultivation, and the cosmos records the declaration. A broken Dao oath produces deviation (走火入魔) and tribulation (天劫).
+
+**How it is enforced:** by the lawful response of the cosmos. This is not Heaven judging; it is the Precelestial Stratum's lawful response to a boundary violation (00 §1). The Dao oath is a self-authored law (a proto-Mahayana verb, exercised at lower stations in a limited form); breaking it is a violation of one's own law, and the cosmos responds as it responds to any boundary violation. A Core Formation cultivator who breaks a Dao oath may face a minor tribulation; a Nascent Soul cultivator who breaks one may face a tribulation that kills them and disperses their anchor (final death, 寂滅).
+
+**What breaking it costs:** deviation, core crack, soul fragmentation, tribulation, final death. The violator's practice reverses — what they built, they now destroy. Their core cracks; their anchor fragments; if they survive the tribulation, they are a ruined cultivator with a marked anchor and a stalled practice. Only a Nascent Soul+ cultivator can swear a Dao oath meaningfully, because only they have a stable enough anchor to bear the inscription; a Foundation Establishment cultivator who attempts a Dao oath simply deviates at the swearing. Dao oaths are used for sect founding, alliance treaties, lifelong vows (the marriage oath between two Core Formation+ cultivators), and the rare cases where a cultivator stakes their cultivation on a single claim.
+
+### 9.5 The hierarchy of oaths
+
+The three oaths form a hierarchy of severity. The blood oath binds the body and is recoverable. The soul oath binds the person across embodiments and is partially recoverable (the mark fades over centuries of clean practice). The Dao oath binds the cultivation itself and is not recoverable. A cultivator who has sworn all three and broken all three is, cosmologically, a dead person walking — their body rebellious, their anchor marked, their practice reversed, their next life crippled. Such cultivators exist; they are called oath-breakers (誓叛), and every institution in this document is oath-bound to hunt them.
+
+---
+
+## 10. What this document enables
+
+Every institution above is a persistent entity with state, a governance procedure, an economic flow, a failure mode, and a relationship to the protagonist at each realm. Every institution can be instantiated by the procedural generator as a named, placed, populated entity with a history and a fate. Every institution's relationship to the protagonist can be resolved at runtime by querying the protagonist's station against the institution's per-realm entry.
+
+The document closes by naming what it does not decide, per the doctrine's "state the calendar and the budget" — the institutional history of the specific region the protagonist begins in (the Cangli Riverlands and its surroundings) is specified in document 04 for the mortal substrate and remains to be specified for the cultivation substrate. The nearest sect, the nearest academy, the nearest temple, the nearest alliance office, the cultivation lineages of the lower Cangli watershed: these are generator inputs for a later document. This document specifies the *kinds*; the *instances* are downstream.
+
+The doctrine (AGENTS.md Part 3) says: "Make decisions; do not defer in the name of rigor." This document obeys it. The six institution types, the four rank tiers, the six disciple ranks, and the three oath kinds are committed. If the prototype proves any of them wrong, the prototype's evidence overrides this document, and this document is revised — not appended with a candidate alternative.
