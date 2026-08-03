@@ -1,165 +1,175 @@
+import type { CapabilityGap } from './types';
+import type { CapabilityGraph } from './capability-graph';
+import type { DecisionLedger } from './decision-ledger';
+import type { AuditTrail } from './audit';
+
 /**
- * World Oracle — searchable, AI-readable description of the entire project.
+ * The World Oracle.
  *
- * Exposes resources at structured URIs:
- *   engine://architecture   — architecture document index
- *   engine://plugins        — loaded plugins and capabilities
- *   engine://capabilities   — all registered capabilities
- *   engine://schemas        — registered data schemas
- *   engine://tests          — test coverage and results
- *   engine://decisions      — architectural decision records
- *   world://entities        — runtime entities (when engine is running)
- *   world://entity/{id}     — specific entity state
- *   runtime://scene         — current scene graph
- *   runtime://profiler      — profiler captures
- *   runtime://logs          — engine logs
+ * A searchable index over the engine's state, the capability graph,
+ * and the decision ledger. It is the AI's interface to "what does the
+ * engine know about itself?"
  */
 
-import type { ArchitectResource } from './types';
-import type { PluginHost } from '../kernel/plugin-host';
-
 export interface WorldOracle {
-  // Query a resource by URI
-  query(uri: string): Promise<unknown>;
-
-  // Search across all resources
-  search(query: string): Promise<SearchResult[]>;
-
-  // List all available resource URIs
-  listResources(): string[];
-
-  // Explain why something exists (provenance)
-  explain(uri: string): Promise<ProvenanceRecord | null>;
+  /** Search across all subsystems. */
+  search(query: OracleQuery): OracleResult;
+  /** Get the current engine state summary. */
+  getEngineSummary(): EngineSummary;
+  /** Get the capability gap (work queue). */
+  getGap(): CapabilityGap[];
+  /** Get a specific capability requirement. */
+  getCapability(id: string): unknown;
+  /** Get a specific architectural decision. */
+  getDecision(id: string): unknown;
+  /** Explain why the engine is the way it is (provenance). */
+  explain(target: string): ExplanationResult;
 }
 
-export interface SearchResult {
-  uri: string;
-  snippet: string;
-  relevance: number;
+export interface OracleQuery {
+  /** Free-text search across decisions, capabilities, and audit. */
+  text?: string;
+  /** Filter to capability IDs matching prefix. */
+  capabilityPrefix?: string;
+  /** Filter to decisions affecting a specific system. */
+  affectedSystem?: string;
+  /** Filter to a specific implementation state. */
+  implementationState?: string;
+  limit?: number;
 }
 
-export interface ProvenanceRecord {
-  uri: string;
-  source: string;       // which definition/template/rule/seed
-  generator?: string;   // which plugin generated it
-  seedStream?: string;  // which RNG stream
-  pluginVersion?: string;
-  historicalModifications: string[];
-  codeVersion?: string;
+export interface OracleResult {
+  capabilities: unknown[];
+  decisions: unknown[];
+  gaps: CapabilityGap[];
+  totalMatches: number;
 }
 
-export function createWorldOracle(host: PluginHost): WorldOracle {
-  const resources = new Map<string, ArchitectResource>();
+export interface EngineSummary {
+  totalCapabilities: number;
+  implementedCapabilities: number;
+  totalDecisions: number;
+  activeDecisions: number;
+  currentGap: number;
+  auditRecordCount: number;
+}
 
-  // Register built-in resources
-  registerResource(resources, {
-    uri: 'engine://plugins',
-    description: 'List all loaded plugins and their capabilities',
-    mimeType: 'application/json',
-    authorityRequired: 'observe',
-    async read() {
-      const plugins = host.listPlugins();
-      return plugins.map(id => {
-        const plugin = host.getPlugin(id);
-        const caps = host.capabilities.listByProvider(id);
-        return {
-          id,
-          version: plugin?.version,
-          capabilities: caps.map(c => c.capability),
-        };
-      });
-    },
-  });
+export interface ExplanationResult {
+  target: string;
+  decisions: unknown[];
+  capabilities: unknown[];
+  summary: string;
+}
 
-  registerResource(resources, {
-    uri: 'engine://capabilities',
-    description: 'List all registered capabilities',
-    mimeType: 'application/json',
-    authorityRequired: 'observe',
-    async read() {
-      return host.capabilities.list().map(c => ({
-        capability: c.capability,
-        provider: c.provider,
-        version: c.version,
-      }));
-    },
-  });
+export function createWorldOracle(
+  capabilityGraph: CapabilityGraph,
+  decisionLedger: DecisionLedger,
+  auditTrail: AuditTrail,
+): WorldOracle {
 
-  registerResource(resources, {
-    uri: 'engine://tick',
-    description: 'Current simulation tick',
-    mimeType: 'application/json',
-    authorityRequired: 'observe',
-    async read() {
-      return { tick: host.getTick() };
-    },
-  });
+  function search(query: OracleQuery): OracleResult {
+    const capabilities: unknown[] = [];
+    const decisions: unknown[] = [];
 
-  registerResource(resources, {
-    uri: 'engine://fingerprint',
-    description: 'Determinism fingerprint',
-    mimeType: 'application/json',
-    authorityRequired: 'observe',
-    async read() {
-      return host.getFingerprint();
-    },
-  });
+    // Search capabilities
+    const capKeys = capabilityGraph.keys();
+    for (const id of capKeys) {
+      const req = capabilityGraph.get(id);
+      if (!req) continue;
 
-  registerResource(resources, {
-    uri: 'engine://state',
-    description: 'All plugin state slices',
-    mimeType: 'application/json',
-    authorityRequired: 'observe',
-    async read() {
-      const plugins = host.listPlugins();
-      const state: Record<string, unknown> = {};
-      for (const id of plugins) {
-        state[id] = host.getState(id);
-      }
-      return state;
-    },
-  });
-
-  return {
-    async query(uri) {
-      const resource = resources.get(uri);
-      if (!resource) {
-        throw new Error(`Unknown resource URI: ${uri}`);
-      }
-      return resource.read();
-    },
-
-    async search(query) {
-      const results: SearchResult[] = [];
-      const q = query.toLowerCase();
-
-      for (const [uri, resource] of resources) {
-        const desc = resource.description.toLowerCase();
-        if (desc.includes(q) || uri.toLowerCase().includes(q)) {
-          results.push({
-            uri,
-            snippet: resource.description,
-            relevance: uri.toLowerCase().includes(q) ? 1.0 : 0.5,
-          });
-        }
+      if (query.capabilityPrefix && !id.startsWith(query.capabilityPrefix)) continue;
+      if (query.implementationState && req.implementationState !== query.implementationState) continue;
+      if (query.text) {
+        const kw = query.text.toLowerCase();
+        if (!req.description.toLowerCase().includes(kw) && !id.toLowerCase().includes(kw)) continue;
       }
 
-      return results.sort((a, b) => b.relevance - a.relevance);
-    },
+      capabilities.push(req);
+    }
 
-    listResources() {
-      return Array.from(resources.keys());
-    },
+    // Search decisions
+    const decisionResults = decisionLedger.search({
+      keyword: query.text,
+      affectedSystem: query.affectedSystem,
+      limit: query.limit,
+    });
+    decisions.push(...decisionResults);
 
-    async explain(uri) {
-      // In a full implementation, this would trace provenance
-      // through the definition graph, generator rules, and seed streams.
-      // For now, return null (no provenance tracking yet).
-      return null;
-    },
-  };
-}
+    const gaps = capabilityGraph.computeGap();
+    const totalMatches = capabilities.length + decisions.length;
 
-function registerResource(map: Map<string, ArchitectResource>, resource: ArchitectResource) {
-  map.set(resource.uri, resource);
+    return {
+      capabilities,
+      decisions,
+      gaps,
+      totalMatches,
+    };
+  }
+
+  function getEngineSummary(): EngineSummary {
+    const capKeys = capabilityGraph.keys();
+    let implemented = 0;
+    for (const id of capKeys) {
+      const req = capabilityGraph.get(id);
+      if (req?.implementationState === 'implemented') implemented++;
+    }
+
+    const decisions = decisionLedger.search({});
+    const activeDecisions = decisions.filter(d => d.status === 'active').length;
+
+    return {
+      totalCapabilities: capabilityGraph.size(),
+      implementedCapabilities: implemented,
+      totalDecisions: decisionLedger.size(),
+      activeDecisions,
+      currentGap: capabilityGraph.computeGap().length,
+      auditRecordCount: auditTrail.size(),
+    };
+  }
+
+  function getGap(): CapabilityGap[] {
+    return capabilityGraph.computeGap();
+  }
+
+  function getCapability(id: string): unknown {
+    return capabilityGraph.get(id);
+  }
+
+  function getDecision(id: string): unknown {
+    return decisionLedger.get(id);
+  }
+
+  function explain(target: string): ExplanationResult {
+    // Find decisions that reference this target
+    const relatedDecisions = decisionLedger.search({
+      affectedSystem: target,
+      limit: 10,
+    });
+
+    // Find capabilities related to this target
+    const allCaps: unknown[] = [];
+    for (const id of capabilityGraph.keys()) {
+      const req = capabilityGraph.get(id);
+      if (req && (
+        id.includes(target) ||
+        req.owningPlugin?.includes(target) ||
+        req.requiredBy.some(r => r.includes(target))
+      )) {
+        allCaps.push(req);
+      }
+    }
+
+    const summary = relatedDecisions.length > 0
+      ? `Found ${relatedDecisions.length} decisions and ${allCaps.length} capabilities related to '${target}'.`
+      : `No decisions or capabilities found related to '${target}'.`;
+
+    return {
+      target,
+      decisions: relatedDecisions,
+      capabilities: allCaps,
+      summary,
+    };
+  }
+
+  return { search, getEngineSummary, getGap, getCapability, getDecision, explain };
 }

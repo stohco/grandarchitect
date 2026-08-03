@@ -1,135 +1,175 @@
+import type {
+  ArchitectTool,
+  ToolCategory,
+  AutonomyLevel,
+  ToolHandler,
+  ToolContext,
+  ToolResult,
+  JsonSchema,
+  ToolPermission,
+  PluginId,
+} from './types';
+import { autonomyRank } from './types';
+
 /**
- * Tool Protocol — the typed tool registry and dispatch system.
+ * The Tool Registry.
  *
- * Plugins register tools. The architect dispatches them.
- * Every tool call is permission-checked and audit-logged.
+ * Every tool the AI can call must be registered here.
+ * The registry is the source of truth: if a tool is not registered,
+ * the Gateway refuses the call.
  */
 
-import type { ArchitectTool, ToolContext, ToolResult, AuthorityLevel, PermissionCheck, AuditRecord } from './types';
-import type { Result } from '../kernel/types';
-
 export interface ToolRegistry {
-  register(tool: ArchitectTool): Result<void>;
-  unregister(toolId: string): Result<void>;
-  dispatch(toolId: string, params: Record<string, unknown>, context: ToolContext): Promise<ToolResult>;
-  list(): ArchitectTool[];
-  describe(toolId: string): ArchitectTool | undefined;
-  listByAuthority(authority: AuthorityLevel): ArchitectTool[];
+  /** Register a tool. Returns error string on failure, undefined on success. */
+  register(registration: ToolRegistrationInput): string | undefined;
+  /** Unregister a tool by name. */
+  unregister(toolName: string): boolean;
+  /** Dispatch a tool call. */
+  dispatch(toolName: string, params: Record<string, unknown>, context: ToolContext): Promise<ToolResult>;
+  /** List all tools, optionally filtered. */
+  list(filter?: ToolListFilter): ToolDescriptor[];
+  /** Describe a single tool. */
+  describe(toolName: string): ToolDescriptor | undefined;
+  /** Check if a tool exists. */
+  has(toolName: string): boolean;
 }
 
-export function createToolRegistry(
-  checkPermission: (authority: AuthorityLevel, toolId: string) => PermissionCheck,
-  recordAudit: (record: AuditRecord) => void,
-): ToolRegistry {
+/** Input to register() — the handler is separate from the schema. */
+export interface ToolRegistrationInput {
+  name: string;
+  description: string;
+  category: ToolCategory;
+  inputSchema: JsonSchema;
+  outputSchema: JsonSchema;
+  requiresPermissions: ToolPermission[];
+  requiresAutonomy: AutonomyLevel;
+  mutatesState: boolean;
+  maxWallClockMs: number;
+  maxMemoryMiB: number;
+  longRunning: boolean;
+  registeredBy: PluginId;
+  handler: ToolHandler;
+}
+
+/** A tool descriptor (no handler — safe to serialize/send to AI). */
+export interface ToolDescriptor {
+  name: string;
+  description: string;
+  category: ToolCategory;
+  inputSchema: JsonSchema;
+  outputSchema: JsonSchema;
+  requiresPermissions: ToolPermission[];
+  requiresAutonomy: AutonomyLevel;
+  mutatesState: boolean;
+  longRunning: boolean;
+  registeredBy: PluginId;
+}
+
+export interface ToolListFilter {
+  category?: ToolCategory;
+  requiresAutonomy?: AutonomyLevel;
+  prefix?: string;
+  registeredBy?: PluginId;
+}
+
+export function createToolRegistry(): ToolRegistry {
   const tools = new Map<string, ArchitectTool>();
 
-  return {
-    register(tool) {
-      if (tools.has(tool.id)) {
-        return { ok: false, error: `Tool ${tool.id} already registered` };
-      }
-      tools.set(tool.id, tool);
-      return { ok: true, value: undefined };
-    },
+  function register(input: ToolRegistrationInput): string | undefined {
+    if (tools.has(input.name)) {
+      return `Tool '${input.name}' already registered`;
+    }
 
-    unregister(toolId) {
-      if (!tools.has(toolId)) {
-        return { ok: false, error: `Tool ${toolId} not found` };
-      }
-      tools.delete(toolId);
-      return { ok: true, value: undefined };
-    },
+    const tool: ArchitectTool = {
+      name: input.name,
+      description: input.description,
+      category: input.category,
+      inputSchema: input.inputSchema,
+      outputSchema: input.outputSchema,
+      requiresPermissions: input.requiresPermissions,
+      requiresAutonomy: input.requiresAutonomy,
+      mutatesState: input.mutatesState,
+      budget: {
+        maxWallClockMs: input.maxWallClockMs,
+        maxCpuMs: input.maxWallClockMs, // default CPU = wall
+        maxMemoryMiB: input.maxMemoryMiB,
+      },
+      longRunning: input.longRunning,
+      registeredBy: input.registeredBy,
+      handler: input.handler,
+    };
 
-    async dispatch(toolId, params, context) {
-      const tool = tools.get(toolId);
-      if (!tool) {
-        return { ok: false, error: `Tool ${toolId} not found` };
-      }
+    tools.set(input.name, tool);
+    return undefined;
+  }
 
-      // Permission check
-      const perm = checkPermission(context.authority, toolId);
-      if (!perm.allowed) {
-        recordAudit({
-          id: crypto.randomUUID(),
-          timestamp: Date.now(),
-          requestId: context.requestId,
-          actor: context.pluginId || 'ai',
-          authority: context.authority,
-          action: toolId,
-          params,
-          result: 'denied',
-          durationMs: 0,
-          detail: perm.reason,
-        });
-        return { ok: false, error: `Permission denied: ${perm.reason || 'insufficient authority'}` };
-      }
+  function unregister(toolName: string): boolean {
+    return tools.delete(toolName);
+  }
 
-      // Validate required params
-      for (const [name, spec] of Object.entries(tool.inputSchema)) {
-        if (spec.required && !(name in params)) {
-          return { ok: false, error: `Missing required parameter: ${name}` };
-        }
-      }
+  async function dispatch(
+    toolName: string,
+    params: Record<string, unknown>,
+    context: ToolContext,
+  ): Promise<ToolResult> {
+    const tool = tools.get(toolName);
+    if (!tool) {
+      return { ok: false, error: { code: 'ToolNotFound', message: `Tool '${toolName}' not found` } };
+    }
 
-      // Execute
-      const start = Date.now();
-      try {
-        const result = await tool.execute(params, context);
-        const durationMs = Date.now() - start;
+    try {
+      const result = await tool.handler(params, context);
+      return result;
+    } catch (e) {
+      return { ok: false, error: { code: 'InternalError', message: String(e) } };
+    }
+  }
 
-        recordAudit({
-          id: crypto.randomUUID(),
-          timestamp: Date.now(),
-          requestId: context.requestId,
-          actor: context.pluginId || 'ai',
-          authority: context.authority,
-          action: toolId,
-          params,
-          result: result.ok ? 'success' : 'failure',
-          durationMs,
-          detail: result.error,
-        });
+  function toDescriptor(tool: ArchitectTool): ToolDescriptor {
+    return {
+      name: tool.name,
+      description: tool.description,
+      category: tool.category,
+      inputSchema: tool.inputSchema,
+      outputSchema: tool.outputSchema,
+      requiresPermissions: tool.requiresPermissions,
+      requiresAutonomy: tool.requiresAutonomy,
+      mutatesState: tool.mutatesState,
+      longRunning: tool.longRunning,
+      registeredBy: tool.registeredBy,
+    };
+  }
 
-        return {
-          ...result,
-          metadata: {
-            ...result.metadata,
-            durationMs: result.metadata?.durationMs ?? durationMs,
-          },
-        };
-      } catch (e) {
-        const durationMs = Date.now() - start;
-        const error = e instanceof Error ? e.message : String(e);
+  function list(filter?: ToolListFilter): ToolDescriptor[] {
+    let result = Array.from(tools.values());
 
-        recordAudit({
-          id: crypto.randomUUID(),
-          timestamp: Date.now(),
-          requestId: context.requestId,
-          actor: context.pluginId || 'ai',
-          authority: context.authority,
-          action: toolId,
-          params,
-          result: 'error',
-          durationMs,
-          detail: error,
-        });
+    if (filter?.category) {
+      result = result.filter(t => t.category === filter.category);
+    }
+    if (filter?.prefix) {
+      result = result.filter(t => t.name.startsWith(filter.prefix!));
+    }
+    if (filter?.registeredBy) {
+      result = result.filter(t => t.registeredBy === filter.registeredBy);
+    }
+    // requiresAutonomy filter: return tools usable AT this level or below
+    // (i.e., requiresAutonomy <= filter.requiresAutonomy)
+    if (filter?.requiresAutonomy) {
+      const rank = autonomyRank(filter.requiresAutonomy);
+      result = result.filter(t => autonomyRank(t.requiresAutonomy) <= rank);
+    }
 
-        return { ok: false, error: `Tool ${toolId} crashed: ${error}` };
-      }
-    },
+    return result.map(toDescriptor);
+  }
 
-    list() {
-      return Array.from(tools.values());
-    },
+  function describe(toolName: string): ToolDescriptor | undefined {
+    const tool = tools.get(toolName);
+    return tool ? toDescriptor(tool) : undefined;
+  }
 
-    describe(toolId) {
-      return tools.get(toolId);
-    },
+  function has(toolName: string): boolean {
+    return tools.has(toolName);
+  }
 
-    listByAuthority(authority) {
-      const levels: AuthorityLevel[] = ['observe', 'diagnose', 'sandbox', 'branch', 'integrate', 'release'];
-      const maxLevel = levels.indexOf(authority);
-      return Array.from(tools.values()).filter(t => levels.indexOf(t.authorityRequired) <= maxLevel);
-    },
-  };
+  return { register, unregister, dispatch, list, describe, has };
 }

@@ -1,175 +1,240 @@
+import type {
+  AutonomyLevel,
+  ArchitectRole,
+  ArchitectSession,
+  CommandRequest,
+  CommandResponse,
+  AuditRecord,
+  AuditFilter,
+  ToolContext,
+  Tick,
+} from './types';
+import type { ToolRegistry } from './tool-protocol';
+import type { PermissionSystem } from './permissions';
+import type { AuditTrail, AuditEntry } from './audit';
+import type { WorldOracle } from './world-oracle';
+import type { CapabilityGraph } from './capability-graph';
+import type { DecisionLedger } from './decision-ledger';
+import { createHash } from 'crypto';
+
 /**
- * Architect Gateway — the security boundary between the AI and the engine.
+ * The Architect Gateway.
  *
- * All AI actions flow through the gateway. The gateway:
- * - Authenticates sessions
- * - Enforces authority levels
- * - Routes tool dispatches through the tool registry
- * - Records every action in the audit log
- * - Enforces approval gates for protected actions
+ * The single chokepoint through which all AI commands pass.
+ * It is the security boundary between the AI and the engine.
  */
 
-import type { AuthorityLevel, ToolResult, AuditRecord } from './types';
-import type { ToolRegistry } from './tool-protocol';
-import type { WorldOracle } from './world-oracle';
-import type { DecisionLedger } from './decision-ledger';
-import type { CapabilityGraph } from './capability-graph';
-import type { AuditLog } from './audit';
-import { createToolRegistry } from './tool-protocol';
-import { createAuditLog } from './audit';
-import { createWorldOracle } from './world-oracle';
-import { createDecisionLedger } from './decision-ledger';
-import { createCapabilityGraph } from './capability-graph';
-import { checkPermission, requiresHumanApproval, isProtectedFile } from './permissions';
-import type { PluginHost } from '../kernel/plugin-host';
-
-export interface ArchitectSession {
-  id: string;
-  authority: AuthorityLevel;
-  createdAt: number;
-  lastActivity: number;
-}
-
 export interface ArchitectGateway {
-  // Session management
-  createSession(authority: AuthorityLevel): ArchitectSession;
-  destroySession(sessionId: string): void;
+  readonly tools: ToolRegistry;
+  readonly permissions: PermissionSystem;
+  readonly audit: AuditTrail;
+  readonly oracle: WorldOracle;
+  readonly capabilities: CapabilityGraph;
+  readonly decisions: DecisionLedger;
+
+  authenticate(params: AuthParams): ArchitectSession;
+  isSessionValid(sessionId: string): boolean;
   getSession(sessionId: string): ArchitectSession | undefined;
 
-  // Tool dispatch (the AI's primary interface)
-  executeTool(sessionId: string, toolId: string, params: Record<string, unknown>): Promise<ToolResult>;
+  authorize(req: CommandRequest): AuthorizationOutcome;
+  execute(req: CommandRequest): Promise<CommandResponse>;
+  dispatch(req: CommandRequest): Promise<CommandResponse>;
 
-  // Resource access (read-only)
-  queryResource(sessionId: string, uri: string): Promise<unknown>;
-  searchResources(sessionId: string, query: string): Promise<unknown>;
+  queryAudit(filter: AuditFilter): AuditRecord[];
 
-  // Approval gates
-  requestApproval(sessionId: string, action: string, detail: string): { approved: boolean; reason: string };
-
-  // Subsystem access (for the engine to query)
-  readonly tools: ToolRegistry;
-  readonly audit: AuditLog;
-  readonly oracle: WorldOracle;
-  readonly decisions: DecisionLedger;
-  readonly capabilities: CapabilityGraph;
+  getTick(): Tick;
+  getPluginHost(): unknown;
 }
 
-export function createArchitectGateway(host: PluginHost): ArchitectGateway {
-  const audit = createAuditLog();
-  const tools = createToolRegistry(checkPermission, audit.record.bind(audit));
-  const oracle = createWorldOracle(host);
-  const decisions = createDecisionLedger();
-  const capabilities = createCapabilityGraph();
+export interface AuthParams {
+  principalId: string;
+  role: ArchitectRole;
+  autonomy: AutonomyLevel;
+  humanAuthorization: { humanId: string };
+  sessionTtlMs?: number;
+}
 
+export type AuthorizationOutcome =
+  | { allowed: true; toolName: string }
+  | { allowed: false; reason: string; code: string };
+
+export interface GatewayDeps {
+  tools: ToolRegistry;
+  permissions: PermissionSystem;
+  audit: AuditTrail;
+  oracle: WorldOracle;
+  capabilities: CapabilityGraph;
+  decisions: DecisionLedger;
+  getTick: () => Tick;
+  pluginHost?: unknown;
+}
+
+function hashToken(token: string): string {
+  return createHash('sha256').update(token).digest('hex');
+}
+
+export function createArchitectGateway(deps: GatewayDeps): ArchitectGateway {
   const sessions = new Map<string, ArchitectSession>();
 
-  function createSession(authority: AuthorityLevel): ArchitectSession {
+  function authenticate(params: AuthParams): ArchitectSession {
+    const sessionId = 'session-' + crypto.randomUUID();
+    const now = Date.now();
+    const ttl = params.sessionTtlMs ?? 15 * 60 * 1000;
+
     const session: ArchitectSession = {
-      id: crypto.randomUUID(),
-      authority,
-      createdAt: Date.now(),
-      lastActivity: Date.now(),
+      sessionId,
+      principalId: params.principalId,
+      role: params.role,
+      autonomy: params.autonomy,
+      capabilities: [],
+      issuedAt: new Date(now).toISOString(),
+      expiresAt: new Date(now + ttl).toISOString(),
+      renewalToken: 'renewal-' + crypto.randomUUID(),
     };
-    sessions.set(session.id, session);
+
+    sessions.set(sessionId, session);
     return session;
   }
 
-  function destroySession(sessionId: string) {
-    sessions.delete(sessionId);
+  function isSessionValid(sessionId: string): boolean {
+    const session = sessions.get(sessionId);
+    if (!session) return false;
+    return new Date(session.expiresAt).getTime() > Date.now();
   }
 
   function getSession(sessionId: string): ArchitectSession | undefined {
     const session = sessions.get(sessionId);
-    if (session) {
-      session.lastActivity = Date.now();
-    }
+    if (!session) return undefined;
+    if (new Date(session.expiresAt).getTime() <= Date.now()) return undefined;
     return session;
   }
 
-  async function executeTool(
-    sessionId: string,
-    toolId: string,
-    params: Record<string, unknown>
-  ): Promise<ToolResult> {
-    const session = getSession(sessionId);
+  function authorize(req: CommandRequest): AuthorizationOutcome {
+    const session = getSession(req.sessionId);
     if (!session) {
-      return { ok: false, error: 'Invalid or expired session' };
+      return { allowed: false, reason: 'Session not found or expired', code: 'SessionExpired' };
     }
 
-    // Check if this action requires human approval
-    if (requiresHumanApproval(toolId)) {
+    const toolDesc = deps.tools.describe(req.tool);
+    if (!toolDesc) {
+      return { allowed: false, reason: `Tool '${req.tool}' not found`, code: 'ToolNotFound' };
+    }
+
+    const authResult = deps.permissions.authorize(
+      session,
+      req.tool,
+      toolDesc.requiresAutonomy,
+      req.capabilityToken,
+    );
+
+    if (!authResult.allowed) {
+      const reason = authResult.reason;
       return {
-        ok: false,
-        error: `Action ${toolId} requires explicit human approval. Use requestApproval().`,
+        allowed: false,
+        reason: JSON.stringify(reason),
+        code: reason.kind,
       };
     }
 
-    return tools.dispatch(toolId, params, {
-      authority: session.authority,
-      requestId: crypto.randomUUID(),
-      pluginId: 'architect',
-    });
+    return { allowed: true, toolName: req.tool };
   }
 
-  async function queryResource(sessionId: string, uri: string): Promise<unknown> {
-    const session = getSession(sessionId);
-    if (!session) {
-      throw new Error('Invalid or expired session');
-    }
-    return oracle.query(uri);
-  }
+  async function execute(req: CommandRequest): Promise<CommandResponse> {
+    const session = getSession(req.sessionId)!;
+    const startWall = Date.now();
 
-  async function searchResources(sessionId: string, query: string): Promise<unknown> {
-    const session = getSession(sessionId);
-    if (!session) {
-      throw new Error('Invalid or expired session');
-    }
-    return oracle.search(query);
-  }
-
-  function requestApproval(
-    sessionId: string,
-    action: string,
-    detail: string
-  ): { approved: boolean; reason: string } {
-    // In a full implementation, this would:
-    // 1. Notify the human operator
-    // 2. Wait for approval (async)
-    // 3. Return the result
-    // For now, ALL approval requests are denied in autonomous mode.
-    // The human must manually approve by running the action themselves.
-
-    audit.record({
-      id: crypto.randomUUID(),
-      timestamp: Date.now(),
-      requestId: sessionId,
-      actor: 'ai',
-      authority: getSession(sessionId)?.authority || 'observe',
-      action: `approval-request:${action}`,
-      params: { action, detail },
-      result: 'denied',
-      durationMs: 0,
-      detail: 'Autonomous approval denied — requires human operator',
-    });
-
-    return {
-      approved: false,
-      reason: `Action "${action}" requires human approval. In autonomous mode, all approval requests are denied. Description: ${detail}`,
+    const context: ToolContext = {
+      sessionId: req.sessionId,
+      principalId: session.principalId,
+      role: session.role,
+      autonomy: req.assertedAutonomy,
+      tick: deps.getTick(),
     };
+
+    const toolResult = await deps.tools.dispatch(req.tool, req.args, context);
+
+    const wallMs = Date.now() - startWall;
+
+    const auditRecord = deps.audit.append({
+      agent: { principalId: session.principalId, role: session.role },
+      human: { principalId: 'cron-agent' },
+      tool: req.tool,
+      args: req.args,
+      reason: 'architect command',
+      result: {
+        status: toolResult.ok ? 'ok' : 'error',
+        summary: toolResult.ok ? 'success' : toolResult.error.message,
+      },
+      capabilityTokenHash: req.capabilityToken ? hashToken(req.capabilityToken) : 'none',
+      autonomy: req.assertedAutonomy,
+      sessionId: req.sessionId,
+      cost: { cpuMs: wallMs, wallMs },
+      tick: deps.getTick(),
+    });
+
+    if (toolResult.ok) {
+      return {
+        requestId: req.requestId,
+        status: 'ok',
+        result: toolResult.data,
+        audit: auditRecord,
+      };
+    } else {
+      return {
+        requestId: req.requestId,
+        status: 'error',
+        error: toolResult.error,
+        audit: auditRecord,
+      };
+    }
+  }
+
+  async function dispatch(req: CommandRequest): Promise<CommandResponse> {
+    const auth = authorize(req);
+    if (!auth.allowed) {
+      const session = getSession(req.sessionId);
+      const auditRecord = deps.audit.append({
+        agent: { principalId: session?.principalId ?? 'unknown', role: session?.role ?? 'Architect' },
+        human: { principalId: 'cron-agent' },
+        tool: req.tool,
+        args: req.args,
+        reason: 'architect command (denied)',
+        result: { status: 'error', summary: auth.reason },
+        capabilityTokenHash: 'none',
+        autonomy: req.assertedAutonomy,
+      });
+
+      return {
+        requestId: req.requestId,
+        status: 'error',
+        error: { code: auth.code, message: auth.reason },
+        audit: auditRecord,
+      };
+    }
+
+    return execute(req);
+  }
+
+  function queryAudit(filter: AuditFilter): AuditRecord[] {
+    return deps.audit.query(filter);
   }
 
   return {
-    createSession,
-    destroySession,
+    tools: deps.tools,
+    permissions: deps.permissions,
+    audit: deps.audit,
+    oracle: deps.oracle,
+    capabilities: deps.capabilities,
+    decisions: deps.decisions,
+
+    authenticate,
+    isSessionValid,
     getSession,
-    executeTool,
-    queryResource,
-    searchResources,
-    requestApproval,
-    tools,
-    audit,
-    oracle,
-    decisions,
-    capabilities,
+    authorize,
+    execute,
+    dispatch,
+    queryAudit,
+    getTick: deps.getTick,
+    getPluginHost: () => deps.pluginHost,
   };
 }

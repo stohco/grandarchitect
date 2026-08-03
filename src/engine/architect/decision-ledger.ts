@@ -1,68 +1,97 @@
+import type { ArchitecturalDecision, ArchitectRole } from './types';
+
 /**
- * Decision Ledger — versioned architectural decision records.
+ * The Architectural Decision Ledger.
  *
- * Every important architectural choice creates a decision record
- * containing: problem, context, alternatives, selected approach,
- * reasons, disadvantages, affected capabilities, evidence,
- * reconsideration conditions.
+ * Records what was decided, why, what alternatives were considered,
+ * and what would trigger reconsideration. The engine's institutional memory.
  */
 
-import type { DecisionRecord } from './types';
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
-
-const DECISIONS_DIR = join(process.cwd(), '.engine-decisions');
-
 export interface DecisionLedger {
-  record(decision: DecisionRecord): void;
-  get(id: string): DecisionRecord | undefined;
-  list(): DecisionRecord[];
-  findByCapability(capabilityId: string): DecisionRecord[];
+  /** Record a decision. */
+  record(decision: ArchitecturalDecision): void;
+  /** Get a decision by ID. */
+  get(decisionId: string): ArchitecturalDecision | undefined;
+  /** Update a decision's status. */
+  updateStatus(decisionId: string, status: ArchitecturalDecision['status'], supersededBy?: string): boolean;
+  /** Search decisions by keyword, capability, or system. */
+  search(query: DecisionSearchQuery): ArchitecturalDecision[];
+  /** List all decision IDs. */
+  keys(): string[];
+  /** Get the total count. */
+  size(): number;
+}
+
+export interface DecisionSearchQuery {
+  keyword?: string;
+  capabilityRef?: string;
+  affectedSystem?: string;
+  status?: ArchitecturalDecision['status'];
+  deciderRole?: ArchitectRole | 'human';
+  limit?: number;
 }
 
 export function createDecisionLedger(): DecisionLedger {
-  const records = new Map<string, DecisionRecord>();
+  const decisions = new Map<string, ArchitecturalDecision>();
 
-  // Load existing decisions
-  if (!existsSync(DECISIONS_DIR)) {
-    mkdirSync(DECISIONS_DIR, { recursive: true });
+  function record(decision: ArchitecturalDecision): void {
+    decisions.set(decision.decisionId, decision);
   }
 
-  // In a full implementation, this would load from .engine-decisions/*.json
-  // For now, we keep it in-memory with persistence on record()
+  function get(decisionId: string): ArchitecturalDecision | undefined {
+    return decisions.get(decisionId);
+  }
 
-  return {
-    record(decision) {
-      records.set(decision.id, decision);
-      // Persist
-      const filepath = join(DECISIONS_DIR, `${decision.id}.json`);
-      writeFileSync(filepath, JSON.stringify(decision, null, 2));
-    },
+  function updateStatus(
+    decisionId: string,
+    status: ArchitecturalDecision['status'],
+    supersededBy?: string,
+  ): boolean {
+    const decision = decisions.get(decisionId);
+    if (!decision) return false;
 
-    get(id) {
-      if (records.has(id)) return records.get(id);
-      // Try loading from disk
-      const filepath = join(DECISIONS_DIR, `${id}.json`);
-      if (existsSync(filepath)) {
-        try {
-          const decision: DecisionRecord = JSON.parse(readFileSync(filepath, 'utf-8'));
-          records.set(id, decision);
-          return decision;
-        } catch {
-          return undefined;
-        }
-      }
-      return undefined;
-    },
+    decision.status = status;
+    if (supersededBy) {
+      decision.supersededBy = supersededBy;
+    }
+    return true;
+  }
 
-    list() {
-      return Array.from(records.values());
-    },
+  function search(query: DecisionSearchQuery): ArchitecturalDecision[] {
+    let result = Array.from(decisions.values());
 
-    findByCapability(capabilityId) {
-      return Array.from(records.values()).filter(
-        d => d.affectedCapabilities.includes(capabilityId)
+    if (query.keyword) {
+      const kw = query.keyword.toLowerCase();
+      result = result.filter(d =>
+        d.problem.toLowerCase().includes(kw) ||
+        d.selectedApproach.toLowerCase().includes(kw) ||
+        d.why.toLowerCase().includes(kw)
       );
-    },
-  };
+    }
+    if (query.capabilityRef) {
+      result = result.filter(d => d.capabilityRefs.includes(query.capabilityRef!));
+    }
+    if (query.affectedSystem) {
+      result = result.filter(d => d.affectedSystems.includes(query.affectedSystem!));
+    }
+    if (query.status) {
+      result = result.filter(d => d.status === query.status);
+    }
+    if (query.deciderRole) {
+      result = result.filter(d => d.deciders.some(dec => dec.role === query.deciderRole));
+    }
+
+    const limit = query.limit ?? 50;
+    return result.slice(0, limit);
+  }
+
+  function keys(): string[] {
+    return Array.from(decisions.keys());
+  }
+
+  function size(): number {
+    return decisions.size;
+  }
+
+  return { record, get, updateStatus, search, keys, size };
 }
