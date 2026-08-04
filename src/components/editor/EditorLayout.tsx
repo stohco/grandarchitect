@@ -37,6 +37,10 @@ import ConsolePanel from '@/components/editor/panels/ConsolePanel';
 import ArchitectPanel from '@/components/editor/panels/ArchitectPanel';
 import AssetBrowserPanel from '@/components/editor/panels/AssetBrowserPanel';
 import SimulationPanel from '@/components/editor/panels/SimulationPanel';
+import ReasoningPanel from '@/components/editor/panels/ReasoningPanel';
+import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
+import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
+import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
 import EditorToolbar from '@/components/editor/toolbar/EditorToolbar';
 import WorldGenBar from '@/components/editor/toolbar/WorldGenBar';
 
@@ -93,7 +97,14 @@ const BOTTOM_TABS = [
   { value: 'assets', label: 'Assets' },
   { value: 'simulation', label: 'Simulation' },
   { value: 'history', label: 'History' },
+  { value: 'reasoning', label: 'Reasoning' },
+  { value: 'constraints', label: 'Constraints' },
+  { value: 'complexity', label: 'Complexity' },
+  { value: 'benchmarks', label: 'Benchmarks' },
 ] as const;
+
+/** Tabs that benefit from a slightly taller dock (RCVC panels render dense content). */
+const TALL_TABS = new Set(['reasoning', 'constraints', 'complexity', 'benchmarks']);
 
 function HistoryPanel() {
   const transactions = useEditorStore((s) => s.transactions);
@@ -160,12 +171,20 @@ function BottomDock() {
           <TooltipContent side="top" className="text-xs">Hide bottom dock</TooltipContent>
         </Tooltip>
       </div>
-      <div className="h-48 overflow-hidden">
+      <div
+        className={`overflow-hidden transition-[height] duration-150 ${
+          TALL_TABS.has(activeTab) ? 'h-56' : 'h-48'
+        }`}
+      >
         {activeTab === 'console' && <ConsolePanel />}
         {activeTab === 'architect' && <ArchitectPanel />}
         {activeTab === 'assets' && <AssetBrowserPanel />}
         {activeTab === 'simulation' && <SimulationPanel />}
         {activeTab === 'history' && <HistoryPanel />}
+        {activeTab === 'reasoning' && <ReasoningPanel />}
+        {activeTab === 'constraints' && <ConstraintsPanel />}
+        {activeTab === 'complexity' && <ComplexityPanel />}
+        {activeTab === 'benchmarks' && <BenchmarksPanel />}
       </div>
     </div>
   );

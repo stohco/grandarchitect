@@ -1,0 +1,541 @@
+     1→'use client';
+     2→
+     3→import { useState, useCallback } from 'react';
+     4→import Link from 'next/link';
+     5→import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+     6→import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+     7→import { Badge } from '@/components/ui/badge';
+     8→import { Button } from '@/components/ui/button';
+     9→import { Progress } from '@/components/ui/progress';
+    10→import { ScrollArea } from '@/components/ui/scroll-area';
+    11→import { Separator } from '@/components/ui/separator';
+    12→import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+    13→import {
+    14→  Activity, ShieldCheck, FlaskConical, Layers, Cpu, GitBranch,
+    15→  ScrollText, Network, Play, CheckCircle2, XCircle, Loader2, Lock,
+    16→} from 'lucide-react';
+    17→import {
+    18→  PHASES, TOTAL_TESTS, AUTONOMY_LEVELS, ARCHITECT_ROLES, PLUGINS,
+    19→  SAFETY_RAILS, CONFORMANCE_FILES,
+    20→} from '@/lib/engine/dashboard-data';
+    21→
+    22→interface SuiteResult {
+    23→  name: string;
+    24→  path: string;
+    25→  expected: number;
+    26→  passed: number;
+    27→  failed: number;
+    28→  total: number;
+    29→  ok: boolean;
+    30→  durationMs: number;
+    31→  tail: string;
+    32→}
+    33→interface RunResult {
+    34→  ok: boolean;
+    35→  totalPassed: number;
+    36→  totalFailed: number;
+    37→  totalDuration: number;
+    38→  suites: SuiteResult[];
+    39→  timestamp: string;
+    40→}
+    41→
+    42→const CATEGORY_COLORS: Record<string, string> = {
+    43→  determinism: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
+    44→  kernel: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
+    45→  architect: 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30',
+    46→  reference: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/30',
+    47→  simulation: 'bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/30',
+    48→};
+    49→
+    50→export default function Page() {
+    51→  const [running, setRunning] = useState(false);
+    52→  const [result, setResult] = useState<RunResult | null>(null);
+    53→  const [error, setError] = useState<string | null>(null);
+    54→
+    55→  const runTests = useCallback(async () => {
+    56→    setRunning(true);
+    57→    setError(null);
+    58→    try {
+    59→      const res = await fetch('/api/engine/run-tests', { method: 'POST' });
+    60→      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    61→      const data: RunResult = await res.json();
+    62→      setResult(data);
+    63→    } catch (e) {
+    64→      setError(e instanceof Error ? e.message : String(e));
+    65→    } finally {
+    66→      setRunning(false);
+    67→    }
+    68→  }, []);
+    69→
+    70→  const completedPhases = PHASES.filter((p) => p.status === 'done').length;
+    71→  const completionPct = Math.round((completedPhases / PHASES.length) * 100);
+    72→
+    73→  return (
+    74→    <TooltipProvider delayDuration={200}>
+    75→      <div className="min-h-screen bg-background text-foreground flex flex-col">
+    76→        {/* Header */}
+    77→        <header className="border-b border-border/60 bg-card/40 backdrop-blur sticky top-0 z-10">
+    78→          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    79→            <div className="flex items-center gap-3">
+    80→              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-rose-500/20 to-amber-500/20 border border-rose-500/30 flex items-center justify-center">
+    81→                <Network className="h-5 w-5 text-rose-600 dark:text-rose-400" />
+    82→              </div>
+    83→              <div>
+    84→                <h1 className="text-lg font-semibold tracking-tight">
+    85→                  Grand Architect Control Plane
+    86→                </h1>
+    87→                <p className="text-xs text-muted-foreground">
+    88→                  Xianxia Multiverse Engine · {TOTAL_TESTS.toLocaleString()} conformance tests · 7 suites
+    89→                </p>
+    90→              </div>
+    91→            </div>
+    92→            <div className="flex items-center gap-3">
+    93→              <Badge variant="outline" className="gap-1.5">
+    94→                <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+    95→                Determinism Verified
+    96→              </Badge>
+    97→              <Link href="/editor">
+    98→                <Badge variant="outline" className="gap-1.5 hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30 transition-colors">
+    99→                  <Layers className="h-3.5 w-3.5" />
+   100→                  Open Editor
+   101→                </Badge>
+   102→              </Link>
+   103→            </div>
+   104→          </div>
+   105→        </header>
+   106→
+   107→        {/* Main */}
+   108→        <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
+   109→          <Tabs defaultValue="overview" className="w-full">
+   110→            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 h-auto">
+   111→              <TabsTrigger value="overview" className="gap-1.5">
+   112→                <Activity className="h-4 w-4" /> Overview
+   113→              </TabsTrigger>
+   114→              <TabsTrigger value="architect" className="gap-1.5">
+   115→                <ShieldCheck className="h-4 w-4" /> Architect
+   116→              </TabsTrigger>
+   117→              <TabsTrigger value="plugins" className="gap-1.5">
+   118→                <Layers className="h-4 w-4" /> Plugins
+   119→              </TabsTrigger>
+   120→              <TabsTrigger value="tests" className="gap-1.5">
+   121→                <FlaskConical className="h-4 w-4" /> Conformance
+   122→              </TabsTrigger>
+   123→              <TabsTrigger value="prototype" className="gap-1.5">
+   124→                <Cpu className="h-4 w-4" /> Prototype
+   125→              </TabsTrigger>
+   126→            </TabsList>
+   127→
+   128→            {/* OVERVIEW */}
+   129→            <TabsContent value="overview" className="space-y-6 mt-6">
+   130→              <div className="grid gap-4 md:grid-cols-3">
+   131→                <Card>
+   132→                  <CardHeader className="pb-2">
+   133→                    <CardDescription>Roadmap Completion</CardDescription>
+   134→                    <CardTitle className="text-3xl">{completionPct}%</CardTitle>
+   135→                  </CardHeader>
+   136→                  <CardContent>
+   137→                    <Progress value={completionPct} className="h-2" />
+   138→                    <p className="text-xs text-muted-foreground mt-2">
+   139→                      {completedPhases} of {PHASES.length} phases complete
+   140→                    </p>
+   141→                  </CardContent>
+   142→                </Card>
+   143→                <Card>
+   144→                  <CardHeader className="pb-2">
+   145→                    <CardDescription>Total Conformance Tests</CardDescription>
+   146→                    <CardTitle className="text-3xl">{TOTAL_TESTS.toLocaleString()}</CardTitle>
+   147→                  </CardHeader>
+   148→                  <CardContent>
+   149→                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+   150→                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+   151→                      All passing across 7 suites
+   152→                    </div>
+   153→                  </CardContent>
+   154→                </Card>
+   155→                <Card>
+   156→                  <CardHeader className="pb-2">
+   157→                    <CardDescription>Plugins Implemented</CardDescription>
+   158→                    <CardTitle className="text-3xl">{PLUGINS.length}</CardTitle>
+   159→                  </CardHeader>
+   160→                  <CardContent>
+   161→                    <div className="flex flex-wrap gap-1.5">
+   162→                      {(['determinism', 'reference', 'simulation'] as const).map((cat) => {
+   163→                        const count = PLUGINS.filter((p) => p.category === cat).length;
+   164→                        return (
+   165→                          <Badge key={cat} variant="outline" className={`text-xs ${CATEGORY_COLORS[cat]}`}>
+   166→                            {cat}: {count}
+   167→                          </Badge>
+   168→                        );
+   169→                      })}
+   170→                    </div>
+   171→                  </CardContent>
+   172→                </Card>
+   173→              </div>
+   174→
+   175→              <Card>
+   176→                <CardHeader>
+   177→                  <CardTitle className="text-base flex items-center gap-2">
+   178→                    <ScrollText className="h-4 w-4" /> Implementation Roadmap
+   179→                  </CardTitle>
+   180→                  <CardDescription>
+   181→                    Phased build of the engine, from determinism to the vertical slice.
+   182→                  </CardDescription>
+   183→                </CardHeader>
+   184→                <CardContent className="space-y-3">
+   185→                  {PHASES.map((phase) => (
+   186→                    <div
+   187→                      key={phase.id}
+   188→                      className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-3 rounded-lg border border-border/60 bg-card/30"
+   189→                    >
+   190→                      <div className="flex items-center gap-3 sm:w-64 shrink-0">
+   191→                        <div
+   192→                          className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-semibold ${
+   193→                            phase.status === 'done'
+   194→                              ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+   195→                              : 'bg-muted text-muted-foreground border border-border'
+   196→                          }`}
+   197→                        >
+   198→                          {phase.status === 'done' ? <CheckCircle2 className="h-4 w-4" /> : phase.id}
+   199→                        </div>
+   200→                        <div>
+   201→                          <div className="font-medium text-sm">Phase {phase.id}</div>
+   202→                          <div className="text-xs text-muted-foreground">{phase.name}</div>
+   203→                        </div>
+   204→                      </div>
+   205→                      <div className="flex-1 min-w-0">
+   206→                        <p className="text-xs text-muted-foreground mb-1.5">
+   207→                          <span className="font-medium text-foreground">Exit:</span> {phase.exitCriteria}
+   208→                        </p>
+   209→                        <div className="flex flex-wrap gap-1">
+   210→                          {phase.artifacts.map((a) => (
+   211→                            <Badge key={a} variant="secondary" className="text-[10px] font-mono">
+   212→                              {a}
+   213→                            </Badge>
+   214→                          ))}
+   215→                          {phase.testCount > 0 && (
+   216→                            <Badge variant="outline" className="text-[10px] gap-1">
+   217→                              <FlaskConical className="h-2.5 w-2.5" />
+   218→                              {phase.testCount}
+   219→                            </Badge>
+   220→                          )}
+   221→                        </div>
+   222→                      </div>
+   223→                    </div>
+   224→                  ))}
+   225→                </CardContent>
+   226→              </Card>
+   227→
+   228→              <Card>
+   229→                <CardHeader>
+   230→                  <CardTitle className="text-base flex items-center gap-2">
+   231→                    <Lock className="h-4 w-4" /> Safety Rails
+   232→                  </CardTitle>
+   233→                  <CardDescription>
+   234→                    Ten invariants that bound the Grand Architect&apos;s autonomy.
+   235→                  </CardDescription>
+   236→                </CardHeader>
+   237→                <CardContent>
+   238→                  <div className="grid gap-2 md:grid-cols-2">
+   239→                    {SAFETY_RAILS.map((rail, i) => (
+   240→                      <div key={i} className="flex items-start gap-2 text-xs p-2 rounded border border-border/40 bg-card/20">
+   241→                        <span className="font-mono text-muted-foreground shrink-0">{String(i + 1).padStart(2, '0')}</span>
+   242→                        <span>{rail}</span>
+   243→                      </div>
+   244→                    ))}
+   245→                  </div>
+   246→                </CardContent>
+   247→              </Card>
+   248→            </TabsContent>
+   249→
+   250→            {/* ARCHITECT */}
+   251→            <TabsContent value="architect" className="space-y-6 mt-6">
+   252→              <div className="grid gap-4 lg:grid-cols-2">
+   253→                <Card>
+   254→                  <CardHeader>
+   255→                    <CardTitle className="text-base">Autonomy Ladder</CardTitle>
+   256→                    <CardDescription>
+   257→                      Six progressive autonomy levels, from read-only observation to full architect authority.
+   258→                    </CardDescription>
+   259→                  </CardHeader>
+   260→                  <CardContent className="space-y-2">
+   261→                    {AUTONOMY_LEVELS.map((lvl) => (
+   262→                      <div key={lvl.level} className="flex items-start gap-3 p-2 rounded border border-border/40">
+   263→                        <div className="h-7 w-7 rounded bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 flex items-center justify-center text-xs font-semibold shrink-0">
+   264→                          {lvl.level}
+   265→                        </div>
+   266→                        <div className="min-w-0">
+   267→                          <div className="font-medium text-sm">{lvl.name}</div>
+   268→                          <div className="text-xs text-muted-foreground">{lvl.description}</div>
+   269→                        </div>
+   270→                      </div>
+   271→                    ))}
+   272→                  </CardContent>
+   273→                </Card>
+   274→
+   275→                <Card>
+   276→                  <CardHeader>
+   277→                    <CardTitle className="text-base">Architect Roles</CardTitle>
+   278→                    <CardDescription>
+   279→                      Eight role profiles with capability tokens and hard-gated actions.
+   280→                    </CardDescription>
+   281→                  </CardHeader>
+   282→                  <CardContent className="space-y-2">
+   283→                    <ScrollArea className="max-h-[420px] pr-3">
+   284→                      {ARCHITECT_ROLES.map((role) => (
+   285→                        <div key={role.role} className="p-3 rounded border border-border/40 mb-2">
+   286→                          <div className="flex items-center justify-between gap-2 mb-1">
+   287→                            <span className="font-medium text-sm">{role.role}</span>
+   288→                            <Badge variant="outline" className="text-[10px]">
+   289→                              Autonomy {role.autonomy}
+   290→                            </Badge>
+   291→                          </div>
+   292→                          <p className="text-xs text-muted-foreground mb-1.5">{role.description}</p>
+   293→                          {role.hardGatedActions.length > 0 && (
+   294→                            <div className="flex flex-wrap gap-1">
+   295→                              {role.hardGatedActions.map((a) => (
+   296→                                <Badge key={a} variant="outline" className="text-[10px] gap-1 border-rose-500/40 text-rose-700 dark:text-rose-300">
+   297→                                  <Lock className="h-2.5 w-2.5" /> {a}
+   298→                                </Badge>
+   299→                              ))}
+   300→                            </div>
+   301→                          )}
+   302→                        </div>
+   303→                      ))}
+   304→                    </ScrollArea>
+   305→                  </CardContent>
+   306→                </Card>
+   307→              </div>
+   308→
+   309→              <Card>
+   310→                <CardHeader>
+   311→                  <CardTitle className="text-base">Control Plane Architecture</CardTitle>
+   312→                  <CardDescription>
+   313→                    The eight modules that form the Grand Architect&apos;s security boundary.
+   314→                  </CardDescription>
+   315→                </CardHeader>
+   316→                <CardContent>
+   317→                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+   318→                    {[
+   319→                      { name: 'gateway', desc: 'Session auth + tool authorization + audit dispatch' },
+   320→                      { name: 'tool-protocol', desc: 'Register, dispatch, filter tools by autonomy' },
+   321→                      { name: 'permissions', desc: 'Role profiles, capability tokens, hard gates' },
+   322→                      { name: 'audit', desc: 'SHA-256 chained tamper-evident trail' },
+   323→                      { name: 'capability-graph', desc: 'DAG of requirements, topological sort' },
+   324→                      { name: 'decision-ledger', desc: 'ADR records with supersession tracking' },
+   325→                      { name: 'world-oracle', desc: 'Searchable index over graph + ledger + audit' },
+   326→                      { name: 'types', desc: 'Shared architect type vocabulary' },
+   327→                    ].map((m) => (
+   328→                      <div key={m.name} className="p-3 rounded border border-border/40 bg-card/30">
+   329→                        <div className="font-mono text-xs font-medium text-rose-700 dark:text-rose-300 mb-1">
+   330→                          architect/{m.name}
+   331→                        </div>
+   332→                        <div className="text-xs text-muted-foreground">{m.desc}</div>
+   333→                      </div>
+   334→                    ))}
+   335→                  </div>
+   336→                </CardContent>
+   337→              </Card>
+   338→            </TabsContent>
+   339→
+   340→            {/* PLUGINS */}
+   341→            <TabsContent value="plugins" className="space-y-6 mt-6">
+   342→              <Card>
+   343→                <CardHeader>
+   344→                  <CardTitle className="text-base">Plugin Registry</CardTitle>
+   345→                  <CardDescription>
+   346→                    {PLUGINS.length} plugins across three categories. Each plugin registers capabilities
+   347→                    with the kernel and passes its conformance suite.
+   348→                  </CardDescription>
+   349→                </CardHeader>
+   350→                <CardContent>
+   351→                  <ScrollArea className="max-h-[600px]">
+   352→                    <div className="space-y-2 pr-3">
+   353→                      {PLUGINS.map((plugin) => (
+   354→                        <div
+   355→                          key={plugin.id}
+   356→                          className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-lg border border-border/60 bg-card/30"
+   357→                        >
+   358→                          <div className="sm:w-56 shrink-0">
+   359→                            <div className="font-mono text-sm font-medium">{plugin.id}</div>
+   360→                            <div className="text-[10px] text-muted-foreground">v{plugin.version}</div>
+   361→                          </div>
+   362→                          <div className="flex-1 min-w-0">
+   363→                            <div className="flex flex-wrap gap-1 mb-1">
+   364→                              {plugin.capabilities.map((c) => (
+   365→                                <Badge key={c} variant="secondary" className="text-[10px] font-mono">
+   366→                                  {c}
+   367→                                </Badge>
+   368→                              ))}
+   369→                            </div>
+   370→                            <div className="text-[10px] text-muted-foreground">
+   371→                              depends: {plugin.dependencies.length > 0 ? plugin.dependencies.join(', ') : '(none)'}
+   372→                              {plugin.lines > 0 && <span className="ml-2">· {plugin.lines} lines</span>}
+   373→                            </div>
+   374→                          </div>
+   375→                          <Badge
+   376→                            variant="outline"
+   377→                            className={`text-[10px] shrink-0 ${CATEGORY_COLORS[plugin.category]}`}
+   378→                          >
+   379→                            {plugin.category}
+   380→                          </Badge>
+   381→                        </div>
+   382→                      ))}
+   383→                    </div>
+   384→                  </ScrollArea>
+   385→                </CardContent>
+   386→              </Card>
+   387→            </TabsContent>
+   388→
+   389→            {/* TESTS */}
+   390→            <TabsContent value="tests" className="space-y-6 mt-6">
+   391→              <Card>
+   392→                <CardHeader>
+   393→                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+   394→                    <div>
+   395→                      <CardTitle className="text-base">Conformance Test Runner</CardTitle>
+   396→                      <CardDescription>
+   397→                        Runs all {CONFORMANCE_FILES.length} suites ({TOTAL_TESTS.toLocaleString()} tests) via{' '}
+   398→                        <code className="text-xs">bun run</code>. Parses pass/fail counts from stdout.
+   399→                      </CardDescription>
+   400→                    </div>
+   401→                    <Button onClick={runTests} disabled={running} className="shrink-0">
+   402→                      {running ? (
+   403→                        <>
+   404→                          <Loader2 className="h-4 w-4 animate-spin" /> Running...
+   405→                        </>
+   406→                      ) : (
+   407→                        <>
+   408→                          <Play className="h-4 w-4" /> Run All Suites
+   409→                        </>
+   410→                      )}
+   411→                    </Button>
+   412→                  </div>
+   413→                </CardHeader>
+   414→                <CardContent className="space-y-4">
+   415→                  {!result && !error && (
+   416→                    <div className="text-center py-12 text-sm text-muted-foreground border border-dashed rounded-lg">
+   417→                      Click <span className="font-medium text-foreground">Run All Suites</span> to execute
+   418→                      every conformance test and verify the engine&apos;s integrity.
+   419→                    </div>
+   420→                  )}
+   421→                  {error && (
+   422→                    <div className="p-3 rounded border border-rose-500/40 bg-rose-500/5 text-sm text-rose-700 dark:text-rose-300">
+   423→                      <XCircle className="h-4 w-4 inline mr-2" />
+   424→                      {error}
+   425→                    </div>
+   426→                  )}
+   427→                  {result && (
+   428→                    <>
+   429→                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+   430→                        <div className="p-3 rounded border border-border/60 bg-card/30">
+   431→                          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Status</div>
+   432→                          <div className={`text-lg font-semibold flex items-center gap-1.5 ${result.ok ? 'text-emerald-600' : 'text-rose-600'}`}>
+   433→                            {result.ok ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
+   434→                            {result.ok ? 'All Pass' : 'Failures'}
+   435→                          </div>
+   436→                        </div>
+   437→                        <div className="p-3 rounded border border-border/60 bg-card/30">
+   438→                          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Passed</div>
+   439→                          <div className="text-lg font-semibold text-emerald-600">{result.totalPassed.toLocaleString()}</div>
+   440→                        </div>
+   441→                        <div className="p-3 rounded border border-border/60 bg-card/30">
+   442→                          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Failed</div>
+   443→                          <div className={`text-lg font-semibold ${result.totalFailed === 0 ? 'text-muted-foreground' : 'text-rose-600'}`}>
+   444→                            {result.totalFailed.toLocaleString()}
+   445→                          </div>
+   446→                        </div>
+   447→                        <div className="p-3 rounded border border-border/60 bg-card/30">
+   448→                          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Duration</div>
+   449→                          <div className="text-lg font-semibold">{(result.totalDuration / 1000).toFixed(2)}s</div>
+   450→                        </div>
+   451→                      </div>
+   452→                      <Separator />
+   453→                      <div className="space-y-2">
+   454→                        {result.suites.map((s) => (
+   455→                          <div key={s.name} className="p-3 rounded border border-border/60 bg-card/30">
+   456→                            <div className="flex items-center justify-between gap-2 mb-1">
+   457→                              <div className="flex items-center gap-2">
+   458→                                {s.ok ? (
+   459→                                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+   460→                                ) : (
+   461→                                  <XCircle className="h-4 w-4 text-rose-500" />
+   462→                                )}
+   463→                                <span className="font-medium text-sm">{s.name}</span>
+   464→                                <Badge variant="outline" className="text-[10px] font-mono">
+   465→                                  {s.passed}/{s.total}
+   466→                                </Badge>
+   467→                                {s.failed > 0 && (
+   468→                                  <Badge variant="outline" className="text-[10px] border-rose-500/40 text-rose-700 dark:text-rose-300">
+   469→                                    {s.failed} failed
+   470→                                  </Badge>
+   471→                                )}
+   472→                              </div>
+   473→                              <span className="text-[10px] text-muted-foreground">{s.durationMs}ms</span>
+   474→                            </div>
+   475→                            <pre className="text-[10px] text-muted-foreground font-mono whitespace-pre-wrap max-h-24 overflow-y-auto bg-muted/30 p-2 rounded">
+   476→                              {s.tail}
+   477→                            </pre>
+   478→                          </div>
+   479→                        ))}
+   480→                      </div>
+   481→                      <p className="text-[10px] text-muted-foreground">
+   482→                        Ran at {new Date(result.timestamp).toLocaleString()}
+   483→                      </p>
+   484→                    </>
+   485→                  )}
+   486→                </CardContent>
+   487→              </Card>
+   488→            </TabsContent>
+   489→
+   490→            {/* PROTOTYPE */}
+   491→            <TabsContent value="prototype" className="mt-6">
+   492→              <Card>
+   493→                <CardHeader>
+   494→                  <CardTitle className="text-base">Determinism & Rendering Prototype</CardTitle>
+   495→                  <CardDescription>
+   496→                    The original self-contained proof: xoshiro256** RNG, Cody-Waite transcendentals,
+   497→                    Q32.32 fixed-point, CBOR+SHA-256 hashing, and a live Three.js render.
+   498→                  </CardDescription>
+   499→                </CardHeader>
+   500→                <CardContent className="p-0">
+   501→                  <iframe
+   502→                    src="/determinism.html"
+   503→                    title="Determinism Prototype"
+   504→                    className="w-full"
+   505→                    style={{ height: '78vh', border: 'none', display: 'block' }}
+   506→                  />
+   507→                </CardContent>
+   508→              </Card>
+   509→            </TabsContent>
+   510→          </Tabs>
+   511→        </main>
+   512→
+   513→        {/* Footer */}
+   514→        <footer className="border-t border-border/60 bg-card/30 mt-auto">
+   515→          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground">
+   516→            <div className="flex items-center gap-2">
+   517→              <Network className="h-3.5 w-3.5" />
+   518→              <span>Xianxia Multiverse Engine · Grand Architect Control Plane</span>
+   519→            </div>
+   520→            <div className="flex items-center gap-3">
+   521→              <Tooltip>
+   522→                <TooltipTrigger asChild>
+   523→                  <span className="flex items-center gap-1 cursor-help">
+   524→                    <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+   525→                    Determinism hash: 7fde855...
+   526→                  </span>
+   527→                </TooltipTrigger>
+   528→                <TooltipContent>
+   529→                  <p className="font-mono text-xs">7fde855dc9d17c7ba11c7d40c1dda10535a10dd269af0b37149104c256213f75</p>
+   530→                </TooltipContent>
+   531→              </Tooltip>
+   532→              <span className="hidden sm:inline">·</span>
+   533→              <span>{TOTAL_TESTS.toLocaleString()} tests · 7 suites · 0 forbidden functions</span>
+   534→            </div>
+   535→          </div>
+   536→        </footer>
+   537→      </div>
+   538→    </TooltipProvider>
+   539→  );
+   540→}
+   541→
