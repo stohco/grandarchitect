@@ -180,3 +180,23 @@ Stage Summary:
 - The system is honest: all claims are candidate/script-inserted, none claim to be approved. The coverage metadata explicitly lists what is and isn't validated.
 - This is the foundation the critique demanded — per-claim records, not document-level annotations.
 - Next: build the semantic-graph validation layer (cross-claim relationship checking), the numerical-constraint layer (measurement consistency), and the block-type markers for spec docs.
+
+---
+Task ID: VALIDATION-LAYERS
+Agent: main (Z.ai Code)
+Task: Build the layered validation architecture demanded by the accuracy critique. Each layer must honestly report what it checks and what it doesn't.
+
+Work Log:
+- Built semantic-graph validator (src/engine/architect/rcvc/claims/semantic-validator.ts): 6 checks — circular dependencies (DFS cycle detection with coloring), missing dependencies, truth-level consistency (CANON cannot depend on UNRESOLVED or ART), explicit contradictions (mutual and one-way), orphan claims, domain mismatches. Result on 10 claims: verdict=pass, 10 orphan findings (minor, expected).
+- Built numerical-constraint validator (src/engine/architect/rcvc/claims/numerical-validator.ts): 6 checks — door height vs inhabitant, mortal building height limit (5m), speed vs realm limit (mortal 2.0 m/s), wing loading plausibility, measurement rationale present, cross-claim dimension compatibility. Result: verdict=pass, 0 findings (no claims have physicalSpec data yet).
+- Wired both validators into /api/architect/claims. The API now returns structuralValidation + semanticValidation + numericalValidation + coverage metadata.
+- Coverage now reports 3 layers implemented (claim-level-structural, semantic-graph, numerical-constraint), 2 not implemented (natural-language-semantic, runtime).
+- Verified via agent-browser: editor loads, 13 dock tabs visible (including Claims), Claims tab renders with honest "All claims are CANDIDATE until human-reviewed" warning. All 13 API routes return 200 (or 405 for POST-only routes).
+- Lint clean. Pushed to GitHub.
+
+Stage Summary:
+- THREE VALIDATION LAYERS NOW LIVE: structural, semantic-graph, numerical-constraint. Each honestly reports its checks and blind spots.
+- The claim-level system is the foundation the critique demanded — per-claim records with stable IDs, truth levels, provenance, dependencies, approval status.
+- All 10 extracted claims are candidate/script-inserted — none claim to be approved. The system is honest about its limitations.
+- 2 layers remain: natural-language-semantic (AI review of statement meaning) and runtime (engine enforcement).
+- Everything backed up to github.com/stohco/grandarchitect.
