@@ -481,3 +481,39 @@ Stage Summary:
 - Editor wired to the engine's ga:gen-settlement generator and studio capability descriptors
 - Conformance: existing 3438 tests untouched and still passing (editor is additive)
 - Next: the editor is ready for iterative feature additions (procedural NPC placement, ecology visualization, art-direction conversations, more generator plugins)
+
+---
+Task ID: 9
+Agent: Grand Architect (main session)
+Task: Rebuild editor UI from scratch — clean game-engine IDE at /editor with R3F viewport
+
+Work Log:
+- Discovered cron job had overwritten page.tsx (dashboard) with old editor shell that imported deleted components
+- Restored original dashboard page.tsx (537 lines, 5-tab GA control plane) from commit 98c8e00
+- Added "Open Editor" link to dashboard header
+- Installed @react-three/fiber@9.7.0 + @react-three/drei@10.7.7
+- Deleted 9 stale editor components (old flat-file structure) that had been recreated by cron
+- Built 10 new editor components in clean subdirectory structure:
+  1. EditorLayout.tsx (280 lines) — ResizablePanel 3-column layout + bottom dock with 5 tabs
+  2. toolbar/EditorToolbar.tsx (340 lines) — editor mode, transport, transform, view toggles, render mode, world state
+  3. toolbar/WorldGenBar.tsx (114 lines) — seed input, random seed, generate button, stats badges
+  4. viewport/Viewport3D.tsx (311 lines) — R3F scene with 12 structure types, shadows, fog, GizmoHelper, keyboard shortcuts, FPS stats
+  5. panels/OutlinerPanel.tsx (166 lines) — searchable hierarchy with kind grouping, shift-click multi-select, visibility toggles
+  6. panels/InspectorPanel.tsx (168 lines) — 3-tab (Transform/Properties/Metadata) with number inputs + sliders
+  7. panels/ConsolePanel.tsx (99 lines) — 6-level filterable log viewer with timestamps, auto-scroll
+  8. panels/ArchitectPanel.tsx (146 lines) — AI chat with quick actions, simulated responses
+  9. panels/AssetBrowserPanel.tsx (120 lines) — 24-entry asset catalog with type filters
+  10. panels/SimulationPanel.tsx (156 lines) — 12 domain toggles, step controls, branches, transactions
+- Fixed icon imports: Seedling→Sprout, TombStone→Cross (not in lucide-react)
+- Fixed EditorLayout export: changed from named to default import in editor/page.tsx
+- Build passes (next build succeeds)
+- Lint: 0 errors, 0 warnings
+- Kernel conformance: 37/37 pass (no regressions)
+- Committed: 9a8a816
+
+Stage Summary:
+- Full game-engine editor UI live at /editor with dark theme
+- 10 components, ~1,900 lines, all connected to Zustand store and 3 API routes
+- 3D viewport renders settlements with React Three Fiber
+- Dashboard at / restored with link to editor
+- Next: add nav menu to dashboard, update dashboard-data.ts test counts, further editor polish
