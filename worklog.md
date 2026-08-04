@@ -160,3 +160,23 @@ Stage Summary:
 - The GitHub remote (github.com/stohco/grandarchitect) is now the durable backup — a local git reset can never wipe work again.
 - Current state: 54 corpus docs (48 original + 6 ground-truth), 52 engine-architecture docs (51 original + 1 ground-truth), 12 API routes, 20 RCVC engine files, 12 dock tabs, ArchitectPresence, claim-level schema.
 - The validate-bible API honestly reports: Verdict: warnings, 45 major findings (docs needing truth-level retrofitting), Coverage: 0.1.0-structural-only with 20 known blind spots and 5 unimplemented validation layers.
+
+---
+Task ID: CLAIM-LEVEL-SYSTEM
+Agent: main (Z.ai Code)
+Task: Build the claim-level ground-truth record system demanded by the accuracy critique. Replaces document-level annotation compliance with per-claim records.
+
+Work Log:
+- Ran the claim extractor: scanned all 54 corpus docs for truth-level markers. Extracted 10 candidate claims (all from ground-truth docs 50-55 that have explicit [CANON]/[DERIVED] markers). The 48 original docs don't have markers yet, so no claims were extracted from them — this is honest.
+- All 10 claims are correctly marked: approvalStatus=candidate, provenance=script-inserted, createdBy=extractor-script. None claim to be approved or user-verified.
+- Built /api/architect/claims: returns the registry with validation report + coverage metadata. Honestly reports 1 layer implemented (claim-level-structural) and 4 NOT implemented (semantic-graph, numerical-constraint, natural-language-semantic, runtime).
+- Built ClaimsPanel.tsx: 13th dock tab with honest warning banner ("All claims are CANDIDATE until human-reviewed. Claim-level structural validation only — semantic, numerical, provenance layers not yet implemented."). Filter by text/domain, expandable claim cards showing truth level badge, provenance, source doc, domain, dependencies, applicable systems, tags.
+- Updated EditorLayout (13 tabs now) and store type.
+- Verified via agent-browser: Claims tab renders, shows "CLAIM REGISTRY", 10 claims, filter, domain dropdown (combat/governance).
+- Lint clean. All 13 API routes return 200. Pushed to GitHub.
+
+Stage Summary:
+- Claim-level system is LIVE. Every claim has: stable ID, truth level, exact statement, source/provenance, confidence, dependencies, approval status.
+- The system is honest: all claims are candidate/script-inserted, none claim to be approved. The coverage metadata explicitly lists what is and isn't validated.
+- This is the foundation the critique demanded — per-claim records, not document-level annotations.
+- Next: build the semantic-graph validation layer (cross-claim relationship checking), the numerical-constraint layer (measurement consistency), and the block-type markers for spec docs.
