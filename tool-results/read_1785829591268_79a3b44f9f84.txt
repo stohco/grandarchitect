@@ -1,0 +1,1060 @@
+     1→You cannot guarantee literal perfection across an infinite procedural universe, but you can guarantee something nearly as valuable:
+     2→
+     3→Every visible, physical, temporal, and behavioral result is traceable to explicit specifications, measured in consistent units, validated against references, and rejected when the engine cannot prove that it satisfies the intended design.
+     4→
+     5→The bible cannot remain ordinary prose. It must become a multiverse ground-truth system that simultaneously serves as:
+     6→
+     7→a creative design bible;
+     8→a visual reference bible;
+     9→a physical-scale specification;
+    10→a simulation contract;
+    11→a machine-readable schema;
+    12→an asset-production standard;
+    13→a procedural-generation grammar;
+    14→an engine-capability specification;
+    15→a validation and acceptance-test catalog.
+    16→
+    17→The engine, asset pipeline, procedural generators, editor, and Grand Architect should all consume the same ground truth.
+    18→
+    19→1. Establish a hierarchy of truth
+    20→
+    21→Every claim in the bible must be classified. Otherwise the AI will mix firm requirements, aesthetic ideas, approximations, and generated details as though they were equally authoritative.
+    22→
+    23→Use five truth levels:
+    24→
+    25→Level   Meaning
+    26→Canonical invariant     Cannot be changed without formally revising the universe
+    27→Derived requirement     Logically follows from one or more canonical invariants
+    28→Art-direction decision  Deliberate visual or experiential interpretation
+    29→Procedural possibility  Valid range from which generated instances may vary
+    30→Unresolved question     Not yet established and must not be silently invented
+    31→
+    32→For example:
+    33→
+    34→Canonical invariant:
+    35→The capital city is constructed for beings averaging 2.4 meters tall.
+    36→
+    37→Derived requirement:
+    38→Doors, stairs, furniture, ceiling heights, weapons, and camera framing
+    39→must reflect that body scale.
+    40→
+    41→Art-direction decision:
+    42→The architecture should feel monumental but still inhabited.
+    43→
+    44→Procedural possibility:
+    45→Ordinary door heights may vary from 3.0 to 3.8 meters depending on region.
+    46→
+    47→Unresolved:
+    48→Whether ceremonial buildings use larger symbolic proportions.
+    49→
+    50→The Grand Architect should never silently convert an unresolved question into a permanent fact.
+    51→
+    52→Every unresolved issue needs one of these responses:
+    53→
+    54→Ask the user.
+    55→Preserve it as a variable.
+    56→Create several labeled alternatives.
+    57→Use a temporary proxy marked as noncanonical.
+    58→Block final production until resolved.
+    59→2. Create one authoritative measurement system
+    60→
+    61→Everything must use a consistent world metric standard.
+    62→
+    63→Do not let one document describe a mountain as “enormous,” another asset use arbitrary Blender units, and a generator choose a different scale.
+    64→
+    65→Use meters, seconds, kilograms, radians, Kelvin, and explicit game-time units internally.
+    66→
+    67→Every physical entry should define:
+    68→
+    69→interface PhysicalSpecification {
+    70→  dimensions: {
+    71→    widthMeters?: Range;
+    72→    heightMeters?: Range;
+    73→    depthMeters?: Range;
+    74→    diameterMeters?: Range;
+    75→    lengthMeters?: Range;
+    76→  };
+    77→
+    78→  massKilograms?: Range;
+    79→  densityKgPerCubicMeter?: Range;
+    80→
+    81→  speedMetersPerSecond?: Range;
+    82→  accelerationMetersPerSecondSquared?: Range;
+    83→  angularSpeedRadiansPerSecond?: Range;
+    84→
+    85→  durationSeconds?: Range;
+    86→  reactionTimeSeconds?: Range;
+    87→
+    88→  temperatureKelvin?: Range;
+    89→  forceNewtons?: Range;
+    90→  energyJoules?: Range;
+    91→
+    92→  measurementConfidence: "exact" | "derived" | "art-directed" | "estimated";
+    93→  rationale: string;
+    94→}
+    95→
+    96→The player does not need to see SI units in the UI. The engine needs them to preserve consistency.
+    97→
+    98→Scale anchors
+    99→
+   100→Define familiar anchors so the AI and user can judge dimensions visually:
+   101→
+   102→Human reference:
+   103→1.75 m average adult
+   104→
+   105→Ordinary room:
+   106→3 m ceiling
+   107→
+   108→Village house:
+   109→5–10 m wide
+   110→
+   111→Ancient tree:
+   112→20–50 m tall
+   113→
+   114→City gate:
+   115→15–40 m tall
+   116→
+   117→Sect mountain:
+   118→1–6 km relief
+   119→
+   120→Floating island:
+   121→0.5–50 km diameter
+   122→
+   123→Cultivation world:
+   124→Explicit radius and gravity model
+   125→
+   126→Star vessel:
+   127→Explicit length, interior volume, and travel capability
+   128→
+   129→Every editor viewport should offer optional scale overlays:
+   130→
+   131→human silhouette;
+   132→door;
+   133→ten-meter ruler;
+   134→one-hundred-meter grid;
+   135→kilometer markers;
+   136→travel-time visualization;
+   137→object bounding dimensions.
+   138→
+   139→This will prevent visually impressive assets from quietly being five or fifty times the intended size.
+   140→
+   141→3. Separate objective scale from perceived scale
+   142→
+   143→Correct measurements alone do not guarantee that something feels correctly scaled.
+   144→
+   145→A kilometer-wide fortress can look like a toy if it has:
+   146→
+   147→oversized windows;
+   148→repetitive textures;
+   149→insufficient surface detail;
+   150→a wide field of view;
+   151→overly fast camera motion;
+   152→no atmospheric perspective;
+   153→tiny shadow distances;
+   154→no people or objects nearby for comparison.
+   155→
+   156→The bible therefore needs two scale specifications:
+   157→
+   158→Physical scale:
+   159→The measurable dimensions of the object.
+   160→
+   161→Perceptual scale:
+   162→The visual cues required for the player to correctly perceive those dimensions.
+   163→
+   164→For every massive object, document:
+   165→
+   166→near, medium, and far detail frequencies;
+   167→recognizable human-scale features;
+   168→atmospheric effects;
+   169→texture density;
+   170→structural subdivisions;
+   171→camera constraints;
+   172→movement parallax;
+   173→sound delay or reverberation;
+   174→shadow behavior;
+   175→LOD transition requirements;
+   176→comparison anchors.
+   177→
+   178→Example:
+   179→
+   180→OBJECT: Celestial Mountain Gate
+   181→Physical height: 620 meters
+   182→
+   183→Perceptual requirements:
+   184→- Human-height doors remain visible at the base.
+   185→- Main pillars include structural segments every 15–25 meters.
+   186→- Far surfaces use large material variation rather than tiled microtexture.
+   187→- Clouds may intersect the upper third.
+   188→- Footstep-scale props exist at ground level.
+   189→- Camera fly speed is reduced while entering the gate corridor.
+   190→- Audio uses long reverberation and delayed distant impacts.
+   191→4. Replace generic descriptions with specification packets
+   192→
+   193→Every important visual concept should receive a Visual Truth Packet.
+   194→
+   195→A Visual Truth Packet is not merely a paragraph saying that something looks ancient, elegant, or terrifying.
+   196→
+   197→It should contain:
+   198→
+   199→Identity
+   200→Narrative purpose
+   201→Physical measurements
+   202→Silhouette
+   203→Proportions
+   204→Construction logic
+   205→Materials
+   206→Surface condition
+   207→Color and value structure
+   208→Lighting response
+   209→Movement
+   210→Animation
+   211→Sound
+   212→VFX
+   213→Environmental interaction
+   214→Damage states
+   215→LOD requirements
+   216→Collision
+   217→Gameplay readability
+   218→Variations
+   219→Forbidden interpretations
+   220→Reference images
+   221→Orthographic views
+   222→Acceptance tests
+   223→Character packet
+   224→
+   225→A significant character or species should define:
+   226→
+   227→Overall height and body-mass range
+   228→Head-to-body ratio
+   229→Shoulder-to-hip ratio
+   230→Limb lengths
+   231→Hand and foot scale
+   232→Center of mass
+   233→Posture
+   234→Walking stride length
+   235→Resting stance
+   236→Gait character
+   237→Maximum ordinary speed
+   238→Acceleration
+   239→Turning speed
+   240→Jump capability
+   241→Flight posture
+   242→Facial proportions
+   243→Age markers
+   244→Skin behavior
+   245→Hair construction
+   246→Clothing layering
+   247→Armor attachment
+   248→Equipment sockets
+   249→Skeleton profile
+   250→Animation range
+   251→Injury and exhaustion presentation
+   252→Cultivation transformations
+   253→Silhouette at multiple distances
+   254→
+   255→Descriptions like “slender,” “towering,” or “inhumanly graceful” need measurable interpretations.
+   256→
+   257→Example:
+   258→
+   259→Body height: 1.92 m
+   260→Head height ratio: 1:8.2
+   261→Shoulder width: 0.46 m
+   262→Average walking speed: 1.3 m/s
+   263→Deliberate walking speed: 0.85 m/s
+   264→Combat lateral acceleration: 8–11 m/s²
+   265→Ordinary turn rate: 180°/s
+   266→Combat turn rate: 540°/s
+   267→
+   268→Those values can be art-directed rather than biologically realistic, but they should be explicit.
+   269→
+   270→Creature packet
+   271→
+   272→Creatures additionally need:
+   273→
+   274→anatomy;
+   275→skeletal plausibility;
+   276→joint limits;
+   277→mass distribution;
+   278→locomotion mechanics;
+   279→foot placement;
+   280→wing loading;
+   281→turning radius;
+   282→attack reach;
+   283→feeding behavior;
+   284→habitat;
+   285→reproduction;
+   286→environmental footprint;
+   287→collision profile;
+   288→corpse behavior;
+   289→harvestable components.
+   290→
+   291→A giant flying creature should not move like a weightless hummingbird unless the metaphysics specifically explains it.
+   292→
+   293→Architecture packet
+   294→
+   295→Buildings require:
+   296→
+   297→Structural footprint
+   298→Floor heights
+   299→Wall thickness
+   300→Door and window dimensions
+   301→Roof pitch
+   302→Load-bearing system
+   303→Construction sequence
+   304→Material sources
+   305→Weathering
+   306→Drainage
+   307→Interior circulation
+   308→Room purpose
+   309→Furniture scale
+   310→Cultural symbolism
+   311→Defensive function
+   312→Damage and collapse behavior
+   313→Modular sockets
+   314→Procedural variation boundaries
+   315→Navigation and collision
+   316→
+   317→Architecture should look as though it could have been constructed by its inhabitants, even when supernatural techniques were involved.
+   318→
+   319→Terrain and biome packet
+   320→
+   321→Each biome should define:
+   322→
+   323→elevation;
+   324→slope distribution;
+   325→erosion;
+   326→hydrology;
+   327→soil;
+   328→rock;
+   329→climate;
+   330→visibility;
+   331→dominant shapes;
+   332→vegetation density;
+   333→vertical layering;
+   334→ground coverage;
+   335→fauna;
+   336→resource distribution;
+   337→settlement suitability;
+   338→movement difficulty;
+   339→ambient motion;
+   340→audio;
+   341→weather;
+   342→lighting;
+   343→seasonal states;
+   344→supernatural modifications.
+   345→
+   346→“This is a mystical forest” is insufficient.
+   347→
+   348→A usable entry would say:
+   349→
+   350→Canopy coverage: 65–80%
+   351→Dominant tree height: 28–44 m
+   352→Understory visibility: 20–45 m
+   353→Ground-cover occupancy: 55–70%
+   354→Average trunk separation: 6–11 m
+   355→Traversal corridors: minimum 4 m clear width
+   356→Fog base height: 0.2–1.4 m
+   357→Fog visibility under calm weather: 80–140 m
+   358→Spirit-light occurrence: 0–3 visible sources per 1,000 m²
+   359→5. Quantify speed and motion
+   360→
+   361→Speed is frequently misrepresented because developers specify only a maximum value.
+   362→
+   363→Every moving entity or effect needs a motion profile:
+   364→
+   365→interface MotionProfile {
+   366→  idleBehavior: MotionDescription;
+   367→  startDelaySeconds: Range;
+   368→  accelerationCurve: CurveId;
+   369→  maximumSpeedMetersPerSecond: Range;
+   370→  decelerationCurve: CurveId;
+   371→  turnRateRadiansPerSecond: Range;
+   372→  minimumTurnRadiusMeters?: Range;
+   373→  anticipationSeconds?: Range;
+   374→  recoverySeconds?: Range;
+   375→  motionStyleTags: string[];
+   376→  cameraPresentation?: CameraMotionProfile;
+   377→}
+   378→
+   379→A sword technique, for example, might require:
+   380→
+   381→Anticipation: 0.18 seconds
+   382→Initial weapon acceleration: 90 m/s²
+   383→Peak blade speed: 38 m/s
+   384→Strike duration: 0.22 seconds
+   385→Impact pause: 0.06 seconds
+   386→Recovery: 0.35 seconds
+   387→Projectile speed: 120 m/s
+   388→Visible trail persistence: 0.3 seconds
+   389→Terrain effect delay: less than 1 simulation tick
+   390→
+   391→The visual effect, hit detection, animation, sound, and terrain response must agree on the same temporal structure.
+   392→
+   393→Different time layers
+   394→
+   395→Document time at several levels:
+   396→
+   397→Simulation time
+   398→Authoritative event timing
+   399→
+   400→Animation time
+   401→Character pose and movement
+   402→
+   403→VFX time
+   404→Particles, trails, impacts and aftermath
+   405→
+   406→Perceived time
+   407→Camera shake, hit stop, slow motion and sound timing
+   408→
+   409→Strategic time
+   410→Travel, cultivation, economies and history
+   411→
+   412→A technique can be physically fast but visually readable through anticipation and lingering aftermath.
+   413→
+   414→6. Build a universal effect and presentation grammar
+   415→
+   416→The bible should describe techniques in a way that the engine can produce them accurately.
+   417→
+   418→Avoid storing only:
+   419→
+   420→Name: Heaven-Splitting Flame Palm
+   421→Description: A mighty palm that burns the heavens.
+   422→
+   423→Store:
+   424→
+   425→Concept
+   426→Power source
+   427→Body origin
+   428→Cast posture
+   429→Motion path
+   430→Targeting mode
+   431→Delivery geometry
+   432→Range
+   433→Speed
+   434→Area
+   435→Duration
+   436→Damage behavior
+   437→Force behavior
+   438→Material interaction
+   439→Terrain interaction
+   440→Environmental interaction
+   441→Sound
+   442→Lighting
+   443→Camera behavior
+   444→Aftermath
+   445→Counters
+   446→Failure states
+   447→Scaling
+   448→Realm-dependent variations
+   449→
+   450→Example:
+   451→
+   452→DELIVERY
+   453→Expanding palm-shaped pressure surface
+   454→
+   455→INITIAL WIDTH
+   456→1.4 m
+   457→
+   458→EXPANSION RATE
+   459→18 m/s
+   460→
+   461→MAXIMUM WIDTH
+   462→24 m
+   463→
+   464→FORWARD VELOCITY
+   465→70 m/s
+   466→
+   467→ACTIVE DURATION
+   468→1.8 s
+   469→
+   470→TERRAIN RESPONSE
+   471→Compress loose soil
+   472→Fracture weak rock
+   473→Scorch vegetation
+   474→Leave no permanent effect on protected materials
+   475→
+   476→VISUAL RULE
+   477→The palm silhouette must remain legible for at least 0.25 s from
+   478→the normal combat camera.
+   479→
+   480→FORBIDDEN
+   481→Do not represent it as a generic spherical explosion.
+   482→
+   483→That last field is crucial.
+   484→
+   485→Every important definition needs a forbidden interpretations section because generative systems often converge on generic fantasy shorthand.
+   486→
+   487→7. Give every asset editable blueprints
+   488→
+   489→Final meshes are not enough.
+   490→
+   491→Assets should retain source blueprints whenever practical:
+   492→
+   493→Character blueprint
+   494→Creature blueprint
+   495→Architecture blueprint
+   496→Vegetation blueprint
+   497→Weapon blueprint
+   498→Terrain feature blueprint
+   499→VFX blueprint
+   500→Animation blueprint
+   501→Audio blueprint
+   502→Settlement blueprint
+   503→Celestial-body blueprint
+   504→
+   505→A blueprint should contain semantic parts.
+   506→
+   507→For a temple:
+   508→
+   509→foundation
+   510→central hall
+   511→side halls
+   512→courtyard
+   513→roof structure
+   514→pillars
+   515→stairs
+   516→doors
+   517→windows
+   518→ornament
+   519→damage
+   520→weathering
+   521→vegetation
+   522→interior connectivity
+   523→
+   524→Then you can highlight the roof and say:
+   525→
+   526→Make this roof broader without changing the lower structure.
+   527→
+   528→The Architect edits the roof parameters rather than scaling arbitrary vertices.
+   529→
+   530→Every asset should preserve:
+   531→
+   532→Source specification
+   533→Generated or authored components
+   534→Procedural seed
+   535→Editable parameters
+   536→Dependency graph
+   537→Material assignments
+   538→Skeleton or structural hierarchy
+   539→Collision generation settings
+   540→LOD generation settings
+   541→Validation results
+   542→Revision history
+   543→8. Build a Visual Accuracy Oracle
+   544→
+   545→The Grand Architect needs a dedicated service that compares intended truth with actual output.
+   546→
+   547→Call it the Visual Accuracy Oracle.
+   548→
+   549→It should answer:
+   550→
+   551→Is this the correct size?
+   552→Are its proportions within the approved range?
+   553→Does the rendered silhouette match the blueprint?
+   554→Are materials behaving correctly?
+   555→Are motions within their timing specifications?
+   556→Does collision match the visible surface?
+   557→Does the object still read correctly at gameplay distance?
+   558→Does it fit the culture and environment?
+   559→Does it violate any forbidden interpretation?
+   560→
+   561→Its input should include:
+   562→
+   563→world-state data;
+   564→asset metadata;
+   565→blueprint;
+   566→render captures;
+   567→depth;
+   568→normals;
+   569→object IDs;
+   570→animation state;
+   571→collision;
+   572→camera;
+   573→lighting;
+   574→measured dimensions;
+   575→reference views;
+   576→design constraints.
+   577→
+   578→Its output should be a structured report:
+   579→
+   580→Asset: mountain_gate_017
+   581→Status: rejected
+   582→
+   583→Passed:
+   584→- Overall height within tolerance
+   585→- Door dimensions valid
+   586→- Collision aligned
+   587→- Materials valid
+   588→- LOD transitions within budget
+   589→
+   590→Failed:
+   591→- Pillar width is 31% below approved proportion
+   592→- Repeated ornament scale makes structure appear miniature
+   593→- Main silhouette deviates from approved front view
+   594→- Fog hides the upper profile at the intended reveal distance
+   595→- Character reference scale is absent from the entrance composition
+   596→
+   597→The AI should not be allowed to mark the asset complete while critical failures remain.
+   598→
+   599→9. Use reference views and measurement captures
+   600→
+   601→For every important asset, automatically generate:
+   602→
+   603→front orthographic;
+   604→side orthographic;
+   605→rear orthographic;
+   606→top view;
+   607→three-quarter view;
+   608→close-up;
+   609→gameplay camera view;
+   610→distant LOD view;
+   611→human-scale comparison;
+   612→collision overlay;
+   613→skeleton overlay;
+   614→material-channel views;
+   615→neutral lighting view;
+   616→target-environment view.
+   617→
+   618→For animations:
+   619→
+   620→side motion view;
+   621→front motion view;
+   622→trajectory plot;
+   623→foot-contact timeline;
+   624→center-of-mass path;
+   625→weapon-tip path;
+   626→hitbox visualization;
+   627→collision contacts;
+   628→frame timing;
+   629→slow-motion review.
+   630→
+   631→For terrain:
+   632→
+   633→overhead view;
+   634→elevation;
+   635→slope;
+   636→density slice;
+   637→collision mesh;
+   638→navigation;
+   639→material distribution;
+   640→biome density;
+   641→line-of-sight;
+   642→player-scale walkthrough;
+   643→aerial view.
+   644→
+   645→The system should measure rather than rely solely on visual judgment.
+   646→
+   647→10. Establish golden scenes
+   648→
+   649→Create standardized test scenes that every asset and system must pass.
+   650→
+   651→Examples:
+   652→
+   653→Neutral scale studio
+   654→Neutral lighting studio
+   655→Outdoor noon
+   656→Outdoor sunset
+   657→Night
+   658→Heavy fog
+   659→Interior low light
+   660→Combat arena
+   661→Steep terrain
+   662→Dense forest
+   663→Underwater
+   664→Flying camera
+   665→Crowded settlement
+   666→Large-scale celestial view
+   667→
+   668→A character may look correct in a neutral studio but fail badly under:
+   669→
+   670→normal gameplay FOV;
+   671→dynamic shadows;
+   672→dense VFX;
+   673→motion;
+   674→extreme distance;
+   675→crowded scenes;
+   676→different body proportions.
+   677→
+   678→Golden scenes make visual comparisons repeatable.
+   679→
+   680→Each important asset should have stored expected captures. Changes run visual regression tests against them.
+   681→
+   682→11. Validate visual correctness at several distances
+   683→
+   684→Every visible thing needs distance bands.
+   685→
+   686→Inspection distance
+   687→Player can examine fine details.
+   688→
+   689→Interaction distance
+   690→Object must communicate function and material.
+   691→
+   692→Gameplay distance
+   693→Silhouette and action readability dominate.
+   694→
+   695→Regional distance
+   696→Mass, grouping and landmark identity dominate.
+   697→
+   698→Celestial distance
+   699→Only macro-shape, atmosphere and light relationships remain.
+   700→
+   701→A model can be accurate up close and completely unreadable at the normal camera distance.
+   702→
+   703→The bible should state what information must survive each distance.
+   704→
+   705→Example:
+   706→
+   707→Sword at 1 meter:
+   708→Engraving, material layers and edge construction visible.
+   709→
+   710→Sword at 5 meters:
+   711→Blade width, guard profile and color family visible.
+   712→
+   713→Sword at 20 meters:
+   714→Recognizable silhouette and VFX identity visible.
+   715→
+   716→Sword during high-speed combat:
+   717→Trail identifies direction, reach and technique category.
+   718→12. Build style grammars instead of generic fantasy tags
+   719→
+   720→Terms such as “xianxia,” “ancient Chinese,” “immortal,” and “celestial” are far too broad.
+   721→
+   722→Each culture, faction, world, era, and craft tradition should have a design grammar.
+   723→
+   724→A grammar should specify:
+   725→
+   726→Preferred proportions
+   727→Structural shapes
+   728→Curvature
+   729→Symmetry
+   730→Material hierarchy
+   731→Surface finish
+   732→Color relationships
+   733→Motifs
+   734→Negative space
+   735→Decoration density
+   736→Craftsmanship
+   737→Weathering
+   738→Lighting
+   739→Movement language
+   740→Sound language
+   741→Forbidden motifs
+   742→Permitted influences
+   743→Regional variants
+   744→Historical evolution
+   745→
+   746→For example:
+   747→
+   748→CULTURE: Northern Cloud Monasteries
+   749→
+   750→Architecture:
+   751→Strong vertical hierarchy
+   752→Narrow lower structures widening toward rooflines
+   753→Exposed dark structural timber
+   754→Light mineral roof surfaces
+   755→Low ornament density
+   756→Long horizontal eaves
+   757→
+   758→Materials:
+   759→Dark cedar
+   760→Pale stone
+   761→Oxidized bronze
+   762→Cloud-gray ceramic
+   763→
+   764→Motion language:
+   765→Slow anticipation
+   766→Minimal wasted movement
+   767→Sharp final acceleration
+   768→
+   769→VFX:
+   770→Low particle density
+   771→Broad mist volumes
+   772→Pale desaturated light
+   773→No saturated rainbow effects
+   774→
+   775→Forbidden:
+   776→Generic gold palace surfaces
+   777→Dense glowing runes
+   778→Floating crystal decoration
+   779→Excessively curved fantasy roofs
+   780→
+   781→Procedural generation then has specific boundaries.
+   782→
+   783→13. Accuracy for procedural generation
+   784→
+   785→A procedural generator should never generate directly from vague tags.
+   786→
+   787→Use this pipeline:
+   788→
+   789→World truth
+   790→→ culture grammar
+   791→→ environmental constraints
+   792→→ historical state
+   793→→ functional requirement
+   794→→ structural blueprint
+   795→→ candidate generation
+   796→→ constraint solving
+   797→→ visual preview
+   798→→ validation
+   799→→ accepted runtime instance
+   800→
+   801→Every generated object must retain provenance:
+   802→
+   803→Which definitions influenced it?
+   804→Which style grammar shaped it?
+   805→Which generator produced it?
+   806→Which constraints were active?
+   807→Which seed stream was used?
+   808→Which compromises were made?
+   809→Which validation tests passed?
+   810→
+   811→The Grand Architect should be able to click anything and explain why it looks the way it does.
+   812→
+   813→14. Build contradiction detection into the bible
+   814→
+   815→A giant bible will inevitably contradict itself unless continuously validated.
+   816→
+   817→The system should detect:
+   818→
+   819→inconsistent scale;
+   820→impossible travel times;
+   821→incompatible species proportions;
+   822→buildings too small for their users;
+   823→weapons larger than animation reach allows;
+   824→creatures whose wings cannot clear nearby geometry;
+   825→planets whose gravity conflicts with movement;
+   826→techniques whose stated speed disagrees with animation;
+   827→rooms inaccessible through their doors;
+   828→settlements without sufficient water or food;
+   829→VFX brighter than established art direction permits;
+   830→material combinations impossible under the world’s rules;
+   831→asset styles appearing outside valid regions or eras.
+   832→
+   833→Every bible change should run validation.
+   834→
+   835→15. Distinguish physical truth from supernatural truth
+   836→
+   837→Xianxia does not need to obey ordinary physics everywhere. It does need to obey its own rules.
+   838→
+   839→For each supernatural exception, define:
+   840→
+   841→What ordinary rule is being overridden?
+   842→What power enables the exception?
+   843→What limits apply?
+   844→What visible cues communicate the exception?
+   845→What happens when the power is removed?
+   846→How does the exception interact with other systems?
+   847→
+   848→Example:
+   849→
+   850→Floating mountain
+   851→
+   852→Ordinary expectation:
+   853→Mountain mass would fall under local gravity.
+   854→
+   855→Override:
+   856→Ancient spatial formation distributes effective weight into a pocket domain.
+   857→
+   858→Visible cues:
+   859→Slow debris orbit
+   860→Localized distortion below the mountain
+   861→Formation nodes embedded along the lower surface
+   862→
+   863→Failure:
+   864→If three major nodes are destroyed, the mountain gradually loses altitude.
+   865→
+   866→Gameplay:
+   867→The mountain remains physical; only its gravitational support is altered.
+   868→
+   869→This creates believable supernatural phenomena rather than arbitrary spectacle.
+   870→
+   871→16. The bible needs prose and machine-readable counterparts
+   872→
+   873→Do not ask the agent to write only enormous markdown documents.
+   874→
+   875→Each subject should produce:
+   876→
+   877→Human-readable specification
+   878→Machine-readable schema
+   879→Reference package
+   880→Acceptance-test package
+   881→Unresolved-question list
+   882→Implementation dependencies
+   883→
+   884→For example:
+   885→
+   886→/docs/species/cloud_serpent.md
+   887→/data/species/cloud_serpent.json
+   888→/references/species/cloud_serpent/
+   889→/tests/species/cloud_serpent.spec.ts
+   890→/questions/species/cloud_serpent.yaml
+   891→
+   892→The prose communicates intent. The data drives the engine. The tests prove compliance.
+   893→
+   894→17. Make verbosity structured rather than repetitive
+   895→
+   896→“Heavily verbose” should mean exhaustively specified, not padded with adjectives.
+   897→
+   898→Every bible document should answer the same questions:
+   899→
+   900→What is it?
+   901→Why does it exist?
+   902→What is its scale?
+   903→What are its proportions?
+   904→What is it made from?
+   905→How is it constructed or formed?
+   906→How does it look?
+   907→How does it move?
+   908→How fast does it move?
+   909→How does it sound?
+   910→How does it interact with light?
+   911→How does it interact with terrain?
+   912→How does it interact with living beings?
+   913→How does it change over time?
+   914→What variations are permitted?
+   915→What representations are forbidden?
+   916→What engine capabilities does it require?
+   917→What assets does it require?
+   918→What procedural systems can alter it?
+   919→How is it validated?
+   920→What remains unresolved?
+   921→
+   922→An entry is not complete until applicable questions have answers.
+   923→
+   924→18. Prevent the agent from taking shortcuts
+   925→
+   926→The agent must classify every output:
+   927→
+   928→Status  Meaning
+   929→Specification only      Fully described but not implemented
+   930→Proxy   Temporary placeholder
+   931→Prototype       Demonstrates the concept
+   932→Approximation   Deliberately compromises requirements
+   933→Production candidate    Believed complete; awaiting validation
+   934→Validated production    All required tests and approvals passed
+   935→Rejected        Failed requirements
+   936→Blocked Current tools cannot produce it correctly
+   937→
+   938→The agent must never call a proxy “finished.”
+   939→
+   940→When capability is missing, it must say:
+   941→
+   942→The requested result requires capability X.
+   943→The current engine provides only Y.
+   944→Using Y would compromise A, B, and C.
+   945→I recommend implementing capability X as a reusable plugin.
+   946→
+   947→Then it can build the missing capability through the sandbox process.
+   948→
+   949→19. Use multiple AI review roles
+   950→
+   951→The same AI that creates something should not be its only judge.
+   952→
+   953→Use distinct evaluation passes:
+   954→
+   955→Lore and consistency reviewer
+   956→Scale and proportion reviewer
+   957→Technical art reviewer
+   958→Animation reviewer
+   959→Physics reviewer
+   960→Gameplay readability reviewer
+   961→Performance reviewer
+   962→Procedural-generation reviewer
+   963→VLM visual reviewer
+   964→Adversarial defect reviewer
+   965→
+   966→Each reviewer should have explicit rejection criteria.
+   967→
+   968→For example, the scale reviewer does not care whether the model is beautiful. It asks:
+   969→
+   970→Are the measurements correct?
+   971→Are comparison anchors present?
+   972→Do repeated details communicate the intended scale?
+   973→Are camera and FOV distorting perception?
+   974→Does animation speed match body scale?
+   975→20. The complete accuracy loop
+   976→
+   977→Every major object, place, creature, technique, or visual system should follow:
+   978→
+   979→1. Establish source truth
+   980→2. Identify unresolved questions
+   981→3. Define physical measurements
+   982→4. Define perceptual requirements
+   983→5. Define visual grammar
+   984→6. Define behavior and motion
+   985→7. Define engine dependencies
+   986→8. Create blueprint
+   987→9. Create proxy
+   988→10. Review proxy in-world
+   989→11. Produce asset or generator
+   990→12. Validate geometry and proportions
+   991→13. Validate materials
+   992→14. Validate animation and speed
+   993→15. Validate collision and physics
+   994→16. Validate gameplay readability
+   995→17. Validate performance
+   996→18. Validate procedural compatibility
+   997→19. Compare against references
+   998→20. Perform adversarial visual review
+   999→21. Revise
+  1000→22. Obtain your approval
+  1001→23. Mark validated production
+  1002→Exact instruction for the agent
+  1003→
+  1004→Give it this as a controlled amendment to the architecture baseline:
+  1005→
+  1006→Create a Multiverse Ground Truth, Visual Fidelity, and Validation Architecture. The purpose is to ensure that all spatial, visual, physical, temporal, behavioral, architectural, environmental, biological, supernatural, animation, VFX, audio, and gameplay representations are explicitly specified, machine-readable, measurable, traceable, and testable.
+  1007→
+  1008→Do not interpret “verbose” as decorative prose. Every subject must be exhaustively specified through dimensions, units, ranges, proportions, construction, materials, silhouette, movement, timing, environmental interaction, presentation, procedural variation, forbidden interpretations, engine dependencies, unresolved questions, provenance, and acceptance tests.
+  1009→
+  1010→Establish five truth levels:
+  1011→
+  1012→canonical invariant;
+  1013→derived requirement;
+  1014→art-direction decision;
+  1015→procedural possibility;
+  1016→unresolved question.
+  1017→
+  1018→Never silently convert an unresolved question into a permanent decision. Preserve uncertainty, ask the user, create labeled alternatives, or use an explicitly marked proxy.
+  1019→
+  1020→Establish one authoritative metric and temporal system for the entire engine. Every physical or temporal quantity must use explicit units and define whether it is exact, derived, art-directed, estimated, or procedurally ranged.
+  1021→
+  1022→Define both physical scale and perceptual scale. Large objects must include visual, acoustic, atmospheric, camera, texture, structural-detail, LOD, motion-parallax, and comparison-anchor requirements that make their true dimensions perceptible.
+  1023→
+  1024→Create a reusable Visual Truth Packet schema for characters, species, creatures, environments, biomes, architecture, settlements, equipment, vehicles, celestial bodies, techniques, animations, VFX, audio and UI. Each packet must include all applicable physical, visual, temporal, behavioral, technical and validation requirements.
+  1025→
+  1026→Establish motion profiles for every moving entity and effect. Specify anticipation, acceleration, velocity, turning, trajectory, duration, recovery, impact timing, animation timing, VFX timing, audio timing and camera presentation. Ensure authoritative gameplay timing and visual presentation remain synchronized.
+  1027→
+  1028→Define visual and structural design grammars for every culture, faction, species, world, region, era and craft tradition. Include preferred proportions, shapes, structures, materials, color relationships, decoration density, motifs, motion language, VFX language, audio language, permitted variation and forbidden generic interpretations.
+  1029→
+  1030→Preserve editable semantic blueprints for assets whenever possible. Final meshes must not be the only source of truth. Buildings, characters, creatures, vegetation, weapons, terrain features, animations and VFX should retain editable component structures, parameters, dependencies, generation provenance, collision settings and LOD settings.
+  1031→
+  1032→Implement a Visual Accuracy Oracle that compares actual runtime output against the approved ground truth. It must inspect world measurements, proportions, silhouettes, materials, animation timing, motion paths, collision, lighting, LOD, camera presentation, environmental context, gameplay readability, performance and prohibited representations.
+  1033→
+  1034→Generate standardized review captures for important assets and systems, including orthographic views, three-quarter views, gameplay-distance views, scale references, collision overlays, skeleton overlays, material channels, animation trajectories, terrain diagnostic layers and target-environment previews.
+  1035→
+  1036→Establish golden validation scenes covering neutral lighting, multiple outdoor conditions, interiors, fog, night, combat, crowds, terrain, flight, underwater, large-scale environments and celestial views. Run visual regression and performance validation across applicable scenes.
+  1037→
+  1038→Define inspection, interaction, gameplay, regional and celestial distance bands. Every asset must specify which identifying information, function, material cues, silhouette and effects must remain legible in each applicable band.
+  1039→
+  1040→Procedural generation must operate through authoritative definitions, style grammars, environmental constraints, history, functional requirements, structural blueprints, candidate generation, validation and provenance. Never generate final production content directly from vague descriptive tags.
+  1041→
+  1042→Add contradiction detection across the bible and engine. Detect incompatible scales, timings, travel distances, architecture, anatomy, animation, physics, collision, environmental needs, style rules, procedural constraints and gameplay requirements.
+  1043→
+  1044→Supernatural exceptions must identify the ordinary rule being overridden, the power responsible, limits, visual cues, failure behavior and interactions with other systems. Do not use supernatural framing to excuse unspecified behavior.
+  1045→
+  1046→Every bible subject must have a human-readable specification, machine-readable schema, reference package, acceptance-test package, implementation dependencies and unresolved-question record.
+  1047→
+  1048→Classify every implementation and asset as specification-only, proxy, prototype, approximation, production candidate, validated production, rejected or blocked. Never present a proxy, prototype or approximation as final.
+  1049→
+  1050→When the current engine lacks a capability required to produce an accurate result, do not take shortcuts. Explain the missing capability and the compromises of available alternatives. Then propose, research, implement, test and register a reusable plugin, pipeline or Architect tool capable of producing the intended result.
+  1051→
+  1052→Use separate reviewer roles for lore, consistency, scale, proportion, technical art, animation, physics, gameplay readability, performance, procedural generation and adversarial visual analysis. The creator may not be the sole certifier.
+  1053→
+  1054→An entry is complete only when the engine can trace:
+  1055→
+  1056→Source truth → specification → blueprint → implementation → generated instance → rendered presentation → validation evidence
+  1057→
+  1058→The objective is not merely a large bible. The objective is a compiled, queryable and testable multiverse specification from which the engine, procedural generators, asset pipelines, editor and Grand Architect all derive the same reality.
+  1059→
+  1060→The key is that the bible becomes a compiler input for reality, not a collection of evocative descriptions. Every appearance, dimension, proportion, speed, movement, material, atmosphere, sound, and supernatural exception should have enough explicit structure that the Grand Architect can create it, measure it, explain it, test it, reject inaccuracies, and continue building new tools rather than quietly approximating your intended universe.

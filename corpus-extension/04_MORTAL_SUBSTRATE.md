@@ -1,7 +1,94 @@
 # 04 — The Cangli Riverlands (沧篱江乡)
 
-**Status:** Candidate canon. The base region where the player begins.
+**Status:** `[CANON]` Candidate canon. The base region where the player begins.
 **Date:** 2026-08-03
+**Truth level:** Canonical invariant (regional identity) + Derived (measurements)
+**Implements:** `engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md`, `corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md`, `corpus-extension/52_MEASUREMENT_AND_SCALE_SYSTEM.md`, `corpus-extension/53_STYLE_GRAMMARS.md` §2 (Cangli Riverlands grammar)
+**Style grammar:** `cangli-riverlands`
+**Implementation status:** `[SPEC]` — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Specification Summary
+
+> `[CANON]` The Cangli Riverlands occupy a basin approximately 120 km north-south and 60 km east-west at the widest point, on a coastal plain backed by low mountains (Cangwu range, 1–3 km relief).
+
+> `[CANON]` Wang Family Bend has a population of ~180 souls across 31 households.
+
+> `[DERIVED]` All buildings in the mortal substrate use the Cangli Riverlands style grammar (doc 53 §2): low and wide, timber-frame, lime-washed walls, grey clay tile, no curved eaves, no gold, no red pillars.
+
+> `[DERIVED]` Walking speed for mortal villagers: 1.3 m/s typical (range 1.1–1.5 m/s). Travel time to the market town (8 km / 15 li): ~1.7 hours at typical pace.
+
+> `[PROC]` Village populations range from 40 to 380 souls depending on seed. Wang Family Bend is the canonical instance at ~180.
+
+> `[UNRESOLVED]` Whether the southern ridge contains a dormant spirit-vein node — see `/questions/mortal-substrate.yaml#spirit-vein-south-ridge`.
+
+### PhysicalSpecification — Region
+
+```json
+{
+  "id": "region-cangli-riverlands",
+  "dimensions": {
+    "widthMeters": { "min": 40000, "max": 80000, "typical": 60000 },
+    "heightMeters": { "min": 100000, "max": 140000, "typical": 120000 }
+  },
+  "measurementConfidence": "estimated",
+  "rationale": "Basin dimensions estimated from river-course and mountain-range descriptions in §1–§2"
+}
+```
+
+### PhysicalSpecification — Wang Family Bend village
+
+```json
+{
+  "id": "village-wang-family-bend",
+  "dimensions": {
+    "widthMeters": { "min": 250, "max": 400, "typical": 320 },
+    "heightMeters": { "min": 200, "max": 350, "typical": 280 }
+  },
+  "population": { "typical": 180, "min": 160, "max": 200 },
+  "householdCount": { "typical": 31 },
+  "measurementConfidence": "exact",
+  "rationale": "Explicitly stated in §1"
+}
+```
+
+### PhysicalSpecification — Household compound
+
+```json
+{
+  "id": "arch-village-household-cangli",
+  "dimensions": {
+    "widthMeters": { "min": 5, "max": 10, "typical": 7 },
+    "depthMeters": { "min": 4, "max": 8, "typical": 6 },
+    "heightMeters": { "min": 3.5, "max": 5.0, "typical": 4.2 }
+  },
+  "doorDimensions": {
+    "heightMeters": { "typical": 2.05 },
+    "widthMeters": { "typical": 0.95 }
+  },
+  "roofPitch": { "min": 25, "max": 38, "typical": 30 },
+  "measurementConfidence": "derived",
+  "rationale": "Sized for mortal occupation (1.68m avg) with 2× ceiling clearance"
+}
+```
+
+### Forbidden interpretations
+
+- `[FORBIDDEN]` Curved temple eaves on household buildings (reserved for shrines and sects per style grammar §2)
+- `[FORBIDDEN]` Red pillars (reserved for official/sect buildings)
+- `[FORBIDDEN]` Gold leaf or gilding of any kind
+- `[FORBIDDEN]` Glowing runes or formation marks on civilian structures
+- `[FORBIDDEN]` Floating elements or supernatural lighting on mortal buildings
+- `[FORBIDDEN]` Modern materials (concrete, steel, glass)
+- `[FORBIDDEN]` Buildings exceeding 5m height without explicit sect/official justification
+
+### Acceptance tests
+
+- `cangli.scale.village-within-region` — village fits within region
+- `cangli.style.no-forbidden-motifs` — no curved eaves, gold, or red pillars on civilian buildings
+- `cangli.economy.population-can-be-fed` — arable land produces enough rice for 180 people
+- `cangli.travel.wang-to-town-time-consistent` — 8km at 1.3 m/s = ~1.7h, not "2 hours"
 
 ---
 

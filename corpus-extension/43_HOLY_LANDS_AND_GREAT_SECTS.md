@@ -1,8 +1,111 @@
 # 43 — Holy Lands and Great Sects
 
-**Status:** Candidate canon. The cultivation world's upper-tier institutions, in fulfilment of doc 20 §1.3 (3-5 holy lands per continent, 5-10 great sects per region) and doc 42 (the continents and their previews). Compliant with 24_RECONCILIATION_AND_DECISIONS §4.3 (Jade Void Holy Land: Daoist Jade Void, 2,100, Nascent Soul, 3,000 disciples, peak grotto-heaven), 31_NAMED_INSTITUTIONS_AND_HEXAGRAMS §1-2 (Cangwu Sect, Azure Sword Sect fully specified; §2.9 the Jade Void's regional position), 34_NAMED_NPCS_AND_COMPANIONS §166 (Xu Yunfeng of Jade Void, Leng Qingxue's correspondent), 35_CRAFT_CONTENT_CATALOG §3.9 (Patriarch Mu, Azure Sword alchemist), 37_COSMIC_HISTORY §6 (Pillar Dynasty, Crimson Vow Alliance), 38_THE_COURTS_OF_HEAVEN (holy lands independent but deferential; Courts' six departments), 39_THE_MAHAYANA_PANTHEON §2.5 (Yin Mu's Cangwu grotto-heaven), 42_THE_MORTAL_WORLDS_CONTINENTS (the continent geography this document populates).
+**Status:** `[CANON]` Candidate canon. The cultivation world's upper-tier institutions, in fulfilment of doc 20 §1.3 (3-5 holy lands per continent, 5-10 great sects per region) and doc 42 (the continents and their previews). Compliant with 24_RECONCILIATION_AND_DECISIONS §4.3 (Jade Void Holy Land: Daoist Jade Void, 2,100, Nascent Soul, 3,000 disciples, peak grotto-heaven), 31_NAMED_INSTITUTIONS_AND_HEXAGRAMS §1-2 (Cangwu Sect, Azure Sword Sect fully specified; §2.9 the Jade Void's regional position), 34_NAMED_NPCS_AND_COMPANIONS §166 (Xu Yunfeng of Jade Void, Leng Qingxue's correspondent), 35_CRAFT_CONTENT_CATALOG §3.9 (Patriarch Mu, Azure Sword alchemist), 37_COSMIC_HISTORY §6 (Pillar Dynasty, Crimson Vow Alliance), 38_THE_COURTS_OF_HEAVEN (holy lands independent but deferential; Courts' six departments), 39_THE_MAHAYANA_PANTHEON §2.5 (Yin Mu's Cangwu grotto-heaven), 42_THE_MORTAL_WORLDS_CONTINENTS (the continent geography this document populates).
 **Date:** 2026-08-03
+**Truth level:** Canonical invariant (institutional identity) + Derived (scale)
+**Implements:** `engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md`, `corpus-extension/51_VISUAL_TRUTH_PACKET_SCHEMA.md` §4 (Architecture packet), `corpus-extension/52_MEASUREMENT_AND_SCALE_SYSTEM.md` §3 (scale anchors), `corpus-extension/53_STYLE_GRAMMARS.md` §3–§4 (Northern Cloud + Southern Orthodoxy grammars), `corpus-extension/55_MOTION_AND_EFFECT_GRAMMAR.md` §5 (cultivator MotionProfile)
+**Implementation status:** `[SPEC]` — fully specified, generators pending
 **Conventions:** Hanzi in parentheses on first use. No pinyin tone marks. Every named institution has a personality, a specialty, a sect master or patriarch (with realm and age), a grotto-heaven or spirit vein, and a relationship to at least one other named institution. The Cangwu Sect (doc 31 §1) is a small sect, not a great sect; it is referenced here for relational completeness but its full spec remains in doc 31.
+
+---
+
+## Ground-Truth Specification Summary
+
+> `[CANON]` Each continent has 3–5 holy lands and each region has 5–10 great sects. Holy lands operate at Nascent Soul+ realm with 1,000–5,000 disciples. Great sects operate at Core Formation+ with 500–2,000 disciples.
+
+> `[DERIVED]` Holy land main halls: 50–100 m wide, 30–60 m tall (celestial-scale architecture per doc 52 §3). Great sect main halls: 20–40 m wide, 10–20 m tall.
+
+> `[DERIVED]` Holy land grotto-heavens: 10–500 km interior diameter. Great sect spirit veins: 8–12 km length (major vein per doc 14).
+
+> `[ART]` Holy lands use the Heavenly Courts style grammar (doc 53 §7): white jade, gold, luminous materials. Great sects use Northern Cloud (§3) or Southern Orthodoxy (§4) grammars depending on alignment.
+
+> `[PROC]` Disciple count varies ±20% by seed. Holy land age: 1,000–10,000 years. Great sect age: 300–3,000 years.
+
+> `[UNRESOLVED]` Whether the Jade Void Holy Land's grotto-heaven has a second, sealed interior layer — see `/questions/holy-lands.yaml#jade-void-second-layer`.
+
+### PhysicalSpecification — Holy land main hall
+
+```json
+{
+  "id": "arch-holy-land-main-hall",
+  "dimensions": {
+    "widthMeters": { "min": 50, "max": 100, "typical": 70 },
+    "depthMeters": { "min": 40, "max": 80, "typical": 55 },
+    "heightMeters": { "min": 30, "max": 60, "typical": 42 }
+  },
+  "measurementConfidence": "derived",
+  "rationale": "Sized for Nascent Soul+ cultivators (1.80m avg) with monumental scaling factor 20×"
+}
+```
+
+### PhysicalSpecification — Great sect main hall
+
+```json
+{
+  "id": "arch-great-sect-main-hall",
+  "dimensions": {
+    "widthMeters": { "min": 20, "max": 40, "typical": 28 },
+    "depthMeters": { "min": 15, "max": 30, "typical": 22 },
+    "heightMeters": { "min": 10, "max": 20, "typical": 14 }
+  },
+  "measurementConfidence": "derived",
+  "rationale": "Sized for Core Formation+ cultivators (1.78m avg) with sect-scale factor 8×"
+}
+```
+
+### PerceptualSpec — Holy land celestial gate
+
+```json
+{
+  "physicalScale": {
+    "dimensions": { "heightMeters": { "typical": 620 } },
+    "measurementConfidence": "art-directed",
+    "rationale": "Holy-land gate; monumentally scaled for Core Formation+ cultivators"
+  },
+  "perceptualRequirements": {
+    "humanScaleFeatures": "Human-height doors (2.4m) remain visible at the base; stair treads 0.2m tall",
+    "atmosphericEffects": "Clouds intersect the upper third (400m+); atmospheric haze begins at 300m",
+    "structuralSubdivisions": "Pillars segmented every 15-25m with visible capital bands",
+    "cameraConstraints": "Camera fly speed reduced from 30 m/s to 8 m/s while entering the gate corridor",
+    "lodTransitions": "LOD0 <50m, LOD1 <200m, LOD2 <1km, LOD3 <5km",
+    "comparisonAnchors": "Cultivator figures (1.8m) at entrance; banners 3m wide"
+  }
+}
+```
+
+### MotionProfile — Holy land cultivator (Nascent Soul, flying)
+
+```json
+{
+  "maximumSpeedMetersPerSecond": { "min": 30, "max": 60, "typical": 45 },
+  "accelerationCurve": "exponential-qi-strong",
+  "turnRateRadiansPerSecond": { "min": 6.0, "max": 12.0, "typical": 9.0 },
+  "minimumTurnRadiusMeters": { "min": 0.5, "max": 2.0, "typical": 1.0 },
+  "motionStyleTags": ["gliding", "effortless", "nascent-soul", "spatial-mastery"],
+  "cameraPresentation": { "followMode": "cinematic", "followDistanceMeters": { "typical": 10 }, "lagSeconds": { "typical": 0.05 } }
+}
+```
+
+### Forbidden interpretations
+
+- `[FORBIDDEN]` Holy lands with earth tones, weathering, or patina (Heavenly Courts grammar requires luminous perfection — doc 53 §7)
+- `[FORBIDDEN]` Great sects using gold surfaces unless Southern Orthodoxy grammar (doc 53 §4) explicitly permits
+- `[FORBIDDEN]` Holy land buildings below 30m height (contradiction: holy lands are celestial-scale)
+- `[FORBIDDEN]` Great sect buildings exceeding 20m height (that is holy-land scale)
+- `[FORBIDDEN]` Any sect or holy land without a spirit vein or grotto-heaven (contradiction detection: `ecology.no-barren-sect`)
+
+### Acceptance tests
+
+- `holy-lands.count-per-continent` — 3–5 holy lands per continent
+- `great-sects.count-per-region` — 5–10 great sects per region
+- `holy-lands.scale.celestial` — main halls 30–60m tall
+- `great-sects.scale.sect` — main halls 10–20m tall
+- `holy-lands.style.heavenly-courts` — luminous materials, no earth tones
+- `holy-lands.has-grotto-heaven` — every holy land has a grotto-heaven
+- `great-sects.has-spirit-vein` — every great sect is on a spirit vein
+- `holy-lands.realm.nascent-soul-plus` — all holy land patriarchs are Nascent Soul+
+
+---
 
 ---
 

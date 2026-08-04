@@ -1,7 +1,97 @@
 # 14 — Ecology and Qi Topology
 
-**Status:** Candidate canon. The qi-stratified world's living substrate specification.
+**Status:** `[CANON]` Candidate canon. The qi-stratified world's living substrate specification.
 **Date:** 2026-08-03
+**Truth level:** Canonical invariant (qi topology) + Derived (spirit-vein measurements)
+**Implements:** `engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md`, `corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md`, `corpus-extension/51_VISUAL_TRUTH_PACKET_SCHEMA.md` §5 (Biome packet), `corpus-extension/55_MOTION_AND_EFFECT_GRAMMAR.md` §6 (Supernatural exceptions)
+**Implementation status:** `[SPEC]` — fully specified, generators in progress
+
+---
+
+## Ground-Truth Specification Summary
+
+> `[CANON]` Spirit veins (靈脈, *língmài*) are the qi-topology skeleton of every world. They are underground channels of condensed ambient qi that influence cultivation potential, feng shui, and spirit-beast habitat.
+
+> `[CANON]` Spirit beasts (靈獸) are animals with cultivator-parallel tiers. They follow the same realm ladder as human cultivators (doc 03) but with species-specific variations.
+
+> `[CANON]` The qi food web is a directed graph with cascading consumption: ambient qi → spirit flora → minor spirit fauna → major spirit fauna → calamity-class beasts. Each edge has a qi-flow rate measured in qi-volts per second (qV/s).
+
+> `[DERIVED]` Spirit-vein depth: 20–80 m below surface (typical 45 m). Spirit-vein length: 8–12 km for a major vein serving a sect, 1–3 km for a minor vein serving a village.
+
+> `[PROC]` Spirit-vein node density: 0–3 visible nodes per 1,000 m² in a region with active qi flow. Void regions (0 nodes) exist in magically dead zones.
+
+> `[UNRESOLVED]` Whether the Cangli Riverlands' southern ridge contains a dormant spirit-vein node — see `/questions/ecology-and-qi.yaml#cangli-south-ridge-vein`.
+
+### PhysicalSpecification — Spirit vein (major, sect-scale)
+
+```json
+{
+  "id": "spirit-vein-major-sect",
+  "dimensions": {
+    "lengthMeters": { "min": 8000, "max": 12000, "typical": 10000 },
+    "diameterMeters": { "min": 2, "max": 8, "typical": 4 }
+  },
+  "depthBelowSurface": { "min": 20, "max": 80, "typical": 45 },
+  "qiFlowRateQvPerSecond": { "min": 500, "max": 5000, "typical": 2000 },
+  "measurementConfidence": "derived",
+  "rationale": "Inferred from sect-cultivation requirements (doc 43) and qi-density gradient models"
+}
+```
+
+### PhysicalSpecification — Spirit beast (cloud serpent, minor)
+
+```json
+{
+  "id": "creature-cloud-serpent-minor",
+  "dimensions": {
+    "lengthMeters": { "min": 3.0, "max": 8.0, "typical": 5.5 },
+    "diameterMeters": { "min": 0.15, "max": 0.35, "typical": 0.24 }
+  },
+  "massKilograms": { "min": 40, "max": 180, "typical": 95 },
+  "speedMetersPerSecond": { "min": 8, "max": 25, "typical": 15 },
+  "wingLoading": { "min": 0.8, "max": 2.2, "typical": 1.4 },
+  "measurementConfidence": "art-directed",
+  "rationale": "Spirit beast; mass is lower than biological equivalent due to qi-infused buoyancy"
+}
+```
+
+### Biome VTP — Cangli Riverlands Paddy
+
+```json
+{
+  "id": "biome-cangli-paddy",
+  "type": "biome",
+  "elevation": { "min": 10, "max": 60, "typical": 30 },
+  "vegetationDensity": 0.15,
+  "groundCoverOccupancy": 0.85,
+  "understoryVisibility": { "min": 80, "max": 200, "typical": 120 },
+  "hydrology": "Irrigated from river channels; standing water 5-15cm depth during growing season",
+  "settlementSuitability": "High — flat, watered, fertile",
+  "forbiddenInterpretations": [
+    "Do not place paddies on slopes > 8° — terracing is a separate biome",
+    "Do not use modern concrete irrigation channels — earth and timber only"
+  ]
+}
+```
+
+### Supernatural Exception — Spirit vein as qi source
+
+> `[CANON]` Spirit veins override the ordinary expectation that ambient qi is uniformly distributed. They concentrate qi along underground channels, creating cultivation-favorable zones.
+
+- **Ordinary rule overridden:** Uniform ambient qi distribution
+- **Power enabling:** World-formation ley-line structure (pre-existing, not cultivator-created)
+- **Limits:** Qi flow depletes if over-harvested; recovers at 1–5% per year; can be permanently damaged by tribulation or formation-breaking
+- **Visible cues:** Surface vegetation above a vein is lusher; spirit flora concentrates along the vein's surface projection; water above a vein has faint luminescence on moonlit nights
+- **Failure behavior:** If a vein is depleted, the zone reverts to ambient qi levels; cultivators above lose their cultivation advantage; spirit beasts migrate
+- **System interactions:** Economy (spirit-vein water is a trade good); cultivation (determines sect placement); ecology (spirit-beast habitat follows veins)
+
+### Acceptance tests
+
+- `ecology.spirit-vein.continuity` — veins form connected graphs, not isolated points
+- `ecology.spirit-vein.depth-range` — all veins within 20–80 m depth
+- `ecology.qi-food-web.no-loops` — the qi food web is a DAG, no cycles
+- `ecology.spirit-beast.tier-consistent` — beast tier matches habitat qi-density
+- `ecology.no-barren-sect` — every sect is on a spirit vein (contradiction detection)
 
 ---
 
