@@ -329,3 +329,108 @@ Stage Summary:
 - The studio provides: world execution state machine, spatial selection, operation plans, transactional commands with semantic undo and branches, visual grounding with confidence, and capability discovery
 - Next: wire the studio into the existing architect gateway (permissions, audit), build the editor UI, implement the first in-world edit pipeline end-to-end
 - No forbidden functions used
+
+---
+Task ID: 4a
+Agent: full-stack-developer (Outliner)
+Task: Build the Outliner scene-hierarchy panel for the Live Architect Studio editor.
+
+Work Log:
+- Read worklog.md (prior context: Phase 7 Live Architect Studio foundation built) and read /src/lib/editor/store.ts (the Zustand store — my contract) and /src/lib/editor/types.ts (SerializableStructure / StructureKind / SerializableSettlement shapes).
+- Confirmed available shadcn primitives in src/components/ui (Input, ToggleGroup, ToggleGroupItem, Badge, Tooltip/TooltipTrigger/TooltipContent) and the cn() helper uses tailwind-merge, so size/height overrides are safe.
+- Designed a kind→icon+color map for all 12 StructureKinds (Home/Landmark/Droplet/Wheat/Sparkles/Ship/Route/Sprout/Cross/Layers) using the mandated accent palette (emerald/amber/rose/cyan/zinc — no indigo, no blue).
+- Implemented /home/z/my-project/src/components/editor/outliner.tsx as a single default-exported 'use client' component, no props — reads everything from useEditorStore.
+- Panel structure: dark wrapper (className="dark") → header (OUTLINER title + count badge) → search Input with Search icon + clear (X) button + Kind/Faction/None ToggleGroup → scrollable tree with custom thin webkit-scrollbar → footer status row ("N entities · M selected · K hidden" + All/None quick actions).
+- Tree grouping: kind (canonical KIND_ORDER sort), faction (from metadata.faction, falling back to "Unaffiliated", sorted last), none (single "Entities" bucket). Each group header is collapsible (ChevronRight/ChevronDown) and shows label + count.
+- Entity rows: kind icon (colored), name (text-zinc-200, truncated with title), nameHanzi (text-zinc-500 text-[11px]), monospace #entityId badge (text-[10px] text-zinc-600), eye toggle (Eye/EyeOff → hideEntity/showEntity, with stopPropagation so it doesn't toggle selection).
+- Selection sync: row onClick → toggleSelectEntity(entityId); onMouseEnter → setHovered(entityId); onMouseLeave → setHovered(null). Selected rows render bg-emerald-500/15 + border-l-2 border-l-emerald-500 + text-emerald-200. Hidden rows opacity-40. Hovered (non-selected) rows bg-zinc-800/60.
+- Used getEffective(settlement, edits, entityId) so the outliner reflects local transform edits in addition to generated structures.
+- Filter matches name / nameHanzi / kind / kindLabel / entityId substring; empty-filter state shows a "No entities match" message.
+- Empty state (settlement === null): centered Layers icon + "No world generated" + "Generate a world to populate the scene." in text-zinc-600.
+- Accessibility: role="button"/role="list", aria-pressed on rows, aria-label on icon buttons, Enter/Space keyboard activation, focus-visible ring.
+- Ran `bun run lint` → clean, no errors, no warnings.
+
+Stage Summary:
+- File produced: /home/z/my-project/src/components/editor/outliner.tsx (default export `Outliner`, ~370 lines).
+- Lint status: clean (eslint . → no output).
+- Store contract honored: only reads state and calls actions from useEditorStore + getEffective; store.ts not modified.
+- No forbidden functions used (no Math.random / Math.sin / etc.); all data comes from the store.
+- Strict TypeScript: no `any`, explicit LucideIcon typing for the kind map.
+
+---
+Task ID: 4c
+Agent: full-stack-developer (Bottom Dock)
+Task: Build the tabbed bottom dock (Console/History/Capabilities/Performance/Conformance/Engine) for the Live Architect Studio editor.
+
+Work Log:
+- Read worklog.md and prior context: confirmed Phase 7 Live Architect Studio foundation is complete; editor store + types are in place; existing endpoints `/api/editor/world`, `/api/editor/capabilities`, `/api/editor/step`, and `/api/engine/run-tests` are all live.
+- Read the contract files (`src/lib/editor/store.ts`, `src/lib/editor/types.ts`) to confirm the exact Zustand API surface and serializable shapes — no modifications made to either.
+- Read `src/lib/engine/dashboard-data.ts` for PHASES / PLUGINS / SAFETY_RAILS / CONFORMANCE_FILES / TOTAL_TESTS, and `src/app/api/engine/run-tests/route.ts` for the response shape used by the Conformance tab.
+- Inspected existing shadcn primitives (Button, Input, Badge, Progress, Tabs, Tooltip, ScrollArea) — chose a custom tab bar over shadcn Tabs for finer control over the engine-dock look (thin emerald top border on the active tab, count badges).
+- Implemented `src/components/editor/bottom-dock.tsx` as a single `'use client'` default export `BottomDock` with no props:
+  - Root wrapped in `<div className="dark">`, body `bg-zinc-950 border-t border-zinc-800`. Accent palette: emerald / amber / rose / cyan / fuchsia. NO indigo/blue.
+  - Custom tab bar (horizontal, scrollable on narrow viewports): Console (Terminal, log count), History (History, tx count), Capabilities (Puzzle, count), Performance (Gauge), Conformance (FlaskConical), Engine (Cpu). Active tab uses `bg-zinc-900 text-zinc-100 border-t-2 border-emerald-500 -mt-px`; inactive uses `text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/50`. All text-xs.
+  - Tab content area is fixed `h-[220px] overflow-hidden`; each panel manages its own scroll. Shared `SCROLLBAR_CLASS` thin custom scrollbar `[&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-700`.
+  - Console panel: severity filter chips (All/Info/Success/Warn/Error/Debug/Architect) with colored dots + Clear (Trash2) button. Monospace log rows: `[tick]` (zinc-600) + severity dot (info=cyan-400, success=emerald-400, warn=amber-400, error=rose-400, debug=zinc-500, architect=fuchsia-400) + `[source]` (zinc-500) + message (zinc-300). `font-mono text-[11px] leading-5`. Auto-scrolls to bottom on new logs via `useRef` + `useEffect`. Wraps long messages.
+  - History panel: 60/40 flex split. LEFT transaction cards (id mono emerald, permissionClass badge colored per the 5 classes, requestedBy with User/Bot icon, affectedSystems chips, diff count, Undo button when not undone and not architect_power, otherwise UNDONE badge or "locked" badge). RIGHT branches list with current branch highlighted `bg-emerald-500/15 border-l-2 border-emerald-500`, click to `switchBranch`, inline New-Branch form using shadcn `Input` + `Button` (Enter to create, Escape to cancel). Empty state for no transactions.
+  - Capabilities panel: `loadCapabilities()` called on mount when empty. Header: "N capability descriptors · M total tools". 2-col grid (1 on narrow) of cards: capabilityId (emerald mono), description, tool stat chips (inspect/preview/mutation/generation counts with Eye/Search/Wrench/Sparkles icons color-coded), selection count, editable-props count, three support badges (undo/live/fork — emerald when true, zinc when false), permissionClass badge. Skeleton placeholders while loading.
+  - Performance panel: 6 stat tiles (FPS color-coded emerald ≥55 / amber 30–54 / rose <30; frame ms; draw calls; triangles; entities; mem MB), `bg-zinc-900 border border-zinc-800 rounded p-2`, big mono number + label below. FPS sparkline: inline SVG polyline of last 120 samples, emerald stroke, height ~50px, with min/avg/max text. Settlement sub-section: structures, households, population, current tick, seed.
+  - Conformance panel: "Run All Suites" button (Play icon) → POST `/api/engine/run-tests` with local loading state. Summary bar shows `✓ ALL PASS` / `✗ FAILURES`, passed / failed, duration. Per-suite rows with status dot (emerald/rose), name, `passed/expected`, duration; expandable to show `tail` in `<pre className="font-mono text-[10px] text-zinc-500 max-h-32 overflow-y-auto">`. Logs results to the console via `log()`.
+  - Engine panel: 4 summary tiles (phases done, total tests, plugins, safety rails). Phases list (done = emerald dot, pending = zinc dot, with per-phase test counts). Plugins by category chips. Safety rails as scrollable chip list (max-h-24). All dense.
+- Strict TS throughout. Used `LucideIcon` type for icon props. No `any`. No forbidden functions (only `Math.min/max` for sparkline normalization, which is allowed).
+- Ran `bun run lint` → EXIT=0 (clean). Verified dev server compiled cleanly (no errors in `dev.log`).
+- Wrote work record at `agent-ctx/4c-bottom-dock.md`.
+
+Stage Summary:
+- `src/components/editor/bottom-dock.tsx` complete: a self-contained `'use client'` default-export React component that mounts the entire engine-style bottom dock for the Live Architect Studio editor.
+- All six tabs (Console / History / Capabilities / Performance / Conformance / Engine) fully wired to the existing Zustand store and existing API endpoints; no contract changes were required.
+- Dark engine aesthetic with emerald/amber/rose/cyan/fuchsia accents, no indigo/blue. Fixed 220px content height with per-panel scrolling and thin custom scrollbars.
+- Lint clean. No regressions to existing endpoints or store. Downstream editor shell agents can drop `<BottomDock />` into any layout.
+
+---
+Task ID: 4d
+Agent: full-stack-developer (World Panel + View Settings)
+Task: Build WorldPanel (Dormant World Runtime control) and ViewSettings (render/camera/display settings) for the Live Architect Studio editor.
+
+Work Log:
+- Read worklog.md, src/lib/editor/store.ts (contract — NOT modified), src/lib/editor/types.ts, and existing editor panels (outliner.tsx, bottom-dock.tsx) to align visual + code conventions.
+- Created src/components/editor/world-panel.tsx (default export WorldPanel): 4 sections — World Generation (mono seed input + emerald Generate button with Sparkles/Loader2, preset seed chips, post-gen stat grid), Execution State (7-state machine in 2-col grid, current highlighted emerald, unreachable dimmed via local VALID_TRANSITIONS map mirroring the store, Play/Pause toggle calling toggleSim), Step Simulation (Select with 9 granularity options encoded `granularity|count`, cyan Step button, mono frozen-tick readout, amber Fork World button + fork chips, disabled unless dormant/selective/step state), Simulation Domains (3-col grid of 12 toggle chips with per-domain icons, K/12 active counter).
+- Created src/components/editor/view-settings.tsx (default export ViewSettings): 5 sections — Transform Tool (ToggleGroup: translate/rotate/scale with Move/RotateCw/Maximize), Render Mode (ToggleGroup: shaded/wireframe/solid/lit), Camera (2x2 preset buttons: perspective/top/front/side with Box/ArrowDown/ArrowRight/ArrowUp), Display (Switch rows for Grid/Gizmos/Stats/Snap with Grid3x3/Crosshair/BarChart3/Magnet), Selection footer (N selected + Clear button bound to clearSelection).
+- ToggleGroup onValueChange handlers guard against Radix single-mode empty-string emit so tools never deselect.
+- Both files: 'use client', no props, store selectors split per-slice for re-render granularity, no `any`, no forbidden functions, dark engine theme (bg-zinc-950 text-zinc-300 border-zinc-800), emerald/amber/cyan/rose accents, NO indigo/blue, thin scrollbar styling, consistent header bar pattern matching existing Outliner/BottomDock panels.
+- Ran `bun run lint`: 0 errors (1 pre-existing warning in unrelated OutlinerPanel.tsx).
+- Ran `npx tsc --noEmit --skipLibCheck`: no errors in either new file (pre-existing BigInt/ES2020 errors in src/lib/determinism/ are unrelated and pre-date this task).
+- Wrote work record to /agent-ctx/4d-world-panel-view-settings.md.
+
+Stage Summary:
+- WorldPanel and ViewSettings components delivered, both reading exclusively from useEditorStore (contract untouched).
+- Lint clean (0 new errors/warnings); no type errors in the new files.
+- Visual language matches existing editor panels (outliner, bottom-dock) for a cohesive Unreal/Godot/Unity-style editor feel.
+- Ready to be wired into the editor layout by a downstream task.
+
+---
+Task ID: 4b
+Agent: full-stack-developer (Inspector)
+Task: Build the Inspector properties panel for the Live Architect Studio editor.
+
+Work Log:
+- Read worklog.md, src/lib/editor/store.ts (contract — did NOT modify), src/lib/editor/types.ts, and agent-ctx/4a-outliner.md to match conventions from the sibling Outliner panel.
+- Verified the gen-settlement generator stamps `metadata.householdIndex` and spreads the full household record into each household structure's metadata (used for lookup + fallback).
+- Created /home/z/my-project/src/components/editor/inspector.tsx — default export `Inspector`, `'use client'`, no props. Reads everything from `useEditorStore` + `useSelectedStructure`.
+- Built a dark engine-themed three-region layout: fixed header (`INSPECTER` + kind/#id badges), scrollable body (Accordion sections), fixed footer (Revert Edits button).
+- Implemented a reusable `NumberField` (label + shadcn Input) that keeps a local draft string and commits only on blur/Enter (Escape reverts). Supports a `degrees` mode for the rotation field (stored radians ↔ displayed degrees).
+- Implemented a reusable `Section` wrapper around `AccordionItem` + `AccordionTrigger` + `AccordionContent` (Radix requires content inside the item — caught and fixed this structural issue before linting).
+- Five collapsible sections: TRANSFORM (5 editable NumberFields), IDENTITY (4 read-only DefRows), HOUSEHOLD (rich 2-col grid + head card + wealth-tier colored badges, only for household kind), METADATA (raw key:value with JSON <pre> for complex values), PROVENANCE (generator, seed, tick, permission class).
+- Implemented `findHousehold` with three-tier resolution: metadata.householdIndex → headName match → synthesise from metadata (typeof-narrowed, no `any`).
+- Empty state (MousePointer2, "Nothing selected"), multi-select state (Layers, count + Clear Selection), and entity-not-found defensive state.
+- Refactored away an unused helper and an unused destructured var to keep lint clean.
+- Ran `bun run lint` on the file: 0 errors, 0 warnings. (One pre-existing warning in OutlinerPanel.tsx from another agent — not mine.)
+- Dev server compiles the file cleanly (verified dev.log).
+
+Stage Summary:
+- Inspector panel COMPLETE at src/components/editor/inspector.tsx (default export `Inspector`).
+- Editable Transform fields flow through `applyEdits([edit])` so each commit records a transaction; effective values come from `useSelectedStructure` (edits-merged).
+- Household section richly visualises all 12 SerializableHousehold fields with accent-colored wealth-tier badges (rich=emerald, comfortable=cyan, poor=amber, destitute=rose) — no indigo/blue.
+- Revert Edits footer button is entity-scoped (enabled iff `edits[entityId]` exists) and calls `resetEdits()`.
+- Lint clean on the new file; strict TypeScript, no `any`, no forbidden functions.
+- Not yet wired into a route (only `/` exists); ready to drop into the editor shell's right-hand panel when the layout agent builds it.

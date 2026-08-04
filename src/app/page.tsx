@@ -22,6 +22,7 @@ import Inspector from '@/components/editor/inspector';
 import BottomDock from '@/components/editor/bottom-dock';
 import WorldPanel from '@/components/editor/world-panel';
 import ViewSettings from '@/components/editor/view-settings';
+import { ViewportErrorBoundary } from '@/components/editor/error-boundary';
 import { useEditorStore } from '@/lib/editor/store';
 import { Layers, Globe, MousePointer2, Settings2, Loader2 } from 'lucide-react';
 
@@ -121,7 +122,9 @@ export default function Page() {
             {/* Center column: Viewport */}
             <ResizablePanel defaultSize={showOutliner && showInspector ? 60 : showOutliner ? 82 : showInspector ? 78 : 100} minSize={30}>
               <div className="relative h-full w-full border-x border-zinc-800">
-                <Viewport3D />
+                <ViewportErrorBoundary>
+                  <Viewport3D />
+                </ViewportErrorBoundary>
               </div>
             </ResizablePanel>
 

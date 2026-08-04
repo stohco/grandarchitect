@@ -211,6 +211,13 @@ export default function Viewport3D() {
     const mount = mountRef.current;
     if (!mount) return;
 
+    // Check WebGL availability before creating the renderer.
+    const testCanvas = document.createElement('canvas');
+    const gl = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
+    if (!gl) {
+      throw new Error('WebGL is not available in this browser context. The 3D viewport requires WebGL support.');
+    }
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0e0f0e);
     scene.fog = new THREE.Fog(0x0e0f0e, 180, 420);
