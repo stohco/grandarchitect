@@ -14,6 +14,7 @@ import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { extractClaims, validateClaims } from '@/engine/architect/rcvc/claims/extractor';
 import { validateSemanticGraph } from '@/engine/architect/rcvc/claims/semantic-validator';
+import { validateNumericalConstraints } from '@/engine/architect/rcvc/claims/numerical-validator';
 
 export const runtime = 'nodejs';
 
@@ -30,18 +31,20 @@ export async function GET() {
 
     const structuralValidation = validateClaims(registry);
     const semanticValidation = validateSemanticGraph(registry);
+    const numericalValidation = validateNumericalConstraints(registry);
 
     return NextResponse.json({
       ...registry,
       validation: structuralValidation,
       semanticValidation,
+      numericalValidation,
       coverage: {
         layersImplemented: [
           'claim-level-structural (provenance, source, dependencies)',
           'semantic-graph (cross-claim relationship validation)',
+          'numerical-constraint (measurement consistency)',
         ],
         layersNotImplemented: [
-          'numerical-constraint (measurement consistency)',
           'natural-language-semantic (AI contradiction review)',
           'runtime (generation/asset/animation compliance)',
         ],
