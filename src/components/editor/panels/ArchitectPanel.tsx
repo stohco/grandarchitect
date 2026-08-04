@@ -6,12 +6,21 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { Sparkles, Send, User, Loader2, Zap, BookOpen, Leaf, Command } from 'lucide-react';
+import { Sparkles, Send, User, Loader2, Zap, BookOpen, Leaf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { useEditorStore } from '@/lib/editor/store';
+
+/** Detect Mac vs Windows/Linux for hotkey labels. Client-only (component is ssr:false). */
+function useHotkeyLabel() {
+  const [label] = useState(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+    return isMac ? '⌘K' : 'Ctrl+K';
+  });
+  return label;
+}
 
 interface ChatMessage {
   id: string;
@@ -26,6 +35,7 @@ let msgCounter = 0;
 export default function ArchitectPanel() {
   const capabilities = useEditorStore((s) => s.capabilities);
   const setPresenceOpen = useEditorStore((s) => s.setPresenceOpen);
+  const hotkey = useHotkeyLabel();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -114,7 +124,7 @@ export default function ArchitectPanel() {
           <Badge variant="outline" className="h-4 border-[#2a2a4a] bg-[#1a1a2e] text-[9px] text-purple-300">{capabilities.length} caps</Badge>
         )}
         <Button variant="ghost" size="sm" className="ml-auto h-5 gap-1 px-1.5 text-[9px] text-[#5a5a7a] hover:text-purple-300" onClick={() => setPresenceOpen(true)}>
-          <Command className="h-2.5 w-2.5" />K
+          {hotkey}
         </Button>
       </div>
 
@@ -134,7 +144,7 @@ export default function ArchitectPanel() {
           {messages.length === 0 && !typing && (
             <div className="py-6 text-center text-[11px] text-[#5a5a7a]">
               The Grand Architect is present and watching.<br />
-              <span className="text-[10px]">Speak, or press <kbd className="rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1 font-mono text-[9px]">⌘K</kbd> for the full command palette.</span>
+              <span className="text-[10px]">Speak, or press <kbd className="rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1 font-mono text-[9px]">{hotkey}</kbd> for the full command palette.</span>
             </div>
           )}
           {messages.map((msg) => (

@@ -36,6 +36,30 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEditorStore } from '@/lib/editor/store';
 
 // ============================================================================
+// Platform detection — Windows uses Ctrl, Mac uses Cmd
+// ============================================================================
+
+/** Detect Mac platform for hotkey labels. Client-only (component is ssr:false). */
+function detectIsMac(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+}
+
+function useHotkeyLabel() {
+  // Compute once on first render — platform doesn't change during session.
+  // useState initializer runs client-side (this component is ssr:false).
+  const [hotkey] = useState(() => {
+    const isMac = detectIsMac();
+    return {
+      key: isMac ? '⌘K' : 'Ctrl+K',
+      short: isMac ? '⌘K' : 'Ctrl K',
+      name: isMac ? 'Cmd+K' : 'Ctrl+K',
+    };
+  });
+  return hotkey;
+}
+
+// ============================================================================
 // Types
 // ============================================================================
 
@@ -107,6 +131,7 @@ function PresenceOrb({ onClick }: { onClick: () => void }) {
   const mood = useEditorStore((s) => s.presenceMood);
   const settlement = useEditorStore((s) => s.settlement);
   const selectedIds = useEditorStore((s) => s.selectedEntityIds);
+  const hotkey = useHotkeyLabel();
   const config = STATUS_CONFIG[status];
   const Icon = config.icon;
   const entityCount = settlement?.structures.length ?? 0;
@@ -123,7 +148,7 @@ function PresenceOrb({ onClick }: { onClick: () => void }) {
     <button
       onClick={onClick}
       className={`group pointer-events-auto absolute bottom-3 right-3 z-30 flex items-center gap-2.5 rounded-full border border-[#2a2a4a] bg-[#0e0e24]/90 px-3 py-2 shadow-lg ${c.glow} backdrop-blur-md transition-all hover:border-[#3a3a5a] hover:bg-[#12122a]`}
-      title="Summon the Grand Architect (Cmd+K)"
+      title={`Summon the Grand Architect (${hotkey.name})`}
     >
       {/* Pulsing orb */}
       <div className="relative flex h-7 w-7 items-center justify-center">
@@ -144,7 +169,7 @@ function PresenceOrb({ onClick }: { onClick: () => void }) {
           <span className="font-mono text-[9px] text-emerald-400">{selectedIds.length} sel</span>
         )}
       </div>
-      <kbd className="hidden ml-1 rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1.5 py-0.5 font-mono text-[9px] text-[#5a5a7a] group-hover:inline">⌘K</kbd>
+      <kbd className="hidden ml-1 rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1.5 py-0.5 font-mono text-[9px] text-[#5a5a7a] group-hover:inline">{hotkey.key}</kbd>
     </button>
   );
 }
@@ -161,6 +186,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
   const [loreResults, setLoreResults] = useState<{ filename: string; title: string; status: string; excerpt: string; relevance?: number }[]>([]);
   const [loreQuery, setLoreQuery] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hotkey = useHotkeyLabel();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const settlement = useEditorStore((s) => s.settlement);
@@ -376,7 +402,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
               </Button>
             </div>
             <div className="flex items-center justify-between border-t border-[#1a1a2e] px-3 py-1.5 text-[9px] text-[#4a4a6a]">
-              <span className="flex items-center gap-1"><Command className="h-2.5 w-2.5" /> + K to summon · Esc to dismiss</span>
+              <span className="flex items-center gap-1">{hotkey.key} to summon · Esc to dismiss</span>
               <span>Enter to send · Shift+Enter for newline</span>
             </div>
           </>
