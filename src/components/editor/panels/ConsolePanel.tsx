@@ -1,0 +1,99 @@
+/**
+ * Live Architect Studio — Console Panel
+ *
+ * Log viewer with level-based filtering, coloring, and auto-scroll.
+ */
+
+import { useEffect, useRef, useMemo } from 'react';
+import { Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useEditorStore } from '@/lib/editor/store';
+import type { LogEntry, LogLevel } from '@/lib/editor/types';
+
+const LEVEL_COLORS: Record<LogLevel, string> = {
+  info: 'text-blue-400', success: 'text-emerald-400', warn: 'text-amber-400',
+  error: 'text-red-400', debug: 'text-zinc-500', architect: 'text-purple-400',
+};
+
+const LEVEL_BG: Record<LogLevel, string> = {
+  info: 'bg-blue-500/10 border-blue-500/20', success: 'bg-emerald-500/10 border-emerald-500/20',
+  warn: 'bg-amber-500/10 border-amber-500/20', error: 'bg-red-500/10 border-red-500/20',
+  debug: 'bg-zinc-500/10 border-zinc-500/20', architect: 'bg-purple-500/10 border-purple-500/20',
+};
+
+const LEVEL_BADGE_COLORS: Record<LogLevel, string> = {
+  info: 'bg-blue-500/20 text-blue-300', success: 'bg-emerald-500/20 text-emerald-300',
+  warn: 'bg-amber-500/20 text-amber-300', error: 'bg-red-500/20 text-red-300',
+  debug: 'bg-zinc-500/20 text-zinc-400', architect: 'bg-purple-500/20 text-purple-300',
+};
+
+const ALL_LEVELS: (LogLevel | 'all')[] = ['all', 'info', 'success', 'warn', 'error', 'debug', 'architect'];
+
+export default function ConsolePanel() {
+  const logs = useEditorStore((s) => s.logs);
+  const consoleFilter = useEditorStore((s) => s.consoleFilter);
+  const setConsoleFilter = useEditorStore((s) => s.setConsoleFilter);
+  const clearLogs = useEditorStore((s) => s.clearLogs);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      const el = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (el) el.scrollTop = el.scrollHeight;
+    }
+  }, [logs.length]);
+
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { all: logs.length };
+    for (const log of logs) { c[log.level] = (c[log.level] ?? 0) + 1; }
+    return c;
+  }, [logs]);
+
+  const filtered = useMemo(() => {
+    if (consoleFilter === 'all') return logs;
+    return logs.filter((l) => l.level === consoleFilter);
+  }, [logs, consoleFilter]);
+
+  const formatTime = (ts: number) => {
+    const d = new Date(ts);
+    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}.${String(d.getMilliseconds()).padStart(3, '0')}`;
+  };
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex items-center gap-1 border-b border-[#2a2a4a] px-2 py-1">
+        {ALL_LEVELS.map((level) => (
+          <button key={level}
+            className={`flex items-center gap-1 rounded px-2 py-0.5 text-[10px] font-medium transition-colors ${consoleFilter === level ? 'bg-[#2a2a5a] text-emerald-300' : 'text-[#5a5a7a] hover:bg-[#1e1e3e] hover:text-[#8888aa]'}`}
+            onClick={() => setConsoleFilter(level)}>
+            {level.toUpperCase().slice(0, 4)}
+            {(counts[level] ?? 0) > 0 && <span className="text-[9px] opacity-60">{counts[level]}</span>}
+          </button>
+        ))}
+        <div className="flex-1" />
+        <Button variant="ghost" size="icon" className="h-5 w-5 text-[#5a5a7a] hover:text-white" onClick={clearLogs}>
+          <Trash2 className="h-3 w-3" />
+        </Button>
+      </div>
+
+      <ScrollArea ref={scrollRef} className="flex-1">
+        <div className="px-1 py-0.5">
+          {filtered.length === 0 ? (
+            <div className="py-4 text-center text-[11px] text-[#5a5a7a]">{logs.length === 0 ? 'No logs yet.' : 'No matching logs.'}</div>
+          ) : (
+            filtered.map((log) => (
+              <div key={log.id} className={`flex items-start gap-2 rounded px-2 py-0.5 font-mono text-[11px] leading-relaxed ${LEVEL_BG[log.level]} border border-transparent`}>
+                <span className="shrink-0 text-[10px] text-[#4a4a6a]">{formatTime(log.ts)}</span>
+                <span className={`w-9 shrink-0 rounded px-1 py-px text-center text-[9px] font-bold uppercase ${LEVEL_BADGE_COLORS[log.level]}`}>{log.level.slice(0, 4)}</span>
+                <span className="w-24 shrink-0 truncate text-[10px] text-[#5a5a7a]">[{log.source}]</span>
+                <span className={`flex-1 ${LEVEL_COLORS[log.level]}`}>{log.message}</span>
+                <span className="shrink-0 text-[9px] text-[#3a3a5a]">t{log.tick}</span>
+              </div>
+            ))
+          )}
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}

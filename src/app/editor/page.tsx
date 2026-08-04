@@ -1,6 +1,6 @@
 'use client';
 
-import { EditorLayout } from '@/components/editor/EditorLayout';
+import EditorLayout from '@/components/editor/EditorLayout';
 import { useEffect } from 'react';
 import { useEditorStore } from '@/lib/editor/store';
 
