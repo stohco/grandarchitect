@@ -125,3 +125,38 @@ Three-column resizable layout (shadcn ResizablePanelGroup): Outliner 18% / Centr
 - Responsive: grids collapse 3→2→1 columns; tabs scroll horizontally on narrow viewports.
 - TypeScript strict; no `console.log` in production code.
 - Each panel self-contained: fetches its own data, manages its own loading/error state.
+
+---
+Task ID: DEEP-RECOVERY
+Agent: main (Z.ai Code)
+Task: Deep recovery from git reset. Rebuild all lost ground-truth docs, engine files, and verify nothing is missing. The conversation is the backup.
+
+Work Log:
+- Searched git reflog, stashes, dangling commits, and tool-results for recoverable work. The reflog showed a clean reset — all commits between 39eb1e6 and the rebuild were gone. No stashes. Dangling commits were just old versions (initial commit + Grand Architect Control Plane). Tool-results contained cached reads from earlier sessions but not the lost ground-truth docs.
+- The conversation transcript IS the backup — I have the full content of every file I ever wrote in the conversation messages.
+- Full audit of what survived vs what was lost:
+  SURVIVED: Editor core (viewport, toolbar, outliner, inspector, 5 basic panels), ArchitectPresence.tsx, RCVC engine (types/reasoning/constraints/verification/observatory/perf), 10 API routes, claim-level schema + extractor, corpus docs 00-49, engine-architecture docs 00-50, determinism stack, definitions.
+  LOST: 7 ground-truth docs, 7 dock panels, e-graph, index.ts, run-tests API, model-checker/protocols type mismatch.
+
+- Fixed model-checker/protocols type mismatch: rewrote all 6 protocols to match the ProtocolSpec type (state-ID-based reachability instead of variable tracking). Verify route now returns 200 with 6 protocols.
+- Rebuilt e-graph.ts: EGraph class with AC canonicalization, canonicalizeTerm(), equivalent(), STANDARD_REWRITE_RULES.
+- Rebuilt index.ts: barrel exports for all RCVC subsystems.
+- Rebuilt /api/engine/run-tests: conformance test runner with 7 suites.
+- Dispatched subagent to rebuild 7 dock panels (Conformance, Capabilities, Engine, Reasoning, Constraints, Complexity, Benchmarks) — all built and integrated into EditorLayout with 12 tabs.
+- Rebuilt all 7 ground-truth docs from conversation:
+  1. engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md (20-section master spec)
+  2. corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md (truth levels, 20-question template, claim-level redesign)
+  3. corpus-extension/51_VISUAL_TRUTH_PACKET_SCHEMA.md (VTP schema with character/creature/architecture/biome/technique examples)
+  4. corpus-extension/52_MEASUREMENT_AND_SCALE_SYSTEM.md (SI units, scale anchors, perceptual spec, UI conversion)
+  5. corpus-extension/53_STYLE_GRAMMARS.md (6 culture grammars: Cangli, Northern Cloud, Southern Orthodoxy, Demonic, Spirit Wilds, Heavenly Courts)
+  6. corpus-extension/54_VISUAL_ACCURACY_ORACLE.md (oracle, 14 golden scenes, 10 reviewer roles, enforcement)
+  7. corpus-extension/55_MOTION_AND_EFFECT_GRAMMAR.md (MotionProfile, technique packets, 5-layer timing, supernatural exceptions)
+
+- Verification: all 12 API routes return 200. Lint clean. 20 RCVC engine files. 7 ground-truth docs. 12 dock tabs. ArchitectPresence with Ctrl+K. Claim-level schema.
+- Pushed everything to GitHub backup (github.com/stohco/grandarchitect).
+
+Stage Summary:
+- FULL RECOVERY COMPLETE. Everything that was lost has been rebuilt from the conversation transcript.
+- The GitHub remote (github.com/stohco/grandarchitect) is now the durable backup — a local git reset can never wipe work again.
+- Current state: 54 corpus docs (48 original + 6 ground-truth), 52 engine-architecture docs (51 original + 1 ground-truth), 12 API routes, 20 RCVC engine files, 12 dock tabs, ArchitectPresence, claim-level schema.
+- The validate-bible API honestly reports: Verdict: warnings, 45 major findings (docs needing truth-level retrofitting), Coverage: 0.1.0-structural-only with 20 known blind spots and 5 unimplemented validation layers.
