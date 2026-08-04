@@ -1,0 +1,600 @@
+   324→  { name:'Lady Wang (Lin)', nameHanzi:'王氏', surname:'Wang', surnameHanzi:'王',
+   325→    givenName:'Lady Wang', givenNameHanzi:'王氏', age:35, sex:'female',
+   326→    role:'wife', householdIndex:3, isWang:true, qiState:'none',
+   327→    wealthTier:'comfortable', skills=['weaving','childcare']},
+   328→    personalitySummary:'Shouzheng\'s niece. Married out to the carpenter. Helps with weaving.',
+   329→    tensionTies:[] },
+   330→  { name:'Lin Gensheng', nameHanzi:'林根生', surname:'Lin', surnameHanzi:'林',
+   331→    givenName:'Gensheng', givenNameHanzi:'根生', age:16, sex:'male',
+   332→    role:'apprentice', householdIndex:3, isWang:false, qiState:'none',
+   333→    wealthTier:'comfortable', skills=['carpentry']},
+   334→    personalitySummary:'Apprentice to his father the carpenter.',
+   335→    tensionTies:[] },
+   336→  { name:'Lin Xiaomei', nameHanzi:'林小妹', surname:'Lin', surnameHanzi:'林',
+   337→    givenName:'Xiaomei', givenNameHanzi:'小妹', age:12, sex:'female',
+   338→    role:'child_dependent', householdIndex:3, isWang:false, qiState:'none',
+   339→    wealthTier:'comfortable', skills:['weaving'],
+   340→    personalitySummary:'Helps her mother with weaving.',
+   341→    tensionTies:[] },
+   342→
+   343→  // ---- Household 5: Widow's Household ----
+   344→  { name:'Widow Xu', nameHanzi:'許寡婦', surname:'Xu', surnameHanzi:'許',
+   345→    givenName:'Widow Xu', givenNameHanzi:'許寡婦', age:61, sex:'female',
+   346→    role:'widow', householdIndex:4, isWang:false, qiState:'none',
+   347→    wealthTier:'destitute', skills=['weaving','gardening','devotion'],
+   348→    personalitySummary:'Non-Wang widow. Survives by weaving, dryland garden, and lineage charity. Devout Buddhist. Grieves Xu Erniu.',
+   349→    tensionTies:['missing_son'] },
+   350→  { name:'Xu Erniu', nameHanzi:'許二牛', surname:'Xu', surnameHanzi:'許',
+   351→    givenName:'Erniu', givenNameHanzi:'二牛', age:19, sex:'male',
+   352→    role:'day_laborer', householdIndex:4, isWang:false, qiState:'none',
+   353→    wealthTier:'destitute', skills=['farming','labor']},
+   354→    personalitySummary:'Widow Xu\'s only surviving child. Missing as of doc 28. Day laborer for wealthier Wang households.',
+   355→    tensionTies:['missing_son'] },
+   356→
+   357→  // ---- Household 6: Zhou Household ----
+   358→  { name:'Zhou Wenshu', nameHanzi:'周文淑', surname:'Zhou', surnameHanzi:'周',
+   359→    givenName:'Wenshu', givenNameHanzi:'文淑', age:66, sex:'female',
+   360→    role:'midwife', householdIndex:5, isWang:false, qiState:'none',
+   361→    wealthTier:'comfortable', skills=['midwifery','herbal_medicine','storytelling'],
+   362→    personalitySummary:'Sharp-tongued, warm-hearted, unsentimental. Keeps a silk bag of 40 years of dried umbilical cords. Birthed most of the village.',
+   363→    tensionTies:['missing_son','betrothal'] },
+   364→
+   365→  // ---- Household 7: He Household ----
+   366→  { name:'He Laosan', nameHanzi:'何老三', surname:'He', surnameHanzi:'何',
+   367→    givenName:'Laosan', givenNameHanzi:'老三', age:45, sex:'male',
+   368→    role:'ferryman', householdIndex:6, isWang:false, qiState:'none',
+   369→    wealthTier:'comfortable', skills=['boat_handling','ferrying','swimming'],
+   370→    personalitySummary:'Garrulous, canny, quietly observant. Missing little finger (otter bite). Faded river-map tattoo on left forearm.',
+   371→    tensionTies:['salt_license','missing_son'] },
+   372→  { name:'Lady Ma', nameHanzi:'馬氏', surname:'Ma', surnameHanzi:'馬',
+   373→    givenName:'Lady Ma', givenNameHanzi:'馬氏', age:42, sex:'female',
+   374→    role:'wife', householdIndex:6, isWang:false, qiState:'none',
+   375→    wealthTier:'comfortable', skills=['weaving','cooking'],
+   376→    personalitySummary:'Ferryman\'s wife. Manages the dockside household.',
+   377→    tensionTies:[] },
+   378→  { name:'He Yatou', nameHanzi:'何丫頭', surname:'He', surnameHanzi:'何',
+   379→    givenName:'Yatou', givenNameHanzi:'丫頭', age:17, sex:'female',
+   380→    role:'daughter', householdIndex:6, isWang:false, qiState:'none',
+   381→    wealthTier:'comfortable', skills=['boat_handling','fishing'],
+   382→    personalitySummary:'Works her father\'s boat. Knows the river.',
+   383→    tensionTies:[] },
+   384→  { name:'He Xiaobao', nameHanzi:'何小寶', surname:'He', surnameHanzi:'何',
+   385→    givenName:'Xiaobao', givenNameHanzi:'小寶', age:14, sex:'male',
+   386→    role:'apprentice', householdIndex:6, isWang:false, qiState:'none',
+   387→    wealthTier:'comfortable', skills=['boat_handling']},
+   388→    personalitySummary:'Apprentice to his father the ferryman.',
+   389→    tensionTies:[] },
+   390→
+   391→  // ---- Household 8: Wu Household ----
+   392→  { name:'Wu Daniu', nameHanzi:'吳大牛', surname:'Wu', surnameHanzi:'吳',
+   393→    givenName:'Daniu', givenNameHanzi:'大牛', age:50, sex:'male',
+   394→    role:'charcoal_burner', householdIndex:7, isWang:false, qiState:'none',
+   395→    wealthTier:'poor', skills=['charcoal_burning','woodcraft','hunting']},
+   396→    personalitySummary:'Taciturn, superstitious, dependable in crisis. Hands permanently black-stained. Deep burn scar from kiln collapse.',
+   397→    tensionTies:['missing_son'] },
+   398→
+   399→  // ---- Household 9: Zhao Household ----
+   400→  { name:'Zhao Tieniu', nameHanzi:'趙鐵牛', surname:'Zhao', surnameHanzi:'趙',
+   401→    givenName:'Tieniu', givenNameHanzi:'鐵牛', age:40, sex:'male',
+   402→    role:'soldier', householdIndex:8, isWang:false, qiState:'none',
+   403→    wealthTier:'comfortable', skills=['martial_arts','spear','watchmanship','survival'],
+   404→    personalitySummary:'Returned soldier. Permanent limp (arrow in knee). Scarred throat. Speaks in hoarse whisper. Only villager who has been beyond the Cangli Riverlands.',
+   405→    tensionTies:['salt_license','betrothal'] },
+   406→
+   407→  // ---- Household 10: Li Household ----
+   408→  { name:'Li Asheng', nameHanzi:'李阿勝', surname:'Li', surnameHanzi:'李',
+   409→    givenName:'Asheng', givenNameHanzi:'阿勝', age:55, sex:'male',
+   410→    role:'yeoman_farmer', householdIndex:9, isWang:false, qiState:'none',
+   411→    wealthTier:'comfortable', skills=['farming','literacy','leadership']},
+   412→    personalitySummary:'Non-Wang yeoman. Second-largest landholder (15 mu). Only householder who owns printed books. Shouzheng treats him as a peer.',
+   413→    tensionTies:['salt_license','betrothal'] },
+   414→
+   415→  // ---- Household 11: Wang Second Tenant ----
+   416→  { name:'Wang Shoucheng', nameHanzi:'王守誠', surname:'Wang', surnameHanzi:'王',
+   417→    givenName:'Shoucheng', givenNameHanzi:'守誠', age:52, sex:'male',
+   418→    role:'fisherman', householdIndex:10, isWang:true, qiState:'none',
+   419→    wealthTier:'poor', skills=['fishing','farming','river_knowledge']},
+   420→    personalitySummary:'Distant cousin of Shouzheng. Village\'s best fisherman. Secretive, river-superstitious, quietly bitter.',
+   421→    tensionTies:['missing_son'] },
+   422→
+   423→  // ---- Household 12: Wang Bare-Stick ----
+   424→  { name:'Wang Tianfu', nameHanzi:'王天福', surname:'Wang', surnameHanzi:'王',
+   425→    givenName:'Tianfu', givenNameHanzi:'天福', age:62, sex:'male',
+   426→    role:'day_laborer', householdIndex:11, isWang:true, qiState:'none',
+   427→    wealthTier:'destitute', skills=['farming','labor']},
+   428→    personalitySummary:'Widower. Shouzheng\'s older half-brother (concubine\'s son). 40-year silent resentment over inheritance.',
+   429→    tensionTies:['betrothal'] },
+   430→  { name:'Wang Zongbao', nameHanzi:'王宗寶', surname:'Wang', surnameHanzi:'王',
+   431→    givenName:'Zongbao', givenNameHanzi:'宗寶', age:28, sex:'male',
+   432→    role:'gravedigger', householdIndex:11, isWang:true, qiState:'none',
+   433→    wealthTier:'destitute', skills=['digging','burial_rites']},
+   434→    personalitySummary:'Village gravedigger for 10 years. Gentle, melancholic. Quietly weeds the unmarked mound of Wang Xiaodi.',
+   435→    tensionTies:['missing_son'] },
+   436→
+   437→  // ---- Household 13: Wang School Household ----
+   438→  { name:'Wang Lun', nameHanzi:'王倫', surname:'Wang', surnameHanzi:'王',
+   439→    givenName:'Lun', givenNameHanzi:'倫', age:41, sex:'male',
+   440→    role:'teacher', householdIndex:12, isWang:true, qiState:'none',
+   441→    wealthTier:'comfortable', skills=['literacy','divination','teaching','calligraphy','history'],
+   442→    personalitySummary:'Lineage school teacher. Failed county exam 3 times. Divines with yarrow stalks. Secretly writes a 200-page history of the Cangli Riverlands.',
+   443→    tensionTies:['salt_license','betrothal'] },
+   444→
+   445→  // ---- Household 14: Wang Second Branch (Wang Meili's father) ----
+   446→  { name:'Wang Shouli', nameHanzi:'王守禮', surname:'Wang', surnameHanzi:'王',
+   447→    givenName:'Shouli', givenNameHanzi:'守禮', age:56, sex:'male',
+   448→    role:'elder', householdIndex:13, isWang:true, qiState:'none',
+   449→    wealthTier:'comfortable', skills=['farming','leadership','dispute_resolution']},
+   450→    personalitySummary:'Shouzheng\'s younger brother. Lineage elder (4th seat). Stubborn, proud, quick to judge. Disowned daughter Wang Meili.',
+   451→    tensionTies:['salt_license','betrothal'] },
+   452→
+   453→  // ---- Household 15: Pan Tofu ----
+   454→  { name:'Pan Siniang', nameHanzi:'潘四娘', surname:'Pan', surnameHanzi:'潘',
+   455→    givenName:'Siniang', givenNameHanzi:'四娘', age:48, sex:'female',
+   456→    role:'tofu_maker', householdIndex:14, isWang:false, qiState:'none',
+   457→    wealthTier:'comfortable', skills=['tofu_making','trade','soy_processing']},
+   458→    personalitySummary:'Only woman who publicly defied the lineage council and won. Quiet advocate for widows and women. Long scar on left forearm.',
+   459→    tensionTies:['salt_license','missing_son'] },
+   460→];
+   461→
+   462→// ============================================================================
+   463→// Procedural NPC name pools
+   464→// ============================================================================
+   465→
+   466→const WANG_GIVEN_MALE = [
+   467→  'Shouyi','Shouzhi','Shoukang','Tianming','Tianyuan','Zonghua','Zongbao','Zonggui',
+   468→  'Zongshan','Zonghe','Zongcheng','Zongyuan','Zongyao','Zongping','Zongzhi',
+   469→  'Jianhua','Jianyi','Weiguo','Guoqiang','Fugui','Daming','Xiaoer','Laoda',
+   470→];
+   471→
+   472→const WANG_GIVEN_FEMALE = [
+   473→  'Sanniang','Simei','Wuniang','Liuniang','Yinniang','Chunnü','Qiuniang','Baozhen',
+   474→  'Meihua','Cuihua','Xiulan','Yulan','Guiying','Fengjiao','Xiaolian','A-Xue',
+   475→];
+   476→
+   477→const NON_WANG_SURNAMES = ['Li','Zhang','Liu','Chen','Zhao','Xu','Hu','Lin','Yang','Huang','Zhou','Wu','Sun','Zhu','Ma','Pan','He','Luo','Song','Tang'];
+   478→
+   479→const NON_WANG_GIVEN_MALE = [
+   480→  'A-Qiao','Erniu','Daniu','Xiaosan','Laoda','Er-Gou','San-Sheng','Si-Ming',
+   481→  'Wu-Gui','Liu-Ye','Tieniu','Bao','Ding','Gouzi','Mazi',
+   482→];
+   483→
+   484→const NON_WANG_GIVEN_FEMALE = [
+   485→  'Xiaomei','Yatou','Sanniu','A-Xiu','Chunhua','Qiuhua','Dongmei','Xiu'er',
+   486→  'Yinniang','Mei'er','Liu-Niang','Hehua','Cui'er','Xiao-Lan',
+   487→];
+   488→
+   489→// ============================================================================
+   490→// Procedural NPC generation
+   491→// ============================================================================
+   492→
+   493→const PROCEDURAL_ROLES: NpcRole[] = [
+   494→  'tenant_farmer','yeoman_farmer','day_laborer','weaver','wife','daughter',
+   495→  'son','elder_dependent','child_dependent','apprentice','fisherman',
+   496→];
+   497→
+   498→const PROCEDURAL_SKILLS: Record<NpcRole, string[]> = {
+   499→  lineage_head: ['leadership','ritual'],
+   500→  elder: ['farming','dispute_resolution'],
+   501→  teacher: ['literacy','teaching'],
+   502→  tenant_farmer: ['farming','plowing','weeding'],
+   503→  yeoman_farmer: ['farming','plowing','harvesting'],
+   504→  salt_merchant: ['trade','arithmetic'],
+   505→  carpenter: ['carpentry','repair'],
+   506→  midwife: ['herbal_medicine','midwifery'],
+   507→  ferryman: ['boat_handling','swimming'],
+   508→  charcoal_burner: ['charcoal_burning','woodcraft'],
+   509→  soldier: ['martial_arts','spear'],
+   510→  weaver: ['weaving','spinning'],
+   511→  tofu_maker: ['tofu_making','trade'],
+   512→  butcher: ['butchering','animal_husbandry'],
+   513→  gravedigger: ['digging','burial_rites'],
+   514→  day_laborer: ['farming','labor'],
+   515→  apprentice: ['learning'],
+   516→  student: ['literacy','learning'],
+   517→  fisherman: ['fishing','net_repair'],
+   518→  wife: ['weaving','cooking','childcare'],
+   519→  daughter: ['weaving','cooking'],
+   520→  son: ['farming','learning'],
+   521→  widow: ['weaving','gardening'],
+   522→  bachelor: ['farming','labor'],
+   523→  child_dependent: ['chores'],
+   524→  elder_dependent: ['advice','storytelling'],
+   525→};
+   526→
+   527→function generateProceduralNpc(
+   528→  rng: () => bigint,
+   529→  entityId: EntityId,
+   530→  householdIdx: number,
+   531→  isWangHousehold: boolean,
+   532→  wealthTier: WealthTier,
+   533→  positionInHousehold: number,
+   534→): GeneratedNpc {
+   535→  const isWang = isWangHousehold && rngFloat(rng, 0, 1) < 0.85;
+   536→  const surnamePool = isWang
+   537→    ? [['Wang','Wang'] as const]
+   538→    : NON_WANG_SURNAMES.map(s => [s, s] as const);
+   539→  const [surname, surnameHanzi] = rngChoice(rng, surnamePool);
+   540→
+   541→  const sex: Sex = rngChoice(rng, ['male','female']);
+   542→  const age = positionInHousehold === 0
+   543→    ? rngInt(rng, 30, 65)  // household head
+   544→    : rngInt(rng, 0, 75);
+   545→
+   546→  const givenPool = isWang
+   547→    ? (sex === 'male' ? WANG_GIVEN_MALE : WANG_GIVEN_FEMALE)
+   548→    : (sex === 'male' ? NON_WANG_GIVEN_MALE : NON_WANG_GIVEN_FEMALE);
+   549→  const givenName = rngChoice(rng, givenPool);
+   550→  const givenNameHanzi = givenName;
+   551→
+   552→  const role = positionInHousehold === 0
+   553→    ? (isWang ? rngChoice(rng, ['yeoman_farmer','tenant_farmer'] as NpcRole[]) : rngChoice(rng, PROCEDURAL_ROLES))
+   554→    : (age < 15
+   555→      ? (sex === 'male' ? 'son' as NpcRole : 'daughter' as NpcRole)
+   556→      : age >= 60
+   557→        ? (sex === 'male' ? 'elder_dependent' as NpcRole : 'elder_dependent' as NpcRole)
+   558→        : rngChoice(rng, ['wife','son','daughter','weaver','day_laborer','apprentice'] as NpcRole[]));
+   559→
+   560→  const name = `${surname} ${givenName}`;
+   561→  const nameHanzi = `${surnameHanzi}${givenNameHanzi}`;
+   562→
+   563→  const traits = generateTraits(rng, role);
+   564→  const skills = PROCEDURAL_SKILLS[role] ?? ['farming'];
+   565→
+   566→  return {
+   567→    entityId,
+   568→    name,
+   569→    nameHanzi,
+   570→    surname,
+   571→    surnameHanzi,
+   572→    givenName,
+   573→    givenNameHanzi,
+   574→    age,
+   575→    sex,
+   576→    lifeStage: lifeStageFromAge(age),
+   577→    role,
+   578→    householdIndex: householdIdx,
+   579→    isWang,
+   580→    isNamed: false,
+   581→    wealthTier,
+   582→    qiState: 'none',
+   583→    traits,
+   584→    skills: [...skills],
+   585→    kinship: [],
+   586→    relationships: [],
+   587→    personalitySummary: `Procedural ${role} of household ${householdIdx}.`,
+   588→    tensionTies: [],
+   589→    metadata: {},
+   590→  };
+   591→}
+   592→
+   593→// ============================================================================
+   594→// Kinship wiring for named NPCs
+   595→// ============================================================================
+   596→
+   597→function wireNamedKinship(npcs: GeneratedNpc[]): void {
+   598→  // Build index by (householdIndex, name)
+   599→  const byName = new Map<string, GeneratedNpc>();
+   600→  for (const npc of npcs) {
+   601→    if (npc.isNamed) byName.set(npc.name, npc);
+   602→  }
+   603→
+   604→  function link(a: string, b: string, aRole: KinshipRole, bRole: KinshipRole): void {
+   605→    const na = byName.get(a);
+   606→    const nb = byName.get(b);
+   607→    if (na && nb) {
+   608→      na.kinship.push({ targetNpcId: nb.entityId, role: aRole, targetRole: bRole });
+   609→      nb.kinship.push({ targetNpcId: na.entityId, role: bRole, targetRole: aRole });
+   610→    }
+   611→  }
+   612→
+   613→  // Household 1: Wang Senior
+   614→  link('Wang Shouzheng','Lady Chen','head','wife');
+   615→  link('Wang Shouzheng','Wang Zongxian','father','son');
+   616→  link('Wang Shouzheng','Wang Zongwen','father','son');
+   617→  link('Wang Shouzheng','Wang Sanniang','father','daughter');
+   618→  link('Lady Chen','Wang Zongxian','mother','son');
+   619→  link('Lady Chen','Wang Zongwen','mother','son');
+   620→  link('Lady Chen','Wang Sanniang','mother','daughter');
+   621→
+   622→  // Household 2: Wang Tenant
+   623→  link('Wang Shouye','Lady Zhao','head','wife');
+   624→  link('Wang Shouye','Wang Zongwu','father','son');
+   625→  link('Wang Shouye','Wang Zongde','father','son');
+   626→  link('Lady Zhao','Wang Zongwu','mother','son');
+   627→  link('Lady Zhao','Wang Zongde','mother','son');
+   628→  link('Wang Zongwu','Wang Zongde','brother','brother');
+   629→
+   630→  // Household 3: Salt Merchant
+   631→  link('Master Hu','Lady Wang','head','wife');
+   632→  link('Master Hu','Hu Bao','father','son');
+   633→  link('Master Hu','Hu Ying','father','daughter');
+   634→  link('Lady Wang','Hu Bao','mother','son');
+   635→  link('Lady Wang','Hu Ying','mother','daughter');
+   636→
+   637→  // Household 4: Lin
+   638→  link('Lin Aqiao','Lady Wang (Lin)','head','wife');
+   639→  link('Lin Aqiao','Lin Gensheng','father','son');
+   640→  link('Lin Aqiao','Lin Xiaomei','father','daughter');
+   641→  link('Lady Wang (Lin)','Lin Gensheng','mother','son');
+   642→  link('Lady Wang (Lin)','Lin Xiaomei','mother','daughter');
+   643→
+   644→  // Household 5: Widow
+   645→  link('Widow Xu','Xu Erniu','mother','son');
+   646→
+   647→  // Household 7: He
+   648→  link('He Laosan','Lady Ma','head','wife');
+   649→  link('He Laosan','He Yatou','father','daughter');
+   650→  link('He Laosan','He Xiaobao','father','son');
+   651→  link('Lady Ma','He Yatou','mother','daughter');
+   652→  link('Lady Ma','He Xiaobao','mother','son');
+   653→
+   654→  // Cross-household: Shouzheng siblings
+   655→  link('Wang Shouzheng','Lady Wang','brother','sister');     // sister married to Hu
+   656→  link('Wang Shouzheng','Wang Shouli','brother','brother');
+   657→
+   658→  // Cross-household: lineage cousins
+   659→  link('Wang Shouzheng','Wang Shouye','cousin','cousin');
+   660→  link('Wang Shouzheng','Wang Shoucheng','cousin','cousin');
+   661→  link('Wang Shouzheng','Wang Lun','cousin','cousin');
+   662→  link('Wang Shouzheng','Wang Tianfu','brother','brother');  // half-brother
+   663→
+   664→  // Cross-household: nieces married out
+   665→  link('Wang Shouzheng','Lady Wang (Lin)','uncle','niece');
+   666→  link('Wang Shouzheng','Zhao Tieniu','uncle','nephew');  // through niece
+   667→
+   668→  // Widow Xu - Zhou Popo bond
+   669→  // (not kinship, but a relationship edge — handled below)
+   670→}
+   671→
+   672→function wireRelationships(npcs: GeneratedNpc[]): void {
+   673→  const byName = new Map<string, GeneratedNpc>();
+   674→  for (const npc of npcs) {
+   675→    if (npc.isNamed) byName.set(npc.name, npc);
+   676→  }
+   677→
+   678→  function rel(a: string, b: string, label: string, wA: number, wB: number): void {
+   679→    const na = byName.get(a);
+   680→    const nb = byName.get(b);
+   681→    if (na && nb) {
+   682→      na.relationships.push({ targetNpcId: nb.entityId, label, weight: wA });
+   683→      nb.relationships.push({ targetNpcId: na.entityId, label, weight: wB });
+   684→    }
+   685→  }
+   686→
+   687→  // Doc 34 §1.4 kinship map relationships
+   688→  rel('Wang Shouzheng','Master Hu','trade_partner',0.1,0.2);          // Shouzheng needs salt, Hu needs access
+   689→  rel('Wang Shouzheng','Li Asheng','peer',0.5,0.5);                  // only non-Wang peer
+   690→  rel('Wang Shouzheng','He Laosan','trade_arrangement',0.3,0.4);    // free passage for firewood
+   691→  rel('Wang Shouzheng','Wu Daniu','protection_pact',0.2,0.3);      // eyes on foothills
+   692→  rel('Wang Shouzheng','Widow Xu','charity_recipient',0.3,-0.1);    // Shouzheng ensures charity
+   693→  rel('Wang Shouzheng','Zhou Wenshu','family_friend',0.7,0.6);     // "older sister"
+   694→  rel('Wang Shouzheng','Wang Lun','cousin_employer',0.2,0.1);     // appointed Lun, grateful+resentful
+   695→  rel('Wang Shouzheng','Wang Shouli','brother_strained',0.1,-0.2);  // formal ally, privately strained
+   696→  rel('Wang Shouzheng','Pan Siniang','lineage_dispute_resolved',0.3,0.4); // unique arrangement
+   697→
+   698→  rel('Master Hu','Li Asheng','trade_rival',-0.3,-0.4);             // Hu suspects Li of bidding for license
+   699→  rel('Master Hu','He Laosan','dock_neighbor',0.3,0.2);            // both at the dock
+   700→  rel('Master Hu','Pan Siniang','credit_customer',0.2,0.1);        // Pan buys salt on credit
+   701→
+   702→  rel('Widow Xu','Zhou Wenshu','grief_shared',0.8,0.7);             // Zhou visits nightly
+   703→  rel('Widow Xu','Pan Siniang','mourning_support',0.6,0.5);        // Pan leaves tofu daily
+   704→
+   705→  rel('Wang Sanniang','Wang Simei','friend_confidante',0.6,0.6);     // Simei hears Sanniang's reluctance
+   706→
+   707→  rel('Lin Aqiao','Wu Daniu','brother_in_law',0.4,0.4);             // Lady Lin is Wu's sister
+   708→
+   709→  rel('Zhao Tieniu','Wang Shouzheng','nephew_in_law',0.2,0.3);      // married Shouzheng's niece
+   710→
+   711→  rel('Wang Lun','Wang Shouli','cousin',0.0,0.1);                   // distant cousin
+   712→  rel('Wang Lun','Li Asheng','book_borrower',0.3,0.2);             // Lun borrows Li's printed books
+   713→
+   714→  rel('Wang Zongde','Wang Sanniang','rival_tension',-0.3,-0.2);    // "bare stick" tension
+   715→}
+   716→
+   717→// ============================================================================
+   718→// Main generation function
+   719→// ============================================================================
+   720→
+   721→export function generateNpcRoster(params: NpcGenParams): NpcRoster {
+   722→  const seed = params.seed;
+   723→  const rng = createRng(hashSeedToU64(seed + ':npc'));
+   724→  const totalPop = params.totalPopulation ?? 180;
+   725→  const namedOnly = params.namedOnly ?? false;
+   726→  const householdCount = params.householdCount ?? 31;
+   727→
+   728→  const npcs: GeneratedNpc[] = [];
+   729→  let entityIdCounter = 0n;
+   730→  function nextEntityId(): EntityId { return entityIdCounter++; }
+   731→
+   732→  // ---- 1. Generate named NPCs from doc 34 ----
+   733→  for (const tmpl of NAMED_NPCS) {
+   734→    npcs.push({
+   735→      entityId: nextEntityId(),
+   736→      name: tmpl.name,
+   737→      nameHanzi: tmpl.nameHanzi,
+   738→      surname: tmpl.surname,
+   739→      surnameHanzi: tmpl.surnameHanzi,
+   740→      givenName: tmpl.givenName,
+   741→      givenNameHanzi: tmpl.givenNameHanzi,
+   742→      age: tmpl.age,
+   743→      sex: tmpl.sex,
+   744→      lifeStage: lifeStageFromAge(tmpl.age),
+   745→      role: tmpl.role,
+   746→      householdIndex: tmpl.householdIndex,
+   747→      isWang: tmpl.isWang,
+   748→      isNamed: true,
+   749→      wealthTier: tmpl.wealthTier,
+   750→      qiState: tmpl.qiState,
+   751→      traits: generateTraits(rng, tmpl.role),
+   752→      skills: [...tmpl.skills],
+   753→      kinship: [],
+   754→      relationships: [],
+   755→      personalitySummary: tmpl.personalitySummary,
+   756→      tensionTies: [...tmpl.tensionTies],
+   757→      metadata: {},
+   758→    });
+   759→  }
+   760→
+   761→  // Wire kinship and relationships among named NPCs
+   762→  wireNamedKinship(npcs);
+   763→  wireRelationships(npcs);
+   764→
+   765→  if (namedOnly) {
+   766→    return {
+   767→      seed,
+   768→      tick: 0,
+   769→      totalGenerated: npcs.length,
+   770→      namedCount: npcs.length,
+   771→      proceduralCount: 0,
+   772→      npcs,
+   773→    };
+   774→  }
+   775→
+   776→  // ---- 2. Generate procedural NPCs for remaining households ----
+   777→  // The first 15 households have named heads; the remaining 16 are fully procedural.
+   778→  // Each household has 3-8 members (average ~5.8 for 180 people / 31 households).
+   779→  const namedHouseholdIndices = new Set(NAMED_NPCS.map(n => n.householdIndex));
+   780→  const proceduralPopTarget = totalPop - npcs.length;
+   781→  let proceduralGenerated = 0;
+   782→
+   783→  // Wealth distribution for unnamed households (mostly poor/tenant)
+   784→  const unnamedWealthTiers: WealthTier[] = ['poor','poor','poor','comfortable','destitute'];
+   785→
+   786→  for (let hh = 0; hh < householdCount && proceduralGenerated < proceduralPopTarget; hh++) {
+   787→    const isNamedHH = namedHouseholdIndices.has(hh);
+   788→    const wt = isNamedHH
+   789→      ? (NAMED_NPCS.find(n => n.householdIndex === hh)?.wealthTier ?? 'poor')
+   790→      : rngChoice(rng, unnamedWealthTiers);
+   791→    const isWangHH = isNamedHH
+   792→      ? (NAMED_NPCS.some(n => n.householdIndex === hh && n.isWang))
+   793→      : (hh < 22); // 22 of 31 are Wang per doc 04
+   794→
+   795→    // Count existing NPCs in this household
+   796→    const existingInHH = npcs.filter(n => n.householdIndex === hh).length;
+   797→    const targetMembers = isNamedHH
+   798→      ? rngInt(rng, 1, 4)  // add a few more members to named households
+   799→      : rngInt(rng, 3, 8);  // full household for unnamed ones
+   800→
+   801→    for (let i = 0; i < targetMembers && proceduralGenerated < proceduralPopTarget; i++) {
+   802→      const npc = generateProceduralNpc(
+   803→        rng, nextEntityId(), hh, isWangHH, wt, existingInHH + i,
+   804→      );
+   805→      npcs.push(npc);
+   806→      proceduralGenerated++;
+   807→    }
+   808→  }
+   809→
+   810→  return {
+   811→    seed,
+   812→    tick: 0,
+   813→    totalGenerated: npcs.length,
+   814→    namedCount: NAMED_NPCS.length,
+   815→    proceduralCount: proceduralGenerated,
+   816→    npcs,
+   817→  };
+   818→}
+   819→
+   820→// ============================================================================
+   821→// Query API
+   822→// ============================================================================
+   823→
+   824→export interface NpcGenApi {
+   825→  generate(params: NpcGenParams): NpcRoster;
+   826→  getLast(): NpcRoster | null;
+   827→  stats(): NpcGenStats;
+   828→  queryNpc(entityId: EntityId): GeneratedNpc | undefined;
+   829→  queryByHousehold(householdIndex: number): GeneratedNpc[];
+   830→  queryByRole(role: NpcRole): GeneratedNpc[];
+   831→  queryNamed(): GeneratedNpc[];
+   832→  queryByTension(tensionId: string): GeneratedNpc[];
+   833→  getKinshipNetwork(entityId: EntityId): { npc: GeneratedNpc; kin: GeneratedNpc[]; rels: GeneratedNpc[] };
+   834→}
+   835→
+   836→export interface NpcGenStats {
+   837→  generationsRun: number;
+   838→  lastSeed: string | null;
+   839→  lastTotalNpcs: number;
+   840→  lastNamedCount: number;
+   841→}
+   842→
+   843→export function createNpcGenApi(): NpcGenApi {
+   844→  let last: NpcRoster | null = null;
+   845→  let generationsRun = 0;
+   846→
+   847→  return {
+   848→    generate(params: NpcGenParams): NpcRoster {
+   849→      generationsRun++;
+   850→      last = generateNpcRoster(params);
+   851→      return last;
+   852→    },
+   853→    getLast(): NpcRoster | null { return last; },
+   854→    stats(): NpcGenStats {
+   855→      return {
+   856→        generationsRun,
+   857→        lastSeed: last?.seed ?? null,
+   858→        lastTotalNpcs: last?.totalGenerated ?? 0,
+   859→        lastNamedCount: last?.namedCount ?? 0,
+   860→      };
+   861→    },
+   862→    queryNpc(entityId: EntityId): GeneratedNpc | undefined {
+   863→      return last?.npcs.find(n => n.entityId === entityId);
+   864→    },
+   865→    queryByHousehold(householdIndex: number): GeneratedNpc[] {
+   866→      return last?.npcs.filter(n => n.householdIndex === householdIndex) ?? [];
+   867→    },
+   868→    queryByRole(role: NpcRole): GeneratedNpc[] {
+   869→      return last?.npcs.filter(n => n.role === role) ?? [];
+   870→    },
+   871→    queryNamed(): GeneratedNpc[] {
+   872→      return last?.npcs.filter(n => n.isNamed) ?? [];
+   873→    },
+   874→    queryByTension(tensionId: string): GeneratedNpc[] {
+   875→      return last?.npcs.filter(n => n.tensionTies.includes(tensionId)) ?? [];
+   876→    },
+   877→    getKinshipNetwork(entityId: EntityId) {
+   878→      if (!last) return { npc: undefined as any, kin: [], rels: [] };
+   879→      const npc = last.npcs.find(n => n.entityId === entityId);
+   880→      if (!npc) return { npc: undefined as any, kin: [], rels: [] };
+   881→      const kinIds = new Set(npc.kinship.map(k => k.targetNpcId));
+   882→      const relIds = new Set(npc.relationships.map(r => r.targetNpcId));
+   883→      return {
+   884→        npc,
+   885→        kin: last.npcs.filter(n => kinIds.has(n.entityId)),
+   886→        rels: last.npcs.filter(n => relIds.has(n.entityId)),
+   887→      };
+   888→    },
+   889→  };
+   890→}
+   891→
+   892→// ============================================================================
+   893→// Plugin Definition
+   894→// ============================================================================
+   895→
+   896→export function createNpcGenPlugin(): Plugin {
+   897→  let api: NpcGenApi | null = null;
+   898→
+   899→  return {
+   900→    id: 'ga:gen-npc',
+   901→    version: '0.1.0',
+   902→    dependencies: ['ga:determinism'],
+   903→
+   904→    init(host: PluginHost) {
+   905→      api = createNpcGenApi();
+   906→      host.capabilities.register({
+   907→        capability: 'gen.npc',
+   908→        provider: 'ga:gen-npc',
+   909→        version: '0.1.0',
+   910→        instance: api,
+   911→      });
+   912→      host.setState('ga:gen-npc', api);
+   913→      console.log('[ga:gen-npc] Initialized — 1 capability registered');
+   914→    },
+   915→
+   916→    destroy(host: PluginHost) {
+   917→      host.capabilities.unregister('gen.npc', 'ga:gen-npc');
+   918→      api = null;
+   919→      console.log('[ga:gen-npc] Destroyed');
+   920→    },
+   921→  };
+   922→}
+   923→
