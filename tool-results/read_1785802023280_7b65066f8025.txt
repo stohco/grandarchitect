@@ -1,0 +1,535 @@
+     1→# 29 — Economy, Logistics, and Factions
+     2→
+     3→**Status:** Foundation. The scarcity engine — three currencies, regional supply and demand, trade routes, caravans, debt and credit, smuggling, sect monopolies, market manipulation, price shocks, and the production chain that turns a spirit-vein's qi into a pill a Core Formation cultivator buys at auction. Includes the 1:365 time-ratio rule that governs Precelestial-Acquired trade.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. What this document is and why it exists
+     9→
+    10→The prior corpus (doc 18: economy system) specified the economic substrate at design resolution: three currencies, six markets, trade routes, the debt cycle, the sect economy. It did not specify the *simulator* that animates prices, routes caravans, clears markets, defaults debts, runs smuggling rings, and propagates price shocks across regions. This document specifies that simulator.
+    11→
+    12→The doctrine (AGENTS.md Part 3: "Design for joy first") requires that the economy serve the player's experience: the desire to cultivate is, in part, the desire to escape the debt cycle (per doc 18 §5). The economy's work is to make scarcity *felt* — the price of a Foundation Establishment pill should feel as astronomical as the genre demands; the choice between buying medicine for a sick parent and saving for a spirit-stone should feel as painful as the genre promises. Every subsystem below serves that felt scarcity.
+    13→
+    14→### Precedents cited
+    15→
+    16→- **Mount & Blade: Warband (TaleWorlds, 2010) — the caravan and price-disparity model.** Trade goods have different prices in different towns; caravans arbitrage; bandits prey on caravans. This document adopts the per-town price + caravan-arbitrage model.
+    17→- **Patrician III (Ascaron, 2003) — the production-chain and supply-line model.** Each city produces and consumes specific goods; the player builds supply chains. This document adopts the named-production-chain model for the cultivation economy.
+    18→- **Victoria II (Paradox, 2010) — the world-market price-formation model.** Prices adjust toward equilibrium via supply-demand imbalances, with concessions and subsidies. This document adopts the equilibrium-seeking price model for S2 markets.
+    19→- **Dwarf Fortress (Bay 12) — the workshop and stockpile model.** Each workshop consumes inputs and produces outputs; stockpiles buffer against supply shocks. This document adopts the workshop-and-stockpile model for sect crafters.
+    20→
+    21→---
+    22→
+    23→## 1. The three currencies (recap)
+    24→
+    25→Per doc 18 §1, the three currencies are:
+    26→
+    27→| Currency | Mortal circulation | Cultivator circulation | Conversion |
+    28→|---|---|---|---|
+    29→| Copper cash (文) | Daily | Rare | 1000 cash = 1 tael silver (nominal; fluctuates) |
+    30→| Silver (銀, taels) | Tax, large transactions | Rare below Foundation Establishment | 1 tael = 100-500 spirit stones (regional) |
+    31→| Spirit stones (靈石) | None | Standard | 1 spirit stone = 100-500 taels (regional) |
+    32→
+    33→A fourth pseudo-currency, **grain (穀)**, is the reserve currency for mortal households (per doc 18 §1.4). It is not traded in markets at S4 resolution (per doc 28 §11); it is tracked at the demographic level.
+    34→
+    35→```typescript
+    36→interface CurrencyState {
+    37→  regionId: number;
+    38→  cashPerSilver: number;          // local exchange rate; fluctuates
+    39→  silverPerSpiritStone: number;   // local; fluctuates
+    40→  cashLiquidity: number;          // total cash in circulation
+    41→  silverLiquidity: number;
+    42→  spiritStoneLiquidity: number;
+    43→  grainReserve: number;           // in dan (石, ~60kg)
+    44→}
+    45→```
+    46→
+    47→**Failure case — currency famine.** A region drained of one currency (e.g., a sect extracting spirit stones to the capital) cannot conduct transactions in that currency. The simulator enforces this: if `spiritStoneLiquidity < transaction_demand`, transactions in spirit stones fail (or are quoted in silver at a premium). This is the historical "currency flight" pattern, made mechanical.
+    48→
+    49→---
+    50→
+    51→## 2. Supply and demand (the price-formation engine)
+    52→
+    53→Each market good has a per-region `SupplyDemandState`. The price adjusts toward equilibrium each market-day.
+    54→
+    55→```typescript
+    56→interface SupplyDemandState {
+    57→  regionId: number;
+    58→  goodId: string;            // 'spirit_herb_qingxin', 'iron_tool', 'foundation_pill', etc.
+    59→  supply: number;            // units available
+    60→  demand: number;            // units desired at current price
+    61→  currentPrice: number;      // in local currency
+    62→  equilibriumPrice: number;  // theoretical; computed from long-run supply/demand
+    63→  priceHistory: PricePoint[];// last 365 days
+    64→  volatility: number;        // rolling standard deviation of price
+    65→}
+    66→
+    67→interface PricePoint {
+    68→  tick: number;
+    69→  price: number;
+    70→  volume: number;            // units traded
+    71→}
+    72→```
+    73→
+    74→**Price adjustment rule (Victoria II-style equilibrium-seeking).** Each market-day:
+    75→
+    76→```
+    77→price(t+1) = price(t) * (1 + adjustment_rate * (demand - supply) / max(supply, demand))
+    78→
+    79→  adjustment_rate = 0.05  // 5% per market-day; converges in ~20 days
+    80→```
+    81→
+    82→If `supply = 0` (a famine or shortage), the price spikes toward `max_affordable_price` (the highest price at which the wealthiest demander can still buy); it does not go to infinity.
+    83→
+    84→**Failure case — price oscillation.** A market with slow supply response (e.g., spirit herbs take decades to grow) can oscillate as demand spikes deplete supply, price spikes suppress demand, supply recovers, price crashes, demand returns. The simulator detects oscillation (amplitude > 30% over 60 days) and dampens by halving the `adjustment_rate` for that good. This is the historical "hog cycle" (Schweinezyklus), made mechanical.
+    85→
+    86→---
+    87→
+    88→## 3. Regional scarcity
+    89→
+    90→Different regions have different scarcity profiles. The Cangli Riverlands are grain-rich, herb-poor, iron-poor; the northern mountains are herb-rich, grain-poor, iron-rich. Scarcity is encoded in the `RegionEconomicProfile`:
+    91→
+    92→```typescript
+    93→interface RegionEconomicProfile {
+    94→  regionId: number;
+    95→  production: Record<string, number>;   // goodId → units produced per year
+    96→  consumption: Record<string, number>;  // goodId → units consumed per year
+    97→  selfSufficiency: Record<string, number>; // goodId → 0..1
+    98→  tradeDependencies: TradeDependency[];
+    99→  naturalResources: NaturalResource[];
+   100→}
+   101→
+   102→interface TradeDependency {
+   103→  goodId: string;
+   104→  dependsOnRegion: number;
+   105→  fractionOfSupply: number;  // 0..1
+   106→  routeId: number;           // trade route (per §4)
+   107→}
+   108→```
+   109→
+   110→**Failure case — scarcity denial.** A region cannot consume what it does not produce or import. If `import + production < consumption`, the deficit is rationed: the poorest consumers are priced out first. The simulator applies the rationing by raising price until demand matches `import + production`. This is the historical famine mechanism, made mechanical.
+   111→
+   112→---
+   113→
+   114→## 4. Trade routes and caravans
+   115→
+   116→Trade routes are the edges of the trade graph. Each route connects two markets and has a cost (in time, danger, and tolls).
+   117→
+   118→```typescript
+   119→interface TradeRoute {
+   120→  routeId: number;
+   121→  fromRegion: number;
+   122→  toRegion: number;
+   123→  mode: 'river' | 'road' | 'mountain_pass' | 'grotto_heaven';
+   124→  travelTime: number;          // ticks one-way
+   125→  danger: number;              // 0..1; probability of caravan loss
+   126→  tollPerUnit: number;         // cash per unit of cargo
+   127→  controllingFaction: number | null;
+   128→  caravanTraffic: number;      // caravans per year
+   129→  capacity: number;            // max caravans per year
+   130→}
+   131→
+   132→interface Caravan {
+   133→  caravanId: number;
+   134→  operatorId: number;          // NPC or faction id
+   135→  routeId: number;
+   136→  cargo: CaravanCargo[];
+   137→  departedAt: number;
+   138→  arrivalTick: number;
+   139→  guards: number[];            // cultivator ids protecting the caravan
+   140→  insurancePaid: boolean;
+   141→  status: 'in_transit' | 'arrived' | 'lost' | 'plundered';
+   142→}
+   143→
+   144→interface CaravanCargo {
+   145→  goodId: string;
+   146→  quantity: number;
+   147→  purchasedAt: number;         // price per unit at origin
+   148→  expectedSalePrice: number;   // at destination
+   149→}
+   150→```
+   151→
+   152→**Caravan dispatch rule.** A merchant NPC (or faction) dispatches a caravan when `expectedSalePrice - purchasedAt - tolls - guard_cost > min_margin` for at least one good. The dispatch is a verb in the NPC's action policy (per doc 26 §16, `trade_at_market`).
+   153→
+   154→**Caravan loss.** A caravan has a per-route `danger` probability per trip of being lost (bandits, beasts, weather). If lost, the cargo is gone (unless the bandits later sell it — the simulator models this via the `SmugglingEvent` subsystem in §8). Guards reduce `danger` proportionally to guard strength.
+   155→
+   156→**Failure case — route capture.** If a hostile faction controls a route (per `controllingFaction`) and denies passage to a rival faction's caravans, the rival must find an alternate route or do without. The simulator tracks this: caravans of the denied faction have their `status` set to `turned_back` at the route entry. This is the historical *ha-jin* (海禁, maritime ban) pattern, made mechanical.
+   157→
+   158→---
+   159→
+   160→## 5. Price formation across regions
+   161→
+   162→A good's price differs by region. The price difference is the *arbitrage opportunity* that drives caravans.
+   163→
+   164→```
+   165→price_region_A  ≠  price_region_B
+   166→arbitrage_opportunity = price_B - price_A - tolls - guard_cost - risk_premium
+   167→
+   168→  risk_premium = expected_loss * cargo_value
+   169→  expected_loss = route.danger
+   170→```
+   171→
+   172→When `arbitrage_opportunity > min_margin`, caravans flow from A to B. Their purchases raise `price_A` and their sales lower `price_B`, closing the arbitrage. The closure rate is `closure_per_caravan = caravan_cargo / regional_supply` — small caravans on big markets move prices slowly; big caravans on small markets move them sharply.
+   173→
+   174→**Failure case — cornering a market.** A wealthy faction can buy up all of a good in a region, hoard it, and sell at a markup. The simulator allows this (it is lawful), but the hoarding is visible to other factions (per doc 27 §6, the purchase events produce knowledge facts), and other factions may respond with `ReportToAuthority`, `SmuggleGoods` (§8), or `EstablishAlternateRoute`. Prolonged cornering triggers a `ScandalEvent` (per doc 30 §3) and may provoke regulatory intervention by the regional authority.
+   175→
+   176→---
+   177→
+   178→## 6. Sect monopolies and spirit-vein tithes
+   179→
+   180→Sects that control spirit veins (per doc 14 §1, doc 18 §6.1) charge cultivators for access. The tithe is the sect's primary revenue stream.
+   181→
+   182→```typescript
+   183→interface SpiritVeinTithe {
+   184→  veinId: number;
+   185→  sectId: number;
+   186→  titheRate: number;         // 0..1; fraction of cultivator's harvest paid
+   187→  minimumAccessFee: number;  // flat spirit-stone fee per cultivator per year
+   188→  restrictedAccess: boolean; // if true, only sect members may access
+   189→  titheHistory: TitheRecord[];
+   190→}
+   191→
+   192→interface TitheRecord {
+   193→  cultivatorId: number;
+   194→  tick: number;
+   195→  harvestValue: number;      // in spirit stones
+   196→  tithePaid: number;
+   197→}
+   198→```
+   199→
+   200→**Sect monopolies.** A sect with a monopoly on a rare good (a specific spirit herb, a specific pill recipe, a specific inheritance manual) can charge monopoly prices. The monopoly is encoded as `monopolyHolder` on the good's `SupplyDemandState`. The monopoly holder's price is `monopoly_price = equilibrium_price * (1 + monopoly_markup)` (default markup 50-200%).
+   201→
+   202→**Failure case — monopoly erosion.** Monopolies erode over time as: (1) other sects discover the recipe (via research, per doc 31 §3), (2) smugglers undercut (per §8), (3) the monopoly holder's political power wanes. The simulator tracks a `monopoly_stability` score; when it drops below `monopoly_threshold`, the monopoly collapses and the price returns to equilibrium.
+   203→
+   204→---
+   205→
+   206→## 7. Debt and credit
+   207→
+   208→Debt is the engine of mortal poverty (per doc 18 §5.1) and the lubricant of cultivator commerce. Each debt is a tracked obligation.
+   209→
+   210→```typescript
+   211→interface DebtRecord {
+   212→  debtId: number;
+   213→  creditor: number;          // NPC or faction id
+   214→  debtor: number;
+   215→  principal: number;         // in cash, silver, or spirit stones
+   216→  currency: 'cash' | 'silver' | 'spirit_stone' | 'grain';
+   217→  interestRate: number;      // per year; 0.5 = 50% APR
+   218→  interestType: 'simple' | 'compound';
+   219→  issuedAt: number;
+   220→  dueAt: number;
+   221→  collateral: Collateral[];
+   222→  status: 'current' | 'delinquent' | 'defaulted' | 'forgiven' | 'paid';
+   223→}
+   224→
+   225→interface Collateral {
+   226→  type: 'land' | 'pig' | 'household_member' | 'cultivation_manual' | 'spirit_herb';
+   227→  value: number;
+   228→  seizedOnDefault: boolean;
+   229→}
+   230→```
+   231→
+   232→**Interest accrual.** Interest accrues per in-game day. A debt in default (past `dueAt`) compounds at `default_penalty_rate` (default 2× the agreed rate). A defaulted debt triggers `CollateralSeizure`: the creditor takes the collateral, and the debtor's relationship with the creditor degrades (loyalty -0.3, grudge severity 0.5, per doc 26 §14).
+   233→
+   234→**Failure case — debt spiral.** A debtor who cannot pay sees their collateral seized, then their household members sold (per doc 18 §5.1). The simulator enforces this lawfully: it does not prevent the spiral, but it produces the cascade of consequences (the debtor's kin develop grudges, the debtor may flee the region, the debtor's faction loyalty drops). This is the engine of mortal suffering that drives the desire to cultivate.
+   235→
+   236→**Cultivator debt.** Cultivators can also incur debt (to sects, to alchemists, to auction houses). The currency is typically spirit stones. Default on a cultivator debt is more violent: the creditor may dispatch enforcers (a `DebtCollectionEvent`), and the debtor's `reputation` (per doc 27 §6) drops sharply.
+   237→
+   238→---
+   239→
+   240→## 8. Smuggling
+   241→
+   242→Smuggling is the unlawful transport of goods to evade tolls, taxes, or monopolies. It is a verb in the NPC action policy (per doc 26 §16, `smuggle_goods`).
+   243→
+   244→```typescript
+   245→interface SmugglingOperation {
+   246→  operationId: number;
+   247→  operatorId: number;
+   248→  goodId: string;
+   249→  quantity: number;
+   250→  originRegion: number;
+   251→  destinationRegion: number;
+   252→  routeType: 'unmarked_path' | 'false_manifest' | 'bribed_official' | 'grotto_heaven_shortcut';
+   253→  detectionRisk: number;     // 0..1; per-trip probability of detection
+   254→  profitMargin: number;      // expected, after bribes and losses
+   255→  status: 'planning' | 'in_transit' | 'delivered' | 'detected' | 'lost';
+   256→}
+   257→```
+   258→
+   259→**Detection.** Smuggling is detected via: (1) per-trip `detectionRisk` roll, (2) informants (NPCs whose `traits.deception` is low and who have a grudge against the smuggler), (3) residue reading by a cultivator official (per doc 27 §5). Detected smuggling triggers `SeizureEvent` (goods confiscated) and `ProsecutionEvent` (the smuggler is charged).
+   260→
+   261→**Failure case — smuggling collapse.** A region with high enforcement suppresses smuggling; prices of smuggled goods rise; new smugglers enter to capture the margin; enforcement may collapse under corruption (per doc 26 §9 failure case — greedy officials). The simulator models this as a feedback loop: `enforcement_strength` decays with `corruption_index`, and smuggling volume tracks `enforcement_strength` inversely.
+   262→
+   263→---
+   264→
+   265→## 9. Market manipulation and price shocks
+   266→
+   267→Market manipulation is the deliberate action of a faction to move a price. Price shocks are large, sudden moves from exogenous events.
+   268→
+   269→```typescript
+   270→interface MarketManipulationEvent {
+   271→  type: 'cornering' | 'dumping' | 'rumor_planting' | 'supply_interdiction' | 'subsidy';
+   272→  factionId: number;
+   273→  goodId: string;
+   274→  regionId: number;
+   275→  intendedPriceMove: number;  // fraction; e.g., +0.5 = +50%
+   276→  tick: number;
+   277→  durationTicks: number;
+   278→  successProbability: number;
+   279→}
+   280→
+   281→interface PriceShockEvent {
+   282→  type: 'famine' | 'plague' | 'war' | 'beast_tide' | 'vein_collapse' | 'tribulation' | 'inheritance_discovery';
+   283→  goodId: string;
+   284→  regionId: number;
+   285→  magnitude: number;          // fraction of supply lost
+   286→  tick: number;
+   287→  recoveryTime: number;       // ticks for supply to recover
+   288→}
+   289→```
+   290→
+   291→**Shock propagation.** A price shock in region A propagates to region B via the trade graph: the supply shortfall in A is partly filled by imports from B, raising B's price. The propagation follows the trade-route edges (per §4). A 50% shortfall in A might produce a 10-20% price rise in B, depending on the trade-route capacity.
+   292→
+   293→**Failure case — shock cascade.** A shock to a keystone good (e.g., a Foundation Establishment pill, which alchemists need and which all aspiring cultivators demand) propagates widely. The simulator tracks the *cascade depth*: a pill-price shock raises the price of breakthrough, which suppresses cultivator advancement, which reduces the supply of Foundation Establishment+ cultivators, which reduces the enforcement capacity against smugglers, which raises smuggling margins, which... The cascade is bounded by the simulation's tier caps (per §12) so it cannot run away indefinitely.
+   294→
+   295→---
+   296→
+   297→## 10. The production chain (habitat → pill)
+   298→
+   299→The full production chain for a Foundation Establishment pill (per doc 18 §3.3, expanded):
+   300→
+   301→```
+   302→┌────────────────┐
+   303→│ Spirit Vein    │  (qi source; §1 of doc 28)
+   304→└───────┬────────┘
+   305→        │ qi emission
+   306→        ▼
+   307→┌────────────────┐
+   308→│ Ambient Qi     │  (regional field; doc 28 §2.2)
+   309→└───────┬────────┘
+   310→        │ qi absorption
+   311→        ▼
+   312→┌────────────────┐
+   313→│ Herb Habitat   │  (wild garden; takes 50-100 years to mature)
+   314→└───────┬────────┘
+   315→        │ harvest (verb; per doc 26 §16)
+   316→        ▼
+   317→┌────────────────┐
+   318→│ Gatherer       │  (mortal or low-realm cultivator)
+   319→└───────┬────────┘
+   320→        │ transport
+   321→        ▼
+   322→┌────────────────┐
+   323→│ Trade Route    │  (per §4; danger, tolls)
+   324→└───────┬────────┘
+   325→        │
+   326→        ▼
+   327→┌────────────────┐
+   328→│ Sect Stockpile │  (storage; buffers against supply shocks)
+   329→└───────┬────────┘
+   330→        │ preservation (formation; per doc 16)
+   331→        ▼
+   332→┌────────────────┐
+   333→│ Alchemist      │  (workshop; consumes herb + beast parts + minerals)
+   334→└───────┬────────┘
+   335→        │ refining (per doc 16)
+   336→        ├──────────────┐
+   337→        ▼              ▼
+   338→┌──────────────┐ ┌──────────────┐
+   339→│   Success    │ │   Failure    │  (failure rate 30-70%)
+   340→│   (pill)     │ │ (waste, loss)│
+   341→└──────┬───────┘ └──────────────┘
+   342→       │
+   343→       ▼
+   344→┌────────────────┐
+   345→│ Merchant       │  (or sect distribution)
+   346→└───────┬────────┘
+   347→        │
+   348→        ▼
+   349→┌────────────────┐
+   350→│ Regional Price │  (per §2; equilibrium-seeking)
+   351→└───────┬────────┘
+   352→        │
+   353→        ▼
+   354→┌────────────────┐
+   355→│ Cultivator     │  (consumer; buys at market or auction)
+   356→└────────────────┘
+   357→```
+   358→
+   359→Each link has a time cost (herbs take decades, transport takes days, refining takes hours) and a loss rate (gathering risk, transport risk, refining failure). The chain's *tempo* is years for the slow links and hours for the fast links; the production chain is the engine that makes the cultivation economy slow.
+   360→
+   361→```typescript
+   362→interface ProductionChainStep {
+   363→  stepId: string;
+   364→  inputGood: string;
+   365→  outputGood: string;
+   366→  processor: 'habitat' | 'gatherer' | 'caravan' | 'stockpile' | 'alchemist' | 'merchant';
+   367→  durationTicks: number;
+   368→  lossRate: number;          // 0..1; fraction lost per pass
+   369→  skillFactor: number;       // multiplier on success, based on processor's skill
+   370→  concurrentCapacity: number;// how many parallel passes
+   371→}
+   372→```
+   373→
+   374→**Failure case — chain break.** Removing any link breaks the chain. If the gatherers are killed (beast attack, plague), the herb supply drops, the alchemist runs out of inputs, the pill price spikes, the cultivators cannot break through. The simulator models this cascade via the price-shock propagation (§9) and the ecological cascade (doc 28 §4).
+   375→
+   376→---
+   377→
+   378→## 11. The 1:365 time ratio and Precelestial-Acquired trade
+   379→
+   380→Per doc 15 §3, the Precelestial stratum runs at 1:1 real-time-to-game-time; the Acquired stratum runs at 1:365 (1 real second = 1 game day; 1 real year = 365 game years). The two strata trade via grotto-heavens (per doc 19), which are the only lawful crossings.
+   381→
+   382→The time-ratio asymmetry produces strange economics:
+   383→
+   384→- A Precelestial cultivator who visits the Acquired for a Precelestial-day (1 real day = 1 Acquired year) returns to find a year's worth of Acquired commerce has happened. Their Precelestial-side investments have not changed (Precelestial was at 1:1); their Acquired-side investments have appreciated or depreciated by a year's worth.
+   385→- A Precelestial-side alchemist producing pills in real-time sells them to Acquired-side merchants who experience the pills as fresh and rare (the pills' shelf-life is measured in Acquired years; the alchemist's production time is measured in Precelestial hours).
+   386→
+   387→```typescript
+   388→interface CrossStratumTrade {
+   389→  crossingId: number;
+   390→  grottoHeavenId: number;
+   391→  precelestialParty: number;
+   392→  acquiredParty: number;
+   393→  goodId: string;
+   394→  quantity: number;
+   395→  precelestialPrice: number;  // in Precelestial spirit stones
+   396→  acquiredPrice: number;      // in Acquired spirit stones
+   397→  exchangeRate: number;       // precelestial_spirit_stones per acquired_spirit_stone
+   398→  precelestialTick: number;
+   399→  acquiredTick: number;       // differs by ~365×
+   400→}
+   401→```
+   402→
+   403→**The exchange rate.** Precelestial spirit stones are *more valuable* than Acquired spirit stones (they are qi-richer, longer-lived, less contaminated). The exchange rate is typically 1 Precelestial = 50-200 Acquired. The rate fluctuates with the grotto-heaven's political situation.
+   404→
+   405→**Failure case — arbitrage exploit.** A Precelestial cultivator could attempt to flood the Acquired market with cheap Precelestial goods, then return for the proceeds. The simulator allows this (it is lawful), but: (1) the grotto-heaven's controlling sect extracts a tithe on every crossing (per §6), (2) the Acquired-side price falls as supply rises (per §2), (3) the Precelestial-side authority may restrict crossings if the trade imbalance threatens local Precelestial interests. This is the historical *chao-feng* (吵封, "border quarrel") pattern, made mechanical.
+   406→
+   407→**Failure case — time-debt.** A Precelestial cultivator who borrows in the Acquired (e.g., takes an Acquired-side loan to buy a treasure) returns to find the loan's interest has compounded across the time asymmetry. A 50% APR Acquired loan, held for one Precelestial year (= 365 Acquired years), compounds to astronomical values. The simulator enforces this lawfully: the debt is denominated in Acquired currency and accrues at Acquired time; the Precelestial cultivator's `DebtRecord.dueAt` is in Acquired ticks. This is the genre's "time debt" trope, made mechanical.
+   408→
+   409→---
+   410→
+   411→## 12. Tier simulation (S4 / S2 / S0)
+   412→
+   413→The economy degrades by tier:
+   414→
+   415→```
+   416→┌─────────┬──────────────────────────────────────────────────────────────┐
+   417→│ Tier    │ Economy behavior                                              │
+   418→├─────────┼──────────────────────────────────────────────────────────────┤
+   419→│ S4      │ Every transaction tracked. Caravans individually simulated. │
+   420→│ (full)  │ Prices re-evaluated per market-day. Debts accrue per day.   │
+   421→│         │ Smuggling operations individually tracked.                  │
+   422→│         │ Cost: ~0.5ms per active market per market-day.               │
+   423→├─────────┼──────────────────────────────────────────────────────────────┤
+   424→│ S2      │ Markets aggregate to monthly price points. Caravans         │
+   425→│ (aggr.) │ aggregated to "trade volume" per route per month. Debts     │
+   426→│         │ accrue per month. Smuggling aggregated to "smuggling        │
+   427→│         │ volume" per region per month.                                │
+   428→│         │ Cost: ~0.01ms per market per month.                          │
+   429→├─────────┼──────────────────────────────────────────────────────────────┤
+   430→│ S0      │ Frozen prices. No market dynamics. Debts frozen at last     │
+   431→│ (frozen)│ accrual. The region's economy is a snapshot.                 │
+   432→│         │ Cost: 0 per tick.                                             │
+   433→└─────────┴──────────────────────────────────────────────────────────────┘
+   434→```
+   435→
+   436→**Promotion rule.** When the player enters a region, the economy promotes to S2 (monthly aggregates rehydrated from frozen prices + elapsed time). When the player visits a market, that market promotes to S4 (full transaction tracking).
+   437→
+   438→**Demotion rule.** When the player leaves, the S4 market aggregates to S2; when the player leaves the region, the S2 markets freeze to S0. Named debts (debts involving the player or named NPCs, per doc 34) never freeze below S2 — they are tracked individually regardless of the player's location.
+   439→
+   440→**Failure case — promotion artifact.** A market promoted from S0 to S4 must not produce a price that contradicts the frozen S0 price by more than `promotion_price_tolerance` (default 20%). If it would, the simulator uses the frozen S0 price and adjusts over the first market-day. This prevents "the player left for a year and the price tripled" whiplash.
+   441→
+   442→---
+   443→
+   444→## 13. Faction economy
+   445→
+   446→A faction (sect, lineage, kingdom, alliance) has its own `FactionEconomyState`:
+   447→
+   448→```typescript
+   449→interface FactionEconomyState {
+   450→  factionId: number;
+   451→  treasury: { cash: number; silver: number; spiritStones: number; grain: number };
+   452→  revenue: RevenueSource[];
+   453→  expenses: ExpenseSource[];
+   454→  members: number;
+   455→  aggregateRealm: number;     // mean realm of members
+   456→  cohesion: number;           // 0..1; per doc 26 §15
+   457→  prosperity: number;         // 0..1; mean of treasury + revenue trend
+   458→  corruptionIndex: number;    // 0..1; per doc 26 §9 failure case
+   459→  debtOwed: number;
+   460→  debtOwedTo: number;
+   461→  monopolyHoldings: string[]; // goodIds
+   462→}
+   463→
+   464→interface RevenueSource {
+   465→  type: 'tithe' | 'land_tax' | 'craft_sales' | 'mercenary_contract' | 'tribute' | 'auction_fee';
+   466→  amount: number;             // per year
+   467→  trend: number;              // -1..+1; recent change
+   468→}
+   469→
+   470→interface ExpenseSource {
+   471→  type: 'disciple_support' | 'maintenance' | 'treasure_acquisition' | 'tribute_paid' | 'enforcement';
+   472→  amount: number;
+   473→  trend: number;
+   474→}
+   475→```
+   476→
+   477→**Faction prosperity.** A faction's `prosperity` decays when `expenses > revenue` for sustained periods. Low prosperity triggers: (1) member departures (cultivators leave for richer sects), (2) reduced enforcement (corruption rises), (3) vulnerability to attack (rival factions sense weakness). This is the historical "sect decline" pattern, made mechanical.
+   478→
+   479→**Failure case — faction collapse.** When `prosperity < collapse_threshold` AND `cohesion < collapse_threshold`, the faction enters `CollapseEvent` (per doc 26 §15 failure case and doc 30 §3): members leave, treasury is looted, territories are claimed by rivals, named NPCs become free agents. The collapse is deterministic given the seed.
+   480→
+   481→---
+   482→
+   483→## 14. Determinism contract
+   484→
+   485→Every economic operation is a pure function of:
+   486→
+   487→```
+   488→economy_state(t+1) = economy_fn(
+   489→  economy_state(t),         // prices, debts, caravans, factions
+   490→  harvest_pressure(t),      // from ecology (per doc 28)
+   491→  events(t),                // wars, plagues, discoveries (per doc 30)
+   492→  rng(regionSeed, tick)     // for caravan loss rolls, smuggling detection
+   493→)
+   494→```
+   495→
+   496→The function is evaluated per region per market-day at S4, per region per month at S2. All randomness flows through `rng(regionSeed, tick)`.
+   497→
+   498→**Hash verification.** `hashEconomy(regionId, tick)` returns the SHA-256 of the CBOR-encoded `EconomyState` for that region. Two runs with the same seed produce identical hashes. Cross-stratum trade hashes include both `precelestialTick` and `acquiredTick` so the time asymmetry is auditable.
+   499→
+   500→**Transaction atomicity.** A transaction (purchase, debt issuance, caravan dispatch) is atomic: it either fully commits (debit one party, credit another, update price) or fully rolls back. Partial transactions are bugs; the simulator detects them via a per-transaction hash ledger.
+   501→
+   502→---
+   503→
+   504→## 15. Rejected alternatives
+   505→
+   506→- **Centrally-planned prices.** Rejected: produces prices that don't reflect scarcity. The equilibrium-seeking model (§2) is what makes scarcity *felt*.
+   507→- **Single global market.** Rejected: regional scarcity is the engine of trade (per §3). A global market flattens the trade graph and removes the caravan gameplay.
+   508→- **Player as the only economic actor.** Rejected: the player must perceive the economy as alive — caravans flowing, prices moving, factions competing. NPCs must trade independently.
+   509→- **Cryptocurrency-style speculation (futures, options).** Rejected: too modern for the setting; the genre's economics are pre-modern (cash, silver, hoarding, debt). Futures and options would distract.
+   510→- **Per-good simulation threads.** Rejected: determinism requires a single-threaded market-clearing per region. Cross-region parallelism is allowed because regions are isolated within a market-day.
+   511→- **Random walk prices.** Rejected: prices must reflect supply and demand or the player cannot reason about them. The equilibrium-seeking model (§2) is the only one that produces learnable prices.
+   512→
+   513→---
+   514→
+   515→## 16. Open decisions (surfaced for review)
+   516→
+   517→1. **The 5% per market-day adjustment rate (§2).** Invented. May be too fast (markets feel volatile) or too slow (scarcity feels sluggish). Tuning needed.
+   518→2. **The 50-200% monopoly markup range (§6).** Invented. May be too high (monopolies feel unbeatable) or too low (monopolies feel trivial).
+   519→3. **The 2× default penalty rate (§7).** Invented. May be too punishing (default cascades too fast) or too lenient (default feels trivial).
+   520→4. **The 1:50-200 Precelestial-Acquired exchange rate (§11).** Decided within a range. The exact value will be tuned by the first Precelestial prototype (deferred until Acquired-side play is proven).
+   521→5. **The 20% promotion price tolerance (§12).** Invented. May be too tight (markets snap back too sharply on promotion) or too loose (prices feel discontinuous).
+   522→6. **The collapse thresholds for factions (§13).** Invented. Tuning data needed from playtesting sect-scale conflicts.
+   523→
+   524→---
+   525→
+   526→## 17. Doctrine compliance
+   527→
+   528→- **Build the engine, not just the brake:** the prior corpus's economy doc (18) was the substrate; this document specifies the simulator (price formation, caravans, debts, smuggling, monopolies, shocks, cross-stratum trade, tier degradation).
+   529→- **Make decisions; do not defer:** the three-currency model, the equilibrium-seeking price, the caravan arbitrage, the debt spiral, the smuggling-detection loop, the cross-stratum time asymmetry, the tier mapping are all decided. §16 are tuning parameters, not forks.
+   530→- **Cite the precedent:** Mount & Blade: Warband, Patrician III, Victoria II, Dwarf Fortress are named and their contributions specified.
+   531→- **Design for joy first:** the first hour's joy is feeling the price of medicine for the player's sick parent — and choosing between medicine and a spirit-stone. The economy produces the felt scarcity that drives the desire to cultivate.
+   532→- **Authorize the smallest end-to-end thing:** this document specifies enough to implement the Cangli Riverlands economy (10 regions, 6 markets, 3 currencies, 50 goods) at S2 with the player's current market at S4, as the first prototype.
+   533→
+   534→This document is the economy bible. It is the scarcity engine the prior corpus was missing.
+   535→

@@ -1,0 +1,483 @@
+     1→# 30 — History and Event Simulation
+     2→
+     3→**Status:** Foundation. The history generator — how named events are spawned from world state, how they persist as ruins and descendants and contaminated terrain, how the century-absence test runs history forward without the player, and how the player's own actions become the history future generations inherit.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. What this document is and why it exists
+     9→
+    10→The prior corpus (docs 04, 14, 18, 26-29) specified the world's *substrates*: mortal villages, spirit veins, food webs, markets, NPC cognition, knowledge ecology, cultivation mechanics. It did not specify the *event engine* — the subsystem that takes those substrates as inputs and produces the wars, migrations, sect collapses, beast tides, plagues, failed ascensions, discovered inheritances, and territorial disputes that constitute the world's *history*. A world without events is a diorama; a world with events is a place where things have happened and where the player's arrival is itself an event.
+    11→
+    12→The doctrine (AGENTS.md Part 3: "Ship the working thing before the perfect thing") requires that history be *generatable* — not hand-authored — so that the century-absence test (per doc 07 §6.1) can run 100+ years forward deterministically and produce a hashable, replayable result. This document specifies the event engine that makes that possible.
+    13→
+    14→### Precedents cited
+    15→
+    16→- **Dwarf Fortress (Bay 12) — the worldgen event log.** World generation produces a chronological log of every event (wars, births, deaths, artifact creations, beast attacks) that the player can later read. This document adopts the chronological-event-log model.
+    17→- **Crusader Kings III (Paradox, 2020) — the live event generator.** Events fire from current state (a vassal with low opinion and a strong claim rebels; a plague spreads along trade routes). This document adopts the state-driven event-firing model.
+    18→- **Shadow of Mordor (Monolith, 2014) — the Nemesis-system persistent consequences.** Killed orcs are replaced by their kin or subordinates who remember the player. This document adopts the persistent-consequences model for event afterlives.
+    19→- **RimWorld (Ludeon, 2018) — the incident-deferred system.** Incidents are queued with weights and minimum intervals; the AI storyteller selects the next incident to fire. This document adopts the weighted-queue + interval model (without the storyteller's "difficulty" framing).
+    20→
+    21→---
+    22→
+    23→## 1. The event taxonomy
+    24→
+    25→A named event is a typed record with preconditions, consequences, and persistent afterlives. The taxonomy is closed: every event in the simulation is one of the types below.
+    26→
+    27→```typescript
+    28→type EventType =
+    29→  | 'war'                    | 'migration'           | 'sect_collapse'
+    30→  | 'dynasty_change'         | 'beast_tide'          | 'plague'
+    31→  | 'failed_ascension'       | 'discovered_inheritance' | 'resource_boom'
+    32→  | 'territorial_dispute'    | 'tribulation_strike'  | 'breakthrough_event'
+    33→  | 'foundation_of_sect'     | 'dissolution_of_sect' | 'marriage_alliance'
+    34→  | 'feudEruption'           | 'corruption_scandal'  | 'smuggling_bust'
+    35→  | 'market_crash'           | 'vein_depletion'      | 'vein_discovery'
+    36→  | 'deviation_outbreak'     | 'yao_awakening'       | 'lost_manual_resurfaced'
+    37→  | 'karmic_retribution'     | 'prophetic_dream_wave'| 'foreign_invasion'
+    38→  | 'natural_disaster'       | 'pilgrimage'          | 'tournament'
+    39→  | 'assassination'          | 'succession_crisis'   | 'cultivator_death';
+    40→
+    41→interface HistoryEvent {
+    42→  eventId: number;
+    43→  eventType: EventType;
+    44→  tick: number;                  // when it fired
+    45→  regionId: number;              // primary location
+    46→  participants: EventParticipant[];
+    47→  causes: EventCause[];          // what triggered it
+    48→  consequences: EventConsequence[]; // immediate effects
+    49→  afterlife: EventAfterlife;     // persistent residue (per §5)
+    50→  hash: string;                  // immutable SHA-256 of the event's CBOR
+    51→  rumors: RumorInstance[];       // rumors spawned by this event (per doc 27 §4)
+    52→}
+    53→
+    54→interface EventParticipant {
+    55→  npcId?: number;
+    56→  factionId?: number;
+    57→  role: 'initiator' | 'target' | 'victim' | 'beneficiary' | 'witness' | 'enforcer';
+    58→  powerAtEvent: number;          // their qi-realm at the time
+    59→  outcomeFor: 'gain' | 'loss' | 'neutral' | 'death';
+    60→}
+    61→```
+    62→
+    63→**Failure case — orphan event.** An event with no `causes` and no `participants` is a bug. The simulator rejects it. Every event must be traceable to a state condition (the cause) and affect at least one actor (the participant).
+    64→
+    65→---
+    66→
+    67→## 2. The event causes (state-driven generation)
+    68→
+    69→Events fire when state conditions are met. Each event type has a *trigger predicate* over world state and a *base probability* per check.
+    70→
+    71→```typescript
+    72→interface EventTrigger {
+    73→  eventType: EventType;
+    74→  predicate: (worldState: WorldState, regionId: number) => boolean;
+    75→  baseRate: number;            // probability per day when predicate is true
+    76→  cooldownDays: number;        // minimum days between firings of this type in this region
+    77→  requiredTier: 'S0' | 'S2' | 'S4';  // minimum tier the region must be at to fire this event
+    78→}
+    79→
+    80→// Example: war trigger
+    81→const warTrigger: EventTrigger = {
+    82→  eventType: 'war',
+    83→  predicate: (ws, regionId) => {
+    84→    const factions = getFactionsInRegion(ws, regionId);
+    85→    return factions.some(f => f.cohesion < 0.3 && f.militaryStrength > threshold);
+    86→  },
+    87→  baseRate: 0.005,            // 0.5% per day when predicate holds
+    88→  cooldownDays: 365,          // at most one war per region per year
+    89→  requiredTier: 'S2',         // wars can fire at S2 (don't need S4 detail)
+    90→};
+    91→```
+    92→
+    93→**The trigger catalog.** Each event type has a documented trigger:
+    94→
+    95→- **war** — two factions with low mutual loyalty + sufficient military strength + a territorial dispute (per §3).
+    96→- **migration** — settlement's `grainReserveDays < 30` for 60+ days OR contamination > 0.6 (per doc 28 §6).
+    97→- **sect_collapse** — faction `prosperity < 0.2` AND `cohesion < 0.2` for 90+ days (per doc 29 §13).
+    98→- **dynasty_change** — ruling faction's `cohesion < 0.1` for 30+ days AND a rival faction with `cohesion > 0.6` exists.
+    99→- **beast_tide** — peak-beast population > 1.5× carrying capacity OR a modao-beast outbreak (per doc 28 §7).
+   100→- **plague** — `contaminationLevel > 0.4` AND mortal population density > threshold AND a contamination-matching disease vector exists.
+   101→- **failed_ascension** — a cultivator at a breakthrough rite rolls failure (per doc 31 §1) AND the failure is public (perceived by 3+ witnesses).
+   102→- **discovered_inheritance** — a ruin (per §5) is investigated by a cultivator with `qi_perception > ruin_concealment` AND the cultivator survives the ruin's protections.
+   103→- **resource_boom** — a spirit vein is discovered (geological event) OR a spirit-herb garden blooms unusually (ecological event).
+   104→- **territorial_dispute** — two factions both claim a region (overlapping `claimedTerritory`).
+   105→
+   106→**Failure case — event storm.** Multiple events firing in the same tick can swamp the simulator. The event queue enforces `max_events_per_tick` (default 10 per region, 50 globally). Excess events are deferred to the next tick with their predicates re-checked (if the predicate no longer holds, the event is dropped).
+   107→
+   108→---
+   109→
+   110→## 3. Event consequences (immediate effects)
+   111→
+   112→Each event has typed consequences that modify world state. Consequences are atomic per event (all-or-nothing).
+   113→
+   114→```typescript
+   115→type EventConsequence =
+   116→  | { type: 'npc_death'; npcId: number; causeOfDeath: string }
+   117→  | { type: 'npc_injury'; npcId: number; injuryType: string }
+   118→  | { type: 'npc_breakthrough'; npcId: number; newRealm: string }
+   119→  | { type: 'npc_displacement'; npcId: number; newRegionId: number }
+   120→  | { type: 'faction_destroyed'; factionId: number }
+   121→  | { type: 'faction_weakened'; factionId: number; magnitude: number }
+   122→  | { type: 'faction_strengthened'; factionId: number; magnitude: number }
+   123→  | { type: 'region_terrain_altered'; regionId: number; alteration: string }
+   124→  | { type: 'region_contamination_changed'; regionId: number; delta: number }
+   125→  | { type: 'population_loss'; regionId: number; fraction: number; cause: string }
+   126→  | { type: 'resource_created'; goodId: string; regionId: number; quantity: number }
+   127→  | { type: 'resource_destroyed'; goodId: string; regionId: number; quantity: number }
+   128→  | { type: 'new_ruin'; ruinId: number }
+   129→  | { type: 'new_rumor'; rumorId: number }
+   130→  | { type: 'oath_broken'; oathId: number }
+   131→  | { type: 'oath_forged'; oathId: number };
+   132→```
+   133→
+   134→Each consequence is applied via the appropriate plugin's `setState` API. Cross-plugin effects go through the event bus (per doc 17 §2.2). The full event is logged in the persistent event log before consequences are applied (so a crash mid-application can be recovered).
+   135→
+   136→**Failure case — consequence contradiction.** A consequence that contradicts world state (e.g., killing an already-dead NPC) is a bug. The simulator detects contradictions via a pre-application assertion: each consequence's preconditions are checked; if any fail, the event is rejected and the cause is investigated (the trigger predicate should have prevented the contradiction).
+   137→
+   138→---
+   139→
+   140→## 4. How events are generated from world state + factions + ecology + economy
+   141→
+   142→The event-generation loop runs once per in-game day per region:
+   143→
+   144→```
+   145→for each region R in active regions (S4 or S2):
+   146→  for each event trigger T in the trigger catalog:
+   147→    if T.cooldownDays has elapsed since last firing in R:
+   148→      if T.predicate(worldState, R):
+   149→        if rng(regionSeed, tick) < T.baseRate * contextModifier:
+   150→          fire event of type T in R at tick
+   151→          apply consequences
+   152→          log event
+   153→          spawn rumors (per doc 27 §4)
+   154→          create afterlife (per §5)
+   155→          set T.cooldownEnd[region] = tick + T.cooldownDays
+   156→```
+   157→
+   158→The `contextModifier` scales the base rate based on context: a region at war has higher rates for `assassination`, `succession_crisis`, `migration`; a region in plague has higher rates for `cultivator_death`, `corruption_scandal`. The modifier is bounded `[0.1, 10.0]` to prevent runaway rates.
+   159→
+   160→**Failure case — deterministic divergence.** Two runs with the same seed and same player inputs must produce the same event log. The `rng(regionSeed, tick)` consumption is logged per event; if two runs diverge, the divergence is at the first event where the RNG draw differs. The engine's hash-verification (per §9) catches this.
+   161→
+   162→---
+   163→
+   164→## 5. The event afterlife (persistent consequences)
+   165→
+   166→An event's *afterlife* is the persistent residue it leaves in the world — the ruins, descendants, enemies, lost manuals, altered borders, ghost stories, and contaminated terrain that future generations encounter.
+   167→
+   168→```typescript
+   169→interface EventAfterlife {
+   170→  eventId: number;
+   171→  ruins: Ruin[];
+   172→  descendants: DescendantLineage[];
+   173→  enemies: PersistentGrudge[];
+   174→  lostManuals: LostManual[];
+   175→  borderChanges: BorderChange[];
+   176→  ghostStories: GhostStory[];
+   177→  contaminatedTerrain: ContaminatedRegion[];
+   178→  memorialSites: MemorialSite[];
+   179→}
+   180→
+   181→interface Ruin {
+   182→  ruinId: number;
+   183→  location: Vec3;
+   184→  originEventId: number;       // the event that created it
+   185→  ruinType: 'sect' | 'palace' | 'battlefield' | 'cultivation_cave' | 'tomb' | 'city';
+   186→  ageAtAbandonment: number;    // how old the structure was when ruined
+   187→  concealment: number;         // 0..1; how hard to find
+   188→  protections: string[];       // formations, traps, guardian beasts
+   189→  contents: RuinContent[];     // manuals, treasures, beast cores, corpses
+   190→  decayLevel: number;          // 0..1; how ruined it currently is
+   191→}
+   192→
+   193→interface DescendantLineage {
+   194→  ancestorId: number;          // the original participant
+   195→  descendantIds: number[];     // current descendants
+   196→  inheritedGrudges: number[];  // grudge ids passed down
+   197→  inheritedOaths: number[];
+   198→  inheritedDebts: number[];
+   199→}
+   200→
+   201→interface LostManual {
+   202→  manualId: string;
+   203→  originalOwner: number;
+   204→  lastKnownLocation: Vec3 | null;
+   205→  concealment: number;
+   206→  discoveredBy: number | null;
+   207→  rediscoveryHint: string;     // for divination (per doc 27 §9)
+   208→}
+   209→
+   210→interface GhostStory {
+   211→  storyId: number;
+   212→  regionId: number;
+   213→  originEventId: number;
+   214→  currentDistortion: string;   // per doc 27 §7
+   215→  haunting_location: Vec3;
+   216→  anchorsBound: number[];      // unresolved anchors from the event
+   217→}
+   218→```
+   219→
+   220→**Ruin decay.** A ruin decays over centuries: `decayLevel += 0.01 per year`. At `decayLevel > 0.8`, the ruin's contents are mostly destroyed (manuals rot, treasures corrode, beast cores lose their qi). At `decayLevel > 0.99`, the ruin collapses and becomes a `memorialSite` (a place-name without contents).
+   221→
+   222→**Manual rediscovery.** A lost manual (per `LostManual`) can be rediscovered by: (1) a cultivator investigating the ruin (per `discovered_inheritance` event), (2) a diviner perceiving the manual's qi-resonance (per doc 27 §9), (3) a descendant of the original owner inheriting a fragment. The rediscovery is a `lost_manual_resurfaced` event (per §1).
+   223→
+   224→**Failure case — afterlife bloat.** Centuries of events produce thousands of ruins, millions of ghost stories, vast descendant lineages. The simulator caps the afterlife per region: `max_ruins_per_region` (default 32), `max_ghost_stories_per_region` (default 64). When the cap is exceeded, the oldest, lowest-concealment items are *resolved* (a ruin fully collapses; a ghost story's anchor is laid to rest by a passing cultivator).
+   225→
+   226→---
+   227→
+   228→## 6. Event persistence: descendants, enemies, lost manuals
+   229→
+   230→The afterlife is not passive. It generates *new* events over time.
+   231→
+   232→```typescript
+   233→interface AfterlifeGenerator {
+   234→  // A descendant coming of age may seek to avenge an ancestor's grudge
+   235→  descendantComingOfAge(npcId: number, inheritedGrudges: number[]): EventCause[];
+   236→
+   237→  // A persistent enemy may re-emerge when their faction regains strength
+   238→  enemyReemergence(persistentGrudge: PersistentGrudge): EventCause[];
+   239→
+   240→  // A lost manual's qi-resonance may surface in a diviner's perception
+   241→  manualResonanceSurfaced(manualId: string, divinerId: number): EventCause[];
+   242→
+   243→  // A ghost story may produce a haunting event when an anchor-bound NPC enters the area
+   244→  hauntingTriggered(ghostStoryId: number, npcId: number): EventCause[];
+   245→}
+   246→```
+   247→
+   248→**The descendant rule.** An NPC who inherits a grudge (per `DescendantLineage.inheritedGrudges`) has the grudge in their `GoalState` from age 16 (the coming-of-age). The grudge's severity is `0.5 * ancestor_grudge_severity * (1 + traits.grudges)`. The descendant may or may not act on it (per their cognition, doc 26 §16), but the grudge is present. This is the genre's "sworn brother's son seeks revenge" trope, made mechanical.
+   249→
+   250→**The enemy reemergence rule.** A persistent enemy (a faction or NPC that lost a war but was not destroyed) can re-emerge when their strength recovers. The simulator tracks `dormant_enemy` records; when their `militaryStrength` exceeds a threshold, a `territorial_dispute` or `war` event is fired with them as the initiator.
+   251→
+   252→---
+   253→
+   254→## 7. Event persistence: contaminated terrain
+   255→
+   256→Events that involve deviations, tribulations, or mass death leave `ContaminatedRegion` afterlives:
+   257→
+   258→```typescript
+   259→interface ContaminatedRegion {
+   260→  regionId: number;
+   261→  contaminationLevel: number;  // 0..1
+   262→  contaminationType: 'modao' | 'tribulation' | 'mass_death' | 'karmic' | 'chemical';
+   263→  originEventId: number;
+   264→  decayRate: number;           // per year; 0.01-0.10 depending on type
+   265→  cleansingRituals: string[];  // rituals that can accelerate decay
+   266→  effectsOnEcology: string[];  // per doc 28 §9
+   267→  effectsOnCultivators: string[]; // deviation risk, perception penalty
+   268→}
+   269→```
+   270→
+   271→**Decay.** Contamination decays at 0.01-0.10 per year. Modao contamination decays slowest (0.01); mass-death contamination decays faster (0.05); chemical contamination (alchemical spills) decays at 0.10. Active cleansing (a Foundation Establishment+ cultivator performing a cleansing rite) adds 0.20 per ritual.
+   272→
+   273→**Failure case — permanent contamination.** Some contamination is essentially permanent (a Mahayana-level law-conflict that scarred the land). These regions are marked `permanently_contaminated` and are excluded from the decay rule. They are hazards, not playable zones (unless the player brings cleansing capability).
+   274→
+   275→---
+   276→
+   277→## 8. The century-absence test
+   278→
+   279→Per doc 07 §6.1, the simulator must run 100+ years forward without the player and produce a deterministic, hashable result. The century-absence test is the engine's stress test for determinism.
+   280→
+   281→```typescript
+   282→interface CenturyAbsenceTest {
+   283→  startTick: number;
+   284→  endTick: number;            // startTick + 100 years of ticks
+   285→  startStateHash: string;
+   286→  endStateHash: string;
+   287→  eventsFired: number;
+   288→  eventsLog: HistoryEvent[];
+   289→  performanceMs: number;
+   290→  divergences: DivergenceReport[];  // empty if deterministic
+   291→}
+   292→
+   293→interface DivergenceReport {
+   294→  tick: number;
+   295→  regionId: number;
+   296→  field: string;
+   297→  expectedValue: string;
+   298→  actualValue: string;
+   299→  causeEventId: number | null;
+   300→}
+   301→```
+   302→
+   303→**Running the test.** The test runs headless (per doc 17 §4.3): no renderer, no input. All regions run at S2 (the player is absent; no S4 needed). The event engine fires events per §4; the ecology runs at S2 (per doc 28 §10); the economy runs at S2 (per doc 29 §12); the cognition runs at S2 (per doc 26 §17); the knowledge decays and distorts (per doc 27 §7-8).
+   304→
+   305→**Hashing.** The `endStateHash` is the SHA-256 of the full world state at `endTick`. Two runs with the same seed produce the same hash. The test is part of the engine's CI; a hash mismatch fails the build.
+   306→
+   307→**Performance budget.** The test must complete in under 5 minutes wall-clock for 100 in-game years (per the engine's performance contract). At ~36500 in-game days × ~10 regions × ~10ms per day per region = ~3650 seconds = 61 minutes — too slow. The S2 simulation must be optimized: per-day updates are batched into per-week or per-month aggregates where possible (the economy already runs per-month at S2; cognition runs per-24-ticks; ecology runs per-day).
+   308→
+   309→**Failure case — event storm during absence.** A 100-year run can produce hundreds of thousands of events. The event log is capped at `max_events_per_absence_run` (default 1,000,000); overflow events are aggregated into `EventSummary` records (one per type per region per decade) to preserve auditability without unbounded storage.
+   310→
+   311→---
+   312→
+   313→## 9. The player's actions as history
+   314→
+   315→The player is not exempt from the event engine. Player actions that meet event thresholds fire events:
+   316→
+   317→- The player kills a named NPC → `assassination` event (if the killing was unsanctioned) or `cultivator_death` (if sanctioned, e.g., a duel).
+   318→- The player breaks through to a new realm → `breakthrough_event` with the player as `initiator`.
+   319→- The player founds a sect → `foundation_of_sect` event.
+   320→- The player clears a ruin → `discovered_inheritance` event with the player as `beneficiary`.
+   321→- The player is involved in a war (as sect member, mercenary, or instigator) → `war` event with the player in `participants`.
+   322→
+   323→```typescript
+   324→interface PlayerActionToEvent {
+   325→  playerAction: string;       // 'killed_npc', 'broke_through', etc.
+   326→  triggeringEvent: EventType; // the event that fires
+   327→  playerRole: EventParticipant['role'];
+   328→  witnessesRequired: number;  // how many NPCs must perceive it for the event to fire
+   329→}
+   330→
+   331→// Player actions that are NOT events (private, no witnesses, no afterlife):
+   332→//   - private cultivation practice
+   333→//   - private conversations (unless they trigger another event)
+   334→//   - inventory management
+   335→//   - save/load
+   336→```
+   337→
+   338→**The witness rule.** A player action becomes an event only if perceived by at least one NPC (per doc 27 §2) or leaves qi-residue (per doc 27 §5) that is later read. A private cultivation session in a sealed cave does not become an event; a public breakthrough does. This is the "no history without witnesses" rule.
+   339→
+   340→**The afterlife of player events.** The player's events leave afterlives like any other. A player who kills a sect master leaves a `Ruin` (the destroyed sect compound), `DescendantLineage` (the master's disciples and kin inheriting grudges), and possibly `GhostStory` (if the master's anchor does not move on). The player can encounter their own past as history — meeting a descendant of an NPC they killed, finding a ruin they created, hearing a distorted rumor of their own deeds.
+   341→
+   342→---
+   343→
+   344→## 10. Event cross-tier behavior
+   345→
+   346→Events fire across tiers. The tier governs *which events* fire and *how detailed* the consequences are.
+   347→
+   348→```
+   349→┌─────────┬─────────────────────────────────────────────────────────────┐
+   350→│ Tier    │ Event behavior                                               │
+   351→├─────────┼─────────────────────────────────────────────────────────────┤
+   352→│ S4      │ All event types can fire. Consequences are per-individual  │
+   353→│ (full)  │ (named NPC deaths, specific ruin contents). Player is      │
+   354→│         │ present; events interact with the player directly.          │
+   355→├─────────┼─────────────────────────────────────────────────────────────┤
+   356→│ S2      │ All event types can fire. Consequences are aggregate       │
+   357→│ (aggr.) │ (population loss as a fraction, ruin count as a number).   │
+   358→│         │ Named NPCs involved are tracked (per doc 07 §6.1's          │
+   359→│         │ conservation rule). The player is not present; events are   │
+   360→│         │ resolved without player interaction.                        │
+   361→├─────────┼─────────────────────────────────────────────────────────────┤
+   362→│ S0      │ No events fire. Frozen. When promoted, the simulator       │
+   363→│ (frozen)│ generates "catch-up" events from the elapsed time using    │
+   364→│         │ the S2 generator (per doc 26 §17 promotion rehydration).   │
+   365→└─────────┴─────────────────────────────────────────────────────────────┘
+   366→```
+   367→
+   368→**Failure case — tier-promotion event burst.** A region promoted from S0 to S2 may generate a burst of catch-up events (decades of suppressed history firing at once). The simulator rate-limits this: catch-up events are spread across the first `catch_up_spread_ticks` (default 7 in-game days) of S2 simulation, with `max_catch_up_events_per_tick` (default 5). This prevents the player from being overwhelmed by a wall of history on entering a new region.
+   369→
+   370→---
+   371→
+   372→## 11. Event chains (one event causing others)
+   373→
+   374→Events are not independent. A war can cause migrations, plagues, dynasty changes, and lost-manual events in cascade.
+   375→
+   376→```typescript
+   377→interface EventChainRule {
+   378→  triggeringEvent: EventType;
+   379→  triggeredEvent: EventType;
+   380→  probability: number;        // per triggering event
+   381→  delayTicks: number;         // how long after the trigger
+   382→  regionSpread: 'same' | 'neighbor' | 'any';  // where the triggered event fires
+   383→  conditionPredicate?: (triggeringEvent: HistoryEvent) => boolean;
+   384→}
+   385→
+   386→// Example chain rules:
+   387→//   war → migration (probability 0.4, delay 30 days, same region)
+   388→//   war → plague (probability 0.1, delay 60 days, same region)  // refugees carry disease
+   389→//   plague → sect_collapse (probability 0.2, delay 180 days, same region)  // weakened sect
+   390→//   failed_ascension → tribulation_strike (probability 0.5, delay 0 days, same region)  // residue
+   391→//   sect_collapse → discovered_inheritance (probability 0.6, delay 365 days, same region)  // ruins
+   392→//   corruption_scandal → market_crash (probability 0.3, delay 7 days, same region)
+   393→```
+   394→
+   395→**Chain depth limit.** Chains cannot recurse indefinitely. The simulator caps `chain_depth` at 5: an event triggered by a chain rule cannot itself trigger a chain rule beyond depth 5. This prevents runaway event cascades from a single triggering event.
+   396→
+   397→**Failure case — chain echo.** A region where `war → migration → resource_boom (in the now-underpopulated region) → immigration → war` cycles endlessly is detected by the simulator after 3 cycles and damped: the chain rule's `probability` is halved for the affected region for `chain_damp_duration` (default 10 years). This is the historical "frontier warfare" cycle, made mechanical and bounded.
+   398→
+   399→---
+   400→
+   401→## 12. Event logging and the persistent history
+   402→
+   403→Every event is logged in the `PersistentHistoryLog`, an append-only structure that survives save/load and tier transitions.
+   404→
+   405→```typescript
+   406→interface PersistentHistoryLog {
+   407→  entries: HistoryLogEntry[];
+   408→  totalEventsLogged: number;
+   409→  // The log is sharded by century to keep individual shards small.
+   410→  centuryShards: Map<number, HistoryLogEntry[]>;
+   411→}
+   412→
+   413→interface HistoryLogEntry {
+   414→  eventId: number;
+   415→  eventType: EventType;
+   416→  tick: number;
+   417→  regionId: number;
+   418→  summary: string;            // human-readable
+   419→  hash: string;               // immutable
+   420→  participantNames: string[]; // names of involved NPCs
+   421→  afterlifeRefs: string[];    // references to Ruin, GhostStory, etc. ids
+   422→}
+   423→```
+   424→
+   425→**Player access.** The player can read the persistent history log via: (1) the journal (per doc 23 §1.3), which surfaces events the player has learned about; (2) the lineage hall (per doc 04), which displays the local history; (3) divination (per doc 27 §9), which can perceive past events' qi-momentum; (4) ghost stories, which are the distorted folk-memory of past events.
+   426→
+   427→**Failure case — log bloat.** A 1000-year simulation produces millions of log entries. The log is sharded by century; old shards are compressed (only `EventType`-level summaries retained for events older than the player's lifetime, plus full detail for events involving the player or named NPCs).
+   428→
+   429→---
+   430→
+   431→## 13. Determinism contract
+   432→
+   433→Every event operation is a pure function of:
+   434→
+   435→```
+   436→event_state(t+1) = event_fn(
+   437→  event_state(t),             // pending triggers, cooldowns, afterlives
+   438→  worldState(t),              // factions, ecology, economy, cognition
+   439→  rng(regionSeed, tick)       // for event firing rolls, chain rule rolls
+   440→)
+   441→```
+   442→
+   443→**Hash verification.** `hashHistory(regionId, tick)` returns the SHA-256 of the CBOR-encoded `HistoryState` for that region (the event log slice, the afterlife records, the cooldown trackers). Two runs with the same seed produce identical hashes.
+   444→
+   445→**Event ordering.** Within a tick, events are processed in `eventId` order (monotonic). Cross-region events are processed in `regionId` order. This ordering is fixed; the simulator does not parallelize within a tick to preserve determinism.
+   446→
+   447→**Afterlife consistency.** The afterlife records (`Ruin`, `DescendantLineage`, etc.) are part of the world state and hashed. A ruin created in one run must exist in another run at the same tick with the same `decayLevel` and `contents`.
+   448→
+   449→---
+   450→
+   451→## 14. Rejected alternatives
+   452→
+   453→- **Scripted history (hand-authored events).** Rejected: violates the determinism-by-generation principle (per doc 07). The century-absence test requires generated events.
+   454→- **Player-as-sole-event-source.** Rejected: the world must feel alive when the player is absent. NPCs and factions must initiate events.
+   455→- **Probabilistic event firing without predicates.** Rejected: produces events that don't make sense (a war in a peaceful region). Predicates ensure events fire only when state supports them.
+   456→- **LLM-generated event narratives.** Rejected for the simulation core: non-deterministic, unverifiable. LLMs may be used for *narration* of events (in the journal, in dialogue) but not for event generation.
+   457→- **Quantum-event superposition (events that "happen" only when observed).** Rejected: violates the conservation rule (per doc 07 §6.1). Events fire deterministically when their predicates hold; whether the player observes them later is a separate question.
+   458→- **Time-travel (player can revisit past events).** Rejected: violates the anchor model (per doc 00 §2). The past is recoverable only through its afterlife and its qi-residue (per doc 27 §5, §9), not through direct travel.
+   459→
+   460→---
+   461→
+   462→## 15. Open decisions (surfaced for review)
+   463→
+   464→1. **The 30-event taxonomy (§1).** Likely incomplete. The first playtest will reveal missing event types (e.g., "sect tournament", "treasure theft", "diplomatic_embassy"). Adding types is non-breaking; removing them is.
+   465→2. **The 10-events-per-tick-per-region cap (§2).** Invented. May be too low (regions feel static during event storms) or too high (simulator lag).
+   466→3. **The 5-deep chain limit (§11).** Invented. May be too shallow (some historical cascades go deeper) or too deep (runaway risk).
+   467→4. **The 32-ruins-per-region cap (§5).** Invented. May be too small for ancient regions (the capital region should have hundreds) or too large (memory cost).
+   468→5. **The 1,000,000 event-log cap per absence run (§8).** Invented. A 1000-year absence would overflow this; the engine may need to scale the cap with run length.
+   469→6. **The chain-damp 10-year duration (§11).** Invented. May be too short (cycles resume too fast) or too long (regions feel artificially stable).
+   470→7. **The 5-minute performance budget for the century-absence test (§8).** Decided by the engine contract. May need to relax to 10-15 minutes for the first implementation, then optimize.
+   471→
+   472→---
+   473→
+   474→## 16. Doctrine compliance
+   475→
+   476→- **Build the engine, not just the brake:** the prior corpus's docs (04, 14, 18, 26-29) specified the substrates; this document specifies the event engine that animates them.
+   477→- **Make decisions; do not defer:** the event taxonomy, the trigger catalog, the consequence types, the afterlife structure, the chain rules, the century-absence contract are all decided. §15 are tuning parameters, not forks.
+   478→- **Cite the precedent:** Dwarf Fortress, Crusader Kings III, Shadow of Mordor, RimWorld are named and their contributions specified.
+   479→- **Design for joy first:** the first hour's joy is hearing a rumor about a ruin in the next valley — and recognizing that the ruin has a history, a cause, descendants who still live, and contents that may include a lost manual. The event engine produces the texture of a world with a past.
+   480→- **Authorize the smallest end-to-end thing:** this document specifies enough to implement the Cangli Riverlands event engine (10 regions, 30 event types, 100-year absence test) as the first prototype.
+   481→
+   482→This document is the history bible. It is the event engine the prior corpus was missing.
+   483→

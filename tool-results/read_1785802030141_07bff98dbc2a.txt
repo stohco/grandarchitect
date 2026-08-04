@@ -1,0 +1,646 @@
+     1→# 09 — Entity Runtime State Architecture
+     2→
+     3→**Status:** Foundation architecture. The entity-component model that separates what is simulated from what is rendered.
+     4→**Date:** 2026-08-03
+     5→**Engine:** Grand Architect (browser-native plugin host, deterministic contract)
+     6→**Depends on:** `ga:determinism` (CBOR, SHA-256, RNG), `ga:core` (PluginHost), `07_SCHEDULER_FRAME_LOOP_TIME_DOMAINS` (the fixed tick that bounds component mutations)
+     7→**Read with:** `49_CONTENT_ARCHITECTURE §4` (the NPC simulation record), `17_ENGINE_ARCHITECTURE §2.3` (the entity-component model overview)
+     8→
+     9→---
+    10→
+    11→## 0. What this document is
+    12→
+    13→The entity runtime is the data layer every plugin reads and writes. This document specifies: the split between **sim-components** (serializable, hashed, authoritative) and **render-components** (non-serializable, derived, non-authoritative); the entity ID system (stable, persistent, recyclable); the three storage layouts the engine uses (archetype for hot sim queries, sparse-set for transient render state, `Map` for ad-hoc lookups); the query API; the component lifecycle (attach/detach/destroy callbacks); how the renderer derives render-components from sim-components each frame; and the NPC simulation record (from `49_CONTENT_ARCHITECTURE §4`) as the canonical example of a fully-realized entity.
+    14→
+    15→The central tension: **the renderer needs GPU-friendly, mutable, non-serializable state; the determinism contract needs CBOR-serializable, immutable-per-tick, hashable state.** The resolution is the sim/render split: sim-components are the source of truth; render-components are *derived* from them every frame and never written back.
+    16→
+    17→---
+    18→
+    19→## 1. Sim-components vs render-components
+    20→
+    21→### 1.1 The split
+    22→
+    23→```
+    24→┌──────────────────────────────────────────────────────────────────┐
+    25→│                       ENTITY (id: 0x4a17)                        │
+    26→│                                                                  │
+    27→│   ┌────────────────────────────────┐  ┌────────────────────────┐ │
+    28→│   │  SIM-COMPONENTS                │  │  RENDER-COMPONENTS     │ │
+    29→│   │  (serializable, hashed,        │  │  (non-serializable,    │ │
+    30→│   │   authoritative)               │  │   derived, non-author) │ │
+    31→│   │                                │  │                        │ │
+    32→│   │  • Transform (Q32.32 fixed)    │  │  • MeshRef (Three.js)  │ │
+    33→│   │  • NpcSchedule (state machine) │  │  • SkinnedMeshRef      │ │
+    34→│   │  • QiState (reservoir, phase)  │  │  • MaterialRef         │ │
+    35→│   │  • CombatState (frame data)    │  │  • BoneMatrices        │ │
+    36→│   │  • RelationshipRecord[]        │  │  • ParticleSystemRef   │ │
+    37→│   │  • InventorySeed               │  │  • AudioEmitterRef     │ │
+    38→│   │  • SimulationTier (S0-S4)      │  │  • LodBias             │ │
+    39→│   │                                │  │                        │ │
+    40→│   │  Serialized in save.           │  │  Re-derived each frame │ │
+    41→│   │  Hashed at checkpoint.         │  │  Never serialized.     │ │
+    42→│   │  Mutated only in phase 3.      │  │  Mutated in phase 7-8. │ │
+    43→│   └────────────────────────────────┘  └────────────────────────┘ │
+    44→└──────────────────────────────────────────────────────────────────┘
+    45→```
+    46→
+    47→### 1.2 TypeScript interfaces
+    48→
+    49→```typescript
+    50→/** Marker: every sim-component implements this. */
+    51→interface SimComponent {
+    52→  /** The component's type tag, e.g. 'ga:npc-sim.NpcSchedule'. */
+    53→  readonly __type: string;
+    54→  /** A stable hash of the component's *type schema* (not the data).
+    55→   *  Used by the determinism fingerprint to detect schema drift. */
+    56→  readonly __schemaHash: string;
+    57→  /** CBOR-serialize this component. Must be deterministic. */
+    58→  __serialize(encoder: CborEncoder): void;
+    59→}
+    60→
+    61→/** Marker: every render-component implements this. Not serializable. */
+    62→interface RenderComponent {
+    63→  readonly __type: string;
+    64→  /** Called by the renderer when this component is detached.
+    65→   *  Releases GPU resources, removes from scene graph. */
+    66→  __dispose(): void;
+    67→}
+    68→
+    69→/** An entity is an ID plus two bags of components. */
+    70→interface Entity {
+    71→  /** Stable, persistent, recyclable (§3). */
+    72→  id: EntityId;
+    73→  /** The sim-components, keyed by type tag. */
+    74→  sim: Map<string, SimComponent>;
+    75→  /** The render-components, keyed by type tag. Derived from `sim`. */
+    76→  render: Map<string, RenderComponent>;
+    77→  /** The spatial node this entity is currently parented to (doc 12). */
+    78→  spatialNode: SpatialNodeId;
+    79→  /** The entity's current simulation tier (S0-S4). */
+    80→  simulationTier: SimulationTier;
+    81→  /** A bitmask of which plugins have an interest in this entity.
+    82→   *  Used by the streaming system to prevent premature unload. */
+    83→  pinnedBy: bigint;
+    84→}
+    85→```
+    86→
+    87→### 1.3 The contract
+    88→
+    89→1. **Sim-components are the only canonical state.** Every gameplay-relevant fact about an entity lives in its sim-components. The save system serializes only sim-components.
+    90→2. **Render-components are derived.** Every frame (phase 7), the renderer walks entities, reads their sim-components, and produces/updates render-components. Render-components are never read by sim systems.
+    91→3. **Render-components never write back.** If the renderer needs to change sim state (e.g., a click selects an entity), it emits an event (doc 10) and the sim handles it in phase 3.
+    92→4. **Sim-components are CBOR-serializable and hashable.** The determinism enforcer can serialize and hash any entity's sim bag at any tick. Non-serializable fields (function references, Three.js objects, GPU buffers) are forbidden in sim-components — enforced by a lint rule and a runtime proxy in dev mode.
+    93→5. **SchemaHash is immutable per type.** When a plugin changes its component's schema (adds a field, changes a type), the `__schemaHash` changes. This invalidates old saves (doc 11 §6) — there is no silent migration.
+    94→
+    95→---
+    96→
+    97→## 2. The entity ID system
+    98→
+    99→### 2.1 Properties
+   100→
+   101→Entity IDs are:
+   102→- **Stable**: an entity's ID never changes during its lifetime.
+   103→- **Persistent**: the ID is part of the save; reloading the save produces entities with the same IDs.
+   104→- **Recyclable**: when an entity is destroyed, its ID is *not* reused for at least 2^64 - 1 ticks (effectively never within a save's lifetime). IDs are 128-bit to make collision vanishingly unlikely even across branches (doc 11 §8).
+   105→- **Deterministic**: IDs are assigned by the RNG substream, not by `Date.now()` or allocation order. The same generator run produces the same IDs.
+   106→
+   107→### 2.2 The ID format
+   108→
+   109→```typescript
+   110→/** 128-bit entity ID. Stored as two BigInts for portability. */
+   111→interface EntityId {
+   112→  /** High 64 bits: encodes the origin (which generator, which branch). */
+   113→  high: bigint;
+   114→  /** Low 64 bits: the entity's unique number within that origin. */
+   115→  low: bigint;
+   116→}
+   117→
+   118→/** The ID allocator. One per spatial node, seeded deterministically. */
+   119→interface EntityIdAllocator {
+   120→  /** Allocate the next ID. Deterministic given the seed. */
+   121→  next(): EntityId;
+   122→  /** Mark an ID as destroyed. It will not be reused. */
+   123→  destroy(id: EntityId): void;
+   124→  /** Check liveness. */
+   125→  isAlive(id: EntityId): boolean;
+   126→}
+   127→```
+   128→
+   129→The high 64 bits encode a *lineage*: which world seed, which branch, which spatial node. This makes cross-branch entity references (e.g., a memory of an NPC the player met in a parent branch) unambiguous.
+   130→
+   131→### 2.3 ID allocation
+   132→
+   133→IDs are allocated per spatial node (doc 12) by an allocator seeded from `(worldSeed, branchId, spatialNodeId)`:
+   134→
+   135→```typescript
+   136→function makeAllocator(worldSeed: bigint, branchId: bigint, nodeId: SpatialNodeId): EntityIdAllocator {
+   137→  const seed = jobSeed(worldSeed, branchId, 'entity-id-allocator', nodeId.toString());
+   138→  const rng = newXoshiro(seed);
+   139→  let counter = 0n;
+   140→  const destroyed = new Set<bigint>();
+   141→  return {
+   142→    next() {
+   143→      const low = (rng.next() << 32n) | rng.next();
+   144→      // Sanity: assert low !== 0 (0 is reserved for "null entity")
+   145→      return { high: encodeLineage(worldSeed, branchId, nodeId), low };
+   146→    },
+   147→    destroy(id) { destroyed.add(id.low); },
+   148→    isAlive(id) { return !destroyed.has(id.low); },
+   149→  };
+   150→}
+   151→```
+   152→
+   153→Two runs of the same world produce the same ID sequence. A save that branches (doc 11 §8) keeps the parent's ID space intact; new entities in the branch get a different `branchId` in the high 64 bits.
+   154→
+   155→### 2.4 The null entity
+   156→
+   157→`EntityId { high: 0n, low: 0n }` is the null entity. It is never alive. Sim systems use it as a sentinel for "no entity" (e.g., a `targetId` field on a combat component when no target is set).
+   158→
+   159→---
+   160→
+   161→## 3. Component storage
+   162→
+   163→The engine uses **three storage layouts**, chosen per component type based on access pattern. The query API (§4) hides the layout from callers.
+   164→
+   165→### 3.1 The three layouts
+   166→
+   167→```
+   168→┌──────────────────────────────────────────────────────────────────┐
+   169→│                    STORAGE LAYOUTS                               │
+   170→│                                                                  │
+   171→│  ARCHETYPE         ── entities with the same sim-component set   │
+   172→│     ▼                  stored contiguously. Best for hot         │
+   173→│  ┌──────────┐          iteration over a fixed component combo.  │
+   174→│  │ A: T,R,Q │          Example: all entities with Transform +   │
+   175→│  │ A: T,R,Q │          NpcSchedule + QiState (the NPC archetype).│
+   176→│  │ A: T,R,Q │                                                   │
+   177→│  └──────────┘                                                   │
+   178→│                                                                  │
+   179→│  SPARSE-SET        ── entities with a specific sim-component,    │
+   180→│     ▼                  stored as a packed array + sparse index.  │
+   181→│  ┌────────────────┐  Best for add/remove-heavy components       │
+   182→│  │ dense: [3,8,2] │  (e.g., CombatState, which is attached      │
+   183→│  │ sparse: {3:0,  │  only during combat).                       │
+   184→│  │   8:1, 2:2}    │                                            │
+   185→│  └────────────────┘                                            │
+   186→│                                                                  │
+   187→│  MAP               ── a plain Map<EntityId, Component>. Best for │
+   188→│     ▼                  ad-hoc lookups by ID (e.g., 'get this    │
+   189→│  ┌────────────────┐    NPC's schedule'). Used for components    │
+   190→│  │ id → component │    with rare iteration.                     │
+   191→│  └────────────────┘                                            │
+   192→└──────────────────────────────────────────────────────────────────┘
+   193→```
+   194→
+   195→### 3.2 When to use which
+   196→
+   197→| Layout | When | Why |
+   198→|---|---|---|
+   199→| Archetype | Hot-path systems that iterate "all entities with {T, R, Q}" | Cache-friendly linear scan; no pointer chase |
+   200→| Sparse-set | Components frequently attached/detached (CombatState, StatusEffect) | O(1) add/remove; O(n) iteration with swap-remove |
+   201→| Map | Components looked up by ID rarely, or only by external systems (the WebSocket API, the scene inspector) | Simpler; pays the indirection cost only when used |
+   202→
+   203→The plugin declares the layout at component-registration time. The engine verifies the choice is sensible (e.g., a component iterated by 5 systems should not be a `Map`).
+   204→
+   205→### 3.3 Archetype storage detail
+   206→
+   207→```typescript
+   208→interface Archetype {
+   209→  /** The signature: sorted set of component type tags. */
+   210→  signature: string[];
+   211→  /** Columnar storage. Each column is a typed array of one component type. */
+   212→  columns: Map<string, SimComponent[]>;
+   213→  /** The entity IDs in this archetype, parallel to the columns. */
+   214→  entities: EntityId[];
+   215→  /** Index from EntityId → row, for O(1) lookup. */
+   216→  index: Map<string, number>;  // key = entityIdToString(id)
+   217→}
+   218→
+   219→/** When a component is added/removed, the entity moves between archetypes. */
+   220→function moveEntityBetweenArchetypes(
+   221→  entity: Entity,
+   222→  from: Archetype,
+   223→  to: Archetype,
+   224→  addedOrRemoved: { type: string; op: 'add' | 'remove'; component?: SimComponent }
+   225→): void {
+   226→  // 1. Copy all shared components from `from` to `to`.
+   227→  // 2. Add/remove the changed component.
+   228→  // 3. Remove from `from`, append to `to`.
+   229→  // 4. Fire lifecycle callbacks (§5).
+   230→}
+   231→```
+   232→
+   233→Archetype transitions are amortized O(n) per move, but they are infrequent (only on component add/remove, not per-tick). Hot per-tick iteration is O(n) over the archetype's columns with linear memory access.
+   234→
+   235→### 3.4 Sparse-set detail
+   236→
+   237→```typescript
+   238→interface SparseSet<T> {
+   239→  dense: T[];           // packed; components stored contiguously
+   240→  denseIds: EntityId[]; // parallel to dense
+   241→  sparse: Map<string, number>;  // entityId → index in dense
+   242→}
+   243→
+   244→const combatStates: SparseSet<CombatState> = {
+   245→  dense: [], denseIds: [], sparse: new Map(),
+   246→};
+   247→
+   248→function attach(s: SparseSet<CombatState>, id: EntityId, c: CombatState) {
+   249→  if (s.sparse.has(idToString(id))) return;  // already attached
+   250→  s.sparse.set(idToString(id), s.dense.length);
+   251→  s.dense.push(c);
+   252→  s.denseIds.push(id);
+   253→}
+   254→
+   255→function detach(s: SparseSet<CombatState>, id: EntityId) {
+   256→  const idx = s.sparse.get(idToString(id));
+   257→  if (idx === undefined) return;
+   258→  // swap-remove
+   259→  const last = s.dense.length - 1;
+   260→  s.dense[idx] = s.dense[last];
+   261→  s.denseIds[idx] = s.denseIds[last];
+   262→  s.sparse.set(idToString(s.denseIds[idx]), idx);
+   263→  s.dense.pop();
+   264→  s.denseIds.pop();
+   265→  s.sparse.delete(idToString(id));
+   266→}
+   267→```
+   268→
+   269→---
+   270→
+   271→## 4. The Query API
+   272→
+   273→Systems query entities by component signature. The query API hides the storage layout and returns an iterator that is valid for the duration of the system's execution (entities added/removed during the system's run are not visible to that system — they appear next tick).
+   274→
+   275→```typescript
+   276→interface QuerySpec {
+   277→  /** Components the entity must have. */
+   278→  all?: string[];        // AND
+   279→  /** Components the entity must not have. */
+   280→  none?: string[];       // NOT
+   281→  /** Components of which the entity must have at least one. */
+   282→  any?: string[];        // OR
+   283→  /** Optional filter on tier (e.g., 'S3+'). */
+   284→  tierGte?: SimulationTier;
+   285→  /** Optional spatial filter (doc 12). */
+   286→  inSpatialNode?: SpatialNodeId | { withinRadius: number; of: EntityId };
+   287→}
+   288→
+   289→interface QueryResult {
+   290→  /** Iterate entities matching the spec. */
+   291→  [Symbol.iterator](): Iterator<{
+   292→    id: EntityId;
+   293→    sim: Readonly<Map<string, SimComponent>>;
+   294→    tier: SimulationTier;
+   295→  }>;
+   296→  /** Get one component for one entity. Throws if absent. */
+   297→  get<T extends SimComponent>(id: EntityId, type: string): T;
+   298→  /** Try-get. Returns undefined if absent. */
+   299→  tryGet<T extends SimComponent>(id: EntityId, type: string): T | undefined;
+   300→  /** Count without iterating. */
+   301→  count(): number;
+   302→}
+   303→
+   304→interface QueryApi {
+   305→  /** Compile a query spec into a reusable QueryResult. */
+   306→  query(spec: QuerySpec): QueryResult;
+   307→  /** Watch a query: fires when entities enter/leave the result set. */
+   308→  watch(spec: QuerySpec, handler: (delta: { added: EntityId[]; removed: EntityId[] }) => void): Unsubscribe;
+   309→}
+   310→```
+   311→
+   312→### 4.1 Query compilation
+   313→
+   314→Queries are compiled once (at system registration) and re-executed each tick. The compiler picks the cheapest layout:
+   315→
+   316→- If `spec.all` matches an archetype signature exactly, iterate the archetype.
+   317→- If `spec.all` has one component, iterate that component's sparse-set (or Map, with a warning).
+   318→- Otherwise, pick the smallest column and iterate, filtering by the rest of the spec.
+   319→
+   320→The compiler caches the choice. A query that does not match any efficient layout falls back to scanning all entities (rare; flagged in dev mode).
+   321→
+   322→### 4.2 Watch queries
+   323→
+   324→`watch` is for systems that need to react to entity creation/destruction (e.g., the renderer attaches a MeshRef when an entity gains a Transform). Watchers fire at the end of each fixed tick, not mid-tick, so sim systems see a consistent view during their own execution.
+   325→
+   326→---
+   327→
+   328→## 5. Component lifecycle
+   329→
+   330→Components have lifecycle callbacks. The engine fires them at well-defined points in the frame loop, never mid-system.
+   331→
+   332→```typescript
+   333→interface ComponentLifecycle<T extends SimComponent> {
+   334→  /** Called when the component is attached to an entity.
+   335→   *  Runs at the end of the fixed tick in which the attach happened. */
+   336→  onAttach?(entity: EntityId, component: T, ctx: SimContext): void;
+   337→  /** Called when the component is detached.
+   338→   *  Runs at the end of the fixed tick. */
+   339→  onDetach?(entity: EntityId, component: T, ctx: SimContext): void;
+   340→  /** Called when the entity is destroyed.
+   341→   *  Runs once per component on the entity, in reverse-registration order. */
+   342→  onDestroy?(entity: EntityId, component: T, ctx: SimContext): void;
+   343→  /** Called once when the component type is registered, for static init. */
+   344→  onRegister?(host: PluginHost): void;
+   345→}
+   346→```
+   347→
+   348→### 5.1 Lifecycle ordering
+   349→
+   350→```
+   351→Entity creation (in a system, mid-tick N)
+   352→  → component attached (in archetype, immediately)
+   353→  → ... other systems run ...
+   354→  → end of tick N:
+   355→      → onAttach fired for each newly-attached component, in registration order
+   356→  → tick N+1:
+   357→      → systems see the new entity via queries
+   358→
+   359→Entity destruction (in a system, mid-tick M)
+   360→  → entity marked for destruction
+   361→  → ... other systems run ...
+   362→  → end of tick M:
+   363→      → onDestroy fired for each component, in reverse-registration order
+   364→      → entity removed from all storage
+   365→  → tick M+1:
+   366→      → entity gone from queries
+   367→```
+   368→
+   369→### 5.2 Why callbacks fire at tick end, not mid-tick
+   370→
+   371→Mid-tick callback firing would mean a system sees an entity mid-creation (some components attached, others not). This breaks the query contract (§4.1: "queries are valid for the duration of the system's execution"). By deferring callbacks to tick end, every system sees a consistent snapshot.
+   372→
+   373→### 5.3 Lifecycle for render-components
+   374→
+   375→Render-components have a simpler lifecycle: `onDerive` (called each frame in phase 7 if the sim-component changed), `onDispose` (called when the sim-component is detached or the entity is destroyed). There is no `onAttach` because render-components are *derived*, not attached.
+   376→
+   377→---
+   378→
+   379→## 6. How the renderer derives render-components
+   380→
+   381→### 6.1 The derive pass (phase 7 of the frame loop)
+   382→
+   383→```
+   384→For each entity in the visible set (from phase 9 of the previous frame):
+   385→  1. Read the entity's sim-components (Transform, NpcSchedule, QiState, etc.)
+   386→  2. Compute a SimHash: a cheap hash of the sim-component values that affect rendering.
+   387→     - If SimHash === lastSimHash, skip: the render-components are still valid.
+   388→     - If SimHash !== lastSimHash, re-derive:
+   389→       a. For each render-component type the entity has:
+   390→          - Call derive(simComponents, prevRenderComponent) → newRenderComponent
+   391→          - If newRenderComponent is structurally identical, reuse prev (no GPU update)
+   392→          - Else, dispose prev, attach new, mark for GPU upload
+   393→       b. For each render-component type the entity should have but doesn't:
+   394→          - Create it via the registered derive function
+   395→       c. For each render-component the entity has but shouldn't:
+   396→          - Dispose it
+   397→  3. Update lastSimHash.
+   398→```
+   399→
+   400→The SimHash is a 32-bit FNV-1a over the CBOR bytes of the sim-components that affect rendering. It is *not* the determinism hash (which is 256-bit SHA-256 over all sim-components). It is a fast cache-invalidator.
+   401→
+   402→### 6.2 The derive function registry
+   403→
+   404→```typescript
+   405→interface DeriveFunction<S extends SimComponent, R extends RenderComponent> {
+   406→  /** The sim-component type(s) this derive reads. */
+   407→  reads: string[];
+   408→  /** The render-component type this derive writes. */
+   409→  writes: string;
+   410→  /** The derive. Reads sim, returns a fresh render-component (or updates the prev). */
+   411→  derive(sim: Readonly<Map<string, SimComponent>>, prev: R | null, ctx: RenderContext): R;
+   412→}
+   413→
+   414→interface RenderContext {
+   415→  /** The interpolated alpha (doc 07 §3.3). */
+   416→  alpha: Fixed64;
+   417→  /** The renderer's asset cache (for mesh/material lookups). */
+   418→  assets: AssetCache;
+   419→  /** The current camera (for LOD selection). */
+   420→  camera: CameraState;
+   421→  /** The frame's GPU upload budget. Derive must not exceed. */
+   422→  uploadBudgetBytes: number;
+   423→}
+   424→```
+   425→
+   426→### 6.3 Example: NPC derivation
+   427→
+   428→```typescript
+   429→// ga:npc-sim registers this derive.
+   430→const npcMeshDerive: DeriveFunction<NpcSchedule, SkinnedMeshRef> = {
+   431→  reads: ['ga:scene.Transform', 'ga:npc-sim.NpcSchedule', 'ga:npc-sim.AppearanceSeed'],
+   432→  writes: 'ga:renderer.SkinnedMeshRef',
+   433→  derive(sim, prev, ctx) {
+   434→    const transform = sim.get('ga:scene.Transform') as Transform;
+   435→    const schedule = sim.get('ga:npc-sim.NpcSchedule') as NpcSchedule;
+   436→    const appearance = sim.get('ga:npc-sim.AppearanceSeed') as AppearanceSeed;
+   437→
+   438→    // If transform hasn't moved and schedule's activity hasn't changed,
+   439→    // reuse prev (no GPU update).
+   440→    if (prev && prev.activity === schedule.currentActivity &&
+   441→        prev.transformStamp === transform.stamp) {
+   442→      prev.matrixWorld = transform.matrixWorld;  // cheap update
+   443→      return prev;
+   444→    }
+   445→
+   446→    // Otherwise, pick the right animation clip based on activity.
+   447→    const clip = activityToClip(schedule.currentActivity);
+   448→    if (prev && prev.clip === clip) {
+   449→      prev.activity = schedule.currentActivity;
+   450→      prev.transformStamp = transform.stamp;
+   451→      prev.matrixWorld = transform.matrixWorld;
+   452→      return prev;
+   453→    }
+   454→
+   455→    // Clip changed: we need a new SkinnedMeshRef (or at least a clip swap).
+   456→    if (prev) prev.__dispose();
+   457→    const mesh = ctx.assets.getSkinnedMesh(appearance.meshHash);
+   458→    mesh.clip = clip;
+   459→    mesh.matrixWorld = transform.matrixWorld;
+   460→    return { __type: 'ga:renderer.SkinnedMeshRef', clip, mesh, activity: schedule.currentActivity, transformStamp: transform.stamp, __dispose: () => mesh.dispose() };
+   461→  },
+   462→};
+   463→```
+   464→
+   465→### 6.4 What the renderer never does
+   466→
+   467→- **Never reads sim-components directly during render submit.** It reads only render-components. (Render submit is phase 10; derive is phase 7. The two are separate.)
+   468→- **Never writes sim-components.** If the renderer needs to change sim state, it queues an event (doc 10) that the sim processes next tick.
+   469→- **Never holds references to sim-components across frames.** Render-components hold *copies* of the data they need (e.g., a `matrixWorld` matrix, not a reference to the Transform component). This prevents use-after-free when a sim-component is mutated next tick.
+   470→
+   471→---
+   472→
+   473→## 7. The NPC simulation record (canonical example)
+   474→
+   475→From `49_CONTENT_ARCHITECTURE §4`. This is the fully-realized entity: an NPC with identity, state, social, procedural, and determinism fields.
+   476→
+   477→```typescript
+   478→/** The NPC entity's sim-components. Each is a separate SimComponent
+   479→ *  so systems can query subsets (e.g., 'all NPCs with schedules' without
+   480→ *  loading their relationships). */
+   481→
+   482→interface NpcIdentity extends SimComponent {
+   483→  __type: 'ga:npc-sim.NpcIdentity';
+   484→  __schemaHash: 'b7c1...';  // pinned at registration
+   485→  id: EntityId;
+   486→  name: string;
+   487→  appearanceSeed: bigint;
+   488→  cultureId: string;
+   489→}
+   490→
+   491→interface NpcState extends SimComponent {
+   492→  __type: 'ga:npc-sim.NpcState';
+   493→  __schemaHash: 'a3f2...';
+   494→  locationId: SpatialNodeId;
+   495→  realmId: string;
+   496→  age: number;                  // in in-game days
+   497→  health: HealthState;
+   498→  qiState: QiState;            // reservoir, phase-affinity, yin-yang, contamination
+   499→  heartMind: HeartMindState;   // attention, will, emotional_balance, attachments
+   500→}
+   501→
+   502→interface NpcSocial extends SimComponent {
+   503→  __type: 'ga:npc-sim.NpcSocial';
+   504→  __schemaHash: '9e84...';
+   505→  factionId?: EntityId;
+   506→  householdId?: EntityId;
+   507→  relationships: RelationshipRecord[];
+   508→  goals: GoalState[];
+   509→  memories: MemoryRecord[];
+   510→}
+   511→
+   512→interface NpcProcedural extends SimComponent {
+   513→  __type: 'ga:npc-sim.NpcProcedural';
+   514→  __schemaHash: '5d11...';
+   515→  inventorySeed: bigint;
+   516→  scheduleSeed: bigint;
+   517→  simulationTier: SimulationTier;
+   518→}
+   519→
+   520→interface NpcDeterminism extends SimComponent {
+   521→  __type: 'ga:npc-sim.NpcDeterminism';
+   522→  __schemaHash: '1c9a...';
+   523→  rngStream: string;  // hex — the NPC's deterministic RNG substream
+   524→}
+   525→
+   526→/** RelationshipRecord, GoalState, MemoryRecord — per doc 49 §4. */
+   527→interface RelationshipRecord {
+   528→  targetId: EntityId;
+   529→  type: 'kin' | 'teacher' | 'student' | 'rival' | 'ally' | 'enemy' | 'spouse' | 'debtor' | 'creditor' | 'sworn_brother';
+   530→  strength: number;     // 0-100
+   531→  sentiment: number;    // -100 to 100
+   532→  history: EventRef[];
+   533→}
+   534→```
+   535→
+   536→### 7.1 Why five components, not one
+   537→
+   538→The NPC could be a single `Npc` component. It is split into five because:
+   539→
+   540→1. **Queries are narrow.** The scheduler system only reads `NpcSchedule` and `NpcState`. The relationship system only reads `NpcSocial`. Splitting lets each system iterate the smallest possible column.
+   541→2. **Tier transitions touch only one component.** When an NPC demotes from S4 to S3, only `NpcProcedural.simulationTier` and (possibly) `NpcState.locationId` change. The other components are untouched.
+   542→3. **Save serialization can skip.** The save system (doc 11) can serialize only the components that changed since the last checkpoint (incremental save). Splitting makes this granularity useful.
+   543→
+   544→### 7.2 The simulation tier field
+   545→
+   546→`NpcProcedural.simulationTier` is one of S0–S4 (doc 12, `49_CONTENT_ARCHITECTURE §4`). The scheduler reads this field to decide how often to tick the NPC's systems:
+   547→
+   548→- **S4**: every fixed tick (60 Hz). Full AI, physics, animation, schedule.
+   549→- **S3**: every 4th fixed tick (15 Hz). Full state machine, reduced frequency, no rendering.
+   550→- **S2**: every 60th fixed tick (1 Hz, strategic). Aggregate state, scheduled updates, no individual AI.
+   551→- **S1**: every 3600th fixed tick (once per in-game minute). Demographic aggregate only.
+   552→- **S0**: frozen. Wake only on player approach.
+   553→
+   554→Tier transitions are deterministic and conservation-checked (no promotion creates favorable facts; no demotion erases named entities — `49 §4`).
+   555→
+   556→---
+   557→
+   558→## 8. 16 questions answered
+   559→
+   560→1. **What is this system?** The entity runtime: the sim/render component split, the entity ID system, three storage layouts, the query API, lifecycle callbacks, and the derive pass.
+   561→
+   562→2. **What problem does it solve?** The renderer needs GPU-friendly mutable state; the determinism contract needs CBOR-serializable hashable state. The split lets both coexist.
+   563→
+   564→3. **Core abstractions?** `SimComponent`, `RenderComponent`, `Entity`, `EntityId`, `Archetype`, `SparseSet`, `QuerySpec`, `QueryResult`, `DeriveFunction`, `ComponentLifecycle`.
+   565→
+   566→4. **Data flow?** Sim systems mutate sim-components (phase 3) → derive pass produces render-components (phase 7) → renderer submits (phase 10). Render never writes back.
+   567→
+   568→5. **Lifecycle?** Component registered at plugin init → attached/detached at tick boundaries → destroyed at tick boundaries → type unregistered at plugin destroy.
+   569→
+   570→6. **Invariants?** (a) Sim-components are CBOR-serializable and hashable. (b) Render-components never write back. (c) Entity IDs are stable, persistent, recyclable, deterministic. (d) Queries are snapshot-consistent for the duration of a system's execution. (e) SchemaHash is immutable per type.
+   571→
+   572→7. **Inputs?** Sim systems write sim-components (via the host); the derive pass reads sim-components and the prev render-components.
+   573→
+   574→8. **Outputs?** Render-components consumed by the renderer; query results consumed by sim systems.
+   575→
+   576→9. **Failure modes?** SchemaHash drift (save rejection), archetype-fragmentation (too many archetypes — mitigated by component-set discipline), derive-pass budget overflow (graceful degradation: skip re-derive for distant entities), use-after-free (prevented by render-components holding copies, not references).
+   577→
+   578→10. **Performance budget?** Derive pass < 1 ms per frame for 500 visible entities. Query iteration < 0.1 ms per archetype scan. Archetype transition < 0.01 ms per move.
+   579→
+   580→11. **Test requirements?** SchemaHash stability, sim/render non-interference (render mutation never affects sim), ID determinism, archetype-fragmentation ceiling, derive-pass budget, lifecycle callback ordering.
+   581→
+   582→12. **Extension points?** Plugins register component types (with `__schemaHash` and lifecycle), derive functions, and systems that query. The runtime is closed to new storage layouts (three is enough).
+   583→
+   584→13. **Security/isolation?** Render-components cannot call sim APIs (enforced by TypeScript types and runtime proxy in dev mode). Sim-components cannot hold GPU resources (enforced by lint).
+   585→
+   586→14. **Rejected alternatives?** (a) Single-component NPC — rejected for query narrowness and save granularity. (b) ECS with no sim/render split — rejected because render-components (Three.js objects) are not serializable. (c) Immutable components (a la Rust ECS) — rejected because JS lacks cheap persistent data structures; the sim/render split achieves the same invariant (render never reads mid-mutation) via the derive pass. (d) Reactive bindings (sim → render via observables) — rejected because the derive pass is simpler and batched per-frame, avoiding reactive cascade costs. (e) Foreign-key-style references (entity IDs as indexes into a global table) — rejected in favor of explicit `EntityId` 128-bit values, which survive save/load and branch.
+   587→
+   588→15. **Dependencies?** Depends on `ga:determinism` (CBOR, hash), `ga:core`, `07_SCHEDULER` (phase boundaries), `12_WORLD_PARTITIONING` (spatial node for entity). Depended on by every gameplay plugin, the renderer, the save system, and the WebSocket API.
+   589→
+   590→16. **What this enables?** The save system (doc 11) can serialize any entity's sim bag at any tick. The streaming system (doc 12) can demote an entity to S0 by freezing its sim-components. The renderer can render 500+ NPCs at 60 Hz because the derive pass is incremental (SimHash caching). The AI agent (doc 22) can inspect any entity via `getEntity(id)` and see the same sim-components the sim sees.
+   591→
+   592→---
+   593→
+   594→## 9. Test requirements (detailed)
+   595→
+   596→### 9.1 SchemaHash stability
+   597→
+   598→For each component type, register it 1000 times across 1000 engine restarts. Assert the `__schemaHash` is identical every time. A failure indicates the schema hash is being computed from non-deterministic inputs (e.g., field declaration order in a Map).
+   599→
+   600→### 9.2 Sim/render non-interference
+   601→
+   602→Spawn an entity with sim and render components. From a render system, attempt to call `host.setState` on a sim-component. Assert the call throws (dev mode) or is silently dropped (production). Assert the sim-component is unchanged.
+   603→
+   604→### 9.3 ID determinism
+   605→
+   606→Run the world generator twice with the same seed. Assert the entity IDs are identical. Branch the save (doc 11 §8); assert new entities in the branch have different `high` bits.
+   607→
+   608→### 9.4 Archetype fragmentation ceiling
+   609→
+   610→Run a 1000-tick sim that attaches/detaches components randomly. Assert the number of distinct archetypes stays below 50 (tunable). A higher number indicates component-set indiscipline.
+   611→
+   612→### 9.5 Derive-pass budget
+   613→
+   614→Spawn 500 NPCs in the visible set. Assert the derive pass (phase 7) completes in < 1 ms. Assert SimHash caching skips > 90% of NPCs on a frame where no NPC's sim-components changed.
+   615→
+   616→### 9.6 Lifecycle callback ordering
+   617→
+   618→Attach three components (A, B, C) to an entity in registration order. Destroy the entity. Assert `onDestroy` fires in order C, B, A. Attach A, B, C, then attach D. Assert `onAttach` for D fires after A, B, C's `onAttach`.
+   619→
+   620→### 9.7 Tier transition conservation
+   621→
+   622→Demote an S4 NPC to S1. Assert the entity is still queryable. Assert the named-NPC fields (NpcIdentity, NpcSocial) are unchanged. Assert only `simulationTier` and `locationId` changed. Promote back to S4. Assert no new favorable facts (no new gold, no new relationships, no new memories) were created by the promotion.
+   623→
+   624→---
+   625→
+   626→## 10. Rejected alternatives (summary)
+   627→
+   628→- **Single-bag ECS (no sim/render split).** Fails the determinism contract (Three.js objects are not serializable).
+   629→- **Immutable components.** JS lacks cheap persistent data structures; the derive pass achieves the same invariant.
+   630→- **Reactive bindings.** Cascade cost; harder to reason about per-frame budgets.
+   631→- **Global entity table with int IDs.** Fails across save/load (an ID in a save must be unambiguous). 128-bit IDs with lineage encoding solve this.
+   632→- **World-space Transform only.** Fails for the hierarchical spatial model (doc 12) where an entity can be in a spatial pocket whose coordinate space is unrelated to its parent's. Transform must carry its `spatialNode` reference.
+   633→- **Reactive render-component re-derivation on every sim mutation.** Too expensive. The SimHash + per-frame batched derive is cheaper and amortizes cache misses.
+   634→
+   635→---
+   636→
+   637→## 11. What this document enables
+   638→
+   639→- **The save system (doc 11)** can serialize any entity's sim bag at any tick, knowing render-components are not in the save.
+   640→- **The streaming system (doc 12)** can demote an entity by freezing its sim-components (set `simulationTier = S0`); the derive pass naturally skips S0 entities.
+   641→- **The event system (doc 10)** can target entities by ID across ticks and branches, because IDs are stable and persistent.
+   642→- **The renderer** can render 500+ NPCs at 60 Hz because the derive pass is incremental and cache-aware.
+   643→- **The NPC simulation record** (`49_CONTENT_ARCHITECTURE §4`) is the canonical example: five components, each queryable independently, each serializable, each hashable.
+   644→
+   645→The entity runtime is the substrate every gameplay plugin reads and writes. With it specified, the event bus (doc 10), the save system (doc 11), and the streaming system (doc 12) can be built on top of a stable, serializable, hashable foundation.
+   646→

@@ -1,0 +1,523 @@
+     1→# 28 — Ecology and Demography
+     2→
+     3→**Status:** Foundation. The living-substrate simulator — the food web that turns spirit-vein qi into ambient qi into herbs into herbivores into predators into peak beasts, the population dynamics that govern their rise and collapse, the seasonal cycles that modulate them, and the tier degradation that lets 180 named villagers coexist with ten thousand anonymous beasts without melting the CPU.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. What this document is and why it exists
+     9→
+    10→The prior corpus (doc 14: ecology and qi; doc 04: the mortal substrate) specified the qi-stratified living world at design resolution: spirit veins, herbs, beasts, contamination, food webs. It did not specify the *simulator* that animates that world: how populations grow and crash, how cascades propagate, how seasonal cycles modulate the qi-flows, how spirit beasts cultivate, how yao (妖, sentient beasts) develop anchors, and how the whole system degrades gracefully when the player is not looking at it. This document specifies the simulator.
+    11→
+    12→The doctrine (AGENTS.md Part 3: "Do not confuse the apparatus with the work") requires that the ecology serve the player's experience, not exist as a self-contained diorama. The ecology's work is: (1) producing the spirit herbs and beast parts the player needs for cultivation, (2) producing the dangers that make gathering and hunting non-trivial, (3) producing the seasonal texture that makes the world feel alive, (4) producing the cascades that turn player actions (over-harvesting, killing a peak beast) into world-state changes the player can perceive. Every subsystem below serves at least one of these.
+    13→
+    14→### Precedents cited
+    15→
+    16→- **Dwarf Fortress (Bay 12) — the worldgen wildlife populations.** Animal populations are tracked per region, with predation and migration. This document adopts the regional-population model for S2.
+    17→- **RimWorld (Ludeon) — the animal ecology.** Animals have hunger, predation, and reproduction. This document adopts the individual-animal model for S4.
+    18→- **Stellaris (Paradox) — the pop-growth and decline model.** Pops grow logistically and crash under stress. This document adopts the logistic-growth model for population dynamics.
+    19→- **Minecraft (Mojang) — the mob spawning rules.** Spawn caps per region; despawn at distance. This document adopts the spawn-cap + despawn rule for tier management.
+    20→
+    21→---
+    22→
+    23→## 1. The food web (the topology)
+    24→
+    25→The ecology is a directed graph of trophic levels. Each node is a *species* (a named category with qi-traits). Each edge is a predation relationship with an energy-transfer coefficient.
+    26→
+    27→```
+    28→                          ┌──────────────┐
+    29→                          │ Spirit Vein  │  (qi source, §1.1)
+    30→                          │  (geology)   │
+    31→                          └──────┬───────┘
+    32→                                 │ qi emission
+    33→                                 ▼
+    34→                          ┌──────────────┐
+    35→                          │ Ambient Qi   │  (qi reservoir, §1.2)
+    36→                          │  (atmosphere)│
+    37→                          └──────┬───────┘
+    38→                                 │ qi absorption
+    39→                ┌────────────────┼────────────────┐
+    40→                ▼                ▼                ▼
+    41→        ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+    42→        │ Spirit Herbs │ │ Spirit Insec │ │ Mortal Plant │
+    43→        │   (autotroph)│ │   (primary)  │ │   (autotroph)│
+    44→        └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+    45→               │                │                │
+    46→               ▼                ▼                ▼
+    47→        ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+    48→        │ Herbivore    │ │ Small Beast  │ │ Mortal Game  │
+    49→        │   (qi-weak)  │ │  (qi-weak)   │ │   (no qi)    │
+    50→        └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+    51→               │                │                │
+    52→               └────────┬───────┴────────┬───────┘
+    53→                        ▼                ▼
+    54→                ┌──────────────┐ ┌──────────────┐
+    55→                │  Mid Beast   │ │  Mortal Pred │
+    56→                │ (qi-mid)     │ │   (no qi)    │
+    57→                └──────┬───────┘ └──────┬───────┘
+    58→                       │                │
+    59→                       ▼                ▼
+    60→                ┌──────────────┐ ┌──────────────┐
+    61→                │  Peak Beast  │ │ (top mortal) │
+    62→                │ (qi-strong,  │ │              │
+    63→                │  may be yao) │ │              │
+    64→                └──────────────┘ └──────────────┘
+    65→```
+    66→
+    67→```typescript
+    68→interface FoodWebNode {
+    69→  speciesId: string;
+    70→  trophicLevel: 0 | 1 | 2 | 3 | 4 | 5;  // 0 = qi-source, 5 = peak beast
+    71→  qiProfile: PhaseSignature;             // 5-phase affinity
+    72→  qiMagnitude: number;                   // 0..1; how much qi this species carries
+    73→  reproductionRate: number;              // per day at carrying capacity
+    74→  carryingCapacity: number;              // per region, per species
+    75→  preysOn: string[];                     // speciesIds
+    76→  preyedOnBy: string[];                  // speciesIds
+    77→  isCultivator: boolean;                 // can this species advance realms?
+    78→}
+    79→
+    80→interface FoodWebEdge {
+    81→  predator: string;
+    82→  prey: string;
+    83→  energyTransfer: number;  // 0..1; how much of prey's qi transfers to predator
+    84→  predationRate: number;   // per encounter, per day
+    85→}
+    86→```
+    87→
+    88→**Failure case — trophic cascade.** Removing a mid-level predator (the player hunts them all) causes herbivores to bloom, which over-grazes the herbs, which depletes the ambient-qi-absorbing plant mass, which raises ambient qi (no plants to absorb it), which causes spirit-herb mutations. The simulator models this cascade in §5.
+    89→
+    90→---
+    91→
+    92→## 2. Spirit veins → ambient qi → herbs → beasts (the energy chain)
+    93→
+    94→The chain is the engine of cultivation-world ecology. Each link is a *qi transformation*.
+    95→
+    96→### 2.1 Spirit veins (靈脈)
+    97→
+    98→Per doc 14 §1, spirit veins are geological qi-sources. Each vein has a `phaseSignature`, a `magnitude`, and a `flowRate`.
+    99→
+   100→```typescript
+   101→interface SpiritVein {
+   102→  veinId: number;
+   103→  location: Vec3;
+   104→  phaseSignature: PhaseSignature;  // 5-phase; rarely pure, usually dominant in 1-2 phases
+   105→  magnitude: number;               // 0..1; how rich the vein is
+   106→  flowRate: number;                // qi units per tick
+   107→  depth: number;                   // meters below surface
+   108→  tappedBy: number[];              // sects with tithing rights (per doc 29 §6)
+   109→}
+   110→```
+   111→
+   112→### 2.2 Ambient qi
+   113→
+   114→Spirit-vein qi flows into the local region's `AmbientQiField`. The field is a 3D scalar+phase-vector field stored as a sparse grid (per `ga:qi-field` plugin).
+   115→
+   116→```typescript
+   117→interface AmbientQiField {
+   118→  regionId: number;
+   119→  cells: SparseGridCell[];  // sparse; only non-zero cells stored
+   120→  totalMagnitude: number;
+   121→  phaseProfile: PhaseSignature;  // aggregated
+   122→  contamination: number;         // 0..1; per doc 14 §4
+   123→}
+   124→
+   125→interface SparseGridCell {
+   126→  cellId: number;  // x,y,z packed
+   127→  magnitude: number;
+   128→  phaseSignature: PhaseSignature;
+   129→  contamination: number;
+   130→}
+   131→```
+   132→
+   133→Ambient qi is consumed by herbs (absorption), beasts (respiration), and cultivators (practice). It is replenished by spirit veins (flow), tribulation residue (rare, per doc 14 §5), and decay (qi-bearing corpses return their qi to the field).
+   134→
+   135→### 2.3 Spirit herbs
+   136→
+   137→Per doc 14 §2, spirit herbs are qi-bearing autotrophs. Each species has a `phaseAffinity`, a `growthTime` (years to mature), and a `qiYield` (how much qi a mature herb carries).
+   138→
+   139→```typescript
+   140→interface SpiritHerbPopulation {
+   141→  speciesId: string;
+   142→  regionId: number;
+   143→  individuals: number;       // total count
+   144→  matureIndividuals: number; // ready to harvest
+   145→  plantedAt: number[];       // tick each individual was seeded
+   146→  phaseAffinity: PhaseSignature;
+   147→  growthTime: number;        // ticks to mature
+   148→  qiYield: number;           // qi per harvested individual
+   149→  carryingCapacity: number;  // per region
+   150→}
+   151→```
+   152→
+   153→### 2.4 Spirit beasts
+   154→
+   155→Per doc 14 §3, spirit beasts are qi-bearing animals. Each beast has a `realm` (Mortal-equivalent through Tribulation Crossing-equivalent), a `phaseAffinity`, and a `cultivationState` (per §7 below).
+   156→
+   157→```typescript
+   158→interface SpiritBeastIndividual {
+   159→  beastId: number;
+   160→  speciesId: string;
+   161→  realm: BeastRealm;         // mortal-equivalent through tribulation-crossing-equivalent
+   162→  phaseAffinity: PhaseSignature;
+   163→  qiReservoir: number;       // current
+   164→  qiReservoirCap: number;
+   165→  age: number;               // ticks
+   166→  maxAge: number;            // ticks
+   167→  territoryCenter: Vec3;
+   168→  territoryRadius: number;
+   169→  isYao: boolean;            // has developed an anchor (per §8)
+   170→  anchorHash: string | null; // if yao
+   171→}
+   172→
+   173→type BeastRealm =
+   174→  | 'beast_mortal' | 'beast_qi_induction' | 'beast_qi_condensation'
+   175→  | 'beast_foundation' | 'beast_core_formation' | 'beast_nascent_soul'
+   176→  | 'beast_spirit_severance';
+   177→```
+   178→
+   179→---
+   180→
+   181→## 3. Population dynamics
+   182→
+   183→Each species' population is governed by a logistic-growth-with-predation equation, evaluated per region per day (in-game time):
+   184→
+   185→```
+   186→dN/dt = r * N * (1 - N/K) - Σ (predation_rate_i * N * predator_population_i)
+   187→        - harvest_rate * N
+   188→        - contamination_death * N * contamination_level
+   189→
+   190→  N            = current population
+   191→  K            = carrying capacity (function of ambient qi and habitat quality)
+   192→  r            = intrinsic growth rate
+   193→  predation_i  = per-predator predation rate on this species
+   194→  harvest_rate = player + NPC harvest pressure
+   195→```
+   196→
+   197→**Carrying capacity** is dynamic: `K = base_K * (ambient_qi_magnitude / reference_qi_magnitude) * (1 - contamination)`. A depleted spirit vein shrinks K; a contaminated region shrinks K further.
+   198→
+   199→**Failure case — population crash.** When `N < extinction_threshold` (default 0.1 * K), the population is functionally extinct. The simulator marks the species as `extinct_in_region` and removes it from the food web (its predators must switch prey or starve). Extinction is recoverable only via migration (§6) or player reintroduction (planting herbs, releasing bred beasts).
+   200→
+   201→**Failure case — population explosion.** When `N > 1.5 * K` (over-population), the simulator triggers a `StarvationEvent` (per doc 30 §3): `death_rate = (N - K) / N` per day until N returns to K. This is the Malthusian correction, made mechanical.
+   202→
+   203→---
+   204→
+   205→## 4. Cascade effects (over-harvesting → migration → starvation)
+   206→
+   207→The cascade chain:
+   208→
+   209→```
+   210→Player over-harvests spirit herbs
+   211→  → herb population drops below replacement
+   212→  → herbivore population drops (less food)
+   213→  → herbivore migration to neighboring region (§6)
+   214→  → predator population drops (less prey) OR predators follow migration
+   215→  → neighboring region now over-grazed by immigrants
+   216→  → neighboring region's herbs over-consumed
+   217→  → cascade propagates
+   218→```
+   219→
+   220→```typescript
+   221→interface CascadeEvent {
+   222→  cascadeId: number;
+   223→  originRegion: number;
+   224→  originSpecies: string;
+   225→  cascadeType: 'over_harvest' | 'over_hunt' | 'contamination' | 'climate_shift' | 'vein_depletion';
+   226→  startedAt: number;
+   227→  propagationPath: CascadeStep[];
+   228→  currentStep: number;
+   229→  resolvedAt: number | null;
+   230→}
+   231→
+   232→interface CascadeStep {
+   233→  regionId: number;
+   234→  speciesId: string;
+   235→  effectType: 'population_drop' | 'population_bloom' | 'migration_in' | 'migration_out' | 'extinction';
+   236→  magnitude: number;
+   237→  tick: number;
+   238→}
+   239→```
+   240→
+   241→**Cascade propagation rule.** A cascade step propagates to neighboring regions if the affected species' population crosses a threshold (`< 0.3 * K` for drops, `> 1.5 * K` for blooms). The propagation is rate-limited: one step per `cascade_propagation_interval` (default 7 in-game days) per edge, modeling the time it takes for wildlife to migrate.
+   242→
+   243→**Failure case — infinite cascade.** Two regions feeding each other's collapse can oscillate forever. The simulator detects 3-cycle oscillations and damps them by raising the propagation threshold for the affected species (the survivors learn to stay put). This is the historical pattern of stable ecosystems under stress: oscillation dampens to a new equilibrium, not a runaway.
+   244→
+   245→---
+   246→
+   247→## 5. Seasonal cycles (the 24 solar terms / 二十四節氣)
+   248→
+   249→Per doc 04 §3 and doc 14 §6, the world runs on the 24-solar-term calendar. Each solar term modulates the ecology:
+   250→
+   251→```typescript
+   252→interface SeasonalModulation {
+   253→  solarTerm: SolarTerm;       // 立春, 雨水, 驚蟄, ... 大寒 (24 total)
+   254→  ambientQiModulator: number; // 0.8..1.2; multiplier on spirit vein flowRate
+   255→  herbGrowthModulator: number;// 0.0..1.5; multiplier on herb growth rate
+   256→  beastActivityModulator: number; // 0.3..1.5; multiplier on beast movement
+   257→  migrationWindow: boolean;   // true for solar terms when migration is favored
+   258→  contaminationDecayModulator: number;
+   259→}
+   260→
+   261→type SolarTerm =
+   262→  | 'lichun' | 'yushui' | 'jingzhe' | 'chunfen' | 'qingming' | 'guyu'
+   263→  | 'lixia' | 'xiaoman' | 'mangzhong' | 'xiazhi' | 'xiaoshu' | 'dashu'
+   264→  | 'liqiu' | 'chushu' | 'bailu' | 'qiufen' | 'hanlu' | 'shuangjiang'
+   265→  | 'lidong' | 'xiaoxue' | 'daxue' | 'dongzhi' | 'xiaohan' | 'dahan';
+   266→```
+   267→
+   268→**Seasonal events.** Certain solar terms trigger named ecological events:
+   269→
+   270→- **Jingzhe (驚蟄, "awakening of insects"):** dormant beasts wake; hibernation ends; `beastActivityModulator` jumps from 0.3 to 1.0.
+   271→- **Mangzhong (芒種, "grain in ear"):** herb maturation peak; `herbGrowthModulator` peaks at 1.5.
+   272→- **Lidong (立冬, "start of winter"):** peak beasts enter seclusion; `beastActivityModulator` drops to 0.3.
+   273→- **Dahan (大寒, "great cold"):** mortal game migration; the year's lowest ambient qi.
+   274→
+   275→**Failure case — out-of-season event.** A beast tide (per doc 30 §3) during Dahan is unusual but possible (driven by contamination or vein collapse). The simulator flags it as an `anomalous_event` and the NPCs react with alarm (per doc 26 §2 — `fear.stranger` and `fear.authority` rise).
+   276→
+   277→---
+   278→
+   279→## 6. Migration
+   280→
+   281→Beasts and mortal game migrate between regions when local conditions degrade or seasonal windows open.
+   282→
+   283→```typescript
+   284→interface MigrationEvent {
+   285→  migrationId: number;
+   286→  speciesId: string;
+   287→  fromRegion: number;
+   288→  toRegion: number;
+   289→  populationMoved: number;
+   290→  startedAt: number;
+   291→  durationTicks: number;
+   292→  reason: 'seasonal' | 'over_population' | 'starvation' | 'contamination' | 'predation_pressure';
+   293→}
+   294→```
+   295→
+   296→**Migration rule.** A migration is triggered when:
+   297→- Seasonal window AND population > K (routine seasonal migration), OR
+   298→- Population > 1.3 * K AND neighbor region has capacity (overflow migration), OR
+   299→- Ambient qi in home region < 0.5 * reference AND neighbor region has qi (qi-driven migration), OR
+   300→- Contamination > 0.4 AND neighbor region is cleaner (contamination flight).
+   301→
+   302→Migrations move `migration_fraction` (default 0.3) of the population over `migration_duration` (default 30 in-game days). The migrating population is "in transit" — vulnerable to predation and to the player's hunting.
+   303→
+   304→**Failure case — migration corridor blocked.** If the migration path crosses a region controlled by a hostile sect (per doc 29 §10) that hunts migrants, the migration fails. The population either finds an alternate route (if one exists within `migration_search_radius`) or returns home (where they face starvation). This is the historical pattern of migration corridors being closed by warfare, made mechanical.
+   305→
+   306→---
+   307→
+   308→## 7. Spirit beast cultivation
+   309→
+   310→Spirit beasts cultivate by absorbing ambient qi and refining it through their core (內丹). The cultivation is automatic — beasts do not "practice" in the human sense — but it is gated by ambient qi density and by the beast's phase affinity matching the region's phase profile.
+   311→
+   312→```typescript
+   313→interface BeastCultivationState {
+   314→  beastId: number;
+   315→  currentRealm: BeastRealm;
+   316→  cultivationProgress: number;   // 0..1 toward next realm
+   317→  cultivationRate: number;       // progress per day
+   318→  corePhaseSignature: PhaseSignature;  // the beast's core, develops with realm
+   319→  deviationRisk: number;         // 0..1; rises with rapid cultivation
+   320→  breakthroughReady: boolean;
+   321→}
+   322→
+   323→// The breakthrough state machine (reuses doc 27 §1 four-stage model):
+   324→//
+   325→//   PREP --[ambient qi sufficient, phase balanced]--> THRESHOLD
+   326→//   THRESHOLD --[core coherence held]--> INTEGRATION
+   327→//   INTEGRATION --[stable]--> SETTLEMENT (new realm)
+   328→//   THRESHOLD/INTEGRATION --[destabilized]--> FAILURE (deviation or death)
+   329→```
+   330→
+   331→**Cultivation rate.** `cultivationRate = base_rate * ambient_qi_magnitude * phase_match_factor`. A beast in a phase-matched qi-rich region cultivates fast; a beast in a qi-poor or phase-mismatched region cultivates slowly or not at all.
+   332→
+   333→**Failure case — beast deviation.** A beast that cultivates too fast (`cultivationRate > deviation_threshold`) accumulates `deviationRisk`. When `deviationRisk > 0.8`, the beast enters a `BeastDeviationEvent`: it becomes a *modao* (魔道) beast — chaotic, aggressive, and qi-corrupted. Modao beasts attack indiscriminately and contaminate the region they die in (per doc 14 §4). This is the genre's "spirit beast goes mad from rapid cultivation" trope, made mechanical.
+   334→
+   335→---
+   336→
+   337→## 8. Yao (妖) — anchor development in beasts
+   338→
+   339→A peak beast (Core Formation equivalent or higher) may, through accumulated cultivation and life experience, develop an *anchor* — the metaphysical organ of self that mortals develop at Foundation Establishment. A beast with an anchor is a *yao*. Yao can speak, take human form (at higher realms), make oaths, and pursue long-term goals.
+   340→
+   341→```typescript
+   342→interface YaoState {
+   343→  beastId: number;
+   344→  anchorHash: string;
+   345→  anchorFormedAt: number;
+   346→  humanFormUnlocked: boolean;     // requires Nascent Soul equivalent
+   347→  name: string;                   // self-chosen at anchor formation
+   348→  selfConcept: string;            // the yao's answer to "what am I?"
+   349→  moralAlignment: number;         // -1 (predatory) .. +1 (protective)
+   350→  oathBindings: OathRef[];        // oaths the yao has sworn
+   351→}
+   352→
+   353→// Anchor formation trigger:
+   354→//   beast_realm >= beast_core_formation
+   355→//   AND life_event_count >= anchor_threshold (default 5)
+   356→//   AND self_reflection_moments >= 3 (moments of choosing survival-of-self over instinct)
+   357→//   AND ambient_qi_magnitude >= anchor_qi_minimum (default 0.6)
+   358→```
+   359→
+   360→**The anchor threshold.** Not every peak beast becomes a yao. The beast must have experienced enough life events (combat, loss, kindness, choice) to develop a self-concept. The simulator tracks `life_event_count` and `self_reflection_moments` per beast; both are incremented by named events (surviving a near-death, choosing mercy, recognizing a former opponent).
+   361→
+   362→**Failure case — false anchor.** A beast that meets the threshold mechanically but has not had the requisite life events develops a *false anchor* — an unstable self-concept that collapses under stress. False-anchor yao are vulnerable to `anchor_shattering` (the anchor disperses; the beast reverts to mindless peak-beast state). This is rare but possible; it is the yao equivalent of `forced_attempt` (per doc 31 §1).
+   363→
+   364→---
+   365→
+   366→## 9. Ecology ↔ cultivation interaction
+   367→
+   368→The ecology is not a backdrop for cultivation; it is the substrate cultivation draws from. The interactions:
+   369→
+   370→- **Spirit vein tithes (per doc 29 §6).** Sects that control spirit veins charge cultivators for access. The vein's `tappedBy` field (§2.1) records which sects have rights. Over-tapping depletes the vein's `magnitude` (it recovers slowly, years to decades).
+   371→- **Herb gathering.** Cultivators gather spirit herbs for pills (per doc 16). The gathering is the `harvest_rate` term in the population equation (§3). Over-gathering triggers cascades (§4).
+   372→- **Beast hunting.** Qi Condensation+ cultivators hunt spirit beasts for cores, hides, organs. Hunting reduces beast populations; the simulator tracks `hunting_pressure` per region per species.
+   373→- **Qi competition.** Cultivators practicing in a region absorb ambient qi, reducing it for herbs and beasts. A sect compound with 50 practicing disciples can locally deplete ambient qi, suppressing the surrounding ecology. This is the genre's "sect suppresses local wildlife" trope, made mechanical.
+   374→- **Contamination.** Failed cultivations, modao beasts, and tribulation residue contaminate the region (per doc 14 §4). Contamination kills herbs, sickens beasts, and taints gathered materials. Cleansing requires either time (slow decay) or active intervention (a Foundation Establishment+ cultivator performing a cleansing rite).
+   375→
+   376→```typescript
+   377→interface EcologicalPressureRecord {
+   378→  regionId: number;
+   379→  herbGatheringPressure: number;  // gathered per day
+   380→  beastHuntingPressure: number;   // killed per day
+   381→  qiAbsorptionPressure: number;   // qi absorbed per day by cultivators
+   382→  contaminationLevel: number;     // 0..1
+   383→  veinDepletionRate: number;      // vein magnitude loss per day
+   384→}
+   385→```
+   386→
+   387→---
+   388→
+   389→## 10. Tier simulation (S4 / S2 / S0)
+   390→
+   391→The ecology degrades by tier. The degradation is conservative (per doc 07 §6.1).
+   392→
+   393→```
+   394→┌─────────┬────────────────────────────────────────────────────────────┐
+   395→│ Tier    │ Ecology behavior                                            │
+   396→├─────────┼────────────────────────────────────────────────────────────┤
+   397→│ S4      │ Individual beasts tracked (SpiritBeastIndividual).         │
+   398→│ (full)  │ Herb populations tracked per patch (10m grid).             │
+   399→│         │ Predation events simulated per encounter.                  │
+   400→│         │ Migration events tracked individually.                     │
+   401→│         │ Cost: ~1ms per beast per tick. Cap: 256 individuals per    │
+   402→│         │ region at S4 (overflow demotes the lowest-priority to S2). │
+   403→├─────────┼────────────────────────────────────────────────────────────┤
+   404→│ S2      │ Aggregate populations per species per region.              │
+   405→│ (aggr.) │ No individual beasts. Predation abstracted to per-day     │
+   406→│         │ population deltas. Migration abstracted to inter-region    │
+   407→│         │ flows. Yao tracked individually (they are named).          │
+   408→│         │ Cost: ~0.01ms per species per region per day.              │
+   409→├─────────┼────────────────────────────────────────────────────────────┤
+   410→│ S0      │ Frozen populations. No dynamics. The species counts at     │
+   411→│ (frozen)│ demotion are the counts on promotion (minus any events    │
+   412→│         │ logged against the region in the interim).                 │
+   413→│         │ Cost: 0 per tick.                                          │
+   414→└─────────┴────────────────────────────────────────────────────────────┘
+   415→```
+   416→
+   417→**Promotion rule (S0 → S2 → S4).** When the player enters a region, the region's ecology promotes to S2 (aggregate populations rehydrated from the frozen counts + any events). When the player approaches a specific beast or herd, those individuals promote to S4 (instantiated from the aggregate population, with RNG-seeded individual state).
+   418→
+   419→**Promotion cannot create favorable facts.** The S4 individuals instantiated on promotion must be consistent with the S2 aggregate: the count of S4 individuals cannot exceed the S2 population; the qi-magnitudes must be drawn from the S2 distribution; the species mix must match. If a contradiction is found (e.g., S2 says "0 peak beasts in region" but S4 promotion wants to spawn one), the contradiction resolves unfavorably (no peak beast spawns).
+   420→
+   421→**Demotion rule (S4 → S2 → S0).** When the player leaves a region for `ecology_demotion_grace` (default 30 in-game days), the region demotes. S4 individuals are aggregated back into S2 populations (the aggregation preserves total counts, qi-magnitudes' mean and variance, and any named individuals' identities). Named yao are preserved as individual records even at S0 (they are named entities per doc 07 §6.1's conservation rule).
+   422→
+   423→**Failure case — aggregation loss.** Aggregating S4 → S2 loses information (which specific beast was where). The simulator preserves: total population, age distribution, realm distribution, named individuals. It loses: exact positions, individual qi-reservoir values, current combat states. On re-promotion, these are re-seeded deterministically from the S2 distribution + the region's RNG stream.
+   424→
+   425→---
+   426→
+   427→## 11. Demography (mortal populations)
+   428→
+   429→Mortal populations (villages, towns, cities) are tracked at a coarser resolution than ecology. Each settlement has a `DemographicRecord`:
+   430→
+   431→```typescript
+   432→interface DemographicRecord {
+   433→  settlementId: number;
+   434→  population: number;
+   435→  ageDistribution: number[];   // buckets: 0-5, 6-10, 11-15, ..., 76-80, 80+
+   436→  sexRatio: number;            // 0..1 (fraction male)
+   437→  birthRate: number;           // per year
+   438→  deathRate: number;           // per year
+   439→  householdCount: number;
+   440→  grainReserveDays: number;    // how long the grain lasts at current consumption
+   441→  debtIndex: number;           // 0..1; aggregate household debt
+   442→  outMigrationRate: number;    // per year
+   443→  inMigrationRate: number;     // per year
+   444→}
+   445→
+   446→interface DemographicEvent {
+   447→  type: 'birth' | 'death' | 'marriage' | 'migration' | 'famine' | 'plague' | 'war_loss';
+   448→  settlementId: number;
+   449→  tick: number;
+   450→  magnitude: number;
+   451→  affectedHouseholds: number[];
+   452→}
+   453→```
+   454→
+   455→**Population dynamics.** Mortal population grows logistically with grain-reserve-dependent birth and death rates:
+   456→
+   457→```
+   458→birthRate  = base_birth_rate * (grainReserveDays / 180)   // famine suppresses births
+   459→deathRate  = base_death_rate + (famine_factor if grainReserveDays < 60)
+   460→            + (plague_factor if plague_active)
+   461→            + (war_factor if war_active)
+   462→```
+   463→
+   464→A settlement with `grainReserveDays < 60` is in famine; birth rate halves, death rate doubles. Below 30 days, death rate triples and out-migration spikes (the historical *liulang* / 流浪, wandering, pattern).
+   465→
+   466→**Failure case — demographic whiplash.** A settlement that alternates feast and famine can produce population oscillations. The simulator smooths these with a 5-year moving average on birth/death rates; the raw rates are still tracked but the effective rates used in dynamics are smoothed. This prevents single-good-year baby booms from producing demographic impossibilities.
+   467→
+   468→---
+   469→
+   470→## 12. Determinism contract
+   471→
+   472→Every ecology operation is a pure function of:
+   473→
+   474→```
+   475→ecology_state(t+1) = ecology_fn(
+   476→  ecology_state(t),           // populations, individuals, fields
+   477→  seasonal_modulation(t),     // §5
+   478→  harvest_pressure(t),        // from cultivators and gatherers
+   479→  contamination_events(t),    // from deviations, tribulations, modao
+   480→  rng(regionSeed, tick)       // for migration rolls, encounter rolls
+   481→)
+   482→```
+   483→
+   484→The function is evaluated per region per day (in-game time). At S4, additional per-tick (per-second) evaluation handles individual beast movement and encounters. All randomness flows through `rng(regionSeed, tick)` — no `Math.random()`.
+   485→
+   486→**Hash verification.** `hashEcology(regionId, tick)` returns the SHA-256 of the CBOR-encoded `EcologyState` for that region. Two runs with the same seed produce identical hashes. A mismatch flags the divergent species, the divergent field, and the operation that introduced the divergence.
+   487→
+   488→**Cross-region consistency.** Migration events move population from one region to another; the move is atomic (debit one region, credit the other in the same tick). The simulator logs the migration hash in both regions' state; a divergence between the two logs is a bug.
+   489→
+   490→---
+   491→
+   492→## 13. Rejected alternatives
+   493→
+   494→- **Cellular automata for population dynamics.** Rejected: CA are visually appealing but produce emergent behavior that is hard to tune and hard to hash-verify. The logistic-with-predation ODE is simpler, more tunable, and produces the same cascade dynamics.
+   495→- **Full ecosystem simulation (every blade of grass).** Rejected: infeasible at 180+ villages × 10+ regions × 50+ species. The S2 aggregate model is the only feasible approach; S4 is reserved for the player's vicinity.
+   496→- **Random encounter tables (D&D-style).** Rejected: produces beasts from nowhere, breaking the food web. Beasts must come from populations; populations must be tracked.
+   497→- **Beast cultivation as a player-controlled system.** Rejected: beasts cultivate automatically (per §7). The player cannot control a wild beast's cultivation. Tamed beasts (rare, via oath) are a special case handled in doc 34 (companion system).
+   498→- **Yao as a separate species.** Rejected: yao are beasts that developed anchors; they are not a separate taxon. This preserves the food web's coherence (a yao was once a peak beast; it can still be preyed on by a higher-realm beast).
+   499→- **Seasonal events as scripted set-pieces.** Rejected: seasonal events must emerge from the solar-term modulators (§5) or they feel arbitrary. The modulators are the engine; the events are the work.
+   500→
+   501→---
+   502→
+   503→## 14. Open decisions (surfaced for review)
+   504→
+   505→1. **The 256-individual S4 cap (§10).** Invented. May be too low for a dense spirit-herb garden the player is harvesting; may be too high for a sparse mountain. May need to be species-dependent.
+   506→2. **The 30-day demotion grace (§10).** Invented. May be too long (ecology state stales) or too short (player returns to find familiar beasts demoted).
+   507→3. **The 0.3 migration fraction (§6).** Invented. May produce too-rapid or too-slow migrations. Tuning needed.
+   508→4. **The 0.8 deviation risk threshold for beasts (§7).** Invented. May be too low (modao beasts too common) or too high (modao beasts too rare).
+   509→5. **The 5-life-event anchor threshold (§8).** Invented. The actual number of life events needed for a beast to develop a self-concept is empirical. May need to scale with the beast's realm.
+   510→6. **The smoothing window for demographic whiplash (§11).** Invented. 5 years may be too long or too short; real historical demographic smoothing is 3-10 years.
+   511→
+   512→---
+   513→
+   514→## 15. Doctrine compliance
+   515→
+   516→- **Build the engine, not just the brake:** the prior corpus's ecology doc (14) was the brake (forbidding the monster manual, requiring food webs). This document specifies the engine: the food-web topology, the population dynamics, the cascade rules, the seasonal modulators, the tier degradation.
+   517→- **Make decisions; do not defer:** the trophic-level model, the population equation, the cascade propagation, the seasonal modulators, the tier mapping, the yao threshold are all decided. §14 are tuning parameters, not forks.
+   518→- **Cite the precedent:** Dwarf Fortress, RimWorld, Stellaris, Minecraft are named and their contributions specified.
+   519→- **Design for joy first:** the first hour's joy is seeing a spirit-herb garden, recognizing that the herbs are seasonal (Mangzhong is the harvest window), and choosing to gather now or wait. The ecology produces the texture of a world with a calendar.
+   520→- **Authorize the smallest end-to-end thing:** this document specifies enough to implement the Cangli Riverlands ecology (10 regions, 50 species, 1 spirit vein) at S2 with the player's current region at S4, as the first prototype.
+   521→
+   522→This document is the ecology bible. It is the living-substrate engine the prior corpus was missing.
+   523→
