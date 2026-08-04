@@ -4,6 +4,27 @@
 **Date:** 2026-08-03
 
 ---
+**Truth level:** Canonical invariant (ancestral courts)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Ancestral courts follow the style grammars appropriate to their realm and culture (doc 53). Lineages have explicit progenitor-to-present chains.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Ancestral courts and lineages
+
+---
+
+
 
 ## 0. Why this document exists
 

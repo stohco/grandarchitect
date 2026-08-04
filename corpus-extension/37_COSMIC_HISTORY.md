@@ -6,6 +6,27 @@
 No pinyin tone marks appear in this document. Hanzi appear in parentheses on first mention.
 
 ---
+**Truth level:** Canonical invariant (cosmic history)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Cosmic history is deterministic and seed-driven. Timeline events must be consistent with travel-time and realm-ladder constraints.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Cosmic history and timeline
+
+---
+
+
 
 ## 0. Why this document exists
 

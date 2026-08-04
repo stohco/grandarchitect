@@ -4,6 +4,27 @@
 **Date:** 2026-08-03
 
 ---
+**Truth level:** Art-directed (visual reference)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Golden scenes are art-direction targets, not gameplay scripts. Each defines a visual moment the engine must be able to produce.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Golden scenes — target visual moments
+
+---
+
+
 
 ## 0. What this document is for
 

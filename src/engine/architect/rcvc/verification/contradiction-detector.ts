@@ -198,7 +198,7 @@ function checkDoc(filename: string, content: string): Contradiction[] {
   // Check 6: Missing forbiddenInterpretations in technique docs
   if (filename.includes('13_COMBAT') || filename.includes('16_FORMATIONS') || filename.includes('32_POWER')) {
     const hasTechniquePacket = /technique.*packet|TechniqueVTP|deliveryGeometry/i.test(content);
-    const hasForbidden = /forbidden[^\n]*(?:do not|must not|never)/i.test(content);
+    const hasForbidden = /\[FORBIDDEN\]|forbidden[^\n]*(?:do not|must not|never)/i.test(content);
     if (hasTechniquePacket && !hasForbidden) {
       results.push({
         id: `missing-forbidden-${filename}`,

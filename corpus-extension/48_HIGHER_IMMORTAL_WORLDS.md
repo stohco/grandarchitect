@@ -5,6 +5,27 @@
 **Conventions:** Hanzi in parentheses on first use; bare pinyin, no tone marks (per project rules). Every claim reconciles with the prior corpus; contradictions are defects to be repaired, not forks to be deferred. The mortal cosmos — the three-stratum lens of doc 36 — is, in this document, the *mortal cosmos*, lower-cased when distinguished from the Higher Immortal World. The Nameless Origin of doc 00 is, in this document, the *mortal Origin* when distinguished from the Higher Origin and the Primordial Origin named below. The distinction does not revise the prior documents; it nests them.
 
 ---
+**Truth level:** Canonical invariant (higher immortal worlds)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Higher immortal worlds use the scale anchors in doc 52 §3 (50,000-200,000 km radius). They use the Heavenly Courts style grammar (doc 53 §7).
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Higher immortal worlds
+
+---
+
+
 
 ## 0. Why this document exists
 

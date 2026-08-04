@@ -4,6 +4,35 @@
 **Date:** 2026-08-03
 
 ---
+**Truth level:** Canonical invariant (power scaling)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Power scaling is exponential (2x qi per realm). Phase combat follows the technique packet schema (doc 55 §2). Timing is synchronized across 5 layers.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Power scaling and phase combat
+
+### Forbidden interpretations
+
+- [FORBIDDEN] Power scaling that is linear (must be exponential 2x per realm per doc 03)
+- [FORBIDDEN] Phase combat with unsynchronized timing (animation/VFX/audio/hitbox must agree per doc 55 §3)
+- [FORBIDDEN] Techniques without a forbiddenInterpretations list (mandatory per doc 51 §7)
+- [FORBIDDEN] A lower-realm cultivator winning a direct clash with a higher-realm cultivator without explicit tactical advantage
+- [FORBIDDEN] Qi capacity that does not double per realm station
+
+---
+
+
 
 ## 0. Why this document exists
 

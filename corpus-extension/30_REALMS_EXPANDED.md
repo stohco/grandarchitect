@@ -5,6 +5,27 @@
 **Conventions:** Hanzi plus bare pinyin (no tone marks, per project rules). Each station receives the same eight fields as doc 03: Essence, Lifespan, New perceptions, New verbs, New responsibilities, New constraints, Failure modes, What it feels like. Every purported new verb is checked against the doctrine's test: a verb does not count if it becomes an older verb after normalizing names, scale, target count, numbers, and VFX.
 
 ---
+**Truth level:** Canonical invariant (realms expanded)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Realm details must be consistent with doc 03. Body height, speed, and qi capacity follow the PhysicalSpec table in doc 03.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Expanded realm details for stations 1-10
+
+---
+
+
 
 ## Station 6: Nascent Soul (元嬰, yuanying)
 

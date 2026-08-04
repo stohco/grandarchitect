@@ -5,6 +5,27 @@
 **Conventions:** Hanzi plus bare pinyin, no tone marks (per project rules). Each named Mahayana cultivator is specified as a person, not a stat block. The count is finite. The pantheon is a senate, not a swarm.
 
 ---
+**Truth level:** Canonical invariant (Mahayana pantheon)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Mahayana+ beings have transcendent body forms (doc 03: variable/unbounded). They cannot be measured with fixed PhysicalSpec values.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** The Mahayana Pantheon — transcendent beings
+
+---
+
+
 
 ## 0. Why this document exists
 

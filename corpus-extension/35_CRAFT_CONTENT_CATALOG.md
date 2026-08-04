@@ -5,6 +5,27 @@
 **Authority:** Governed by `16_FORMATIONS_TALISMANS_ALCHEMY.md` (the three systems), `00_FOUNDATIONAL_DECISIONS.md` §6 (qi model), `27_CULTIVATION_SYSTEMS.md` (realms, dantian, breakthrough), `24_RECONCILIATION_AND_DECISIONS.md` §3.1 (spirit stones = 10–50 taels), `18_ECONOMY_SYSTEM.md` (production chains), `14_ECOLOGY_AND_QI.md` (spirit herbs and beasts), and `28_THE_VILLAGE_IN_MEDIAS_RES.md` (the Cangwu cache).
 
 ---
+**Truth level:** Canonical invariant (craft catalog)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Craft items have PhysicalSpecifications (doc 52). Weapons obey the technique-packet timing rules (doc 55). No weapon larger than animation reach allows.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Craft and content catalog
+
+---
+
+
 
 ## 0. How to read this document
 

@@ -5,6 +5,27 @@
 **Conventions:** Hanzi in parentheses on first use. Pinyin without tone marks. Every named being has a personality, an ambition, and at least one named relationship.
 
 ---
+**Truth level:** Canonical invariant (courts of heaven)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] The Courts use the Heavenly Courts style grammar (doc 53 §7): white jade, gold, luminous materials, no earth tones, no weathering.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** The Courts of Heaven — celestial bureaucracy
+
+---
+
+
 
 ## 0. Why this document exists
 

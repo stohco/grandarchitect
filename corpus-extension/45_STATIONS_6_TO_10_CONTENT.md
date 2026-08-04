@@ -5,6 +5,27 @@
 **Conventions:** Hanzi in parentheses on first use. No pinyin tone marks. Every named being has a personality. Every named place has a sensory description. Where doc 38 and doc 39 use different names for the Mahayana council (doc 38 names four councilors; doc 39 names the pantheon of nine), this document treats doc 39's pantheon as canonical and treats the four council seats as drawn from that nine — the four most institutionally engaged of the pantheon sit on the Heavenly Court Council; the other five do not.
 
 ---
+**Truth level:** Canonical invariant (stations 6-10)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Stations 6-10 follow the realm ladder (doc 03). Body form becomes variable above Nascent Soul. Speed/turn values are unbounded for station 10.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Content for cultivation stations 6-10
+
+---
+
+
 
 ## 0. Why this document exists
 

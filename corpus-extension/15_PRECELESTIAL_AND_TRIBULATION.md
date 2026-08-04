@@ -4,6 +4,27 @@
 **Date:** 2026-08-03
 
 ---
+**Truth level:** Canonical invariant (precelestial and tribulation)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Tribulations are deterministic events triggered by realm breakthroughs. They scale with the cultivator realm and karma.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Tribulation mechanics and precelestial phenomena
+
+---
+
+
 
 ## 0. Why this document exists
 

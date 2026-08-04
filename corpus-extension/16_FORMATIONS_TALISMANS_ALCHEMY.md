@@ -5,6 +5,27 @@
 **Authority:** This document is governed by `00_FOUNDATIONAL_DECISIONS.md` (§1 cosmology, §2 soul model, §3 realm ladder, §6 operational status of yin-yang and wuxing) and the per-station specifications of `03_REALM_LADDER.md`. If a later document contradicts a decision here, the contradiction is a defect to be repaired, not a fork to be deferred.
 
 ---
+**Truth level:** Canonical invariant (formations, talismans, alchemy)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Formations are geometric qi-circuits with explicit node/edge topology. Talismans are single-use qi-storage items. Alchemy follows the recipe-constraint model.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Formation, talisman, and alchemy systems
+
+---
+
+
 
 ## 0. How to read this document
 

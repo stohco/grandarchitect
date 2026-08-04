@@ -4,6 +4,27 @@
 **Date:** 2026-08-03
 
 ---
+**Truth level:** Canonical invariant (cosmic geography)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] Mortal worlds: 6,000-12,000 km radius. Intermediate worlds: 50,000-200,000 km. Celestial distances use the scale anchors in doc 52 §3.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** Cosmic geography — worlds, continents, stars
+
+---
+
+
 
 ## 0. Why this document exists
 

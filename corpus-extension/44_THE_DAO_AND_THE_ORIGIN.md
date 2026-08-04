@@ -5,6 +5,27 @@
 **Conventions:** Hanzi plus English gloss; bare pinyin, no tone marks (per project rules). Every claim is defensible from the cited primary sources (Daodejing, Zhuangzi, Daxue, Analects). This is the corpus's last metaphysical document; it does not defer. It commits to what the Dao is, what the Origin is, and what the protagonist's Dao becomes.
 
 ---
+**Truth level:** Canonical invariant (Dao and Origin)
+**Implements:** engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md, corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md
+**Implementation status:** [SPEC] — fully specified, implementation in progress
+
+---
+
+## Ground-Truth Annotation
+
+> [CANON] The Dao is the highest canonical principle. The Origin is the cosmological starting point. Both are [CANON] and cannot be revised.
+
+> [DERIVED] All measurements in this document use SI units (doc 52). Visual concepts follow the VTP schema (doc 51). Moving entities follow MotionProfiles (doc 55).
+
+> [PROC] Instance-level details (exact NPC counts, specific tree placements, weather sequences) vary by seed within canonically-defined ranges.
+
+> [UNRESOLVED] See /questions/ registry for open questions related to this document.
+
+**Topic:** The Dao and the Primordial Origin
+
+---
+
+
 
 ## 0. Why this document exists
 
