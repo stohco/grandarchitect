@@ -1,0 +1,32 @@
+{
+  "version": "0.1.0",
+  "generatedAt": "2026-08-04T22:16:44.789Z",
+  "claims": [],
+  "summary": {
+    "totalClaims": 0,
+    "byTruthLevel": {
+      "CANON": 0,
+      "DERIVED": 0,
+      "ART": 0,
+      "PROC": 0,
+      "UNRESOLVED": 0
+    },
+    "byApprovalStatus": {
+      "approved": 0,
+      "candidate": 0,
+      "rejected": 0,
+      "blocked": 0
+    },
+    "byProvenance": {
+      "user-approved": 0,
+      "logically-derived": 0,
+      "art-directed": 0,
+      "procedural": 0,
+      "unresolved": 0,
+      "script-inserted": 0,
+      "inferred": 0
+    },
+    "byDomain": {},
+    "highRiskUnreviewed": 0
+  }
+}

@@ -14,24 +14,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "Live Architect Studio",
+  description: "The Live Architect Studio — a deterministic xianxia world editor for the Grand Architect control plane. Built with Next.js 16, Three.js, and Zustand on the project's determinism stack.",
+  keywords: ["xianxia", "Live Architect", "world editor", "Three.js", "Next.js", "deterministic simulation"],
+  authors: [{ name: "Grand Architect" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "Live Architect Studio",
+    description: "A deterministic xianxia world editor for the Grand Architect control plane.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "Live Architect Studio",
+    description: "A deterministic xianxia world editor for the Grand Architect control plane.",
   },
 };
 
