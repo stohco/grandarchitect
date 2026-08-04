@@ -1,0 +1,1034 @@
+     1→/*
+     2→ * ga:cultivation — Conformance Test
+     3→ *
+     4→ * Tests the cultivation plugin against doc 31 (Cultivation Effect Algebra).
+     5→ * All tests use deterministic operations only.
+     6→ * No forbidden functions in simulation code.
+     7→ */
+     8→
+     9→import {
+    10→  createCultivationApi,
+    11→  createCultivationPlugin,
+    12→  createQiState,
+    13→  createHeartMindState,
+    14→  createDantianSystem,
+    15→  createSpiritualRoots,
+    16→  createBreakthroughState,
+    17→  createBalancedPhaseAffinity,
+    18→  createQiReservoir,
+    19→  createContaminationState,
+    20→  normalizePhaseAffinity,
+    21→  phaseDotProduct,
+    22→  phaseMatchup,
+    23→  prepChecksPass,
+    24→  advancePrepToThreshold,
+    25→  coherenceDrift,
+    26→  checkThresholdToConfrontation,
+    27→  applyConfrontationResponse,
+    28→  resolveIntegration,
+    29→  applyTechnique,
+    30→  checkPlateau,
+    31→  accumulateFalseCircuit,
+    32→  accumulateCrossCurrent,
+    33→  accumulateRouteFixation,
+    34→  accumulateDelusionalConviction,
+    35→  checkDeviationOnset,
+    36→  checkDeviationCascade,
+    37→  attemptComprehension,
+    38→  computeHarmonyFactor,
+    39→  createDualCultivationSession,
+    40→  createDeviationRisk,
+    41→  advanceRealm,
+    42→  createCultivatorState,
+    43→  setTier,
+    44→  aggregateDailyProgress,
+    45→  openMiddleDantian,
+    46→  openUpperDantian,
+    47→  awakenRoot,
+    48→  classifyRootPurity,
+    49→  REALM_LADDER,
+    50→  REALM_INDEX,
+    51→  type QiState,
+    52→  type HeartMindState,
+    53→  type DantianSystem,
+    54→  type SpiritualRoots,
+    55→  type BreakthroughState,
+    56→  type Technique,
+    57→  type TechniqueEffect,
+    58→  type DeviationRiskType,
+    59→  type ComprehensionTarget,
+    60→  type DualCultivationTechnique,
+    61→  type DualCultivationSession,
+    62→  type CultivatorState,
+    63→  type PhaseName,
+    64→  type Xinmo,
+    65→  type RoutingState,
+    66→  type CultivationApi,
+    67→  type CultivationStats,
+    68→  type PhaseAffinity,
+    69→} from './ga-cultivation';
+    70→
+    71→import { createPluginHost } from '../../kernel/plugin-host';
+    72→import { getFingerprint } from '../../../lib/determinism/fingerprint';
+    73→import { DeterminismPlugin } from '../ga-determinism';
+    74→
+    75→// ============================================================================
+    76→// Test harness
+    77→// ============================================================================
+    78→
+    79→let passed = 0;
+    80→let failed = 0;
+    81→
+    82→function assert(condition: boolean, label: string) {
+    83→  if (condition) {
+    84→    passed++;
+    85→    console.log(`  \u2705 ${label}`);
+    86→  } else {
+    87→    failed++;
+    88→    console.error(`  \u274c ${label}`);
+    89→  }
+    90→}
+    91→
+    92→function assertEq<T>(actual: T, expected: T, label: string) {
+    93→  if (JSON.stringify(actual) === JSON.stringify(expected)) {
+    94→    passed++;
+    95→    console.log(`  \u2705 ${label}`);
+    96→  } else {
+    97→    failed++;
+    98→    console.error(`  \u274c ${label} — expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+    99→  }
+   100→}
+   101→
+   102→function approxEq(a: number, b: number, eps: number, label: string) {
+   103→  const diff = a - b;
+   104→  const abs = diff >= 0 ? diff : -diff;
+   105→  if (abs <= eps) {
+   106→    passed++;
+   107→    console.log(`  \u2705 ${label}`);
+   108→  } else {
+   109→    failed++;
+   110→    console.error(`  \u274c ${label} — expected ~${b}, got ${a}, diff=${abs}`);
+   111→  }
+   112→}
+   113→
+   114→// ============================================================================
+   115→// SECTION 1: QiState creation with correct defaults
+   116→// ============================================================================
+   117→
+   118→console.log('\n=== SECTION 1: QiState creation ===');
+   119→
+   120→{
+   121→  const qs = createQiState('mortal');
+   122→
+   123→  // Mortal: 0 reservoir
+   124→  assertEq(qs.reservoir.lowerDantian, 0, 'mortal: lowerDantian=0');
+   125→  assertEq(qs.reservoir.middleDantian, 0, 'mortal: middleDantian=0');
+   126→  assertEq(qs.reservoir.upperDantian, 0, 'mortal: upperDantian=0');
+   127→  assertEq(qs.reservoir.capacityLower, 0, 'mortal: capacityLower=0');
+   128→  assertEq(qs.reservoir.capacityMiddle, 0, 'mortal: capacityMiddle=0');
+   129→  assertEq(qs.reservoir.capacityUpper, 0, 'mortal: capacityUpper=0');
+   130→  assertEq(qs.reservoir.rechargeRate, 0, 'mortal: rechargeRate=0');
+   131→
+   132→  // Balanced phases (sum=1.0)
+   133→  const pa = qs.phaseAffinity;
+   134→  approxEq(pa.wood, 0.2, 0.001, 'mortal: wood=0.2');
+   135→  approxEq(pa.fire, 0.2, 0.001, 'mortal: fire=0.2');
+   136→  approxEq(pa.earth, 0.2, 0.001, 'mortal: earth=0.2');
+   137→  approxEq(pa.metal, 0.2, 0.001, 'mortal: metal=0.2');
+   138→  approxEq(pa.water, 0.2, 0.001, 'mortal: water=0.2');
+   139→  approxEq(pa.wood + pa.fire + pa.earth + pa.metal + pa.water, 1.0, 0.001, 'mortal: phases sum=1.0');
+   140→
+   141→  // Yin-yang at 0
+   142→  assertEq(qs.yinYang, 0, 'mortal: yinYang=0');
+   143→
+   144→  // Purity at 0 for mortal
+   145→  assertEq(qs.purity, 0, 'mortal: purity=0');
+   146→
+   147→  // Contamination all zero
+   148→  assertEq(qs.contamination.modao, 0, 'mortal: contam.modao=0');
+   149→  assertEq(qs.contamination.karmic, 0, 'mortal: contam.karmic=0');
+   150→  assertEq(qs.contamination.environmental, 0, 'mortal: contam.environmental=0');
+   151→  assertEq(qs.contamination.tribulation, 0, 'mortal: contam.tribulation=0');
+   152→  assertEq(qs.contamination.total, 0, 'mortal: contam.total=0');
+   153→}
+   154→
+   155→// Qi Induction qi state
+   156→{
+   157→  const qs = createQiState('qi_induction');
+   158→  assertEq(qs.reservoir.lowerDantian, 10, 'qi_induction: lowerDantian=10');
+   159→  assertEq(qs.reservoir.capacityLower, 100, 'qi_induction: capacityLower=100');
+   160→  assertEq(qs.reservoir.rechargeRate, 0.1, 'qi_induction: rechargeRate=0.1');
+   161→  assertEq(qs.purity, 0.1, 'qi_induction: purity=0.1');
+   162→}
+   163→
+   164→// ============================================================================
+   165→// SECTION 2: HeartMindState creation
+   166→// ============================================================================
+   167→
+   168→console.log('\n=== SECTION 2: HeartMindState creation ===');
+   169→
+   170→{
+   171→  const hms = createHeartMindState();
+   172→  assertEq(hms.attention, 50, 'heart-mind: attention=50');
+   173→  assertEq(hms.will, 50, 'heart-mind: will=50');
+   174→  assertEq(hms.emotionalBalance, 0, 'heart-mind: emotionalBalance=0');
+   175→  assertEq(hms.unresolvedAttachments.length, 0, 'heart-mind: no unresolved attachments');
+   176→  assertEq(hms.integratedLawFragments.length, 0, 'heart-mind: no integrated fragments');
+   177→  assertEq(hms.unintegratedLawFragments.length, 0, 'heart-mind: no unintegrated fragments');
+   178→  assertEq(hms.xinmo.length, 0, 'heart-mind: no xinmo');
+   179→  assertEq(hms.devRisks.length, 8, 'heart-mind: 8 deviation risk slots');
+   180→}
+   181→
+   182→// ============================================================================
+   183→// SECTION 3: Realm advancement mortal → qi_induction → qi_condensation
+   184→// ============================================================================
+   185→
+   186→console.log('\n=== SECTION 3: Realm advancement ===');
+   187→
+   188→{
+   189→  const roots = createSpiritualRoots();
+   190→  let c = createCultivatorState(1, roots);
+   191→  assertEq(c.realm, 'mortal', 'start: realm=mortal');
+   192→
+   193→  // Advance to qi_induction
+   194→  c = advanceRealm(c, 100);
+   195→  assertEq(c.realm, 'qi_induction', 'advance: realm=qi_induction');
+   196→  assertEq(c.qiState.reservoir.capacityLower, 100, 'qi_induction: capacityLower=100');
+   197→  assert(c.qiState.reservoir.lowerDantian >= 0, 'qi_induction: lowerDantian >= 0');
+   198→  assert(c.dantianSystem.lower.capacity > 0, 'qi_induction: lower dantian has capacity');
+   199→  assertEq(c.dantianSystem.middle, null, 'qi_induction: middle dantian still null');
+   200→  assertEq(c.dantianSystem.upper, null, 'qi_induction: upper dantian still null');
+   201→  assertEq(c.dantianSystem.goldenCore, null, 'qi_induction: no golden core');
+   202→
+   203→  // Advance to qi_condensation
+   204→  c = advanceRealm(c, 200);
+   205→  assertEq(c.realm, 'qi_condensation', 'advance: realm=qi_condensation');
+   206→  assertEq(c.dantianSystem.middle, null, 'qi_condensation: middle dantian still null');
+   207→  assertEq(c.dantianSystem.upper, null, 'qi_condensation: upper dantian still null');
+   208→}
+   209→
+   210→// ============================================================================
+   211→// SECTION 4: Dantian opening (middle at foundation, upper at core)
+   212→// ============================================================================
+   213→
+   214→console.log('\n=== SECTION 4: Dantian opening ===');
+   215→
+   216→{
+   217→  const roots = createSpiritualRoots();
+   218→  let c = createCultivatorState(1, roots);
+   219→
+   220→  // Advance to foundation_establishment
+   221→  c = advanceRealm(c, 100); // qi_induction
+   222→  c = advanceRealm(c, 200); // qi_condensation
+   223→  c = advanceRealm(c, 300); // foundation_establishment
+   224→
+   225→  assertEq(c.realm, 'foundation_establishment', 'foundation: realm correct');
+   226→  assert(c.dantianSystem.middle !== null, 'foundation: middle dantian opened');
+   227→  assertEq(c.dantianSystem.middle!.dantianId, 'middle', 'foundation: middle dantian has correct id');
+   228→  assertEq(c.dantianSystem.middle!.capacity, 200, 'foundation: middle capacity=200');
+   229→  assertEq(c.dantianSystem.upper, null, 'foundation: upper still null');
+   230→
+   231→  // Advance to core_formation
+   232→  c = advanceRealm(c, 400);
+   233→  assertEq(c.realm, 'core_formation', 'core_formation: realm correct');
+   234→  assert(c.dantianSystem.upper !== null, 'core_formation: upper dantian opened');
+   235→  assertEq(c.dantianSystem.upper!.dantianId, 'upper', 'core_formation: upper dantian has correct id');
+   236→  assertEq(c.dantianSystem.upper!.capacity, 500, 'core_formation: upper capacity=500');
+   237→  assert(c.dantianSystem.goldenCore !== null, 'core_formation: golden core formed');
+   238→}
+   239→
+   240→// Also test the open functions directly
+   241→{
+   242→  const ds = createDantianSystem('mortal');
+   243→  assertEq(ds.middle, null, 'openMiddle: starts null');
+   244→
+   245→  const ds2 = openMiddleDantian(ds);
+   246→  assert(ds2.middle !== null, 'openMiddle: now not null');
+   247→  assertEq(ds2.middle!.capacity, 200, 'openMiddle: capacity=200');
+   248→
+   249→  // Idempotent
+   250→  const ds3 = openMiddleDantian(ds2);
+   251→  assert(ds3.middle === ds2.middle, 'openMiddle: idempotent');
+   252→
+   253→  const ds4 = openUpperDantian(ds2);
+   254→  assert(ds4.upper !== null, 'openUpper: now not null');
+   255→  assertEq(ds4.upper!.capacity, 500, 'openUpper: capacity=500');
+   256→  assert(ds4.goldenCore !== null, 'openUpper: golden core created');
+   257→}
+   258→
+   259→// ============================================================================
+   260→// SECTION 5: Spiritual roots (5 phases, awakenable, purity)
+   261→// ============================================================================
+   262→
+   263→console.log('\n=== SECTION 5: Spiritual roots ===');
+   264→
+   265→{
+   266→  const roots = createSpiritualRoots();
+   267→
+   268→  // All 5 phases present
+   269→  assert(roots.phases.wood !== undefined, 'roots: wood phase present');
+   270→  assert(roots.phases.fire !== undefined, 'roots: fire phase present');
+   271→  assert(roots.phases.earth !== undefined, 'roots: earth phase present');
+   272→  assert(roots.phases.metal !== undefined, 'roots: metal phase present');
+   273→  assert(roots.phases.water !== undefined, 'roots: water phase present');
+   274→
+   275→  // Default balanced
+   276→  approxEq(roots.phases.wood.strength, 0.2, 0.001, 'roots: wood=0.2');
+   277→  approxEq(roots.phases.fire.strength, 0.2, 0.001, 'roots: fire=0.2');
+   278→  approxEq(roots.phases.earth.strength, 0.2, 0.001, 'roots: earth=0.2');
+   279→  approxEq(roots.phases.metal.strength, 0.2, 0.001, 'roots: metal=0.2');
+   280→  approxEq(roots.phases.water.strength, 0.2, 0.001, 'roots: water=0.2');
+   281→  approxEq(roots.total, 1.0, 0.001, 'roots: total=1.0');
+   282→
+   283→  // Balanced = mixed
+   284→  assertEq(roots.purity, 'mixed', 'roots: balanced = mixed purity');
+   285→
+   286→  // Heavenly root: one high phase
+   287→  const heavenly = createSpiritualRoots({ wood: 0.9, fire: 0.025, earth: 0.025, metal: 0.025, water: 0.025 });
+   288→  assertEq(heavenly.purity, 'heavenly', 'roots: 0.9 single = heavenly');
+   289→  assert(!heavenly.phases.wood.latent, 'roots: wood awakened');
+   290→  assert(heavenly.phases.fire.latent, 'roots: fire latent (low)');
+   291→
+   292→  // Impure: total < 0.1 (trash root)
+   293→  const trash = createSpiritualRoots({ wood: 0.02, fire: 0.02, earth: 0.02, metal: 0.02, water: 0.02 });
+   294→  assertEq(trash.purity, 'impure', 'roots: trash root = impure');
+   295→
+   296→  // Awaken a latent root
+   297→  const latent = createSpiritualRoots({ wood: 0.5, fire: 0.01, earth: 0.16, metal: 0.16, water: 0.17 });
+   298→  assert(latent.phases.fire.latent, 'roots: fire starts latent');
+   299→  const awakened = awakenRoot(latent, 'fire', 500);
+   300→  assert(!awakened.phases.fire.latent, 'roots: fire awakened');
+   301→  assertEq(awakened.phases.fire.awakenedAt, 500, 'roots: fire awakenedAt=500');
+   302→}
+   303→
+   304→// ============================================================================
+   305→// SECTION 6: Breakthrough PREP checks
+   306→// ============================================================================
+   307→
+   308→console.log('\n=== SECTION 6: Breakthrough PREP checks ===');
+   309→
+   310→{
+   311→  const qs = createQiState('qi_induction');
+   312→  const hms = createHeartMindState();
+   313→
+   314→  // Balanced phases pass
+   315→  const balancedPass = prepChecksPass(qs, hms, 'qi_condensation');
+   316→  assert(balancedPass, 'prep: balanced phases pass phase check');
+   317→
+   318→  // Unbalanced phases fail phase check
+   319→  const unbalanced: QiState = {
+   320→    ...qs,
+   321→    phaseAffinity: { wood: 0.5, fire: 0.1, earth: 0.1, metal: 0.1, water: 0.2 },
+   322→  };
+   323→  const unbalancedFail = !prepChecksPass(unbalanced, hms, 'qi_condensation');
+   324→  assert(unbalancedFail, 'prep: unbalanced phases fail (wood=0.5)');
+   325→
+   326→  // Unresolved attachments fail psychospiritual
+   327→  const hmsAttached: HeartMindState = {
+   328→    ...hms,
+   329→    unresolvedAttachments: [
+   330→      { attachmentId: 'a1', subject: 1, type: 'grief', intensity: 0.8, integrationProgress: 0.3, bornAt: 0 },
+   331→    ],
+   332→  };
+   333→  const attachedFail = !prepChecksPass(qs, hmsAttached, 'qi_condensation');
+   334→  assert(attachedFail, 'prep: unresolved attachment (progress=0.3) fails');
+   335→
+   336→  // Resolved attachments pass
+   337→  const hmsResolved: HeartMindState = {
+   338→    ...hms,
+   339→    unresolvedAttachments: [
+   340→      { attachmentId: 'a1', subject: 1, type: 'grief', intensity: 0.5, integrationProgress: 0.8, bornAt: 0 },
+   341→    ],
+   342→  };
+   343→  const resolvedPass = prepChecksPass(qs, hmsResolved, 'qi_condensation');
+   344→  assert(resolvedPass, 'prep: resolved attachment (progress=0.8) passes');
+   345→
+   346→  // Reservoir insufficient fails
+   347→  const qsLowReservoir: QiState = {
+   348→    ...qs,
+   349→    reservoir: { ...qs.reservoir, lowerDantian: 10, capacityLower: 100 },
+   350→  };
+   351→  const reservoirFail = !prepChecksPass(qsLowReservoir, hms, 'foundation_establishment');
+   352→  assert(reservoirFail, 'prep: 10% reservoir fails for foundation');
+   353→}
+   354→
+   355→// ============================================================================
+   356→// SECTION 7: Breakthrough THRESHOLD (coherence drift, 30-tick hold)
+   357→// ============================================================================
+   358→
+   359→console.log('\n=== SECTION 7: Breakthrough THRESHOLD ===');
+   360→
+   361→{
+   362→  let bt = createBreakthroughState(1, 'qi_condensation');
+   363→  bt = { ...bt, stage: 'threshold', stageStartedAt: 0 };
+   364→
+   365→  // After 1 tick, coherence should drift down
+   366→  const result1 = coherenceDrift(bt, 1, 42);
+   367→  assert(result1.state.coherenceMeters.bodyQi < 0.8, 'threshold: bodyQi drifts down');
+   368→  assert(result1.state.coherenceMeters.qiAnchor < 0.8, 'threshold: qiAnchor drifts down');
+   369→  assert(result1.state.coherenceMeters.bodyAnchor < 0.8, 'threshold: bodyAnchor drifts down');
+   370→
+   371→  // All meters still above 0.4 after 1 tick
+   372→  assert(result1.thresholdHeld, 'threshold: held after 1 tick');
+   373→
+   374→  // After many ticks, drift should eventually bring meters below 0.4
+   375→  let drifted = bt;
+   376→  let held = true;
+   377→  for (let i = 0; i < 100; i++) {
+   378→    const r = coherenceDrift(drifted, 1, 42 + i);
+   379→    drifted = r.state;
+   380→    held = r.thresholdHeld;
+   381→    if (!held) break;
+   382→  }
+   383→  assert(!held, 'threshold: eventually fails after many ticks');
+   384→
+   385→  // Forced attempt has faster drift (1.5x)
+   386→  const btForced = { ...bt, forcedAttempt: true };
+   387→  const forcedDrift = coherenceDrift(btForced, 10, 42);
+   388→  const normalDrift = coherenceDrift(bt, 10, 42);
+   389→  assert(
+   390→    forcedDrift.state.coherenceMeters.bodyQi <= normalDrift.state.coherenceMeters.bodyQi,
+   391→    'threshold: forced drifts faster than normal',
+   392→  );
+   393→
+   394→  // Check transition to confrontation after 30 ticks
+   395→  const hms = createHeartMindState();
+   396→  const btHeld = { ...bt, stageStartedAt: 0 };
+   397→  const bt30 = { ...btHeld, stageStartedAt: 0 };
+   398→  const transitioned = checkThresholdToConfrontation(bt30, 30, hms);
+   399→  assertEq(transitioned.stage, 'confrontation', 'threshold: transitions to confrontation at tick 30');
+   400→
+   401→  // Not yet at tick 29
+   402→  const notYet = checkThresholdToConfrontation(btHeld, 29, hms);
+   403→  assertEq(notYet.stage, 'threshold', 'threshold: stays at threshold at tick 29');
+   404→}
+   405→
+   406→// ============================================================================
+   407→// SECTION 8: Breakthrough CONFRONTATION
+   408→// ============================================================================
+   409→
+   410→console.log('\n=== SECTION 8: Breakthrough CONFRONTATION ===');
+   411→
+   412→{
+   413→  // Integrate success: attachment with progress >= 0.5
+   414→  const bt1 = createBreakthroughState(1, 'qi_condensation');
+   415→  const btConfront = {
+   416→    ...bt1,
+   417→    stage: 'confrontation' as const,
+   418→    confrontationMaterial: {
+   419→      attachment: { attachmentId: 'a1', subject: 1, type: 'grief', intensity: 0.8, integrationProgress: 0.6, bornAt: 0 },
+   420→      domain: 'heart_barrier',
+   421→    },
+   422→  };
+   423→  const integrateSuccess = applyConfrontationResponse(btConfront, 'integrate');
+   424→  assertEq(integrateSuccess.stage, 'integration', 'confrontation: integrate success → integration');
+   425→  assertEq(integrateSuccess.confrontationMaterial!.attachment.integrationProgress, 1.0, 'confrontation: attachment resolved to 1.0');
+   426→
+   427→  // Integrate failure: attachment with progress < 0.5
+   428→  const btFail = {
+   429→    ...btConfront,
+   430→    confrontationMaterial: {
+   431→      attachment: { attachmentId: 'a2', subject: 2, type: 'fear', intensity: 0.9, integrationProgress: 0.3, bornAt: 0 },
+   432→      domain: 'heart_barrier',
+   433→    },
+   434→  };
+   435→  const integrateFail = applyConfrontationResponse(btFail, 'integrate');
+   436→  assertEq(integrateFail.stage, 'failure', 'confrontation: integrate fail → failure');
+   437→  assertEq(integrateFail.xinmoRisk, 'high', 'confrontation: failure has high xinmo risk');
+   438→
+   439→  // Push past
+   440→  const pushResult = applyConfrontationResponse(btConfront, 'push_past');
+   441→  assertEq(pushResult.stage, 'integration', 'confrontation: push_past → integration');
+   442→  assertEq(pushResult.xinmoRisk, 'high', 'confrontation: push_past has high xinmo risk');
+   443→
+   444→  // Abort
+   445→  const abortResult = applyConfrontationResponse(btConfront, 'abort');
+   446→  assertEq(abortResult.stage, 'prep', 'confrontation: abort → prep');
+   447→  assertEq(abortResult.confrontationMaterial, null, 'confrontation: abort clears material');
+   448→}
+   449→
+   450→// ============================================================================
+   451→// SECTION 9: Deviation onset
+   452→// ============================================================================
+   453→
+   454→console.log('\n=== SECTION 9: Deviation onset ===');
+   455→
+   456→{
+   457→  // false_circuit accumulation
+   458→  const routingClosed: RoutingState = { mode: 'closed_loop', usesReservoir: false, currentRoutingDuration: 0 };
+   459→  const contam: ContaminationState = { modao: 0.5, karmic: 0, environmental: 0, tribulation: 0, total: 0.15 };
+   460→  const fc1 = accumulateFalseCircuit(routingClosed, contam, 100);
+   461→  assert(fc1 > 0, 'deviation: false_circuit accumulates when closed loop');
+   462→
+   463→  const routingNormal: RoutingState = { mode: 'normal', usesReservoir: true, currentRoutingDuration: 0 };
+   464→  const fc2 = accumulateFalseCircuit(routingNormal, contam, 100);
+   465→  assertEq(fc2, 0, 'deviation: false_circuit zero when normal routing');
+   466→
+   467→  // cross_current accumulation
+   468→  const routingAgainst: RoutingState = { mode: 'against_flow', usesReservoir: true, currentRoutingDuration: 0 };
+   469→  const cc1 = accumulateCrossCurrent(routingAgainst, 100);
+   470→  assert(cc1 > 0, 'deviation: cross_current accumulates when against flow');
+   471→  const cc2 = accumulateCrossCurrent(routingNormal, 100);
+   472→  assertEq(cc2, 0, 'deviation: cross_current zero when normal');
+   473→
+   474→  // route_fixation accumulation
+   475→  const routingFixed: RoutingState = { mode: 'normal', usesReservoir: true, currentRoutingDuration: 1200 };
+   476→  const rf1 = accumulateRouteFixation(routingFixed, 100);
+   477→  assert(rf1 > 0, 'deviation: route_fixation accumulates after 600 ticks');
+   478→  const routingShort: RoutingState = { mode: 'normal', usesReservoir: true, currentRoutingDuration: 100 };
+   479→  const rf2 = accumulateRouteFixation(routingShort, 100);
+   480→  assertEq(rf2, 0, 'deviation: route_fixation zero when duration < 600');
+   481→
+   482→  // delusional_conviction accumulation
+   483→  const dc1 = accumulateDelusionalConviction(5, 3);
+   484→  approxEq(dc1, 0.2, 0.001, 'deviation: delusional_conviction = 2 excess * 0.1');
+   485→  const dc2 = accumulateDelusionalConviction(2, 3);
+   486→  assertEq(dc2, 0, 'deviation: delusional_conviction zero when under capacity');
+   487→
+   488→  // Onset check: risk exceeds threshold
+   489→  const risks = [
+   490→    { ...createDeviationRisk('false_circuit'), accumulatedRisk: 0.9, threshold: 0.8, onsetCauses: ['test'] },
+   491→    { ...createDeviationRisk('cross_current'), accumulatedRisk: 0.1, threshold: 0.6, onsetCauses: [] },
+   492→  ];
+   493→  const { newXinmo } = checkDeviationOnset(risks, 1000);
+   494→  assertEq(newXinmo.length, 1, 'deviation: 1 xinmo manifests when false_circuit exceeds threshold');
+   495→  assertEq(newXinmo[0].xinmoType, 'false_circuit', 'deviation: correct xinmo type');
+   496→  assertEq(newXinmo[0].onsetTick, 1000, 'deviation: correct onset tick');
+   497→
+   498→  // Cascade cap at 3
+   499→  const manyXinmo: Xinmo[] = [
+   500→    { xinmoType: 'false_circuit', onsetTick: 1, severity: 0.5, effects: [], resolutionPath: '' },
+   501→    { xinmoType: 'cross_current', onsetTick: 2, severity: 0.5, effects: [], resolutionPath: '' },
+   502→    { xinmoType: 'route_fixation', onsetTick: 3, severity: 0.5, effects: [], resolutionPath: '' },
+   503→    { xinmoType: 'delusional_conviction', onsetTick: 4, severity: 0.5, effects: [], resolutionPath: '' },
+   504→  ];
+   505→  assert(checkDeviationCascade(manyXinmo), 'deviation: cascade triggers with >3 xinmo');
+   506→
+   507→  const fewXinmo = manyXinmo.slice(0, 3);
+   508→  assert(!checkDeviationCascade(fewXinmo), 'deviation: no cascade with 3 xinmo');
+   509→}
+   510→
+   511→// ============================================================================
+   512→// SECTION 10: Bottleneck detection
+   513→// ============================================================================
+   514→
+   515→console.log('\n=== SECTION 10: Bottleneck detection ===');
+   516→
+   517→{
+   518→  // Plateau: improvement < 0.5% over 30 days
+   519→  // Simulate 30 days of ticks (43200 ticks = 30 * 24 * 60) where qi barely changes
+   520→  const history: number[] = [];
+   521→  for (let i = 0; i <= 43200; i++) {
+   522→    history.push(50 + (i * 0.00001)); // tiny improvement
+   523→  }
+   524→  const isPlateau = checkPlateau(history, 100);
+   525→  assert(isPlateau, 'bottleneck: plateau detected with <0.5% improvement');
+   526→
+   527→  // Not plateau when improvement is significant
+   528→  const growingHistory: number[] = [];
+   529→  for (let i = 0; i <= 43200; i++) {
+   530→    growingHistory.push(10 + (i * 0.001)); // ~432% improvement
+   531→  }
+   532→  const notPlateau = !checkPlateau(growingHistory, 100);
+   533→  assert(notPlateau, 'bottleneck: no plateau with significant growth');
+   534→
+   535→  // Empty history: no plateau
+   536→  const emptyPlateau = !checkPlateau([], 100);
+   537→  assert(emptyPlateau, 'bottleneck: no plateau with empty history');
+   538→}
+   539→
+   540→// ============================================================================
+   541→// SECTION 11: Dual cultivation session
+   542→// ============================================================================
+   543→
+   544→console.log('\n=== SECTION 11: Dual cultivation session ===');
+   545→
+   546→{
+   547→  const qs1 = createQiState('qi_condensation');
+   548→  qs1.reservoir.lowerDantian = 80;
+   549→  qs1.yinYang = 0.5;
+   550→
+   551→  const qs2 = createQiState('qi_condensation');
+   552→  qs2.reservoir.lowerDantian = 20;
+   553→  qs2.yinYang = -0.5;
+   554→
+   555→  const hms1 = createHeartMindState();
+   556→  hms1.emotionalBalance = 0.8;
+   557→
+   558→  const hms2 = createHeartMindState();
+   559→  hms2.emotionalBalance = 0.8;
+   560→
+   561→  const tech: DualCultivationTechnique = {
+   562→    techniqueId: 'dual_harmony',
+   563→    phaseCompatibility: createBalancedPhaseAffinity(),
+   564→    yinYangBalance: 0,
+   565→    reservoirCost: 1,
+   566→    benefitRate: 0.5,
+   567→  };
+   568→
+   569→  const session = createDualCultivationSession(1, 2, qs1, hms1, qs2, hms2, tech, 100);
+   570→
+   571→  assert(session.harmonyFactor >= 0, 'dual: harmony factor >= 0');
+   572→  assert(session.harmonyFactor <= 1, 'dual: harmony factor <= 1');
+   573→  assert(session.reservoirExchange > 0, 'dual: reservoir exchange positive (flow from high to low)');
+   574→  assertEq(session.participants, [1, 2], 'dual: correct participants');
+   575→  assertEq(session.startedAt, 100, 'dual: correct start tick');
+   576→
+   577→  // Low harmony = deviation risk
+   578→  const hmsTurbulent = { ...hms1, emotionalBalance: -0.9 };
+   579→  const hms2Turbulent = { ...hms2, emotionalBalance: -0.9 };
+   580→  const lowHarmonySession = createDualCultivationSession(1, 2, qs1, hmsTurbulent, qs2, hms2Turbulent, tech, 100);
+   581→  assert(lowHarmonySession.harmonyFactor < session.harmonyFactor, 'dual: turbulent emotions reduce harmony');
+   582→  assert(lowHarmonySession.deviationRisk >= 0, 'dual: deviation risk >= 0');
+   583→
+   584→  // Complementary yin-yang = higher harmony
+   585→  const harmony = computeHarmonyFactor(qs1, hms1, qs2, hms2, tech);
+   586→  const sameYY: QiState = { ...qs1, yinYang: 0.5 };
+   587→  const sameYY2: QiState = { ...qs2, yinYang: 0.5 };
+   588→  const sameHarmony = computeHarmonyFactor(sameYY, hms1, sameYY2, hms2, tech);
+   589→  assert(harmony >= sameHarmony, 'dual: complementary yin-yang has higher or equal harmony');
+   590→}
+   591→
+   592→// ============================================================================
+   593→// SECTION 12: Tier management (S4 full, S2 aggregate, S0 frozen)
+   594→// ============================================================================
+   595→
+   596→console.log('\n=== SECTION 12: Tier management ===');
+   597→
+   598→{
+   599→  const roots = createSpiritualRoots();
+   600→  const gatheringTech: Technique = {
+   601→    techniqueId: 'basic_gathering',
+   602→    type: 'gathering',
+   603→    baseEffect: {
+   604→      reservoirDelta: 1.0,
+   605→      purityDelta: 0.001,
+   606→      phaseAffinityDelta: { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 },
+   607→      yinYangDelta: 0,
+   608→      meridianDevelopment: {},
+   609→      contaminationDelta: {},
+   610→    },
+   611→    phaseAffinity: createBalancedPhaseAffinity(),
+   612→    yinYang: 0,
+   613→    purityRequirement: 0,
+   614→    reservoirCost: 0,
+   615→    attentionCost: 1,
+   616→    deviationRisks: [],
+   617→  };
+   618→
+   619→  // S4: full algebra applies
+   620→  let c = createCultivatorState(1, roots);
+   621→  c = advanceRealm(c, 100); // qi_induction
+   622→  c.tier = 4;
+   623→  c.activeTechnique = gatheringTech;
+   624→
+   625→  const s4result = aggregateDailyProgress(c, 10);
+   626→  assert(
+   627→    s4result.qiState.reservoir.lowerDantian > c.qiState.reservoir.lowerDantian,
+   628→    'tier S4: gathering technique increases qi',
+   629→  );
+   630→  assert(
+   631→    s4result.heartMindState.attention < c.heartMindState.attention,
+   632→    'tier S4: technique consumes attention',
+   633→  );
+   634→
+   635→  // S2: aggregate applies
+   636→  c.tier = 2;
+   637→  c.activeTechnique = gatheringTech;
+   638→  const s2result = aggregateDailyProgress(c, 10);
+   639→  assert(
+   640→    s2result.qiState.reservoir.lowerDantian >= c.qiState.reservoir.lowerDantian,
+   641→    'tier S2: aggregate increases or maintains qi',
+   642→  );
+   643→
+   644→  // S0: frozen
+   645→  c.tier = 0;
+   646→  c.activeTechnique = gatheringTech;
+   647→  const s0result = aggregateDailyProgress(c, 10);
+   648→  assertEq(s0result.qiState.reservoir.lowerDantian, c.qiState.reservoir.lowerDantian, 'tier S0: frozen, no change');
+   649→}
+   650→
+   651→// ============================================================================
+   652→// SECTION 13: Stats API
+   653→// ============================================================================
+   654→
+   655→console.log('\n=== SECTION 13: Stats API ===');
+   656→
+   657→{
+   658→  const api = createCultivationApi();
+   659→
+   660→  // Empty stats
+   661→  const emptyStats = api.stats();
+   662→  assertEq(emptyStats.totalCultivators, 0, 'stats: 0 cultivators initially');
+   663→  assertEq(emptyStats.totalXinmo, 0, 'stats: 0 xinmo initially');
+   664→  assertEq(emptyStats.totalActiveBreakthroughs, 0, 'stats: 0 active breakthroughs initially');
+   665→  assertEq(emptyStats.totalBottlenecks, 0, 'stats: 0 bottlenecks initially');
+   666→
+   667→  // Create cultivators
+   668→  api.createCultivator(1);
+   669→  api.createCultivator(2, { wood: 0.9, fire: 0.025, earth: 0.025, metal: 0.025, water: 0.025 });
+   670→
+   671→  const stats2 = api.stats();
+   672→  assertEq(stats2.totalCultivators, 2, 'stats: 2 cultivators after creation');
+   673→  assertEq(stats2.byRealm.mortal, 2, 'stats: 2 mortals');
+   674→
+   675→  // Advance one
+   676→  api.advanceRealm(1, 100);
+   677→  const stats3 = api.stats();
+   678→  assertEq(stats3.byRealm.mortal, 1, 'stats: 1 mortal after advancement');
+   679→  assertEq(stats3.byRealm.qi_induction, 1, 'stats: 1 qi_induction after advancement');
+   680→
+   681→  // List and remove
+   682→  assertEq(api.listCultivators().length, 2, 'stats: list returns 2');
+   683→  assert(api.removeCultivator(2), 'stats: remove returns true');
+   684→  assertEq(api.listCultivators().length, 1, 'stats: 1 cultivator after removal');
+   685→}
+   686→
+   687→// ============================================================================
+   688→// SECTION 14: Full API integration
+   689→// ============================================================================
+   690→
+   691→console.log('\n=== SECTION 14: Full API integration ===');
+   692→
+   693→{
+   694→  const api = createCultivationApi();
+   695→
+   696→  // Create a cultivator and advance through realms
+   697→  api.createCultivator(10);
+   698→  api.advanceRealm(10, 100); // qi_induction
+   699→  api.advanceRealm(10, 200); // qi_condensation
+   700→
+   701→  // Verify state access
+   702→  const qs = api.getQiState(10)!;
+   703→  assert(qs !== undefined, 'api: qi state accessible');
+   704→  assert(qs.reservoir.capacityLower > 0, 'api: qi has capacity');
+   705→
+   706→  const hms = api.getHeartMindState(10)!;
+   707→  assert(hms !== undefined, 'api: heart-mind state accessible');
+   708→  assertEq(hms.attention, 50, 'api: attention=50');
+   709→
+   710→  const ds = api.getDantianSystem(10)!;
+   711→  assert(ds !== undefined, 'api: dantian system accessible');
+   712→  assertEq(ds.middle, null, 'api: middle dantian null at qi_condensation');
+   713→
+   714→  const sr = api.getSpiritualRoots(10)!;
+   715→  assert(sr !== undefined, 'api: spiritual roots accessible');
+   716→  assert(sr.phases.wood !== undefined, 'api: wood phase present');
+   717→
+   718→  // Apply a technique
+   719→  const tech: Technique = {
+   720→    techniqueId: 'test_gathering',
+   721→    type: 'gathering',
+   722→    baseEffect: {
+   723→      reservoirDelta: 2.0,
+   724→      purityDelta: 0.01,
+   725→      phaseAffinityDelta: { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 },
+   726→      yinYangDelta: 0,
+   727→      meridianDevelopment: {},
+   728→      contaminationDelta: {},
+   729→    },
+   730→    phaseAffinity: createBalancedPhaseAffinity(),
+   731→    yinYang: 0,
+   732→    purityRequirement: 0,
+   733→    reservoirCost: 0,
+   734→    attentionCost: 5,
+   735→    deviationRisks: [],
+   736→  };
+   737→
+   738→  api.setActiveTechnique(10, tech);
+   739→  const result = api.applyTechnique(10, tech, 10);
+   740→  assert(result !== undefined, 'api: technique applied');
+   741→  assert(result.qs.reservoir.lowerDantian > qs.reservoir.lowerDantian, 'api: qi increased after technique');
+   742→
+   743→  // Step cultivator
+   744→  api.stepCultivator(10, 1, 300);
+   745→  const afterStep = api.getCultivator(10);
+   746→  assert(afterStep !== undefined, 'api: cultivator still exists after step');
+   747→  assertEq(afterStep!.lastActiveTick, 300, 'api: lastActiveTick updated');
+   748→
+   749→  // Non-existent cultivator
+   750→  assertEq(api.getCultivator(999), undefined, 'api: undefined for non-existent');
+   751→  assertEq(api.applyTechnique(999, tech, 1), undefined, 'api: undefined technique for non-existent');
+   752→}
+   753→
+   754→// ============================================================================
+   755→// SECTION 15: Deviation through API
+   756→// ============================================================================
+   757→
+   758→console.log('\n=== SECTION 15: Deviation through API ===');
+   759→
+   760→{
+   761→  const api = createCultivationApi();
+   762→  api.createCultivator(20);
+   763→
+   764→  // Accumulate risk
+   765→  assert(api.accumulateDeviationRisk(20, 'false_circuit', 0.5), 'api: accumulate risk returns true');
+   766→  assert(api.accumulateDeviationRisk(20, 'false_circuit', 0.4), 'api: accumulate more risk');
+   767→
+   768→  // Check onset
+   769→  const xinmo = api.checkDeviationOnset(20, 500);
+   770→  assertEq(xinmo.length, 1, 'api: 1 xinmo after exceeding false_circuit threshold');
+   771→  assertEq(xinmo[0].xinmoType, 'false_circuit', 'api: correct xinmo type');
+   772→
+   773→  // Second check doesn't duplicate
+   774→  const xinmo2 = api.checkDeviationOnset(20, 501);
+   775→  // Already manifested, so no new xinmo (accumulated is same)
+   776→  assert(xinmo2.length <= 1, 'api: no duplicate xinmo on re-check');
+   777→}
+   778→
+   779→// ============================================================================
+   780→// SECTION 16: Breakthrough through API
+   781→// ============================================================================
+   782→
+   783→console.log('\n=== SECTION 16: Breakthrough through API ===');
+   784→
+   785→{
+   786→  const api = createCultivationApi();
+   787→  api.createCultivator(30);
+   788→  api.advanceRealm(30, 100); // qi_induction
+   789→
+   790→  // Start breakthrough
+   791→  const bt = api.startBreakthrough(30, 'qi_condensation');
+   792→  assert(bt !== undefined, 'api: breakthrough started');
+   793→  assertEq(bt!.stage, 'prep', 'api: starts at prep');
+   794→
+   795→  // Advance prep → threshold
+   796→  let btState = api.advanceBreakthroughStage(30, 200);
+   797→  assertEq(btState!.stage, 'threshold', 'api: advances to threshold (checks pass)');
+   798→
+   799→  // Get breakthrough state
+   800→  const btGet = api.getBreakthroughState(30);
+   801→  assert(btGet !== undefined, 'api: can get breakthrough state');
+   802→
+   803→  // Advance through threshold (30 ticks)
+   804→  for (let t = 201; t <= 230; t++) {
+   805→    btState = api.advanceBreakthroughStage(30, t);
+   806→  }
+   807→  // Should reach confrontation (or fail threshold)
+   808→  assert(
+   809→    btState!.stage === 'confrontation' || btState!.stage === 'prep',
+   810→    'api: reaches confrontation or falls back to prep',
+   811→  );
+   812→}
+   813→
+   814→// ============================================================================
+   815→// SECTION 17: Plugin registration
+   816→// ============================================================================
+   817→
+   818→console.log('\n=== SECTION 17: Plugin registration ===');
+   819→
+   820→{
+   821→  const host = createPluginHost(getFingerprint());
+   822→  host.registerPlugin(DeterminismPlugin);
+   823→  const plugin = createCultivationPlugin();
+   824→
+   825→  assertEq(plugin.id, 'ga:cultivation', 'plugin: id correct');
+   826→  assertEq(plugin.version, '0.1.0', 'plugin: version correct');
+   827→  assert(plugin.dependencies.includes('ga:determinism'), 'plugin: depends on ga:determinism');
+   828→
+   829→  const regResult = host.registerPlugin(plugin);
+   830→  assert(regResult.ok, 'plugin: registers successfully');
+   831→
+   832→  // Check capabilities
+   833→  assert(host.capabilities.has('cultivation.state'), 'plugin: cultivation.state registered');
+   834→  assert(host.capabilities.has('cultivation.breakthrough'), 'plugin: cultivation.breakthrough registered');
+   835→  assert(host.capabilities.has('cultivation.deviation'), 'plugin: cultivation.deviation registered');
+   836→
+   837→  // Check state
+   838→  const state = host.getState('ga:cultivation');
+   839→  assert(state !== undefined, 'plugin: state stored in host');
+   840→
+   841→  // Unregister
+   842→  host.unregisterPlugin('ga:cultivation');
+   843→  assert(!host.capabilities.has('cultivation.state'), 'plugin: capabilities unregistered');
+   844→}
+   845→
+   846→// ============================================================================
+   847→// SECTION 18: Effect algebra composition (chain rule)
+   848→// ============================================================================
+   849→
+   850→console.log('\n=== SECTION 18: Effect algebra composition ===');
+   851→
+   852→{
+   853→  const qs = createQiState('qi_induction');
+   854→  const hms = createHeartMindState();
+   855→
+   856→  const techA: Technique = {
+   857→    techniqueId: 'tech_a',
+   858→    type: 'gathering',
+   859→    baseEffect: {
+   860→      reservoirDelta: 1.0,
+   861→      purityDelta: 0.01,
+   862→      phaseAffinityDelta: { wood: 0.01, fire: 0, earth: 0, metal: 0, water: 0 },
+   863→      yinYangDelta: 0.05,
+   864→      meridianDevelopment: {},
+   865→      contaminationDelta: {},
+   866→    },
+   867→    phaseAffinity: createBalancedPhaseAffinity(),
+   868→    yinYang: 0,
+   869→    purityRequirement: 0,
+   870→    reservoirCost: 0,
+   871→    attentionCost: 2,
+   872→    deviationRisks: [],
+   873→  };
+   874→
+   875→  const techB: Technique = {
+   876→    techniqueId: 'tech_b',
+   877→    type: 'refining',
+   878→    baseEffect: {
+   879→      reservoirDelta: -0.5,
+   880→      purityDelta: 0.02,
+   881→      phaseAffinityDelta: { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 },
+   882→      yinYangDelta: -0.02,
+   883→      meridianDevelopment: {},
+   884→      contaminationDelta: {},
+   885→    },
+   886→    phaseAffinity: createBalancedPhaseAffinity(),
+   887→    yinYang: 0,
+   888→    purityRequirement: 0,
+   889→    reservoirCost: 0,
+   890→    attentionCost: 2,
+   891→    deviationRisks: [],
+   892→  };
+   893→
+   894→  // Apply A then B
+   895→  const r1 = applyTechnique(qs, hms, techA, 10);
+   896→  const r2 = applyTechnique(r1.qs, r1.hms, techB, 10);
+   897→
+   898→  // B uses A's modified state — chain rule
+   899→  assert(r2.qs.purity > qs.purity, 'composition: purity increased through chain');
+   900→  assert(r2.hms.attention < hms.attention, 'composition: attention consumed through chain');
+   901→}
+   902→
+   903→// ============================================================================
+   904→// SECTION 19: Phase matchup
+   905→// ============================================================================
+   906→
+   907→console.log('\n=== SECTION 19: Phase matchup ===');
+   908→
+   909→{
+   910→  // Wood conquers Earth
+   911→  approxEq(phaseMatchup('wood', 'earth'), 1.3, 0.001, 'matchup: wood conquers earth = 1.3');
+   912→  // Fire conquers Metal
+   913→  approxEq(phaseMatchup('fire', 'metal'), 1.3, 0.001, 'matchup: fire conquers metal = 1.3');
+   914→  // Earth conquers Water
+   915→  approxEq(phaseMatchup('earth', 'water'), 1.3, 0.001, 'matchup: earth conquers water = 1.3');
+   916→  // Metal conquers Wood (reverse conquest from wood's perspective)
+   917→  approxEq(phaseMatchup('wood', 'metal'), 0.7, 0.001, 'matchup: metal conquers wood → 0.7');
+   918→  // Water conquers Fire (reverse from fire's perspective)
+   919→  approxEq(phaseMatchup('fire', 'water'), 0.7, 0.001, 'matchup: water conquers fire → 0.7');
+   920→  // Neutral
+   921→  approxEq(phaseMatchup('wood', 'fire'), 1.0, 0.001, 'matchup: wood vs fire = 1.0 (neutral)');
+   922→}
+   923→
+   924→// ============================================================================
+   925→// SECTION 20: Comprehension
+   926→// ============================================================================
+   927→
+   928→console.log('\n=== SECTION 20: Comprehension ===');
+   929→
+   930→{
+   931→  const target: ComprehensionTarget = {
+   932→    targetId: 'wood_law',
+   933→    domain: 'wood_phase',
+   934→    maxIntensity: 3,
+   935→    concealment: 0.2,
+   936→    lawFragmentsAvailable: ['wood_fragment_1'],
+   937→  };
+   938→
+   939→  // High attention, decent skill
+   940→  const attempt1 = attemptComprehension(1, target, 0.8, 80, 100);
+   941→  assert(attempt1.success, 'comprehension: success with good conditions');
+   942→  assert(attempt1.achievedIntensity >= 1, 'comprehension: achieved intensity >= 1');
+   943→  assert(attempt1.resultingFragment !== null, 'comprehension: produces fragment');
+   944→  assertEq(attempt1.resultingFragment!.domain, 'wood_phase', 'comprehension: fragment has correct domain');
+   945→
+   946→  // Low attention
+   947→  const attempt2 = attemptComprehension(1, target, 0.8, 5, 100);
+   948→  // Very low attention = low intensity
+   949→  assert(attempt2.achievedIntensity < attempt1.achievedIntensity, 'comprehension: low attention reduces intensity');
+   950→
+   951→  // API-based comprehension
+   952→  const api = createCultivationApi();
+   953→  api.createCultivator(40);
+   954→  const apiAttempt = api.attemptComprehension(40, target);
+   955→  assert(apiAttempt !== undefined, 'comprehension api: attempt returned');
+   956→  if (apiAttempt!.resultingFragment) {
+   957→    const c = api.getCultivator(40)!;
+   958→    assert(c.heartMindState.unintegratedLawFragments.length > 0, 'comprehension api: fragment added to unintegrated');
+   959→  }
+   960→}
+   961→
+   962→// ============================================================================
+   963→// SECTION 21: Realm ladder
+   964→// ============================================================================
+   965→
+   966→console.log('\n=== SECTION 21: Realm ladder ===');
+   967→
+   968→{
+   969→  assertEq(REALM_LADDER.length, 10, 'ladder: 10 realms');
+   970→  assertEq(REALM_LADDER[0], 'mortal', 'ladder: [0]=mortal');
+   971→  assertEq(REALM_LADDER[1], 'qi_induction', 'ladder: [1]=qi_induction');
+   972→  assertEq(REALM_LADDER[2], 'qi_condensation', 'ladder: [2]=qi_condensation');
+   973→  assertEq(REALM_LADDER[3], 'foundation_establishment', 'ladder: [3]=foundation');
+   974→  assertEq(REALM_LADDER[4], 'core_formation', 'ladder: [4]=core_formation');
+   975→  assertEq(REALM_LADDER[9], 'mahayana', 'ladder: [9]=mahayana');
+   976→
+   977→  assertEq(REALM_INDEX.mortal, 0, 'index: mortal=0');
+   978→  assertEq(REALM_INDEX.mahayana, 9, 'index: mahayana=9');
+   979→}
+   980→
+   981→// ============================================================================
+   982→// SECTION 22: Contamination recalculation
+   983→// ============================================================================
+   984→
+   985→console.log('\n=== SECTION 22: Contamination recalculation ===');
+   986→
+   987→{
+   988→  const c = createContaminationState();
+   989→  assertEq(c.total, 0, 'contam: starts at 0');
+   990→
+   991→  const c2 = { modao: 1, karmic: 0, environmental: 0, tribulation: 0, total: 0 };
+   992→  const c2r = recalcContamination(c2);
+   993→  approxEq(c2r.total, 0.3, 0.001, 'contam: modao=1 → total=0.3');
+   994→
+   995→  const c3 = { modao: 0, karmic: 1, environmental: 0, tribulation: 0, total: 0 };
+   996→  const c3r = recalcContamination(c3);
+   997→  approxEq(c3r.total, 0.3, 0.001, 'contam: karmic=1 → total=0.3');
+   998→
+   999→  const c4 = { modao: 1, karmic: 1, environmental: 1, tribulation: 1, total: 0 };
+  1000→  const c4r = recalcContamination(c4);
+  1001→  approxEq(c4r.total, 1.0, 0.001, 'contam: all max → total=1.0');
+  1002→}
+  1003→
+  1004→// ============================================================================
+  1005→// SECTION 23: Phase affinity normalization
+  1006→// ============================================================================
+  1007→
+  1008→console.log('\n=== SECTION 23: Phase affinity normalization ===');
+  1009→
+  1010→{
+  1011→  const unnormalized: PhaseAffinity = { wood: 5, fire: 3, earth: 1, metal: 0, water: 1 };
+  1012→  const normalized = normalizePhaseAffinity(unnormalized);
+  1013→  const sum = normalized.wood + normalized.fire + normalized.earth + normalized.metal + normalized.water;
+  1014→  approxEq(sum, 1.0, 0.001, 'normalize: sum=1.0');
+  1015→  approxEq(normalized.wood, 0.5, 0.001, 'normalize: wood=0.5');
+  1016→
+  1017→  // Zero sum returns balanced
+  1018→  const zeroSum: PhaseAffinity = { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+  1019→  const zeroResult = normalizePhaseAffinity(zeroSum);
+  1020→  approxEq(zeroResult.wood, 0.2, 0.001, 'normalize: zero sum → balanced');
+  1021→}
+  1022→
+  1023→// ============================================================================
+  1024→// Summary
+  1025→// ============================================================================
+  1026→
+  1027→console.log(`\n${'='.repeat(60)}`);
+  1028→console.log(`Cultivation Conformance: ${passed} passed, ${failed} failed, ${passed + failed} total`);
+  1029→console.log('='.repeat(60));
+  1030→
+  1031→if (failed > 0) {
+  1032→  process.exit(1);
+  1033→}
+  1034→

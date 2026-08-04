@@ -1,0 +1,846 @@
+     1→/*
+     2→ * Phase 4 Simulation Systems Conformance Test
+     3→ *
+     4→ * Tests: Entity Manager, NPC Simulator, Ecology, Economy, History.
+     5→ * All tests use deterministic operations only.
+     6→ * No forbidden functions in simulation code.
+     7→ */
+     8→
+     9→import { createPluginHost } from '../../kernel/plugin-host';
+    10→import { getFingerprint } from '../../../lib/determinism/fingerprint';
+    11→import { DeterminismPlugin } from '../ga-determinism';
+    12→import {
+    13→  createEntityManager, createEntityIdAllocator, NULL_ENTITY_ID,
+    14→  type SimComponent,
+    15→} from '../../kernel/entity-manager';
+    16→import { createNpcSimulatorPlugin, createNpcSimulatorApi, S2_VERB_SET } from './ga-npc-simulator';
+    17→import { createEcologyPlugin, createEcologyApi, SOLAR_TERM_TABLE } from './ga-ecology';
+    18→import { createEconomyPlugin, createEconomyApi } from './ga-economy';
+    19→import { createHistoryPlugin, createHistoryApi, ALL_EVENT_TYPES } from './ga-history';
+    20→import type { NpcSimulatorApi } from './ga-npc-simulator';
+    21→import type { EcologyApi } from './ga-ecology';
+    22→import type { EconomyApi } from './ga-economy';
+    23→import type { HistoryApi } from './ga-history';
+    24→
+    25→// ============================================================================
+    26→// Test harness
+    27→// ============================================================================
+    28→
+    29→let passed = 0;
+    30→let failed = 0;
+    31→
+    32→function assert(condition: boolean, label: string) {
+    33→  if (condition) {
+    34→    passed++;
+    35→    console.log(`  \u2705 ${label}`);
+    36→  } else {
+    37→    failed++;
+    38→    console.error(`  \u274c ${label}`);
+    39→  }
+    40→}
+    41→
+    42→// ============================================================================
+    43→// SECTION 1: Entity Manager
+    44→// ============================================================================
+    45→
+    46→function testEntityManager() {
+    47→  console.log('Test 1: Entity Manager');
+    48→  const em = createEntityManager();
+    49→
+    50→  // Create entities
+    51→  const id1 = em.create(0n, 4);
+    52→  const id2 = em.create(0n, 2);
+    53→  const id3 = em.create(1n, 3);
+    54→  assert(id1 !== id2, 'Two entities get different IDs');
+    55→  assert(id1 > 0n, 'Entity ID is not null');
+    56→  assert(em.exists(id1), 'Entity 1 exists');
+    57→  assert(em.count() === 3, 'Three entities created');
+    58→
+    59→  // Sim-components
+    60→  const transform: SimComponent = {
+    61→    __type: 'transform',
+    62→    __schemaHash: 'hash1',
+    63→  } as any as SimComponent;
+    64→  const result = em.attachSim(id1, transform);
+    65→  assert(result.ok, 'Attach sim-component succeeds');
+    66→  assert(em.hasSim(id1, 'transform'), 'Has transform component');
+    67→  assert(!em.hasSim(id2, 'transform'), 'Entity 2 does not have transform');
+    68→  const retrieved = em.getSim(id1, 'transform');
+    69→  assert(retrieved?.__type === 'transform', 'Retrieved component has correct type');
+    70→  assert(retrieved?.__schemaHash === 'hash1', 'Retrieved component has correct schema hash');
+    71→
+    72→  // Remove sim-component
+    73→  const removeResult = em.removeSim(id1, 'transform');
+    74→  assert(removeResult.ok, 'Remove sim-component succeeds');
+    75→  assert(!em.hasSim(id1, 'transform'), 'Component removed');
+    76→
+    77→  // Render-components
+    78→  const renderComp = { __type: 'mesh-ref' } as any;
+    79→  em.attachRender(id1, renderComp);
+    80→  const renderRetrieved = em.getRender(id1, 'mesh-ref');
+    81→  assert(renderRetrieved?.__type === 'mesh-ref', 'Render component attached and retrieved');
+    82→  em.removeRender(id1, 'mesh-ref');
+    83→  assert(!em.getRender(id1, 'mesh-ref'), 'Render component removed');
+    84→
+    85→  // Destroy entity
+    86→  const destroyResult = em.destroy(id1);
+    87→  assert(destroyResult.ok, 'Destroy entity succeeds');
+    88→  assert(!em.exists(id1), 'Entity 1 no longer exists');
+    89→  assert(em.count() === 2, 'Two entities remain after destroy');
+    90→
+    91→  // Destroy non-existent
+    92→  const destroyAgain = em.destroy(id1);
+    93→  assert(!destroyAgain.ok, 'Destroy non-existent entity fails');
+    94→
+    95→  // Tier management
+    96→  assert(em.getTier(id2) === 2, 'Default tier is 2');
+    97→  em.setTier(id2, 4);
+    98→  assert(em.getTier(id2) === 4, 'Tier updated to 4');
+    99→
+   100→  // Spatial node
+   101→  em.setSpatialNode(id2, 42n);
+   102→  assert(em.getSpatialNode(id2) === 42n, 'Spatial node updated');
+   103→
+   104→  // Queries
+   105→  const healthComp: SimComponent = { __type: 'health', __schemaHash: 'h2' } as any;
+   106→  em.attachSim(id2, healthComp);
+   107→  em.attachSim(id3, healthComp);
+   108→  const results = em.query({ all: ['health'] });
+   109→  assert(results.length === 2, 'Query all health returns 2 entities');
+   110→  const tierResults = em.query({ tierGte: 4 });
+   111→  assert(tierResults.length === 1, 'Query tier >= 4 returns 1 entity');
+   112→  const noneResults = em.query({ all: ['health'], none: ['transform'] });
+   113→  assert(noneResults.length === 2, 'Query with none filter works');
+   114→
+   115→  // Query entities (full objects)
+   116→  const entities = em.queryEntities({ all: ['health'] });
+   117→  assert(entities.length === 2, 'queryEntities returns full entity objects');
+   118→  assert(entities[0].id !== undefined, 'Entity has id');
+   119→
+   120→  // Compiled query
+   121→  const compiled = em.compileQuery({ all: ['health'], tierGte: 2 });
+   122→  assert(typeof compiled.matches === 'function', 'Compiled query has matches function');
+   123→  assert(compiled.spec.all?.length === 1, 'Compiled query preserves spec');
+   124→
+   125→  // Clear
+   126→  em.clear();
+   127→  assert(em.count() === 0, 'All entities cleared');
+   128→
+   129→  // Entity ID allocator determinism
+   130→  const alloc1 = createEntityIdAllocator();
+   131→  const alloc2 = createEntityIdAllocator();
+   132→  const a = alloc1.next(42n);
+   133→  const b = alloc2.next(42n);
+   134→  assert(a === b, 'Same seed produces same entity ID');
+   135→  const c = alloc1.next(42n);
+   136→  const d = alloc2.next(42n);
+   137→  assert(c === d, 'Second ID also matches');
+   138→  assert(a !== c, 'Sequential IDs differ');
+   139→
+   140→  // Null entity constant
+   141→  assert(NULL_ENTITY_ID === 0n, 'NULL_ENTITY_ID is 0n');
+   142→
+   143→  console.log('');
+   144→}
+   145→
+   146→// ============================================================================
+   147→// SECTION 2: NPC Simulator
+   148→// ============================================================================
+   149→
+   150→function testNpcSimulator() {
+   151→  console.log('Test 2: NPC Simulator');
+   152→  const api = createNpcSimulatorApi();
+   153→
+   154→  // Create NPCs
+   155→  const id1 = api.createNpc({
+   156→    identity: { name: 'Wang Wei', appearanceSeed: 42, cultureId: 'han', isNamed: true },
+   157→    tier: 4,
+   158→    social: { factionId: 'wang-clan', householdId: 'wang-main' },
+   159→  });
+   160→  const id2 = api.createNpc({
+   161→    identity: { name: 'Li Feng', appearanceSeed: 99, cultureId: 'han', isNamed: false },
+   162→    tier: 2,
+   163→  });
+   164→  assert(id1 === 1n, 'First NPC gets ID 1');
+   165→  assert(id2 === 2n, 'Second NPC gets ID 2');
+   166→  assert(api.countNpcs() === 2, 'Two NPCs created');
+   167→
+   168→  // Get NPC
+   169→  const npc = api.getNpc(id1);
+   170→  assert(npc !== undefined, 'NPC 1 retrieved');
+   171→  assert(npc!.identity.name === 'Wang Wei', 'Name correct');
+   172→  assert(npc!.identity.isNamed === true, 'isNamed correct');
+   173→  assert(npc!.state.realm === 'mortal', 'Default realm is mortal');
+   174→  assert(npc!.state.health === 1.0, 'Default health is 1.0');
+   175→  assert(npc!.tier === 4, 'Tier is 4');
+   176→
+   177→  // List NPCs
+   178→  const list = api.listNpcs();
+   179→  assert(list.length === 2, 'listNpcs returns 2');
+   180→
+   181→  // Decision-making
+   182→  const worldState = {
+   183→    tick: 100, ambientQi: 1.0, dangerLevel: 0.3,
+   184→    activeFactions: ['wang-clan'], marketAvailable: true,
+   185→    herbsAvailable: true, beastsPresent: false,
+   186→  };
+   187→  const action = api.decide(id1, 100, worldState);
+   188→  assert(typeof action === 'string', 'Decision returns a verb string');
+   189→  assert(action === npc!.currentAction, 'Current action updated');
+   190→  assert(npc!.lastDecisionTick === 100, 'Last decision tick updated');
+   191→
+   192→  // Action lock
+   193→  const action2 = api.decide(id1, 101, worldState);
+   194→  assert(action2 === action, 'Locked action repeats while lock active');
+   195→
+   196→  // decideAll
+   197→  const decisions = api.decideAll(200, worldState);
+   198→  assert(decisions.size === 2, 'decideAll returns decisions for all NPCs');
+   199→  assert(decisions.has(id1), 'Has decision for NPC 1');
+   200→  assert(decisions.has(id2), 'Has decision for NPC 2');
+   201→
+   202→  // S2 reduced verb set
+   203→  const s2Verb = decisions.get(id2);
+   204→  assert(S2_VERB_SET.has(s2Verb!), 'S2 NPC uses only S2 verbs');
+   205→
+   206→  // Memory
+   207→  const memAdded = api.addMemory(id1, {
+   208→    eventId: 'mem-1', eventType: 'combat', tick: 50,
+   209→    emotionalWeight: 0.8, reliability: 0.9, content: 'Witnessed a duel',
+   210→    distortionLevel: 0,
+   211→  });
+   212→  assert(memAdded, 'Memory added');
+   213→  const mems = api.getMemories(id1);
+   214→  assert(mems.length === 1, 'One memory retrieved');
+   215→  assert(mems[0].content === 'Witnessed a duel', 'Memory content correct');
+   216→
+   217→  // Relationships
+   218→  const relAdded = api.addRelationship(id1, {
+   219→    targetId: id2, type: 'ally', trust: 0.7,
+   220→    lastInteractionTick: 100, interactionCount: 1,
+   221→  });
+   222→  assert(relAdded, 'Relationship added');
+   223→  const rels = api.getRelationships(id1);
+   224→  assert(rels.length === 1, 'One relationship');
+   225→  const rel = api.getRelationship(id1, id2);
+   226→  assert(rel?.type === 'ally', 'Relationship type correct');
+   227→  assert(rel?.trust === 0.7, 'Relationship trust correct');
+   228→
+   229→  // Update relationship (should increment interaction count)
+   230→  api.addRelationship(id1, {
+   231→    targetId: id2, type: 'rival', trust: 0.3,
+   232→    lastInteractionTick: 200, interactionCount: 1,
+   233→  });
+   234→  const updatedRel = api.getRelationship(id1, id2);
+   235→  assert(updatedRel?.type === 'rival', 'Relationship type updated');
+   236→  assert(updatedRel?.interactionCount === 2, 'Interaction count incremented');
+   237→
+   238→  // Loyalties
+   239→  const loyAdded = api.addLoyalty(id1, {
+   240→    targetId: id2, weight: 0.5, base: 'faction',
+   241→    tickEstablished: 50,
+   242→  });
+   243→  assert(loyAdded, 'Loyalty added');
+   244→
+   245→  // Grudges
+   246→  const grudAdded = api.addGrudge(id1, {
+   247→    targetId: 2n, type: 'insulted_honor', severity: 0.7,
+   248→    tickEstablished: 80, satisfied: false,
+   249→  });
+   250→  assert(grudAdded, 'Grudge added');
+   251→  api.decayGrudges(id1, 1000); // age = 920 ticks ≈ 2.5 years
+   252→  const npcAfterDecay = api.getNpc(id1);
+   253→  assert(npcAfterDecay!.grudges[0].severity < 0.7, 'Grudge severity decayed');
+   254→
+   255→  // Ambitions
+   256→  const ambAdded = api.addAmbition(id1, {
+   257→    type: 'breakthrough_to', intensity: 0.8, progress: 0.1,
+   258→  });
+   259→  assert(ambAdded, 'Ambition added');
+   260→  const ambs = api.getAmbitions(id1);
+   261→  assert(ambs.length === 1, 'One ambition');
+   262→  // Max 3 ambitions
+   263→  api.addAmbition(id1, { type: 'accumulate_wealth', intensity: 0.3, progress: 0 });
+   264→  api.addAmbition(id1, { type: 'find_master', intensity: 0.5, progress: 0 });
+   265→  const ambFull = api.addAmbition(id1, { type: 'comprehend_law', intensity: 0.4, progress: 0 });
+   266→  assert(!ambFull, 'Fourth ambition rejected (max 3)');
+   267→
+   268→  // State mutations
+   269→  assert(api.updateLocation(id1, { regionId: 'village', x: 10, y: 0, z: 20 }), 'Location updated');
+   270→  assert(api.getNpc(id1)!.state.location.regionId === 'village', 'Location persisted');
+   271→  assert(api.updateHealth(id1, 0.5), 'Health updated');
+   272→  assert(api.getNpc(id1)!.state.health === 0.5, 'Health persisted');
+   273→  assert(api.updateQiState(id1, { reservoir: 0.3, phase: 'gathering' }), 'Qi state updated');
+   274→  assert(api.getNpc(id1)!.state.qiState.reservoir === 0.3, 'Qi reservoir persisted');
+   275→  assert(api.updateRealm(id1, 'qi_condensation'), 'Realm updated');
+   276→  assert(api.getNpc(id1)!.state.realm === 'qi_condensation', 'Realm persisted');
+   277→  assert(api.updateMentalState(id1, 'anxious'), 'Mental state updated');
+   278→  assert(api.getNpc(id1)!.state.heartMind.mentalState === 'anxious', 'Mental state persisted');
+   279→
+   280→  // Health clamping
+   281→  api.updateHealth(id1, 1.5);
+   282→  assert(api.getNpc(id1)!.state.health === 1.0, 'Health clamped to 1.0');
+   283→  api.updateHealth(id1, -0.5);
+   284→  assert(api.getNpc(id1)!.state.health === 0.0, 'Health clamped to 0.0');
+   285→
+   286→  // Tier management
+   287→  assert(api.setTier(id1, 3), 'Tier set to 3');
+   288→  assert(api.getTier(id1) === 3, 'Tier is 3');
+   289→  // Named NPC cannot demote below S2
+   290→  assert(!api.setTier(id1, 0), 'Named NPC cannot demote to S0');
+   291→  assert(!api.setTier(id1, 1), 'Named NPC cannot demote to S1');
+   292→  assert(api.getTier(id1) === 3, 'Tier remains 3 after failed demotion');
+   293→  // Unnamed NPC can be any tier
+   294→  assert(api.setTier(id2, 0), 'Unnamed NPC can be S0');
+   295→  assert(api.getTier(id2) === 0, 'Unnamed NPC is S0');
+   296→
+   297→  // S0 NPC returns frozen action
+   298→  api.setTier(id2, 2); // restore to S2 so it can decide
+   299→  const s0Action = api.decide(id2, 300, worldState); // make a fresh decision at S2
+   300→  api.setTier(id2, 0); // now demote to S0
+   301→  const s0FrozenAction = api.decide(id2, 301, worldState);
+   302→  assert(s0FrozenAction === s0Action, 'S0 NPC returns current action (frozen)');
+   303→
+   304→  // Query by tier
+   305→  api.setTier(id2, 2);
+   306→ const tier2 = api.queryByTier(2);
+   307→  assert(tier2.length === 1, 'One NPC at tier 2');
+   308→
+   309→  // Search
+   310→  const found = api.findByName('Wang Wei');
+   311→  assert(found === id1, 'findByName returns correct ID');
+   312→  assert(api.findByName('nonexistent') === undefined, 'findByName returns undefined for missing');
+   313→  const byFaction = api.findByFaction('wang-clan');
+   314→  assert(byFaction.length === 1, 'One NPC in wang-clan');
+   315→  const byRegion = api.findByRegion('village');
+   316→  assert(byRegion.length === 1, 'One NPC in village region');
+   317→
+   318→  // Stats
+   319→  const stats = api.stats();
+   320→  assert(stats.totalNpcs === 2, 'Stats: 2 total NPCs');
+   321→  assert(stats.namedNpcs === 1, 'Stats: 1 named NPC');
+   322→  assert(stats.totalAmbitions === 3, 'Stats: 3 ambitions');
+   323→  assert(stats.totalGrudges === 1, 'Stats: 1 grudge');
+   324→  assert(stats.totalLoyalties === 1, 'Stats: 1 loyalty');
+   325→  assert(stats.totalMemories === 1, 'Stats: 1 memory');
+   326→
+   327→  // Remove NPC
+   328→  assert(api.removeNpc(id2), 'NPC 2 removed');
+   329→  assert(api.getNpc(id2) === undefined, 'NPC 2 no longer exists');
+   330→  assert(api.countNpcs() === 1, 'One NPC remains');
+   331→
+   332→  console.log('');
+   333→}
+   334→
+   335→// ============================================================================
+   336→// SECTION 3: Ecology
+   337→// ============================================================================
+   338→
+   339→function testEcology() {
+   340→  console.log('Test 3: Ecology');
+   341→  const api = createEcologyApi();
+   342→
+   343→  // Register species
+   344→  api.registerSpecies({
+   345→    speciesId: 'spirit_herb', name: 'Spirit Herb', trophicLevel: 1,
+   346→    qiProfile: 'wood', qiMagnitude: 0.3, reproductionRate: 0.4,
+   347→    carryingCapacity: 500, preysOn: [], isCultivator: false,
+   348→  });
+   349→  api.registerSpecies({
+   350→    speciesId: 'wolf_beast', name: 'Wolf Beast', trophicLevel: 2,
+   351→    qiProfile: 'metal', qiMagnitude: 0.2, reproductionRate: 0.2,
+   352→    carryingCapacity: 100, preysOn: ['spirit_herb'], isCultivator: false,
+   353→  });
+   354→  api.registerSpecies({
+   355→    speciesId: 'wolf_predator', name: 'Wolf Predator', trophicLevel: 3,
+   356→    qiProfile: 'metal', qiMagnitude: 0.5, reproductionRate: 0.1,
+   357→    carryingCapacity: 20, preysOn: ['wolf_beast'], isCultivator: true,
+   358→  });
+   359→  assert(api.listSpecies().length === 3, 'Three species registered');
+   360→
+   361→  // Create region
+   362→  api.createRegion('bend', {
+   363→    ambientQi: 1.0,
+   364→    initialPopulation: { spirit_herb: 200, wolf_beast: 50, wolf_predator: 5 },
+   365→  });
+   366→  assert(api.listRegions().length === 1, 'One region created');
+   367→  const region = api.getRegion('bend');
+   368→  assert(region !== undefined, 'Region retrieved');
+   369→  assert(region!.ambientQi === 1.0, 'Ambient qi is 1.0');
+   370→
+   371→  // Population queries
+   372→  assert(api.getPopulation('bend', 'spirit_herb') === 200, 'Spirit herb population is 200');
+   373→  assert(!api.isExtinct('bend', 'spirit_herb'), 'Spirit herb not extinct');
+   374→  assert(api.isExtinct('bend', 'nonexistent'), 'Nonexistent species is extinct');
+   375→
+   376→  // Introduce species
+   377→  assert(api.introduceSpecies('bend', 'spirit_herb', 50), 'Species introduced');
+   378→  assert(api.getPopulation('bend', 'spirit_herb') === 250, 'Population increased after introduce');
+   379→
+   380→  // Set population
+   381→  assert(api.setPopulation('bend', 'spirit_herb', 300), 'Population set');
+   382→  assert(api.getPopulation('bend', 'spirit_herb') === 300, 'Population updated');
+   383→
+   384→  // Qi and contamination
+   385→  assert(api.setAmbientQi('bend', 1.5), 'Ambient qi set');
+   386→  assert(api.getAmbientQi('bend') === 1.5, 'Ambient qi persisted');
+   387→  assert(api.setContamination('bend', 0.4), 'Contamination set');
+   388→  assert(api.getContamination('bend') === 0.4, 'Contamination persisted');
+   389→
+   390→  // Qi clamping
+   391→  api.setAmbientQi('bend', 5.0);
+   392→  assert(api.getAmbientQi('bend') === 2.0, 'Ambient qi clamped to 2.0');
+   393→  api.setAmbientQi('bend', -1.0);
+   394→  assert(api.getAmbientQi('bend') === 0.0, 'Ambient qi clamped to 0.0');
+   395→
+   396→  // Spirit veins
+   397→  const veinAdded = api.addSpiritVein({
+   398→    veinId: 'vein-1', regionId: 'bend', phaseSignature: 'wood',
+   399→    magnitude: 5, flowRate: 0.1, depth: 100, tappedBy: ['wang-clan'],
+   400→  });
+   401→  assert(veinAdded, 'Spirit vein added');
+   402→  const veins = api.getSpiritVeins('bend');
+   403→  assert(veins.length === 1, 'One spirit vein');
+   404→  assert(veins[0].magnitude === 5, 'Vein magnitude correct');
+   405→
+   406→  // Demography
+   407→  const demo = api.getDemography('bend');
+   408→  assert(demo !== undefined, 'Demography exists');
+   409→  assert(demo!.population === 1000, 'Default population is 1000');
+   410→  assert(demo!.grainReserveDays === 180, 'Default grain reserve is 180 days');
+   411→  assert(api.updateDemography('bend', { population: 800, grainReserveDays: 90 }), 'Demography updated');
+   412→  assert(api.getDemography('bend')!.population === 800, 'Demography persisted');
+   413→
+   414→  // Seasonal
+   415→  const defaultTerm = api.getSolarTerm();
+   416→  assert(defaultTerm === 'lichun', 'Default solar term is lichun');
+   417→  api.setSolarTerm('xiazhi');
+   418→  assert(api.getSolarTerm() === 'xiazhi', 'Solar term updated');
+   419→  const mod = api.getSeasonalModulation();
+   420→  assert(mod.ambientQiMod === 1.20, 'Xiazhi ambient qi mod is 1.20');
+   421→  assert(mod.herbGrowthMod > 0, 'Herb growth mod is positive');
+   422→
+   423→  // Simulation step
+   424→  const events = api.step('bend', 100);
+   425→  assert(Array.isArray(events), 'Step returns events array');
+   426→  // Contamination should decay
+   427→  const contamBefore = api.getContamination('bend');
+   428→  api.step('bend', 101);
+   429→  const contamAfter = api.getContamination('bend');
+   430→  assert(contamAfter < contamBefore, 'Contamination decays after step');
+   431→
+   432→  // Step all
+   433→  api.createRegion('forest', { ambientQi: 0.8 });
+   434→  const allResults = api.stepAll(200);
+   435→  assert(allResults.size === 2, 'stepAll processes 2 regions');
+   436→
+   437→  // Events
+   438→  const regionEvents = api.getEvents('bend');
+   439→  assert(Array.isArray(regionEvents), 'getEvents returns array');
+   440→
+   441→  // Stats
+   442→  const stats = api.stats();
+   443→  assert(stats.totalRegions === 2, 'Stats: 2 regions');
+   444→  assert(stats.totalSpecies === 3, 'Stats: 3 species');
+   445→
+   446→  // Remove region
+   447→  assert(api.removeRegion('forest'), 'Region removed');
+   448→  assert(api.listRegions().length === 1, 'One region remains');
+   449→
+   450→  // Solar term table completeness
+   451→  const terms = Object.keys(SOLAR_TERM_TABLE);
+   452→  assert(terms.length === 24, '24 solar terms in table');
+   453→
+   454→  console.log('');
+   455→}
+   456→
+   457→// ============================================================================
+   458→// SECTION 4: Economy
+   459→// ============================================================================
+   460→
+   461→function testEconomy() {
+   462→  console.log('Test 4: Economy');
+   463→  const api = createEconomyApi();
+   464→
+   465→  // Markets
+   466→  const market1 = api.createMarket('village-market', 'village');
+   467→  assert(market1.marketId === 'village-market', 'Market created with correct ID');
+   468→  assert(api.listMarkets().length === 1, 'One market listed');
+   469→  assert(api.getMarket('village-market') !== undefined, 'Market retrieved');
+   470→
+   471→  // Goods and prices
+   472→  assert(api.setGoodPrice('village-market', 'rice', 10, 100, 80), 'Good price set');
+   473→  const price = api.getGoodPrice('village-market', 'rice');
+   474→  assert(price !== undefined, 'Price retrieved');
+   475→  assert(price!.price === 10, 'Initial price is 10');
+   476→  assert(price!.supply === 100, 'Supply is 100');
+   477→  assert(price!.demand === 80, 'Demand is 80');
+   478→
+   479→  // Price step (Victoria II equilibrium)
+   480→  api.stepPrices('village-market', 100);
+   481→  const afterStep = api.getGoodPrice('village-market', 'rice');
+   482→  // demand < supply, so price should decrease
+   483→  assert(afterStep!.price < 10, 'Price decreased when supply > demand');
+   484→
+   485→  // Demand > supply → price increases
+   486→  api.setGoodPrice('village-market', 'iron', 50, 30, 100);
+   487→ api.stepPrices('village-market', 101);
+   488→  const ironPrice = api.getGoodPrice('village-market', 'iron');
+   489→  assert(ironPrice!.price > 50, 'Price increased when demand > supply');
+   490→
+   491→  // Trade routes
+   492→  const routeAdded = api.createRoute({
+   493→    routeId: 'river-trade', fromMarketId: 'village-market', toMarketId: 'city-market',
+   494→    mode: 'river', travelTimeTicks: 200, danger: 0.2, tolls: 50,
+   495→    controllingFaction: 'merchant-guild', capacity: 100, active: true,
+   496→  });
+   497→  assert(routeAdded, 'Route created');
+   498→  assert(api.listRoutes().length === 1, 'One route listed');
+   499→  const route = api.getRoute('river-trade');
+   500→  assert(route!.mode === 'river', 'Route mode correct');
+   501→
+   502→  // Caravans
+   503→  const cargo = new Map([['rice', 50]]);
+   504→  const caravan = api.dispatchCaravan('river-trade', cargo, 100);
+   505→  assert(caravan !== undefined, 'Caravan dispatched');
+   506→  assert(caravan!.status === 'traveling', 'Caravan is traveling');
+   507→  assert(caravan!.caravanId.startsWith('caravan-'), 'Caravan ID has correct prefix');
+   508→
+   509→  // Caravan arrives
+   510→  const arrived = api.stepCaravans(301);
+   511→  assert(arrived.length === 1, 'One caravan arrived');
+   512→
+   513→  // Dangerous route → caravan lost
+   514→  api.createRoute({
+   515→    routeId: 'dangerous-pass', fromMarketId: 'village-market', toMarketId: 'city-market',
+   516→    mode: 'mountain_pass', travelTimeTicks: 100, danger: 0.8, tolls: 100,
+   517→    controllingFaction: 'bandits', capacity: 50, active: true,
+   518→  });
+   519→  api.dispatchCaravan('dangerous-pass', new Map([['herbs', 10]]), 300);
+   520→  const dangerousResult = api.stepCaravans(401);
+   521→  // Caravan on dangerous route should be lost (danger > 0.5)
+   522→  const lostCaravan = api.listRoutes().length > 0;
+   523→  assert(lostCaravan, 'Dangerous route exists');
+   524→
+   525→  // Debt
+   526→  const debtId = api.createDebt({
+   527→    creditorId: 1n, debtorId: 2n, principal: 1000,
+   528→    currency: 'copper', interestRate: 0.1, compound: false,
+   529→    collateral: { type: 'land', value: 2000, description: 'Rice paddy' },
+   530→    tickEstablished: 0,
+   531→  });
+   532→  assert(debtId.startsWith('debt-'), 'Debt ID has correct prefix');
+   533→  const debt = api.getDebt(debtId);
+   534→  assert(debt !== undefined, 'Debt retrieved');
+   535→  assert(debt!.principal === 1000, 'Principal correct');
+   536→  assert(debt!.status === 'active', 'Status is active');
+   537→  assert(debt!.collateral.type === 'land', 'Collateral type correct');
+   538→
+   539→  // Pay debt
+   540→  api.payDebt(debtId, 500, 100);
+   541→  assert(api.getDebt(debtId)!.principal === 500, 'Principal reduced after payment');
+   542→  api.payDebt(debtId, 500, 100);
+   543→  assert(api.getDebt(debtId)!.status === 'paid', 'Debt fully paid');
+   544→
+   545→  // Interest accrual
+   546→  const debtId2 = api.createDebt({
+   547→    creditorId: 1n, debtorId: 2n, principal: 1000,
+   548→    currency: 'silver', interestRate: 0.1, compound: true,
+   549→    collateral: { type: 'none', value: 0, description: 'None' },
+   550→    tickEstablished: 0,
+   551→  });
+   552→  api.accrueInterest(debtId2, 366); // >1 year
+   553→  const afterInterest = api.getDebt(debtId2);
+   554→  assert(afterInterest!.principal > 1000, 'Compound interest increased principal');
+   555→
+   556→  // Factions
+   557→  api.createFaction({
+   558→    factionId: 'wang-clan', name: 'Wang Clan',
+   559→    treasury: { copper: 10000, silver: 50, spiritStones: 5, grain: 5000 },
+   560→    memberCount: 50, aggregateRealm: 'foundation_establishment',
+   561→    cohesion: 0.8, prosperity: 0.7, corruptionIndex: 0.1,
+   562→    debtOwed: 2000, debtOwedTo: 500, monopolyHoldings: ['salt'],
+   563→  });
+   564→  const faction = api.getFaction('wang-clan');
+   565→  assert(faction !== undefined, 'Faction retrieved');
+   566→  assert(faction!.treasury.silver === 50, 'Treasury silver correct');
+   567→  assert(faction!.cohesion === 0.8, 'Cohesion correct');
+   568→  api.updateFaction('wang-clan', { prosperity: 0.9 });
+   569→  assert(api.getFaction('wang-clan')!.prosperity === 0.9, 'Prosperity updated');
+   570→  assert(api.listFactions().length === 1, 'One faction listed');
+   571→
+   572→  // Currency conversion
+   573→  const silverToCopper = api.convertCurrency(1, 'silver', 'copper');
+   574→  assert(silverToCopper === 1000, '1 silver = 1000 copper');
+   575→  const copperToSilver = api.convertCurrency(2000, 'copper', 'silver');
+   576→  assert(copperToSilver === 2, '2000 copper = 2 silver');
+   577→  const grainToCopper = api.convertCurrency(10, 'grain', 'copper');
+   578→  assert(grainToCopper === 150, '10 grain = 150 copper');
+   579→
+   580→  // Stats
+   581→  const stats = api.stats();
+   582→  assert(stats.totalMarkets === 1, 'Stats: 1 market');
+   583→  assert(stats.totalRoutes === 2, 'Stats: 2 routes');
+   584→  assert(stats.totalFactions === 1, 'Stats: 1 faction');
+   585→  assert(stats.totalActiveDebts === 1, 'Stats: 1 active debt');
+   586→
+   587→  // Remove
+   588→  assert(api.removeMarket('village-market'), 'Market removed');
+   589→  assert(api.removeRoute('river-trade'), 'Route removed');
+   590→
+   591→  console.log('');
+   592→}
+   593→
+   594→// ============================================================================
+   595→// SECTION 5: History
+   596→// ============================================================================
+   597→
+   598→function testHistory() {
+   599→  console.log('Test 5: History');
+   600→  const api = createHistoryApi();
+   601→
+   602→  // Event types
+   603→  assert(ALL_EVENT_TYPES.length === 33, '33 event types defined');
+   604→
+   605→  // Regions
+   606→  api.createRegion('wang-bend', {
+   607→    population: 1000,
+   608→    factionStrengths: { 'wang-clan': 0.8, 'li-clan': 0.6 },
+   609→    ambientQi: 1.0,
+   610→  });
+   611→  api.createRegion('jade-city', { population: 5000, ambientQi: 0.9 });
+   612→  assert(api.listRegions().length === 2, 'Two regions created');
+   613→  const region = api.getRegion('wang-bend');
+   614→  assert(region !== undefined, 'Region retrieved');
+   615→  assert(region!.population === 1000, 'Population correct');
+   616→  assert(region!.factionStrengths.get('wang-clan') === 0.8, 'Faction strength correct');
+   617→
+   618→  // Record events
+   619→  const eventId1 = api.recordEvent({
+   620→    eventType: 'war', tick: 100, regionId: 'wang-bend',
+   621→    participants: [1n, 2n], causes: ['territorial_dispute'],
+   622→    consequences: [{ type: 'population_loss', targetRegion: 'wang-bend', details: '50 dead', magnitude: 0.1 }],
+   623→  });
+   624→  assert(eventId1.startsWith('hist-'), 'Event ID has correct prefix');
+   625→  const event = api.getEvent(eventId1);
+   626→  assert(event !== undefined, 'Event retrieved');
+   627→  assert(event!.eventType === 'war', 'Event type correct');
+   628→  assert(event!.participants.length === 2, 'Two participants');
+   629→  assert(event!.consequences.length === 1, 'One consequence');
+   630→  assert(event!.hash.length > 0, 'Event has hash');
+   631→  assert(event!.rumors.length === 0, 'No rumors initially');
+   632→
+   633→  // Query events
+   634→  const byRegion = api.getEventsByRegion('wang-bend');
+   635→  assert(byRegion.length === 1, 'One event in wang-bend');
+   636→  const byType = api.getEventsByType('war');
+   637→  assert(byType.length === 1, 'One war event');
+   638→  const byParticipant = api.getEventsByParticipant(1n);
+   639→  assert(byParticipant.length === 1, 'One event for participant 1n');
+   640→
+   641→  // Cooldowns
+   642→  api.setCooldown('wang-bend', 'war', 100);
+   643→  assert(api.getCooldown('wang-bend', 'war') === 100, 'Cooldown set');
+   644→
+   645→  // Event chains
+   646→  api.addChainRule('war', 'population_loss_event', 0.5, 10);
+   647→  // Note: 'population_loss_event' is not in the enum, so this tests the mechanism
+   648→  api.addChainRule('war', 'feud_eruption', 0.3, 50);
+   649→  const chains = api.getChainRules('war');
+   650→  assert(chains.length === 2, 'Two chain rules for war');
+   651→  assert(chains[0].probability === 0.5, 'Chain probability correct');
+   652→  assert(chains[0].delay === 10, 'Chain delay correct');
+   653→
+   654→  // Ruins
+   655→  const ruinId = api.addRuin({
+   656→    type: 'battlefield', regionId: 'wang-bend', name: 'Battle of Red Hill',
+   657→    concealment: 0.3, protections: 0.5, contents: ['broken_sword', 'spirit_stone_fragment'],
+   658→  });
+   659→  assert(ruinId.startsWith('ruin-'), 'Ruin ID has correct prefix');
+   660→  const ruins = api.getRuins('wang-bend');
+   661→  assert(ruins.length === 1, 'One ruin in wang-bend');
+   662→  assert(ruins[0].name === 'Battle of Red Hill', 'Ruin name correct');
+   663→  assert(ruins[0].decayLevel === 0, 'Initial decay is 0');
+   664→
+   665→  // Ghost stories
+   666→  const storyId = api.addGhostStory({
+   667→    regionId: 'wang-bend', content: 'The ghost of General Wang patrols the hill at night',
+   668→    distortionLevel: 0.2,
+   669→  });
+   670→  assert(storyId.startsWith('ghost-'), 'Ghost story ID has correct prefix');
+   671→  const stories = api.getGhostStories('wang-bend');
+   672→  assert(stories.length === 1, 'One ghost story');
+   673→
+   674→  // Lost manuals
+   675→  const manualId = api.addLostManual({
+   676→    title: 'Celestial Jade Manual', regionId: 'wang-bend',
+   677→    concealment: 0.7, discovered: false,
+   678→  });
+   679→  assert(manualId.startsWith('manual-'), 'Lost manual ID has correct prefix');
+   680→  const manuals = api.getLostManuals('wang-bend');
+   681→  assert(manuals.length === 1, 'One lost manual');
+   682→
+   683→  // Simulation step (with triggers)
+   684→  api.createRegion('conflict-zone', {
+   685→    population: 10000,
+   686→    factionStrengths: { 'clan-a': 0.9, 'clan-b': 0.8 },
+   687→    ambientQi: 1.0, contamination: 0,
+   688→  });
+   689→  const stepEvents = api.step('conflict-zone', 500);
+   690→  assert(Array.isArray(stepEvents), 'Step returns events array');
+   691→  // War trigger: 2 factions with strength > 0.5
+   692→  // But base rate is 0.001, so unlikely to fire in one step.
+   693→  // We can verify the mechanism ran by checking the region was updated.
+   694→  const regionAfter = api.getRegion('conflict-zone');
+   695→  assert(regionAfter!.tick === 500, 'Region tick updated after step');
+   696→
+   697→  // Step all
+   698→  const allResults = api.stepAll(501);
+   699→  assert(allResults.size === 3, 'stepAll processes 3 regions');
+   700→
+   701→  // Ruin decay (tested implicitly via step)
+   702→  api.step('wang-bend', 500 + 365 * 10); // 10 years later
+   703→  const ruinsAfterDecay = api.getRuins('wang-bend');
+   704→  assert(ruinsAfterDecay[0].decayLevel > 0, 'Ruin decay increased after 10 years');
+   705→
+   706→  // Stats
+   707→  const stats = api.stats();
+   708→  assert(stats.totalRegions === 3, 'Stats: 3 regions');
+   709→  assert(stats.totalEvents >= 1, `Stats: ${stats.totalEvents} events (at least 1)`);
+   710→  assert(stats.totalRuins === 1, 'Stats: 1 ruin');
+   711→  assert(stats.totalGhostStories === 1, 'Stats: 1 ghost story');
+   712→  assert(stats.totalLostManuals === 1, 'Stats: 1 lost manual');
+   713→
+   714→  // Remove region
+   715→  assert(api.removeRegion('jade-city'), 'Region removed');
+   716→  assert(api.listRegions().length === 2, 'Two regions remain');
+   717→
+   718→  console.log('');
+   719→}
+   720→
+   721→// ============================================================================
+   722→// SECTION 6: Plugin Integration
+   723→// ============================================================================
+   724→
+   725→function testPluginIntegration() {
+   726→  console.log('Test 6: Plugin Integration (all 4 simulation plugins + determinism)');
+   727→  const host = createPluginHost(getFingerprint());
+   728→
+   729→  // Register determinism first (dependency of all simulation plugins)
+   730→  host.registerPlugin(DeterminismPlugin);
+   731→
+   732→  // Register all simulation plugins
+   733→  const npcPlugin = createNpcSimulatorPlugin();
+   734→  const ecologyPlugin = createEcologyPlugin();
+   735→  const economyPlugin = createEconomyPlugin();
+   736→  const historyPlugin = createHistoryPlugin();
+   737→
+   738→  const r1 = host.registerPlugin(npcPlugin);
+   739→  assert(r1.ok, 'ga:npc-simulator registered');
+   740→  const r2 = host.registerPlugin(ecologyPlugin);
+   741→  assert(r2.ok, 'ga:ecology registered');
+   742→  const r3 = host.registerPlugin(economyPlugin);
+   743→  assert(r3.ok, 'ga:economy registered');
+   744→  const r4 = host.registerPlugin(historyPlugin);
+   745→  assert(r4.ok, 'ga:history registered');
+   746→
+   747→  assert(host.listPlugins().length >= 5, 'At least 5 plugins registered (including determinism)');
+   748→
+   749→  // Verify capabilities
+   750→  const caps = host.capabilities.list();
+   751→  assert(caps.some(c => c.capability === 'npc-simulator.cognition'), 'npc-simulator.cognition registered');
+   752→  assert(caps.some(c => c.capability === 'npc-simulator.social'), 'npc-simulator.social registered');
+   753→  assert(caps.some(c => c.capability === 'npc-simulator.tiering'), 'npc-simulator.tiering registered');
+   754→  assert(caps.some(c => c.capability === 'ecology.food-web'), 'ecology.food-web registered');
+   755→  assert(caps.some(c => c.capability === 'ecology.seasonal'), 'ecology.seasonal registered');
+   756→  assert(caps.some(c => c.capability === 'ecology.demography'), 'ecology.demography registered');
+   757→  assert(caps.some(c => c.capability === 'economy.markets'), 'economy.markets registered');
+   758→  assert(caps.some(c => c.capability === 'economy.trade'), 'economy.trade registered');
+   759→  assert(caps.some(c => c.capability === 'economy.factions'), 'economy.factions registered');
+   760→  assert(caps.some(c => c.capability === 'history.events'), 'history.events registered');
+   761→  assert(caps.some(c => c.capability === 'history.afterlife'), 'history.afterlife registered');
+   762→  assert(caps.some(c => c.capability === 'history.chains'), 'history.chains registered');
+   763→
+   764→  // Resolve APIs from state
+   765→  const npcApi = host.getState<NpcSimulatorApi>('ga:npc-simulator');
+   766→  const ecologyApi = host.getState<EcologyApi>('ga:ecology');
+   767→  const economyApi = host.getState<EconomyApi>('ga:economy');
+   768→  const historyApi = host.getState<HistoryApi>('ga:history');
+   769→  assert(npcApi !== undefined, 'NPC API resolved from state');
+   770→  assert(ecologyApi !== undefined, 'Ecology API resolved from state');
+   771→  assert(economyApi !== undefined, 'Economy API resolved from state');
+   772→  assert(historyApi !== undefined, 'History API resolved from state');
+   773→
+   774→  // Cross-plugin scenario: create a village with NPCs, ecology, economy, and history
+   775→  const npcId = npcApi!.createNpc({
+   776→    identity: { name: 'Elder Wang', appearanceSeed: 42, cultureId: 'han', isNamed: true },
+   777→    tier: 4, social: { factionId: 'wang-clan' },
+   778→  });
+   779→  ecologyApi!.createRegion('wang-bend', {
+   780→    ambientQi: 1.0,
+   781→    initialPopulation: { spirit_herb: 200 },
+   782→  });
+   783→  ecologyApi!.registerSpecies({
+   784→    speciesId: 'spirit_herb', name: 'Spirit Herb', trophicLevel: 1,
+   785→    qiProfile: 'wood', qiMagnitude: 0.3, reproductionRate: 0.4,
+   786→    carryingCapacity: 500, preysOn: [], isCultivator: false,
+   787→  });
+   788→  economyApi!.createMarket('village-market', 'wang-bend');
+   789→  historyApi!.createRegion('wang-bend', { population: 1000 });
+   790→
+   791→  assert(npcApi!.getNpc(npcId)!.identity.name === 'Elder Wang', 'Cross-plugin: NPC created');
+   792→  assert(ecologyApi!.getPopulation('wang-bend', 'spirit_herb') === 200, 'Cross-plugin: ecology works');
+   793→  assert(economyApi!.getMarket('village-market') !== undefined, 'Cross-plugin: economy works');
+   794→  assert(historyApi!.getRegion('wang-bend') !== undefined, 'Cross-plugin: history works');
+   795→
+   796→  // NPC decision in context of world state
+   797→  const worldState = {
+   798→    tick: 100, ambientQi: 1.0, dangerLevel: 0.1,
+   799→    activeFactions: ['wang-clan'], marketAvailable: true,
+   800→    herbsAvailable: true, beastsPresent: false,
+   801→  };
+   802→  const action = npcApi!.decide(npcId, 100, worldState);
+   803→  assert(typeof action === 'string', 'Cross-plugin: NPC made a decision');
+   804→
+   805→  // Clean unload (reverse order)
+   806→  host.unregisterPlugin('ga:history');
+   807→  assert(!host.capabilities.list().some(c => c.capability.startsWith('history.')), 'History capabilities removed');
+   808→
+   809→  host.unregisterPlugin('ga:economy');
+   810→  assert(!host.capabilities.list().some(c => c.capability.startsWith('economy.')), 'Economy capabilities removed');
+   811→
+   812→  host.unregisterPlugin('ga:ecology');
+   813→  assert(!host.capabilities.list().some(c => c.capability.startsWith('ecology.')), 'Ecology capabilities removed');
+   814→
+   815→  host.unregisterPlugin('ga:npc-simulator');
+   816→  assert(!host.capabilities.list().some(c => c.capability.startsWith('npc-simulator.')), 'NPC capabilities removed');
+   817→
+   818→  assert(host.listPlugins().length === 1, 'Only ga:determinism remains');
+   819→  assert(host.capabilities.list().some(c => c.capability.startsWith('determinism.')), 'Determinism still registered');
+   820→
+   821→  console.log('');
+   822→}
+   823→
+   824→// ============================================================================
+   825→// Run all tests
+   826→// ============================================================================
+   827→
+   828→console.log('=== Phase 4 Simulation Systems Conformance Test ===');
+   829→console.log('');
+   830→
+   831→testEntityManager();
+   832→testNpcSimulator();
+   833→testEcology();
+   834→testEconomy();
+   835→testHistory();
+   836→testPluginIntegration();
+   837→
+   838→console.log('=== Results ===');
+   839→console.log(`Passed: ${passed}`);
+   840→console.log(`Failed: ${failed}`);
+   841→if (failed === 0) {
+   842→  console.log('\n\u2705 ALL TESTS PASSED');
+   843→} else {
+   844→  console.error(`\n\u274c ${failed} TESTS FAILED`);
+   845→  process.exit(1);
+   846→}

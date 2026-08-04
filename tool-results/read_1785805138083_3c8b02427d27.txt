@@ -1,0 +1,656 @@
+     1→     1→     1→# 31 — Cultivation: The Effect Algebra
+     2→     2→     2→
+     3→     3→     3→**Status:** Foundation. The cultivation simulator — the qi-state, the heart-mind state, the dantian system, the spiritual roots, the breakthrough state machine, bottlenecks, comprehension, deviation onset, dual cultivation, and the effect algebra that binds techniques to state and state to techniques. Includes the tier-degradation rules and the determinism contract.
+     4→     4→     4→**Date:** 2026-08-03
+     5→     5→     5→
+     6→     6→     6→---
+     7→     7→     7→
+     8→     8→     8→## 0. What this document is and why it exists
+     9→     9→     9→
+    10→    10→    10→The prior corpus (docs 03, 05, 27) specified the cultivation *stations* (Mortal, Qi Induction, Qi Condensation, Foundation Establishment, Core Formation, Nascent Soul, Spirit Severance, Void Amalgamation, Tribulation Crossing, Mahayana) and the *breakthrough rite* as a five-stage state machine. It did not specify the *algebra* — the rule that says *this technique, applied to this qi-state, produces that qi-state*, and the inverse rule that says *this qi-state modifies the effect of that technique*. Without that algebra, two implementers produce two different cultivation feels, and neither is right because neither was specified.
+    11→    11→    11→
+    12→    12→    12→This document specifies the algebra. It is a pure function over a typed state, with named operators for each technique class, named modifiers for each state component, and a deterministic hash for every transition. It obeys the ratified yin-yang of body/qi/anchor (per doc 24 §2.3): body = yin, qi = yang-within-yin, anchor = yang. It advances along the internal-alchemy chain: 煉精化氣 → 煉氣化神 → 煉神還虛 → 煉虛合道.
+    13→    13→    13→
+    14→    14→    14→The doctrine (AGENTS.md Part 3: "Build the engine, not just the brake") requires that the cultivation simulator be the engine the prior corpus named but never built. The brake (deviation is bad, forced attempts fail, bottlenecks exist) was specified; the engine (how techniques modify state, how state modifies techniques) was not. This document is the engine.
+    15→    15→    15→
+    16→    16→    16→### Precedents cited
+    17→    17→    17→
+    18→    18→    18→- **Cultist Simulator (Weather Factory, 2018) — the principle/aspect system.** Each card has aspects; each verb accepts cards whose aspects match. The effect algebra below adopts the principle-of-aspect-matching for technique-state compatibility.
+    19→    19→    19→- **Project Zomboid (The Indie Stone, 2013) — the trait-and-moodlet system.** Each character has traits (stable) and moodlets (transient) that modify skill effectiveness. This document adopts the trait/stable + moodlet/transient split for the heart-mind state.
+    20→    20→    20→- **Disco Elysium (ZA/UM, 2019) — the thought-cabinet internalization.** Thoughts modify stats once internalized. This document adopts the internalization mechanic for law-fragment integration (per doc 27 §3).
+    21→    21→    21→- **Path of Exile 2 (Grinding Gear, 2024) — the skill gem + support gem algebra.** Skills are modified by supports in a composable way. This document adopts the composable-modifier algebra for technique-state interaction.
+    22→    22→    22→
+    23→    23→    23→---
+    24→    24→    24→
+    25→    25→    25→## 1. The qi-state
+    26→    26→    26→
+    27→    27→    27→The qi-state is the cultivator's qi-system's instantaneous configuration. It is a typed record.
+    28→    28→    28→
+    29→    29→    29→```typescript
+    30→    30→    30→interface QiState {
+    31→    31→    31→  reservoir: QiReservoir;          // §1.1
+    32→    32→    32→  phaseAffinity: PhaseAffinity;    // §1.2 — 5-phase profile
+    33→    33→    33→  yinYang: number;                 // -1.0 (pure yin) .. +1.0 (pure yang)
+    34→    34→    34→  purity: number;                  // 0.0..1.0; how refined the qi is
+    35→    35→    35→  contamination: ContaminationState; // §1.3
+    36→    36→    36→  meridians: Meridian[];           // §1.4
+    37→    37→    37→  phaseResonance: PhaseSignature;  // current 5-phase modulation
+    38→    38→    38→}
+    39→    39→    39→
+    40→    40→    40→interface QiReservoir {
+    41→    41→    41→  lowerDantian: number;            // 0.0..capacityLower
+    42→    42→    42→  middleDantian: number;           // 0.0..capacityMiddle (Foundation Establishment+)
+    43→    43→    43→  upperDantian: number;            // 0.0..capacityUpper (Core Formation+)
+    44→    44→    44→  capacityLower: number;
+    45→    45→    45→  capacityMiddle: number;
+    46→    46→    46→  capacityUpper: number;
+    47→    47→    47→  rechargeRate: number;            // per tick from ambient qi
+    48→    48→    48→}
+    49→    49→    49→```
+    50→    50→    50→
+    51→    51→    51→### 1.1 The reservoir (dantian volume)
+    52→    52→    52→
+    53→    53→    53→The reservoir is the cultivator's stored qi. Lower dantian (lower abdomen) is the primary reservoir from Qi Induction onward. Middle dantian (chest) opens at Foundation Establishment. Upper dantian (brow) opens at Core Formation. The total reservoir is the sum of open dantians' current values.
+    54→    54→    54→
+    55→    55→    55→The reservoir recharges from ambient qi (per doc 28 §2.2) at `rechargeRate = base_recharge * ambient_qi_magnitude * phase_match`. A cultivator in a qi-rich, phase-matched region recharges quickly; one in a qi-poor region recharges slowly or not at all.
+    56→    56→    56→
+    57→    57→    57→**Failure case — reservoir depletion.** When `total_reservoir < safe_threshold` (default 5% of capacity), the cultivator enters `QiDepletion` (per doc 13 §8.1): qi-verbs unavailable, mortal verbs only, deviation risk elevated. Recovery requires rest in a qi-rich environment.
+    58→    58→    58→
+    59→    59→    59→### 1.2 Phase affinity
+    60→    60→    60→
+    61→    61→    61→The 5-phase profile (per doc 00 §6): wood (木), fire (火), earth (土), metal (金), water (水). Each phase has an affinity in `[0.0, 1.0]`; the sum is normalized to 1.0.
+    62→    62→    62→
+    63→    63→    63→```typescript
+    64→    64→    64→interface PhaseAffinity {
+    65→    65→    65→  wood: number;
+    66→    66→    66→  fire: number;
+    67→    67→    67→  earth: number;
+    68→    68→    68→  metal: number;
+    69→    69→    69→  water: number;
+    70→    70→    70→  // sum = 1.0 (invariant; the simulator enforces)
+    71→    71→    71→}
+    72→    72→    72→```
+    73→    73→    73→
+    74→    74→    74→The affinity is largely stable (set at character generation by the spiritual roots, per §4) but can shift via: (1) long-term practice of a phase-emphasizing technique, (2) consuming phase-bearing pills, (3) breakthrough rites that rebalance, (4) deviation onset that distorts.
+    75→    75→    75→
+    76→    76→    76→### 1.3 Contamination
+    77→    77→    77→
+    78→    78→    78→```typescript
+    79→    79→    79→interface ContaminationState {
+    80→    80→    80→  modao: number;                   // 0..1; from deviation, modao techniques
+    81→    81→    81→  karmic: number;                  // 0..1; from oath-breaking, betrayal
+    82→    82→    82→  environmental: number;           // 0..1; from contaminated region
+    83→    83→    83→  tribulation: number;             // 0..1; from tribulation residue
+    84→    84→    84→  total: number;                   // weighted sum
+    85→    85→    85→}
+    86→    86→    86→```
+    87→    87→    87→
+    88→    88→    88→Contamination reduces effective purity: `effectivePurity = purity * (1 - contamination.total)`. It also raises deviation risk (per §7) and suppresses some techniques (e.g., a high-modao cultivator cannot use Foundation Establishment+ integration rites without cleansing first).
+    89→    89→    89→
+    90→    90→    90→### 1.4 Meridians
+    91→    91→    91→
+    92→    92→    92→```typescript
+    93→    93→    93→interface Meridian {
+    94→    94→    94→  meridianId: string;              // 'central_conduit', 'ancestral_gate', 'spirit_path', etc.
+    95→    95→    95→  openness: number;                // 0..1; how developed
+    96→    96→    96→  inflammation: number;            // 0..1; from qi-strikes or routing overload
+    97→    97→    97→  deviationDamage: number;         // 0..1; from somatic deviation
+    98→    98→    98→  phaseSignature: PhaseSignature;  // the meridian's natural phase flow
+    99→    99→    99→  routingAvailable: boolean;       // false if inflammation or deviation blocks routing
+   100→   100→   100→}
+   101→   101→   101→```
+   102→   102→   102→
+   103→   103→   103→A meridian with `inflammation > 0.5` or `deviationDamage > 0.5` is `routingAvailable = false`. The cultivator cannot route qi through it (per doc 13 §8.3). Recovery requires rest and specific anti-inflammatory practices.
+   104→   104→   104→
+   105→   105→   105→---
+   106→   106→   106→
+   107→   107→   107→## 2. The heart-mind state (xinggong, 心宮)
+   108→   108→   108→
+   109→   109→   109→The heart-mind state is the cultivator's psychospiritual configuration. It is *separate from* the qi-state: a cultivator can have abundant qi and a deranged heart-mind (the deviation-prone prodigy) or scarce qi and a serene heart-mind (the aging mortal).
+   110→   110→   110→
+   111→   111→   111→```typescript
+   112→   112→   112→interface HeartMindState {
+   113→   113→   113→  attention: number;               // 0..100; current attention budget (per doc 13 §5)
+   114→   114→   114→  will: number;                    // 0..100; current will budget (separate from attention)
+   115→   115→   115→  emotionalBalance: number;        // -1.0 (turbulent) .. +1.0 (serene)
+   116→   116→   116→  unresolvedAttachments: Attachment[]; // §2.2
+   117→   117→   117→  integratedLawFragments: LawFragmentRef[]; // §3, doc 27 §3
+   118→   118→   118→  unintegratedLawFragments: LawFragmentRef[]; // risk of 妄信
+   119→   119→   119→  devRisks: DeviationRisk[];       // §7
+   120→   120→   120→  xinmo: Xinmo[];                  // active 心魔 (per doc 24 §1.2)
+   121→   121→   121→}
+   122→   122→   122→```
+   123→   123→   123→
+   124→   124→   124→### 2.1 Attention and will
+   125→   125→   125→
+   126→   126→   126→Attention is the per-tick cognitive budget, consumed by perception (per doc 13 §5) and active techniques. Will is the per-tick volitional budget, consumed by committed techniques (breakthrough rites, comprehension attempts, dual cultivation). They refill at `refill_rate * (1 + emotionalBalance)` — a serene heart-mind refills faster; a turbulent one slower.
+   127→   127→   127→
+   128→   128→   128→### 2.2 Unresolved attachments
+   129→   129→   129→
+   130→   130→   130→```typescript
+   131→   131→   131→interface Attachment {
+   132→   132→   132→  attachmentId: string;
+   133→   133→   133→  subject: number;                 // NPC id or named concept
+   134→   134→   134→  type: 'grief' | 'fear' | 'desire' | 'hatred' | 'love' | 'pride' | 'shame';
+   135→   135→   135→  intensity: number;               // 0..1
+   136→   136→   136→  integrationProgress: number;     // 0..1; how processed
+   137→   137→   137→  bornAt: number;
+   138→   138→   138→}
+   139→   139→   139→```
+   140→   140→   140→
+   141→   141→   141→Attachments with `integrationProgress < 0.7` block breakthrough rites (per doc 27 §1.4, the Foundation Establishment gate). They also raise deviation risk (per §7). Resolution: deliberate integration (the *integrate* verb in the breakthrough rite), life experience (a grief that resolves through mourning), or teacher-guided practice.
+   142→   142→   142→
+   143→   143→   143→### 2.3 Law-fragment integration
+   144→   144→   144→
+   145→   145→   145→Per doc 27 §3, a law-fragment with `integration < 0.6` is `unintegrated`. When `unintegratedLawFragments.length > heart_mind_capacity` (a function of realm and 性gong development), the cultivator develops the 妄信 deviation. This is the "knows too much, understands too little" trap, made mechanical.
+   146→   146→   146→
+   147→   147→   147→---
+   148→   148→   148→
+   149→   149→   149→## 3. The dantian system
+   150→   150→   150→
+   151→   151→   151→The three dantians (lower, middle, upper) are the three reservoirs of qi, opened progressively at realm advancement:
+   152→   152→   152→
+   153→   153→   153→```
+   154→   154→   154→Realm                       Lower  Middle  Upper
+   155→   155→   155→─────────────────────────   ─────  ──────  ─────
+   156→   156→   156→Mortal                      (—)    (—)    (—)    // no qi reservoir; cultivator is mortal
+   157→   157→   157→Qi Induction                ✓      (—)    (—)    // reservoir opens, small capacity
+   158→   158→   158→Qi Condensation             ✓      (—)    (—)    // lower dantian develops
+   159→   159→   159→Foundation Establishment    ✓      ✓      (—)    // middle dantian opens
+   160→   160→   160→Core Formation              ✓      ✓      ✓      // upper dantian opens; golden core forms
+   161→   161→   161→Nascent Soul                ✓      ✓      ✓      // anchor (元婴) seats in upper dantian
+   162→   162→   162→Spirit Severance            ✓      ✓      ✓      // domain holds in upper dantian
+   163→   163→   163→Void Amalgamation           ✓      ✓      ✓      // bonded to a place
+   164→   164→   164→Tribulation Crossing        ✓      ✓      ✓      // robust across all
+   165→   165→   165→Mahayana                    ✓      ✓      ✓      // indestructible (per doc 00 §2)
+   166→   166→   166→```
+   167→   167→   167→
+   168→   168→   168→```typescript
+   169→   169→   169→interface DantianSystem {
+   170→   170→   170→  lower: Dantian;
+   171→   171→   171→  middle: Dantian | null;         // null until Foundation Establishment
+   172→   172→   172→  upper: Dantian | null;          // null until Core Formation
+   173→   173→   173→  goldenCore: GoldenCore | null;  // forms at Core Formation breakthrough
+   174→   174→   174→  nascentSoul: NascentSoul | null; // forms at Nascent Soul breakthrough
+   175→   175→   175→}
+   176→   176→   176→
+   177→   177→   177→interface Dantian {
+   178→   178→   178→  dantianId: 'lower' | 'middle' | 'upper';
+   179→   179→   179→  capacity: number;
+   180→   180→   180→  currentVolume: number;
+   181→   181→   181→  phaseProfile: PhaseAffinity;    // each dantian has its own phase mix
+   182→   182→   182→  stability: number;              // 0..1; how stable the qi is here
+   183→   183→   183→}
+   184→   184→   184→```
+   185→   185→   185→
+   186→   186→   186→---
+   187→   187→   187→
+   188→   188→   188→## 4. Spiritual roots (linggen, 靈根)
+   189→   189→   189→
+   190→   190→   190→Spiritual roots are the cultivator's innate phase-affinity profile, set at character generation. They are 5 phases × 3 attributes:
+   191→   191→   191→
+   192→   192→   192→```typescript
+   193→   193→   193→interface SpiritualRoots {
+   194→   194→   194→  phases: {
+   195→   195→   195→    wood: RootAttribute;
+   196→   196→   196→    fire: RootAttribute;
+   197→   197→   197→    earth: RootAttribute;
+   198→   198→   198→    metal: RootAttribute;
+   199→   199→   199→    water: RootAttribute;
+   200→   200→   200→  };
+   201→   201→   201→  total: number;                   // sum of all phases' strength; gates base cultivation rate
+   202→   202→   202→  purity: 'impure' | 'mixed' | 'pure' | 'heavenly';  // classification
+   203→   203→   203→}
+   204→   204→   204→
+   205→   205→   205→interface RootAttribute {
+   206→   206→   206→  strength: number;                // 0..1; how strong this phase's root is
+   207→   207→   207→  latent: boolean;                 // true if hidden / unawakened
+   208→   208→   208→  awakenedAt: number | null;       // tick of awakening (via comprehension, breakthrough, trauma)
+   209→   209→   209→}
+   210→   210→   210→```
+   211→   211→   211→
+   212→   212→   212→**The purity classification.** A cultivator with one phase at 0.9 and the others at 0.025 is "pure wood root" — rare, fast cultivation in wood-phase, slow in others. A cultivator with all five phases at 0.2 is "impure/mixed" — slow cultivation overall but balanced. The genre's "trash root" (廢靈根) is a cultivator with `total < 0.1`.
+   213→   213→   213→
+   214→   214→   214→**Failure case — root ceiling.** A cultivator whose root profile is too weak in the phase their next station's practice requires may plateau indefinitely (per doc 27 §2.5, the "permanent plateau"). Resolution: develop the root (rare, via heavenly treasure or divine intervention) or accept the ceiling. This is the genre's "talent ceiling," made mechanical.
+   215→   215→   215→
+   216→   216→   216→---
+   217→   217→   217→
+   218→   218→   218→## 5. Breakthrough mechanics (the five-stage state machine)
+   219→   219→   219→
+   220→   220→   220→Per doc 27 §1, the breakthrough rite is a five-stage state machine: Preparation → Threshold → Confrontation → Integration → Settlement, with a sixth Failure terminal. This document *ratifies* that state machine (no redesign) and specifies the *effect algebra* at each stage.
+   221→   221→   221→
+   222→   222→   222→```typescript
+   223→   223→   223→interface BreakthroughState {
+   224→   224→   224→  cultivatorId: number;
+   225→   225→   225→  targetRealm: Realm;
+   226→   226→   226→  stage: 'prep' | 'threshold' | 'confrontation' | 'integration' | 'settlement' | 'failure';
+   227→   227→   227→  forcedAttempt: boolean;
+   228→   228→   228→  coherenceMeters: {
+   229→   229→   229→    bodyQi: number;                // 0..1
+   230→   230→   230→    qiAnchor: number;              // 0..1
+   231→   231→   231→    bodyAnchor: number;            // 0..1
+   232→   232→   232→  };
+   233→   233→   233→  confrontationMaterial: ConfrontationMaterial | null;
+   234→   234→   234→  xinmoRisk: 'none' | 'high';
+   235→   235→   235→  stageStartedAt: number;
+   236→   236→   236→}
+   237→   237→   237→
+   238→   238→   238→type Realm =
+   239→   239→   239→  | 'mortal' | 'qi_induction' | 'qi_condensation' | 'foundation_establishment'
+   240→   240→   240→  | 'core_formation' | 'nascent_soul' | 'spirit_severance'
+   241→   241→   241→  | 'void_amalgamation' | 'tribulation_crossing' | 'mahayana';
+   242→   242→   242→```
+   243→   243→   243→
+   244→   244→   244→### 5.1 Stage transitions
+   245→   245→   245→
+   246→   246→   246→```
+   247→   247→   247→PREP --[4 prerequisite checks pass]--> THRESHOLD
+   248→   248→   248→PREP --[forced_attempt]--> THRESHOLD(forced)
+   249→   249→   249→
+   250→   250→   250→THRESHOLD --[all 3 coherence meters held ≥ 0.4 for 30s]--> CONFRONTATION
+   251→   251→   251→THRESHOLD --[any meter < 0.4, not forced]--> PREP (no damage)
+   252→   252→   252→THRESHOLD --[any meter < 0.4, forced]--> CONFRONTATION(intense)
+   253→   253→   253→
+   254→   254→   254→CONFRONTATION --[integrate-success]--> INTEGRATION
+   255→   255→   255→CONFRONTATION --[integrate-fail]--> FAILURE(xinmo)
+   256→   256→   256→CONFRONTATION --[push-past]--> INTEGRATION(unstable, xinmoRisk=high)
+   257→   257→   257→CONFRONTATION --[abort]--> PREP (reservoir /= 2)
+   258→   258→   258→
+   259→   259→   259→INTEGRATION --[3-5s stable]--> SETTLEMENT
+   260→   260→   260→INTEGRATION --[unstable, rng < 0.5]--> SETTLEMENT(with xinmo)
+   261→   261→   261→INTEGRATION --[unstable, rng ≥ 0.5]--> FAILURE(xinmo + revert)
+   262→   262→   262→
+   263→   263→   263→SETTLEMENT --[perceptions online]--> DONE
+   264→   264→   264→
+   265→   265→   265→FAILURE --[revert]--> PREP (with damage)
+   266→   266→   266→FAILURE --[xinmo]--> PREP (with deviation)
+   267→   267→   267→```
+   268→   268→   268→
+   269→   269→   269→### 5.2 The effect algebra at each stage
+   270→   270→   270→
+   271→   271→   271→**PREP.** The four prerequisite checks (per doc 27 §1.3) are predicates over the qi-state and heart-mind state:
+   272→   272→   272→
+   273→   273→   273→```typescript
+   274→   274→   274→function prepChecksPass(qs: QiState, hms: HeartMindState, target: Realm): boolean {
+   275→   275→   275→  return phaseAffinityBalanced(qs, target)
+   276→   276→   276→      && psychospiritualResolved(hms, target)
+   277→   277→   277→      && reservoirSufficient(qs, target)
+   278→   278→   278→      && meridiansStable(qs, target);
+   279→   279→   279→}
+   280→   280→   280→
+   281→   281→   281→function phaseAffinityBalanced(qs: QiState, target: Realm): boolean {
+   282→   282→   282→  const mean = meanOf5Phases(qs.phaseAffinity);
+   283→   283→   283→  const maxDeviation = maxOf5Phases(|phase - mean|);
+   284→   284→   284→  return maxDeviation <= 0.30;  // no phase more than ±0.30 from mean
+   285→   285→   285→}
+   286→   286→   286→
+   287→   287→   287→function psychospiritualResolved(hms: HeartMindState, target: Realm): boolean {
+   288→   288→   288→  return hms.unresolvedAttachments.every(a => a.integrationProgress >= 0.7);
+   289→   289→   289→}
+   290→   290→   290→```
+   291→   291→   291→
+   292→   292→   292→**THRESHOLD.** The coherence meters drift apart over time. The player routes qi through three named meridians to re-converge them. The drift function:
+   293→   293→   293→
+   294→   294→   294→```typescript
+   295→   295→   295→function coherenceDrift(state: BreakthroughState, dt: number): BreakthroughState {
+   296→   296→   296→  const driftRate = 0.05 * (forcedAttempt ? 1.5 : 1.0);  // per second
+   297→   297→   297→  return {
+   298→   298→   298→    ...state,
+   299→   299→   299→    coherenceMeters: {
+   300→   300→   300→      bodyQi:    clamp(state.coherenceMeters.bodyQi    - driftRate * dt * rng_drift(), 0, 1),
+   301→   301→   301→      qiAnchor:  clamp(state.coherenceMeters.qiAnchor  - driftRate * dt * rng_drift(), 0, 1),
+   302→   302→   302→      bodyAnchor:clamp(state.coherenceMeters.bodyAnchor- driftRate * dt * rng_drift(), 0, 1),
+   303→   303→   303→    },
+   304→   304→   304→  };
+   305→   305→   305→}
+   306→   306→   306→```
+   307→   307→   307→
+   308→   308→   308→**CONFRONTATION.** The surfacing material (per doc 27 §1.3) is chosen from the cultivator's `unresolvedAttachments` (the highest-intensity, lowest-integration one). The player's three responses:
+   309→   309→   309→
+   310→   310→   310→```typescript
+   311→   311→   311→type ConfrontationResponse = 'integrate' | 'push_past' | 'abort';
+   312→   312→   312→
+   313→   313→   313→function applyConfrontationResponse(
+   314→   314→   314→  state: BreakthroughState,
+   315→   315→   315→  response: ConfrontationResponse,
+   316→   316→   316→  attachment: Attachment,
+   317→   317→   317→): BreakthroughState {
+   318→   318→   318→  switch (response) {
+   319→   319→   319→    case 'integrate':
+   320→   320→   320→      // success if attachment.integrationProgress >= 0.5
+   321→   321→   321→      if (attachment.integrationProgress >= 0.5) {
+   322→   322→   322→        attachment.integrationProgress = 1.0;  // resolved permanently
+   323→   323→   323→        return { ...state, stage: 'integration' };
+   324→   324→   324→      } else {
+   325→   325→   325→        return { ...state, stage: 'failure', xinmoRisk: 'high' };
+   326→   326→   326→      }
+   327→   327→   327→    case 'push_past':
+   328→   328→   328→      return { ...state, stage: 'integration', xinmoRisk: 'high' };
+   329→   329→   329→    case 'abort':
+   330→   330→   330→      // reservoir halved (the cost of withdrawing mid-rite)
+   331→   331→   331→      qs.reservoir.lowerDantian *= 0.5;
+   332→   332→   332→      return { ...state, stage: 'prep' };
+   333→   333→   333→  }
+   334→   334→   334→}
+   335→   335→   335→```
+   336→   336→   336→
+   337→   337→   337→**INTEGRATION.** The three coherence meters snap to 1.0 simultaneously. If `xinmoRisk = 'high'`, a 50% coin (seeded by cultivator state hash) decides between SETTLEMENT-with-xinmo and FAILURE-with-revert.
+   338→   338→   338→
+   339→   339→   339→**SETTLEMENT.** Lifespan extends per doc 03 Station 4 (~200 years at Foundation Establishment). New perceptions come online over in-game days. The cultivator gains the new station's verbs.
+   340→   340→   340→
+   341→   341→   341→---
+   342→   342→   342→
+   343→   343→   343→## 6. Bottlenecks
+   344→   344→   344→
+   345→   345→   345→Per doc 27 §2, two types: within-station plateau (rate failure) and between-station wall (gate failure).
+   346→   346→   346→
+   347→   347→   347→```typescript
+   348→   348→   348→interface BottleneckState {
+   349→   349→   349→  type: 'plateau' | 'wall';
+   350→   350→   350→  onsetTick: number;
+   351→   351→   351→  plateauFloor: number;            // 0.5% of per-day capacity, per doc 27 §2.2
+   352→   352→   352→  resolutionConditions: ResolutionCondition[];
+   353→   353→   353→  resolvedAt: number | null;
+   354→   354→   354→}
+   355→   355→   355→
+   356→   356→   356→interface ResolutionCondition {
+   357→   357→   357→  type: 'comprehension_event' | 'pill' | 'teacher_intervention' | 'life_experience' | 'prerequisite_met';
+   358→   358→   358→  target: string;                  // e.g., 'wood_phase_fragment', 'foundation_pill', 'meridian_balance'
+   359→   359→   359→  satisfied: boolean;
+   360→   360→   360→}
+   361→   361→   361→```
+   362→   362→   362→
+   363→   363→   363→The plateau detector runs every in-game day:
+   364→   364→   364→
+   365→   365→   365→```typescript
+   366→   366→   366→function checkPlateau(cultivator: Cultivator): boolean {
+   367→   367→   367→  const recent = cultivator.qiStateHistory.last(30 * 24 * 60);  // 30 days of ticks
+   368→   368→   368→  const improvement = (recent.last().lowerDantian - recent.first().lowerDantian) / cultivator.reservoir.capacityLower;
+   369→   369→   369→  return improvement < 0.005;  // < 0.5% over 30 days
+   370→   370→   370→}
+   371→   371→   371→```
+   372→   372→   372→
+   373→   373→   373→The wall is the prep-check failure (§5.2): when the cultivator has reached their station's peak but `prepChecksPass` returns false, they are at the wall.
+   374→   374→   374→
+   375→   375→   375→---
+   376→   376→   376→
+   377→   377→   377→## 7. Deviation onset (the threshold function)
+   378→   378→   378→
+   379→   379→   379→Deviation (心魔, xinmo) onset is governed by a threshold function over accumulated deviation-risk:
+   380→   380→   380→
+   381→   381→   381→```typescript
+   382→   382→   382→interface DeviationRisk {
+   383→   383→   383→  riskType: 'false_circuit' | 'cross_current' | 'route_fixation' | 'delusional_conviction' | 'attachment_persistence' | 'greed_possession' | 'fear_possession' | 'hatred_possession';
+   384→   384→   384→  accumulatedRisk: number;        // 0..1
+   385→   385→   385→  threshold: number;              // 0..1; when accumulated > threshold, deviation manifests
+   386→   386→   386→  onsetCauses: string[];          // what has been pushing this risk up
+   387→   387→   387→}
+   388→   388→   388→
+   389→   389→   389→interface Xinmo {
+   390→   390→   390→  xinmoType: DeviationRisk['riskType'];
+   391→   391→   391→  onsetTick: number;
+   392→   392→   392→  severity: number;               // 0..1
+   393→   393→   393→  effects: XinmoEffect[];         // what it does to qi-state and heart-mind state
+   394→   394→   394→  resolutionPath: string;         // what would resolve it
+   395→   395→   395→}
+   396→   396→   396→```
+   397→   397→   397→
+   398→   398→   398→**The threshold function.** Each risk type has its own accumulation rule:
+   399→   399→   399→
+   400→   400→   400→```typescript
+   401→   401→   401→// false_circuit: routing qi in closed loop bypassing reservoir
+   402→   402→   402→function accumulateFalseCircuit(qs: QiState, dt: number): number {
+   403→   403→   403→  if (qs.routing === 'closed_loop' && !qs.usesReservoir) {
+   404→   404→   404→    return dt * 0.001 * (1 + qs.contamination.modao);
+   405→   405→   405→  }
+   406→   406→   406→  return 0;
+   407→   407→   407→}
+   408→   408→   408→
+   409→   409→   409→// cross_current: routing qi against its natural flow
+   410→   410→   410→function accumulateCrossCurrent(qs: QiState, dt: number): number {
+   411→   411→   411→  if (qs.routing === 'against_flow') {
+   412→   412→   412→    return dt * 0.002;
+   413→   413→   413→  }
+   414→   414→   414→  return 0;
+   415→   415→   415→}
+   416→   416→   416→
+   417→   417→   417→// route_fixation: locked into one routing too long
+   418→   418→   418→function accumulateRouteFixation(qs: QiState, dt: number): number {
+   419→   419→   419→  const timeInCurrentRouting = qs.currentRoutingDuration;
+   420→   420→   420→  if (timeInCurrentRouting > 600) {  // > 10 minutes
+   421→   421→   421→    return dt * 0.0005 * (timeInCurrentRouting / 600);
+   422→   422→   422→  }
+   423→   423→   423→  return 0;
+   424→   424→   424→}
+   425→   425→   425→
+   426→   426→   426→// delusional_conviction: too many unintegrated law-fragments
+   427→   427→   427→function accumulateDelusionalConviction(hms: HeartMindState): number {
+   428→   428→   428→  const excess = hms.unintegratedLawFragments.length - hms.heartMindCapacity;
+   429→   429→   429→  return Math.max(0, excess * 0.1);  // 10% risk per excess fragment
+   430→   430→   430→}
+   431→   431→   431→```
+   432→   432→   432→
+   433→   433→   433→**Onset.** When `accumulatedRisk > threshold`, the deviation manifests. The cultivator gains a `Xinmo` record with typed effects (e.g., route_fixation makes the switch transition illegal until resolved). The deviation persists until its `resolutionPath` is followed (specific practice, teacher intervention, life experience).
+   434→   434→   434→
+   435→   435→   435→**Failure case — deviation cascade.** A deviation can raise other risks (a fixated cultivator may false-circuit to compensate). The simulator caps the cascade: `deviation_count > 3` triggers a `DeviationStormEvent` (per doc 30 §1) — the cultivator loses control, possibly attacks allies, possibly dies. This is the genre's "going mad from cultivation" trope, made mechanical.
+   436→   436→   436→
+   437→   437→   437→---
+   438→   438→   438→
+   439→   439→   439→## 8. Comprehension (wudao, 悟道)
+   440→   440→   440→
+   441→   441→   441→Per doc 27 §3, comprehension is two mechanics at two stations: at Qi Condensation, a perception-deepener; at Foundation Establishment+, an active verb producing law-fragments.
+   442→   442→   442→
+   443→   443→   443→```typescript
+   444→   444→   444→interface ComprehensionAttempt {
+   445→   445→   445→  cultivatorId: number;
+   446→   446→   446→  target: ComprehensionTarget;
+   447→   447→   447→  targetIntensity: number;        // 1..5; max intensity the target can supply
+   448→   448→   448→  achievedIntensity: number;      // 1..5; function of cultivator skill + attention
+   449→   449→   449→  cost: { attention: number; time: number };
+   450→   450→   450→  resultingFragment: LawFragmentRef | null;
+   451→   451→   451→  success: boolean;
+   452→   452→   452→}
+   453→   453→   453→
+   454→   454→   454→interface ComprehensionTarget {
+   455→   455→   455→  targetId: string;
+   456→   456→   456→  domain: string;                 // 'wood_phase', 'meridian_structure', 'anchor_nature', etc.
+   457→   457→   457→  maxIntensity: number;           // 1..5
+   458→   458→   458→  concealment: number;            // 0..1; reduces achieved intensity
+   459→   459→   459→  lawFragmentsAvailable: string[];
+   460→   460→   460→}
+   461→   461→   461→```
+   462→   462→   462→
+   463→   463→   463→**The algebra.** `achievedIntensity = floor(min(targetIntensity, cultivator.skill * (1 - concealment) * attention_fraction))`. A skilled, attentive cultivator comprehends deeply; an unskilled or distracted one comprehends shallowly or not at all.
+   464→   464→   464→
+   465→   465→   465→**Failure case — comprehension of the unsuited.** A cultivator attempting a target whose `domain` exceeds their realm has the fragment's `unintegrated` difficulty doubled (per doc 27 §3.3) and the delusional-conviction threshold halved. A Qi Condensation cultivator comprehending tribulation structure is at high risk of 妄信.
+   466→   466→   466→
+   467→   467→   467→---
+   468→   468→   468→
+   469→   469→   469→## 9. Dual cultivation (shuangxiu, 雙修)
+   470→   470→   470→
+   471→   471→   471→Dual cultivation is the practice of two cultivators combining their qi-states to mutual benefit. It is *not* the genre's "yin-yang dual cultivation" sexual-cultivation trope (that is rejected per AGENTS.md Part 3: "Police historical derivation" — late-imperial sexual-alchemy tropes are not the universal cultivation practice and will not be the engine's default).
+   472→   472→   472→
+   473→   473→   473→```typescript
+   474→   474→   474→interface DualCultivationSession {
+   475→   475→   475→  participants: [number, number];
+   476→   476→   476→  technique: DualCultivationTechnique;
+   477→   477→   477→  startedAt: number;
+   478→   478→   478→  durationTicks: number;
+   479→   479→   479→  harmonyFactor: number;          // 0..1; how well their qi-states match
+   480→   480→   480→  reservoirExchange: number;      // net qi transferred (positive = participant[0] gains)
+   481→   481→   481→  contaminationExchange: number;  // net contamination transferred
+   482→   482→   482→  fragmentExchange: LawFragmentRef[]; // law-fragments shared
+   483→   483→   483→  deviationRisk: number;          // elevated if harmony is low
+   484→   484→   484→}
+   485→   485→   485→
+   486→   486→   486→interface DualCultivationTechnique {
+   487→   487→   487→  techniqueId: string;
+   488→   488→   488→  phaseCompatibility: PhaseAffinity; // required phase match
+   489→   489→   489→  yinYangBalance: number;          // -1..+1; required yin-yang signature
+   490→   490→   490→  reservoirCost: number;           // per participant per tick
+   491→   491→   491→  benefitRate: number;             // cultivation-rate multiplier if harmony high
+   492→   492→   492→}
+   493→   493→   493→```
+   494→   494→   494→
+   495→   495→   495→**The harmony rule.** `harmonyFactor = phase_match * yinYang_match * emotionalBalance_match * trust_match`. Two cultivators with phase-compatible roots, opposite yin-yang signatures, balanced emotions, and high trust have `harmonyFactor` near 1.0 — dual cultivation is highly effective. Two cultivators with mismatched roots, same-signature yin-yang, turbulent emotions, or low trust have `harmonyFactor` near 0 — dual cultivation is ineffective or harmful.
+   496→   496→   496→
+   497→   497→   497→**Failure case — forced dual cultivation.** Two cultivators with low harmony who attempt dual cultivation anyway accumulate deviation risk (per §7) at an elevated rate. The simulator does not prevent the attempt (the doctrine: "the system permits the action; the world punishes it"), but the consequences are severe. This is the genre's "yin-yang mismatch disaster" trope, made mechanical without being the default mode.
+   498→   498→   498→
+   499→   499→   499→---
+   500→   500→   500→
+   501→   501→   501→## 10. The effect algebra (technique × state)
+   502→   502→   502→
+   503→   503→   503→The core algebra: a technique applied to a qi-state produces a new qi-state, and the qi-state modifies the technique's effect. The algebra is composable (techniques chain) and lawful (deterministic).
+   504→   504→   504→
+   505→   505→   505→```typescript
+   506→   506→   506→interface Technique {
+   507→   507→   507→  techniqueId: string;
+   508→   508→   508→  type: 'gathering' | 'circulating' | 'refining' | 'projecting' | 'integrating' | 'comprehending';
+   509→   509→   509→  baseEffect: TechniqueEffect;    // what it does at full effectiveness
+   510→   510→   510→  phaseAffinity: PhaseAffinity;   // which phases it favors
+   511→   511→   511→  yinYang: number;                // -1..+1; yin-yang signature
+   512→   512→   512→  purityRequirement: number;      // minimum purity to use safely
+   513→   513→   513→  reservoirCost: number;          // per tick
+   514→   514→   514→  attentionCost: number;          // per tick
+   515→   515→   515→  deviationRisks: DeviationRiskProfile;  // which risks it accumulates
+   516→   516→   516→}
+   517→   517→   517→
+   518→   518→   518→interface TechniqueEffect {
+   519→   519→   519→  reservoirDelta: number;         // qi added (positive) or consumed
+   520→   520→   520→  purityDelta: number;            // purity change
+   521→   521→   521→  phaseAffinityDelta: PhaseAffinity;
+   522→   522→   522→  yinYangDelta: number;
+   523→   523→   523→  meridianDevelopment: Partial<Record<string, number>>;
+   524→   524→   524→  contaminationDelta: Partial<ContaminationState>;
+   525→   525→   525→}
+   526→   526→   526→
+   527→   527→   527→// The algebra:
+   528→   528→   528→function applyTechnique(
+   529→   529→   529→  qs: QiState,
+   530→   530→   530→  hms: HeartMindState,
+   531→   531→   531→  tech: Technique,
+   532→   532→   532→  dt: number,
+   533→   533→   533→): { qs: QiState; hms: HeartMindState; deviations: DeviationRisk[] } {
+   534→   534→   534→  // 1. Compute the technique's effectiveness modifier from state
+   535→   535→   535→  const phaseMatch = phaseDotProduct(qs.phaseAffinity, tech.phaseAffinity);
+   536→   536→   536→  const yinYangMatch = 1 - Math.abs(qs.yinYang - tech.yinYang) / 2;
+   537→   537→   537→  const purityModifier = qs.purity >= tech.purityRequirement ? 1.0 : 0.5;
+   538→   538→   538→  const attentionModifier = hms.attention >= tech.attentionCost * dt ? 1.0 : 0.3;
+   539→   539→   539→  const emotionalModifier = (hms.emotionalBalance + 1) / 2;
+   540→   540→   540→
+   541→   541→   541→  const effectiveness = phaseMatch * yinYangMatch * purityModifier * attentionModifier * emotionalModifier;
+   542→   542→   542→
+   543→   543→   543→  // 2. Apply the effect, scaled by effectiveness
+   544→   544→   544→  const newQs: QiState = {
+   545→   545→   545→    ...qs,
+   546→   546→   546→    reservoir: { ...qs.reservoir, lowerDantian: qs.reservoir.lowerDantian + tech.baseEffect.reservoirDelta * effectiveness * dt },
+   547→   547→   547→    purity: clamp(qs.purity + tech.baseEffect.purityDelta * effectiveness * dt, 0, 1),
+   548→   548→   548→    // ... other fields
+   549→   549→   549→  };
+   550→   550→   550→
+   551→   551→   551→  // 3. Accumulate deviation risks
+   552→   552→   552→  const deviations = accumulateDeviations(qs, tech, dt);
+   553→   553→   553→
+   554→   554→   554→  // 4. Consume attention and reservoir
+   555→   555→   555→  const newHms: HeartMindState = { ...hms, attention: hms.attention - tech.attentionCost * dt };
+   556→   556→   556→
+   557→   557→   557→  return { qs: newQs, hms: newHms, deviations };
+   558→   558→   558→}
+   559→   559→   559→```
+   560→   560→   560→
+   561→   561→   561→**The five multipliers.** Phase-match (technique's phase vs. cultivator's affinity), yin-yang match, purity modifier (impure cultivator is half-effective), attention modifier (distracted cultivator is 30% effective), emotional modifier (turbulent heart-mind halves effectiveness). A skilled cultivator with matching roots, balanced yin-yang, refined qi, focused attention, and serene heart-mind is 5× more effective than a mismatched, distracted, turbulent one. This is the genre's "talent + preparation + state" triad, made mechanical.
+   562→   562→   562→
+   563→   563→   563→**The chain rule.** Techniques compose: applying technique B after technique A uses the qi-state *as modified by A*. The composition is associative (techniques can be ordered in any sequence with the same final state, modulo the time costs). This is the algebra's most important property: it makes the simulator deterministic and the playstyle combinatorial.
+   564→   564→   564→
+   565→   565→   565→---
+   566→   566→   566→
+   567→   567→   567→## 11. Tier simulation (S4 / S2 / S0)
+   568→   568→   568→
+   569→   569→   569→Cultivation degrades by tier:
+   570→   570→   570→
+   571→   571→   571→```
+   572→   572→   572→┌─────────┬──────────────────────────────────────────────────────────────┐
+   573→   573→   573→│ Tier    │ Cultivation behavior                                          │
+   574→   574→   574→├─────────┼──────────────────────────────────────────────────────────────┤
+   575→   575→   575→│ S4      │ Full effect algebra. Every technique application is         │
+   576→   576→   576→│ (full)  │ simulated. Deviation risks accumulate per tick. Breakthrough│
+   577→   577→   577→│         │ rites are real-time state machines.                          │
+   578→   578→   578→│         │ Cost: ~1ms per cultivator per tick. Cap: 16 cultivators at  │
+   579→   579→   579→│         │ S4 per region (the player + named NPCs + key antagonists).  │
+   580→   580→   580→├─────────┼──────────────────────────────────────────────────────────────┤
+   581→   581→   581→│ S2      │ Aggregate cultivation. Per-day cultivation-progress update  │
+   582→   582→   582→│ (aggr.) │ using the cultivator's current technique's average effect.  │
+   583→   583→   583→│         │ Deviation risks accumulate per day at reduced resolution.    │
+   584→   584→   584→│         │ Breakthrough rites fire as events (per doc 30) with          │
+   585→   585→   585→│         │ predetermined outcomes (seeded by state hash).               │
+   586→   586→   586→│         │ Cost: ~0.1ms per cultivator per day.                         │
+   587→   587→   587→├─────────┼──────────────────────────────────────────────────────────────┤
+   588→   588→   588→│ S0      │ Frozen. No cultivation. The cultivator's qi-state is the    │
+   589→   589→   589→│ (frozen)│ frozen state at demotion. On promotion, S2 catches up by   │
+   590→   590→   590→│         │ applying the cultivator's daily cultivation-progress over   │
+   591→   591→   591→│         │ the elapsed time, with deterministic RNG for any rites.     │
+   592→   592→   592→└─────────┴──────────────────────────────────────────────────────────────┘
+   593→   593→   593→```
+   594→   594→   594→
+   595→   595→   595→**The promotion rule.** An S0 cultivator promoted to S2 catches up by running their last-active technique's `aggregate_daily_effect` over the elapsed days. The aggregate is computed once (at demotion) and applied per-day on promotion. Breakthrough rites during the absence are determined by the cultivator's state hash at the rite-initiation tick (seeded deterministically).
+   596→   596→   596→
+   597→   597→   597→**Failure case — promotion surprise.** A cultivator who broke through during the absence is at the new realm on promotion. The simulator records the breakthrough event in the persistent log (per doc 30 §12) and rehydrates the cultivator at the new realm with their post-breakthrough state. The player may be surprised — and so may the in-world NPCs, who knew the cultivator before the absence.
+   598→   598→   598→
+   599→   599→   599→---
+   600→   600→   600→
+   601→   601→   601→## 12. Determinism contract
+   602→   602→   602→
+   603→   603→   603→Every cultivation operation is a pure function of:
+   604→   604→   604→
+   605→   605→   605→```
+   606→   606→   606→cultivation_state(t+1) = cultivation_fn(
+   607→   607→   607→  qiState(t),
+   608→   608→   608→  heartMindState(t),
+   609→   609→   609→  technique,                  // the active technique
+   610→   610→   610→  ambientQi(t),               // from ecology
+   611→   611→   611→  rng(cultivatorSeed, tick)   // for breakthrough coin, deviation onset
+   612→   612→   612→)
+   613→   613→   613→```
+   614→   614→   614→
+   615→   615→   615→**Hash verification.** `hashCultivation(cultivatorId, tick)` returns the SHA-256 of the CBOR-encoded `(QiState, HeartMindState)` pair. Two runs with the same seed produce identical hashes.
+   616→   616→   616→
+   617→   617→   617→**Breakthrough determinism.** The 50% coin in the unstable-integration path (per §5.2) is seeded by `(cultivatorSeed, targetRealm, confrontationMaterialHash, worldStateHash)`. Two isomorphic cultivators in identical state produce identical breakthrough outcomes.
+   618→   618→   618→
+   619→   619→   619→**Technique chaining.** The chain rule (§10) is associative: the simulator can batch-apply techniques in any order and produce the same final state (modulo time costs). This enables the S2 aggregate-cultivation optimization.
+   620→   620→   620→
+   621→   621→   621→---
+   622→   622→   622→
+   623→   623→   623→## 13. Rejected alternatives
+   624→   624→   624→
+   625→   625→   625→- **HP-based cultivation (practice fills a bar; bar fills = breakthrough).** Rejected: produces no skill expression. The five-stage state machine (§5) and the effect algebra (§10) make the *how* of cultivation matter.
+   626→   626→   626→- **Random-roll breakthrough (RNG success/failure).** Rejected: deterministic-state-driven outcomes only. The 50% unstable-integration coin is the only randomness, and it is seeded by state hash.
+   627→   627→   627→- **Sexual-alchemy dual cultivation (the genre's "yin-yang dual cultivation" trope).** Rejected as the *default* mode (per AGENTS.md Part 3: "Police historical derivation"). The engine supports dual cultivation as energy-and-fragment exchange (§9), not as sexual mechanics.
+   628→   628→   628→- **Power-scaling cultivation (cultivator gains 10× power per realm).** Rejected: per doc 32 (combat), the multipliers are bounded (1.5-3× per realm). Cultivation opens *verbs*, not infinite power.
+   629→   629→   629→- **Per-cultivator threading.** Rejected: determinism requires single-threaded per-region cultivation. Cross-region parallelism is allowed (cultivators do not interact across regions within a tick).
+   630→   630→   630→- **LLM-generated cultivation narratives.** Rejected for the simulation core. LLMs may narrate breakthrough experiences in the journal (per doc 23 §1.3) but cannot determine outcomes.
+   631→   631→   631→
+   632→   632→   632→---
+   633→   633→   633→
+   634→   634→   634→## 14. Open decisions (surfaced for review)
+   635→   635→   635→
+   636→   636→   636→1. **The 5-multiplier effectiveness formula (§10).** Invented. The exact weighting of phase/yin-yang/purity/attention/emotional may need rebalancing after playtesting.
+   637→   637→   637→2. **The 0.30 max-phase-deviation for breakthrough prep (§5.2).** Inherited from doc 27 §1.3. May be too strict (few cultivators can rebalance) or too lenient (breakthroughs too easy).
+   638→   638→   638→3. **The 0.7 integration-progress threshold for attachments (§5.2).** Inherited from doc 27. May be too high (attachments feel permanent) or too low (they resolve too easily).
+   639→   639→   639→4. **The 5% reservoir safe threshold (§1.1).** Invented. May be too low (depletion feels sudden) or too high (cultivators feel constantly depleted).
+   640→   640→   640→5. **The 16-cultivator S4 cap per region (§11).** Invented. May be too few for a sect compound with 50 disciples; the cap may need to scale with region importance.
+   641→   641→   641→6. **The 0.5 effectiveness penalty for impure cultivators (§10).** Invented. May be too punishing or too lenient.
+   642→   642→   642→7. **The 50% unstable-integration coin (§5.2).** Inherited from doc 27. The exact probability may need tuning; 50% is the genre's midpoint but playtesting will reveal whether it feels fair.
+   643→   643→   643→
+   644→   644→   644→---
+   645→   645→   645→
+   646→   646→   646→## 15. Doctrine compliance
+   647→   647→   647→
+   648→   648→   648→- **Build the engine, not just the brake:** the prior corpus's cultivation docs (03, 05, 27) were the brake (deviation is bad, forced attempts fail, bottlenecks exist). This document specifies the engine: the qi-state, the heart-mind state, the dantian system, the spiritual roots, the breakthrough state machine's effect algebra, the deviation threshold function, the dual-cultivation harmony rule, the five-multiplier effectiveness formula.
+   649→   649→   649→- **Make decisions; do not defer:** the qi-state schema, the heart-mind state schema, the dantian system, the root schema, the breakthrough state machine, the deviation threshold function, the dual-cultivation rule, the effect algebra, the tier mapping are all decided. §14 are tuning parameters, not forks.
+   650→   650→   650→- **Cite the precedent:** Cultist Simulator, Project Zomboid, Disco Elysium, Path of Exile 2 are named and their contributions specified.
+   651→   651→   651→- **Confront the central tension directly:** the doctrine (AGENTS.md Part 3) forbids sexual-alchemy dual cultivation as the default; the genre wants it. This document resolves the tension by specifying energy-and-fragment dual cultivation as the default, with the sexual-alchemy version explicitly rejected (§13).
+   652→   652→   652→- **Design for joy first:** the first hour's joy is feeling the effect algebra — the player's qi-perception (per doc 05) reveals that their phase-affinity matches the ambient qi of a specific spot, and practicing there is 5× faster than practicing elsewhere. The algebra makes the world readable.
+   653→   653→   653→- **Authorize the smallest end-to-end thing:** this document specifies enough to implement the Mortal → Qi Condensation cultivation (the player's first three realms) as the first prototype. Upper realms are design-ready; their prototypes are deferred until the Qi Condensation cultivation is proven.
+   654→   654→   654→
+   655→   655→   655→This document is the cultivation bible. It is the effect-algebra engine the prior corpus was missing.
+   656→   656→   656→

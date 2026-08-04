@@ -1,0 +1,568 @@
+     1→# 32 — Combat: Ability Execution
+     2→
+     3→**Status:** Foundation. The combat state machine's execution engine — the production rules with frame costs, the tempo economy, the commitment model, the qi-routing system (4 routings × 5 phases = 20 combinations), the phase-matchup multipliers, residue reading in combat, the five combat scales, the nine-type injury model, the per-realm death model, and the determinism contract that verifies same-inputs-same-outcome by hash.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. What this document is and why it exists
+     9→
+    10→The prior corpus (doc 13: combat grammar) specified the combat *vocabulary* — the state machine's terminals, the tempo economy's existence, the routing system's topology, the injury types, the death model — at design resolution. It did not specify the *execution engine*: how production rules consume frames, how the tempo economy clears, how qi-routing modifies damage, how phase-matchups multiply effects, how residue is read in real-time, how the five scales adapt the state machine, how injuries gate transitions, how death propagates per realm, and how all of this is hash-verified.
+    11→
+    12→This document specifies the execution engine. It is the combat system at implementation resolution for the first three realms (Mortal, Qi Induction, Qi Condensation) and at design resolution for the upper realms. It *ratifies* doc 13's state machine (no redesign) and specifies the algebra that makes it run.
+    13→
+    14→The doctrine (AGENTS.md Part 3: "Cite the precedent; do not float above it") requires that every frame-cost claim be anchored to a shipped game. This document names Sekiro, Monster Hunter, Third Strike, Guilty Gear, Bushido Blade, Super Smash Bros., Celeste, Total War, and Mount & Blade and specifies what each contributes at what number.
+    15→
+    16→### Precedents cited (recap from doc 13, with calibration)
+    17→
+    18→- **Sekiro (FromSoftware, 2019)** — commitment model; deflection window 12-15 frames at 30fps (~400-500ms).
+    19→- **Monster Hunter: World (Capcom, 2018)** — committed startup/active/recovery; Great Sword charge cannot cancel once committed.
+    20→- **Street Fighter III: Third Strike (Capcom, 1999)** — parry window 7-10 frames at 60fps (~120-170ms).
+    21→- **Guilty Gear XX #Reload (Arc System Works, 2004)** — Roman Cancel as the one sanctioned cancel, costs resources.
+    22→- **Bushido Blade (Lightweight, 1997)** — one-hit-kill model; specific injuries (cut tendon, fractured bone) end fights.
+    23→- **Super Smash Bros. Melee (HAL, 2001)** — 10-frame input buffer.
+    24→- **Celeste (Matt Makes Games, 2018)** — 6-frame coyote time; 6-frame input buffer.
+    25→- **Total War / Mount & Blade** — battlefield and force-multiplier models.
+    26→
+    27→---
+    28→
+    29→## 1. The combat state machine (recap with frame costs)
+    30→
+    31→Per doc 13 §1, the combat state machine has 8 terminals. This document adds frame costs and transition preconditions.
+    32→
+    33→```typescript
+    34→type CombatState =
+    35→  | 'Idle'         | 'Committed'    | 'Active'     | 'Recovery'
+    36→  | 'Staggered'    | 'Downed'       | 'Yielded'    | 'Dead';
+    37→
+    38→interface CombatantState {
+    39→  combatantId: number;
+    40→  state: CombatState;
+    41→  stateEnteredAt: number;          // tick
+    42→  stateFrameCount: number;         // frames since state entered
+    43→  stateFrameTarget: number;        // frames the state will hold (for Committed/Active/Recovery)
+    44→  inputBuffer: BufferedInput[];    // last 8 frames of inputs (per §2)
+    45→  currentAction: ActionInstance | null;
+    46→  routing: QiRouting;              // §4
+    47→  injuries: Injury[];              // §8
+    48→  deviationMeter: number;          // 0..1; per doc 13 §8.4
+    49→}
+    50→```
+    51→
+    52→### 1.1 The production rules (frame-costed transitions)
+    53→
+    54→Each transition is a production rule with frame-cost and preconditions:
+    55→
+    56→```
+    57→RULE set 1: IDLE transitions (the resting state)
+    58→─────────────────────────────────────────────────
+    59→Idle ─[input:attack, can_route]──> Committed.Anticipation(frames = startupFrames(action))
+    60→Idle ─[input:defend, can_route]──> Committed.Guard(frames = guardStartupFrames)
+    61→Idle ─[input:dodge, can_route_to_legs]──> Committed.Dodge(frames = dodgeStartupFrames)
+    62→Idle ─[input:read_residue, attention ≥ 5]──> Committed.Reading(frames = 30, attention cost 5)
+    63→Idle ─[input:yield]──> Yielded
+    64→Idle ─[incoming_attack hits, no defend]──> Staggered(frames = staggerFrames)
+    65→
+    66→RULE set 2: COMMITTED transitions (the wind-up; cannot cancel)
+    67→─────────────────────────────────────────────────
+    68→Committed.Anticipation ─[frames ≥ startupFrames]──> Active
+    69→Committed.Anticipation ─[incoming_attack hits]──> Staggered (counter-hit; +50% damage)
+    70→Committed.Guard ─[frames ≥ guardStartupFrames]──> Active.GuardHold
+    71→Committed.Dodge ─[frames ≥ dodgeStartupFrames]──> Active.DodgeInvuln (i-frames)
+    72→
+    73→RULE set 3: ACTIVE transitions (the effect; the strike lands or the guard holds)
+    74→─────────────────────────────────────────────────
+    75→Active ─[frames ≥ activeFrames]──> Recovery
+    76→Active.GuardHold ─[input released]──> Recovery
+    77→Active.GuardHold ─[incoming_attack, guard holds]──> Active.GuardHold (reservoir drained by block_cost)
+    78→Active.GuardHold ─[incoming_attack, guard breaks]──> Staggered (guard-break; long stagger)
+    79→Active.DodgeInvuln ─[frames ≥ iFrames]──> Recovery
+    80→
+    81→RULE set 4: RECOVERY transitions (the cooldown; cannot act)
+    82→─────────────────────────────────────────────────
+    83→Recovery ─[frames ≥ recoveryFrames]──> Idle
+    84→Recovery ─[incoming_attack hits]──> Staggered (counter-hit; +50% damage)
+    85→
+    86→RULE set 5: STAGGERED transitions (the punishment state)
+    87→─────────────────────────────────────────────────
+    88→Staggered ─[frames ≥ staggerFrames]──> Idle
+    89→Staggered ─[incoming_attack hits]──> Staggered (stagger extension; cap at max_stagger_extension)
+    90→Staggered ─[incoming_attack, magnitude ≥ knockdown_threshold]──> Downed
+    91→
+    92→RULE set 6: DOWNED transitions (the prone state)
+    93→─────────────────────────────────────────────────
+    94→Downed ─[frames ≥ getupFrames]──> Idle
+    95→Downed ─[incoming_attack hits]──> Downed (extension; cap at max_down_extension)
+    96→Downed ─[incoming_attack, lethal]──> Dead
+    97→
+    98→RULE set 7: YIELDED transitions (the surrender state)
+    99→─────────────────────────────────────────────────
+   100→Yielded ─[opponent ceases]──> Idle (after 60 frames of no incoming attack)
+   101→Yielded ─[incoming_attack hits]──> Dead (killing a yielded opponent is criminal; per doc 13 §9)
+   102→
+   103→RULE set 8: DEAD (the terminal)
+   104→─────────────────────────────────────────────────
+   105→Dead ─[per-realm anchor fate; per §10]──> (bardo / dispersed / reincarnated)
+   106→```
+   107→
+   108→**Frame cost table (Qi Condensation baseline):**
+   109→
+   110→| Action | Startup | Active | Recovery | Total | Notes |
+   111→|---|---|---|---|---|---|
+   112→| Fast strike (light) | 8 | 4 | 12 | 24 | ~400ms at 60fps |
+   113→| Medium strike | 14 | 6 | 20 | 40 | ~670ms |
+   114→| Heavy strike | 24 | 8 | 36 | 68 | ~1130ms |
+   115→| Defend (guard up) | 6 | hold | 12 | 18+ | guardStartup=6 |
+   116→| Dodge (legs) | 10 | 12 i-frames | 14 | 36 | i-frames per Sekiro |
+   117→| Read residue | 30 | — | 30 | 60 | attention cost 5 |
+   118→| Yield | 1 | — | — | 1 | instant |
+   119→| Heavy qi-burst (area) | 40 | 8 | 60 | 108 | ~1.8s |
+   120→
+   121→---
+   122→
+   123→## 2. The tempo economy
+   124→
+   125→The tempo economy is the rule that prevents both combatants from attacking simultaneously without consequence. It is enforced by the commitment model (§3) and the input buffer.
+   126→
+   127→```typescript
+   128→interface BufferedInput {
+   129→  input: CombatInput;
+   130→  bufferedAtFrame: number;        // frame the input was received
+   131→  consumedAtFrame: number | null; // frame it was consumed (or null if pending)
+   132→}
+   133→
+   134→type CombatInput =
+   135→  | 'attack_fast' | 'attack_medium' | 'attack_heavy'
+   136→  | 'defend' | 'dodge' | 'read_residue'
+   137→  | 'route_hands' | 'route_legs' | 'route_skin' | 'route_senses'
+   138→  | 'yield' | 'burst_area';
+   139→```
+   140→
+   141→**The 8-frame input buffer (Smash Bros. precedent, 8 frames chosen between Smash's 10 and Celeste's 6).** Inputs received during Committed/Active/Recovery are buffered for up to 8 frames. On transition to Idle, the most recent buffered input is consumed. If the buffer holds multiple inputs, the most recent wins (the player's last intention).
+   142→
+   143→**The clear rule.** The buffer clears on:
+   144→- Successful consumption (an input was used).
+   145→- 8-frame expiration (an input was held too long without being consumed).
+   146→- Opponent's hit (your buffered input is interrupted by being staggered).
+   147→
+   148→**Failure case — buffer lock.** A player who spams inputs fills the buffer with noise; their intended input may be lost. The simulator does not prevent this (the doctrine: "the system permits the action; the world punishes it"). The player learns to time inputs.
+   149→
+   150→---
+   151→
+   152→## 3. The commitment model
+   153→
+   154→Once a combatant enters `Committed.Anticipation`, they cannot cancel. This is the Sekiro/Monster Hunter precedent.
+   155→
+   156→```typescript
+   157→interface CommitmentRule {
+   158→  fromState: CombatState;
+   159→  toState: CombatState;
+   160→  cancelable: boolean;
+   161→  cancelCost: number | null;       // resource cost if a cancel is allowed (e.g., Roman Cancel)
+   162→  cancelWindow: number;            // frames during which cancel is allowed (0 if never)
+   163→}
+   164→
+   165→// The single sanctioned cancel: qi-burst during Committed.Anticipation,
+   166→// costs 30% of reservoir (per Guilty Gear Roman Cancel precedent)
+   167→const qiBurstCancel: CommitmentRule = {
+   168→  fromState: 'Committed',
+   169→  toState: 'Active',
+   170→  cancelable: true,
+   171→  cancelCost: 0.30,                // 30% of reservoir
+   172→  cancelWindow: 4,                 // only the first 4 frames of Anticipation
+   173→};
+   174→```
+   175→
+   176→**The exception list.** Cancelable actions are limited to:
+   177→1. Qi-burst cancel (above) — available at Qi Condensation+.
+   178→2. Treasure activation (per doc 13 §6.5) — available at Core Formation+.
+   179→3. Domain withdrawal (per doc 13 §6.7) — available at Spirit Severance+.
+   180→
+   181→Everything else is committed. The doctrine's "no cancels" rule (per doc 13 §3) is the default; the exceptions are the named unlocks at higher realms.
+   182→
+   183→**Failure case — cancel spam.** A player who qi-burst-cancels every action drains their reservoir fast. The simulator enforces the reservoir cost; the player cannot cancel without the qi. This is the genre's "reckless cultivator wastes qi" trope, made mechanical.
+   184→
+   185→---
+   186→
+   187→## 4. Qi routing (phase-aware, 4 routings × 5 phases = 20 combinations)
+   188→
+   189→Per doc 13 §4, qi can be routed to four body regions (Hands, Legs, Skin, Senses), each with five phase modes (Wood, Fire, Earth, Metal, Water). The 20 combinations each have distinct effects.
+   190→
+   191→```typescript
+   192→interface QiRouting {
+   193→  region: RoutingRegion;
+   194→  phase: Phase;
+   195→  switchCost: number;              // frames to switch from previous routing
+   196→  reservoirDrain: number;          // per tick while active
+   197→}
+   198→
+   199→type RoutingRegion = 'hands' | 'legs' | 'skin' | 'senses';
+   200→type Phase = 'wood' | 'fire' | 'earth' | 'metal' | 'water';
+   201→
+   202→// The 20 combinations, each with a distinct effect profile:
+   203→const routingEffects: Record<RoutingRegion, Record<Phase, RoutingEffect>> = {
+   204→  hands: {
+   205→    wood:   { damage: 1.0, effect: 'lifesteal_small',     phaseType: 'generation' },
+   206→    fire:   { damage: 1.5, effect: 'burn_dot',            phaseType: 'conquest'   },
+   207→    earth:  { damage: 0.8, effect: 'knockback',           phaseType: 'neutral'    },
+   208→    metal:  { damage: 1.8, effect: 'armor_pierce',        phaseType: 'conquest'   },
+   209→    water:  { damage: 0.9, effect: 'slow_target',         phaseType: 'generation' },
+   210→  },
+   211→  legs: {
+   212→    wood:   { speed: 1.3, effect: 'root_break',           phaseType: 'generation' },
+   213→    fire:   { speed: 1.5, effect: 'trail_burn',           phaseType: 'conquest'   },
+   214→    earth:  { speed: 0.9, effect: 'immovable',            phaseType: 'neutral'    },
+   215→    metal:  { speed: 1.1, effect: 'cut_ground',           phaseType: 'conquest'   },
+   216→    water:  { speed: 1.4, effect: 'flow_dodge',           phaseType: 'generation' },
+   217→  },
+   218→  skin: {
+   219→    wood:   { defense: 1.2, effect: 'regen_small',        phaseType: 'generation' },
+   220→    fire:   { defense: 0.8, effect: 'reflect_burn',       phaseType: 'conquest'   },
+   221→    earth:  { defense: 1.8, effect: 'stone_skin',         phaseType: 'neutral'    },
+   222→    metal:  { defense: 1.5, effect: 'blade_reflect',      phaseType: 'conquest'   },
+   223→    water:  { defense: 1.0, effect: 'flow_redirect',      phaseType: 'generation' },
+   224→  },
+   225→  senses: {
+   226→    wood:   { perception: 1.5, effect: 'read_ecology',    phaseType: 'generation' },
+   227→    fire:   { perception: 1.3, effect: 'see_residue_hot', phaseType: 'conquest'   },
+   228→    earth:  { perception: 1.0, effect: 'feel_vibration',  phaseType: 'neutral'    },
+   229→    metal:  { perception: 1.4, effect: 'detect_weapon',   phaseType: 'conquest'   },
+   230→    water:  { perception: 1.6, effect: 'read_emotion',    phaseType: 'generation' },
+   231→  },
+   232→};
+   233→```
+   234→
+   235→**The switch cost.** Switching routing costs `switchCost` frames (default 60-120 at Qi Condensation, per doc 13 §4.2 — the user's "1-2 seconds"). During the switch, the combatant is in `Committed.RoutingSwitch` and cannot attack or defend. The switch cost is the tempo-economy's guard against constant routing-juggling.
+   236→
+   237→**Failure case — route fixation (per doc 13 §8.4).** A combatant who stays in one routing too long accumulates route-fixation deviation risk (per doc 31 §7). When the deviation manifests, the switch transition becomes illegal until the deviation is resolved. The combatant is locked into one routing — predictable, exploitable.
+   238→
+   239→---
+   240→
+   241→## 5. Phase matchup multipliers (wuxing generation/conquest)
+   242→
+   243→Per doc 00 §6, the five phases interact via the generation (相生) and conquest (相剋) cycles. In combat, the attacker's phase vs. the defender's phase produces a multiplier on damage and effect.
+   244→
+   245→```
+   246→Generation cycle (相生):  wood → fire → earth → metal → water → wood
+   247→                          (attacker generates defender: -50% damage, +50% lifesteal)
+   248→
+   249→Conquest cycle (相剋):    wood → earth → water → fire → metal → wood
+   250→                          (attacker conquers defender: +50% damage, +50% effect strength)
+   251→
+   252→Neutral (same phase):     1.0× damage, 1.0× effect
+   253→```
+   254→
+   255→```typescript
+   256→function phaseMultiplier(attackerPhase: Phase, defenderPhase: Phase): PhaseMatchup {
+   257→  if (attackerPhase === defenderPhase) return { damageMult: 1.0, effectMult: 1.0, type: 'neutral' };
+   258→  if (conquers(attackerPhase, defenderPhase)) return { damageMult: 1.5, effectMult: 1.5, type: 'conquest' };
+   259→  if (generates(attackerPhase, defenderPhase)) return { damageMult: 0.5, effectMult: 0.5, type: 'generation', lifesteal: 0.5 };
+   260→  // reverse conquest: attacker is conquered by defender
+   261→  return { damageMult: 0.75, effectMult: 0.75, type: 'reverse_conquest' };
+   262→}
+   263→
+   264→function conquers(a: Phase, d: Phase): boolean {
+   265→  const conquestOrder: Phase[] = ['wood', 'earth', 'water', 'fire', 'metal'];
+   266→  return conquestOrder.indexOf(a) === (conquestOrder.indexOf(d) + 1) % 5;
+   267→}
+   268→
+   269→function generates(a: Phase, d: Phase): boolean {
+   270→  const generationOrder: Phase[] = ['wood', 'fire', 'earth', 'metal', 'water'];
+   271→  return generationOrder.indexOf(a) === (generationOrder.indexOf(d) + 1) % 5;
+   272→}
+   273→```
+   274→
+   275→**Failure case — phase mismatch lock.** A combatant whose phase is conquered by the opponent's must switch routing to a generating or conquering phase — paying the switch cost (§4) during the opponent's recovery window. A skilled opponent reads the mismatch and punishes the switch. This is the genre's "phase counter" combat, made mechanical.
+   276→
+   277→---
+   278→
+   279→## 6. Residue reading in combat
+   280→
+   281→Per doc 13 §5 and doc 27 §5, qi-bearing events leave residue. In combat, every strike, every routing switch, every commitment leaves residue that a perceptive opponent can read.
+   282→
+   283→```typescript
+   284→interface CombatResidue {
+   285→  residueId: number;
+   286→  originatingAction: ActionInstance;
+   287→  bornAtFrame: number;
+   288→  intensity: number;               // decays per frame
+   289→  halfLife: number;                // frames (default 60 at Qi Condensation)
+   290→  phaseSignature: Phase;
+   291→  location: Vec3;                  // where the residue is
+   292→  actorSignature: number;          // hash of the actor's qi-state at the moment
+   293→}
+   294→
+   295→interface ReadingAttempt {
+   296→  readerId: number;
+   297→  targetResidue: CombatResidue;
+   298→  attentionCost: number;           // 5/15/30 per residue-read type, per doc 13 §5.2
+   299→  perceived: {
+   300→    actionType: string;
+   301→    phase: Phase;
+   302→    intensity: number;
+   303→    actorStateHash: string;
+   304→  } | null;                        // null if read failed (attention insufficient or residue too faint)
+   305→  success: boolean;
+   306→}
+   307→```
+   308→
+   309→**The reading rule.** A combatant in `Committed.Reading` (30 frames, 5 attention) can read the most recent residue in their perception range. The read reveals: the originating action's type (strike, defend, dodge, route-switch), the phase, the intensity, and a hash of the actor's qi-state at the moment (which an experienced reader can map to "their reservoir is at 40%" or "they have a meridian inflammation").
+   310→
+   311→**Failure case — reading trap.** A deceptive opponent (high `traits.deception`, per doc 26 §12) can leave a forged residue (per doc 27 §5 failure case). The reader perceives a false action type or phase. Detecting the forgery requires `qi_perception` higher than the forger's skill by one realm tier. This is the genre's "false tell" combat, made mechanical.
+   312→
+   313→---
+   314→
+   315→## 7. The five combat scales
+   316→
+   317→Per doc 13 §7, combat occurs at five scales. Each scale configures the state machine.
+   318→
+   319→```typescript
+   320→type CombatScale = 'duel' | 'mob' | 'giant' | 'battlefield' | 'law_conflict';
+   321→
+   322→interface CombatScaleConfig {
+   323→  scale: CombatScale;
+   324→  stateMachine: 'full' | 'simplified' | 'terrain' | 'force_multiplier' | 'law_state_machine';
+   325→  maxCombatants: number;
+   326→  routingAvailable: boolean;
+   327→  residueReadable: boolean;
+   328→  injuriesTracked: boolean;
+   329→}
+   330→```
+   331→
+   332→### 7.1 Duel (1v1)
+   333→
+   334→Full state machine (§1). All transitions, all routings, all residue readable, all injuries tracked. The prototype's Golden Scene 3 (per doc 09 §1.3).
+   335→
+   336→### 7.2 Mob (1v12)
+   337→
+   338→The cultivator's state machine is full. The mob members' state machines are simplified (per doc 13 §7.2): each mob member has only `Idle`, `Committed`, `Recovery`, `Staggered`, `Downed`, `Dead`. No routing, no feints, no reads. Crowd control matters; the cultivator must use area effects and mobility.
+   339→
+   340→### 7.3 Giant hunt (1 vs. giant beast)
+   341→
+   342→The giant is a terrain piece with hit zones (per doc 13 §7.3). Each zone has its own injury state. The cultivator's state machine is full but many actions are insufficient to stagger; the cultivator must chain hits to a single zone or land a heavy qi-burst to a weak zone. The giant's attacks are telegraphed over 60-120 frames.
+   343→
+   344→### 7.4 Battlefield (army-scale)
+   345→
+   346→The cultivator is a force multiplier (per doc 13 §7.4). The battlefield has its own state machine (army morale, formation, supply). The cultivator fights at key moments — breaking a formation, dueling the enemy commander, holding a breach. Between moments, they recover, route, or read the battlefield's residue (a Core Formation+ cultivator reads the *battlefield's* qi-state).
+   347→
+   348→### 7.5 Law conflict (Spirit Severance+)
+   349→
+   350→No physical combat; the contest is over whose law holds (per doc 13 §7.5). The state machine is `Law-Proposed → Law-Contested → Law-Resolved`. No physical state machine; no injuries. Resolution by withdrawal, exhaustion, external adjudication, or mutual destruction.
+   351→
+   352→---
+   353→
+   354→## 8. The injury model (9 types)
+   355→
+   356→Per doc 13 §8, injuries are specific physical and qi-system damage, not hit points. This document ratifies the 9 types and specifies their onset thresholds and recovery times.
+   357→
+   358→```typescript
+   359→interface Injury {
+   360→  injuryType: InjuryType;
+   361→  location: InjuryLocation;
+   362→  severity: number;                // 0..1
+   363→  onsetTick: number;
+   364→  onsetThreshold: number;          // the damage magnitude that triggered it
+   365→  recoveryTime: number;            // in-game days, untreated
+   366→  recoveryTimeTreated: number;     // with medicine
+   367→  effects: InjuryEffect[];
+   368→  resolved: boolean;
+   369→  resolvedAt: number | null;
+   370→}
+   371→
+   372→type InjuryType =
+   373→  | 'cut_superficial' | 'cut_deep' | 'cut_tendon' | 'fractured_bone'
+   374→  | 'meridian_inflammation' | 'organ_damage' | 'qi_depletion'
+   375→  | 'anchor_bruise' | 'core_crack';
+   376→
+   377→type InjuryLocation =
+   378→  | 'head' | 'torso' | 'left_arm' | 'right_arm' | 'left_leg' | 'right_leg'
+   379→  | 'meridian_central' | 'meridian_ancestral' | 'meridian_spirit'
+   380→  | 'organ_lung' | 'organ_liver' | 'organ_heart' | 'organ_kidney'
+   381→  | 'anchor' | 'core';
+   382→```
+   383→
+   384→**The onset threshold table:**
+   385→
+   386→| Injury | Onset threshold | Effect | Recovery (untreated) | Recovery (treated) |
+   387→|---|---|---|---|---|
+   388→| Cut (superficial) | damage ≥ 5% HP-equiv | Pain (small tempo penalty); bleeding | 1-3 days | hours |
+   389→| Cut (deep) | damage ≥ 15% HP-equiv | Pain (large tempo); significant bleeding | 30-90 days | 7-14 days |
+   390→| Cut tendon | precision strike to wrist/ankle | Limb function drops to ~20-30% | 90-180 days | 30-60 days |
+   391→| Fractured bone | damage ≥ 30% HP-equiv to a region | Region unusable | 60-120 days | 30-60 days |
+   392→| Meridian inflammation | qi-strike to meridian, or routing overload | Meridian blocks routing; deviation-prone | 14-30 days | 7-14 days |
+   393→| Organ damage | deep strike to torso | Systemic effects (lung: stamina 2×; liver: contamination tolerance halved; heart: reservoir cap reduced; kidney: recharge halved) | 180-365 days | 60-180 days |
+   394→| Qi depletion | reservoir < 5% safe threshold | All qi-verbs unavailable | hours of rest | faster in qi-rich env |
+   395→| Anchor bruise | spiritual strike (Core Formation+) | Perception unreliable; oaths strained; deviation risk up | 30-60 days | 14-30 days |
+   396→| Core crack | sufficient shock to Core Formation cultivator | Catastrophic; qi uncontrollable; deviation near-certain | years, if survived | often fatal |
+   397→
+   398→**The injury stack.** Injuries compound (per doc 13 §8.2): a combatant with a cut tendon in the wrist, a fractured rib, and meridian inflammation in the arm has compounded penalties — grip reduced, breathing impaired, arm-routing blocked. The combatant is mechanically barely functional.
+   399→
+   400→**Injury and the state machine.** Injuries modify transitions (per doc 13 §8.3): a fractured leg makes the dodge transition illegal; meridian inflammation blocks routing through that meridian; organ damage to the lung doubles all tempo costs; qi depletion blocks all qi-bearing Committed states.
+   401→
+   402→---
+   403→
+   404→## 9. The death model (per-realm anchor fate)
+   405→
+   406→Per doc 13 §9, bodily death is the `Dead` terminal; what happens to the anchor depends on realm. This document specifies the per-realm transition probabilities and timings.
+   407→
+   408→```typescript
+   409→interface DeathTransition {
+   410→  deadCultivator: number;
+   411→  realm: Realm;
+   412→  deathTick: number;
+   413→  anchorFate: AnchorFate;
+   414→  bardoWindow: number;             // ticks the anchor can be retrieved
+   415→  retrievalAvailable: boolean;
+   416→}
+   417→
+   418→type AnchorFate =
+   419→  | 'bardo_short'        // Mortal–Qi Condensation: hours to days
+   420→  | 'bardo_medium'       // Foundation Establishment: weeks
+   421→  | 'bardo_long'         // Core Formation: months; core can be retrieved
+   422→  | 'anchor_flight'      // Nascent Soul: anchor flees independently
+   423→  | 'domain_persist'     // Spirit Severance: anchor bound to domain
+   424→  | 'place_bond'         // Void Amalgamation: anchor bonded to a place
+   425→  | 'robust'             // Tribulation Crossing+: robust but not invincible
+   426→  | 'final_death';       // Mahayana law-conflict / sufficient tribulation
+   427→```
+   428→
+   429→**The death state machine (per doc 13 §9.2):**
+   430→
+   431→```
+   432→Dead ─[anchor leaves body]──> Bardo
+   433→Bardo ─[retrieved by ally/teacher]──> Retrieved (還魂)
+   434→Bardo ─[bardo window expires, karmic trace ratified]──> Reincarnated (轉世)
+   435→Bardo ─[anchor dispersed by force or expired unratified]──> Dispersed (寂滅, final death)
+   436→```
+   437→
+   438→**The retrieval window.** Per realm:
+   439→- Mortal/Qi Induction/Qi Condensation: 1 in-game day (per doc 13 §9.1)
+   440→- Foundation Establishment: 7 in-game days
+   441→- Core Formation: 30 in-game days (the golden core persists)
+   442→- Nascent Soul: anchor flees immediately; no retrieval window (the cultivator is not dead)
+   443→- Spirit Severance: the domain persists; the cultivator can reconstitute from it if the domain stands
+   444→- Void Amalgamation: the place persists; the cultivator endures if the place stands
+   445→- Tribulation Crossing/Mahayana: robust; final death only through specific high-realm conflict
+   446→
+   447→**Failure case — final death exploit.** A player who reaches Mahayana cannot be killed by lesser means. The simulator enforces this: lower-realm attacks have no effect on a Mahayana anchor. Final death requires either (a) a Mahayana law-conflict (per §7.5) lost decisively, (b) a sufficient tribulation (per doc 15), or (c) expiry of the bardo window after bodily death. This is the genre's "Mahayana invincibility" trope, made mechanical and bounded.
+   448→
+   449→---
+   450→
+   451→## 10. Combat determinism (hash verification)
+   452→
+   453→Combat is deterministic: same inputs → same outcome. The engine verifies this by hashing each combatant's state at each frame.
+   454→
+   455→```typescript
+   456→interface CombatDeterminismCheck {
+   457→  combatId: number;
+   458→  frame: number;
+   459→  combatantStates: Record<number, string>;  // combatantId → state hash
+   460→  inputHash: string;                         // hash of all inputs this frame
+   461→  totalHash: string;                         // SHA-256 of the combined state
+   462→}
+   463→
+   464→function hashCombatantState(state: CombatantState): string {
+   465→  // CBOR-encode the full state (including RNG stream position) and SHA-256
+   466→  const cbor = cborEncode(state);
+   467→  return sha256(cbor);
+   468→}
+   469→
+   470→function hashCombatInputs(inputs: CombatInput[]): string {
+   471→  return sha256(cborEncode(inputs));
+   472→}
+   473→```
+   474→
+   475→**The verification rule.** Two runs with the same seed and the same player inputs produce identical `totalHash` at every frame. A mismatch flags the divergent frame, the divergent combatant, and the divergent field. The engine's CI runs a combat-replay test: a recorded duel is replayed; the hash at each frame must match the recorded hash.
+   476→
+   477→**Input determinism.** Inputs are stamped with the frame they were received (per doc 17 §6.1, the input barrier). The same input at the same frame produces the same effect. The 8-frame buffer (§2) is deterministic: the buffer's state at any frame is a pure function of prior inputs.
+   478→
+   479→**RNG consumption.** Combat uses RNG for: deviation-onset coin (per doc 31 §7), injury-onset roll (when damage is near a threshold), and the unstable-integration coin in breakthrough (per doc 31 §5.2, not in combat but adjacent). Each consumption is logged per combatant per frame; the RNG stream is seeded by `(combatantSeed, combatId, frame)`.
+   480→
+   481→---
+   482→
+   483→## 11. Tier simulation (S4 / S2 / S0)
+   484→
+   485→Combat degrades by tier:
+   486→
+   487→```
+   488→┌─────────┬──────────────────────────────────────────────────────────────┐
+   489→│ Tier    │ Combat behavior                                               │
+   490→├─────────┼──────────────────────────────────────────────────────────────┤
+   491→│ S4      │ Full state machine. Every frame simulated. Residue readable.│
+   492→│ (full)  │ Injuries tracked per combatant. Player is present; combat is │
+   493→│         │ real-time. Cap: 16 combatants per region at S4 (player +    │
+   494→│         │ named NPCs + current antagonists).                           │
+   495→├─────────┼──────────────────────────────────────────────────────────────┤
+   496→│ S2      │ Aggregate combat. Combats resolve as events (per doc 30)    │
+   497→│ (aggr.) │ with predetermined outcomes (seeded by state hash). No frame-│
+   498→│         │ by-frame state machine. Injuries aggregated to "wounded" or  │
+   499→│         │ "dead".                                                       │
+   500→├─────────┼──────────────────────────────────────────────────────────────┤
+   501→│ S0      │ Frozen. No combat. Combatants' states are frozen at demotion.│
+   502→│ (frozen)│ On promotion, S2 catches up by resolving any combats that   │
+   503→│         │ would have occurred during the absence, with deterministic  │
+   504→│         │ RNG for outcomes.                                             │
+   505→└─────────┴──────────────────────────────────────────────────────────────┘
+   506→```
+   507→
+   508→**Failure case — promotion combat artifact.** A combatant who would have died during the absence is dead on promotion. The simulator records the death in the persistent log (per doc 30 §12) and rehydrates the combatant as Dead with their anchor-fate determined by their realm. The player may discover that an antagonist died in their absence — or that a key ally did.
+   509→
+   510→---
+   511→
+   512→## 12. The 16-cultivator S4 cap and overflow
+   513→
+   514→The S4 cap (16 combatants per region) is a performance budget. Overflow is handled by promoting the highest-priority combatants (the player, named NPCs in active conflict with the player) and demoting the lowest (anonymous mob members).
+   515→
+   516→```typescript
+   517→interface S4CombatPriority {
+   518→  combatantId: number;
+   519→  priority: number;                // higher = more likely to stay at S4
+   520→}
+   521→
+   522→// Priority computation:
+   523→//   player: +1000 (always S4 when in combat)
+   524→//   named NPCs in player's party: +500
+   525→//   named NPCs in active conflict with player: +400
+   526→//   named NPCs otherwise: +100
+   527→//   anonymous combatants in player's vicinity: +50
+   528→//   anonymous combatants elsewhere: +10
+   529→```
+   530→
+   531→When the cap is exceeded, the lowest-priority combatants demote to S2 (their combat resolves as an aggregate event). This preserves the player's combat experience (full state machine for the player and their immediate opponents) while keeping the simulator performant.
+   532→
+   533→---
+   534→
+   535→## 13. Rejected alternatives
+   536→
+   537→- **HP-bar combat (damage reduces a number; 0 = death).** Rejected: produces no skill expression, no injury specificity. The 9-type injury model (§8) is the engine.
+   538→- **Real-time-with-pause combat (Baldur's Gate precedent).** Rejected: violates the commitment model (§3). Pause-and-issue-orders is a different feel; the genre's combat is real-time.
+   539→- **Turn-based combat (JRPG precedent).** Rejected: wrong tempo for xianxia. Combat is real-time with frames, not turns.
+   540→- **Auto-combat (the cultivator auto-attacks; player only chooses targets).** Rejected: produces no skill expression. The state machine's commitment and routing (§3, §4) require player input.
+   541→- **Free-cancel combat (any action can be canceled at any time).** Rejected: violates the commitment model (per doc 13 §3). The exceptions are the named cancels (§3).
+   542→- **Dice-roll combat (D&D-style d20).** Rejected: deterministic-state-driven outcomes only (per doc 17 §3). The RNG consumption is logged and seeded (§10).
+   543→
+   544→---
+   545→
+   546→## 14. Open decisions (surfaced for review)
+   547→
+   548→1. **The 8-frame input buffer (§2).** Inherited from doc 13. May need to be 6 or 10 after playtesting.
+   549→2. **The 60-120 frame routing switch cost at Qi Condensation (§4).** Inherited from doc 13. May be too punishing or too lenient.
+   550→3. **The 100-unit attention budget at Qi Condensation (§6, per doc 13 §5).** Invented. Needs playtesting against residue-reading costs.
+   551→4. **The injury types' exact recovery times (§8).** Ranges, not values. The procedural generator (doc 07) will need specific values, set in `combat.json` and tuned.
+   552→5. **The 16-combatant S4 cap (§12).** Invented. May be too low for mob-scale combat; may need to scale with combat scale.
+   553→6. **The 30% reservoir cost for qi-burst cancel (§3).** Invented. May be too punishing or too lenient.
+   554→7. **The bardo window per realm (§9).** Inherited from doc 13 §9.1 but specified as concrete values here. May need tuning.
+   555→8. **The phase-multiplier values (§5: 1.5× conquest, 0.5× generation, 0.75× reverse-conquest).** Invented. May need rebalancing after playtesting.
+   556→
+   557→---
+   558→
+   559→## 15. Doctrine compliance
+   560→
+   561→- **Build the engine, not just the brake:** the prior corpus's combat doc (13) was the brake (no cancels, no free hits, no random rolls). This document specifies the engine: the production rules with frame costs, the tempo economy, the commitment model, the 20-combination routing system, the phase-matchup multipliers, the residue-reading rules, the five combat scales, the 9-type injury model, the per-realm death model, the determinism contract.
+   562→- **Make decisions; do not defer:** the state machine, the frame costs, the routing system, the phase multipliers, the injury thresholds, the death windows, the determinism hash are all decided. §14 are tuning parameters, not forks.
+   563→- **Cite the precedent:** Sekiro, Monster Hunter, Third Strike, Guilty Gear, Bushido Blade, Super Smash Bros., Celeste, Total War, Mount & Blade are named and their contributions specified at frame-level resolution.
+   564→- **Design for joy first:** the first hour's joy is reading the opponent's residue, recognizing the routing mismatch, and punishing with a phase-counter strike. The combat system is designed to produce the genre's best combat feel — readable, punishable, skill-expressive — adapted to xianxia's qi-system.
+   565→- **Authorize the smallest end-to-end thing:** this document specifies enough to implement the Qi Condensation duel (Golden Scene 3) as the first prototype. Upper realms and upper scales are design-ready; their prototypes are deferred until the Qi Condensation duel is proven.
+   566→
+   567→This document is the combat execution bible. It is the engine the prior corpus's combat grammar was missing.
+   568→
