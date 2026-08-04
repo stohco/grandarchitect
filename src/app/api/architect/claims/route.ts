@@ -13,6 +13,7 @@ import { NextResponse } from 'next/server';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { extractClaims, validateClaims } from '@/engine/architect/rcvc/claims/extractor';
+import { validateSemanticGraph } from '@/engine/architect/rcvc/claims/semantic-validator';
 
 export const runtime = 'nodejs';
 
@@ -27,15 +28,19 @@ export async function GET() {
       registry = await extractClaims();
     }
 
-    const validation = validateClaims(registry);
+    const structuralValidation = validateClaims(registry);
+    const semanticValidation = validateSemanticGraph(registry);
 
     return NextResponse.json({
       ...registry,
-      validation,
+      validation: structuralValidation,
+      semanticValidation,
       coverage: {
-        layersImplemented: ['claim-level-structural (provenance, source, dependencies)'],
-        layersNotImplemented: [
+        layersImplemented: [
+          'claim-level-structural (provenance, source, dependencies)',
           'semantic-graph (cross-claim relationship validation)',
+        ],
+        layersNotImplemented: [
           'numerical-constraint (measurement consistency)',
           'natural-language-semantic (AI contradiction review)',
           'runtime (generation/asset/animation compliance)',
