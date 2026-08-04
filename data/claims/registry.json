@@ -1,19 +1,260 @@
 {
   "version": "0.1.0",
-  "generatedAt": "2026-08-04T22:16:44.789Z",
-  "claims": [],
+  "generatedAt": "2026-08-04T23:43:13.572Z",
+  "claims": [
+    {
+      "claimId": "claim-governance-71a6a51f",
+      "statement": "The Cangli Riverlands occupy a basin approximately 120 km north-south.",
+      "truthLevel": "PROC",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md",
+        "section": "§1. Truth-Level Annotation Protocol",
+        "surroundingText": "The Cangli Riverlands occupy a basin approximately 120 km north-south."
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "geography"
+      ],
+      "domain": "governance",
+      "tags": [
+        "governance"
+      ],
+      "createdAt": "2026-08-04T23:43:13.570Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-governance-56eb05e9",
+      "statement": "Settlements must be within 4 km of a navigable waterway.",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md",
+        "section": "§1. Truth-Level Annotation Protocol",
+        "surroundingText": "Settlements must be within 4 km of a navigable waterway."
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "governance"
+      ],
+      "domain": "governance",
+      "tags": [
+        "governance"
+      ],
+      "createdAt": "2026-08-04T23:43:13.571Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-governance-70f6e8b4",
+      "statement": "The visual palette is muted earth tones with jade-green accents.",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md",
+        "section": "§1. Truth-Level Annotation Protocol",
+        "surroundingText": "The visual palette is muted earth tones with jade-green accents."
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "governance"
+      ],
+      "domain": "governance",
+      "tags": [
+        "governance"
+      ],
+      "createdAt": "2026-08-04T23:43:13.571Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-governance-e23cd28a",
+      "statement": "Village populations range from 40 to 380 souls depending on seed.",
+      "truthLevel": "PROC",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md",
+        "section": "§1. Truth-Level Annotation Protocol",
+        "surroundingText": "Village populations range from 40 to 380 souls depending on seed."
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "determinism"
+      ],
+      "domain": "governance",
+      "tags": [
+        "governance"
+      ],
+      "createdAt": "2026-08-04T23:43:13.571Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-governance-ca59078b",
+      "statement": "Whether the southern ridge contains a dormant spirit-vein node.",
+      "truthLevel": "UNRESOLVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md",
+        "section": "§1. Truth-Level Annotation Protocol",
+        "surroundingText": "Whether the southern ridge contains a dormant spirit-vein node."
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "ecology"
+      ],
+      "domain": "governance",
+      "tags": [
+        "governance"
+      ],
+      "createdAt": "2026-08-04T23:43:13.571Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-combat-5279684c",
+      "statement": "[FORBIDDEN] ` Teleportation without formation or realm cost (breaks travel-time consistency)",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "55_MOTION_AND_EFFECT_GRAMMAR.md",
+        "section": "§7. Forbidden Without Exception",
+        "surroundingText": "[FORBIDDEN] ` Teleportation without formation or realm cost (breaks travel-time consistency)"
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "cultivation",
+        "formation"
+      ],
+      "domain": "combat",
+      "tags": [
+        "combat",
+        "forbidden-interpretation",
+        "supernatural"
+      ],
+      "createdAt": "2026-08-04T23:43:13.572Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-combat-0b1902dc",
+      "statement": "[FORBIDDEN] ` Time travel (breaks determinism stack)",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "55_MOTION_AND_EFFECT_GRAMMAR.md",
+        "section": "§7. Forbidden Without Exception",
+        "surroundingText": "[FORBIDDEN] ` Time travel (breaks determinism stack)"
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "determinism"
+      ],
+      "domain": "combat",
+      "tags": [
+        "combat",
+        "forbidden-interpretation"
+      ],
+      "createdAt": "2026-08-04T23:43:13.572Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-combat-6c74fa74",
+      "statement": "[FORBIDDEN] ` Resurrection without explicit realm-tier cost (breaks death stakes)",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "55_MOTION_AND_EFFECT_GRAMMAR.md",
+        "section": "§7. Forbidden Without Exception",
+        "surroundingText": "[FORBIDDEN] ` Resurrection without explicit realm-tier cost (breaks death stakes)"
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "cultivation"
+      ],
+      "domain": "combat",
+      "tags": [
+        "combat",
+        "forbidden-interpretation"
+      ],
+      "createdAt": "2026-08-04T23:43:13.572Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-combat-b0f85135",
+      "statement": "[FORBIDDEN] ` True invisibility (spiritual detection must always be possible at equal or higher realm)",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "55_MOTION_AND_EFFECT_GRAMMAR.md",
+        "section": "§7. Forbidden Without Exception",
+        "surroundingText": "[FORBIDDEN] ` True invisibility (spiritual detection must always be possible at equal or higher realm)"
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "cultivation",
+        "ecology"
+      ],
+      "domain": "combat",
+      "tags": [
+        "combat",
+        "forbidden-interpretation"
+      ],
+      "createdAt": "2026-08-04T23:43:13.572Z",
+      "createdBy": "extractor-script"
+    },
+    {
+      "claimId": "claim-combat-166e670f",
+      "statement": "[FORBIDDEN] ` Infinite qi (every technique must state power source and cost)",
+      "truthLevel": "DERIVED",
+      "approvalStatus": "candidate",
+      "provenance": "script-inserted",
+      "source": {
+        "doc": "55_MOTION_AND_EFFECT_GRAMMAR.md",
+        "section": "§7. Forbidden Without Exception",
+        "surroundingText": "[FORBIDDEN] ` Infinite qi (every technique must state power source and cost)"
+      },
+      "dependencies": [],
+      "contradictions": [],
+      "applicableSystems": [
+        "cultivation",
+        "combat"
+      ],
+      "domain": "combat",
+      "tags": [
+        "combat",
+        "forbidden-interpretation",
+        "supernatural"
+      ],
+      "createdAt": "2026-08-04T23:43:13.572Z",
+      "createdBy": "extractor-script"
+    }
+  ],
   "summary": {
-    "totalClaims": 0,
+    "totalClaims": 10,
     "byTruthLevel": {
       "CANON": 0,
-      "DERIVED": 0,
+      "DERIVED": 7,
       "ART": 0,
-      "PROC": 0,
-      "UNRESOLVED": 0
+      "PROC": 2,
+      "UNRESOLVED": 1
     },
     "byApprovalStatus": {
       "approved": 0,
-      "candidate": 0,
+      "candidate": 10,
       "rejected": 0,
       "blocked": 0
     },
@@ -23,10 +264,13 @@
       "art-directed": 0,
       "procedural": 0,
       "unresolved": 0,
-      "script-inserted": 0,
+      "script-inserted": 10,
       "inferred": 0
     },
-    "byDomain": {},
+    "byDomain": {
+      "governance": 5,
+      "combat": 5
+    },
     "highRiskUnreviewed": 0
   }
 }

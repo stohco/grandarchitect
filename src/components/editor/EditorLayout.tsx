@@ -48,6 +48,7 @@ import ReasoningPanel from '@/components/editor/panels/ReasoningPanel';
 import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
 import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
 import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
+import ClaimsPanel from '@/components/editor/panels/ClaimsPanel';
 import ArchitectPresence from '@/components/editor/ArchitectPresence';
 import {
   Terminal,
@@ -62,6 +63,7 @@ import {
   Sigma,
   Activity,
   Gauge,
+  ShieldAlert,
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
@@ -78,7 +80,8 @@ type BottomTabId =
   | 'reasoning'
   | 'constraints'
   | 'complexity'
-  | 'benchmarks';
+  | 'benchmarks'
+  | 'claims';
 
 interface BottomTab {
   id: BottomTabId;
@@ -100,6 +103,7 @@ const BOTTOM_TABS: BottomTab[] = [
   { id: 'constraints', label: 'Constraints', icon: Sigma, dense: true },
   { id: 'complexity', label: 'Complexity', icon: Activity, dense: true },
   { id: 'benchmarks', label: 'Benchmarks', icon: Gauge, dense: true },
+  { id: 'claims', label: 'Claims', icon: ShieldAlert, dense: true },
 ];
 
 export default function EditorLayout() {
@@ -220,6 +224,9 @@ export default function EditorLayout() {
                       </TabsContent>
                       <TabsContent value="benchmarks" className="mt-0 h-full">
                         <BenchmarksPanel />
+                      </TabsContent>
+                      <TabsContent value="claims" className="mt-0 h-full">
+                        <ClaimsPanel />
                       </TabsContent>
                     </div>
                   </Tabs>
