@@ -80,3 +80,48 @@ Three-column resizable layout (shadcn ResizablePanelGroup): Outliner 18% / Centr
 
 ### Commit
 `87b82cb rebuild: Live Architect Studio editor` — 22 new files + 2 modified (page.tsx, layout.tsx).
+
+---
+
+## PANELS-REBUILD — 7 missing bottom-dock panels (2026-08-04)
+
+**Task:** Rebuild 7 missing bottom-dock panels for the Live Architect Studio editor and wire them into EditorLayout.tsx.
+
+**Status:** ✅ Complete
+**Commit:** `rebuild: 7 dock panels (Conformance/Capabilities/Engine/Reasoning/Constraints/Complexity/Benchmarks)`
+
+### Files created (7 new panels)
+- `src/components/editor/panels/ConformancePanel.tsx` — POST `/api/engine/run-tests` on mount + Run All; summary banner; 7-suite table with expandable mono-font tail rows.
+- `src/components/editor/panels/CapabilitiesPanel.tsx` — 15 inline plugins (Determinism/Reference/Simulation) + 8 architect roles; category filter + search; plugin cards (id/version/category badge/capability chips/LOC); collapsible Architect Roles.
+- `src/components/editor/panels/EnginePanel.tsx` — Static 8-phase build timeline (DONE emerald checkmark / PENDING amber circle), 8 safety rails (scrollable, shield icon), L0-L6 autonomy horizontal ladder; TOTAL TESTS stat.
+- `src/components/editor/panels/ReasoningPanel.tsx` — Text input + Interpret; POST `/api/architect/interpret` with `{request}`; 3 hypothesis cards with interpretation + specificity/confidence/reversibility bars + confirmed/assumed/unresolved lists; weakest=emerald border+WEAKEST badge; over-specified=red tint; selected-hypothesis clarifications as question cards with option buttons.
+- `src/components/editor/panels/ConstraintsPanel.tsx` — Load Sample (GET) + Solve (POST); variables+constraints of loaded problem; on solve shows status banner + assignment table + proof object (recursive ✓/✗ justification tree) + solver trace + validation checks, all mono font.
+- `src/components/editor/panels/ComplexityPanel.tsx` — Scale/Window/Seed selects + Sample (GET); color-coded trend diagnosis banner; 4 metric tiles (compressibility/entropy/diversity/predictive value) with sparkline SVGs; seed comparisons table.
+- `src/components/editor/panels/BenchmarksPanel.tsx` — Run Benchmarks (POST) + auto-run on mount; results table (Benchmark / Our Engine / Ursus / Unity / Ratio / Verdict); our-engine cell colored emerald/amber/red; overall verdict banner.
+
+### Files modified
+- `src/components/editor/EditorLayout.tsx` — Added 7 entries to BOTTOM_TABS after 'history' (conformance/capabilities/engine/reasoning/constraints/complexity/benchmarks) with `dense: true` flag; added 7 TabsContent conditional renders; dock height now dynamic (`h-56` for dense tabs, `h-48` for original 5); TabsList gets `min-w-0 flex-1 overflow-x-auto` so 12 tabs scroll horizontally; imported 7 new lucide icons.
+- `src/lib/editor/store.ts` — Extended `activeBottomTab` union to include the 7 new tab ids.
+- `src/app/api/architect/interpret/route.ts` — Reads `body.request ?? body.message`; runs the RCVC hypothesis engine; returns `hypotheses` (3 scored) + `clarifications` (default = weakest-sufficient's) + `clarificationsByHypothesis` (per-hypothesis, for click-to-switch) + `selectedHypothesisId`. Existing ArchitectPanel consumers unaffected (they only read `reply/toolsUsed/intent`).
+- `src/app/api/architect/constraints/route.ts` — POST now normalizes `variables` → `vars` after validation (the service expects `vars` but GET returned `variables`); GET sample rewritten as a real solvable problem (4 float position vars + 3 IR constraints: hard path-connectivity via (Δx)²+(Δz)²≤1600, hard floodplain z≥-10, soft feng-shui z≤20). Procedural solver finds a valid assignment in <10ms with softPenalty 0.5 (feng-shui intentionally violated for proof-tree demo).
+
+### Verification
+- `bun run lint` → 0 errors, 0 warnings.
+- Dev server (Turbopack) compiles cleanly; no errors in dev.log.
+- All 5 endpoints exercised via curl, all return HTTP 200 with the expected shape:
+  - `POST /api/architect/interpret {"request":"..."}` → 3 hypotheses, selectedHypothesisId set, clarificationsByHypothesis populated (1/1/0 questions).
+  - `GET /api/architect/constraints` → sample problem with float domains + IR constraints.
+  - `POST /api/architect/constraints` (with sample) → solved:true, procedural solver, assignment populated, proof.root.kind='and' with 3 children, trace with 3 evaluations.
+  - `GET /api/architect/complexity?scale=settlement&window=years&seed=42` → 20 samples, trend 'chaotic'.
+  - `POST /api/architect/benchmark` → 5 results, first (Spawn) beats_ursus at 1.151ms vs 10ms Ursus target.
+  - `POST /api/engine/run-tests` → 7 suites, ok:true, totalPassed:1278.
+
+### Design constraints honoured
+- `'use client'` on every interactive panel.
+- All `fetch()` calls use relative paths only.
+- Dark theme palette preserved: bg #0e0e24 / #12122a, text #c8c8e0 / #8888aa / #5a5a7a, emerald-500 primary accent, purple/amber/rose secondary — **no blue/indigo**.
+- shadcn/ui components (Button, ScrollArea, Select) used where applicable.
+- Mono font for proof/trace/tail output.
+- Responsive: grids collapse 3→2→1 columns; tabs scroll horizontally on narrow viewports.
+- TypeScript strict; no `console.log` in production code.
+- Each panel self-contained: fetches its own data, manages its own loading/error state.

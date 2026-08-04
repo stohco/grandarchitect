@@ -41,6 +41,13 @@ import ArchitectPanel from '@/components/editor/panels/ArchitectPanel';
 import AssetBrowserPanel from '@/components/editor/panels/AssetBrowserPanel';
 import SimulationPanel from '@/components/editor/panels/SimulationPanel';
 import HistoryPanel from '@/components/editor/panels/HistoryPanel';
+import ConformancePanel from '@/components/editor/panels/ConformancePanel';
+import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
+import EnginePanel from '@/components/editor/panels/EnginePanel';
+import ReasoningPanel from '@/components/editor/panels/ReasoningPanel';
+import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
+import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
+import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
 import ArchitectPresence from '@/components/editor/ArchitectPresence';
 import {
   Terminal,
@@ -48,17 +55,52 @@ import {
   Package,
   Cpu,
   History,
+  FlaskConical,
+  Puzzle,
+  Cog,
+  Brain,
+  Sigma,
+  Activity,
+  Gauge,
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
 
-const BOTTOM_TABS = [
+type BottomTabId =
+  | 'console'
+  | 'architect'
+  | 'assets'
+  | 'simulation'
+  | 'history'
+  | 'conformance'
+  | 'capabilities'
+  | 'engine'
+  | 'reasoning'
+  | 'constraints'
+  | 'complexity'
+  | 'benchmarks';
+
+interface BottomTab {
+  id: BottomTabId;
+  label: string;
+  icon: typeof Terminal;
+  dense?: boolean;
+}
+
+const BOTTOM_TABS: BottomTab[] = [
   { id: 'console', label: 'Console', icon: Terminal },
   { id: 'architect', label: 'Architect', icon: Sparkles },
   { id: 'assets', label: 'Assets', icon: Package },
   { id: 'simulation', label: 'Simulation', icon: Cpu },
   { id: 'history', label: 'History', icon: History },
-] as const;
+  { id: 'conformance', label: 'Conformance', icon: FlaskConical, dense: true },
+  { id: 'capabilities', label: 'Capabilities', icon: Puzzle, dense: true },
+  { id: 'engine', label: 'Engine', icon: Cog, dense: true },
+  { id: 'reasoning', label: 'Reasoning', icon: Brain, dense: true },
+  { id: 'constraints', label: 'Constraints', icon: Sigma, dense: true },
+  { id: 'complexity', label: 'Complexity', icon: Activity, dense: true },
+  { id: 'benchmarks', label: 'Benchmarks', icon: Gauge, dense: true },
+];
 
 export default function EditorLayout() {
   const showOutliner = useEditorStore((s) => s.showOutliner);
@@ -106,21 +148,27 @@ export default function EditorLayout() {
 
               {/* Bottom dock */}
               {showBottomDock ? (
-                <div className="flex h-[280px] shrink-0 flex-col border-t border-[#2a2a4a] bg-[#0e0e24]">
+                <div
+                  className={`flex shrink-0 flex-col border-t border-[#2a2a4a] bg-[#0e0e24] ${
+                    BOTTOM_TABS.find((t) => t.id === activeBottomTab)?.dense
+                      ? 'h-56'
+                      : 'h-48'
+                  }`}
+                >
                   <Tabs
                     value={activeBottomTab}
                     onValueChange={(v) => setActiveBottomTab(v as typeof activeBottomTab)}
                     className="flex h-full flex-col gap-0"
                   >
                     <div className="flex items-center justify-between border-b border-[#2a2a4a] bg-[#12122a] px-1.5">
-                      <TabsList className="h-9 bg-transparent p-0">
+                      <TabsList className="h-9 min-w-0 flex-1 justify-start overflow-x-auto rounded-none bg-transparent p-0">
                         {BOTTOM_TABS.map((t) => {
                           const Icon = t.icon;
                           return (
                             <TabsTrigger
                               key={t.id}
                               value={t.id}
-                              className="h-9 gap-1.5 rounded-none border-b-2 border-transparent px-3 text-xs text-[#8888aa] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none"
+                              className="h-9 shrink-0 gap-1.5 rounded-none border-b-2 border-transparent px-3 text-xs text-[#8888aa] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none"
                             >
                               <Icon className="h-3.5 w-3.5" />
                               {t.label}
@@ -151,6 +199,27 @@ export default function EditorLayout() {
                       </TabsContent>
                       <TabsContent value="history" className="mt-0 h-full">
                         <HistoryPanel />
+                      </TabsContent>
+                      <TabsContent value="conformance" className="mt-0 h-full">
+                        <ConformancePanel />
+                      </TabsContent>
+                      <TabsContent value="capabilities" className="mt-0 h-full">
+                        <CapabilitiesPanel />
+                      </TabsContent>
+                      <TabsContent value="engine" className="mt-0 h-full">
+                        <EnginePanel />
+                      </TabsContent>
+                      <TabsContent value="reasoning" className="mt-0 h-full">
+                        <ReasoningPanel />
+                      </TabsContent>
+                      <TabsContent value="constraints" className="mt-0 h-full">
+                        <ConstraintsPanel />
+                      </TabsContent>
+                      <TabsContent value="complexity" className="mt-0 h-full">
+                        <ComplexityPanel />
+                      </TabsContent>
+                      <TabsContent value="benchmarks" className="mt-0 h-full">
+                        <BenchmarksPanel />
                       </TabsContent>
                     </div>
                   </Tabs>

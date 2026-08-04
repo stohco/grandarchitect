@@ -93,7 +93,19 @@ export interface EditorState {
   outlinerFilter: string;
   outlinerGrouping: 'kind' | 'none';
   consoleFilter: LogLevel | 'all';
-  activeBottomTab: 'console' | 'architect' | 'assets' | 'simulation' | 'history';
+  activeBottomTab:
+    | 'console'
+    | 'architect'
+    | 'assets'
+    | 'simulation'
+    | 'history'
+    | 'conformance'
+    | 'capabilities'
+    | 'engine'
+    | 'reasoning'
+    | 'constraints'
+    | 'complexity'
+    | 'benchmarks';
 
   // --- Selection / hover / edits ---
   selectedEntityIds: number[];

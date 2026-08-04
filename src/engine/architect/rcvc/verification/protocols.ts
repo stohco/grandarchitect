@@ -1,172 +1,180 @@
 /**
  * Protocol Definitions — 6 critical protocols for model checking.
- * No forbidden functions. No Three.js, no DOM.
+ *
+ * These are aligned with the ProtocolSpec type in types.ts and the
+ * model-checker in model-checker.ts. They use state-ID-based
+ * reachability properties (mustReach / mustNotReach) rather than
+ * variable tracking.
  */
 import type { ProtocolSpec } from '../types';
 
 export const permissionEscalationProtocol: ProtocolSpec = {
-  name: 'permission_escalation',
+  id: 'permission_escalation',
+  name: 'Permission Escalation',
   description: 'Grand Architect autonomy escalation — cannot skip levels',
-  initialVars: { autonomy: 1, escalated: false, humanApproved: false },
-  states: [
-    { id: 'observe', label: 'Observe (L1)', isAccepting: true, isError: false },
-    { id: 'diagnose', label: 'Diagnose (L2)', isAccepting: true, isError: false },
-    { id: 'sandbox', label: 'Sandbox (L3)', isAccepting: true, isError: false },
-    { id: 'preview', label: 'Preview (L4)', isAccepting: true, isError: false },
-    { id: 'branch', label: 'Branch (L5)', isAccepting: true, isError: false },
-    { id: 'integrate', label: 'Integrate (L6)', isAccepting: false, isError: false },
-    { id: 'release', label: 'Release (L7)', isAccepting: true, isError: false },
-    { id: 'denied', label: 'Denied', isAccepting: false, isError: true },
-  ],
   initial: 'observe',
+  states: [
+    { id: 'observe', label: 'Observe (L1)', accepting: true },
+    { id: 'diagnose', label: 'Diagnose (L2)', accepting: true },
+    { id: 'sandbox', label: 'Sandbox (L3)', accepting: true },
+    { id: 'preview', label: 'Preview (L4)', accepting: true },
+    { id: 'branch', label: 'Branch (L5)', accepting: true },
+    { id: 'integrate', label: 'Integrate (L6)', accepting: false },
+    { id: 'release', label: 'Release (L7)', accepting: true },
+    { id: 'denied', label: 'Denied', accepting: false, meta: { error: 'true' } },
+  ],
   transitions: [
-    { from: 'observe', to: 'diagnose', label: 'L2', guard: v => v.autonomy >= 1, effect: v => ({ ...v, autonomy: 2, escalated: true }) },
-    { from: 'diagnose', to: 'sandbox', label: 'L3', guard: v => v.autonomy >= 2, effect: v => ({ ...v, autonomy: 3 }) },
-    { from: 'sandbox', to: 'preview', label: 'L4', guard: v => v.autonomy >= 3, effect: v => ({ ...v, autonomy: 4 }) },
-    { from: 'preview', to: 'branch', label: 'L5', guard: v => v.autonomy >= 4, effect: v => ({ ...v, autonomy: 5 }) },
-    { from: 'branch', to: 'integrate', label: 'L6', guard: v => v.autonomy >= 5 && v.humanApproved === true, effect: v => ({ ...v, autonomy: 6 }) },
-    { from: 'integrate', to: 'release', label: 'L7', guard: v => v.autonomy >= 6 && v.humanApproved === true, effect: v => ({ ...v, autonomy: 7 }) },
-    { from: 'observe', to: 'denied', label: 'FORBIDDEN', guard: v => v.humanApproved === false, effect: v => ({ ...v, autonomy: 7 }) },
+    { from: 'observe', to: 'diagnose', event: 'escalate_L2' },
+    { from: 'diagnose', to: 'sandbox', event: 'escalate_L3' },
+    { from: 'sandbox', to: 'preview', event: 'escalate_L4' },
+    { from: 'preview', to: 'branch', event: 'escalate_L5' },
+    { from: 'branch', to: 'integrate', event: 'escalate_L6' },
+    { from: 'integrate', to: 'release', event: 'escalate_L7' },
+    { from: 'integrate', to: 'branch', event: 'rollback_L5' },
+    { from: 'observe', to: 'denied', event: 'FORBIDDEN_jump_L7' },
   ],
   invariants: [
-    { label: 'autonomy_in_range', predicate: v => typeof v.autonomy === 'number' && v.autonomy >= 1 && v.autonomy <= 7 },
-    { label: 'release_needs_approval', predicate: v => !(v.autonomy === 7) || v.humanApproved === true },
+    { id: 'no_error_state_accepting', statement: 'Error states are not accepting', predicate: s => !(s.meta?.error === 'true' && s.accepting) },
   ],
-  properties: [
-    { label: 'no_release_without_approval', kind: 'safety' as const, check: trace => trace.vars.every(v => !(v.autonomy === 7) || v.humanApproved === true) },
+  reachabilityProperties: [
+    { id: 'release_reachable', statement: 'Release state is reachable (liveness)', mustReach: ['release'] },
+    { id: 'denied_not_reachable', statement: 'Denied state is not reachable through normal escalation', mustNotReach: ['denied'] },
   ],
 };
 
 export const toolLifecycleProtocol: ProtocolSpec = {
-  name: 'tool_lifecycle',
+  id: 'tool_lifecycle',
+  name: 'Tool Lifecycle',
   description: 'Tool register → dispatch → unregister',
-  initialVars: { registered: false, inFlight: 0, disposed: false },
-  states: [
-    { id: 'unregistered', label: 'Unregistered', isAccepting: true, isError: false },
-    { id: 'registered', label: 'Registered', isAccepting: true, isError: false },
-    { id: 'dispatching', label: 'Dispatching', isAccepting: false, isError: false },
-    { id: 'error', label: 'Error', isAccepting: false, isError: true },
-  ],
   initial: 'unregistered',
+  states: [
+    { id: 'unregistered', label: 'Unregistered', accepting: true },
+    { id: 'registered', label: 'Registered', accepting: true },
+    { id: 'dispatching', label: 'Dispatching', accepting: false },
+    { id: 'error', label: 'Error', accepting: false, meta: { error: 'true' } },
+  ],
   transitions: [
-    { from: 'unregistered', to: 'registered', label: 'register', effect: v => ({ ...v, registered: true }) },
-    { from: 'registered', to: 'dispatching', label: 'dispatch', effect: v => ({ ...v, inFlight: (v.inFlight as number) + 1 }) },
-    { from: 'dispatching', to: 'registered', label: 'complete', guard: v => (v.inFlight as number) > 0, effect: v => ({ ...v, inFlight: (v.inFlight as number) - 1 }) },
-    { from: 'registered', to: 'unregistered', label: 'unregister', guard: v => (v.inFlight as number) === 0, effect: v => ({ ...v, registered: false }) },
-    { from: 'dispatching', to: 'error', label: 'BAD', guard: v => v.registered === false },
+    { from: 'unregistered', to: 'registered', event: 'register' },
+    { from: 'registered', to: 'dispatching', event: 'dispatch' },
+    { from: 'dispatching', to: 'registered', event: 'complete' },
+    { from: 'registered', to: 'unregistered', event: 'unregister' },
+    { from: 'dispatching', to: 'error', event: 'FORBIDDEN_dispatch_unregistered' },
   ],
   invariants: [
-    { label: 'no_dispatch_unregistered', predicate: v => !((v.inFlight as number) > 0 && v.registered === false) },
+    { id: 'error_not_accepting', statement: 'Error state is not accepting', predicate: s => !(s.meta?.error === 'true' && s.accepting) },
   ],
-  properties: [
-    { label: 'never_error', kind: 'safety' as const, check: trace => !trace.states.includes('error') },
+  reachabilityProperties: [
+    { id: 'unregistered_reachable', statement: 'Can return to unregistered', mustReach: ['unregistered'] },
+    { id: 'error_not_reachable', statement: 'Error state not reachable', mustNotReach: ['error'] },
   ],
 };
 
 export const previewCommitRollbackProtocol: ProtocolSpec = {
-  name: 'preview_commit_rollback',
+  id: 'preview_commit_rollback',
+  name: 'Preview/Commit/Rollback',
   description: 'Transaction lifecycle — no double commit',
-  initialVars: { stage: 'idle', applied: false, rolledBack: false },
-  states: [
-    { id: 'idle', label: 'Idle', isAccepting: true, isError: false },
-    { id: 'previewing', label: 'Previewing', isAccepting: false, isError: false },
-    { id: 'committed', label: 'Committed', isAccepting: true, isError: false },
-    { id: 'rolled_back', label: 'Rolled Back', isAccepting: true, isError: false },
-    { id: 'double_commit', label: 'Double Commit', isAccepting: false, isError: true },
-  ],
   initial: 'idle',
+  states: [
+    { id: 'idle', label: 'Idle', accepting: true },
+    { id: 'previewing', label: 'Previewing', accepting: false },
+    { id: 'committed', label: 'Committed', accepting: true },
+    { id: 'rolled_back', label: 'Rolled Back', accepting: true },
+    { id: 'double_commit', label: 'Double Commit', accepting: false, meta: { error: 'true' } },
+  ],
   transitions: [
-    { from: 'idle', to: 'previewing', label: 'begin', effect: v => ({ ...v, stage: 'preview' }) },
-    { from: 'previewing', to: 'committed', label: 'commit', effect: v => ({ ...v, stage: 'committed', applied: true }) },
-    { from: 'previewing', to: 'rolled_back', label: 'rollback', effect: v => ({ ...v, stage: 'rolled_back', rolledBack: true }) },
-    { from: 'committed', to: 'rolled_back', label: 'undo', effect: v => ({ ...v, applied: false, rolledBack: true }) },
-    { from: 'committed', to: 'double_commit', label: 'BAD', guard: v => v.applied === true },
-    { from: 'rolled_back', to: 'double_commit', label: 'BAD', guard: v => v.rolledBack === true },
+    { from: 'idle', to: 'previewing', event: 'begin' },
+    { from: 'previewing', to: 'committed', event: 'commit' },
+    { from: 'previewing', to: 'rolled_back', event: 'rollback' },
+    { from: 'committed', to: 'rolled_back', event: 'undo' },
+    { from: 'committed', to: 'double_commit', event: 'FORBIDDEN_second_commit' },
+    { from: 'rolled_back', to: 'double_commit', event: 'FORBIDDEN_commit_after_rollback' },
   ],
   invariants: [
-    { label: 'not_both', predicate: v => !(v.applied === true && v.rolledBack === true) },
+    { id: 'error_not_accepting', statement: 'Double commit is not accepting', predicate: s => !(s.meta?.error === 'true' && s.accepting) },
   ],
-  properties: [
-    { label: 'no_double_commit', kind: 'safety' as const, check: trace => !trace.states.includes('double_commit') },
+  reachabilityProperties: [
+    { id: 'committed_reachable', statement: 'Committed is reachable', mustReach: ['committed'] },
+    { id: 'double_commit_not_reachable', statement: 'Double commit not reachable', mustNotReach: ['double_commit'] },
   ],
 };
 
 export const snapshotForkProtocol: ProtocolSpec = {
-  name: 'snapshot_fork',
+  id: 'snapshot_fork',
+  name: 'Snapshot Fork',
   description: 'Branch isolation — forks cannot corrupt parent',
-  initialVars: { parentTxCount: 0, forkTxCount: 0, forkMerged: false },
-  states: [
-    { id: 'parent_only', label: 'Parent Only', isAccepting: true, isError: false },
-    { id: 'forked', label: 'Forked', isAccepting: false, isError: false },
-    { id: 'merged', label: 'Merged', isAccepting: true, isError: false },
-    { id: 'discarded', label: 'Discarded', isAccepting: true, isError: false },
-    { id: 'corrupted', label: 'Corrupted', isAccepting: false, isError: true },
-  ],
   initial: 'parent_only',
+  states: [
+    { id: 'parent_only', label: 'Parent Only', accepting: true },
+    { id: 'forked', label: 'Forked', accepting: false },
+    { id: 'merged', label: 'Merged', accepting: true },
+    { id: 'discarded', label: 'Discarded', accepting: true },
+    { id: 'corrupted', label: 'Corrupted', accepting: false, meta: { error: 'true' } },
+  ],
   transitions: [
-    { from: 'parent_only', to: 'forked', label: 'fork', effect: v => ({ ...v, forkTxCount: 0 }) },
-    { from: 'forked', to: 'forked', label: 'fork_edit', effect: v => ({ ...v, forkTxCount: (v.forkTxCount as number) + 1 }) },
-    { from: 'forked', to: 'merged', label: 'merge', effect: v => ({ ...v, parentTxCount: (v.parentTxCount as number) + (v.forkTxCount as number), forkMerged: true }) },
-    { from: 'forked', to: 'discarded', label: 'discard', effect: v => ({ ...v, forkTxCount: 0 }) },
-    { from: 'forked', to: 'corrupted', label: 'BAD', guard: v => v.forkMerged === false, effect: v => ({ ...v, parentTxCount: (v.parentTxCount as number) + 999 }) },
+    { from: 'parent_only', to: 'forked', event: 'fork' },
+    { from: 'forked', to: 'forked', event: 'fork_edit' },
+    { from: 'forked', to: 'merged', event: 'merge' },
+    { from: 'forked', to: 'discarded', event: 'discard' },
+    { from: 'forked', to: 'corrupted', event: 'FORBIDDEN_direct_parent_edit' },
   ],
   invariants: [
-    { label: 'parent_untouched', predicate: v => !(v.forkMerged === false && (v.parentTxCount as number) > 0 && (v.forkTxCount as number) > 0) },
+    { id: 'error_not_accepting', statement: 'Corrupted is not accepting', predicate: s => !(s.meta?.error === 'true' && s.accepting) },
   ],
-  properties: [
-    { label: 'never_corrupted', kind: 'safety' as const, check: trace => !trace.states.includes('corrupted') },
+  reachabilityProperties: [
+    { id: 'merged_reachable', statement: 'Merged is reachable', mustReach: ['merged'] },
+    { id: 'corrupted_not_reachable', statement: 'Corrupted not reachable', mustNotReach: ['corrupted'] },
   ],
 };
 
 export const pluginLifecycleProtocol: ProtocolSpec = {
-  name: 'plugin_lifecycle',
+  id: 'plugin_lifecycle',
+  name: 'Plugin Lifecycle',
   description: 'Plugin load/unload — cannot unload with dependents',
-  initialVars: { loaded: false, dependents: 0 },
-  states: [
-    { id: 'unloaded', label: 'Unloaded', isAccepting: true, isError: false },
-    { id: 'loaded', label: 'Loaded', isAccepting: true, isError: false },
-    { id: 'error', label: 'Error', isAccepting: false, isError: true },
-  ],
   initial: 'unloaded',
+  states: [
+    { id: 'unloaded', label: 'Unloaded', accepting: true },
+    { id: 'loaded', label: 'Loaded', accepting: true },
+    { id: 'error', label: 'Error', accepting: false, meta: { error: 'true' } },
+  ],
   transitions: [
-    { from: 'unloaded', to: 'loaded', label: 'load', effect: v => ({ ...v, loaded: true, dependents: 0 }) },
-    { from: 'loaded', to: 'loaded', label: 'dep_add', effect: v => ({ ...v, dependents: (v.dependents as number) + 1 }) },
-    { from: 'loaded', to: 'loaded', label: 'dep_remove', guard: v => (v.dependents as number) > 0, effect: v => ({ ...v, dependents: (v.dependents as number) - 1 }) },
-    { from: 'loaded', to: 'unloaded', label: 'unload', guard: v => (v.dependents as number) === 0, effect: v => ({ ...v, loaded: false }) },
-    { from: 'loaded', to: 'error', label: 'BAD', guard: v => (v.dependents as number) > 0 },
+    { from: 'unloaded', to: 'loaded', event: 'load' },
+    { from: 'loaded', to: 'unloaded', event: 'unload' },
+    { from: 'loaded', to: 'error', event: 'FORBIDDEN_unload_with_deps' },
   ],
   invariants: [
-    { label: 'no_unload_with_deps', predicate: v => v.loaded === true || (v.dependents as number) === 0 },
+    { id: 'error_not_accepting', statement: 'Error is not accepting', predicate: s => !(s.meta?.error === 'true' && s.accepting) },
   ],
-  properties: [
-    { label: 'never_error', kind: 'safety' as const, check: trace => !trace.states.includes('error') },
+  reachabilityProperties: [
+    { id: 'loaded_reachable', statement: 'Loaded is reachable', mustReach: ['loaded'] },
+    { id: 'error_not_reachable', statement: 'Error not reachable', mustNotReach: ['error'] },
   ],
 };
 
 export const terrainAtomicityProtocol: ProtocolSpec = {
-  name: 'terrain_atomicity',
+  id: 'terrain_atomicity',
+  name: 'Terrain Atomicity',
   description: 'Render and collision meshes must update atomically',
-  initialVars: { renderRev: 0, collisionRev: 0, updating: false },
-  states: [
-    { id: 'consistent', label: 'Consistent', isAccepting: true, isError: false },
-    { id: 'render_updated', label: 'Render Only', isAccepting: false, isError: false },
-    { id: 'collision_updated', label: 'Collision Only', isAccepting: false, isError: false },
-    { id: 'torn', label: 'Torn', isAccepting: false, isError: true },
-  ],
   initial: 'consistent',
+  states: [
+    { id: 'consistent', label: 'Consistent', accepting: true },
+    { id: 'render_updated', label: 'Render Only', accepting: false },
+    { id: 'collision_updated', label: 'Collision Only', accepting: false },
+    { id: 'torn', label: 'Torn', accepting: false, meta: { error: 'true' } },
+  ],
   transitions: [
-    { from: 'consistent', to: 'render_updated', label: 'upd_render', effect: v => ({ ...v, renderRev: (v.renderRev as number) + 1, updating: true }) },
-    { from: 'render_updated', to: 'consistent', label: 'upd_collision', effect: v => ({ ...v, collisionRev: (v.collisionRev as number) + 1, updating: false }) },
-    { from: 'consistent', to: 'collision_updated', label: 'upd_collision_first', effect: v => ({ ...v, collisionRev: (v.collisionRev as number) + 1, updating: true }) },
-    { from: 'collision_updated', to: 'consistent', label: 'upd_render_after', effect: v => ({ ...v, renderRev: (v.renderRev as number) + 1, updating: false }) },
-    { from: 'render_updated', to: 'torn', label: 'BAD', guard: v => v.updating === true },
-    { from: 'collision_updated', to: 'torn', label: 'BAD', guard: v => v.updating === true },
+    { from: 'consistent', to: 'render_updated', event: 'update_render' },
+    { from: 'render_updated', to: 'consistent', event: 'update_collision' },
+    { from: 'consistent', to: 'collision_updated', event: 'update_collision_first' },
+    { from: 'collision_updated', to: 'consistent', event: 'update_render_after' },
+    { from: 'render_updated', to: 'torn', event: 'FORBIDDEN_read_before_collision' },
+    { from: 'collision_updated', to: 'torn', event: 'FORBIDDEN_read_before_render' },
   ],
   invariants: [
-    { label: 'revs_match_when_idle', predicate: v => v.updating === false ? (v.renderRev as number) === (v.collisionRev as number) : true },
+    { id: 'error_not_accepting', statement: 'Torn is not accepting', predicate: s => !(s.meta?.error === 'true' && s.accepting) },
   ],
-  properties: [
-    { label: 'never_torn', kind: 'safety' as const, check: trace => !trace.states.includes('torn') },
+  reachabilityProperties: [
+    { id: 'consistent_reachable', statement: 'Can return to consistent', mustReach: ['consistent'] },
+    { id: 'torn_not_reachable', statement: 'Torn not reachable', mustNotReach: ['torn'] },
   ],
 };
 

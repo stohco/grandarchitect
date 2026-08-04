@@ -2,11 +2,17 @@
  * POST /api/architect/interpret
  *
  * Interpret a free-text request from the architect chat. When the
- * z-ai-web-dev-sdk is reachable we use it to draft a response; otherwise we
+ * z-ai-web-dev-sdk is reachable we use it to draft a reply; otherwise we
  * fall back to a deterministic canned reply so the editor UI never blocks.
  *
- * Body: { message: string, context?: { seed: string, tick: number, selectedEntityIds: number[] } }
- * Returns: { reply: string, toolsUsed: string[], intent: string }
+ * In addition to the chat reply, this route now also runs the RCVC
+ * hypothesis engine and returns three scored hypotheses plus the
+ * clarifications that the weakest-sufficient hypothesis would ask. The
+ * ReasoningPanel renders these; the ArchitectPanel still uses only
+ * { reply, toolsUsed, intent }.
+ *
+ * Body: { request?: string, message?: string, context?: { seed: string, tick: number, selectedEntityIds: number[] } }
+ * Returns: { reply, toolsUsed, intent, hypotheses, clarifications, selectedHypothesisId }
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -14,8 +20,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+import { createHypothesisEngine } from '@/engine/architect/rcvc/reasoning/hypothesis';
+import { selectWeakestSufficient } from '@/engine/architect/rcvc/reasoning/scoring';
+import { createClarificationGenerator } from '@/engine/architect/rcvc/reasoning/clarification';
+
 interface InterpretBody {
-  message: string;
+  request?: string;
+  message?: string;
   context?: { seed?: string; tick?: number; selectedEntityIds?: number[] };
 }
 
@@ -93,17 +104,37 @@ function cannedReply(message: string): { reply: string; toolsUsed: string[]; int
 
 export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => ({}))) as InterpretBody;
-  const message = (body.message ?? '').toString().slice(0, 2000);
+  // Accept either `request` (ReasoningPanel) or `message` (ArchitectPanel).
+  const message = ((body.request ?? body.message) ?? '').toString().slice(0, 2000);
+
+  // --- Hypothesis engine: always run, deterministic, no SDK needed. ---
+  const engine = createHypothesisEngine();
+  const requestId = `req-${Date.now().toString(36)}`;
+  const hypotheses = engine.interpret(requestId, message);
+  const selected = selectWeakestSufficient(hypotheses);
+  // Generate clarifications for every hypothesis so the UI can show them
+  // whichever the user clicks. Keyed by hypothesis id.
+  const clarificationGen = createClarificationGenerator();
+  const clarificationsByHypothesis = hypotheses.map((h) => ({
+    hypothesisId: h.id,
+    questions: clarificationGen.forHypothesis(h),
+  }));
+  // The default clarifications are the selected (weakest-sufficient) one's.
+  const clarifications = selected
+    ? clarificationGen.forHypothesis(selected)
+    : [];
 
   const sdkReply = await trySdkReply(message);
-  if (sdkReply) {
-    const canned = cannedReply(message);
-    return NextResponse.json({
-      reply: sdkReply,
-      toolsUsed: canned.toolsUsed,
-      intent: canned.intent,
-    });
-  }
   const canned = cannedReply(message);
-  return NextResponse.json(canned, { headers: { 'Cache-Control': 'no-store' } });
+  const reply = sdkReply ?? canned.reply;
+
+  return NextResponse.json({
+    reply,
+    toolsUsed: canned.toolsUsed,
+    intent: canned.intent,
+    hypotheses,
+    clarifications,
+    clarificationsByHypothesis,
+    selectedHypothesisId: selected?.id ?? null,
+  }, { headers: { 'Cache-Control': 'no-store' } });
 }
