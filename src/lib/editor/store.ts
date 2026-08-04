@@ -99,6 +99,11 @@ export interface EditorStore {
   consoleFilter: LogLevel | 'all';
   activeBottomTab: string;
 
+  // ---- Architect Presence ----
+  presenceOpen: boolean;
+  presenceStatus: 'observing' | 'analyzing' | 'ready' | 'acting';
+  presenceMood: string;
+
   // ---- selection ----
   selectedEntityIds: number[];
   hoveredEntityId: number | null;
@@ -149,6 +154,11 @@ export interface EditorStore {
   setConsoleFilter: (f: LogLevel | 'all') => void;
   setActiveBottomTab: (t: string) => void;
   setEditorMode: (m: EditorMode) => void;
+
+  // ---- Architect Presence actions ----
+  setPresenceOpen: (open: boolean) => void;
+  togglePresence: () => void;
+  setPresenceStatus: (s: 'observing' | 'analyzing' | 'ready' | 'acting', mood?: string) => void;
 
   selectEntity: (id: number | null) => void;
   addToSelection: (id: number) => void;
@@ -227,6 +237,11 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   outlinerGrouping: 'kind',
   consoleFilter: 'all',
   activeBottomTab: 'console',
+
+  // ---- Architect Presence ----
+  presenceOpen: false,
+  presenceStatus: 'observing',
+  presenceMood: 'I am watching 王灣村.',
 
   // ---- selection ----
   selectedEntityIds: [],
@@ -386,6 +401,11 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   setConsoleFilter: (f) => set({ consoleFilter: f }),
   setActiveBottomTab: (t) => set({ activeBottomTab: t }),
   setEditorMode: (m) => set({ editorMode: m }),
+
+  // ---- Architect Presence ----
+  setPresenceOpen: (open) => set({ presenceOpen: open }),
+  togglePresence: () => set((s) => ({ presenceOpen: !s.presenceOpen })),
+  setPresenceStatus: (status, mood) => set((s) => ({ presenceStatus: status, presenceMood: mood ?? s.presenceMood })),
 
   selectEntity: (id) => set({ selectedEntityIds: id === null ? [] : [id] }),
   addToSelection: (id) =>

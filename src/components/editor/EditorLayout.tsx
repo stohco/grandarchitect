@@ -41,6 +41,10 @@ import ReasoningPanel from '@/components/editor/panels/ReasoningPanel';
 import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
 import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
 import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
+import ConformancePanel from '@/components/editor/panels/ConformancePanel';
+import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
+import EnginePanel from '@/components/editor/panels/EnginePanel';
+import ArchitectPresence from '@/components/editor/ArchitectPresence';
 import EditorToolbar from '@/components/editor/toolbar/EditorToolbar';
 import WorldGenBar from '@/components/editor/toolbar/WorldGenBar';
 
@@ -97,14 +101,25 @@ const BOTTOM_TABS = [
   { value: 'assets', label: 'Assets' },
   { value: 'simulation', label: 'Simulation' },
   { value: 'history', label: 'History' },
+  { value: 'conformance', label: 'Conformance' },
+  { value: 'capabilities', label: 'Capabilities' },
+  { value: 'engine', label: 'Engine' },
   { value: 'reasoning', label: 'Reasoning' },
   { value: 'constraints', label: 'Constraints' },
   { value: 'complexity', label: 'Complexity' },
   { value: 'benchmarks', label: 'Benchmarks' },
 ] as const;
 
-/** Tabs that benefit from a slightly taller dock (RCVC panels render dense content). */
-const TALL_TABS = new Set(['reasoning', 'constraints', 'complexity', 'benchmarks']);
+/** Tabs that benefit from a slightly taller dock (dense content panels). */
+const TALL_TABS = new Set([
+  'reasoning',
+  'constraints',
+  'complexity',
+  'benchmarks',
+  'conformance',
+  'capabilities',
+  'engine',
+]);
 
 function HistoryPanel() {
   const transactions = useEditorStore((s) => s.transactions);
@@ -181,6 +196,9 @@ function BottomDock() {
         {activeTab === 'assets' && <AssetBrowserPanel />}
         {activeTab === 'simulation' && <SimulationPanel />}
         {activeTab === 'history' && <HistoryPanel />}
+        {activeTab === 'conformance' && <ConformancePanel />}
+        {activeTab === 'capabilities' && <CapabilitiesPanel />}
+        {activeTab === 'engine' && <EnginePanel />}
         {activeTab === 'reasoning' && <ReasoningPanel />}
         {activeTab === 'constraints' && <ConstraintsPanel />}
         {activeTab === 'complexity' && <ComplexityPanel />}
@@ -239,6 +257,7 @@ export default function EditorLayout() {
                 <div className="relative min-h-0 flex-1">
                   <Viewport3D />
                   <ViewportOverlay />
+                  <ArchitectPresence />
                   {!showOutliner && (
                     <div className="absolute left-2 top-2 z-20">
                       <Tooltip>

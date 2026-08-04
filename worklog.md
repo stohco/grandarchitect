@@ -615,3 +615,50 @@ Stage Summary:
 - Weakest-sufficient interpretation principle fully implemented: hypotheses score by specificity (lower=weaker=better), the engine prefers least-committal interpretations, preserves unresolved variables, and asks clarifications only for consequential choices.
 - Proof objects retain full justification trees, solver traces, and validation evidence for every Architect operation.
 - Complexity observatory measures compressibility, entropy, diversity, persistence, causal chains, recurrence/novelty, and light-cone mutual information — used as diagnostics, not optimization targets.
+
+---
+Task ID: 3
+Agent: full-stack-developer (control-plane panels)
+Task: Build Conformance, Capabilities, Engine dock panels
+
+Work Log:
+- Read /home/z/my-project/worklog.md (last 80 lines) for context, then read EditorLayout.tsx, dashboard-data.ts, and the POST /api/engine/run-tests route to learn the data shapes and response contract.
+- Studied BenchmarksPanel.tsx and ComplexityPanel.tsx as style/structure references for the existing dark-navy dock panels.
+- Created `src/components/editor/panels/ConformancePanel.tsx` (~280 lines):
+  - `'use client'`, fetches `/api/engine/run-tests` via relative path, auto-runs on mount.
+  - "Run All Suites" emerald button with Loader2 spinner; while loading shows "Running N suites…".
+  - Summary banner: emerald (all pass) / rose (failures) with ShieldCheck or AlertTriangle icon, total passed/failed in font-mono, total duration + ran-at time.
+  - 7-row table: expand chevron | name+path | expected | passed (emerald) | failed (rose if >0) | duration (amber) | PASS/FAIL badge.
+  - Clicking a row expands to show the runner `tail` output in a `pre` font-mono block with max-h-40 scroll.
+  - Error state (rose border), loading state, empty state all handled.
+- Created `src/components/editor/panels/CapabilitiesPanel.tsx` (~280 lines):
+  - Imports PLUGINS (15) and ARCHITECT_ROLES (8) from dashboard-data.
+  - Header shows total plugin count (Cpu icon) + total capability count (Boxes icon).
+  - Category filter buttons (All/Determinism/Reference/Simulation) + Search input (filters by plugin id or capability name).
+  - Plugin cards grid (1/2/3 cols responsive): id (font-mono), version, dependency count (GitBranch), LOC, category badge (emerald/purple/amber), capability chips.
+  - Architect Roles in a Collapsible section at the bottom: role name, L0-L6 autonomy badge (purple), description, hard-gated actions as rose chips with Lock icon.
+- Created `src/components/editor/panels/EnginePanel.tsx` (~230 lines):
+  - Imports PHASES, TOTAL_TESTS, SAFETY_RAILS, AUTONOMY_LEVELS.
+  - Top: 3-tile grid — TOTAL TESTS (emerald, large font-mono), Phases Done X/8, Pending count (amber).
+  - Phases section: vertical timeline. Each row has a node (emerald check for DONE, amber Circle for PENDING), P# label, name, status badge, test count badge (FlaskConical), exit criteria, artifact chips. Pending phases dimmed (opacity-60).
+  - Safety Rails section: scrollable max-h-40 list with ShieldCheck icon, numbered (01-10), in font-mono small text.
+  - Autonomy Levels: 7-column compact horizontal ladder, each tile shows L0-L6 (emerald) + name (truncated), with title tooltip for description.
+- Modified `src/components/editor/EditorLayout.tsx`:
+  - Added 3 imports (ConformancePanel, CapabilitiesPanel, EnginePanel).
+  - Inserted 3 new BOTTOM_TABS entries ({conformance}, {capabilities}, {engine}) AFTER 'history' and BEFORE 'reasoning'.
+  - Extended TALL_TABS set with the 3 new values (they render dense content → dock expands to h-56).
+  - Added 3 conditional renders in BottomDock.
+- Verified store contract: `activeBottomTab: string` and `setActiveBottomTab: (t: string) => void` accept the new tab values with no type changes required.
+- Lint: `bun run lint` → 0 errors, 0 warnings.
+- TypeScript: `npx tsc --noEmit --skipLibCheck` → no errors in ConformancePanel, CapabilitiesPanel, EnginePanel, or EditorLayout.
+- Dev server log: clean compiles, no errors after the edits.
+- All panels use relative fetch paths, 'use client', handle loading + error states, strict TS, no console.log, no indigo/blue colors (only emerald/amber/rose/purple accents).
+
+Stage Summary:
+- 3 new bottom-dock panels delivered: ConformancePanel, CapabilitiesPanel, EnginePanel — absorbing the old standalone Grand Architect Control Plane dashboard into the editor.
+- Bottom dock now has 12 tabs total (was 9): Console, Architect, Assets, Simulation, History, Conformance, Capabilities, Engine, Reasoning, Constraints, Complexity, Benchmarks.
+- All 3 new tabs are registered in TALL_TABS so the dock auto-expands from 192px to 224px when active.
+- ConformancePanel: runs the 7 conformance suites via POST /api/engine/run-tests, auto-runs on mount, expandable rows show runner tail output, summary banner with overall verdict.
+- CapabilitiesPanel: 15 plugins grouped by category with search + filter, capability chips, plus a collapsible Architect Roles section showing all 8 roles with autonomy badges and hard-gated actions.
+- EnginePanel: TOTAL TESTS stat + done/pending phase counts, 8-step vertical timeline (DONE=emerald check, PENDING=amber dim), 10 Safety Rails in a scrollable list with shield icons, 7-column L0-L6 autonomy ladder.
+- Engine code, API routes, and editor store contract all untouched. Lint clean. TypeScript clean on new files.

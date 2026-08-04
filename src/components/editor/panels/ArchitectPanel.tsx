@@ -6,7 +6,7 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { Sparkles, Send, User, Bot, Loader2, Wand2, Zap, BookOpen, Leaf } from 'lucide-react';
+import { Sparkles, Send, User, Loader2, Zap, BookOpen, Leaf, Command } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -17,38 +17,15 @@ interface ChatMessage {
   id: string;
   role: 'user' | 'architect';
   content: string;
-}
-
-function generateResponse(message: string): string {
-  const lower = message.toLowerCase();
-  if (lower.includes('generate') && lower.includes('village')) {
-    return 'I can generate a new village for you. Please provide a seed string in the World Seed bar above, or describe the kind of village you envision (e.g., "a riverside fishing hamlet with 8 households").';
-  }
-  if (lower.includes('spirit vein')) {
-    return 'Spirit veins (灵脉) are geomantic energy channels that flow beneath the settlement. They influence cultivation potential, feng shui quality, and shrine placement. I can analyze the current ley line configuration and suggest optimal spirit vein alignments for your village.';
-  }
-  if (lower.includes('describe') || lower.includes('village')) {
-    return 'This settlement features traditional Chinese village architecture organized around a central lineage hall. The spatial layout follows feng shui principles with mountains to the north (backing) and water to the south (facing). Key structures include household compounds, spirit shrines, rice paddies, and communal threshing grounds.';
-  }
-  if (lower.includes('ecology') || lower.includes('ecological')) {
-    return 'Ecology analysis: The rice paddies cover significant acreage and depend on local hydrology. Spirit shrines are positioned at geomantic convergence points. The population density suggests moderate resource pressure. Soil quality varies between paddies (irrigated) and dryland gardens (rain-fed).';
-  }
-  if (lower.includes('add') || lower.includes('create') || lower.includes('build')) {
-    return 'I understand you want to add a new structure. In Live Architect mode, I can propose additions that respect the settlement\'s spatial logic, feng shui constraints, and cultural norms. Please specify the type of structure and any placement preferences.';
-  }
-  if (lower.includes('weather') || lower.includes('season')) {
-    return 'The weather system models seasonal patterns. Spring brings planting rains, summer heat drives rice growth, autumn brings harvest winds, and winter provides a dormant period. I can adjust the weather simulation parameters if needed.';
-  }
-  if (lower.includes('economy') || lower.includes('trade') || lower.includes('wealth')) {
-    return 'The village economy operates on a household-based model. Rice is the primary crop, supplemented by dryland vegetables, livestock (pigs and chickens), and mill processing. Wealth tiers range from rich landlord families to destitute laborers.';
-  }
-  return 'I\'m the Grand Architect, your AI design partner for this living world. I can help with village generation, structure placement, ecological analysis, economic modeling, and cultural authenticity. Try asking about the village, its ecology, or requesting modifications.';
+  kind?: 'interpretation' | 'lore' | 'text';
+  meta?: { hypotheses?: number; clarifications?: number; loreMatches?: number };
 }
 
 let msgCounter = 0;
 
 export default function ArchitectPanel() {
   const capabilities = useEditorStore((s) => s.capabilities);
+  const setPresenceOpen = useEditorStore((s) => s.setPresenceOpen);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -61,36 +38,84 @@ export default function ArchitectPanel() {
     }
   }, [messages.length, typing]);
 
-  const send = (text: string) => {
+  const send = async (text: string) => {
     if (!text.trim() || typing) return;
     const userMsg: ChatMessage = { id: `msg-${++msgCounter}`, role: 'user', content: text.trim() };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setTyping(true);
-    const delay = 600 + (Date.now() % 800);
-    setTimeout(() => {
-      const response = generateResponse(text);
-      const archMsg: ChatMessage = { id: `msg-${++msgCounter}`, role: 'architect', content: response };
+
+    try {
+      const lower = text.toLowerCase();
+      let archMsg: ChatMessage;
+
+      if (lower.includes('lore') || lower.includes('bible') || lower.includes('spirit vein') || lower.includes('cultivation realm')) {
+        // Lore search
+        const term = text.replace(/^lore\s*:?\s*/i, '').replace(/bible|corpus|search|about|tell me about|what is/gi, '').trim() || 'spirit vein';
+        const res = await fetch(`/api/architect/lore?q=${encodeURIComponent(term)}`);
+        const data = await res.json();
+        const matches = data.matches ?? [];
+        archMsg = {
+          id: `msg-${++msgCounter}`,
+          role: 'architect',
+          kind: 'lore',
+          content: `I searched the frozen bible for "${term}" — ${matches.length} passages found.\n\n${matches.slice(0, 3).map((m: { title: string; filename: string; excerpt: string }) => `▸ ${m.title} (${m.filename})\n${m.excerpt.slice(0, 180)}…`).join('\n\n')}`,
+          meta: { loreMatches: matches.length },
+        };
+      } else {
+        // RCVC interpretation
+        const res = await fetch('/api/architect/interpret', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ request: text }),
+        });
+        const data = await res.json();
+        const weakest = data.weakest;
+        const clarifications = data.clarifications ?? [];
+        archMsg = {
+          id: `msg-${++msgCounter}`,
+          role: 'architect',
+          kind: 'interpretation',
+          content: weakest
+            ? `${weakest.interpretation.replace(/\n/g, ' ')}\nSpecificity ${Math.round(weakest.specificityScore * 100)}% · Confidence ${Math.round(weakest.confidence * 100)}%.${clarifications.length > 0 ? `\n${clarifications.length} clarification(s) pending — I will not guess more than the evidence supports.` : ''}`
+            : 'I could not form a sufficient interpretation. Could you rephrase?',
+          meta: { hypotheses: data.count, clarifications: clarifications.length },
+        };
+      }
       setMessages((prev) => [...prev, archMsg]);
+    } catch (err) {
+      setMessages((prev) => [...prev, {
+        id: `msg-${++msgCounter}`,
+        role: 'architect',
+        content: `A disturbance interrupted my reasoning: ${err instanceof Error ? err.message : 'unknown'}.`,
+      }]);
+    } finally {
       setTyping(false);
-    }, delay);
+    }
   };
 
   const quickActions = [
-    { label: 'Generate village', icon: Wand2, prompt: 'Generate a new village with interesting terrain' },
-    { label: 'Add spirit vein', icon: Zap, prompt: 'Analyze and suggest spirit vein placement' },
-    { label: 'Describe village', icon: BookOpen, prompt: 'Describe this village in detail' },
-    { label: 'Show ecology', icon: Leaf, prompt: 'Show ecology stats for this settlement' },
+    { label: 'Make sacred', icon: Zap, prompt: 'make this valley feel sacred' },
+    { label: 'Describe', icon: BookOpen, prompt: 'describe the current settlement' },
+    { label: 'Spirit veins', icon: BookOpen, prompt: 'lore: spirit veins' },
+    { label: 'Ecology', icon: Leaf, prompt: 'lore: ecology and qi' },
   ];
 
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-2 border-b border-[#2a2a4a] px-3 py-1.5">
-        <Sparkles className="h-3.5 w-3.5 text-purple-400" />
+        <div className="relative flex h-4 w-4 items-center justify-center">
+          <div className="absolute inset-0 rounded-full bg-purple-500/30 animate-ping opacity-60" />
+          <Sparkles className="relative h-3.5 w-3.5 text-purple-400" />
+        </div>
         <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Grand Architect</span>
+        <Badge variant="outline" className="h-4 border-emerald-500/30 bg-emerald-500/10 text-[9px] text-emerald-300">PRESENT</Badge>
         {capabilities.length > 0 && (
-          <Badge variant="outline" className="h-4 border-[#2a2a4a] bg-[#1a1a2e] text-[9px] text-purple-300">{capabilities.length} capabilities</Badge>
+          <Badge variant="outline" className="h-4 border-[#2a2a4a] bg-[#1a1a2e] text-[9px] text-purple-300">{capabilities.length} caps</Badge>
         )}
+        <Button variant="ghost" size="sm" className="ml-auto h-5 gap-1 px-1.5 text-[9px] text-[#5a5a7a] hover:text-purple-300" onClick={() => setPresenceOpen(true)}>
+          <Command className="h-2.5 w-2.5" />K
+        </Button>
       </div>
 
       <div className="flex items-center gap-1 border-b border-[#2a2a4a] px-2 py-1.5">
@@ -107,26 +132,44 @@ export default function ArchitectPanel() {
       <ScrollArea ref={scrollRef} className="flex-1">
         <div className="space-y-3 p-3">
           {messages.length === 0 && !typing && (
-            <div className="py-6 text-center text-[11px] text-[#5a5a7a]">Ask the Grand Architect about your world.<br />Use the quick actions above or type a message below.</div>
+            <div className="py-6 text-center text-[11px] text-[#5a5a7a]">
+              The Grand Architect is present and watching.<br />
+              <span className="text-[10px]">Speak, or press <kbd className="rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1 font-mono text-[9px]">⌘K</kbd> for the full command palette.</span>
+            </div>
           )}
           {messages.map((msg) => (
             <div key={msg.id} className={`flex gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${msg.role === 'user' ? 'bg-blue-500/20 text-blue-400' : 'bg-purple-500/20 text-purple-400'}`}>
-                {msg.role === 'user' ? <User className="h-3 w-3" /> : <Bot className="h-3 w-3" />}
+                {msg.role === 'user' ? <User className="h-3 w-3" /> : <Sparkles className="h-3 w-3" />}
               </div>
-              <div className={`max-w-[80%] rounded-lg px-3 py-1.5 text-[11px] leading-relaxed ${msg.role === 'user' ? 'bg-blue-500/10 text-blue-200' : 'bg-[#1e1e3e] text-[#c8c8e0]'}`}>
-                {msg.content}
+              <div className={`max-w-[80%] rounded-lg px-3 py-1.5 text-[11px] leading-relaxed ${
+                msg.role === 'user'
+                  ? 'bg-blue-500/10 text-blue-200'
+                  : msg.kind === 'interpretation'
+                    ? 'border-l-2 border-purple-500/50 bg-purple-500/5 text-[#c8c8e0]'
+                    : msg.kind === 'lore'
+                      ? 'border-l-2 border-emerald-500/50 bg-emerald-500/5 text-[#c8c8e0]'
+                      : 'bg-[#1e1e3e] text-[#c8c8e0]'
+              }`}>
+                <p className="whitespace-pre-wrap">{msg.content}</p>
+                {msg.meta && (msg.meta.hypotheses || msg.meta.clarifications || msg.meta.loreMatches) && (
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {msg.meta.hypotheses !== undefined && <span className="rounded bg-purple-500/10 px-1 text-[9px] text-purple-300">{msg.meta.hypotheses} hyp</span>}
+                    {msg.meta.clarifications !== undefined && msg.meta.clarifications > 0 && <span className="rounded bg-amber-500/10 px-1 text-[9px] text-amber-300">{msg.meta.clarifications} clarify</span>}
+                    {msg.meta.loreMatches !== undefined && <span className="rounded bg-emerald-500/10 px-1 text-[9px] text-emerald-300">{msg.meta.loreMatches} lore</span>}
+                  </div>
+                )}
               </div>
             </div>
           ))}
           {typing && (
             <div className="flex gap-2">
               <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-500/20 text-purple-400">
-                <Bot className="h-3 w-3" />
+                <Sparkles className="h-3 w-3" />
               </div>
               <div className="flex items-center gap-1 rounded-lg bg-[#1e1e3e] px-3 py-1.5">
                 <Loader2 className="h-3 w-3 animate-spin text-purple-400" />
-                <span className="text-[11px] text-[#5a5a7a]">Thinking…</span>
+                <span className="text-[11px] text-[#5a5a7a]">The Architect is reasoning…</span>
               </div>
             </div>
           )}
@@ -135,7 +178,7 @@ export default function ArchitectPanel() {
 
       <div className="flex items-center gap-2 border-t border-[#2a2a4a] px-2 py-1.5">
         <Input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') send(input); }}
-          placeholder="Ask the architect…"
+          placeholder="Speak to the Architect… (e.g. 'make this valley feel sacred')"
           className="h-7 flex-1 rounded border-[#2a2a4a] bg-[#1a1a2e] px-2 font-mono text-[11px] text-[#c8c8e0] placeholder:text-[#4a4a6a] focus-visible:ring-purple-500/30 focus-visible:border-purple-500/50" />
         <Button size="icon" className="h-7 w-7 bg-purple-600 text-white hover:bg-purple-500" onClick={() => send(input)} disabled={!input.trim() || typing}>
           <Send className="h-3 w-3" />
