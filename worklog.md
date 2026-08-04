@@ -285,3 +285,47 @@ Stage Summary:
 - Grand Architect control plane dashboard live at / — users can see engine status and run conformance tests in-browser
 - Existing engine-advancement cron (job 306378, agentTurn, 15-min) continues autonomous iteration
 - Phase 6 (content generation) remains the next roadmap item
+
+---
+Task ID: 7
+Agent: Grand Architect (main)
+Task: Phase 7 — Live Architect Studio + Dormant World Runtime (amends baseline per user authorization)
+
+Work Log:
+- User explicitly authorized a new architecture phase: an in-world collaborative editor (Live Architect Studio) and dormant-universe laboratory (Dormant World Runtime). This amends the frozen baseline per AGENTS.md Part 5 §9.
+- Created architecture doc 50 (LIVE_ARCHITECT_STUDIO.md, 250 lines) specifying:
+  - Three editor modes (Play, Live Architect, Isolated Preview)
+  - Semantic visual grounding with confidence levels and provenance chain
+  - Conversational context anchors
+  - Spatial selection system (13 selection shape types, filterable, combinable)
+  - Structured operation plans (request → target → observations → steps → constraints → preview → transaction)
+  - Transactional commands with semantic undo and named branches
+  - Dormant World Runtime: 7 execution states (generation_freeze, dormant_architect, selective_awakening, step_simulation, full_simulation, player_embodiment, temporary_fork)
+  - Capability descriptor registry (plugins declare what they can inspect/select/preview/mutate/generate)
+  - Art-direction conversations, initiative modes (silent/assistant/collaborator/creative_director)
+  - No-shortcut quality doctrine (production/prototype/proxy/approximation/blocked)
+  - Modular editor studios, blueprint-driven assets
+  - Permission and audit integration with existing Grand Architect Control Plane
+- Implemented 7 core modules + 1 conformance test:
+  1. studio/types.ts (250 lines) — foundational type vocabulary
+  2. studio/world-states.ts (200 lines) — execution state machine, domain activation, forks, step simulation
+  3. studio/selection.ts (300 lines) — spatial selection registry, bounds, containment, falloff, filters, combine
+  4. studio/operation-plan.ts (180 lines) — plan builder, validation, executor → transactions
+  5. studio/transactions.ts (250 lines) — branch manager, semantic undo, diff generation, validation
+  6. studio/grounding.ts (230 lines) — grounding index, resolver with confidence levels, context anchors
+  7. studio/capability-descriptors.ts (290 lines) — registry + 5 default descriptors (terrain, ecology, assets, npc, settlement)
+  8. studio/conformance-test.ts (600 lines) — 219 tests across 26 sections
+- Fixed bugs during testing:
+  - Name collision in grounding.ts (confidenceLevel function shadowed by local variable)
+  - Semantic undo test: transactions weren't being added to branch history (added addTransaction method to BranchManager)
+  - Grounding confidence: exact label matches now get 0.85 base (high) vs 0.6 (medium) for substring matches
+- All 3438 total tests pass: 37 kernel + 113 architect + 252 reference + 247 sim + 203 cultivation + 202 combat + 224 quest + 1941 settlement + 219 studio
+- Lint: clean
+- Committed: 265483e
+
+Stage Summary:
+- Phase 7 core layer COMPLETE: Live Architect Studio + Dormant World Runtime foundation implemented
+- 8 modules, 219 conformance tests, 0 regressions
+- The studio provides: world execution state machine, spatial selection, operation plans, transactional commands with semantic undo and branches, visual grounding with confidence, and capability discovery
+- Next: wire the studio into the existing architect gateway (permissions, audit), build the editor UI, implement the first in-world edit pipeline end-to-end
+- No forbidden functions used
