@@ -1269,13 +1269,21 @@ export function createQuestApi(maxCutsPerDay = 1): QuestApi {
     if (newStage === 'first_cut' && updated.intensity > 0.6 && updated.honesty > 0.5) newStage = 'courtship';
     if (newStage === 'courtship' && updated.stability > 0.7 && updated.honesty > 0.7) newStage = 'commitment';
     if (newStage === 'commitment' && updated.stability > 0.9) newStage = 'marriage';
-    if (newStage !== 'ended' && updated.stability < 0.2 && updated.intensity < 0.2) newStage = 'estrangement';
-    if (updated.stability < 0.05) newStage = 'ended';
+    // Demotion ladder: only meaningful for romances that have progressed to
+    // courtship or beyond. Early stages (unmet/acquaintance/tension/first_cut)
+    // naturally have low stability/intensity at startup, so without this guard
+    // every new romance would instantly decay to 'estrangement' then 'ended'.
+    const committedStages = ['courtship', 'commitment', 'marriage'];
+    if (committedStages.includes(newStage) && updated.stability < 0.2 && updated.intensity < 0.2) {
+      newStage = 'estrangement';
+    }
+    if ((newStage === 'estrangement' || committedStages.includes(newStage)) && updated.stability < 0.05) {
+      newStage = 'ended';
+    }
     updated.stage = newStage;
     romances.set(romanceId, updated);
     return true;
-
-
+  }
 
   function getMaxCutsPerDay(): number {
 
