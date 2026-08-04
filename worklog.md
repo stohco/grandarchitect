@@ -662,3 +662,41 @@ Stage Summary:
 - CapabilitiesPanel: 15 plugins grouped by category with search + filter, capability chips, plus a collapsible Architect Roles section showing all 8 roles with autonomy badges and hard-gated actions.
 - EnginePanel: TOTAL TESTS stat + done/pending phase counts, 8-step vertical timeline (DONE=emerald check, PENDING=amber dim), 10 Safety Rails in a scrollable list with shield icons, 7-column L0-L6 autonomy ladder.
 - Engine code, API routes, and editor store contract all untouched. Lint clean. TypeScript clean on new files.
+
+---
+Task ID: UNIFY-PRESENCE
+Agent: main (Z.ai Code)
+Task: Unify the Grand Architect Control Plane into the Live Architect Studio editor (coherence fix). Make the Architect ever-present and omniscient — never dormant — connected to the xianxia bible, capable of everything, summonable at will.
+
+Work Log:
+- User feedback: the Grand Architect Control Plane (old standalone dashboard) and the Live Architect Studio editor should be ONE coherent environment, not two. The Architect should be on standby always, ready/omniscient/omnipotent, connected to the bible so the universe feels intelligently designed.
+- Read current state: page.tsx now renders EditorLayout (good — old dashboard gone from route). But the dock was missing Conformance/Capabilities/Engine content, and the ArchitectPanel used canned responses instead of the RCVC layer + corpus.
+- Dispatched subagent (Task 3) to build 3 control-plane dock panels: ConformancePanel (test runner), CapabilitiesPanel (15 plugins + 8 roles), EnginePanel (8-phase timeline + safety rails + autonomy ladder). All integrated into EditorLayout as new tabs.
+- Built /api/architect/lore — reads the 48-doc frozen bible (corpus-extension/), relevance-ranked search across titles + body + status. Returns matches with excerpts. Tested: "spirit vein" → 30 matches, top results: Holy Lands and Great Sects, Sect Institutions, Ecology and Qi Topology.
+- Added Architect Presence state to editor store: presenceOpen, presenceStatus (observing/analyzing/ready/acting), presenceMood. Actions: setPresenceOpen, togglePresence, setPresenceStatus.
+- Built ArchitectPresence component (the centerpiece):
+  - PresenceOrb: floating bottom-right indicator, pulsing, color-coded by status (emerald=observing, amber=analyzing, purple=ready, rose=acting). Shows entity count + selection count + mood text + ⌘K hint on hover.
+  - CommandPalette: Spotlight-style overlay with 3 modes:
+    - CHAT: free-text → routes to /api/architect/interpret (RCVC weakest-sufficient) or /api/architect/lore (bible search) based on keywords. Shows interpretation with specificity/confidence/reversibility + clarification count. Kind-styled bubbles (purple=interpretation, emerald=lore, amber=action).
+    - ACTIONS: 8 quick-action cards (interpret, describe, bible search, verify protocols, observe complexity, run benchmarks, analyze spirit veins, read ecology) — the Architect's omniscient capability set.
+    - LORE: searchable bible browser with relevance-ranked results.
+  - Cmd+K / Ctrl+K to summon, Esc to dismiss.
+  - Opening observation: "I am here. I see 王灣村 — N structures… Speak, and I will shape it."
+- Enhanced ArchitectPanel (the dock tab): replaced canned responses with real RCVC interpret API + lore API. Added PRESENT badge, pulsing orb icon, Cmd+K hint button, kind-styled message bubbles with hypothesis/clarification/lore-match meta badges.
+- Integrated ArchitectPresence into EditorLayout viewport (renders alongside ViewportOverlay).
+- Verification (agent-browser):
+  - Presence orb renders: "OBSERVING · I am watching 王灣村. · 0 ent"
+  - Click orb → palette opens with CHAT/ACTIONS/LORE modes
+  - Chat "make this valley feel sacred" → RCVC response: "Confirmed: Preserve navigation, Preserve mountain sightline, Do not reduce combat space, Do not alter existing quest assets. Unresolved: Architectural expression, Lighting style, Supernatural intensity, Cultural origin. → Ask before making consequential assumptions. Specificity 0% · Confidence 87% · Reversibility 83%. I have 3 clarifications before I proceed." Orb status → "READY · Awaiting 3 clarifications."
+  - Chat "lore: spirit veins" → bible search: "found passages… ▸ 14 — Ecology and Qi Topology: spirit veins as the qi-topology skeleton…"
+  - Engine tab: 8-phase timeline (Determinism Stack DONE, Kernel DONE, Grand Architect Control Plane DONE, etc.), TOTAL TESTS, safety rails, autonomy ladder
+  - Capabilities tab: 15 plugins with category filters (Determinism/Reference/Simulation), capability search, 8 architect roles collapsible
+  - Conformance tab: "ALL PASS · 1278 passed · 0 failed", 7-suite table (Kernel PASS, Architect PASS, etc.)
+- Lint clean. Dev server healthy on port 3000 (turbopack, 900MB heap). All routes 200.
+
+Stage Summary:
+- COHERENCE FIXED: The Grand Architect Control Plane is now fully absorbed INTO the Live Architect Studio editor. There is ONE unified environment, not two. The editor dock has 12 tabs: Console, Architect, Assets, Simulation, History, Conformance, Capabilities, Engine, Reasoning, Constraints, Complexity, Benchmarks.
+- THE ARCHITECT IS EVER-PRESENT: A floating orb (bottom-right of viewport) shows the Architect watching at all times, with status (observing/analyzing/ready/acting) and mood text. It never goes dormant. Click it or press Cmd+K to summon the command palette.
+- THE ARCHITECT KNOWS THE BIBLE: /api/architect/lore reads the 48-doc frozen xianxia corpus. The Architect can search and quote lore about spirit veins, cultivation realms, ecology, sects, holy lands — making world design feel meticulously lore-aware.
+- THE ARCHITECT IS CAPABLE OF EVERYTHING: The command palette's ACTIONS mode exposes all capabilities (RCVC interpretation, protocol verification, complexity observation, benchmarks, lore search, spirit-vein analysis, ecology reading). Every engine subsystem is one click away.
+- WEAKEST-SUFFICIENT PRINCIPLE LIVE: The Architect does not guess more than the evidence supports. "make this valley feel sacred" → it confirms invariants, leaves 4 variables unresolved, and asks 3 clarifications before acting.
