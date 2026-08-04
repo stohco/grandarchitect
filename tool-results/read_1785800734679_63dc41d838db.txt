@@ -1,0 +1,618 @@
+     1→# 20 — Physics & Character Controllers
+     2→
+     3→**Status:** Engineering specification. The `ga:physics` plugin's public interface, the adapter layer to a swappable WASM solver, the separation of body roles, realm-aware material properties, phase-affinity collisions, and the determinism verification protocol.
+     4→**Date:** 2026-08-03
+     5→
+     6→---
+     7→
+     8→## 0. What this document is
+     9→
+    10→This document specifies the physics **interface** the engine's simulation talks to. It is not the solver. The solver (Jolt WASM, per doc 21; swappable to Box3D WASM when it ships) lives behind an adapter and is replaceable without touching any plugin above. The engine's physics is the interface, the adapter, the determinism wrapper, and the lore integration — exactly as doc 21 §6 committed.
+    11→
+    12→The central decision: **the simulation never holds a Rapier or Jolt rigid-body pointer.** It holds a `PhysicsBodyHandle` (an opaque integer) and reads/writes through the physics plugin's API. This is the simplest implementation that allows the solver to be swapped (Ponytail §5: long-term decisions) without forcing every consumer to be re-typed.
+    13→
+    14→### Precedents cited (AGENTS.md Part 3: "Cite the precedent")
+    15→
+    16→- **Unity's `Rigidbody`/`Collider` separation** — Unity separates the body (the physics thing) from the collider (the shape). We adopt this and extend it to nine roles (§3).
+    17→- **Unreal Engine 5's `UCharacterMovementComponent`** — a kinematic character controller layered on top of the solver, not a rigid body. We adopt this pattern; cultivators are kinematic, not dynamic (§5).
+    18→- **Jolt Physics character controller** — Jolt ships its own kinematic character controller; we use it for the protagonist and NPC movement.
+    19→- **Godot 4 `PhysicsServer3D`** — Godot's server-pattern hides the backend (Bullet, GodotPhysics, Jolt) behind a single interface. Our adapter is the same idea.
+    20→- **Box2D's `b2Filter`** — collision-category bits. Our `CollisionFilter` (§4.4) is the typed analogue.
+    21→
+    22→---
+    23→
+    24→## 1. The PhysicsBodyHandle interface
+    25→
+    26→### 1.1 The handle is opaque
+    27→
+    28→```typescript
+    29→type PhysicsBodyHandle = number & { __brand: 'PhysicsBodyHandle' };
+    30→```
+    31→
+    32→A branded number. The simulation can compare handles for equality, store them in components (`PhysicsBodyRef`, per doc 24 §1.6), and pass them to the physics API. The simulation cannot dereference a handle into a solver object — there is no API for it.
+    33→
+    34→### 1.2 The physics plugin surface
+    35→
+    36→```typescript
+    37→interface PhysicsApi {
+    38→  // Body lifecycle
+    39→  createBody(spec: BodySpec): PhysicsBodyHandle;
+    40→  destroyBody(handle: PhysicsBodyHandle): void;
+    41→  bodyExists(handle: PhysicsBodyHandle): boolean;
+    42→
+    43→  // Sim-component reads (canonical)
+    44→  getTransform(handle: PhysicsBodyHandle): Transform;
+    45→  getLinearVelocity(handle: PhysicsBodyHandle): Vec3;
+    46→  getAngularVelocity(handle: PhysicsBodyHandle): Vec3;
+    47→  isGrounded(handle: PhysicsBodyHandle): boolean;
+    48→  getContacts(handle: PhysicsBodyHandle): ContactInfo[];
+    49→
+    50→  // Sim-component writes (canonical)
+    51→  setTransform(handle: PhysicsBodyHandle, t: Transform): void;  // teleports — use sparingly
+    52→  setLinearVelocity(handle: PhysicsBodyHandle, v: Vec3): void;
+    53→  applyImpulse(handle: PhysicsBodyHandle, impulse: Vec3, point?: Vec3): void;
+    54→  applyForce(handle: PhysicsBodyHandle, force: Vec3, point?: Vec3): void;
+    55→
+    56→  // Shape management — separate roles (§3)
+    57→  setShape(handle: PhysicsBodyHandle, role: ShapeRole, shape: ShapeSpec): void;
+    58→
+    59→  // Queries (do not advance the simulation)
+    60→  raycast(origin: Vec3, dir: Vec3, maxDist: number, filter?: CollisionFilter): RaycastHit | null;
+    61→  shapecast(shape: ShapeSpec, from: Transform, to: Transform, filter?: CollisionFilter): ShapecastHit[];
+    62→  overlap(shape: ShapeSpec, at: Transform, filter?: CollisionFilter): PhysicsBodyHandle[];
+    63→
+    64→  // Determinism (§7)
+    65→  snapshot(): string;            // SHA-256 of CBOR-serialized PhysicsSnapshot
+    66→  verify(expectedHash: string): boolean;
+    67→  exportSnapshot(): Uint8Array;
+    68→  importSnapshot(bytes: Uint8Array): void;
+    69→}
+    70→```
+    71→
+    72→The `PhysicsApi` is exposed through `host.getState('ga:physics').api` and through the WebSocket (doc 22). Reads are cheap; writes go through `host.setState` for determinism auditing.
+    73→
+    74→### 1.3 The body spec
+    75→
+    76→```typescript
+    77→interface BodySpec {
+    78→  motionType: 'static' | 'kinematic' | 'dynamic';
+    79→  initialTransform: Transform;
+    80→  layer: CollisionLayer;              // 32-bit, named groups
+    81→  shapes: Partial<Record<ShapeRole, ShapeSpec>>;  // which roles this body has
+    82→  material: PhysicsMaterial;          // base material; realm-aware overrides apply (§5)
+    83→  realmProfile: RealmProfile;         // mortal | qi_condensation | ... | mahayana
+    84→  mass?: number;                      // dynamic only; computed from shapes if omitted
+    85→  linearDamping: number;
+    86→  angularDamping: number;
+    87→  gravityScale: number;
+    88→  lockAngular?: [boolean, boolean, boolean];
+    89→}
+    90→```
+    91→
+    92→The body spec is **CBOR-serializable** and is part of the canonical state. The body itself (the Jolt/Rapier object) is not — it is renderer-side, recreated from the spec on load (per doc 24 §1.6's sim/render split).
+    93→
+    94→---
+    95→
+    96→## 2. The adapter layer
+    97→
+    98→### 2.1 Why an adapter
+    99→
+   100→The engine has one physics interface (`PhysicsApi`); the solver behind it is swappable. The adapter implements `PhysicsApi` against a specific backend. Today: Jolt WASM. When Box3D WASM ships, a second adapter is written; the engine picks one at startup based on a manifest entry. The simulation never knows which.
+   101→
+   102→```
+   103→┌──────────────────────────────────────────────────────────┐
+   104→│  Simulation plugins (combat, NPC movement, cultivator)   │
+   105→│  speak: PhysicsApi, PhysicsBodyHandle                    │
+   106→└────────────────────────┬─────────────────────────────────┘
+   107→                         │
+   108→┌────────────────────────▼─────────────────────────────────┐
+   109→│  ga:physics plugin                                       │
+   110→│  • Determinism wrapper (snapshot, hash, verify)          │
+   111→│  • Lore integration (realm profiles, phase materials)    │
+   112→│  • Shape-role separation (§3)                            │
+   113→│  • Tiering hooks (§6, doc 25)                            │
+   114→└────────────────────────┬─────────────────────────────────┘
+   115→                         │
+   116→┌────────────────────────▼─────────────────────────────────┐
+   117→│  PhysicsBackend adapter interface                        │
+   118→│  createBody / destroyBody / step / raycast / ...         │
+   119→└────────┬───────────────────────────────────┬─────────────┘
+   120→         │                                   │
+   121→┌────────▼──────────┐               ┌────────▼──────────┐
+   122→│ JoltWasmBackend   │               │ Box3dWasmBackend  │
+   123→│ (current)         │               │ (future)          │
+   124→└───────────────────┘               └───────────────────┘
+   125→```
+   126→
+   127→### 2.2 The adapter interface
+   128→
+   129→```typescript
+   130→interface PhysicsBackend {
+   131→  readonly id: string;                       // 'jolt-wasm-5.1.0' | 'box3d-wasm-1.0.0'
+   132→  readonly fingerprintComponent: string;     // included in DeterminismFingerprint (doc 08)
+   133→  init(config: PhysicsBackendConfig): void;
+   134→  shutdown(): void;
+   135→
+   136→  createBody(spec: BackendBodySpec): BackendBodyId;
+   137→  destroyBody(id: BackendBodyId): void;
+   138→  setShape(id: BackendBodyId, role: ShapeRole, shape: BackendShapeSpec): void;
+   139→
+   140→  step(dt: number, maxSubSteps: number): void;
+   141→
+   142→  getTransform(id: BackendBodyId): Transform;
+   143→  setTransform(id: BackendBodyId, t: Transform): void;
+   144→  applyImpulse(id: BackendBodyId, impulse: Vec3, point?: Vec3): void;
+   145→
+   146→  raycast(origin: Vec3, dir: Vec3, maxDist: number, filter: BackendFilter): BackendRayHit[];
+   147→  shapecast(...): BackendShapeHit[];
+   148→  overlap(...): BackendBodyId[];
+   149→
+   150→  snapshot(): PhysicsSnapshot;               // the raw state, pre-CBOR
+   151→  restore(snap: PhysicsSnapshot): void;
+   152→}
+   153→```
+   154→
+   155→The adapter translates `PhysicsBodyHandle` (engine-side, branded int) to `BackendBodyId` (solver-side, also an int but possibly with solver-specific semantics). The map is a `Map<PhysicsBodyHandle, BackendBodyId>` held by `ga:physics`; on backend swap, the map is rebuilt from the snapshot.
+   156→
+   157→### 2.3 The adapter failure case
+   158→
+   159→**Failure case (adapter):** A backend is loaded whose `fingerprintComponent` differs from the one in the save's `DeterminismFingerprint`. The save loader refuses to load: "this save was created with Jolt WASM 5.1.0; the current backend is Box3D WASM 1.0.0; their determinism fingerprints differ." This is the correct refusal — a save made with one solver cannot be replayed on another unless both are verified to produce identical hashes (which the verification protocol §7 must establish first). Rejected alternative: silent replay with possible divergence — violates the determinism contract.
+   160→
+   161→---
+   162→
+   163→## 3. The nine roles of a shape
+   164→
+   165→### 3.1 The problem with "a collider"
+   166→
+   167→In a naive physics setup, an NPC has one collider — say, a capsule. That capsule is used for: simulation (collide with the ground), queries (am I in attack range?), character control (am I grounded?), navigation (am I blocked by this obstacle?), hit detection (did the sword hit me?), and visual culling (is the body on-screen?). These have **different shape requirements**:
+   168→
+   169→- **Simulation shape** should be a slightly smaller capsule (so the body doesn't catch on door frames).
+   170→- **Query shape** should be a larger sphere (so "in attack range" is generous).
+   171→- **Character controller shape** is a vertical capsule with specific step-up tolerance.
+   172→- **Hit-detection volume** is per-body-part (head, torso, limbs) for combat.
+   173→- **Navigation obstacle** is a rectangular footprint for the navmesh.
+   174→
+   175→Using one shape for all of these produces a body that either clips through doorways or fails to detect attacks. The Unity/Unreal pattern of separating collider from trigger helps; we extend it to nine explicitly named roles.
+   176→
+   177→### 3.2 The role enum
+   178→
+   179→```typescript
+   180→type ShapeRole =
+   181→  | 'simulation'           // what the solver collides against the world
+   182→  | 'query'                // what raycasts/shapecasts hit
+   183→  | 'character_controller' // kinematic CCT shape (smaller radius, step tolerance)
+   184→  | 'rigid_body'           // alias for simulation when the body is dynamic
+   185→  | 'trigger'              // non-blocking; emits enter/exit events
+   186→  | 'navigation_obstacle'  // consumed by the navmesh generator (doc 22)
+   187→  | 'terrain_collider'     // the voxel terrain's collider mesh (doc 21)
+   188→  | 'hit_detection'        // per-body-part volumes for combat (doc 13)
+   189→  | 'visual_geometry';     // never queried by physics; the renderer's bounds
+   190→```
+   191→
+   192→A body may have any subset. A mortal NPC has: `simulation` (capsule), `character_controller` (capsule, smaller), `query` (sphere), `hit_detection` (3–5 body parts), `navigation_obstacle` (rectangle). It does not have `terrain_collider` (that's the terrain, not the NPC) or `visual_geometry` (the renderer owns that, separate from physics).
+   193→
+   194→### 3.3 The role separation diagram
+   195→
+   196→```
+   197→            ┌──────────────────────┐
+   198→   Player   │ visual_geometry      │ (renderer's MeshRef bounds; never physics-queried)
+   199→            ├──────────────────────┤
+   200→            │ hit_detection        │ (5 small volumes: head, torso, 2 arms, 2 legs)
+   201→            ├──────────────────────┤
+   202→            │ character_controller │ (capsule, r=0.3, height=1.7, step=0.3)
+   203→            ├──────────────────────┤
+   204→            │ simulation           │ (capsule, r=0.35, height=1.75 — slightly larger)
+   205→            ├──────────────────────┤
+   206→            │ query                │ (sphere, r=2.0 — generous "interact" range)
+   207→            ├──────────────────────┤
+   208→            │ navigation_obstacle  │ (rect, 0.7×0.7, for navmesh carving)
+   209→            └──────────────────────┘
+   210→
+   211→            ┌──────────────────────┐
+   212→   Terrain  │ visual_geometry      │ (the rendered mesh; doc 21)
+   213→            ├──────────────────────┤
+   214→            │ terrain_collider     │ (the collider mesh, lower LOD; doc 21)
+   215→            └──────────────────────┘
+   216→
+   217→            ┌──────────────────────┐
+   218→   Trigger  │ trigger              │ (a box around the lineage hall entrance)
+   219→   volume   │ simulation: OFF      │
+   220→            │ query: ON            │
+   221→            └──────────────────────┘
+   222→```
+   223→
+   224→### 3.4 The shape spec
+   225→
+   226→```typescript
+   227→interface ShapeSpec {
+   228→  kind: 'sphere' | 'capsule' | 'box' | 'convex_hull' | 'trimesh';
+   229→  // for sphere:
+   230→  radius?: number;
+   231→  // for capsule:
+   232→  radius?: number; height?: number; axis?: 'x' | 'y' | 'z';
+   233→  // for box:
+   234→  halfExtents?: Vec3;
+   235→  // for convex_hull:
+   236→  points?: Vec3[];
+   237→  // for trimesh (terrain only):
+   238→  meshHash?: string;            // content-addressed; resolved by ga:assets
+   239→
+   240→  // Common:
+   241→  offset: Transform;            // local offset from body origin
+   242→  collisionLayer: CollisionLayer;
+   243→  collisionMask: CollisionLayer;  // what this shape collides with
+   244→  isTrigger: boolean;
+   245→}
+   246→```
+   247→
+   248→### 3.5 The role failure case
+   249→
+   250→**Failure case (roles):** A plugin queries the `simulation` shape instead of the `query` shape and gets a too-tight result. The fix is documentation: every query API takes an explicit `role: ShapeRole` parameter. The physics plugin's TypeScript types enforce this — `raycast` without a role defaults to `'query'`, but `overlap` requires an explicit role. Rejected alternative: implicit role by query type — too easy to get wrong, too hard to debug.
+   251→
+   252→---
+   253→
+   254→## 4. Collision filtering
+   255→
+   256→### 4.1 Collision layers
+   257→
+   258→A 32-bit bitmask, grouped:
+   259→
+   260→```typescript
+   261→enum CollisionLayer {
+   262→  TERRAIN        = 1 << 0,
+   263→  STATIC_PROP    = 1 << 1,
+   264→  DYNAMIC_PROP   = 1 << 2,
+   265→  PLAYER         = 1 << 3,
+   266→  NPC            = 1 << 4,
+   267→  BEAST          = 1 << 5,
+   268→  CULTIVATOR     = 1 << 6,   // qi-reinforced bodies
+   269→  PROJECTILE     = 1 << 7,
+   270→  TRIGGER        = 1 << 8,
+   271→  NAVIGATION     = 1 << 9,   // navmesh obstacles (don't block bodies)
+   272→  HIT_DETECTION  = 1 << 10,  // combat hit volumes
+   273→  QI_EFFECT      = 1 << 11,  // qi-perception query shapes
+   274→  // ... reserved bits
+   275→}
+   276→```
+   277→
+   278→A body's `layer` says what it *is*; a shape's `collisionMask` says what it *collides with*. The `CULTIVATOR` layer is interesting: it collides with `TERRAIN | STATIC_PROP | DYNAMIC_PROP | CULTIVATOR` but **not** with `NPC` (a Core Formation cultivator can walk through a mortal crowd — their qi-reinforced body displaces mortals via the kinematic controller, not the solver).
+   279→
+   280→### 4.2 The filter
+   281→
+   282→```typescript
+   283→interface CollisionFilter {
+   284→  layerMask: number;       // match bodies whose layer is in this mask
+   285→  roleMask: ShapeRole[];   // only query these roles
+   286→  phaseMask?: Phase[];     // §6.3: only match bodies with these phase-affinities
+   287→  realmMask?: Realm[];     // only match bodies in these realm profiles
+   288→}
+   289→```
+   290→
+   291→### 4.3 The collision-pair callback
+   292→
+   293→When two shapes begin overlapping, the solver calls `onContactPair(a, b)`. The physics plugin routes this to:
+   294→- `simulation` overlaps → solver resolves (or, if either is a trigger, emits a `TriggerEnter` event).
+   295→- `trigger` overlaps → emits `TriggerEnter`/`TriggerExit` events on the bus.
+   296→- `hit_detection` overlaps → emits `CombatContact` events (doc 13 §2).
+   297→- `query` overlaps → never generates events; only returned by explicit queries.
+   298→
+   299→### 4.4 The collision failure case
+   300→
+   301→**Failure case (collision):** Two cultivators fight; both have `CULTIVATOR` layer bodies and `simulation` shapes that overlap. The solver resolves them as solid bodies, blocking movement — but cultivator combat requires passing-through strikes. The fix: during a committed strike's active frames, the attacker's `simulation` shape is replaced by a `hit_detection`-only shape (the strike volume) on the `HIT_DETECTION` layer. The defender's `simulation` shape is unaffected. This is the "ghost strike" pattern from Sekiro (cited in doc 13 §0). Rejected alternative: a global "during combat" flag that disables all collision — would let cultivators walk through walls.
+   302→
+   303→---
+   304→
+   305→## 5. Realm-aware body types
+   306→
+   307→### 5.1 The realm profile
+   308→
+   309→Every body has a `RealmProfile`. The physics plugin reads it on `createBody` and configures the backend body's mass, friction, restitution, gravity scale, max velocity, and material per the envelope table in doc 32 §1.2.
+   310→
+   311→```typescript
+   312→type RealmProfile =
+   313→  | 'mortal' | 'qi_induction' | 'qi_condensation'
+   314→  | 'foundation_establishment' | 'core_formation' | 'nascent_soul'
+   315→  | 'spirit_severance' | 'void_amalgamation' | 'tribulation_crossing'
+   316→  | 'mahayana';
+   317→
+   318→interface RealmPhysicsProfile {
+   319→  massMultiplier: number;          // relative to base mass
+   320→  frictionMultiplier: number;
+   321→  restitutionMultiplier: number;
+   322→  gravityScale: number;
+   323→  maxLinearVelocity: number;       // m/s, hard cap
+   324→  maxAngularVelocity: number;
+   325→  durability: DurabilityProfile;   // for injury model (doc 13 §6)
+   326→  canGripSmoothSurfaces: boolean;  // Core Formation+
+   327→  canFly: boolean;                 // Foundation Establishment+ with routing
+   328→  canPhaseThroughMortals: boolean; // Core Formation+
+   329→}
+   330→```
+   331→
+   332→### 5.2 The mortal-vs-cultivator divergence
+   333→
+   334→| Property | Mortal | Qi Condensation | Foundation Establishment | Core Formation |
+   335→|---|---|---|---|---|
+   336→| Mass (base 60kg) | 60 kg | 60 kg | 65 kg | 70 kg |
+   337→| Friction | 0.6 | 0.6 | 0.8 (grip) | 1.2 (smooth-surface grip) |
+   338→| Restitution | 0.0 | 0.0 | 0.05 | 0.15 |
+   339→| Gravity scale | 1.0 | 1.0 | 0.95 | 0.8 |
+   340→| Max velocity | 8 m/s | 15 m/s | 25 m/s | 50 m/s |
+   341→| Can fly | no | no | yes (with routing) | yes |
+   342→| Phase through mortals | no | no | no | yes |
+   343→| Smooth-surface grip | no | no | no | yes |
+   344→
+   345→The full table through Mahayana follows doc 32 §1.2. The values are not arbitrary — they are derived from the same envelope that the combat system uses, so a cultivator's body and a cultivator's strike are coherent.
+   346→
+   347→### 5.3 The realm-profile failure case
+   348→
+   349→**Failure case (realm):** A cultivator breaks through to Foundation Establishment mid-step; their `RealmProfile` updates, but the backend body's mass is not refreshed. The fix: `setRealmProfile(handle, newProfile)` is an explicit API call that the breakthrough system emits as a `BreakthroughCompleted` event. The physics plugin listens, calls `setRealmProfile`, and the backend updates the body's properties in place. Rejected alternative: poll the entity's `CultivationState` every tick — wasteful, and prone to mid-tick inconsistency.
+   350→
+   351→---
+   352→
+   353→## 6. Qi-enhanced materials and phase-affinity collisions
+   354→
+   355→### 6.1 Qi-enhanced materials
+   356→
+   357→A `PhysicsMaterial` carries base properties (friction, restitution) plus qi-modifiers that activate when qi is routed through the body part the shape represents.
+   358→
+   359→```typescript
+   360→interface PhysicsMaterial {
+   361→  baseFriction: number;
+   362→  baseRestitution: number;
+   363→  baseDensity: number;
+   364→
+   365→  qiModifiers?: {
+   366→    activeWhenRoutedTo: RoutingRegion;   // 'hands' | 'legs' | 'senses' | 'skin' (doc 13 §4)
+   367→    frictionBoost: number;
+   368→    restitutionBoost: number;
+   369→    densityBoost: number;                 // qi-routed fists are denser → more impulse
+   370→    phaseAffinity: Phase;                 // §6.3
+   371→  };
+   372→}
+   373→```
+   374→
+   375→When the player routes fire-phase qi to Hands (per doc 32 §2.2), the hand-shapes' material switches from base to qi-active: friction ×1.2, restitution ×2.0, density ×5. The impulse of a Burning Palm strike is `mass × velocity × densityBoost` — the 5–10× impulse gain cited in doc 21 §4.2 falls out of the material model.
+   376→
+   377→### 6.2 The phase-affinity collision response
+   378→
+   379→Per doc 21 §4.3, when two phase-affined bodies collide, the contact's friction and restitution are modified by the phase matchup table (doc 32 §2.3). The modifier is a ±30% on the contact's combined friction/restitution.
+   380→
+   381→```typescript
+   382→function phaseModifier(attackerPhase: Phase, defenderPhase: Phase): number {
+   383→  if (attackerPhase === defenderPhase) return 1.0;
+   384→  if (generates(attackerPhase, defenderPhase)) return 1.3;   // parent → child
+   385→  if (conquers(attackerPhase, defenderPhase)) return 1.3;    // conqueror → conquered
+   386→  if (generates(defenderPhase, attackerPhase)) return 0.7;   // child → parent
+   387→  if (conquers(defenderPhase, attackerPhase)) return 0.7;    // conquered → conqueror
+   388→  return 1.0;  // unreachable if phases are valid
+   389→}
+   390→```
+   391→
+   392→The modifier is applied in the contact-resolution callback, before the solver step. This is the simplest implementation that doesn't require the solver itself to be phase-aware (Ponytail §2).
+   393→
+   394→### 6.3 The phase-collision failure case
+   395→
+   396→**Failure case (phase):** A fire-routed cultivator punches a water-routed cultivator's iron-skin defense. Phase matchup: Fire × Metal = 1.3 (fire melts metal). But the defender is *water-routed*, not metal-routed — the defender's phase is Water. The fix: the `phaseAffinity` field on the **active material** is what matters, not the cultivator's root affinity. The defender routed water → their skin-shape's material is water-phase-active. Matchup: Fire × Water = 0.7 (water quenches fire). The strike is dampened. This matches doc 32 §2.4.2's worked duel.
+   397→
+   398→Rejected alternative: read the cultivator's root phase from their `CultivationState` directly. Wrong — root phase is the *default*, but the routed phase is the *current*. The material carries the routed phase; the root is irrelevant for collision response.
+   399→
+   400→---
+   401→
+   402→## 7. The determinism wrapper and verification protocol
+   403→
+   404→### 7.1 The wrapper's job
+   405→
+   406→The wrapper does four things on every `step(dt)` call:
+   407→
+   408→1. **Snapshot before** — capture `PhysicsSnapshot` (all bodies' positions, velocities, contacts, constraints).
+   409→2. **Step** — call `backend.step(dt, maxSubSteps)`.
+   410→3. **Snapshot after** — capture again.
+   411→4. **Hash** — `SHA-256(CBOR(snapshotAfter))`. Append to the in-memory hash log.
+   412→
+   413→The hash log is a sliding window of the last N hashes (default N=1024). If any hash diverges from a recorded reference hash, the wrapper throws (dev) or logs (production).
+   414→
+   415→### 7.2 The PhysicsSnapshot
+   416→
+   417→```typescript
+   418→interface PhysicsSnapshot {
+   419→  tick: number;
+   420→  backendFingerprint: string;       // identifies the solver version
+   421→  bodies: Array<{
+   422→    handle: PhysicsBodyHandle;
+   423→    realmProfile: RealmProfile;
+   424→    motionType: 'static' | 'kinematic' | 'dynamic';
+   425→    position: FixedVec3;            // Q32.32 — doc 17 §3.1
+   426→    rotation: FixedQuat;            // Q32.32
+   427→    linearVelocity: FixedVec3;
+   428→    angularVelocity: FixedVec3;
+   429→    layer: number;
+   430→    activeShapes: ShapeRole[];      // which roles are currently set
+   431→  }>;
+   432→  contacts: Array<{
+   433→    a: PhysicsBodyHandle; b: PhysicsBodyHandle;
+   434→    point: FixedVec3; normal: FixedVec3; penetration: Fixed;
+   435→    phaseModifier: Fixed;            // captures the phase-affinity result
+   436→  }>;
+   437→  constraints: Array<{
+   438→    handle: number; type: string;
+   439→    a: PhysicsBodyHandle; b: PhysicsBodyHandle;
+   440→    state: unknown;                  // backend-specific; CBOR-serializable
+   441→  }>;
+   442→}
+   443→```
+   444→
+   445→All values are `Fixed` (Q32.32) per doc 17 §3.1. Floating-point in the snapshot would break cross-browser hash parity (the original sin of physics determinism). The wrapper converts the backend's `f32`/`f64` outputs to `Fixed` at snapshot time.
+   446→
+   447→### 7.3 The verification protocol
+   448→
+   449→This is the gate from doc 24 §1.4: "the determinism claim must be verified empirically before it is trusted."
+   450→
+   451→```
+   452→PROTOCOL: cross-browser physics determinism verification
+   453→
+   454→1. Fixture: a deterministic scenario script (1000 ticks of a defined setup)
+   455→   - 100 stacked boxes
+   456→   - 1 cultivator striking the stack (fire-routed hands)
+   457→   - 1 water-routed defender
+   458→   - 1 terrain mesh (small)
+   459→   - 50 NPCs walking on navmesh
+   460→2. For each browser B in [Chrome, Firefox, Safari, Edge]:
+   461→   a. Load the engine in B
+   462→   b. Run the scenario for 1000 ticks
+   463→   c. At each tick, capture snapshotHash
+   464→   d. Save the 1000-tick hash log to /determinism-runs/{B}.json
+   465→3. Compare the four hash logs
+   466→4. If all four match: PASS — solver is cross-browser deterministic under our wrapper
+   467→5. If any diverge: FAIL — find the first divergent tick, diff the snapshots,
+   468→   identify which body/contact/constraint diverged first, file a solver bug
+   469→   or a wrapper bug
+   470→6. Re-run nightly in CI. Re-run on every solver version bump.
+   471→```
+   472→
+   473→### 7.4 The verification failure case
+   474→
+   475→**Failure case (verification):** Chrome and Firefox diverge at tick 412. Diff reveals body #47's `linearVelocity.z` differs by 1 ULP (Unit in the Last Place) at f64 level. This is exactly the kind of transcendental-induced divergence doc 21 §3.1 warned about. The fix depends on where it came from:
+   476→
+   477→- If the divergence is in Jolt's own math (a `sqrt` somewhere), the wrapper can only patch it if Jolt exposes the import. If not, the project reverts to Rapier (per doc 24 §1.4's escape hatch).
+   478→- If the divergence is in our wrapper (a `Math.sin` that should be `det_sin`), fix the wrapper.
+   479→
+   480→The protocol is the gate; the wrapper is the gate's lock; the snapshot is the gate's key. Without the protocol, the determinism claim is words (AGENTS.md Part 3: "Cite the precedent; do not float above it").
+   481→
+   482→---
+   483→
+   484→## 8. The character controller
+   485→
+   486→### 8.1 The kinematic model
+   487→
+   488→The protagonist and all NPCs use the **kinematic character controller (CCT)** pattern, not dynamic rigid bodies. A kinematic body is moved explicitly by `setTransform`; the solver does not apply forces to it. The CCT handles:
+   489→
+   490→- Ground detection (am I on the floor?)
+   491→- Step-up (small obstacles like stairs)
+   492→- Slope limit (don't walk up 80° cliffs)
+   493→- Sliding on steep slopes
+   494→- Wall sliding (don't stick to walls)
+   495→- Depenetration (push out of overlaps with dynamic bodies)
+   496→
+   497→```typescript
+   498→interface CharacterControllerSpec {
+   499→  bodyHandle: PhysicsBodyHandle;
+   500→  up: Vec3;                          // usually [0, 1, 0]
+   501→  slopeLimit: number;                // cos(angle); 0.7 = ~45°
+   502→  stepHeight: number;                // 0.3 m mortal; 0.5 m cultivator
+   503→  characterControllerShape: ShapeSpec;  // the CCT role's shape
+   504→  queryShape: ShapeSpec;
+   505→  mass: number;                      // for pushing dynamic bodies
+   506→}
+   507→```
+   508→
+   509→### 8.2 The CCT move
+   510→
+   511→```typescript
+   512→function cctMove(cct: CharacterControllerSpec, displacement: Vec3, dt: number): CCTMoveResult {
+   513→  // Implemented in the backend (Jolt's kinematic character controller, or our own)
+   514→  return {
+   515→    finalDisplacement: Vec3,
+   516→    grounded: boolean,
+   517→    groundNormal: Vec3 | null,
+   518→    slidThisFrame: boolean,
+   519→    blockedBy: PhysicsBodyHandle | null,
+   520→  };
+   521→}
+   522→```
+   523→
+   524→The CCT does **not** advance the simulation; it produces a `finalDisplacement` that the calling system applies via `setTransform`. This keeps the CCT deterministic: same input → same output, no solver-internal state to drift.
+   525→
+   526→### 8.3 Why kinematic, not dynamic
+   527→
+   528→Rejected alternative: dynamic character controller (a rigid body with high friction and locked rotation). Why rejected:
+   529→
+   530→1. **Predictability.** A dynamic CCT accelerates, decelerates, and is knocked around by forces. Cultivator combat (doc 13 §3 commitment model) requires that the player's input is honored exactly: press forward → move forward, no slide. A dynamic body's response is filtered through the solver; a kinematic body's response is direct.
+   531→2. **Realm coherence.** A Core Formation cultivator at 50 m/s in a dynamic body would have to fight the solver's velocity caps and broadphase cell sizes. A kinematic body has no such constraints.
+   532→3. **Precedent.** UE5's `UCharacterMovementComponent`, Godot's `CharacterBody3D`, Jolt's `Character` class — the entire industry uses kinematic for player-controlled characters. We follow the proven pattern (Ponytail §13).
+   533→
+   534→---
+   535→
+   536→## 9. NPC movement and physics interaction
+   537→
+   538→### 9.1 The movement pipeline
+   539→
+   540→```
+   541→NPC AI (doc 25 §4) decides a desired velocity
+   542→   │
+   543→   ▼
+   544→Navigation system (doc 22) computes a path or waypath
+   545→   │
+   546→   ▼
+   547→Steering: velocity → desired displacement this tick
+   548→   │
+   549→   ▼
+   550→CCT move(displacement, dt)                          ← physics
+   551→   │
+   552→   ▼
+   553→setTransform(handle, transform + finalDisplacement) ← physics
+   554→   │
+   555→   ▼
+   556→Animation system reads velocity, plays walk/run animation
+   557→```
+   558→
+   559→### 9.2 Dynamic props: when the solver does the work
+   560→
+   561→A bucket knocked off a table is a **dynamic** body. The solver handles it. The NPC that knocked it is a **kinematic** body. The CCT's `mass` field controls how much the kinematic body pushes the dynamic body. A mortal NPC (mass 60) knocking a bucket (mass 2) → bucket flies. A Core Formation cultivator (effective mass 70 × densityBoost 5 = 350) walking through a mortal crowd → mortals are pushed aside, but the cultivator is not slowed.
+   562→
+   563→### 9.3 The interaction failure case
+   564→
+   565→**Failure case (interaction):** A kinematic NPC walks into a stack of dynamic boxes. The CCT's depenetration pushes the NPC out, but the boxes — being dynamic — are also pushed. The result is the NPC walks *through* the stack over several ticks as each box is shoved aside. The fix: the CCT's `mass` field caps the push impulse per tick; if the push would exceed the cap, the CCT's `finalDisplacement` is reduced (the NPC is blocked). This is the Jolt character controller's standard behavior. Rejected alternative: ignore dynamic-body collision for CCTs — would let NPCs walk through buckets.
+   566→
+   567→---
+   568→
+   569→## 10. Failure cases (consolidated)
+   570→
+   571→1. **Backend fingerprint mismatch on save load** — refused (§2.3).
+   572→2. **Shape role misuse** — TypeScript types + role-aware query API (§3.5).
+   573→3. **Ghost strike through walls** — strike-volume is `HIT_DETECTION` layer only (§4.4).
+   574→4. **Realm profile not refreshed on breakthrough** — explicit `setRealmProfile` call on `BreakthroughCompleted` event (§5.3).
+   575→5. **Phase mismatch: routed vs root** — material carries the routed phase; root is not consulted (§6.3).
+   576→6. **Cross-browser divergence at tick N** — verification protocol; revert to Rapier if unfixable (§7.4).
+   577→7. **CCT walks through dynamic stack** — push-impulse cap per tick (§9.3).
+   578→8. **Solver exception during step** — the wrapper catches, re-snapshots, marks the body as broken, and excludes it from the next step. The simulation continues with a degraded body (no physics); a dev-mode warning is emitted.
+   579→
+   580→---
+   581→
+   582→## 11. Rejected alternatives
+   583→
+   584→### 11.1 Direct Jolt/Rapier API access
+   585→
+   586→Exposing Jolt's `RigidBody` class directly to plugins. Rejected because (a) every plugin would be re-typed on solver swap, (b) plugins could call non-deterministic Jolt functions, (c) the determinism wrapper would have nothing to wrap. The `PhysicsBodyHandle` indirection is the price of swappability and the contract.
+   587→
+   588→### 11.2 A single "shape" per body
+   589→
+   590→The Unity-style one-collider pattern. Rejected in §3.1 — produces bodies that either clip or fail to detect.
+   591→
+   592→### 11.3 Dynamic character controller
+   593→
+   594→Rejected in §8.3 — lacks the predictability cultivator combat requires.
+   595→
+   596→### 11.4 Per-frame solver-step count fixed at 1
+   597→
+   598→Some engines call `solver.step(dt)` exactly once per simulation tick. Rejected because cultivator combat at 50 m/s with 0.3 m hit volumes needs sub-step resolution (a strike covers its target in 6 ms; the solver must sub-step at least 3× within that). The wrapper calls `step(dt, maxSubSteps=4)`, with `maxSubSteps` derived from the fastest body's velocity (deterministic — same fastest body → same sub-step count → same hash).
+   599→
+   600→### 11.5 Phase-affinity in the solver itself
+   601→
+   602→Modifying Jolt to be phase-aware. Rejected because it would lock us to a forked Jolt and break the swappability contract. The wrapper's contact-resolution modifier (§6.2) achieves the same effect from outside the solver.
+   603→
+   604→---
+   605→
+   606→## 12. What this document enables
+   607→
+   608→- The simulation speaks `PhysicsBodyHandle` + `PhysicsApi`; the solver is behind an adapter, swappable without touching the simulation.
+   609→- Nine shape roles are explicitly named; a body has any subset; query APIs take an explicit role.
+   610→- Collision layers separate mortal, cultivator, beast, projectile, trigger, navigation, hit-detection, and qi-effect concerns.
+   611→- Realm profiles configure body properties from the doc 32 envelope; breakthroughs refresh them explicitly.
+   612→- Qi-enhanced materials carry routing-aware modifiers; phase-affinity collisions apply the doc 32 §2.3 matchup table.
+   613→- The kinematic character controller handles the protagonist and NPCs; dynamic bodies are props and debris.
+   614→- The determinism wrapper snapshots, hashes, and verifies every step; the cross-browser verification protocol is the gate.
+   615→- Rejected alternatives (direct solver access, single shape, dynamic CCT, fixed sub-steps, forked solver) are documented with reasons.
+   616→
+   617→The next step is to implement the adapter against Jolt WASM 5.1.0, run the verification protocol (§7.3) on the four target browsers, and either commit to Jolt or revert to Rapier per the doc 24 §1.4 escape hatch. The smallest end-to-end test: a mortal NPC walking across a flat terrain, hashed at tick 100, must match across browsers. That is the gate; everything in this document is in service of that gate passing.
+   618→

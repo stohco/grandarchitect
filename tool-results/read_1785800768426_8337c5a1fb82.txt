@@ -1,0 +1,529 @@
+     1→# 16 — Asset Registry & Import Pipeline
+     2→
+     3→**Status:** Engine build-time and runtime asset system. glTF canonical. Content-addressed by SHA-256. The simulation loads by hash, never by filename.
+     4→**Date:** 2026-08-03
+     5→**Engine:** Grand Architect (browser-native plugin host, deterministic contract)
+     6→**Depends on:** `ga:determinism` (CBOR, SHA-256, DeterminismFingerprint), `ga:core`, `08_THREEJS_REPOSITORY_RESEARCH §4,§5` (glTF, glTF-Transform, KTX2/Basis, meshopt, OPFS), `06_DETERMINISM_SEEDS_REPLAY` (save parity requires hash-stable assets)
+     7→**Read with:** `17_ENGINE_ARCHITECTURE §1.4` (ga:assets plugin), `11_PERSISTENCE_SAVES_MIGRATION` (asset hash references in saves; migration on hash change), `ASSET_PIPELINE_RESEARCH.md` (the research foundation this implements)
+     8→
+     9→---
+    10→
+    11→## 0. What this document is
+    12→
+    13→This document specifies how 3D assets (meshes, skeletons, animations, textures, materials, audio) enter the engine: the build-time import pipeline, the runtime asset registry, content-addressed storage, streaming, hot reload, memory pressure, placeholders, and asset bundles. The canonical on-disk format is glTF 2.0 / GLB. The canonical texture format is KTX2/Basis. Meshes are compressed with meshoptimizer. Build-time processing uses glTF-Transform.
+    14→
+    15→The engine never loads assets by filename. Every asset is loaded by its SHA-256 content hash. Two runs that load the same hash load byte-identical bytes — critical for deterministic save parity (document 17 §3).
+    16→
+    17→---
+    18→
+    19→## 1. The pipeline (overview)
+    20→
+    21→```
+    22→   SOURCE                IMPORT              VALIDATION           PROCESSING
+    23→   ──────                ──────              ───────────          ──────────
+    24→   .blend       ──►      glTF export   ──►   schema check  ──►   glTF-Transform:
+    25→   .fbx                  (Blender CLI)       (KHR conformance)    weld → dedup →
+    26→   .png                                                              quantise →
+    27→   .svg                                                              meshopt → KTX2
+    28→       │                                                            │
+    29→       │                                                            ▼
+    30→       │                                              PACKAGING
+    31→       │                                              ─────────
+    32→       │                                              .glb (single blob)
+    33→       │                                              + sidecar .json (AssetRecord)
+    34→       │                                              hash = SHA-256(.glb bytes)
+    35→       │                                                            │
+    36→       │                                                            ▼
+    37→       │                                              REGISTRY (build artifact)
+    38→       │                                              ───────────────────────
+    39→       │                                              assets.json: hash → AssetRecord
+    40→       │                                              bundles.json: region → [hashes]
+    41→       │                                                            │
+    42→       └────────────────────────────────────────────────────────────┘
+    43→                                                                    │
+    44→                                                                    ▼
+    45→                                                       STREAMING (runtime)
+    46→                                                       ─────────────────────
+    47→                                                       request hash →
+    48→                                                       check OPFS cache →
+    49→                                                       fetch bundle if missing →
+    50→                                                       decode (meshopt/KTX2) →
+    51→                                                       upload to GPU →
+    52→                                                       return RuntimeHandle
+    53→                                                                    │
+    54→                                                                    ▼
+    55→                                                       RUNTIME HANDLES
+    56→                                                       ───────────────
+    57→                                                       MeshHandle · SkeletonHandle
+    58→                                                       TextureHandle · MaterialRef
+    59→                                                       AudioHandle · AnimationClipHandle
+    60→```
+    61→
+    62→---
+    63→
+    64→## 2. The AssetRecord
+    65→
+    66→Every asset has an `AssetRecord` — the metadata that describes what the asset is, where it came from, what depends on it, and how it should be loaded. The record is the contract between the build pipeline and the runtime.
+    67→
+    68→```typescript
+    69→interface AssetRecord {
+    70→  /** Content hash of the packaged .glb (or individual resource blob). */
+    71→  id: string;                    // SHA-256, hex, lowercase, 64 chars
+    72→  /** Asset kind. Determines the loader. */
+    73→  type: AssetType;
+    74→  /** Where the asset came from. */
+    75→  source: AssetSource;
+    76→  /** Schema version of this AssetRecord. */
+    77→  version: string;               // semver of the record format
+    78→  /** Other asset IDs this asset needs at runtime. */
+    79→  dependencies: string[];        // e.g. a mesh depends on a skeleton, a material, textures
+    80→  /** Alternate encodings for different platforms/bandwidths. */
+    81→  variants: AssetVariant[];
+    82→  /** Free-form tags for search and bundle assembly. */
+    83→  tags: string[];                // e.g. ['character', 'humanoid', 'mortal', 'cangli-riverlands']
+    84→  /** Upper bound on GPU + CPU memory when loaded. */
+    85→  memoryBudget: number;          // bytes
+    86→  /** LOD chain: distance → variant. */
+    87→  lodProfile: LodProfile;
+    88→  /** Skeleton this asset is bound to (for skinned meshes / animations). */
+    89→  skeletonProfile?: SkeletonProfile;
+    90→  /** Collision mesh hash (separate from render mesh). */
+    91→  collisionProfile?: string;     // hash of a separate collision .glb
+    92→  /** License and attribution. */
+    93→  license: AssetLicense;
+    94→  /** Provenance chain: who made it, when, from what. */
+    95→  provenance: ProvenanceEntry[];
+    96→  /** Build-time import settings used to produce this asset. */
+    97→  importSettings: ImportSettings;
+    98→  /** Validation state (post-import). */
+    99→  validationState: ValidationState;
+   100→}
+   101→
+   102→type AssetType =
+   103→  | 'mesh' | 'skeleton' | 'animation-clip' | 'texture'
+   104→  | 'material' | 'audio' | 'scene' | 'collision' | 'navmesh';
+   105→
+   106→interface AssetSource {
+   107→  kind: 'blender' | 'gltf-import' | 'material-maker' | 'ez-tree' | 'procedural' | 'ambientcg' | 'polyhaven' | 'unknown';
+   108→  sourcePath: string;            // path in the source repo (e.g. /art/characters/wang.blend)
+   109→  sourceRevision: string;        // git SHA of the source
+   110→  sourceLicense: string;
+   111→  sourceUrl?: string;
+   112→}
+   113→
+   114→interface AssetVariant {
+   115→  id: string;                    // 'mobile', 'desktop', 'cinematic'
+   116→  hash: string;                  // SHA-256 of this variant's blob
+   117→  quality: 'low' | 'medium' | 'high' | 'cinematic';
+   118→  memoryBudget: number;
+   119→  maxLod: number;
+   120→  textureFormat: 'ktx2-etc1s' | 'ktx2-uastc' | 'ktx2-uncompressed';
+   121→  meshCompression: 'meshopt' | 'draco' | 'none';
+   122→  platform: 'webgpu' | 'webgl2' | 'universal';
+   123→}
+   124→
+   125→interface LodProfile {
+   126→  levels: Array<{
+   127→    distance: number;            // max distance at which this LOD is used
+   128→    variantId: string;           // which variant of the asset
+   129→    screenRelativeError: number; // target pixel error
+   130→  }>;
+   131→  /// If the asset is past the last level's distance, it is not rendered (culled).
+   132→  cullDistance: number;
+   133→}
+   134→
+   135→interface SkeletonProfile {
+   136→  standard: 'humanoid' | 'quadruped' | 'serpentine' | 'flying' | 'multi-armed' | 'giant' | 'custom';
+   137→  boneCount: number;
+   138→  boneNames: string[];           // canonical bone names (see document 17 §3)
+   139→  facialRig: boolean;
+   140→  weaponBones: string[];         // e.g. ['hand_R', 'sheath_L']
+   141→  robeBones: string[];
+   142→}
+   143→
+   144→interface AssetLicense {
+   145→  type: 'CC0' | 'CC-BY-4.0' | 'CC-BY-SA-4.0' | 'MIT' | 'Apache-2.0' | 'proprietary' | 'public-domain';
+   146→  attributionText?: string;      // required for CC-BY
+   147→  commercialUse: boolean;
+   148→  modificationsAllowed: boolean;
+   149→}
+   150→
+   151→interface ProvenanceEntry {
+   152→  timestamp: string;             // ISO 8601
+   153→  actor: string;                 // artist name or agent ID
+   154→  action: 'authored' | 'imported' | 'processed' | 'modified' | 'reviewed';
+   155→  notes?: string;
+   156→  toolVersion?: string;          // e.g. 'Blender 4.2', 'glTF-Transform 4.0'
+   157→}
+   158→
+   159→interface ImportSettings {
+   160→  weld: boolean;                 // merge duplicate vertices
+   161→  dedup: boolean;                // remove duplicate meshes/textures
+   162→  quantizePosition: number;      // bits (default 16)
+   163→  quantizeNormal: number;        // bits (default 8)
+   164→  quantizeTexcoord: number;      // bits (default 12)
+   165→  meshopt: boolean;              // apply EXT_meshopt_compression
+   166→  meshoptLevel: 'medium' | 'high';
+   167→  ktx2: boolean;                 // re-encode textures to KTX2/Basis
+   168→  ktx2Mode: 'etc1s' | 'uastc';
+   169→  ktx2Quality: number;           // 1–100 for uastc
+   170→  pruneUnused: boolean;          // remove unused materials/textures
+   171→  simplifyRatio: number;         // 0..1, for LOD generation
+   172→  tangentGeneration: 'mikktspace' | 'none';
+   173→}
+   174→
+   175→interface ValidationState {
+   176→  status: 'pending' | 'valid' | 'invalid';
+   177→  checks: ValidationCheck[];
+   178→  blockers: string[];            // if non-empty, asset cannot ship
+   179→  warnings: string[];
+   180→}
+   181→
+   182→interface ValidationCheck {
+   183→  name: string;                  // e.g. 'gltf-2.0-conformance', 'no-nan-vertices', 'uv-in-range'
+   184→  passed: boolean;
+   185→  message?: string;
+   186→}
+   187→```
+   188→
+   189→---
+   190→
+   191→## 3. Pipeline stages in detail
+   192→
+   193→### 3.1 Source
+   194→
+   195→Artists author in Blender (or generate procedurally via EZ-Tree for vegetation, Material Maker for textures). Source files live in `/art/` and are version-controlled in git. The source's git SHA is recorded in the `AssetRecord.provenance`.
+   196→
+   197→### 3.2 Import
+   198→
+   199→Blender is run headlessly (`blender --background --python export_gltf.py`) to export each source as glTF. The exporter uses the `glTF 2.0` format with these settings:
+   200→- Y-up (engine convention)
+   201→- Apply modifiers
+   202→- Export materials as `pbrMetallicRoughness` (engine reads `GA_material_ref` extension)
+   203→- Export animations, skeletons, morph targets
+   204→- Embed textures as separate files (KTX2 conversion happens in processing)
+   205→
+   206→For non-Blender sources (ambientCG, Poly Haven), the source glTF is used directly.
+   207→
+   208→### 3.3 Validation
+   209→
+   210→The exported glTF is validated against:
+   211→- **glTF 2.0 conformance** (via `gltf-validator`).
+   212→- **Engine conventions**: Y-up, meters as units, no negative scale, bone names match a `SkeletonProfile` standard.
+   213→- **Sanity**: no NaN vertices, no degenerate triangles, UVs in [0,1] range (or warn), no orphan materials, no missing textures.
+   214→
+   215→A failed check blocks the pipeline. The asset is not packaged until validation passes.
+   216→
+   217→### 3.4 Processing (glTF-Transform)
+   218→
+   219→The validated glTF is processed by glTF-Transform (TypeScript API):
+   220→
+   221→```typescript
+   222→import { Document, WebIO } from '@gltf-transform/core';
+   223→import {
+   224→  weld, dedup, quantize, simplify,
+   225→  meshopt, prune, textureCompress, tangents,
+   226→} from '@gltf-transform/functions';
+   227→
+   228→async function processAsset(srcPath: string, settings: ImportSettings): Promise<Buffer> {
+   229→  const io = new WebIO();
+   230→  const doc = await io.read(srcPath);
+   231→
+   232→  doc.setLogger(new SilentLogger());
+   233→
+   234→  await doc.transform(
+   235→    prune({ keepAttributes: ['POSITION', 'NORMAL', 'TEXCOORD_0', 'JOINTS_0', 'WEIGHTS_0'] }),
+   236→    dedup(),
+   237→    weld({ tolerance: 1e-4 }),
+   238→    tangents({ generateTangents: true }),
+   239→    quantize({
+   240→      quantizePosition: settings.quantizePosition,
+   241→      quantizeNormal: settings.quantizeNormal,
+   242→      quantizeTexcoord: settings.quantizeTexcoord,
+   243→    }),
+   244→    settings.meshopt ? meshopt({ encoder: await getMeshoptEncoder(), level: settings.meshoptLevel }) : noop(),
+   245→    textureCompress({
+   246→      encoder: await getKtx2Encoder(),
+   247→      mode: settings.ktx2Mode,
+   248→      quality: settings.ktx2Quality,
+   249→    }),
+   250→  );
+   251→
+   252→  return await io.writeBinary(doc);
+   253→}
+   254→```
+   255→
+   256→### 3.5 Packaging
+   257→
+   258→The processed glTF is written as a single `.glb` file. The `AssetRecord` is written as a `.json` sidecar with the same basename. The hash is computed on the `.glb` bytes only (not the sidecar — the sidecar references the hash).
+   259→
+   260→```
+   261→/assets/
+   262→  /blob/
+   263→    /ab/
+   264→      /cd/
+   265→        abcd1234...ef.glb        # the actual asset bytes
+   266→        abcd1234...ef.json       # the AssetRecord
+   267→  /index/
+   268→    assets.json                  # hash → AssetRecord (full table)
+   269→    bundles.json                 # region → [hashes]
+   270→```
+   271→
+   272→The two-level sharded directory (`/ab/cd/...`) avoids putting 100k files in one directory (filesystem perf).
+   273→
+   274→### 3.6 Registry (build artifact)
+   275→
+   276→`assets.json` is the master index: every shipped asset's `AssetRecord`. It is generated at build time and shipped as a static file. At runtime, the engine loads `assets.json` once; all subsequent lookups are in-memory.
+   277→
+   278→### 3.7 Streaming (runtime)
+   279→
+   280→```typescript
+   281→interface AssetStream {
+   282→  request(hash: string, opts?: LoadOptions): Promise<RuntimeHandle>;
+   283→  prefetch(hashes: string[]): void;
+   284→  evict(hash: string): void;
+   285→  onEviction(handler: (hash: string) => void): void;
+   286→}
+   287→
+   288→interface LoadOptions {
+   289→  variant?: string;              // 'mobile', 'desktop', 'cinematic'
+   290→  priority?: 'high' | 'normal' | 'low';
+   291→  deadline?: number;             // ms; if not loaded by then, use placeholder
+   292→  placeholder?: string;          // hash of a placeholder asset
+   293→}
+   294→```
+   295→
+   296→The stream:
+   297→1. Checks the in-memory cache (loaded assets). Hit → return handle.
+   298→2. Checks the OPFS cache (`<hash>.glb` on disk). Hit → decode, upload, return.
+   299→3. Fetches from the bundle URL (CDN or local server). Downloads the bundle containing the hash. Extracts the blob. Writes to OPFS cache. Decodes. Uploads. Returns handle.
+   300→
+   301→### 3.8 Runtime handles
+   302→
+   303→A `RuntimeHandle` is a stable integer the simulation holds. The asset system manages the underlying GPU resource; the simulation does not know or care whether it's loaded yet. If the simulation uses a handle before the asset is loaded, the placeholder is rendered.
+   304→
+   305→---
+   306→
+   307→## 4. Content-addressed storage
+   308→
+   309→Every asset is referenced by its SHA-256 hash. The hash is computed on the *packaged* `.glb` bytes — the post-processing output, not the source. This means:
+   310→
+   311→- Two builds that process the same source with the same `ImportSettings` produce the same hash (deterministic glTF-Transform output, verified in CI).
+   312→- An asset's identity is its bytes, not its name. Renaming `wang.blend` to `old_man_wang.blend` does not change the hash.
+   313→- Two games using the same asset (e.g. an ambientCG texture) reference the same hash; the OPFS cache is shared if both are on the same origin (it isn't, by browser design, but the principle holds).
+   314→- Save files reference assets by hash. A save loaded against a different build with the same hash loads the same asset. A save loaded against a build where the asset has a different hash (the asset was re-imported with different settings) requires migration (document 17 §3.3).
+   315→
+   316→The hash is the contract. The filename is convenience for the artist.
+   317→
+   318→---
+   319→
+   320→## 5. Hot reload
+   321→
+   322→In dev mode, the engine watches the source `/art/` directory. When a source file changes:
+   323→
+   324→1. The watcher triggers a re-import of that source (Blender headless, ~2–5 s).
+   325→2. The re-import runs validation → processing → packaging.
+   326→3. The new `.glb` is hashed.
+   327→4. If the hash is unchanged (the source change produced byte-identical output), nothing happens. The engine keeps the loaded asset.
+   328→5. If the hash is new, the `AssetRecord` is updated. The asset system broadcasts a `asset-replaced` event with `{ oldHash, newHash }`.
+   329→6. Every system holding the old `RuntimeHandle` is offered a swap: the renderer replaces the GPU resource, the animation system rebinds clips, the scene graph updates entity references. The swap happens at the next frame boundary.
+   330→
+   331→Hot reload is dev-mode only. In production, the asset set is frozen at build time.
+   332→
+   333→---
+   334→
+   335→## 6. Memory-pressure eviction
+   336→
+   337→The engine has a memory budget for assets (default: 1 GB GPU, 512 MB CPU). When the budget is exceeded:
+   338→
+   339→1. The asset system computes a candidate-eviction list: assets with no current referencers, sorted by last-use time (LRU).
+   340→2. It evicts the oldest unreferenced assets until memory is under 80% of budget.
+   341→3. Evicted assets' GPU resources are freed. The `RuntimeHandle` remains valid (the simulation does not see the eviction); the next access re-streams.
+   342→4. The `onEviction` handler notifies systems that want to know (e.g. the VFX system cancels particles that depended on an evicted texture).
+   343→
+   344→Eviction is transparent to the simulation. The simulation never explicitly frees an asset; it releases its reference (decrementing the refcount) and the asset system evicts when needed.
+   345→
+   346→---
+   347→
+   348→## 7. Placeholder system
+   349→
+   350→When an asset is requested but not yet loaded (slow network, cold cache), the engine renders a placeholder. Placeholders are:
+   351→
+   352→- **Meshes**: a 1m gray cube or a low-poly capsule (for characters).
+   353→- **Textures**: a 4×4 gray checker.
+   354→- **Skeletons**: the standard humanoid skeleton (so animation can still run).
+   355→- **Materials**: `ga:pbr` with default uniforms.
+   356→- **Audio**: silence.
+   357→
+   358→The placeholder is replaced the moment the real asset is ready. The placeholder swap is a single frame; the simulation never sees it.
+   359→
+   360→Placeholders are also used for failed loads (HTTP 404, decode error). The simulation runs; the asset is grey. The error is logged; the tweak panel shows the missing hashes.
+   361→
+   362→---
+   363→
+   364→## 8. Asset bundles by region
+   365→
+   366→Assets are grouped into **bundles** — sets of hashes packaged together for download. A bundle is the unit of network fetch. Bundles are organized by region (Cangli Riverlands, Li Family Creek, Wang Family Bend, etc.) and by content type (characters, vegetation, architecture, audio).
+   367→
+   368→```typescript
+   369→interface AssetBundle {
+   370→  id: string;                    // 'cangli-riverlands-v1'
+   371→  region: string;
+   372→  version: string;
+   373→  hashes: string[];              // all assets in this bundle
+   374→  totalBytes: number;
+   375→  downloadUrl: string;           // CDN URL
+   376→  checksum: string;              // SHA-256 of the bundle file
+   377→  dependencies: string[];        // other bundles this one needs
+   378→}
+   379→```
+   380→
+   381→When the player enters a region, the engine requests that region's bundle. The bundle downloads as a single file; the asset system extracts each asset's blob by hash. The player sees a loading screen (or, if the bundle is prefetched before entry, no loading screen at all).
+   382→
+   383→Bundles are versioned. When a bundle is updated (new assets added), the version bumps and the CDN serves the new bundle. The engine re-fetches the manifest; existing assets remain in OPFS cache (their hashes are unchanged); new assets stream in.
+   384→
+   385→---
+   386→
+   387→## 9. The 16 questions
+   388→
+   389→**Q1. What problem does this system solve?**
+   390→Loading 3D assets deterministically, with byte-stable identity (so saves load across builds), streaming on demand (so the player isn't waiting on a 2 GB download at startup), with graceful degradation (placeholders, eviction) and version control (provenance, license tracking).
+   391→
+   392→**Q2. What is the public interface?**
+   393→`AssetRecord` (§2), `AssetStream` (§3.7), `AssetBundle` (§8), `RuntimeHandle` (§3.8).
+   394→
+   395→**Q3. What is the internal architecture?**
+   396→Build-time: Blender CLI → glTF-Transform → packaging → registry. Runtime: `AssetStream` (OPFS cache + fetcher + decoder + GPU uploader) + `AssetRegistry` (in-memory hash → AssetRecord) + `BundleManager` (region → bundles).
+   397→
+   398→**Q4. What is the data flow?**
+   399→Source file → Blender export → glTF validation → glTF-Transform processing → packaging → SHA-256 hash → registry entry. Runtime: hash lookup → OPFS cache check → bundle fetch → decode → GPU upload → handle returned.
+   400→
+   401→**Q5. What is the lifecycle?**
+   402→Build-time: source → processed asset. Runtime: `request(hash)` → loading → ready → referenced → unreferenced → evicted. Hot reload (dev): source change → re-import → hash diff → broadcast swap.
+   403→
+   404→**Q6. What is the failure model?**
+   405→- Import failure (Blender crash): pipeline halts; CI fails.
+   406→- Validation failure: pipeline halts; asset is not packaged; the asset ID is logged.
+   407→- Network failure (fetch 404): placeholder used; retry with exponential backoff; logged.
+   408→- Decode failure (corrupt blob): placeholder used; the blob is removed from OPFS; re-fetch attempted once.
+   409→- GPU upload failure (out of memory): eviction triggered; retry once; if still failing, placeholder used.
+   410→
+   411→**Q7. What are the invariants?**
+   412→- An asset's hash is its identity. Same bytes → same hash. Different bytes → different hash.
+   413→- A `RuntimeHandle` is valid for the simulation's lifetime; the underlying resource may come and go (eviction, re-stream) but the handle does not change.
+   414→- The `AssetRegistry` is read-only after engine startup (in production). Hot reload updates it in dev only.
+   415→- Bundles are content-addressed: a bundle's checksum is the SHA-256 of its file.
+   416→- Save files reference assets by hash, never by name or path.
+   417→
+   418→**Q8. What is the performance budget?**
+   419→- Asset registry load (assets.json parse): <500 ms for 50k assets.
+   420→- Per-asset OPFS read + decode + GPU upload: <50 ms for a typical mesh, <100 ms for a 4K texture.
+   421→- Bundle download: ~10 MB/s on 4G, ~50 MB/s on broadband.
+   422→- Eviction scan: <5 ms (occurs at frame boundaries when triggered).
+   423→- Hot reload (dev): <10 s from source save to in-engine swap.
+   424→
+   425→**Q9. What is the determinism contract?**
+   426→- glTF-Transform output is deterministic (CI verifies: same source + same settings → same hash).
+   427→- The asset loaded at runtime is the bytes at the hash. Two runs loading the same hash load byte-identical bytes.
+   428→- A save references assets by hash. Loading the save against a build that lacks a hash is a hard error (the asset is missing); loading against a build where the asset has a different hash requires migration.
+   429→
+   430→**Q10. What is the threading/concurrency model?**
+   431→Build-time: single-threaded (the pipeline runs in CI). Runtime: the asset stream runs on a worker; OPFS reads, fetch, meshopt/KTX2 decode happen there; GPU upload happens on the renderer worker (with the adapter). The main thread sees only `RuntimeHandle` integers.
+   432→
+   433→**Q11. How is it serialized?**
+   434→- `AssetRecord` is JSON (sidecar to the .glb).
+   435→- `assets.json` is the full registry (JSON).
+   436→- `bundles.json` is the bundle index (JSON).
+   437→- Save files reference assets by hash (a string field in the CBOR-encoded entity).
+   438→
+   439→**Q12. How is it debugged?**
+   440→- The asset browser (bible document 11 §7.3) lists all loaded assets with hash, size, refcount.
+   441→- `?assetDebug=1` URL param logs every stream request.
+   442→- The tweak panel shows: bundle download progress, OPFS cache size, GPU memory used, eviction count.
+   443→- Missing-asset report: in dev, the engine collects all referenced-but-missing hashes and prints them at shutdown.
+   444→
+   445→**Q13. How is it tested?**
+   446→- Build-time: every source file in `/art/` must produce a valid asset. CI runs the full pipeline.
+   447→- Determinism test: same source → same hash (CI runs the pipeline twice, asserts hash equality).
+   448→- Hot reload test: change a source, verify the swap event fires, verify the new hash is loaded.
+   449→- Placeholder test: request a non-existent hash, verify the placeholder is returned.
+   450→- Eviction test: load 2 GB of assets against a 1 GB budget, verify eviction keeps memory under budget.
+   451→- Bundle test: simulate a region transition, verify the bundle fetches and all assets load.
+   452→
+   453→**Q14. What alternatives were rejected?**
+   454→- *Filename-based loading.* Rejected: filenames drift, renames break saves, two builds with the same filename may have different bytes. Hash-based is the only deterministic option.
+   455→- *Draco over meshopt.* Rejected: Draco's decoder is ~115 KB vs meshopt's ~3 KB, and Draco decode is slower. meshopt is the modern default for new engines (Blender, Unreal, Roblox, Bevy all use it).
+   456→- *PNG/JPEG textures.* Rejected: KTX2/Basis is 6–10× smaller and GPU-native. PNG decode is a CPU bottleneck at load.
+   457→- *Per-asset network fetch (no bundles).* Rejected: 1000 HTTP requests for a region's assets is slower than 1 bundle fetch. Bundles are the unit of network IO.
+   458→- *Embedded textures in glTF.* Rejected: KTX2 textures as separate files dedupe across meshes (the same stone texture used by 50 buildings is one texture, not 50 copies).
+   459→- *Asset hashes computed on source bytes.* Rejected: source bytes include Blender metadata, tool version stamps, etc. — not stable. Hash the *packaged output*, which is deterministic.
+   460→- *No OPFS cache (always fetch).* Rejected: re-downloading 500 MB on every session is hostile. OPFS cache gives free second loads.
+   461→
+   462→**Q15. What are the known limitations?**
+   463→- OPFS storage is capped at ~60% of free disk (browsers evict under pressure). The engine calls `navigator.storage.persist()` on first save to reduce eviction risk.
+   464→- `FileSystemSyncAccessHandle` is worker-only; main-thread OPFS is async only.
+   465→- glTF-Transform's `simplify` (LOD generation) is not as high-quality as meshoptimizer's `simplify`. The engine uses glTF-Transform for build-time simplification; meshoptimizer for runtime decode.
+   466→- KTX2 transcode time (50–200 ms per texture) is non-trivial on first load. Mitigated by OPFS caching of transcoded GPU textures (planned; not in v1).
+   467→- Hot reload requires Blender on the dev machine; CI machines don't have it. CI uses pre-exported glTFs.
+   468→
+   469→**Q16. What does this enable next?**
+   470→- Document 17 (animation) loads clips by hash; the skeleton the clip targets is referenced by hash in the `AssetRecord.dependencies`.
+   471→- Document 18 (VFX) loads VFX meshes, particles, and textures by hash.
+   472→- The determinism contract (document 17 §3) relies on asset hash-stability for save parity.
+   473→- The bundle system enables region streaming (the player walks from Cangli Riverlands to Li Family Creek; the next region's bundle is prefetched in the background).
+   474→- The OPFS cache makes a second session near-instant: assets are already on disk.
+   475→
+   476→---
+   477→
+   478→## 10. Failure cases (catalogue)
+   479→
+   480→| Failure | Detection | Recovery |
+   481→|---|---|---|
+   482→| Blender export fails | Exit code non-zero | Pipeline halts; CI fails; error logged with Blender's stderr |
+   483→| glTF validation fails | gltf-validator returns errors | Asset not packaged; error logged with the validation report |
+   484→| glTF-Transform throws | Exception | Pipeline halts; the offending asset is quarantined |
+   485→| Hash collision (vanishingly unlikely) | SHA-256 collision detected (two assets, same hash, different bytes) | Hard error; the second asset's source is flagged for review |
+   486→| Bundle 404 | HTTP 404 on fetch | Retry once; if still 404, the region's assets use placeholders; UI shows "content unavailable" |
+   487→| Corrupt blob (decode fails) | meshopt/KTX2 decoder throws | Delete from OPFS; re-fetch once; if still corrupt, placeholder; log |
+   488→| GPU out of memory on upload | Allocation throws | Trigger eviction; retry once; if still failing, placeholder; log |
+   489→| OPFS quota exceeded | Write throws | Run eviction on the OPFS cache; retry once; if still failing, fall back to no-OPFS mode (re-fetch every session) |
+   490→| Hash referenced in save not in registry | Save loader can't find hash | Hard error in dev; in prod, prompt user: "Save references unknown content; load anyway with placeholders?" |
+   491→| Bundle checksum mismatch | SHA-256 of downloaded bundle != bundle.checksum | Delete download; re-fetch once; if still wrong, treat as 404 |
+   492→
+   493→---
+   494→
+   495→## 11. Rejected alternatives (detail)
+   496→
+   497→### 11.1 "Filename-based loading"
+   498→
+   499→The argument: artists and designers think in filenames. Hashes are opaque.
+   500→
+   501→The rejection: filenames drift. `wang.blend` becomes `old_wang.blend` becomes `wang_v2.blend`. A save file that referenced `wang.blend` is broken. A hash-referenced save loads the same bytes regardless of filename. The asset browser (bible document 11 §7.3) shows the filename as metadata alongside the hash — humans see names, the engine sees hashes.
+   502→
+   503→### 11.2 "Embedded textures in glTF"
+   504→
+   505→The argument: one file per asset is simpler.
+   506→
+   507→The rejection: a stone texture used by 50 buildings is duplicated 50 times in 50 .glb files. With KTX2 as separate files, it's one file, referenced by hash. The .glb references the texture by hash; the asset system dedupes.
+   508→
+   509→### 11.3 "Draco compression"
+   510→
+   511→The argument: Draco is widely supported.
+   512→
+   513→The rejection: Draco's decoder is ~115 KB (vs meshopt's ~3 KB). Draco decode is slower. Draco's lossy quantization can drift at high compression. meshopt is the modern default; the engine uses it for all engine-authored assets. Draco is supported for consuming third-party assets that ship with Draco.
+   514→
+   515→---
+   516→
+   517→## 12. What this document enables
+   518→
+   519→1. The asset pipeline is deterministic: same source + same settings → same hash → byte-identical asset across builds. This is what makes save parity possible (document 17 §3).
+   520→2. glTF is the canonical format; the engine never has to support proprietary binary formats.
+   521→3. KTX2/Basis + meshopt keep the asset payload small enough to stream over consumer broadband.
+   522→4. The bundle system enables region streaming: the player walks from region to region; the next region's bundle is prefetched.
+   523→5. The OPFS cache makes a second session near-instant.
+   524→6. The placeholder system means a missing asset never breaks the simulation; the player sees a grey cube, not a crash.
+   525→7. Hot reload (dev mode) means an artist sees their Blender edit in the engine in <10 s.
+   526→8. Animation (document 17) and VFX (document 18) load their assets through this same pipeline. There is no separate "animation asset system" or "VFX asset system."
+   527→
+   528→The asset system is the substrate every visual system stands on. Done right, the rest of the engine trusts that assets load, dedupe, cache, and stream — and never thinks about it again.
+   529→

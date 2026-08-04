@@ -1,0 +1,558 @@
+     1→# 49 — Machine-Readable Capability & Decision Graph
+     2→
+     3→**Status:** Architecture. The machine-readable map of what the engine can do, what it cannot do, what was decided, and where everything came from.
+     4→**Date:** 2026-08-03
+     5→**Engine:** Grand Architect (browser-native plugin host, deterministic contract)
+     6→**Depends on:** `03_PLUGIN_SDK_CAPABILITY_SYSTEM` (the capability registry), `05_DATA_SCHEMAS_SEMANTIC_GRAPH` (the definition graph), `06_DETERMINISM_SEEDS_REPLAY` (the fingerprint and seed streams), `43_GRAND_ARCHITECT_CONTROL_PLANE` (the self-improvement loop's Search step), `44_ARCHITECT_TOOL_RESOURCE_PROTOCOL` (Explanation tools query the World Oracle), `47_RESEARCH_GITHUB_DEPENDENCY_ACQUISITION` (research decisions feed the ledger)
+     7→**Read with:** `26_NPC_COGNITION_BEHAVIOR` (provenance for NPC decisions), `30_HISTORY_EVENT_SIMULATION` (provenance for historical events), `23_PROCEDURAL_GENERATION_FRAMEWORK` (provenance for generated content)
+     8→
+     9→---
+    10→
+    11→## 0. What this document is
+    12→
+    13→The control plane (doc 43) lets the AI improve the engine. To improve the engine, the AI must know three things: **what the engine can do** (the capability graph), **what it cannot do yet** (the gap analysis), and **why the engine is the way it is** (the architectural decision ledger). This document defines the machine-readable structures that hold those three things: the `CapabilityRequirement` interface, the gap analysis, the architectural decision ledger, the World Oracle (the searchable index over all of it), and the provenance chain that traces every generated object back to its sources.
+    14→
+    15→The doctrine (AGENTS.md Part 3) says: "Do not confuse the apparatus with the work." The capability graph and the decision ledger are apparatus — but they are apparatus with a specific purpose: to let the AI and the human operator answer "what is the engine?" and "why?" without re-reading every document. The World Oracle is the structural enforcement of "engage the primary source" (also Part 3) — it is the index that makes the primary source reachable.
+    16→
+    17→The doctrine also says: "Cite the precedent; do not float above it." Every claim the AI makes about the engine, every Proposal it writes, every architectural decision it records, must cite the precedent — the prior decision, the existing capability, the provenance chain. The structures in this document are how the precedent is stored.
+    18→
+    19→---
+    20→
+    21→## 1. The CapabilityRequirement interface
+    22→
+    23→A `CapabilityRequirement` is the typed record of "the engine should be able to do X." Every engine subsystem, every plugin's provided capability, every design goal in the corpus, is expressed as a `CapabilityRequirement`. The set of all requirements is the **desired capability graph**. The set of requirements with `implementationState: 'implemented'` is the **implemented capability graph**. The difference is the **gap** (section 2).
+    24→
+    25→```
+    26→┌────────────────────────────────────────────────────────────────────────┐
+    27→│                THE CAPABILITY GRAPH (DAG)                               │
+    28→│                                                                        │
+    29→│   desired graph                  implemented graph                     │
+    30→│   ─────────────                  ─────────────────                     │
+    31→│   ┌──────────────┐               ┌──────────────┐                      │
+    32→│   │ render.webgpu│ ──implemented>│ render.webgpu│                      │
+    33→│   └──────┬───────┘               └──────────────┘                      │
+    34→│          │ dependsOn                                                   │
+    35→│   ┌──────v───────┐               ┌──────────────┐                      │
+    36→│   │render.webgl2 │ ──implemented>│render.webgl2 │                      │
+    37→│   └──────────────┘               └──────────────┘                      │
+    38→│                                                                        │
+    39→│   ┌──────────────┐                                                     │
+    40→│   │sim.npc.s4-60 │ ──NOT in implemented ──>  GAP                       │
+    41→│   └──────┬───────┘                                                     │
+    42→│          │ dependsOn                                                   │
+    43→│   ┌──────v───────┐               ┌──────────────┐                      │
+    44→│   │sim.npc.tiers │ ──implemented>│sim.npc.tiers │                      │
+    45→│   └──────────────┘               └──────────────┘                      │
+    46→│                                                                        │
+    47→│   gap = desired ─ implemented = work the AI does next                  │
+    48→└────────────────────────────────────────────────────────────────────────┘
+    49→```
+    50→
+    51→```typescript
+    52→interface CapabilityRequirement {
+    53→  /** A stable, unique ID. Namespaced: 'engine.render.webgpu', 'sim.npc.s4-budget'. */
+    54→  id: string;
+    55→  /** One-sentence description of what the capability is. */
+    56→  description: string;
+    57→  /** Who or what requires this capability. */
+    58→  requiredBy: string[];           // e.g. ['doc 42 §1.4', 'ga:renderer', 'vertical-slice']
+    59→  /** What other capabilities this one depends on. */
+    60→  dependsOn: string[];            // other CapabilityRequirement IDs
+    61→  /** What other capabilities depend on this one (computed). */
+    62→  requiredByCapabilities: string[];  // populated by the graph
+    63→  /** Acceptance tests — the capability is not "implemented" until these pass. */
+    64→  acceptanceTests: AcceptanceTest[];
+    65→  /** Performance budgets the implementation must meet. */
+    66→  performanceBudgets: PerformanceBudget[];
+    67→  /** Visual references — shipped games / scenes the implementation should match. */
+    68→  visualReferences: VisualReference[];
+    69→  /** Invariants the simulation must preserve when this capability is exercised. */
+    70→  simulationInvariants: SimulationInvariant[];
+    71→  /** The current implementation state. */
+    72→  implementationState: 'not-started' | 'in-progress' | 'implemented' | 'deprecated' | 'rejected';
+    73→  /** Evidence that the capability is implemented (test results, benchmarks). */
+    74→  evidence: EvidenceRef[];
+    75→  /** Known defects — the capability may be "implemented" but have known bugs. */
+    76→  knownDefects: KnownDefect[];
+    77→  /** The owning plugin (if implemented). */
+    78→  owningPlugin?: PluginId;
+    79→  /** The ledger entry that decided this capability's design. */
+    80→  decisionLedgerRef?: string;
+    81→  /** When this requirement was added. */
+    82→  addedAt: string;
+    83→  /** Who added it. */
+    84→  addedBy: string;
+    85→}
+    86→
+    87→interface AcceptanceTest {
+    88→  testId: string;
+    89→  description: string;
+    90→  /** The test class — unit, integration, determinism, conformance, performance, visual. */
+    91→  testClass: 'unit' | 'integration' | 'determinism' | 'conformance' | 'performance' | 'visual';
+    92→  /** The test spec (a reference to the test file or the inline spec). */
+    93→  spec: { kind: 'file-ref' | 'inline'; ref: string };
+    94→  /** The passing condition, in one sentence. */
+    95→  passingCondition: string;
+    96→}
+    97→
+    98→interface PerformanceBudget {
+    99→  metric: string;                  // 'frameTime', 'memory', 'cpuMs', etc.
+   100→  target: number;
+   101→  unit: string;
+   102→  /** The hardware profile the budget applies to. */
+   103→  profile: 'desktop-high' | 'desktop-mid' | 'mobile-high' | 'mobile-low';
+   104→  /** The scenario the budget is measured against. */
+   105→  scenario: string;
+   106→}
+   107→
+   108→interface VisualReference {
+   109→  /** The shipped game / scene being referenced. */
+   110→  game: string;                    // 'Monster Hunter World', 'Death Stranding'
+   111→  /** The specific mechanic / scene / moment. */
+   112→  mechanic: string;                // 'tell animation readability'
+   113→  /** The threshold being calibrated. */
+   114→  threshold: string;               // '12 frames at 60fps'
+   115→  /** Source citation. */
+   116→  source: string;                  // 'GDC 2018 talk', 'Famitsu interview'
+   117→}
+   118→
+   119→interface SimulationInvariant {
+   120→  /** The invariant, in one sentence. */
+   121→  description: string;             // 'NPC tier transitions are deterministic'
+   122→  /** How the invariant is checked. */
+   123→  checkMethod: 'checkpoint-hash' | 'replay' | 'property-test' | 'assertion';
+   124→  /** The check spec. */
+   125→  spec: string;
+   126→}
+   127→
+   128→interface EvidenceRef {
+   129→  kind: 'test-run' | 'benchmark' | 'playtest' | 'visual-regression' | 'falsification';
+   130→  ref: string;                     // audit record ID or artifact ID
+   131→  capturedAt: string;
+   132→  summary: string;
+   133→}
+   134→
+   135→interface KnownDefect {
+   136→  defectId: string;
+   137→  description: string;
+   138→  severity: 'low' | 'med' | 'high' | 'blocker';
+   139→  /** Whether the defect blocks the capability's "implemented" state. */
+   140→  blocksImplementation: boolean;
+   141→  /** The planned fix, if any. */
+   142→  plannedFix?: string;
+   143→  /** The issue / proposal tracking the fix. */
+   144→  trackingRef?: string;
+   145→}
+   146→```
+   147→
+   148→### 1.1 Why every field
+   149→
+   150→- **id, description, requiredBy, dependsOn.** The graph structure. Without these, the AI cannot traverse the graph.
+   151→- **acceptanceTests.** The capability is not "implemented" because the AI says so; it is implemented because the tests pass. The doctrine (AGENTS.md Part 3): "Exhibit reviewer voices; do not self-certify."
+   152→- **performanceBudgets.** A capability that works but is too slow is not a capability. The budget is part of the requirement.
+   153→- **visualReferences.** The doctrine (Part 3): "Cite the precedent; do not float above it." A visual capability without a precedent is aspiration, not engineering.
+   154→- **simulationInvariants.** A capability that breaks the determinism contract (doc 06) is not a capability. The invariant is part of the requirement.
+   155→- **implementationState, evidence.** The current state, with the evidence to back it. The AI does not get to assert "implemented" without evidence.
+   156→- **knownDefects.** A capability can be "implemented" with known defects, as long as the defects are recorded. Hiding defects is forbidden; recording them is required.
+   157→
+   158→### 1.2 The capability graph
+   159→
+   160→The set of all `CapabilityRequirement` records forms a directed acyclic graph (DAG) by `dependsOn`. The graph is queryable (section 4 — the World Oracle). The graph is the engine's self-model: it is what the engine knows about itself, in machine-readable form.
+   161→
+   162→```typescript
+   163→interface CapabilityGraph {
+   164→  /** All requirements, indexed by ID. */
+   165→  requirements: Map<string, CapabilityRequirement>;
+   166→  /** The topological sort of the graph (computed). */
+   167→  topologicalOrder: string[];
+   168→  /** The roots — requirements with no dependsOn. */
+   169→  roots: string[];
+   170→  /** The leaves — requirements nothing depends on. */
+   171→  leaves: string[];
+   172→  /** The current gap (section 2). */
+   173→  gap: CapabilityGap[];
+   174→}
+   175→```
+   176→
+   177→---
+   178→
+   179→## 2. Gap analysis
+   180→
+   181→The gap analysis is the difference between the desired capability graph and the implemented capability graph. The gap is the **missing work** — what the engine cannot yet do, but should be able to do. The gap is what the AI works on.
+   182→
+   183→```typescript
+   184→interface CapabilityGap {
+   185→  /** The requirement that is not satisfied. */
+   186→  requirementId: string;
+   187→  /** The current state. */
+   188→  currentState: 'not-started' | 'in-progress' | 'implemented-with-defects' | 'deprecated';
+   189→  /** The desired state (always 'implemented'). */
+   190→  desiredState: 'implemented';
+   191→  /** What is missing, in one sentence. */
+   192→  description: string;
+   193→  /** The blocking defects, if any. */
+   194→  blockingDefects: string[];
+   195→  /** The missing acceptance tests, if any. */
+   196→  missingTests: string[];
+   197→  /** The missing evidence, if any. */
+   198→  missingEvidence: string[];
+   199→  /** The estimated effort, in role-hours. */
+   200→  estimatedEffort?: { role: ArchitectRole; hours: number }[];
+   201→  /** The priority (computed from requiredBy and dependsOn). */
+   202→  priority: 'low' | 'med' | 'high' | 'critical';
+   203→}
+   204→
+   205→function computeGap(graph: CapabilityGraph): CapabilityGap[] {
+   206→  const gaps: CapabilityGap[] = [];
+   207→  for (const req of graph.requirements.values()) {
+   208→    if (req.implementationState === 'implemented' && req.knownDefects.every(d => !d.blocksImplementation)) {
+   209→      continue;  // satisfied
+   210→    }
+   211→    gaps.push({
+   212→      requirementId: req.id,
+   213→      currentState: req.implementationState,
+   214→      desiredState: 'implemented',
+   215→      description: req.description,
+   216→      blockingDefects: req.knownDefects.filter(d => d.blocksImplementation).map(d => d.defectId),
+   217→      missingTests: req.acceptanceTests.filter(t => !evidenceCoversTest(req.evidence, t)).map(t => t.testId),
+   218→      missingEvidence: req.evidence.length === 0 ? ['no-evidence'] : [],
+   219→      estimatedEffort: estimateEffort(req),
+   220→      priority: computePriority(req, graph),
+   221→    });
+   222→  }
+   223→  return gaps;
+   224→}
+   225→```
+   226→
+   227→### 2.1 How the AI uses the gap
+   228→
+   229→The gap is the AI's work queue. When the AI enters the self-improvement loop (doc 43 §4), it picks a gap (highest priority, smallest effort), enters the loop, and produces a Proposal that addresses the gap. The Proposal's `addressesGap` field (doc 43 §4.1) references the gap. When the Proposal's transaction commits, the gap's `currentState` updates to `implemented`, the evidence is recorded, and the gap is removed from the work queue.
+   230→
+   231→### 2.2 Why the gap is not just "open issues"
+   232→
+   233→A bug tracker is a flat list of issues. The capability graph is a DAG with dependencies, acceptance tests, evidence, and known defects. The difference is structural: a bug tracker tells you "what is broken"; the capability graph tells you "what is broken, what depends on it being fixed, what evidence would prove it fixed, and what the priority is relative to everything else." The capability graph is the work queue the AI can reason about; a bug tracker is the work queue a human reasons about.
+   234→
+   235→---
+   236→
+   237→## 3. The architectural decision ledger
+   238→
+   239→Every non-trivial architectural decision is recorded in the **architectural decision ledger**. The ledger is the engine's institutional memory: it records what was decided, why, what alternatives were considered, what the drawbacks are, and what would trigger reconsideration. The AI consults the ledger before proposing a change (step 4 of the self-improvement loop — Search); if a precedent exists, the AI cites it; if the precedent is being revisited, the AI cites the reconsideration trigger.
+   240→
+   241→```typescript
+   242→interface ArchitecturalDecision {
+   243→  /** The decision ID, namespaced: 'decision:render.webgpu-choice'. */
+   244→  decisionId: string;
+   245→  /** The problem being decided. */
+   246→  problem: string;
+   247→  /** The context — what was the state of the engine, the project, the world when this was decided. */
+   248→  context: string;
+   249→  /** The options considered. */
+   250→  optionsConsidered: {
+   251→    name: string;
+   252→    description: string;
+   253→    pros: string[];
+   254→    cons: string[];
+   255→  }[];
+   256→  /** The selected approach. */
+   257→  selectedApproach: string;
+   258→  /** Why this approach was selected (first-person, signed). */
+   259→  why: string;
+   260→  /** The known drawbacks of the selected approach. */
+   261→  knownDrawbacks: string[];
+   262→  /** The systems affected by this decision. */
+   263→  affectedSystems: string[];       // capability IDs, plugin IDs, doc references
+   264→  /** What would trigger reconsideration. */
+   265→  reconsiderationTriggers: string[];
+   266→  /** The date the decision was made. */
+   267→  date: string;
+   268→  /** The engine version at the time of the decision. */
+   269→  engineVersion: string;
+   270→  /** The deciders (first-person, signed). */
+   271→  deciders: { role: ArchitectRole | 'human'; principalId: string; signedAt: string }[];
+   272→  /** The dissenters (if any — quoted, signed). */
+   273→  dissenters?: { principalId: string; objection: string; signedAt: string }[];
+   274→  /** The status of the decision. */
+   275→  status: 'active' | 'superseded' | 'deprecated';
+   276→  /** If superseded, by which decision. */
+   277→  supersededBy?: string;
+   278→  /** References to related decisions. */
+   279→  relatedDecisions: string[];
+   280→  /** References to the capability graph. */
+   281→  capabilityRefs: string[];
+   282→}
+   283→```
+   284→
+   285→### 3.1 Why the ledger is non-negotiable
+   286→
+   287→The doctrine (AGENTS.md Part 3) says: "Make decisions; do not defer in the name of rigor." The ledger is the structural enforcement of "make decisions" — every decision is recorded, every alternative is named, every drawback is owned. A future AI (or human) that questions the decision finds the ledger entry, reads the rationale, and either accepts it or triggers reconsideration per the documented triggers.
+   288→
+   289→The doctrine also says (Part 3): "Exhibit reviewer voices; do not self-certify." The `dissenters` field is the structural enforcement of that doctrine for decisions: if a reviewer disagreed, the disagreement is quoted and signed, not buried. A decision with no dissenters is a decision that may not have been reviewed; a decision with quoted dissent is a decision that was.
+   290→
+   291→### 3.2 Reconsideration triggers
+   292→
+   293→A decision is not forever. Each decision records the conditions under which it should be revisited:
+   294→
+   295→- **A dependency changes.** "If Three.js deprecates the WebGPU backend, reconsider the renderer abstraction."
+   296→- **A performance budget is exceeded.** "If the simulation budget exceeds 5ms on desktop-high, reconsider the S4 NPC tier."
+   297→- **A new option emerges.** "If a deterministic physics solver with browser WASM support becomes available, reconsider Jolt."
+   298→- **A defect is discovered.** "If a save-corruption bug is traced to this decision, reconsider immediately."
+   299→- **Time passes.** "Reconsider in 12 months, regardless." (Some decisions are time-bounded.)
+   300→
+   301→The AI checks the triggers before each self-improvement loop; a triggered decision is flagged for reconsideration. The reconsideration is itself a new decision (which supersedes the old one, with `supersededBy`).
+   302→
+   303→### 3.3 The ledger is append-only
+   304→
+   305→Decisions are not deleted. A superseded decision stays in the ledger, with `status: 'superseded'` and a pointer to the superseding decision. The history is the point — the ledger shows not just what was decided, but how the decisions evolved. A future investigator (AI or human) can trace the evolution of any architectural choice.
+   306→
+   307→---
+   308→
+   309→## 4. The World Oracle
+   310→
+   311→The World Oracle is the searchable index over the capability graph, the decision ledger, the plugin registry, the definition graph, and the runtime state. It is the AI's interface to "everything the engine knows about itself." The Explanation tools (doc 44 §6) query the World Oracle; the self-improvement loop's Search step (doc 43 §4 step 4) queries the World Oracle.
+   312→
+   313→The World Oracle uses a URL-like scheme to address its contents:
+   314→
+   315→```
+   316→engine://architecture/<doc-id>           → engine architecture docs
+   317→engine://capabilities/<capability-id>    → a CapabilityRequirement
+   318→engine://plugins/<plugin-id>             → a plugin's manifest + state
+   319→engine://decisions/<decision-id>         → an ArchitecturalDecision
+   320→engine://gap                             → the current capability gap
+   321→engine://fingerprint                     → the determinism fingerprint
+   322→
+   323→world://cosmology                        → the world's cosmology (doc 24)
+   324→world://regions/<region-id>              → a region's state
+   325→world://factions/<faction-id>            → a faction's state
+   326→world://entities/<entity-id>             → an entity's full record
+   327→world://definitions/<definition-id>      → a definition (doc 05)
+   328→
+   329→runtime://scene                          → the current scene graph
+   330→runtime://physics/contacts               → active physics contacts
+   331→runtime://tick                           → the current tick
+   332→runtime://seed                           → the active seed and RNG state
+   333→
+   334→provenance://<object-id>                 → the provenance chain for any object (section 5)
+   335→```
+   336→
+   337→```typescript
+   338→interface WorldOracle {
+   339→  /** Query the oracle by URL or by structured query. */
+   340→  query(query: OracleQuery): Promise<OracleResult>;
+   341→  /** Resolve a URL to its object. */
+   342→  resolve(url: string): Promise<unknown>;
+   343→  /** Full-text search across all indexed content. */
+   344→  search(text: string, opts?: OracleSearchOpts): Promise<OracleSearchHit[]>;
+   345→}
+   346→
+   347→interface OracleQuery {
+   348→  /** A URL, or a structured query. */
+   349→  url?: string;
+   350→  /** Structured query (one of). */
+   351→  structured?:
+   352→    | { kind: 'capability'; filter: CapabilityFilter }
+   353→    | { kind: 'decision'; filter: DecisionFilter }
+   354→    | { kind: 'plugin'; filter: PluginFilter }
+   355→    | { kind: 'definition'; filter: DefinitionFilter }
+   356→    | { kind: 'entity'; filter: EntityFilter }
+   357→    | { kind: 'provenance'; targetId: string }
+   358→    | { kind: 'gap' };
+   359→}
+   360→
+   361→interface OracleResult {
+   362→  url: string;
+   363→  object: unknown;
+   364→  /** Related objects, for navigation. */
+   365→  related: { url: string; relation: string }[];
+   366→  /** When this object was last updated. */
+   367→  updatedAt: string;
+   368→}
+   369→
+   370→interface OracleSearchHit {
+   371→  url: string;
+   372→  snippet: string;
+   373→  score: number;
+   374→  kind: 'capability' | 'decision' | 'plugin' | 'definition' | 'doc' | 'entity';
+   375→}
+   376→```
+   377→
+   378→```
+   379→┌────────────────────────────────────────────────────────────────────────┐
+   380→│                THE WORLD ORACLE (URL SPACES)                            │
+   381→│                                                                        │
+   382→│   engine://                  world://                  runtime://       │
+   383→│   ──────────                 ────────                  ──────────       │
+   384→│   architecture/00-49         cosmology                 scene            │
+   385→│   capabilities/<id>          regions/<id>              physics/contacts │
+   386→│   plugins/<id>               factions/<id>             tick             │
+   387→│   decisions/<id>             entities/<id>             seed             │
+   388→│   gap                        definitions/<id>                           │
+   389→│   fingerprint                                                            │
+   390→│                                                                        │
+   391→│   provenance://<object-id>  (cross-cutting; any object's chain)        │
+   392→│                                                                        │
+   393→│   The Oracle federates all four spaces into a single query interface.  │
+   394→│   Cross-space queries (e.g. "which decisions affected this capability, │
+   395→│   and which plugins implement it?") are resolved at index time.        │
+   396→└────────────────────────────────────────────────────────────────────────┘
+   397→```
+   398→
+   399→### 4.1 What the World Oracle indexes
+   400→
+   401→- **Engine architecture docs** (this corpus, docs 00-49). Full-text indexed, with section-level addressing (`engine://architecture/43#section-5`).
+   402→- **The capability graph.** Every `CapabilityRequirement`, queryable by ID, by `implementationState`, by `requiredBy`, by `dependsOn`.
+   403→- **The decision ledger.** Every `ArchitecturalDecision`, queryable by ID, by `affectedSystems`, by `status`.
+   404→- **The plugin registry.** Every plugin's manifest, state, capabilities.
+   405→- **The definition graph** (doc 05). Every definition, template, rule.
+   406→- **Runtime state.** The current scene, physics, tick, seed — queryable, but not cached (the runtime changes every tick).
+   407→- **Provenance** (section 5). Every generated object's provenance chain.
+   408→
+   409→### 4.2 Why a single Oracle, not separate indexes
+   410→
+   411→The doctrine (AGENTS.md Part 1) says: "Keep components modular and concerns clearly separated." The World Oracle is one component, but it indexes many sources. The alternative — separate indexes per source, queried in turn — produces the standard problem of federated search: the AI has to know which index to ask, and cross-source queries (e.g., "which decisions affected this capability, and which plugins implement it?") require the AI to do the federation. The World Oracle does the federation once, at index time, so the AI's queries are simple.
+   412→
+   413→---
+   414→
+   415→## 5. Provenance for every generated object
+   416→
+   417→Every object the engine generates — every entity, every region, every NPC relationship, every terrain chunk, every historical event, every save — has a **provenance chain**. The provenance chain is the structural answer to "where did this come from?" It traces the object back to its sources: the definitions, the templates, the rules, the seed streams, the plugin versions, the historical modifications, and the code version that produced it.
+   418→
+   419→```typescript
+   420→interface ProvenanceChain {
+   421→  /** The object this chain describes. */
+   422→  objectId: string;
+   423→  /** The object's type. */
+   424→  objectType: 'entity' | 'region' | 'chunk' | 'relationship' | 'event' | 'save' | 'asset' | 'other';
+   425→  /** The chain, in reverse chronological order (most recent first). */
+   426→  entries: ProvenanceEntry[];
+   427→  /** The hash of the chain, for tamper-evidence. */
+   428→  chainHash: string;
+   429→}
+   430→
+   431→interface ProvenanceEntry {
+   432→  /** When this entry was created. */
+   433→  tick: bigint;
+   434→  /** What kind of provenance this is. */
+   435→  kind: ProvenanceKind;
+   436→  /** The source reference. */
+   437→  source: ProvenanceSource;
+   438→  /** A human-readable description. */
+   439→  description: string;
+   440→}
+   441→
+   442→type ProvenanceKind =
+   443→  | 'generated'             // produced by a generator stage
+   444→  | 'derived'               // derived from another object (e.g., a relationship from two NPCs)
+   445→  | 'modified'              // modified by a command (player or AI)
+   446→  | 'migrated'              // transformed by a save migration
+   447→  | 'imported';             // imported from external data
+   448→
+   449→interface ProvenanceSource {
+   450→  /** The plugin that produced this entry. */
+   451→  pluginId: PluginId;
+   452→  /** The plugin version at the time. */
+   453→  pluginVersion: string;
+   454→  /** The engine version at the time. */
+   455→  engineVersion: string;
+   456→  /** The engine fingerprint at the time. */
+   457→  engineFingerprint: string;
+   458→  /** The generator stage, if generated. */
+   459→  generatorStage?: string;
+   460→  /** The seed stream, if generated. */
+   461→  seedStream?: string;
+   462→  /** The definition IDs that governed generation, if any. */
+   463→  definitionIds?: string[];
+   464→  /** The template IDs that governed generation, if any. */
+   465→  templateIds?: string[];
+   466→  /** The rule IDs that fired, if any. */
+   467→  ruleIds?: string[];
+   468→  /** The command that modified this, if modified. */
+   469→  commandRef?: string;
+   470→  /** The historical modification's author, if modified by AI or human. */
+   471→  author?: { kind: 'ai' | 'human' | 'system'; principalId: string };
+   472→  /** The code version (git SHA) at the time. */
+   473→  codeVersion: string;
+   474→}
+   475→```
+   476→
+   477→### 5.1 What provenance is recorded
+   478→
+   479→For every generated object, the chain records:
+   480→
+   481→- **Source definitions.** Which definitions governed the object's generation. (`provenance://entity-12345` → `ga:bestiary.spirit-fox`.)
+   482→- **Templates.** Which templates were applied. (`provenance://entity-12345` → `ga:templates.fox-difficult-encounter`.)
+   483→- **Rules.** Which rules fired during generation. (`provenance://entity-12345` → `ga:rules.spawn-fox-in-spirit-wilds`.)
+   484→- **Seed streams.** Which deterministic seed stream produced the object. (`provenance://entity-12345` → `seed:region-7/encounter-stream/42`.)
+   485→- **Plugin versions.** Which version of which plugin produced the object. (`ga:bestiary@1.4.2`.)
+   486→- **Historical modifications.** Every command that modified the object after generation, with the author (AI principal, human, or system) and the code version at the time.
+   487→- **Code version.** The git SHA of the engine at the time of generation or modification.
+   488→
+   489→### 5.2 Why provenance is non-negotiable
+   490→
+   491→The doctrine (AGENTS.md Part 3) says: "Engage the primary source, not the secondary summary." Provenance is the structural enforcement of that doctrine for engine-generated objects. When the AI asks `world.whyDoesThisExist` (doc 44 §6) about a spirit fox, the answer is not "it's a spirit fox" — it is the full provenance chain: the definition that governed its generation, the template that set its stats, the rule that fired, the seed stream that produced its instance, the plugin version, the code version, and every modification since. The AI reasons about primary sources, not summaries.
+   492→
+   493→Provenance is also the structural answer to "is this object reproducible?" If the chain is intact, the object can be re-generated from the seed and the sources; if the chain is broken (a definition was deleted, a plugin was upgraded incompatibly), the object is not reproducible, and the engine flags it.
+   494→
+   495→### 5.3 Provenance and the determinism contract
+   496→
+   497→Provenance is closely tied to the determinism contract (doc 06). The engine fingerprint in the provenance source is the same fingerprint that gates save compatibility. A save with fingerprint X can be replayed only if the engine produces the same fingerprint X; the provenance chain tells the AI which fingerprint produced which object, so the AI knows which objects are at risk when the fingerprint changes.
+   498→
+   499→---
+   500→
+   501→## 6. Failure cases
+   502→
+   503→| Failure | Detection | Response |
+   504→|---|---|---|
+   505→| Capability graph has a cycle | Topological sort fails | The graph is rejected at registration; the offending edge is reported |
+   506→| Capability requirement references unknown ID | Reference check | The requirement is rejected at registration |
+   507→| Decision ledger references unknown capability | Reference check | The decision is registered but flagged |
+   508→| World Oracle index out of sync | Index version check | The Oracle refuses queries until re-indexed; re-index is automatic on engine boot |
+   509→| Provenance chain broken (missing source) | Chain verification | The object is flagged `provenance-broken`; the AI is warned |
+   510→| Provenance chain hash mismatch | Hash verification | Tamper-evidence failure; security incident declared |
+   511→| Oracle query times out | Query timeout | The Oracle returns partial results with a warning |
+   512→| Gap analysis produces empty gap | All requirements implemented | The engine reports `no-gaps`; the AI may consider new requirements |
+   513→| Decision ledger supersession chain breaks | `supersededBy` reference check | The orphaned decision is flagged for review |
+   514→
+   515→---
+   516→
+   517→## 7. Rejected alternatives
+   518→
+   519→### 7.1 "Free-form documentation, no machine-readable graph"
+   520→
+   521→The first design: the engine's self-model is the documentation (this corpus, docs 00-49); the AI reads the docs and reasons. Rejected because (a) free-form docs are not queryable — the AI cannot ask "what depends on this capability?" and get a precise answer; (b) the docs drift from the implementation as the engine evolves, with no structural check; (c) the doctrine (AGENTS.md Part 3) says: "Do not confuse the apparatus with the work." The docs are apparatus; the capability graph is the work, in machine-readable form. The docs explain the graph; the graph is the truth.
+   522→
+   523→### 7.2 "A flat issue tracker, not a capability DAG"
+   524→
+   525→The second design: the engine's work queue is a flat list of issues (GitHub Issues, Jira). Rejected per section 2.2 — a flat list does not capture dependencies, acceptance tests, evidence, or known defects structurally. The capability graph is a DAG with all of those; a flat list is a poor approximation.
+   526→
+   527→### 7.3 "Decisions are recorded in commit messages"
+   528→
+   529→The third design: architectural decisions are recorded in the commit messages of the code that implements them. Rejected because (a) commit messages are scattered across the codebase, not queryable as a ledger; (b) commit messages record what changed, not what alternatives were considered or why the selected approach was chosen; (c) commit messages do not record reconsideration triggers, so future maintainers do not know when to revisit. The decision ledger is a separate, structured record; commit messages reference it (`decision: render.webgpu-choice`), but they do not replace it.
+   530→
+   531→### 7.4 "Provenance is best-effort, not required"
+   532→
+   533→The fourth design: provenance is recorded when convenient, but not required for every object. Rejected because (a) "best-effort provenance" is "no provenance" in practice — the objects that need it most (the ones the AI is debugging) are the ones whose provenance is missing; (b) the determinism contract (doc 06) requires reproducibility, and reproducibility requires provenance; (c) the doctrine (AGENTS.md Part 3) says: "Engage the primary source, not the secondary summary." Without provenance, the AI cannot engage the primary source for any generated object. Provenance is required, full stop.
+   534→
+   535→### 7.5 "The World Oracle is a SQL database"
+   536→
+   537→The fifth design: the World Oracle is a SQL database, queried with SQL. Rejected because (a) SQL is a poor fit for graph queries (the capability graph and the provenance chain are graphs, not tables); (b) the Oracle addresses heterogeneous sources (docs, capabilities, decisions, plugins, definitions, runtime, provenance) that do not share a schema; (c) the URL scheme (`engine://`, `world://`, `runtime://`, `provenance://`) is a more AI-friendly interface than SQL — the AI can construct URLs from context. The Oracle may use SQL internally (for the indexed content), but its query interface is the URL scheme and the structured query, not raw SQL.
+   538→
+   539→### 7.6 "The capability graph is auto-derived from code"
+   540→
+   541→The sixth design: the capability graph is auto-derived from the code (e.g., by parsing the plugin manifests and the type system). Rejected because (a) the code captures what is implemented, not what is required — the gap analysis (section 2) requires the desired graph, which is not in the code; (b) the code does not capture acceptance tests, performance budgets, visual references, or simulation invariants — those are design intent, not implementation; (c) auto-derivation produces a graph that is only as good as the code's structure, which is poor for a system that is partly implemented. The capability graph is hand-authored (by the AI or the human), with the implementation state updated as the code evolves.
+   542→
+   543→---
+   544→
+   545→## 8. What this document enables
+   546→
+   547→The machine-readable capability and decision graph as specified here enables:
+   548→
+   549→- **A capability graph** that captures what the engine can do, what it cannot do, and what depends on what (section 1).
+   550→- **A gap analysis** that produces the AI's work queue, with priorities and effort estimates (section 2).
+   551→- **An architectural decision ledger** that records every non-trivial decision, with alternatives, drawbacks, and reconsideration triggers (section 3).
+   552→- **A World Oracle** that makes all of the above searchable, by URL or by structured query (section 4).
+   553→- **A provenance chain** for every generated object, tracing it back to its definitions, templates, rules, seeds, plugins, and code versions (section 5).
+   554→
+   555→The doctrine (AGENTS.md Part 3) says: "Cite the precedent; do not float above it." The structures in this document are how the precedent is stored, indexed, and cited. Every Proposal the AI writes cites a capability requirement; every decision the AI records cites the alternatives; every explanation the AI gives cites the provenance. The engine's self-model is the structural enforcement of the doctrine at the level of the AI's own reasoning.
+   556→
+   557→The doctrine also says (Part 3): "Build the engine, not just the brake." The capability graph and the decision ledger are engine — they are the engine's knowledge of itself, in a form the AI can use. The brake is the requirement that the AI cite the precedent; the engine is the precedent itself, made machine-readable. Both are present, both are necessary, and the engine — the work the AI does on the engine — is what they serve.
+   558→

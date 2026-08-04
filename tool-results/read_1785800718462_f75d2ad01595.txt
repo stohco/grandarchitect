@@ -1,0 +1,598 @@
+     1→# 15 — Materials, Lighting, Post-Processing
+     2→
+     3→**Status:** Engine systems above the renderer abstraction. Authored in engine types; compiled to TSL by the adapter. No Three.js types in the public interface.
+     4→**Date:** 2026-08-03
+     5→**Engine:** Grand Architect (browser-native plugin host, deterministic contract)
+     6→**Depends on:** `13_RENDERER_ABSTRACTION` (ResourceDescriptor, RenderPassGraph), `14_THREEJS_WEBGPU_WEBGL_INTEGRATION §2,§4` (TSL node materials, global chunk patching), `16_ASSET_REGISTRY_IMPORT_PIPELINE §2` (AssetRecord.skeletonProfile, GA_material_ref glTF extension), `09_ENTITY_RUNTIME_STATE_ARCHITECTURE` (entity material references)
+     7→**Read with:** `11_ENGINE_DESIGN §2.1,§2.2` (bible fog + water systems), `17_ENGINE_ARCHITECTURE §5.2,§5.3` (shader chunk system, material system), `08_THREEJS_REPOSITORY_RESEARCH §3` (InstancedMesh / BatchedMesh for per-instance variation)
+     8→
+     9→---
+    10→
+    11→## 0. What this document is
+    12→
+    13→This document specifies the three rendering systems that sit above the `RenderBackend` interface (document 13) and below the Three.js adapter (document 14):
+    14→
+    15→1. **The material system** — PBR base, custom xianxia materials (jade, silk, bronze, spirit-wood), the material library, per-instance variation, registration, glTF referencing, serialization.
+    16→2. **The lighting system** — sun, ambient, hemisphere, time-of-day curve, shadow cascades, SSAO/GTAO.
+    17→3. **The post-processing pipeline** — bloom, tone mapping, fog/atmosphere, depth-of-field, outline/selection, the global fog-chunk patch.
+    18→
+    19→All three are authored in engine-owned types. The Three.js adapter compiles them to TSL node materials and post passes. The simulation, the scene graph, and the asset pipeline never see a `THREE.Material` or `THREE.Light`.
+    20→
+    21→---
+    22→
+    23→## 1. The material system
+    24→
+    25→### 1.1 The MaterialRegistry
+    26→
+    27→Materials are identified by string ID (`ga:pbr`, `ga:jade`, `ga:silk`, `ga:bronze`, `ga:spirit-wood`, `ga:water-river`, `ga:water-paddy`, `ga:qi-residue`, `ga:foliage-card`, `ga:dissolve`). The registry maps IDs to `MaterialDefinition`s. The renderer (via the adapter) compiles each definition to a TSL node material lazily on first use.
+    28→
+    29→```typescript
+    30→interface MaterialRegistry {
+    31→  register(def: MaterialDefinition): void;
+    32→  get(materialId: string): MaterialDefinition | undefined;
+    33→  list(): MaterialDefinition[];
+    34→  /** Called by the asset pipeline when a glTF references a material by ID. */
+    35→  resolveReference(ref: MaterialRef): MaterialDefinition;
+    36→}
+    37→
+    38→interface MaterialDefinition {
+    39→  id: string;
+    40→  version: string;
+    41→  base: 'pbr' | 'unlit' | 'custom';
+    42→  /** TSL node graph, authored in engine types (see §1.4). */
+    43→  tslGraph: TslGraphFactory;
+    44→  /** Default uniforms; overridable per-instance. */
+    45→  defaultUniforms: Record<string, UniformValue>;
+    46→  /** Default texture slots; overridable per-instance. */
+    47→  defaultTextures: Record<string, TextureSlot>;
+    48→  /** Static defines that affect compilation. */
+    49→  staticDefines: Record<string, string | number | boolean>;
+    50→  renderQueue: RenderQueue;
+    51→  doubleSided: boolean;
+    52→  /** For the asset pipeline: which glTF material extension key references this. */
+    53→  gltfExtension?: string;
+    54→  /** Memory budget for the compiled program + uniform buffer. */
+    55→  memoryBudget: number;
+    56→}
+    57→
+    58→type RenderQueue = 'opaque' | 'transparent' | 'alpha-test' | 'custom-overlay';
+    59→
+    60→interface UniformValue {
+    61→  type: 'float' | 'vec2' | 'vec3' | 'vec4' | 'color' | 'mat4' | 'int';
+    62→  value: number | number[] | Float32Array;
+    63→  min?: number; max?: number; // for the tweak panel
+    64→}
+    65→
+    66→interface TextureSlot {
+    67→  kind: 'albedo' | 'normal' | 'roughness' | 'metallic' | 'emissive' | 'orm' | 'data';
+    68→  srgb: boolean;
+    69→  defaultHandle?: number; // a fallback texture handle if no texture bound
+    70→}
+    71→```
+    72→
+    73→### 1.2 The PBR base
+    74→
+    75→`ga:pbr` is the default material for any mesh that does not specify otherwise. It is a standard PBR model: metal-roughness workflow, GGX BRDF, energy-conserving specular, Lambertian diffuse. Authored as a TSL graph that wraps Three.js's built-in physical lighting nodes.
+    76→
+    77→```typescript
+    78→const pbrDefinition: MaterialDefinition = {
+    79→  id: 'ga:pbr',
+    80→  version: '1.0.0',
+    81→  base: 'pbr',
+    82→  tslGraph: pbTslGraph,         // wraps three/tsl's lightingPhysical
+    83→  defaultUniforms: {
+    84→    baseColor:   { type: 'color', value: [0.7, 0.7, 0.7] },
+    85→    roughness:   { type: 'float', value: 0.6, min: 0, max: 1 },
+    86→    metallic:    { type: 'float', value: 0.0, min: 0, max: 1 },
+    87→    emissive:    { type: 'color', value: [0, 0, 0] },
+    88→    emissiveStrength: { type: 'float', value: 0, min: 0, max: 16 },
+    89→    alphaCutoff: { type: 'float', value: 0.5, min: 0, max: 1 },
+    90→  },
+    91→  defaultTextures: {
+    92→    albedo:    { kind: 'albedo',    srgb: true },
+    93→    normal:    { kind: 'normal',    srgb: false },
+    94→    orm:       { kind: 'orm',       srgb: false }, // AO/rough/metal packed
+    95→    emissive:  { kind: 'emissive',  srgb: true },
+    96→  },
+    97→  staticDefines: { ALPHA_TEST: false },
+    98→  renderQueue: 'opaque',
+    99→  doubleSided: false,
+   100→  gltfExtension: 'GA_material_pbr',
+   101→  memoryBudget: 4096, // bytes per uniform buffer
+   102→};
+   103→```
+   104→
+   105→### 1.3 Custom xianxia materials
+   106→
+   107→The engine ships a curated library of materials specific to the xianxia setting. These are not generic PBR — they encode the visual language of the world.
+   108→
+   109→| Material ID | Purpose | Key model |
+   110→|---|---|---|
+   111→| `ga:jade` | Jade pendants, ritual implements, jade plaques | Subsurface scattering + anisotropic specular; light bleeds through thin edges |
+   112→| `ga:silk` | Cultivator robes, formal wear | Two-layer velvet specular + anisotropic stretch along warp direction; flow map for wind |
+   113→| `ga:bronze` | Ritual vessels, weapon fittings, mirrors | Patina layer + base metal; oxidation mask grows over in-game time |
+   114→| `ga:spirit-wood` | Sect building frames, sword scabbards | Grain anisotropy + faint inner glow when qi-imbued |
+   115→| `ga:water-river` | Rivers, streams | Beer-Lambert + Gerstner + variance roughness (bible doc 11 §2.2) |
+   116→| `ga:water-paddy` | Flooded paddies | Shallow-water variant; turbidity + albedo tints; reflective of sky |
+   117→| `ga:qi-residue` | Qi perception overlay | Additive screen-blend; visible only when qi-perception pass is active |
+   118→| `ga:foliage-card` | Grass, crops, distant trees | Two-axis billboarding + wind TSL; alpha-tested |
+   119→| `ga:dissolve` | Death/teleport exits | Noise-driven alpha; edge glow; used by VFX (doc 18) |
+   120→
+   121→Each material is a `MaterialDefinition` with a TSL graph. The graphs are authored in `renderer/materials/` — engine code, not adapter code. The adapter compiles them.
+   122→
+   123→### 1.4 The TSL graph factory
+   124→
+   125→A `TslGraphFactory` is a function that returns a TSL node graph given a `MaterialBuildContext`. The build context provides uniform accessors, texture samplers, and the world-space inputs (position, normal, tangent, uv).
+   126→
+   127→```typescript
+   128→type TslGraphFactory = (ctx: MaterialBuildContext) => MaterialOutputNodes;
+   129→
+   130→interface MaterialBuildContext {
+   131→  uniforms: UniformAccessor;       // uniform('baseColor') → TSL uniform node
+   132→  textures: TextureAccessor;       // texture('albedo') → TSL texture node
+   133→  defines: Record<string, boolean>;
+   134→  worldPos: TslNode;               // positionWorld
+   135→  worldNormal: TslNode;            // normalWorld
+   136→  worldTangent: TslNode;
+   137→  uv: TslNode;
+   138→  vertexColor: TslNode;
+   139→  time: TslNode;                   // engine-synchronized time (NOT performance.now())
+   140→}
+   141→
+   142→interface MaterialOutputNodes {
+   143→  colorNode: TslNode;              // final albedo + lighting
+   144→  normalNode?: TslNode;            // perturbed normal (e.g. normal map)
+   145→  emissiveNode?: TslNode;
+   146→  alphaNode?: TslNode;
+   147→  metalnessNode?: TslNode;
+   148→  roughnessNode?: TslNode;
+   149→}
+   150→
+   151→type TslNode = unknown; // opaque; the adapter casts to three/tsl nodes
+   152→```
+   153→
+   154→The factory is called once per (materialId, backend) pair, then cached. Re-calling it on a uniform change would recompile — wasteful. Uniforms are accessed via the accessor and bound at runtime, not compile-time.
+   155→
+   156→### 1.5 Per-instance variation
+   157→
+   158→A single material definition (`ga:jade`) may be instantiated thousands of times (every jade pendant in the world). Per-instance variation (color tint, roughness range, emissive strength) is handled by per-instance uniform overrides, not by recompiling.
+   159→
+   160→```typescript
+   161→interface MaterialInstance {
+   162→  materialId: string;           // references the registry
+   163→  uniformOverrides: Record<string, UniformValue>;
+   164→  textureOverrides: Record<string, ResourceHandle>;
+   165→}
+   166→
+   167→// Adapter compiles ga:jade ONCE. Instances share the compiled program.
+   168→// Per-instance uniforms are uploaded to a uniform buffer per draw.
+   169→```
+   170→
+   171→For crowds (10k disciples), per-instance variation uses `InstancedBufferAttribute` for the per-instance uniforms — one draw call, 10k uniform sets in a single buffer.
+   172→
+   173→### 1.6 Material registration and glTF referencing
+   174→
+   175→Materials are registered at engine startup (via the `ga:renderer` plugin's `init`):
+   176→
+   177→```typescript
+   178→host.materials.register(pbrDefinition);
+   179→host.materials.register(jadeDefinition);
+   180→host.materials.register(silkDefinition);
+   181→// ...
+   182→```
+   183→
+   184→glTF assets reference materials by ID via a custom extension:
+   185→
+   186→```json
+   187→{
+   188→  "materials": [
+   189→    {
+   190→      "name": "pendant-jade",
+   191→      "extensions": {
+   192→        "GA_material_ref": {
+   193→          "materialId": "ga:jade",
+   194→          "uniformOverrides": {
+   195→            "baseColor": [0.6, 0.85, 0.7],
+   196→            "subsurface": 0.7
+   197→          }
+   198→        }
+   199→      }
+   200→    }
+   201→  ]
+   202→}
+   203→```
+   204→
+   205→If `GA_material_ref` is present, the asset pipeline (document 16) uses the referenced material; the glTF material block is ignored (or used as a fallback for non-engine viewers). If absent, the pipeline falls back to the glTF material's `pbrMetallicRoughness`, mapped to `ga:pbr` with the glTF textures.
+   206→
+   207→This means: an artist exports a jade pendant from Blender with a placeholder material. The glTF carries `GA_material_ref: ga:jade`. The engine renders it with the real jade TSL graph. A non-engine viewer (e.g. a glTF preview tool) renders the placeholder.
+   208→
+   209→### 1.7 Serialization
+   210→
+   211→Material instances are serialized as part of the entity's presentation model:
+   212→
+   213→```typescript
+   214→// In CBOR:
+   215→{
+   216→  "mesh": 12345,                    // ResourceHandle (resolved on load)
+   217→  "material": {
+   218→    "materialId": "ga:jade",
+   219→    "uniformOverrides": { "baseColor": [0.6, 0.85, 0.7], "subsurface": 0.7 },
+   220→    "textureOverrides": {}
+   221→  }
+   222→}
+   223→```
+   224→
+   225→On load: the asset system resolves the mesh handle; the material system resolves the material ID via the registry; the adapter compiles the material (or fetches from cache); the uniform overrides are uploaded.
+   226→
+   227→---
+   228→
+   229→## 2. The lighting system
+   230→
+   231→### 2.1 The LightingState
+   232→
+   233→```typescript
+   234→interface LightingState {
+   235→  sun: SunLight;
+   236→  ambient: AmbientLight;
+   237→  hemisphere: HemisphereLight;
+   238→  localLights: LocalLight[];     // torches, lanterns, qi-glow, projectiles
+   239→  skyModel: SkyModel;
+   240→  timeOfDay: TimeOfDayCurve;     // 0..24 hours
+   241→  shadowCascades: ShadowCascadeConfig;
+   242→  ssao: SsaoConfig;
+   243→  exposure: number;
+   244→}
+   245→
+   246→interface SunLight {
+   247→  direction: Vec3;               // computed from timeOfDay
+   248→  color: Color;                  // warm at dawn/dusk, white at noon
+   249→  intensity: number;             // 0 at night, peaks at noon
+   250→  castShadow: boolean;
+   251→  shadowBias: number;
+   252→  shadowNormalBias: number;
+   253→}
+   254→
+   255→interface SkyModel {
+   256→  mode: 'preetham' | 'hosek-wilkie' | 'procedural';
+   257→  turbidity: number;
+   258→  groundAlbedo: Color;
+   259→}
+   260→```
+   261→
+   262→### 2.2 The time-of-day curve
+   263→
+   264→Time of day is not a single scalar — it's a curve. Each parameter (sun intensity, sun color, ambient intensity, fog color, sky color, exposure) has its own 24-hour curve.
+   265→
+   266→```typescript
+   267→interface TimeOfDayCurve {
+   268→  hour: number;                  // 0..24, fractional
+   269→  sunIntensity: AnimationCurve;  // 0 at 6:00/18:00, peak at 12:00
+   270→  sunColor: ColorCurve;          // 0xff7733 dawn, 0xffffff noon, 0xff4400 dusk
+   271→  ambientIntensity: AnimationCurve;
+   272→  ambientColor: ColorCurve;
+   273→  fogColor: ColorCurve;
+   274→  fogDensity: AnimationCurve;    // higher at dawn (mist)
+   275→  skyColor: ColorCurve;
+   276→  exposure: AnimationCurve;      // raised at night for night-vision feel
+   277→}
+   278→
+   279→type AnimationCurve = {
+   280→  keys: Array<{ t: number; value: number; interpolation: 'step' | 'linear' | 'bezier' }>;
+   281→};
+   282→```
+   283→
+   284→The curves are authored in the tweak panel (document 11 §1.2) and exported as JSON presets. A designer tunes the day/night cycle in real-time, exports, ships.
+   285→
+   286→### 2.3 Shadow cascades
+   287→
+   288→The engine uses 4-cascade shadow maps for the sun. Cascades split the camera frustum by depth (10%, 25%, 50%, 100% of far plane), each rendered at independent resolution. Close-ups get high-resolution shadows; distant geometry gets coarse shadows.
+   289→
+   290→```typescript
+   291→interface ShadowCascadeConfig {
+   292→  cascadeCount: 4;
+   293→  splitRatios: [0.05, 0.15, 0.40, 1.0]; // of camera far plane
+   294→  resolutions: [2048, 2048, 1024, 1024]; // per-cascade map size
+   295→  blend: number;                 // 0..1, soft blend between cascades
+   296→  bias: number;
+   297→  normalBias: number;
+   298→}
+   299→```
+   300→
+   301→Local lights (torches, lanterns) cast single-map shadows, capped at 4 shadow-casting locals simultaneously (perf budget). Non-shadow-casting locals are unlimited (capped by uniform buffer size, ~32 active per frame).
+   302→
+   303→### 2.4 SSAO / GTAO
+   304→
+   305→Screen-space ambient occlusion is computed from the depth+normals pass (output of the opaque pass) and applied as a multiplier on the ambient term. The engine uses GTAO (ground-truth ambient occlusion) on WebGPU; SSAO (cheaper) on WebGL2.
+   306→
+   307→```typescript
+   308→interface SsaoConfig {
+   309→  mode: 'gtao' | 'ssao' | 'off';
+   310→  radius: number;                // world units; 0.5m default
+   311→  bias: number;                  // to avoid self-occlusion
+   312→  thickness: number;             // max occluder distance
+   313→  quality: 'low' | 'medium' | 'high'; // sample count
+   314→}
+   315→```
+   316→
+   317→GTAO is a post-pass node in the pass graph (document 13 §3). It reads the depth and normal textures, writes an AO texture, which the lighting pass samples.
+   318→
+   319→---
+   320→
+   321→## 3. The post-processing pipeline
+   322→
+   323→### 3.1 The PostStack
+   324→
+   325→Post-processing is a stack of passes, each a node in the pass graph. The stack is authored in engine types; the adapter compiles each to a TSL post node.
+   326→
+   327→```typescript
+   328→interface PostStack {
+   329→  passes: PostPassInstance[];
+   330→  order: string[];               // pass IDs in execution order
+   331→}
+   332→
+   333→interface PostPassInstance {
+   334→  passId: string;                // 'bloom', 'tonemap', 'fog', 'dof', 'outline', 'vignette'
+   335→  enabled: boolean;
+   336→  params: Record<string, UniformValue>;
+   337→  inputs: string[];              // other pass IDs whose output this consumes
+   338→  outputs: string[];             // pass IDs that consume this output
+   339→}
+   340→```
+   341→
+   342→### 3.2 The default stack
+   343→
+   344→```
+   345→   opaque color (HDR)  ──┬──►  ssao/gtao  ──┐
+   346→                         │                   │
+   347→                         └──►  bright-pass ──►  bloom  ──┐
+   348→                                                         │
+   349→   depth  ───────────────────────────────────►  dof  ──┤
+   350→                                                         │
+   351→   ──────────────────────────────────────────────────►  fog  ──┤
+   352→                                                                │
+   353→                                                                ▼
+   354→                                                          tonemap (ACES)
+   355→                                                                │
+   356→                                                                ▼
+   357→                                                         outline (selection)
+   358→                                                                │
+   359→                                                                ▼
+   360→                                                          vignette + grain
+   361→                                                                │
+   362→                                                                ▼
+   363→                                                          LDR output → screen
+   364→```
+   365→
+   366→### 3.3 Bloom
+   367→
+   368→The engine's bloom is a threshold-bright-pass + separable Gaussian pyramid + additive composite. The threshold, intensity, and radius are tweakable. Bloom runs in HDR (before tonemapping) so bright qi-emissive surfaces bloom correctly.
+   369→
+   370→```typescript
+   371→const bloomDefinition: PostPassDefinition = {
+   372→  passId: 'bloom',
+   373→  tslGraph: bloomTslGraph,
+   374→  defaultParams: {
+   375→    threshold: { type: 'float', value: 0.9, min: 0, max: 4 },
+   376→    intensity: { type: 'float', value: 0.6, min: 0, max: 4 },
+   377→    radius:    { type: 'float', value: 0.4, min: 0, max: 1 },
+   378→  },
+   379→  inputs: ['opaque-color'],
+   380→  outputs: ['bloom-result'],
+   381→};
+   382→```
+   383→
+   384→### 3.4 Tone mapping
+   385→
+   386→ACES filmic tonemap by default. The engine supports:
+   387→- ACES filmic (default; matches the bible's cinematic look)
+   388→- AgX (alternative; flatter, more filmic)
+   389→- Reinhard (simple, fallback)
+   390→- Linear (for debug)
+   391→
+   392→Exposure is part of the time-of-day curve (§2.2), not the tonemap. Tonemap converts HDR scene-referred to LDR display-referred.
+   393→
+   394→### 3.5 Fog and atmosphere
+   395→
+   396→This is the global fog system from the bible (document 11 §2.1). Fog is **not** a post pass — it's chunk-patched into every material (§4 below). The "post-fog" pass in the pass graph is for atmospheric height fog rendered as a screen-space volumetric layer when the player is above the fog layer (looking down at a mist-filled valley).
+   397→
+   398→The two fog systems coexist:
+   399→- **Material-fog** (chunk-patched): every fragment mixes with fog color based on density × distance × height-falloff. Cheap, uniform, inherited by all materials.
+   400→- **Volumetric-fog** (post pass): a screen-space raymarch for the god-ray / valley-mist effect. Expensive, optional, only enabled when the camera is positioned to see it.
+   401→
+   402→### 3.6 Depth of field
+   403→
+   404→DOF is a depth-based blur, with a focus distance, focus range, and bokeh shape. Used for cinematics (cutscenes, dialogue close-ups). Disabled in gameplay (the player needs to see clearly).
+   405→
+   406→### 3.7 Outline / selection
+   407→
+   408→The selection outline is a post pass: render selected entity IDs to a stencil/ID buffer, blur, threshold, composite as a colored rim. Used for the player's current target, the cursor hover, the qi-perception focus.
+   409→
+   410→---
+   411→
+   412→## 4. The global fog chunk patch
+   413→
+   414→This is the mechanism described in the bible (document 11 §2.1) and the integration document (document 14 §4). The engine patches Three.js's fog shader chunks at startup, before any material compiles. Every material with `fog: true` inherits the engine's height-based fog model.
+   415→
+   416→### 4.1 The patched chunks
+   417→
+   418→```typescript
+   419→// renderer/backends/three/patches/chunks/heightFogPars.ts (GLSL, for WebGL2)
+   420→export const heightFogParsGlsl = /* glsl */`
+   421→  uniform float fogDensity;
+   422→  uniform float fogHeightFalloff;
+   423→  uniform vec3  fogColor;
+   424→  uniform float cameraHeight;
+   425→  varying float vFogHeight;
+   426→  float gaFogFactor(vec3 worldPos) {
+   427→    float h = worldPos.y;
+   428→    float dh = max(0.0, cameraHeight - h);
+   429→    float f = exp(-fogDensity * fogHeightFalloff * dh);
+   430→    return clamp(f, 0.0, 1.0);
+   431→  }
+   432→`;
+   433→
+   434→// renderer/backends/three/patches/chunks/heightFogFragment.ts (GLSL)
+   435→export const heightFogFragmentGlsl = /* glsl */`
+   436→  float gaFactor = gaFogFactor(vWorldPosition.xyz);
+   437→  gl_FragColor.rgb = mix(fogColor, gl_FragColor.rgb, gaFactor);
+   438→`;
+   439→
+   440→// renderer/backends/three/patches/chunks/heightFogTsl.ts (TSL, for WebGPU)
+   441→import { Fn, vec3, float, uniform, exp, max, clamp, mix, positionWorld } from 'three/tsl';
+   442→
+   443→export const heightFogTsl = Fn(() => {
+   444→  const density = uniform(0.035, 'fogDensity');
+   445→  const falloff = uniform(0.0042, 'fogHeightFalloff');
+   446→  const color = uniform(vec3(0.16, 0.16, 0.24), 'fogColor');
+   447→  const cameraH = uniform(0.0, 'cameraHeight');
+   448→
+   449→  const dh = max(0.0, cameraH.sub(positionWorld.y));
+   450→  const factor = exp(density.mul(falloff).mul(dh).negate()).clamp(0.0, 1.0);
+   451→  return mix(color, /* incoming color */ null, factor);
+   452→});
+   453→```
+   454→
+   455→### 4.2 The patch application
+   456→
+   457→At engine startup, `applyGlobalPatches()` (document 14 §4) overwrites Three.js's `ShaderChunk.fog_pars_fragment`, `ShaderChunk.fog_fragment`, and the TSL `fog` node. From that point, every material compiled by Three.js uses the engine's height-based fog.
+   458→
+   459→The fog uniforms (`fogDensity`, `fogHeightFalloff`, `fogColor`, `cameraHeight`) are global uniforms, updated once per frame by the lighting system from the `LightingState.fogColor` and `LightingState.fogDensity` (which are part of the time-of-day curve, §2.2).
+   460→
+   461→### 4.3 Why this works
+   462→
+   463→- **Inheritance for free.** Every glTF asset with `fog: true` (the glTF default) gets the engine's height fog.
+   464→- **One source of truth.** The fog model lives in one TSL graph. The tweak panel adjusts the uniforms; every material sees the change.
+   465→- **Cache-friendly.** Three.js caches compiled programs by shader source hash. All materials sharing the patched chunk share one program.
+   466→- **The bible's intent.** Document 11 §2.1 specifies this exact mechanism.
+   467→
+   468→---
+   469→
+   470→## 5. The 16 questions
+   471→
+   472→**Q1. What problem does this system solve?**
+   473→Providing a coherent visual language (jade, silk, bronze, spirit-wood, water, qi) for the xianxia world; a lighting model that respects the day/night cycle and the genre's atmospheric mood; and a post-processing pipeline that produces the bible's cinematic look — all without leaking Three.js types into engine code.
+   474→
+   475→**Q2. What is the public interface?**
+   476→`MaterialRegistry`, `MaterialDefinition`, `MaterialInstance`, `LightingState`, `PostStack`, `PostPassInstance` (§1–3).
+   477→
+   478→**Q3. What is the internal architecture?**
+   479→The `ga:renderer` plugin owns the `MaterialRegistry`, the `LightingSystem`, and the `PostStack`. The adapter (document 14) compiles them to Three.js objects. The simulation reads lighting state (for qi-perception, NPC schedules); the renderer reads all three.
+   480→
+   481→**Q4. What is the data flow?**
+   482→Designer authors material TSL graphs → registry → adapter compiles on first use → cached. Per frame: `LightingSystem` updates sun direction from time-of-day curve → sun uniforms uploaded → shadow cascades rendered → opaque pass samples sun/ambient/hemisphere → post stack runs → output to screen.
+   483→
+   484→**Q5. What is the lifecycle?**
+   485→Engine startup: register materials, build post stack, apply global fog patches. Per frame: update lighting from time-of-day, render shadow cascades, render opaque, run post stack. Shutdown: dispose compiled materials and post passes.
+   486→
+   487→**Q6. What is the failure model?**
+   488→Material TSL compile failure → fall back to `ga:pbr` for that material; log the error. Texture missing → use the slot's `defaultHandle` (a 4×4 gray texture). Shadow cascade allocation failure → drop the highest cascade, log. Post pass failure → disable that pass for the frame, log.
+   489→
+   490→**Q7. What are the invariants?**
+   491→- The fog chunks are patched exactly once, before any material compiles.
+   492→- A material's TSL graph is compiled at most once per backend.
+   493→- Per-instance uniform overrides do not recompile the material.
+   494→- The lighting state is part of the deterministic simulation (the sun direction is computed from the tick, not from wall clock).
+   495→- Post-pass order is fixed at startup; passes cannot be added mid-frame.
+   496→
+   497→**Q8. What is the performance budget?**
+   498→Lighting update: <0.5 ms per frame. Shadow cascade render: 2–4 ms (4 cascades at 2k×2k). SSAO/GTAO: 1.5–3 ms. Bloom: 0.8 ms. DOF: 1.2 ms (when enabled). Volumetric fog: 2 ms (when enabled). Total post: <8 ms on desktop, <12 ms on mobile.
+   499→
+   500→**Q9. What is the determinism contract?**
+   501→The `LightingState` (including the time-of-day hour, the sun direction, the fog density) is deterministic — derived from the simulation tick. The pixels rendered are not (GPU is not canonical). The time-of-day curve keys are part of the save; two runs produce the same lighting state at the same tick.
+   502→
+   503→**Q10. What is the threading/concurrency model?**
+   504→The lighting system runs on the main thread (it's part of the simulation step). The post stack and material compilation run on the renderer worker (with the adapter). The MaterialRegistry is shared (read-only after init); per-frame uniform uploads happen on the worker.
+   505→
+   506→**Q11. How is it serialized?**
+   507→- Material instances: per-entity, in the presentation model (§1.7).
+   508→- Lighting state: in the world state slice (time-of-day hour, fog density, exposure).
+   509→- Post stack: in the engine config (not the save); the same stack is used across saves.
+   510→- Material definitions: not serialized; they're code, registered at init.
+   511→
+   512→**Q12. How is it debugged?**
+   513→- Tweak panel: every material uniform, lighting parameter, post-pass param is a slider.
+   514→- Material inspector: select an entity, see its material ID, uniform overrides, compiled TSL source.
+   515→- Frame debugger: per-pass GPU time, per-pass texture contents.
+   516→- Shader debug dump: TSL source emitted to `/debug/shaders/` when `shaderDebug: true`.
+   517→
+   518→**Q13. How is it tested?**
+   519→- Material compile tests: every material in the registry compiles under both backends.
+   520→- Visual regression: screenshot-diff scenes per material under HeadlessTestBackend.
+   521→- Lighting curve tests: at tick T, sun direction matches the expected vector to 1e-6.
+   522→- Fog uniform tests: at tick T, fog density matches the curve.
+   523→- Post-stack contract tests: every post pass produces an output texture of the expected format.
+   524→
+   525→**Q14. What alternatives were rejected?**
+   526→- *Per-material fog.* Rejected: bible document 11 §2.1 mandates the global patch. Per-material is 1000× the work and inconsistent.
+   527→- *Three.js's built-in fog.* Rejected: uniform density, no height falloff. The bible requires height-based.
+   528→- *Raw ShaderMaterial for custom xianxia materials.* Rejected: see document 14 §2; TSL is the one-source path.
+   529→- *Forward-only rendering (no post stack).* Rejected: the bible's cinematic look (bloom on qi-emissive, ACES tonemap, DOF in cinematics) requires post.
+   530→- *Deferred rendering.* Rejected: WebGPU deferred is feasible but the engine's material diversity (transparency, foliage cards, qi-residue additive) is hostile to G-buffer formats. Forward + post is the standard for this material mix.
+   531→- *TAA (temporal anti-aliasing) by default.* Rejected: TAA smears qi-particle effects. MSAA where supported; FXAA fallback. TAA is opt-in for cinematics.
+   532→
+   533→**Q15. What are the known limitations?**
+   534→- TSL's `MeshStandardMaterial`-equivalent does not yet expose sheen/clearcoat (Three.js roadmap). Custom materials bypass this.
+   535→- 4-cascade shadows are expensive on mobile; the engine drops to 2 cascades at low quality.
+   536→- GTAO is WebGPU-only; SSAO fallback is lower quality.
+   537→- Volumetric fog (god rays) is expensive; disabled on mobile and on WebGL2.
+   538→- DOF bokeh is a simple disc shape on WebGL2; hexagonal on WebGPU.
+   539→
+   540→**Q16. What does this enable next?**
+   541→Document 18 (VFX) uses the material system's `ga:dissolve`, `ga:qi-residue`, and per-instance overrides for technique presentation. Document 17 (animation) drives material parameters (e.g. emissive strength during a charge-up animation). The lighting system's time-of-day curve is what makes the bible's "dawn mist in the paddies" (document 11 §2.1) actually visible.
+   542→
+   543→---
+   544→
+   545→## 6. Failure cases (catalogue)
+   546→
+   547→| Failure | Detection | Recovery |
+   548→|---|---|---|
+   549→| Material TSL compile error | Adapter throws on first use | Fall back to `ga:pbr` for that material; log shader source |
+   550→| Material not in registry | `MaterialRegistry.get` returns undefined | Fall back to `ga:pbr`; log missing ID |
+   551→| Texture missing / failed to load | Asset system returns placeholder handle | Use the slot's `defaultHandle` (4×4 gray) |
+   552→| Shadow cascade map allocation fail | Adapter throws | Drop highest cascade; render 3 cascades |
+   553→| Time-of-day curve malformed | Parser rejects | Use default curve (bible-spec values); log |
+   554→| Post-pass compile error | Adapter throws on first use | Disable that pass; warn in tweak panel |
+   555→| Fog chunk patch failed (chunk name changed) | Startup assertion | Hard error: refuse to boot (Three.js upgrade pending) |
+   556→| Too many local lights active | Uniform buffer overflow | Cap at 32; drop the dimmest; log |
+   557→
+   558→---
+   559→
+   560→## 7. Rejected alternatives (detail)
+   561→
+   562→### 7.1 "Per-material fog authored in each material"
+   563→
+   564→The argument: each material controls its own fog.
+   565→
+   566→The rejection: the bible (document 11 §2.1) explicitly mandates the global patch. Per-material fog is 1000 materials × fog code = 1000 places to maintain the fog model. The global patch is one TSL graph, inherited everywhere, tuned in one place.
+   567→
+   568→### 7.2 "Deferred rendering for the lighting"
+   569→
+   570→The argument: deferred handles many lights cheaply.
+   571→
+   572→The rejection: the engine's material diversity (transparency for qi-residue, alpha-test for foliage, additive for VFX, anisotropic for silk) is hostile to a fixed G-buffer layout. Forward + post handles all of these. The engine has at most ~32 active local lights per frame (perf budget), well within forward's range.
+   573→
+   574→### 7.3 "TAA by default"
+   575→
+   576→The argument: TAA is the modern standard for AA.
+   577→
+   578→The rejection: TAA smears particles. The bible's qi-effects (document 18) are particle-heavy; TAA makes them look muddy. MSAA where supported; FXAA fallback. TAA is opt-in for cinematics where particle smearing is acceptable.
+   579→
+   580→### 7.4 "Author lighting in Three.js's GUI"
+   581→
+   582→The argument: Three.js has lighting helpers.
+   583→
+   584→The rejection: the bible (document 11 §1.2) mandates every parameter be a real-time tweakable exposed through the engine's tweak panel. Three.js's GUI is its own thing; the engine's tweak panel is the unified surface. Lighting is authored in engine types, tuned in the engine panel.
+   585→
+   586→---
+   587→
+   588→## 8. What this document enables
+   589→
+   590→1. The visual language of the xianxia world is encoded: jade, silk, bronze, spirit-wood, water, qi-residue — each a TSL graph in the registry.
+   591→2. The day/night cycle is a tunable curve: a designer sets the mood for dawn, noon, dusk, night; the engine interpolates.
+   592→3. The post stack produces the bible's cinematic look (bloom, ACES, DOF in cinematics).
+   593→4. The fog system (bible document 11 §2.1) has a concrete implementation: global chunk patch + post-pass volumetric for god rays.
+   594→5. glTF assets reference materials by ID via `GA_material_ref`; the asset pipeline (document 16) honors this.
+   595→6. Animation (document 17) drives material parameters; VFX (document 18) uses material overrides for dissolve/qi-residue.
+   596→
+   597→The visual world is now authored in engine types. Three.js compiles it. The simulation drives it. The tweak panel tunes it.
+   598→
