@@ -1,8 +1,64 @@
 # 00 — Foundational Decisions
 
-**Status:** Candidate canon. Ratifiable after prototype proof, but committed now so downstream work has a spine to build against.
+**Status:** `[CANON]` Candidate canon. Ratifiable after prototype proof, but committed now so downstream work has a spine to build against.
 **Date:** 2026-08-03
+**Truth level:** Canonical invariant (decisions) — every decision in this document is classified `[CANON]` unless explicitly marked otherwise.
+**Implements:** `engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md` §1 (hierarchy of truth), `corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md`
 **Authority:** This document makes decisions the prior corpus deferred. Every decision is defended with a primary source, a procedural implication, and a player-facing consequence. If a decision is wrong, the prototype will say so — but no decision is worse than a wrong decision multiplied by every fork that depends on it.
+
+---
+
+## Ground-Truth Classification
+
+Every decision in this document is a `[CANON]` canonical invariant. It cannot be changed without formally revising the universe. The Grand Architect must consult this document before making any assumption about the world's foundational rules.
+
+> `[CANON]` The engine is deterministic. Every simulation result is reproducible from a seed. No `Math.random`, `Date.now`, `performance.now`, `Math.sin/cos/exp/log/atan2/pow` in simulation code. (See determinism firewall — doc 06, safety rails — dashboard-data.)
+
+> `[CANON]` The cultivation ladder has exactly ten stations (doc 03). No station may be skipped or inserted.
+
+> `[CANON]` Qi capacity doubles per realm station (multiplier exactly 2.0).
+
+> `[CANON]` The bible is FROZEN. No new corpus documents unless a gap blocks implementation. The 48-doc + 6 ground-truth docs (50–55) are the complete canonical set.
+
+> `[CANON]` The engine uses SI units internally (meters, seconds, kilograms, radians, kelvin). UI may display culturally appropriate units (li, zhang, shichen, jin) with conversion.
+
+> `[CANON]` Every visual concept has a Visual Truth Packet (doc 51). Every moving entity has a MotionProfile (doc 55). Every culture has a Style Grammar (doc 53).
+
+> `[CANON]` The Grand Architect never silently converts an `[UNRESOLVED]` question into a permanent fact. It asks, preserves as variable, creates alternatives, uses a marked proxy, or blocks.
+
+> `[CANON]` The Visual Accuracy Oracle (doc 54) has authority to reject any asset that fails validation. The Grand Architect cannot override a `rejected` verdict.
+
+### Foundational invariants (non-negotiable)
+
+- `[CANON]` One authoritative measurement system (SI units, doc 52)
+- `[CANON]` Five truth levels only (doc 50 §1): canonical, derived, art, procedural, unresolved
+- `[CANON]` Eight implementation statuses only (doc 50 §5): spec, proxy, proto, approx, candidate, validated, rejected, blocked
+- `[CANON]` No proxy may be called "finished" or "validated"
+- `[CANON]` Every technique has a `forbiddenInterpretations` list (never empty)
+- `[CANON]` Every supernatural exception has: ordinary rule, power, limits, visible cues, failure behavior, system interactions (doc 55 §6)
+- `[CANON]` The 23-step accuracy loop (architecture doc 51 §20) is the complete validation path
+- `[CANON]` Procedural generation follows the 13-stage pipeline (architecture doc 51 §13): world truth → culture grammar → environmental constraints → historical state → functional requirement → structural blueprint → candidate generation → constraint solving → visual preview → validation → accepted runtime instance
+
+### Forbidden shortcuts
+
+- `[FORBIDDEN]` Teleportation without formation or realm cost (breaks travel-time consistency)
+- `[FORBIDDEN]` Time travel (breaks the determinism stack)
+- `[FORBIDDEN]` Resurrection without explicit realm-tier cost (breaks death stakes)
+- `[FORBIDDEN]` True invisibility (spiritual detection must always be possible at equal or higher realm)
+- `[FORBIDDEN]` Infinite qi (every technique must state its power source and cost)
+- `[FORBIDDEN]` Skipping a realm on the cultivation ladder
+- `[FORBIDDEN]` Calling a proxy "validated"
+- `[FORBIDDEN]` Generating content from vague tags without going through the 13-stage pipeline
+
+### Acceptance tests
+
+- `foundational.determinism-firewall` — no forbidden functions in simulation code
+- `foundational.ten-stations` — cultivation ladder has exactly 10 stations
+- `foundational.qi-doubles` — qi capacity multiplier is 2.0 per station
+- `foundational.bible-frozen` — no new corpus docs beyond the canonical set
+- `foundational.si-units` — all internal measurements use SI
+- `foundational.truth-levels` — every bible claim has a truth-level marker
+- `foundational.no-silent-unresolved` — no `[UNRESOLVED]` silently resolved
 
 ---
 

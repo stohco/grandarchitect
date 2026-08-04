@@ -1,7 +1,99 @@
 # 03 — The Ten Stations
 
-**Status:** Candidate canon. The first three stations (Mortal, Qi Induction, Qi Condensation) are specified in enough detail for prototype. The upper seven are specified enough to design against but not yet playtested.
+**Status:** `[CANON]` Candidate canon. The first three stations (Mortal, Qi Induction, Qi Condensation) are specified in enough detail for prototype. The upper seven are specified enough to design against but not yet playtested.
 **Date:** 2026-08-03
+**Truth level:** Canonical invariant (realm ladder structure) + Derived (cultivator measurements) + Art-directed (motion profiles)
+**Implements:** `engine-architecture/51_MULTIVERSE_GROUND_TRUTH_ARCHITECTURE.md`, `corpus-extension/50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md`, `corpus-extension/52_MEASUREMENT_AND_SCALE_SYSTEM.md` (human-scale anchors), `corpus-extension/55_MOTION_AND_EFFECT_GRAMMAR.md` (MotionProfiles per realm)
+**Implementation status:** `[SPEC]` — fully specified for stations 1–3; `[UNRESOLVED]` for stations 4–10 playtest values
+
+---
+
+## Ground-Truth Specification Summary
+
+> `[CANON]` The cultivation ladder has exactly ten stations: Mortal → Qi Induction → Qi Condensation → Foundation Establishment → Core Formation → Nascent Soul → Spirit Severance → Void Amalgamation → Grand Ascension → Tribulation Transcendence. No station may be skipped. No station may be inserted between two existing ones without formally revising the universe.
+
+> `[CANON]` Each station doubles approximate qi capacity relative to the previous station (exponential scaling). The multiplier is exactly 2.0 for canonical purposes.
+
+> `[DERIVED]` Cultivator body height increases slightly with realm due to qi densification: Mortal 1.68m → Qi Induction 1.72m → Qi Condensation 1.75m → Foundation 1.78m → Core Formation 1.80m → Nascent Soul 1.82m. Above Nascent Soul, body form becomes variable (some shrink, some grow, some transcend humanoid form).
+
+> `[ART]` Movement speed scaling per realm follows a cinematic curve, not a physical one. The values are chosen for readability, not biological plausibility.
+
+> `[PROC]` Breakthrough timing varies by ±30% based on talent, resources, and environment. The typical values are canonical; the range is procedural.
+
+> `[UNRESOLVED]` Whether stations 6–10 have canonical body-size specifications or whether they are deliberately variable — see `/questions/realm-ladder.yaml#upper-station-body-size`.
+
+### PhysicalSpecification — Cultivator by realm
+
+| Station | Height (m) | Mass (kg) | Max Speed (m/s) | Turn (rad/s) | Flight? |
+|---------|-----------|----------|-----------------|-------------|---------|
+| Mortal | 1.55–1.80 (1.68) | 50–78 (62) | 1.1–1.5 (1.3) | 2.0–3.5 (2.8) | No |
+| Qi Induction | 1.60–1.85 (1.72) | 52–80 (64) | 2.0–4.0 (3.0) | 3.0–5.0 (4.0) | No (hover 0.2m) |
+| Qi Condensation | 1.62–1.88 (1.75) | 54–82 (66) | 8–15 (12) | 4.0–8.0 (6.0) | Yes |
+| Foundation Establishment | 1.65–1.90 (1.78) | 56–85 (68) | 15–30 (22) | 5.0–10.0 (7.5) | Yes |
+| Core Formation | 1.68–1.92 (1.80) | 58–88 (70) | 30–60 (45) | 6.0–12.0 (9.0) | Yes |
+| Nascent Soul | 1.70–1.95 (1.82) | 60–92 (72) | 60–120 (90) | 8.0–16.0 (12.0) | Yes (spatial) |
+| Spirit Severance | variable | variable | 120–300 (200) | 10.0–20.0 (15.0) | Yes (spatial) |
+| Void Amalgamation | variable | variable | 300–1000 (600) | 15.0–30.0 (22.0) | Yes (dimensional) |
+| Grand Ascension | variable | variable | 1000+ | 20.0+ | Yes (dimensional) |
+| Tribulation Transcendence | transcendent | transcendent | unbounded | unbounded | Transcendent |
+
+### MotionProfile — Qi Condensation cultivator (flying)
+
+```json
+{
+  "id": "motion-qi-condensation-flying",
+  "idleBehavior": { "posture": "upright, hovering 0.2m above ground", "microMovements": "qi circulation shimmer", "ambientMotion": "robe sway, hair lift" },
+  "maximumSpeedMetersPerSecond": { "min": 8, "max": 15, "typical": 12 },
+  "accelerationCurve": "exponential-qi",
+  "decelerationCurve": "inverse-qi",
+  "turnRateRadiansPerSecond": { "min": 4.0, "max": 8.0, "typical": 6.0 },
+  "minimumTurnRadiusMeters": { "min": 1.5, "max": 4.0, "typical": 2.5 },
+  "motionStyleTags": ["gliding", "effortless", "qi-enhanced"],
+  "cameraPresentation": { "followMode": "spring", "followDistanceMeters": { "typical": 6 }, "lagSeconds": { "typical": 0.08 } }
+}
+```
+
+### MotionProfile — Foundation Establishment cultivator (flying)
+
+```json
+{
+  "id": "motion-foundation-flying",
+  "maximumSpeedMetersPerSecond": { "min": 15, "max": 30, "typical": 22 },
+  "accelerationCurve": "exponential-qi-strong",
+  "turnRateRadiansPerSecond": { "min": 5.0, "max": 10.0, "typical": 7.5 },
+  "minimumTurnRadiusMeters": { "min": 1.0, "max": 3.0, "typical": 1.8 },
+  "motionStyleTags": ["gliding", "purposeful", "foundation-stage"],
+  "cameraPresentation": { "followMode": "spring", "followDistanceMeters": { "typical": 8 }, "lagSeconds": { "typical": 0.06 } }
+}
+```
+
+### Supernatural Exception — Qi-enhanced speed
+
+> `[CANON]` Qi-enhanced movement overrides the ordinary expectation that the human body cannot sustain 15+ m/s without skeletal-muscular damage.
+
+- **Ordinary rule overridden:** Human biomechanical speed limit (~10 m/s sprint, ~1.5 m/s sustained)
+- **Power enabling:** Qi circulation reinforces bones, tendons, and joints. Qi Condensation realm minimum.
+- **Limits:** Qi cost scales with speed squared. Cannot exceed realm-specific maximum (see table above). Fails if qi depleted.
+- **Visible cues:** Afterimage trail at speeds above 8 m/s; robe and hair stream backward; faint qi shimmer on legs; footstep audio suppressed at high speed (qi cushions impact).
+- **Failure behavior:** If qi depleted mid-movement: immediate deceleration to mortal speed (1.5 m/s) over 0.5s. No damage but vulnerable.
+- **System interactions:** Collision (full physical collision maintained); Animation (gait transitions to qi-gliding pose above 8 m/s); Audio (footstep volume inversely proportional to speed).
+
+### Forbidden interpretations
+
+- `[FORBIDDEN]` Skipping a realm (e.g., Mortal → Foundation directly). The ladder is linear.
+- `[FORBIDDEN]` Nascent Soul+ cultivators with fixed humanoid body size (body form becomes variable above Core Formation).
+- `[FORBIDDEN]` Tribulation Transcendence cultivators with measurable speed/turn values (they are transcendent — unbounded).
+- `[FORBIDDEN]` Qi-enhanced speed without visible body cost (qi shimmer, afterimage, robe streaming must be present).
+- `[FORBIDDEN]` A mortal moving faster than 2.0 m/s without explicit qi enhancement or supernatural exception.
+
+### Acceptance tests
+
+- `realm-ladder.linear` — no cultivator skips a station
+- `realm-ladder.exactly-ten` — there are exactly 10 stations, no more, no less
+- `realm-ladder.qi-capacity-doubles` — each station's qi capacity is 2× the previous
+- `realm-ladder.speed-within-range` — cultivator speed matches the table for their realm
+- `realm-ladder.body-size-consistent` — cultivator height matches the table for stations 1–6
+- `realm-ladder.no-mortal-supernatural-speed` — mortals do not exceed 2.0 m/s without qi enhancement
 
 ---
 

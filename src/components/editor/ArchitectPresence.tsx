@@ -115,6 +115,7 @@ const QUICK_ACTIONS = [
   { id: 'interpret', label: 'Interpret a request', icon: Brain, hint: 'Weakest-sufficient reasoning', prompt: 'make this valley feel sacred' },
   { id: 'describe', label: 'Describe this world', icon: BookOpen, hint: 'What the Architect sees', prompt: 'describe the current settlement' },
   { id: 'lore', label: 'Search the bible', icon: BookOpen, hint: 'Xianxia corpus knowledge', prompt: 'spirit veins' },
+  { id: 'validate-bible', label: 'Validate bible', icon: ShieldCheck, hint: 'Contradiction detection across 54 docs', prompt: 'validate the bible for contradictions' },
   { id: 'verify', label: 'Verify protocols', icon: ShieldCheck, hint: 'Model-check critical systems', prompt: 'verify all protocols' },
   { id: 'complexity', label: 'Observe complexity', icon: Activity, hint: 'World structure diagnostics', prompt: 'observe complexity' },
   { id: 'benchmark', label: 'Run benchmarks', icon: Gauge, hint: 'Ursus engine comparison', prompt: 'run benchmarks' },
@@ -234,7 +235,23 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
       // Route to the appropriate API based on the request
       const lower = text.toLowerCase();
 
-      if (lower.includes('lore') || lower.includes('bible') || lower.includes('corpus') || lower.includes('spirit vein') || lower.includes('cultivation realm')) {
+      if (lower.includes('validate') && lower.includes('bible') || lower.includes('contradiction')) {
+        // Bible contradiction detection
+        const res = await fetch('/api/architect/validate-bible');
+        const data = await res.json();
+        const s = data.summary;
+        const contradictions = data.contradictions ?? [];
+        const topContradictions = contradictions.slice(0, 5).map((c: { severity: string; doc: string; message: string }) => `  [${c.severity.toUpperCase()}] ${c.doc}: ${c.message}`);
+        const archMsg: PresenceMessage = {
+          id: `a-${Date.now()}`,
+          role: 'architect',
+          kind: 'action',
+          content: `I scanned ${data.docsScanned} bible documents for contradictions.\n\nVerdict: ${data.verdict.toUpperCase()}\nCritical: ${s.critical} · Major: ${s.major} · Minor: ${s.minor}\n\n${contradictions.length > 0 ? 'Top issues:\n' + topContradictions.join('\n') : 'No contradictions detected. The bible is internally consistent.'}`,
+          meta: { action: 'validate-bible' },
+        };
+        setMessages((prev) => [...prev, archMsg]);
+        setPresenceStatus('ready', `Bible validated: ${data.verdict}.`);
+      } else if (lower.includes('lore') || lower.includes('bible') || lower.includes('corpus') || lower.includes('spirit vein') || lower.includes('cultivation realm')) {
         // Lore search
         const searchTerm = text.replace(/^lore\s*:?\s*/i, '').replace(/bible|corpus|search|about|tell me about|what is/gi, '').trim() || 'spirit vein';
         const res = await fetch(`/api/architect/lore?q=${encodeURIComponent(searchTerm)}`);
