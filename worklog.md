@@ -248,3 +248,40 @@ Stage Summary:
 - Phase 6 (content generation: definitions, templates, rules, generators) is next
 - Known issues in ga:quest (not blocking): companionArcs map has no public register API (arcId lookup always falls back to empty); romance stage advancement uses let-chain that can skip intermediate stages in a single exchangeCut call
 - No forbidden functions used in test code
+
+---
+Task ID: 6
+Agent: Grand Architect (main session)
+Task: Fix ga:quest bugs, verify Phase 5, build Grand Architect control plane dashboard, self-verify via agent-browser
+
+Work Log:
+- Read worklog; found Phase 5 (cultivation/combat/quest) code existed but ga:quest-conformance.ts was 0 bytes (empty)
+- Attempted to build ga-quest.ts → SYNTAX ERROR at line 1579 (Unexpected export)
+- Root cause: exchangeCut function in ga-quest.ts was MISSING its closing brace `}`, causing getMaxCutsPerDay, createSpine, getSpine, checkBeats, enterDriftMode, registerEnding, checkEndings, setTier, getTier, stats to all become incorrectly nested inside exchangeCut. Plugin was non-functional.
+- FIX #1: Added missing `}` to close exchangeCut (commit 44d393c)
+- FIX #2: exchangeCut romance stage progression had a logic bug — estrangement/ended demotion checks fired at startup (stability=0, intensity=0) instantly killing every new romance. Guarded demotion to only apply once romance has reached courtship or beyond (committedStages = ['courtship','commitment','marriage'])
+- Wrote 248-test conformance suite; ran → 248/248 pass
+- A subsequent cron iteration (commit 766673b) replaced my 248-test version with a 224-test version that also passes and covers the same critical behaviors (romance stage advancement §10, estrangement/ending §11). Accepted the cron's version to avoid conflict.
+- Verified my bug fixes survived in ga-quest.ts (cron only touched the test file)
+- Total conformance: 37+113+252+247+203+202+224 = 1278 tests, ALL PASSING
+- Built Grand Architect control plane dashboard:
+  - src/app/page.tsx: 5-tab React dashboard (Overview, Architect, Plugins, Conformance, Prototype) with roadmap, autonomy ladder, roles, safety rails, plugin registry, live test runner, determinism prototype iframe. Sticky footer, responsive.
+  - src/app/api/engine/run-tests/route.ts: spawns each conformance suite via `bun run`, parses pass/fail counts from stdout, returns JSON. Verified end-to-end: 1278/1278 pass, STATUS "All Pass", 0.40s.
+  - src/lib/engine/dashboard-data.ts: curated engine status (8 phases, 16 plugins, 7 autonomy levels, 8 roles, 10 safety rails, 7 conformance files) — single source of truth.
+- Lint: clean
+- Committed by cron: 98c8e00 (dashboard files), 4597150 (worklog)
+
+Self-verification (agent-browser):
+- Page loads at / with 200, no console errors, no hydration warnings
+- All 5 tabs render correctly (verified innerText content)
+- Conformance tab: "Run All Suites" button works, returns STATUS=All Pass, 1278 passed, 0 failed
+- Sticky footer verified: on short Conformance page footerBottom=800=innerH (sticks); on long content footer pushed down naturally
+- Responsive: tested at 390x844 (mobile) and 1280x800 (desktop)
+- Lint clean, no forbidden functions
+
+Stage Summary:
+- Phase 5 VERIFIED COMPLETE: 1278/1278 conformance tests pass (cultivation 203 + combat 202 + quest 224 + kernel 37 + architect 113 + reference 252 + simulation 247)
+- Two critical bugs fixed in ga:quest.ts (missing brace + romance demotion guard)
+- Grand Architect control plane dashboard live at / — users can see engine status and run conformance tests in-browser
+- Existing engine-advancement cron (job 306378, agentTurn, 15-min) continues autonomous iteration
+- Phase 6 (content generation) remains the next roadmap item
