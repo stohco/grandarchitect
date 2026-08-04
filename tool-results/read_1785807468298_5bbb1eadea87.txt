@@ -1,0 +1,996 @@
+     1→/**
+     2→ * ga:combat — Combat: Ability Execution
+     3→ *
+     4→ * Implements doc 32 (Combat: Ability Execution).
+     5→ * Combat state machine (8 terminals), production rules with frame costs,
+     6→ * tempo economy (8-frame input buffer), commitment model,
+     7→ * qi routing (4 regions × 5 phases = 20 combinations),
+     8→ * phase matchup multipliers (wuxing), residue reading,
+     9→ * 9-type injury model, per-realm death model, 5 combat scales,
+    10→ * and tier degradation (S4/S2/S0).
+    11→ *
+    12→ * Pure functions over typed state. No forbidden functions.
+    13→ * No Three.js, no DOM, no rendering.
+    14→ */
+    15→
+    16→import type { Plugin, PluginHost } from '../kernel/plugin-host';
+    17→import type { EntityId, Tick, SimulationTier } from '../kernel/types';
+    18→
+    19→// ============================================================================
+    20→// Combat State Machine (§1)
+    21→// ============================================================================
+    22→
+    23→export type CombatState =
+    24→  | 'Idle' | 'Committed' | 'Active' | 'Recovery'
+    25→  | 'Staggered' | 'Downed' | 'Yielded' | 'Dead';
+    26→
+    27→export type PhaseName = 'wood' | 'fire' | 'earth' | 'metal' | 'water';
+    28→export type RoutingRegion = 'hands' | 'legs' | 'skin' | 'senses';
+    29→
+    30→export type CombatInput =
+    31→  | 'attack_fast' | 'attack_medium' | 'attack_heavy'
+    32→  | 'defend' | 'dodge' | 'read_residue'
+    33→  | 'route_hands' | 'route_legs' | 'route_skin' | 'route_senses'
+    34→  | 'yield' | 'burst_area';
+    35→
+    36→// ============================================================================
+    37→// Input Buffer (§2 — 8-frame buffer, Smash Bros precedent)
+    38→// ============================================================================
+    39→
+    40→export interface BufferedInput {
+    41→  input: CombatInput;
+    42→  bufferedAtFrame: number;
+    43→  consumedAtFrame: number | null;
+    44→}
+    45→
+    46→export const INPUT_BUFFER_SIZE = 8;
+    47→
+    48→export function createBufferedInput(input: CombatInput, frame: number): BufferedInput {
+    49→  return { input, bufferedAtFrame: frame, consumedAtFrame: null };
+    50→}
+    51→
+    52→export function pushInput(buffer: BufferedInput[], input: CombatInput, frame: number): BufferedInput[] {
+    53→  const entry = createBufferedInput(input, frame);
+    54→  const filtered = buffer.filter(b => frame - b.bufferedAtFrame < INPUT_BUFFER_SIZE && b.consumedAtFrame === null);
+    55→  return [...filtered, entry];
+    56→}
+    57→
+    58→export function consumeInput(buffer: BufferedInput[], frame: number): { input: CombatInput | null; remaining: BufferedInput[] } {
+    59→  const pending = buffer.filter(b => b.consumedAtFrame === null && frame - b.bufferedAtFrame < INPUT_BUFFER_SIZE);
+    60→  if (pending.length === 0) return { input: null, remaining: buffer };
+    61→  // Most recent wins
+    62→  const chosen = pending[pending.length - 1];
+    63→  const updated = buffer.map(b => b === chosen ? { ...b, consumedAtFrame: frame } : b);
+    64→  return { input: chosen.input, remaining: updated };
+    65→}
+    66→
+    67→export function clearBuffer(buffer: BufferedInput[]): BufferedInput[] {
+    68→  return buffer.map(b => b.consumedAtFrame !== null ? b : { ...b, consumedAtFrame: -1 });
+    69→}
+    70→
+    71→// ============================================================================
+    72→// Action Definitions (§1.1 — Frame Costs)
+    73→// ============================================================================
+    74→
+    75→export type ActionType = 'attack_fast' | 'attack_medium' | 'attack_heavy' | 'defend' | 'dodge' | 'read_residue' | 'yield' | 'burst_area';
+    76→
+    77→export interface ActionDef {
+    78→  type: ActionType;
+    79→  startupFrames: number;
+    80→  activeFrames: number;
+    81→  recoveryFrames: number;
+    82→  totalFrames: number;
+    83→  qiCost: number;           // reservoir cost
+    84→  attentionCost: number;    // attention budget cost
+    85→  damageBase: number;       // base damage magnitude (0..1 scale)
+    86→  isHoldable: boolean;      // defend is holdable
+    87→}
+    88→
+    89→// Qi Condensation baseline frame costs (per doc 32 §1.1 table)
+    90→export const ACTION_DEFS: Record<ActionType, ActionDef> = {
+    91→  attack_fast:  { type: 'attack_fast',  startupFrames: 8,  activeFrames: 4,  recoveryFrames: 12, totalFrames: 24, qiCost: 0.02, attentionCost: 2, damageBase: 0.05, isHoldable: false },
+    92→  attack_medium: { type: 'attack_medium', startupFrames: 14, activeFrames: 6, recoveryFrames: 20, totalFrames: 40, qiCost: 0.05, attentionCost: 3, damageBase: 0.12, isHoldable: false },
+    93→  attack_heavy: { type: 'attack_heavy', startupFrames: 24, activeFrames: 8, recoveryFrames: 36, totalFrames: 68, qiCost: 0.10, attentionCost: 5, damageBase: 0.25, isHoldable: false },
+    94→  defend:       { type: 'defend',       startupFrames: 6,  activeFrames: 0,  recoveryFrames: 12, totalFrames: 18, qiCost: 0.01, attentionCost: 1, damageBase: 0,    isHoldable: true },
+    95→  dodge:        { type: 'dodge',        startupFrames: 10, activeFrames: 12, recoveryFrames: 14, totalFrames: 36, qiCost: 0.03, attentionCost: 3, damageBase: 0,    isHoldable: false },
+    96→  read_residue: { type: 'read_residue', startupFrames: 30, activeFrames: 0, recoveryFrames: 30, totalFrames: 60, qiCost: 0.02, attentionCost: 5, damageBase: 0,    isHoldable: false },
+    97→  yield:        { type: 'yield',        startupFrames: 1,  activeFrames: 0, recoveryFrames: 0,  totalFrames: 1,  qiCost: 0,    attentionCost: 0, damageBase: 0,    isHoldable: false },
+    98→  burst_area:   { type: 'burst_area',   startupFrames: 40, activeFrames: 8, recoveryFrames: 60, totalFrames: 108, qiCost: 0.30, attentionCost: 8, damageBase: 0.40, isHoldable: false },
+    99→};
+   100→
+   101→// ============================================================================
+   102→// Qi Routing (§4 — 4 regions × 5 phases = 20 combinations)
+   103→// ============================================================================
+   104→
+   105→export interface RoutingEffect {
+   106→  damage?: number;
+   107→  speed?: number;
+   108→  defense?: number;
+   109→  perception?: number;
+   110→  effect: string;
+   111→  phaseType: 'generation' | 'conquest' | 'neutral';
+   112→}
+   113→
+   114→export const ROUTING_EFFECTS: Record<RoutingRegion, Record<PhaseName, RoutingEffect>> = {
+   115→  hands: {
+   116→    wood:   { damage: 1.0, effect: 'lifesteal_small',  phaseType: 'generation' },
+   117→    fire:   { damage: 1.5, effect: 'burn_dot',         phaseType: 'conquest' },
+   118→    earth:  { damage: 0.8, effect: 'knockback',        phaseType: 'neutral' },
+   119→    metal:  { damage: 1.8, effect: 'armor_pierce',     phaseType: 'conquest' },
+   120→    water:  { damage: 0.9, effect: 'slow_target',      phaseType: 'generation' },
+   121→  },
+   122→  legs: {
+   123→    wood:   { speed: 1.3, effect: 'root_break',        phaseType: 'generation' },
+   124→    fire:   { speed: 1.5, effect: 'trail_burn',        phaseType: 'conquest' },
+   125→    earth:  { speed: 0.9, effect: 'immovable',         phaseType: 'neutral' },
+   126→    metal:  { speed: 1.1, effect: 'cut_ground',        phaseType: 'conquest' },
+   127→    water:  { speed: 1.4, effect: 'flow_dodge',        phaseType: 'generation' },
+   128→  },
+   129→  skin: {
+   130→    wood:   { defense: 1.2, effect: 'regen_small',     phaseType: 'generation' },
+   131→    fire:   { defense: 0.8, effect: 'reflect_burn',    phaseType: 'conquest' },
+   132→    earth:  { defense: 1.8, effect: 'stone_skin',      phaseType: 'neutral' },
+   133→    metal:  { defense: 1.5, effect: 'blade_reflect',   phaseType: 'conquest' },
+   134→    water:  { defense: 1.0, effect: 'flow_redirect',   phaseType: 'generation' },
+   135→  },
+   136→  senses: {
+   137→    wood:   { perception: 1.5, effect: 'read_ecology',   phaseType: 'generation' },
+   138→    fire:   { perception: 1.3, effect: 'see_residue_hot', phaseType: 'conquest' },
+   139→    earth:  { perception: 1.0, effect: 'feel_vibration', phaseType: 'neutral' },
+   140→    metal:  { perception: 1.4, effect: 'detect_weapon',  phaseType: 'conquest' },
+   141→    water:  { perception: 1.6, effect: 'read_emotion',   phaseType: 'generation' },
+   142→  },
+   143→};
+   144→
+   145→export const ROUTING_SWITCH_COST_MIN = 60;  // frames at Qi Condensation
+   146→export const ROUTING_SWITCH_COST_MAX = 120;
+   147→
+   148→export interface QiRouting {
+   149→  region: RoutingRegion;
+   150→  phase: PhaseName;
+   151→  switchCost: number;
+   152→  reservoirDrain: number;
+   153→}
+   154→
+   155→export function createQiRouting(region: RoutingRegion, phase: PhaseName): QiRouting {
+   156→  return {
+   157→    region,
+   158→    phase,
+   159→    switchCost: (ROUTING_SWITCH_COST_MIN + ROUTING_SWITCH_COST_MAX) / 2,
+   160→    reservoirDrain: 0.005,
+   161→  };
+   162→}
+   163→
+   164→export function getRoutingEffect(routing: QiRouting): RoutingEffect {
+   165→  return ROUTING_EFFECTS[routing.region][routing.phase];
+   166→}
+   167→
+   168→// ============================================================================
+   169→// Phase Matchup Multipliers (§5 — wuxing conquest/generation)
+   170→// ============================================================================
+   171→
+   172→export interface PhaseMatchup {
+   173→  damageMult: number;
+   174→  effectMult: number;
+   175→  type: 'neutral' | 'conquest' | 'generation' | 'reverse_conquest';
+   176→  lifesteal?: number;
+   177→}
+   178→
+   179→// Conquest cycle (相剋): wood→earth, earth→water, water→fire, fire→metal, metal→wood
+   180→// A conquers B means: A is at index+1 in the cycle, B is at the current index
+   181→const CONQUEST_CYCLE: PhaseName[] = ['wood', 'metal', 'fire', 'water', 'earth'];
+   182→// Generation cycle (相生): wood→fire, fire→earth, earth→metal, metal→water, water→wood
+   183→const GENERATION_CYCLE: PhaseName[] = ['wood', 'fire', 'earth', 'metal', 'water'];
+   184→
+   185→export function conquers(a: PhaseName, d: PhaseName): boolean {
+   186→  // A conquers D if D comes after A in the conquest cycle
+   187→  const ai = CONQUEST_CYCLE.indexOf(a);
+   188→  const di = CONQUEST_CYCLE.indexOf(d);
+   189→  return di === (ai + 1) % 5;
+   190→}
+   191→
+   192→export function generates(a: PhaseName, d: PhaseName): boolean {
+   193→  // A generates D if D comes after A in the generation cycle
+   194→  const ai = GENERATION_CYCLE.indexOf(a);
+   195→  const di = GENERATION_CYCLE.indexOf(d);
+   196→  return di === (ai + 1) % 5;
+   197→}
+   198→
+   199→export function phaseMultiplier(attacker: PhaseName, defender: PhaseName): PhaseMatchup {
+   200→  if (attacker === defender) return { damageMult: 1.0, effectMult: 1.0, type: 'neutral' };
+   201→  if (conquers(attacker, defender)) return { damageMult: 1.5, effectMult: 1.5, type: 'conquest' };
+   202→  if (generates(attacker, defender)) return { damageMult: 0.5, effectMult: 0.5, type: 'generation', lifesteal: 0.5 };
+   203→  return { damageMult: 0.75, effectMult: 0.75, type: 'reverse_conquest' };
+   204→}
+   205→
+   206→// ============================================================================
+   207→// Injury Model (§8 — 9 types)
+   208→// ============================================================================
+   209→
+   210→export type InjuryType =
+   211→  | 'cut_superficial' | 'cut_deep' | 'cut_tendon' | 'fractured_bone'
+   212→  | 'meridian_inflammation' | 'organ_damage' | 'qi_depletion'
+   213→  | 'anchor_bruise' | 'core_crack';
+   214→
+   215→export type InjuryLocation =
+   216→  | 'head' | 'torso' | 'left_arm' | 'right_arm' | 'left_leg' | 'right_leg'
+   217→  | 'meridian_central' | 'meridian_ancestral' | 'meridian_spirit'
+   218→  | 'organ_lung' | 'organ_liver' | 'organ_heart' | 'organ_kidney'
+   219→  | 'anchor' | 'core';
+   220→
+   221→export interface InjuryEffect {
+   222→  type: string;
+   223→  magnitude: number;
+   224→}
+   225→
+   226→export interface Injury {
+   227→  injuryId: string;
+   228→  injuryType: InjuryType;
+   229→  location: InjuryLocation;
+   230→  severity: number;        // 0..1
+   231→  onsetTick: number;
+   232→  onsetThreshold: number;
+   233→  recoveryTimeDays: number;
+   234→  recoveryTimeTreatedDays: number;
+   235→  effects: InjuryEffect[];
+   236→  resolved: boolean;
+   237→  resolvedAt: number | null;
+   238→}
+   239→
+   240→// Injury onset thresholds (damage magnitude as 0..1 fraction of HP-equivalent)
+   241→export const INJURY_THRESHOLDS: Record<InjuryType, { threshold: number; recoveryDays: number; treatedDays: number; effects: InjuryEffect[] }> = {
+   242→  cut_superficial:      { threshold: 0.05, recoveryDays: 2,   treatedDays: 0, effects: [{ type: 'pain_small', magnitude: 0.05 }] },
+   243→  cut_deep:            { threshold: 0.15, recoveryDays: 60,  treatedDays: 10, effects: [{ type: 'pain_large', magnitude: 0.15 }, { type: 'bleeding', magnitude: 0.1 }] },
+   244→  cut_tendon:          { threshold: 0.10, recoveryDays: 135, treatedDays: 45, effects: [{ type: 'limb_function', magnitude: 0.75 }] },
+   245→  fractured_bone:      { threshold: 0.30, recoveryDays: 90,  treatedDays: 45, effects: [{ type: 'region_unusable', magnitude: 0.8 }] },
+   246→  meridian_inflammation: { threshold: 0.12, recoveryDays: 22, treatedDays: 10, effects: [{ type: 'routing_blocked', magnitude: 0.6 }] },
+   247→  organ_damage:        { threshold: 0.25, recoveryDays: 273, treatedDays: 120, effects: [{ type: 'systemic', magnitude: 0.4 }] },
+   248→  qi_depletion:        { threshold: 0.00, recoveryDays: 0,  treatedDays: 0, effects: [{ type: 'qi_verbs_blocked', magnitude: 1.0 }] },
+   249→  anchor_bruise:       { threshold: 0.35, recoveryDays: 45, treatedDays: 22, effects: [{ type: 'perception_unreliable', magnitude: 0.3 }] },
+   250→  core_crack:         { threshold: 0.80, recoveryDays: 1095, treatedDays: 365, effects: [{ type: 'catastrophic', magnitude: 0.9 }] },
+   251→};
+   252→
+   253→// Injuries block transitions per doc 32 §8.3
+   254→export function injuryBlocksTransition(injuries: Injury[], transition: string): boolean {
+   255→  for (const inj of injuries) {
+   256→    if (inj.resolved) continue;
+   257→    if (inj.injuryType === 'cut_tendon' && inj.location.includes('leg') && transition === 'dodge') return true;
+   258→    if (inj.injuryType === 'fractured_bone' && inj.location.includes('leg') && transition === 'dodge') return true;
+   259→    if (inj.injuryType === 'meridian_inflammation' && transition.startsWith('route_')) return true;
+   260→    if (inj.injuryType === 'qi_depletion' && transition === 'attack_heavy') return true;
+   261→    if (inj.injuryType === 'qi_depletion' && transition === 'burst_area') return true;
+   262→  }
+   263→  return false;
+   264→}
+   265→
+   266→// ============================================================================
+   267→// Death Model (§9 — per-realm anchor fate)
+   268→// ============================================================================
+   269→
+   270→export type AnchorFate =
+   271→  | 'bardo_short' | 'bardo_medium' | 'bardo_long'
+   272→  | 'anchor_flight' | 'domain_persist' | 'place_bond' | 'robust' | 'final_death';
+   273→
+   274→export type Realm =
+   275→  | 'mortal' | 'qi_induction' | 'qi_condensation' | 'foundation_establishment'
+   276→  | 'core_formation' | 'nascent_soul' | 'spirit_severance'
+   277→  | 'void_amalgamation' | 'tribulation_crossing' | 'mahayana';
+   278→
+   279→export const REALM_LADDER: Realm[] = [
+   280→  'mortal', 'qi_induction', 'qi_condensation', 'foundation_establishment',
+   281→  'core_formation', 'nascent_soul', 'spirit_severance',
+   282→  'void_amalgamation', 'tribulation_crossing', 'mahayana',
+   283→];
+   284→
+   285→export function getAnchorFate(realm: Realm): AnchorFate {
+   286→  switch (realm) {
+   287→    case 'mortal': case 'qi_induction': case 'qi_condensation': return 'bardo_short';
+   288→    case 'foundation_establishment': return 'bardo_medium';
+   289→    case 'core_formation': return 'bardo_long';
+   290→    case 'nascent_soul': return 'anchor_flight';
+   291→    case 'spirit_severance': return 'domain_persist';
+   292→    case 'void_amalgamation': return 'place_bond';
+   293→    case 'tribulation_crossing': case 'mahayana': return 'robust';
+   294→  }
+   295→}
+   296→
+   297→export const BARDO_WINDOW_DAYS: Record<Realm, number> = {
+   298→  mortal: 1, qi_induction: 1, qi_condensation: 1,
+   299→  foundation_establishment: 7, core_formation: 30,
+   300→  nascent_soul: 0, spirit_severance: 0, void_amalgamation: 0,
+   301→  tribulation_crossing: 0, mahayana: 0,
+   302→};
+   303→
+   304→export interface DeathTransition {
+   305→  deadCombatantId: EntityId;
+   306→  realm: Realm;
+   307→  deathTick: number;
+   308→  anchorFate: AnchorFate;
+   309→  bardoWindowTicks: number;
+   310→}
+   311→
+   312→// ============================================================================
+   313→// Combat Residue (§6)
+   314→// ============================================================================
+   315→
+   316→export interface CombatResidue {
+   317→  residueId: number;
+   318→  originatingAction: ActionType;
+   319→  bornAtFrame: number;
+   320→  intensity: number;
+   321→  halfLifeFrames: number;  // default 60 at Qi Condensation
+   322→  phaseSignature: PhaseName;
+   323→  actorId: EntityId;
+   324→}
+   325→
+   326→export function decayResidue(residue: CombatResidue, currentFrame: number): CombatResidue {
+   327→  const age = currentFrame - residue.bornAtFrame;
+   328→  const decayedIntensity = residue.intensity * Math.pow(0.5, age / residue.halfLifeFrames);
+   329→  return { ...residue, intensity: decayedIntensity };
+   330→}
+   331→
+   332→export function isResidueReadable(residue: CombatResidue, perception: number, currentFrame: number): boolean {
+   333→  const decayed = decayResidue(residue, currentFrame);
+   334→  return decayed.intensity > 0.05 && perception > 0.2;
+   335→}
+   336→
+   337→// ============================================================================
+   338→// Combat Scale (§7)
+   339→// ============================================================================
+   340→
+   341→export type CombatScale = 'duel' | 'mob' | 'giant' | 'battlefield' | 'law_conflict';
+   342→
+   343→export interface CombatScaleConfig {
+   344→  scale: CombatScale;
+   345→  stateMachine: 'full' | 'simplified' | 'terrain' | 'force_multiplier' | 'law_state_machine';
+   346→  maxCombatants: number;
+   347→  routingAvailable: boolean;
+   348→  residueReadable: boolean;
+   349→  injuriesTracked: boolean;
+   350→}
+   351→
+   352→export const COMBAT_SCALE_CONFIGS: Record<CombatScale, CombatScaleConfig> = {
+   353→  duel:         { scale: 'duel',         stateMachine: 'full',            maxCombatants: 2,  routingAvailable: true,  residueReadable: true,  injuriesTracked: true },
+   354→  mob:          { scale: 'mob',          stateMachine: 'simplified',      maxCombatants: 13, routingAvailable: true,  residueReadable: false, injuriesTracked: false },
+   355→  giant:        { scale: 'giant',        stateMachine: 'terrain',         maxCombatants: 2,  routingAvailable: true,  residueReadable: true,  injuriesTracked: true },
+   356→  battlefield:  { scale: 'battlefield',  stateMachine: 'force_multiplier', maxCombatants: 100, routingAvailable: true,  residueReadable: false, injuriesTracked: false },
+   357→  law_conflict: { scale: 'law_conflict', stateMachine: 'law_state_machine',maxCombatants: 2,  routingAvailable: false, residueReadable: false, injuriesTracked: false },
+   358→};
+   359→
+   360→// ============================================================================
+   361→// Combatant State
+   362→// ============================================================================
+   363→
+   364→export interface ActionInstance {
+   365→  actionType: ActionType;
+   366→  startedAtFrame: number;
+   367→  phase: PhaseName;       // the phase used for this action
+   368→  routingRegion: RoutingRegion;
+   369→}
+   370→
+   371→export interface CombatantState {
+   372→  combatantId: EntityId;
+   373→  state: CombatState;
+   374→  stateEnteredAtFrame: number;
+   375→  stateFrameCount: number;
+   376→  stateFrameTarget: number;
+   377→  inputBuffer: BufferedInput[];
+   378→  currentAction: ActionInstance | null;
+   379→  routing: QiRouting;
+   380→  injuries: Injury[];
+   381→  deviationMeter: number;   // 0..1
+   382→  realm: Realm;
+   383→  qiReservoir: number;     // 0..1 (fraction of capacity)
+   384→  attention: number;        // 0..100
+   385→  perception: number;      // 0..1
+   386→}
+   387→
+   388→export function createCombatant(
+   389→  id: EntityId,
+   390→  realm: Realm = 'mortal',
+   391→  qiReservoir: number = 1.0,
+   392→): CombatantState {
+   393→  return {
+   394→    combatantId: id,
+   395→    state: 'Idle',
+   396→    stateEnteredAtFrame: 0,
+   397→    stateFrameCount: 0,
+   398→    stateFrameTarget: 0,
+   399→    inputBuffer: [],
+   400→    currentAction: null,
+   401→    routing: createQiRouting('hands', 'metal'),
+   402→    injuries: [],
+   403→    deviationMeter: 0,
+   404→    realm,
+   405→    qiReservoir,
+   406→    attention: 100,
+   407→    perception: 0,
+   408→  };
+   409→}
+   410→
+   411→// ============================================================================
+   412→// Combat Instance
+   413→// ============================================================================
+   414→
+   415→export interface CombatInstance {
+   416→  combatId: number;
+   417→  scale: CombatScale;
+   418→  combatants: Map<string, CombatantState>;
+   419→  residues: CombatResidue[];
+   420→  currentFrame: number;
+   421→  startedAtTick: number;
+   422→  deathTransitions: DeathTransition[];
+   423→  nextResidueId: number;
+   424→}
+   425→
+   426→// ============================================================================
+   427→// Combat Engine — Pure Functions
+   428→// ============================================================================
+   429→
+   430→export function clamp(v: number, min: number, max: number): number {
+   431→  if (v < min) return min;
+   432→  if (v > max) return max;
+   433→  return v;
+   434→}
+   435→
+   436→function keyOf(id: EntityId): string {
+   437→  return String(id);
+   438→}
+   439→
+   440→/** Compute damage with all multipliers */
+   441→export function computeDamage(
+   442→  attacker: CombatantState,
+   443→  defender: CombatantState,
+   444→  action: ActionDef,
+   445→ matchup: PhaseMatchup,
+   446→ routingEffect: RoutingEffect,
+   447→): number {
+   448→  const baseDamage = action.damageBase;
+   449→  const phaseMult = matchup.damageMult;
+   450→  const routingDmgMult = routingEffect.damage ?? 1.0;
+   451→  const reservoirMult = attacker.qiReservoir > 0.05 ? 1.0 : 0.3;
+   452→  const defenderDefRouting = getRoutingEffect(defender.routing);
+   453→  const defenderDefMult = defender.state === 'Active' && defender.currentAction?.actionType === 'defend'
+   454→    ? (defenderDefRouting.defense ?? 1.0) : 1.0;
+   455→
+   456→  return clamp(baseDamage * phaseMult * routingDmgMult * reservoirMult / defenderDefMult, 0, 1);
+   457→}
+   458→
+   459→/** Apply damage, check for injuries */
+   460→export function applyDamageToDefender(
+   461→  defender: CombatantState,
+   462→  damage: number,
+   463→  frame: number,
+   464→): { updatedDefender: CombatantState; newInjuries: Injury[] } {
+   465→  const newInjuries: Injury[] = [];
+   466→  let updated = { ...defender };
+   467→
+   468→  // Check each injury threshold
+   469→  for (const [injType, config] of Object.entries(INJURY_THRESHOLDS)) {
+   470→    if (damage >= config.threshold) {
+   471→      // Check if this injury already exists (don't duplicate)
+   472→      const existing = updated.injuries.find(i => i.injuryType === injType as InjuryType && !i.resolved);
+   473→      if (!existing) {
+   474→        const injury: Injury = {
+   475→          injuryId: `${defender.combatantId}-${injType}-${frame}`,
+   476→          injuryType: injType as InjuryType,
+   477→          location: 'torso',
+   478→          severity: clamp(damage - config.threshold + 0.1, 0, 1),
+   479→          onsetTick: frame,
+   480→          onsetThreshold: config.threshold,
+   481→          recoveryTimeDays: config.recoveryDays,
+   482→          recoveryTimeTreatedDays: config.treatedDays,
+   483→          effects: [...config.effects],
+   484→          resolved: false,
+   485→          resolvedAt: null,
+   486→        };
+   487→        newInjuries.push(injury);
+   488→        updated.injuries = [...updated.injuries, injury];
+   489→      }
+   490→    }
+   491→  }
+   492→
+   493→  return { updatedDefender: updated, newInjuries };
+   494→}
+   495→
+   496→/** Determine if damage is lethal */
+   497→export function isLethal(injuries: Injury[], damage: number): boolean {
+   498→  // Core crack is always lethal
+   499→  if (injuries.some(i => i.injuryType === 'core_crack' && !i.resolved)) return true;
+   500→  // Accumulated damage > 0.95 with severe injuries
+   501→  const severeInjuries = injuries.filter(i => !i.resolved && i.severity > 0.5);
+   502→  if (severeInjuries.length >= 3 && damage > 0.3) return true;
+   503→  // Five or more unresolved injuries
+   504→  if (injuries.filter(i => !i.resolved).length >= 5) return true;
+   505→  return false;
+   506→}
+   507→
+   508→/** Can the combatant route qi? */
+   509→export function canRoute(combatant: CombatantState): boolean {
+   510→  if (combatant.state !== 'Idle') return false;
+   511→  if (combatant.qiReservoir < 0.05) return false;
+   512→  if (injuryBlocksTransition(combatant.injuries, 'route_hands')) return false;
+   513→  return true;
+   514→}
+   515→
+   516→/** Can the combatant perform an action? */
+   517→export function canAct(combatant: CombatantState, action: ActionType): boolean {
+   518→  if (combatant.state === 'Dead' || combatant.state === 'Yielded') return false;
+   519→  if (action === 'yield') return combatant.state === 'Idle';
+   520→  if (combatant.state === 'Staggered' || combatant.state === 'Downed') return false;
+   521→  if (combatant.state === 'Committed') return false; // commitment model: no cancel
+   522→  if (combatant.state === 'Recovery') return false;
+   523→  const def = ACTION_DEFS[action];
+   524→  if (combatant.qiReservoir < def.qiCost) return false;
+   525→  if (combatant.attention < def.attentionCost) return false;
+   526→  if (injuryBlocksTransition(combatant.injuries, action)) return false;
+   527→  return true;
+   528→}
+   529→
+   530→/** Process a single combat frame for one combatant */
+   531→export function stepCombatant(
+   532→  combatant: CombatantState,
+   533→  incomingDamage: { fromId: EntityId; damage: number; phase: PhaseName; frame: number } | null,
+   534→  frame: number,
+   535→): CombatantState {
+   536→  let c = { ...combatant, stateFrameCount: combatant.stateFrameCount + 1 };
+   537→
+   538→  // Handle incoming damage
+   539→  if (incomingDamage && c.state !== 'Dead') {
+   540→    if (c.state === 'Idle' || c.state === 'Committed' || c.state === 'Recovery') {
+   541→      // Counter-hit bonus: +50% if hit during Committed or Recovery
+   542→      const counterMult = (c.state === 'Committed' || c.state === 'Recovery') ? 1.5 : 1.0;
+   543→      const effectiveDamage = incomingDamage.damage * counterMult;
+   544→
+   545→      const { updatedDefender, newInjuries } = applyDamageToDefender(c, effectiveDamage, frame);
+   546→      c = updatedDefender;
+   547→
+   548→      if (isLethal(c.injuries, effectiveDamage)) {
+   549→        return { ...c, state: 'Dead', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   550→      }
+   551→
+   552→      // Check for downed (heavy hit while staggered)
+   553→      if (c.state === 'Staggered' && effectiveDamage > 0.2) {
+   554→        return { ...c, state: 'Downed', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 60 };
+   555→      }
+   556→
+   557→      // Stagger
+   558→      const staggerFrames = c.injuries.some(i => i.injuryType === 'organ_damage' && !i.resolved) ? 30 : 15;
+   559→      return { ...c, state: 'Staggered', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: staggerFrames };
+   560→    }
+   561→    // Active + defending: block
+   562→    if (c.state === 'Active' && c.currentAction?.actionType === 'defend') {
+   563→      const guardDrain = incomingDamage.damage * 0.3;
+   564→      c = { ...c, qiReservoir: clamp(c.qiReservoir - guardDrain, 0, 1) };
+   565→      if (c.qiReservoir < 0.01) {
+   566→        // Guard break: long stagger
+   567→        return { ...c, state: 'Staggered', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 30, currentAction: null };
+   568→      }
+   569→    }
+   570→    // Downed + lethal
+   571→    if (c.state === 'Downed' && isLethal(c.injuries, incomingDamage.damage)) {
+   572→      return { ...c, state: 'Dead', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   573→    }
+   574→    // Yielded + hit = dead
+   575→    if (c.state === 'Yielded') {
+   576→      return { ...c, state: 'Dead', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   577→    }
+   578→  }
+   579→
+   580→  // State machine transitions based on frame count
+   581→  switch (c.state) {
+   582→    case 'Committed': {
+   583→      if (c.stateFrameCount >= c.stateFrameTarget && c.currentAction) {
+   584→        // Transition to Active
+   585→        return { ...c, state: 'Active', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: c.currentAction ? ACTION_DEFS[c.currentAction.actionType].activeFrames : 0 };
+   586→      }
+   587→      break;
+   588→    }
+   589→    case 'Active': {
+   590→      const action = c.currentAction;
+   591→      if (action && action.actionType === 'defend') {
+   592→        // Holdable: stays active until input released or broken
+   593→        break;
+   594→      }
+   595→      if (c.stateFrameCount >= c.stateFrameTarget && action) {
+   596→        // Transition to Recovery
+   597→        return { ...c, state: 'Recovery', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: ACTION_DEFS[action.actionType].recoveryFrames, currentAction: null };
+   598→      }
+   599→      break;
+   600→    }
+   601→    case 'Recovery': {
+   602→      if (c.stateFrameCount >= c.stateFrameTarget) {
+   603→        return { ...c, state: 'Idle', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   604→      }
+   605→      break;
+   606→    }
+   607→    case 'Staggered': {
+   608→      if (c.stateFrameCount >= c.stateFrameTarget) {
+   609→        return { ...c, state: 'Idle', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   610→      }
+   611→      break;
+   612→    }
+   613→    case 'Downed': {
+   614→      if (c.stateFrameCount >= c.stateFrameTarget) {
+   615→        return { ...c, state: 'Idle', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   616→      }
+   617→      break;
+   618→    }
+   619→  }
+   620→
+   621→  return c;
+   622→}
+   623→
+   624→/** Execute an action for a combatant in Idle state */
+   625→export function executeAction(
+   626→  combatant: CombatantState,
+   627→  action: ActionType,
+   628→  frame: number,
+   629→): CombatantState {
+   630→  if (!canAct(combatant, action)) return combatant;
+   631→
+   632→  const def = ACTION_DEFS[action];
+   633→
+   634→  if (action === 'yield') {
+   635→    return { ...combatant, state: 'Yielded', stateEnteredAtFrame: frame, stateFrameCount: 0, stateFrameTarget: 0 };
+   636→  }
+   637→
+   638→  return {
+   639→    ...combatant,
+   640→    state: 'Committed',
+   641→    stateEnteredAtFrame: frame,
+   642→    stateFrameCount: 0,
+   643→    stateFrameTarget: def.startupFrames,
+   644→    qiReservoir: clamp(combatant.qiReservoir - def.qiCost, 0, 1),
+   645→    attention: clamp(combatant.attention - def.attentionCost, 0, 100),
+   646→    currentAction: {
+   647→      actionType: action,
+   648→      startedAtFrame: frame,
+   649→      phase: combatant.routing.phase,
+   650→      routingRegion: combatant.routing.region,
+   651→    },
+   652→  };
+   653→}
+   654→
+   655→/** Switch qi routing */
+   656→export function switchRouting(
+   657→  combatant: CombatantState,
+   658→  newRegion: RoutingRegion,
+   659→  newPhase: PhaseName,
+   660→  frame: number,
+   661→): CombatantState {
+   662→  if (!canRoute(combatant)) return combatant;
+   663→  const switchCost = (ROUTING_SWITCH_COST_MIN + ROUTING_SWITCH_COST_MAX) / 2;
+   664→  return {
+   665→    ...combatant,
+   666→    state: 'Committed',
+   667→    stateEnteredAtFrame: frame,
+   668→    stateFrameCount: 0,
+   669→    stateFrameTarget: switchCost,
+   670→    routing: createQiRouting(newRegion, newPhase),
+   671→  };
+   672→}
+   673→
+   674→// ============================================================================
+   675→// Combat API (the public interface)
+   676→// ============================================================================
+   677→
+   678→export interface CombatStats {
+   679→  totalCombats: number;
+   680→  activeCombats: number;
+   681→  totalCombatants: number;
+   682→  totalDeaths: number;
+   683→  totalInjuries: number;
+   684→  byScale: Record<CombatScale, number>;
+   685→}
+   686→
+   687→export interface CombatApi {
+   688→  // Combat instance management
+   689→  createCombat: (scale: CombatScale) => number;
+   690→  getCombat: (combatId: number) => CombatInstance | undefined;
+   691→  removeCombat: (combatId: number) => boolean;
+   692→  listCombats: () => number[];
+   693→
+   694→  // Combatant management within a combat
+   695→  addCombatant: (combatId: number, combatant: CombatantState) => boolean;
+   696→  removeCombatant: (combatId: number, combatantId: EntityId) => boolean;
+   697→  getCombatantState: (combatId: number, combatantId: EntityId) => CombatantState | undefined;
+   698→
+   699→  // Actions
+   700→  queueInput: (combatId: number, combatantId: EntityId, input: CombatInput, frame: number) => boolean;
+   701→  switchRouting: (combatId: number, combatantId: EntityId, region: RoutingRegion, phase: PhaseName, frame: number) => boolean;
+   702→
+   703→  // Simulation
+   704→  stepCombat: (combatId: number) => void;
+   705→  stepAllCombats: () => void;
+   706→
+   707→  // Queries
+   708→  getResidues: (combatId: number) => CombatResidue[];
+   709→  getDeathTransitions: (combatId: number) => DeathTransition[];
+   710→
+   711→  // Tier management
+   712→  setTier: (combatantId: EntityId, tier: SimulationTier) => void;
+   713→  getTier: (combatantId: EntityId) => SimulationTier;
+   714→
+   715→  // Stats
+   716→  stats: () => CombatStats;
+   717→}
+   718→
+   719→export function createCombatApi(): CombatApi {
+   720→  const combats = new Map<string, CombatInstance>();
+   721→  const tiers = new Map<string, SimulationTier>();
+   722→  let nextCombatId = 1;
+   723→
+   724→  function createCombat(scale: CombatScale): number {
+   725→    const id = nextCombatId++;
+   726→    combats.set(String(id), {
+   727→      combatId: id,
+   728→      scale,
+   729→      combatants: new Map(),
+   730→      residues: [],
+   731→      currentFrame: 0,
+   732→      startedAtTick: 0,
+   733→      deathTransitions: [],
+   734→      nextResidueId: 1,
+   735→    });
+   736→    return id;
+   737→  }
+   738→
+   739→  function getCombat(combatId: number): CombatInstance | undefined {
+   740→    return combats.get(String(combatId));
+   741→  }
+   742→
+   743→  function removeCombat(combatId: number): boolean {
+   744→    return combats.delete(String(combatId));
+   745→  }
+   746→
+   747→  function listCombats(): number[] {
+   748→    return Array.from(combats.keys()).map(Number);
+   749→  }
+   750→
+   751→  function addCombatant(combatId: number, combatant: CombatantState): boolean {
+   752→    const combat = combats.get(String(combatId));
+   753→    if (!combat) return false;
+   754→    const config = COMBAT_SCALE_CONFIGS[combat.scale];
+   755→    if (combat.combatants.size >= config.maxCombatants) return false;
+   756→    combat.combatants.set(keyOf(combatant.combatantId), combatant);
+   757→    if (!tiers.has(keyOf(combatant.combatantId))) {
+   758→      tiers.set(keyOf(combatant.combatantId), 4); // default S4
+   759→    }
+   760→    return true;
+   761→  }
+   762→
+   763→  function removeCombatant(combatId: number, combatantId: EntityId): boolean {
+   764→    const combat = combats.get(String(combatId));
+   765→    if (!combat) return false;
+   766→    return combat.combatants.delete(keyOf(combatantId));
+   767→  }
+   768→
+   769→  function getCombatantState(combatId: number, combatantId: EntityId): CombatInstance | undefined {
+   770→    return combats.get(String(combatId))?.combatants.get(keyOf(combatantId)) as unknown as CombatInstance | undefined;
+   771→  }
+   772→
+   773→  function queueInput(combatId: number, combatantId: EntityId, input: CombatInput, frame: number): boolean {
+   774→    const combat = combats.get(String(combatId));
+   775→    if (!combat) return false;
+   776→    const combatant = combat.combatants.get(keyOf(combatantId));
+   777→    if (!combatant) return false;
+   778→
+   779→    combatant.inputBuffer = pushInput(combatant.inputBuffer, input, frame);
+   780→    return true;
+   781→  }
+   782→
+   783→  function switchRouting(combatId: number, combatantId: EntityId, region: RoutingRegion, phase: PhaseName, frame: number): boolean {
+   784→    const combat = combats.get(String(combatId));
+   785→    if (!combat) return false;
+   786→    const combatant = combat.combatants.get(keyOf(combatantId));
+   787→    if (!combatant) return false;
+   788→    const updated = switchRouting(combatant, region, phase, frame);
+   789→    combat.combatants.set(keyOf(combatantId), updated);
+   790→    return true;
+   791→  }
+   792→
+   793→  function stepCombat(combatId: number): void {
+   794→    const combat = combats.get(String(combatId));
+   795→    if (!combat) return;
+   796→    combat.currentFrame++;
+   797→    const frame = combat.currentFrame;
+   798→    const config = COMBAT_SCALE_CONFIGS[combat.scale];
+   799→
+   800→    const combatantEntries = Array.from(combat.combatants.entries());
+   801→
+   802→    // Phase 1: Process inputs for Idle combatants
+   803→    for (const [key, combatant] of combatantEntries) {
+   804→      if (combatant.state !== 'Idle') continue;
+   805→      const { input, remaining } = consumeInput(combatant.inputBuffer, frame);
+   806→      combatant.inputBuffer = remaining;
+   807→      if (!input) continue;
+   808→
+   809→      // Route switching inputs
+   810→      if (input.startsWith('route_')) {
+   811→        const regionMap: Record<string, RoutingRegion> = { route_hands: 'hands', route_legs: 'legs', route_skin: 'skin', route_senses: 'senses' };
+   812→        const region = regionMap[input];
+   813→        if (region) {
+   814→          const updated = switchRouting(combatant, region, combatant.routing.phase, frame);
+   815→          combat.combatants.set(key, updated);
+   816→          continue;
+   817→        }
+   818→      }
+   819→
+   820→      // Action inputs
+   821→      const actionMap: Partial<Record<CombatInput, ActionType>> = {
+   822→        attack_fast: 'attack_fast', attack_medium: 'attack_medium', attack_heavy: 'attack_heavy',
+   823→        defend: 'defend', dodge: 'dodge', read_residue: 'read_residue', burst_area: 'burst_area', yield: 'yield',
+   824→      };
+   825→      const action = actionMap[input];
+   826→      if (action && canAct(combatant, action)) {
+   827→        const updated = executeAction(combatant, action, frame);
+   828→        combat.combatants.set(key, updated);
+   829→      }
+   830→    }
+   831→
+   832→    // Phase 2: Advance Active combatants to Recovery (produce hits)
+   833→    for (const [key, combatant] of combatantEntries) {
+   834→      if (combatant.state !== 'Active') continue;
+   835→      const action = combatant.currentAction;
+   836→      if (!action || action.actionType === 'defend') continue;
+   837→
+   838→      const def = ACTION_DEFS[action.actionType];
+   839→      if (combatant.stateFrameCount === def.activeFrames - 1) {
+   840→        // This is the impact frame — find targets
+   841→        for (const [targetKey, target] of combatantEntries) {
+   842→          if (targetKey === key) continue;
+   843→          if (target.state === 'Dead' || target.state === 'Yielded') continue;
+   844→
+   845→          const matchup = phaseMultiplier(action.phase, target.routing.phase);
+   846→ const routingEff = getRoutingEffect(combatant.routing);
+   847→          const damage = computeDamage(combatant, target, def, matchup, routingEff);
+   848→
+   849→          const { updatedDefender, newInjuries } = applyDamageToDefender(target, damage, frame);
+   850→          combat.combatants.set(targetKey, updatedDefender);
+   851→
+   852→          // Check for death
+   853→          if (isLethal(updatedDefender.injuries, damage)) {
+   854→            const death: DeathTransition = {
+   855→              deadCombatantId: target.combatantId,
+   856→              realm: target.realm,
+   857→              deathTick: frame,
+   858→              anchorFate: getAnchorFate(target.realm),
+   859→              bardoWindowTicks: BARDO_WINDOW_DAYS[target.realm] * 24 * 60,
+   860→            };
+   861→            combat.deathTransitions.push(death);
+   862→            combat.combatants.set(targetKey, {
+   863→              ...updatedDefender,
+   864→              state: 'Dead',
+   865→              stateEnteredAtFrame: frame,
+   866→              stateFrameCount: 0,
+   867→              stateFrameTarget: 0,
+   868→            });
+   869→          }
+   870→
+   871→          // Leave residue
+   872→          if (config.residueReadable) {
+   873→            combat.residues.push({
+   874→              residueId: combat.nextResidueId++,
+   875→              originatingAction: action.actionType,
+   876→              bornAtFrame: frame,
+   877→              intensity: damage,
+   878→              halfLifeFrames: 60,
+   879→              phaseSignature: action.phase,
+   880→              actorId: combatant.combatantId,
+   881→            });
+   882→          }
+   883→        }
+   884→      }
+   885→    }
+   886→
+   887→    // Phase 3: Step all combatants (state transitions)
+   888→    for (const [key, combatant] of combatantEntries) {
+   889→      // Check for incoming damage from the damage phase above (skip — already applied)
+   890→      const stepped = stepCombatant(combatant, null, frame);
+   891→      combat.combatants.set(key, stepped);
+   892→    }
+   893→  }
+   894→
+   895→  function stepAllCombats(): void {
+   896→    for (const id of combats.keys()) {
+   897→      stepCombat(Number(id));
+   898→    }
+   899→  }
+   900→
+   901→  function getResidues(combatId: number): CombatResidue[] {
+   902→    return combats.get(String(combatId))?.residues ?? [];
+   903→  }
+   904→
+   905→  function getDeathTransitions(combatId: number): DeathTransition[] {
+   906→    return combats.get(String(combatId))?.deathTransitions ?? [];
+   907→  }
+   908→
+   909→  function setTier(combatantId: EntityId, tier: SimulationTier): void {
+   910→    tiers.set(keyOf(combatantId), tier);
+   911→  }
+   912→
+   913→  function getTier(combatantId: EntityId): SimulationTier {
+   914→    return tiers.get(keyOf(combatantId)) ?? 4;
+   915→  }
+   916→
+   917→  function stats(): CombatStats {
+   918→    let totalDeaths = 0, totalInjuries = 0, totalCombatants = 0;
+   919→    const byScale: Record<CombatScale, number> = { duel: 0, mob: 0, giant: 0, battlefield: 0, law_conflict: 0 };
+   920→
+   921→    for (const combat of combats.values()) {
+   922→      byScale[combat.scale]++;
+   923→      totalDeaths += combat.deathTransitions.length;
+   924→      totalCombatants += combat.combatants.size;
+   925→      for (const c of combat.combatants.values()) {
+   926→        totalInjuries += c.injuries.filter(i => !i.resolved).length;
+   927→      }
+   928→    }
+   929→
+   930→    return {
+   931→      totalCombats: combats.size,
+   932→      activeCombats: combats.size,
+   933→      totalCombatants,
+   934→      totalDeaths,
+   935→      totalInjuries,
+   936→      byScale,
+   937→    };
+   938→  }
+   939→
+   940→  return {
+   941→    createCombat, getCombat, removeCombat, listCombats,
+   942→    addCombatant, removeCombatant, getCombatantState,
+   943→    queueInput, switchRouting,
+   944→    stepCombat, stepAllCombats,
+   945→    getResidues, getDeathTransitions,
+   946→    setTier, getTier,
+   947→    stats,
+   948→  };
+   949→}
+   950→
+   951→// ============================================================================
+   952→// Plugin Definition
+   953→// ============================================================================
+   954→
+   955→export function createCombatPlugin(): Plugin {
+   956→  let api: CombatApi | null = null;
+   957→
+   958→  return {
+   959→    id: 'ga:combat',
+   960→    version: '0.1.0',
+   961→    dependencies: ['ga:determinism'],
+   962→
+   963→    init(host: PluginHost) {
+   964→      api = createCombatApi();
+   965→      host.capabilities.register({
+   966→        capability: 'combat.state-machine',
+   967→        provider: 'ga:combat',
+   968→        version: '0.1.0',
+   969→        instance: api,
+   970→      });
+   971→      host.capabilities.register({
+   972→        capability: 'combat.injuries',
+   973→        provider: 'ga:combat',
+   974→        version: '0.1.0',
+   975→        instance: api,
+   976→      });
+   977→      host.capabilities.register({
+   978→        capability: 'combat.tiering',
+   979→        provider: 'ga:combat',
+   980→        version: '0.1.0',
+   981→        instance: api,
+   982→      });
+   983→      host.setState('ga:combat', api);
+   984→      console.log('[ga:combat] Initialized — 3 capabilities registered');
+   985→    },
+   986→
+   987→    destroy(host: PluginHost) {
+   988→      host.capabilities.unregister('combat.state-machine', 'ga:combat');
+   989→      host.capabilities.unregister('combat.injuries', 'ga:combat');
+   990→      host.capabilities.unregister('combat.tiering', 'ga:combat');
+   991→      api = null;
+   992→      console.log('[ga:combat] Destroyed');
+   993→    },
+   994→  };
+   995→}
+   996→
