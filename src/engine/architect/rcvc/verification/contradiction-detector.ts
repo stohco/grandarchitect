@@ -47,7 +47,81 @@ export interface ContradictionReport {
     minor: number;
   };
   verdict: 'pass' | 'warnings' | 'fail';
+  coverage: ValidatorCoverage;
 }
+
+// ============================================================================
+// Validator coverage metadata — honest disclosure of what is and isn't checked
+// ============================================================================
+
+export interface ValidatorCoverage {
+  version: string;
+  checkCategories: string[];
+  coveredCheckTypes: string[];
+  knownBlindSpots: string[];
+  excludedContent: string[];
+  falsePositiveRisk: string;
+  falseNegativeRisk: string;
+  layersImplemented: string[];
+  layersNotImplemented: string[];
+}
+
+export const VALIDATOR_COVERAGE: ValidatorCoverage = {
+  version: '0.1.0-structural-only',
+  checkCategories: [
+    'missing-truth-level',
+    'proxy-as-validated',
+    'scale (room > building)',
+    'travel-time',
+    'style (gold in mortal context)',
+    'missing-forbidden (technique docs only)',
+    'unresolved-silently-resolved',
+    'building-height-vs-grammar (mortal docs only)',
+  ],
+  coveredCheckTypes: [
+    'structural annotation presence',
+    'simple scale proximity',
+    'simple travel-time proximity',
+    'marker presence (not semantic content)',
+  ],
+  knownBlindSpots: [
+    'Semantic consistency between claims across documents',
+    'Numerical constraint satisfaction (e.g. door height > inhabitant height)',
+    'Provenance verification (whether a [CANON] claim was actually user-approved)',
+    'Realm capability compatibility',
+    'Lifespan and travel relationship consistency',
+    'Settlement population vs food/water capacity',
+    'World dimension consistency',
+    'Speed vs animation/combat timing consistency',
+    'Technique vs metaphysical rule consistency',
+    'Species proportion vs architecture compatibility',
+    'Naming and cultural grammar compatibility',
+    'Historical chronology errors',
+    'Economy/resource contradictions',
+    'Recursive procedural rule conflicts',
+    'Duplicate definitions of the same concept',
+    'Art-direction conflicts',
+    'Unsupported canonical declarations',
+    'Whether forbidden interpretations are relevant, specific, or complete',
+    'Whether truth-level markers are correctly assigned to individual claims',
+    'Claim-level vs document-level annotation correctness',
+  ],
+  excludedContent: [
+    'Ground-truth specification docs 50-55 (excluded because their examples trigger the detector — this is a known blind spot that should be fixed with block-type markers, not exclusion)',
+  ],
+  falsePositiveRisk: 'Medium — regex patterns may match spec examples, doc cross-references, or legitimate uses of flagged terms. Travel-time and scale checks use proximity heuristics that can misfire.',
+  falseNegativeRisk: 'High — the validator checks marker presence, not semantic content. A document can pass by containing [FORBIDDEN] Do not make it wrong. without the forbidden section being relevant, specific, or complete. Document-level truth headers do not validate claim-level correctness.',
+  layersImplemented: [
+    'structural-annotation (partial — marker presence only)',
+  ],
+  layersNotImplemented: [
+    'semantic-graph (realm prerequisites, species-architecture compatibility, etc.)',
+    'numerical-constraint (door height > inhabitant, travel time = distance/speed, etc.)',
+    'provenance (source, approval status, confidence, dependencies)',
+    'natural-language-semantic-contradiction (AI review)',
+    'runtime (generation, assets, animation, physics, rendering, gameplay, save/load)',
+  ],
+};
 
 // ============================================================================
 // Detector
@@ -66,6 +140,7 @@ export async function detectContradictions(): Promise<ContradictionReport> {
       contradictions: [],
       summary: { critical: 0, major: 0, minor: 0 },
       verdict: 'pass',
+      coverage: VALIDATOR_COVERAGE,
     };
   }
 
@@ -96,6 +171,7 @@ export async function detectContradictions(): Promise<ContradictionReport> {
     contradictions,
     summary,
     verdict,
+    coverage: VALIDATOR_COVERAGE,
   };
 }
 
@@ -287,7 +363,12 @@ export function formatReport(report: ContradictionReport): string {
   lines.push('');
 
   if (report.contradictions.length === 0) {
-    lines.push('No contradictions detected. The bible is internally consistent.');
+    lines.push('Structural annotation validation: 0 findings across ' + VALIDATOR_COVERAGE.checkCategories.length + ' implemented rule categories.');
+    lines.push('');
+    lines.push('IMPORTANT: This does NOT prove the bible is internally consistent.');
+    lines.push('It proves only that the ' + VALIDATOR_COVERAGE.checkCategories.length + ' implemented regex-based checks produced zero matches.');
+    lines.push('Semantic, numerical, provenance, and runtime validation remain incomplete.');
+    lines.push('Validator version: ' + VALIDATOR_COVERAGE.version);
     return lines.join('\n');
   }
 

@@ -246,7 +246,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           id: `a-${Date.now()}`,
           role: 'architect',
           kind: 'action',
-          content: `I scanned ${data.docsScanned} bible documents for contradictions.\n\nVerdict: ${data.verdict.toUpperCase()}\nCritical: ${s.critical} · Major: ${s.major} · Minor: ${s.minor}\n\n${contradictions.length > 0 ? 'Top issues:\n' + topContradictions.join('\n') : 'No contradictions detected. The bible is internally consistent.'}`,
+          content: `I scanned ${data.docsScanned} bible documents.\n\nStructural annotation validation: ${data.verdict.toUpperCase()}\nCritical: ${s.critical} · Major: ${s.major} · Minor: ${s.minor}\n\n${contradictions.length > 0 ? 'Top issues:\n' + topContradictions.join('\n') : '0 findings across ' + (data.coverage?.checkCategories?.length ?? 8) + ' implemented regex checks.\n\nIMPORTANT: This does NOT prove the bible is internally consistent. It proves only that the structural annotation checks produced zero matches. Semantic, numerical, provenance, and runtime validation remain incomplete (validator v' + (data.coverage?.version ?? '?') + ').'}`,
           meta: { action: 'validate-bible' },
         };
         setMessages((prev) => [...prev, archMsg]);

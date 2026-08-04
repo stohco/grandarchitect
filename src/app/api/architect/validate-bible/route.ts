@@ -5,8 +5,10 @@
  * Returns a structured report of contradictions and missing truth-level
  * annotations.
  *
- * The Grand Architect uses this to ensure the bible is internally consistent
- * before generating content from it.
+ * The Grand Architect uses this to run structural annotation validation
+ * before generating content from it. NOTE: This is NOT a proof of internal
+ * consistency — it only checks 8 implemented regex rules. See the coverage
+ * metadata in the response for what is and isn't checked.
  */
 
 import { NextResponse } from 'next/server';
