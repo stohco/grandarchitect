@@ -89,6 +89,7 @@ export interface EditorStore {
   showGrid: boolean;
   showGizmos: boolean;
   showStats: boolean;
+  showMinimap: boolean;
   showOutliner: boolean;
   showInspector: boolean;
   showBottomDock: boolean;
