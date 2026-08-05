@@ -668,6 +668,57 @@ export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
     currentBlocker: 'No demonstrated public inference implementation. No VRAM/latency/GPU requirements disclosed. No model checkpoints published. Cannot benchmark against production requirements (topology, rigging, UVs, collision, LODs).',
     paperRef: 'arXiv:2608.02711',
   },
+  // -------------------------------------------------------------------------
+  // Blended Hexagonal Terrain Anti-Tiling
+  // Paper: JCGT vol 11, no 3 — "Practical Real-Time Hex-Tiling" (2022)
+  // -------------------------------------------------------------------------
+  {
+    id: 'blended-hex-terrain-anti-tiling',
+    name: 'Blended Hexagonal Terrain Anti-Tiling',
+    category: 'rendering',
+    problemSolved: 'Repetitive terrain material textures without requiring unique textures or blocky voxel aesthetics. Enables realistic xianxia terrain with controlled texture budgets.',
+    observedSources: [
+      { type: 'paper', title: 'Practical Real-Time Hex-Tiling (JCGT 2022)', author: 'Stefan Petersen', url: 'https://jcgt.org/published/0011/03/05/paper.pdf' },
+      { type: 'demo', title: 'three-hex-tiling (Three.js implementation)', url: 'https://github.com' },
+      { type: 'community', title: 'Elementbound hex tiling thread (Godot)', author: 'Elementbound' },
+    ],
+    underlyingPrinciples: [
+      'World/UV space divided into hexagonal cells (triangular grid internally)',
+      'Deterministic random value per cell (hash of material ID + seed + cell coords)',
+      'Random texture rotation per cell (fixes axial repetition of square grids)',
+      'Full blended version: sample 3 neighboring hex cells, blend with modified weights',
+      'Explicit texture gradients (textureGrad) fix mip-selection discontinuity at cell boundaries',
+      'Contrast-aware blending avoids washed-out results',
+      'Surface-gradient framework for normal maps: convert to surface gradient, rotate, blend, reconstruct (not linear RGB blend)',
+      'Triplanar projection + hex tiling: 3 projections × 3 hex samples = 9-18 texture samples per material',
+      'Distance-based quality fallback: hex near, ordinary triplanar far',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: {
+      license: 'mit-compatible',
+      compatible: true,
+      notes: 'JCGT papers are open-access. Reference implementations exist under MIT. Technique is algorithmic — reimplement from principle.',
+    },
+    browserFeasibility: {
+      browserFeasible: true,
+      webgpuRequired: false,
+      webgl2Fallback: 'full',
+      notes: 'WebGL2: textureGrad available, full implementation possible. WebGPU: textureSampleGrad. Cost: 9-18 samples per material (manageable with distance fallback).',
+    },
+    webgpuRequirements: [
+      { feature: 'textureSampleGrad', required: false, fallback: 'WebGL2 textureGrad (GLSL)' },
+    ],
+    benchmarks: [
+      { metric: 'Texture samples per material (hex albedo)', value: '9', source: 'tri-planar × 3 hex' },
+      { metric: 'Texture samples per material (hex albedo + normal)', value: '18', source: 'tri-planar × 3 hex × 2' },
+      { metric: 'GTX 1070 feasibility', value: 'yes with distance fallback', source: 'analysis' },
+    ],
+    decisionStatus: 'accepted',
+    integrationPlan: 'Terrain material system plugin. Runtime face: GLSL/WebGL2 + WGSL/WebGPU shaders. Editor face: material preview, hex debug view, weight painting. Asset processor: validate normal maps, build texture arrays. Architect face: inspect repetition, benchmark variants, propose settings. Distance-based quality: legacy (hex albedo near only), mainstream (hex albedo+normal near), ultra (full hex+height).',
+    runtimeAuthority: 'validated',
+    currentBlocker: undefined,
+    paperRef: 'JCGT vol 11 no 3 (2022)',
+  },
 ];
 
 // ============================================================================
