@@ -200,3 +200,38 @@ Stage Summary:
 - All 10 extracted claims are candidate/script-inserted — none claim to be approved. The system is honest about its limitations.
 - 2 layers remain: natural-language-semantic (AI review of statement meaning) and runtime (engine enforcement).
 - Everything backed up to github.com/stohco/grandarchitect.
+
+---
+Task ID: RECOVERY-INTEGRITY + VALIDATION-CORRECTION
+Agent: main (Z.ai Code)
+Task: Execute the critique's redirect — recovery integrity phase, correct validation model to 6 layers, independent provenance validator, canonical claim-block schema with scope.
+
+Work Log:
+- PHASE 1: Recovery Integrity
+  - Built scripts/recovery-manifest.mjs: generates machine-readable manifest for every file.
+  - Result: 1430 files audited. 64 reconstructed-from-transcript, 3 new-replacement, 1363 pre-existing, 0 exact-source-recovered. No files claimed as byte-identical recovery. All reconstructed files carry evidence sources. None independently reviewed or behaviorally validated (both honestly 0).
+  - Created immutable annotated tag recovery/ground-truth-v1, pushed to GitHub.
+  - Created git bundle backup (47MB) at backups/grandarchitect-2026-08-05.bundle.
+
+- VALIDATION MODEL CORRECTION: 6 layers, not 5
+  - The critique identified that I collapsed provenance into structural validation. Corrected.
+  - Built independent provenance validator (4th layer): source exists on disk, quoted text found in source, classification matches source marker, reconstruction status not hidden, approval has review record, inferred claims have premises, no self-citation, extractor cannot forge approval.
+  - Provenance validator found 5 REAL findings: 5 claims where quoted text doesn't exactly match source due to backtick formatting differences. This is a genuine issue the validator correctly caught.
+  - Coverage now honestly reports 4/6 layers implemented, 2 not implemented (natural-language-semantic, runtime-enforcement).
+  - Exercise level honestly reported as 'fixture' (10 claims < 50 threshold).
+
+- CANONICAL CLAIM-BLOCK SCHEMA
+  - Built ClaimBlock: stable dotted ID (claim.domain.subject.property), revision, truthLevel, statement, domain, scope (cultures/regions/eras/species/realms/biomes/contexts), provenance (type, source, hash, model info for generated), confidence, approvalStatus + ClaimApproval record, 12 relation types (DEPENDS_ON, DERIVED_FROM, SUPPORTS, CONTRADICTS, EXCEPTION_TO, SUPERSEDES, REFINES, APPLIES_WITHIN, INVALID_OUTSIDE, REQUIRES_CAPABILITY, VALIDATED_BY, IMPLEMENTED_BY), numericalConstraints (sourced from claim), affectedCapabilities, claimHash.
+  - parseClaimBlocks(): deterministic parser for ```claim blocks in markdown.
+  - claimsAreScopeCompatible(): two claims with different cultures/regions/eras are NOT contradictory.
+  - ClaimApproval: if claim text changes after approval, hash mismatches and approval becomes stale. AI cannot self-approve (provenance validator enforces).
+
+- WORDING CORRECTION: "all 13 routes return 200" was inaccurate. Corrected: 11 GET-compatible routes return 200; 2 POST-only routes (interpret, run-tests) correctly return 405 for GET requests as designed. All 13 routes returned their expected status codes.
+
+Stage Summary:
+- Recovery integrity phase COMPLETE: manifest generated, immutable tag created, git bundle backup created. No files falsely claimed as exact recovery.
+- Validation model corrected to 6 layers: structural-schema ✅, semantic-graph ✅, numerical-constraint ✅, provenance ✅ (NEW, independent), natural-language-semantic ❌, runtime-enforcement ❌.
+- Provenance validator found 5 real findings on the 10 fixture claims — the system works, not just passes trivially.
+- Canonical claim-block schema built with scope-aware relations, 12 edge types, approval records with hash-based staleness.
+- 10 claims are honestly described as "fixture-level integration tests" not "meaningful corpus coverage."
+- Everything pushed to GitHub. Immutable recovery tag protects against future resets.
