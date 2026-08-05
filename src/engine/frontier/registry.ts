@@ -566,6 +566,64 @@ export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
     applicableSystems: ['renderer', 'post-processing'],
     createdAt: '2026-08-05T00:00:00Z',
   },
+  {
+    id: 'modlens-structured-vision',
+    name: 'ModLens — Structured Visual Evidence Adapter',
+    category: 'editor',
+    problemSolved: 'Converts images into structured JSON evidence (OCR, layout, semantics) for text-only LLMs and as a schema-normalized visual evidence provider',
+    observedSources: [
+      { type: 'repository', title: 'liustack/modlens', url: 'https://github.com/liustack/modlens', author: 'liustack', license: 'MIT' },
+    ],
+    underlyingPrinciples: [
+      'Provider-swappable vision adapter (Antigravity CLI, Gemini API, OpenAI-compatible, Anthropic, Claude CLI)',
+      'Schema-normalized visual evidence: OCR, layout regions, reading order, entities, relations, uncertainty',
+      'Intentionally avoids model-generated bounding boxes and confidence scores (fabrication risk)',
+      'Read-only observation — does not modify engine state',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: {
+      license: 'MIT (code) + personal-learning disclaimer (README) + Google account terms (Antigravity provider)',
+      compatible: false,
+      notes: 'MIT code license is compatible. BUT: (1) README says "personal learning and experimentation only"; (2) Antigravity default provider uses --dangerously-skip-permissions; (3) Google account terms and quota apply. Needs legal/operational review before commercial or distributed use.',
+    },
+    browserFeasibility: {
+      browserFeasible: false,
+      webgpuRequired: false,
+      webgl2Fallback: 'none',
+      notes: 'ModLens is a CLI tool, not browser-runnable. Would need a server-side adapter. Antigravity CLI must be installed separately.',
+    },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'ocr-accuracy', expected: 'structured text extraction with reading order and language detection', confidence: 'medium' },
+      { metric: 'layout-analysis', expected: 'region detection with types and reading order', confidence: 'medium' },
+      { metric: 'evidence-schema', expected: 'normalized JSON contract for visual evidence', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'latency', expected: '15-40s (Antigravity), 5-10s (Gemini API), few seconds (Anthropic)', confidence: 'medium' },
+      { metric: 'dependency', expected: 'requires Antigravity CLI or API key for chosen provider', confidence: 'high' },
+    ],
+    knownLimitations: [
+      'No pixel-accurate bounding boxes or confidence scores (intentionally removed — models fabricate them)',
+      'Not suitable for exact target grounding (use engine object-ID buffers instead)',
+      'Default Antigravity provider uses --dangerously-skip-permissions (security risk)',
+      'README says "personal learning and experimentation only" — not commercial-ready',
+      'CLI tool, not browser-runnable',
+      'Must be sandboxed if used as an Architect tool',
+    ],
+    integrationStrategy: 'external-adapter',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    qualityModes: [
+      { name: 'ultra', description: 'Gemini 3.1 Pro (dense screenshots)', gpuRequired: false, estimatedCost: '10-30s' },
+      { name: 'high', description: 'Gemini 3.6 Flash (default)', gpuRequired: false, estimatedCost: '5-15s' },
+      { name: 'medium', description: 'Anthropic provider', gpuRequired: false, estimatedCost: 'few seconds' },
+      { name: 'low', description: 'OpenAI-compatible endpoint', gpuRequired: false, estimatedCost: 'provider-dependent' },
+      { name: 'fallback', description: 'Native VLM with structured prompt (no ModLens)', gpuRequired: false, estimatedCost: '3-10s' },
+    ],
+    applicableSystems: ['visual-evidence-fabric', 'visual-accuracy-oracle', 'bible-reference-ingestion', 'screenshot-analysis', 'ci-visual-reports'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
 ];
 
 // ============================================================================
