@@ -626,3 +626,50 @@ Honest remaining limitations:
 - Fresh-process persistence: NOT YET TESTED (in-process serialize/deserialize works, but no full restart test)
 - Production process supervision: NOT IMPLEMENTED
 - Geometry transported as JSON arrays (should use transferable buffers)
+
+---
+Task ID: VISUAL-EVIDENCE-FABRIC
+Agent: main (Z.ai Code)
+Task: Build provider-neutral Visual Evidence Fabric per critique. Register ModLens as researching (not accepted). Correct the false claim that native VLM is "categorically superior."
+
+Work Log:
+- Built src/engine/frontier/visual-evidence-fabric.ts: provider-neutral multimodal observation system.
+  5 evidence kinds with explicit epistemic authority:
+    engine-measured (authoritative for identity/scale/collision/timing)
+    > pixel-measured (authoritative for visual diff)
+    > human-confirmed (authoritative for art direction)
+    > text-extracted (OCR)
+    > model-inferred (VLM interpretation, NOT authoritative)
+  Engine truth ALWAYS overrides model inference.
+  VisionProvider interface: all providers implement analyze(capture, request).
+  3 providers registered:
+    1. EngineTruthProvider (engine-measured, certain): entity IDs, positions, bounds, render stats
+    2. NativeVLMProvider (model-inferred): structured scene interpretation, style-grammar compliance
+    3. DeterministicMeasurementProvider (pixel-measured): resolution, source
+  FusedEvidencePacket: combines all provider records, resolves contradictions by authority, reports cross-provider disagreements.
+  10 analysis modes: scene-interpretation, visual-fidelity-review, OCR, layout-analysis, asset-comparison, style-grammar-compliance, scale-review, animation-review, ui-review, ambiguous-target-resolution.
+
+- Built POST /api/frontier/visual-evidence: runs all providers in parallel, fuses results.
+  Verified: 7 fused observations from 3 providers, 0 contradictions, verdict=accepted.
+  Engine-measured observations (entity count, selected entities, draw calls, positions) correctly ranked above model-inferred observations (scene description).
+
+- Registered ModLens as frontier technique (decisionStatus: researching, NOT accepted):
+  5 provider adapters documented (Antigravity, Gemini API, OpenAI-compatible, Anthropic, Claude CLI).
+  License: MIT code + personal-learning disclaimer + Google account terms → compatible=false (needs legal review).
+  Known limitations: no pixel-accurate grounding (intentionally removed), --dangerously-skip-permissions security risk, CLI-only.
+  Integration: external-adapter, read-only observation, must be sandboxed.
+  16 frontier techniques total (6 researching, 5 accepted, 5 prototyping).
+
+- Corrected false claims:
+  "Native VLM is categorically superior" → WRONG. Native multimodal reasoning is preferable for conversational interpretation, but free-form output is insufficient for deterministic validation.
+  "3-10 seconds latency" → unverified local observation, not a controlled benchmark.
+  "ModLens is only an Antigravity wrapper" → WRONG. It supports 5 providers.
+  ModLens latency "25s" → one example, not fixed. Provider-dependent: 15-40s (Antigravity), 5-10s (Gemini API), few seconds (Anthropic).
+
+- Lint clean. Pushed to GitHub.
+
+Stage Summary:
+- Visual Evidence Fabric is LIVE. Engine truth overrides model inference. Multiple providers fused with epistemic authority ordering.
+- ModLens is registered as researching with honest limitations (no pixel grounding, security risk, not commercial-ready).
+- The production goal is not "ModLens vs VLM" — it is: engine truth + deterministic measurements + native multimodal reasoning + optional structured evidence + human confirmation.
+- Next: benchmark corpus, constrained structured output from VLM, cancellation, stale-result rejection, fresh-process persistence, embodied traversal.
