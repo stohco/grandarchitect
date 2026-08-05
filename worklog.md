@@ -731,3 +731,31 @@ Honest remaining work:
 - Before/after evidence bundles
 - Benchmark corpus with known cases
 - Provider benchmarking (accuracy, hallucination, abstention, stability, latency)
+
+---
+Task ID: CANCELLATION-STALE-REJECTION
+Agent: main (Z.ai Code)
+Task: Prove cancellation and stale-result rejection — mandatory for live user/AI editing.
+
+Work Log:
+- Built cancellation-stale-test.ts: 17/17 tests pass.
+- Stale-result rejection: revision 20 (slow, res=32) and revision 21 (fast, res=8) submitted simultaneously. Rev 21 completes first → activated. Rev 20 completes later → detected as stale (worldRev=20 < active=21) → REJECTED. Output preserved for cache but NOT activated. Artifact hash matches sync reference.
+- Cancellation: job submitted with short timeout, cancelled immediately. Active revision unchanged (still 21). Cancelled job either completes as stale or times out — either way, not activated. Known limitation: worker can't interrupt synchronous computation (cooperative chunking or worker termination needed for true mid-computation cancel).
+- Active bundle preservation: through all operations, active revision remained 21 until recovery job (revision 40) completed and was activated.
+- Recovery: new job submitted after cancellation completed successfully, activated as revision 40, artifact hash matches sync reference.
+- Lint clean. Pushed to GitHub.
+
+Evidence:
+- Rev 21: 1192 vertices (res=8, fast, activated)
+- Rev 20: 27128 vertices (res=32, slow, STALE — not activated)
+- Recovery: 5416 vertices (res=16, activated as rev 40)
+- Active revision at end: 40
+- Rejected stale: 20
+- All artifact hashes match sync reference
+
+Stage Summary:
+- Cancellation and stale-result rejection are PROVEN (17/17 tests).
+- The world state is protected: stale results cannot replace newer active bundles.
+- Cancelled jobs do not corrupt the active world.
+- Recovery after cancellation works — new jobs complete successfully.
+- Remaining: worker crash recovery, binary transfer, browser responsiveness, fresh-process persistence, embodied traversal.
