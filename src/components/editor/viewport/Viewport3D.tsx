@@ -246,39 +246,42 @@ export default function Viewport3D() {
     transform.setSize(0.9);
     transform.addEventListener('dragging-changed', (e: { value: boolean }) => {
       controls.enabled = !e.value;
+      // When drag ENDS, apply the final transform to the store
+      if (!e.value && transform.object) {
+        const obj = transform.object;
+        const entityId = obj.userData.entityId as number;
+        if (entityId === undefined) return;
+        const store = useEditorStore.getState();
+        let x = obj.position.x;
+        let z = obj.position.z;
+        let rot = obj.rotation.y;
+        let w = obj.scale.x;
+        let d = obj.scale.z;
+        if (!isFinite(x) || !isFinite(z) || !isFinite(rot) || !isFinite(w) || !isFinite(d)) return;
+        if (store.snapEnabled) {
+          x = Math.round(x * 4) / 4;
+          z = Math.round(z * 4) / 4;
+          rot = Math.round(rot / (Math.PI / 12)) * (Math.PI / 12);
+        }
+        const base = store.settlement?.structures.find((s) => s.entityId === entityId);
+        if (base && base.width > 0 && base.depth > 0) {
+          const newW = Math.max(0.5, base.width * w);
+          const newD = Math.max(0.5, base.depth * d);
+          store.applyEdits([
+            { entityId, field: 'position.x', value: x },
+            { entityId, field: 'position.z', value: z },
+            { entityId, field: 'rotation', value: rot },
+            { entityId, field: 'width', value: Math.round(newW * 10) / 10 },
+            { entityId, field: 'depth', value: Math.round(newD * 10) / 10 },
+          ]);
+          // Reset scale to 1 after applying — the edits effect will handle visual scale
+          obj.scale.set(1, 1, 1);
+        }
+      }
     });
+    // During drag, DON'T call applyEdits — it causes a feedback loop with the edits effect
     transform.addEventListener('objectChange', () => {
-      const obj = transform.object;
-      if (!obj) return;
-      const entityId = obj.userData.entityId as number;
-      if (entityId === undefined) return;
-      const store = useEditorStore.getState();
-      // Apply snap if enabled.
-      let x = obj.position.x;
-      let z = obj.position.z;
-      let rot = obj.rotation.y;
-      let w = obj.scale.x;
-      let d = obj.scale.z;
-      // Guard against NaN/Infinity from gizmo
-      if (!isFinite(x) || !isFinite(z) || !isFinite(rot) || !isFinite(w) || !isFinite(d)) return;
-      if (store.snapEnabled) {
-        x = Math.round(x * 4) / 4;
-        z = Math.round(z * 4) / 4;
-        rot = Math.round(rot / (Math.PI / 12)) * (Math.PI / 12);
-      }
-      // scale mode resizes width/depth; we don't change Y.
-      const base = store.settlement?.structures.find((s) => s.entityId === entityId);
-      if (base && base.width > 0 && base.depth > 0) {
-        const newW = Math.max(0.5, base.width * w);
-        const newD = Math.max(0.5, base.depth * d);
-        store.applyEdits([
-          { entityId, field: 'position.x', value: x },
-          { entityId, field: 'position.z', value: z },
-          { entityId, field: 'rotation', value: rot },
-          { entityId, field: 'width', value: Math.round(newW * 10) / 10 },
-          { entityId, field: 'depth', value: Math.round(newD * 10) / 10 },
-        ]);
-      }
+      // Intentionally empty — edits are applied on drag end via dragging-changed
     });
     // TransformControls is an Object3D-like helper in three 0.185; add via .getHelper().
     // Older versions added `transform` directly; newer ones expose getHelper().
@@ -925,20 +928,17 @@ export default function Viewport3D() {
 
   // -----------------------------------------------------------------------
   // Apply local edits → mesh transforms
-  // Skip while gizmo is dragging to prevent feedback loop crash
+  // Safe to run anytime — gizmo only applies edits on drag END
   // -----------------------------------------------------------------------
   const edits = useEditorStore((s) => s.edits);
   useEffect(() => {
     const group = structuresGroupRef.current;
     if (!group || !settlement) return;
-    // Don't fight with the gizmo while it's being dragged
-    const transform = transformRef.current;
-    if (transform && transform.dragging) return;
     for (const child of group.children) {
       const entityId = child.userData.entityId as number | undefined;
       if (entityId === undefined) continue;
       const base = settlement.structures.find((s) => s.entityId === entityId);
-      if (!base) continue;
+      if (!base || base.width <= 0 || base.depth <= 0) continue;
       const e = edits[entityId];
       const x = e?.['position.x'] ?? base.position.x;
       const z = e?.['position.z'] ?? base.position.z;
@@ -946,16 +946,9 @@ export default function Viewport3D() {
       const w = e?.width ?? base.width;
       const d = e?.depth ?? base.depth;
       const h = heightForKind(base.kind);
-      // Don't reset scale on the object the gizmo is currently manipulating
-      if (transform && transform.object === child) {
-        child.position.set(x, h / 2, z);
-        child.rotation.y = rot;
-        // Scale is controlled by the gizmo during drag — don't override it
-      } else {
-        child.position.set(x, h / 2, z);
-        child.rotation.y = rot;
-        child.scale.set(w / base.width, 1, d / base.depth);
-      }
+      child.position.set(x, h / 2, z);
+      child.rotation.y = rot;
+      child.scale.set(w / base.width, 1, d / base.depth);
     }
   }, [edits, settlement]);
 
