@@ -153,12 +153,33 @@ function StatusBar() {
     }
   });
   const [memBytes, setMemBytes] = useState<number | null>(null);
+  const [buildInfo, setBuildInfo] = useState<{
+    commitShort: string | null;
+    branch: string | null;
+    dirty: boolean;
+    packageVersion: string;
+  } | null>(null);
 
+  // Fetch build provenance once on mount so the status bar can display
+  // exactly which commit produced this preview.
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/build-info')
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled) setBuildInfo(data);
+      })
+      .catch(() => {
+        // ignore — build info is best-effort
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Install the Crash Observatory on first mount.
   useEffect(() => {
     const uninstall = installCrashObservatory();
-    // After install, sync the count in case the observatory had any
-    // pre-existing records (e.g. from a prior mount under HMR). Use a
-    // microtask so it isn't a synchronous setState-in-effect.
     const sync = () => setCrashCount(getCrashCount());
     Promise.resolve().then(sync);
     const unsub = subscribeToCrashes(sync);
@@ -277,6 +298,21 @@ function StatusBar() {
         <ShieldAlert className="h-3 w-3" />
         {crashCount > 0 && <span>{crashCount}</span>}
       </button>
+
+      {/* Build provenance — commit SHA, branch, dirty status */}
+      {buildInfo && (
+        <span
+          className="ml-auto flex items-center gap-1.5 text-[#5a5a7a]"
+          title={`Commit: ${buildInfo.commitShort ?? '?'}\nBranch: ${buildInfo.branch ?? '?'}\nDirty: ${buildInfo.dirty}\nVersion: ${buildInfo.packageVersion}`}
+        >
+          {buildInfo.dirty && (
+            <span className="text-amber-500" title="Working tree has uncommitted changes">●</span>
+          )}
+          <span className="text-[#5a5a7a]">{buildInfo.branch ?? '?'}</span>
+          <span className="text-[#3a3a5a]">·</span>
+          <span className="font-mono text-[#5a5a7a]">{buildInfo.commitShort ?? '?'}</span>
+        </span>
+      )}
     </footer>
   );
 }
