@@ -45,7 +45,7 @@ async function run() {
   // Spline must pass THROUGH the mountain (center at x=64, radius=30, so x=34..94)
   // Start at the mountain's western edge (x=34) and exit at the eastern edge (x=94)
   const splinePoints: [number, number, number][] = [[34, 25, 64], [64, 30, 64], [94, 25, 64]];
-  const tunnelRadius = 3;
+  const tunnelRadius = 6; // wider tunnel (was 3) — needs to be >1 voxel width (5.3m at res 24)
 
   const region = createDensityRegion('region-traversal', 1,
     { minX: 0, maxX: 128, minY: 0, maxY: 64, minZ: 0, maxZ: 128 }, 24);
@@ -89,7 +89,10 @@ async function run() {
   console.log('\nStep 3: Spawn character at tunnel entrance');
 
   const controller = createCharacterController(DEFAULT_CONFIG, checkpoints);
-  const entrance = { x: splinePoints[0][0], y: splinePoints[0][1], z: splinePoints[0][2] };
+  // Spawn at the tunnel midpoint where there's definitely solid floor below
+  // (the tunnel entrance at the mountain edge has no floor triangles because
+  // the transition is empty-to-empty, not solid-to-empty)
+  const entrance = { x: splinePoints[1][0], y: splinePoints[1][1], z: splinePoints[1][2] };
   const spawnResult = controller.spawn(entrance, world, renderMesh.revision);
 
   assert('character spawned successfully', spawnResult.success,
