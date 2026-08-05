@@ -49,6 +49,7 @@ import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
 import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
 import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
 import ClaimsPanel from '@/components/editor/panels/ClaimsPanel';
+import FrontierLabPanel from '@/components/editor/panels/FrontierLabPanel';
 import ArchitectPresence from '@/components/editor/ArchitectPresence';
 import {
   Terminal,
@@ -64,6 +65,7 @@ import {
   Activity,
   Gauge,
   ShieldAlert,
+  Beaker,
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
@@ -81,7 +83,8 @@ type BottomTabId =
   | 'constraints'
   | 'complexity'
   | 'benchmarks'
-  | 'claims';
+  | 'claims'
+  | 'frontier';
 
 interface BottomTab {
   id: BottomTabId;
@@ -104,6 +107,7 @@ const BOTTOM_TABS: BottomTab[] = [
   { id: 'complexity', label: 'Complexity', icon: Activity, dense: true },
   { id: 'benchmarks', label: 'Benchmarks', icon: Gauge, dense: true },
   { id: 'claims', label: 'Claims', icon: ShieldAlert, dense: true },
+  { id: 'frontier', label: 'Frontier', icon: Beaker, dense: true },
 ];
 
 export default function EditorLayout() {
@@ -227,6 +231,9 @@ export default function EditorLayout() {
                       </TabsContent>
                       <TabsContent value="claims" className="mt-0 h-full">
                         <ClaimsPanel />
+                      </TabsContent>
+                      <TabsContent value="frontier" className="mt-0 h-full">
+                        <FrontierLabPanel />
                       </TabsContent>
                     </div>
                   </Tabs>

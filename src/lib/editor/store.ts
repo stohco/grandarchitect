@@ -106,7 +106,8 @@ export interface EditorState {
     | 'constraints'
     | 'complexity'
     | 'benchmarks'
-    | 'claims';
+    | 'claims'
+    | 'frontier';
 
   // --- Selection / hover / edits ---
   selectedEntityIds: number[];
