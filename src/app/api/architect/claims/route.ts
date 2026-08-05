@@ -16,6 +16,7 @@ import { extractClaims, validateClaims } from '@/engine/architect/rcvc/claims/ex
 import { validateSemanticGraph } from '@/engine/architect/rcvc/claims/semantic-validator';
 import { validateNumericalConstraints } from '@/engine/architect/rcvc/claims/numerical-validator';
 import { validateProvenance } from '@/engine/architect/rcvc/claims/provenance-validator';
+import { reviewSemanticClaims } from '@/engine/architect/rcvc/claims/semantic-review';
 
 export const runtime = 'nodejs';
 
@@ -34,6 +35,7 @@ export async function GET() {
     const semanticValidation = validateSemanticGraph(registry);
     const numericalValidation = validateNumericalConstraints(registry);
     const provenanceValidation = await validateProvenance(registry);
+    const semanticReview = reviewSemanticClaims(registry);
 
     return NextResponse.json({
       ...registry,
@@ -41,20 +43,21 @@ export async function GET() {
       semanticValidation,
       numericalValidation,
       provenanceValidation,
+      semanticReview,
       coverage: {
         layersImplemented: [
           '1-structural-schema (provenance, source, dependencies, approval status)',
           '2-semantic-graph (cross-claim relationship validation)',
           '3-numerical-constraint (measurement consistency)',
           '4-provenance (source exists, supports claim, approval record, no self-citation, no forged approval)',
+          '5-natural-language-semantic (heuristic duplicate/ambiguity/contradiction detection — PROPOSES findings, does not auto-decide)',
         ],
         layersNotImplemented: [
-          '5-natural-language-semantic (AI contradiction review)',
           '6-runtime-enforcement (engine compliance)',
         ],
         totalRequiredLayers: 6,
-        layersImplementedCount: 4,
-        layersNotImplementedCount: 2,
+        layersImplementedCount: 5,
+        layersNotImplementedCount: 1,
       },
     });
   } catch (err) {
