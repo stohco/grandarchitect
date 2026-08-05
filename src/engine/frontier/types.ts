@@ -152,3 +152,66 @@ export interface CheckpointProgress {
   /** Hex SHA-256 of the recorded trajectory (positions every 10 ticks). */
   trajectoryHash: string;
 }
+
+// ---------------------------------------------------------------------------
+// Frontier Technique Registry Types
+// ---------------------------------------------------------------------------
+
+export interface FrontierTechniqueRecord {
+  id: string;
+  name: string;
+  category: string;
+  problemSolved: string;
+  observedSources: Array<{
+    type: string;
+    title: string;
+    author?: string;
+    url?: string;
+  }>;
+  underlyingPrinciples: string[];
+  maturity: 'research' | 'prototype' | 'integrated' | 'production';
+  licenseAssessment: {
+    license: string;
+    compatible: boolean;
+    notes?: string;
+  };
+  browserFeasibility: {
+    browserFeasible: boolean;
+    webgpuRequired?: boolean;
+    webgl2Fallback?: string;
+    notes?: string;
+  };
+  webgpuRequirements?: Array<{
+    feature: string;
+    required: boolean;
+    fallback?: string;
+  }>;
+  benchmarks?: Array<{
+    metric: string;
+    value: string;
+    source: string;
+  }>;
+  decisionStatus: 'researching' | 'candidate' | 'accepted' | 'rejected' | 'blocked';
+  integrationPlan?: string;
+  runtimeAuthority: 'none' | 'candidate' | 'validated' | 'authoritative';
+  currentBlocker?: string;
+  paperRef?: string;
+}
+
+export interface CapabilityMatrixEntry {
+  capabilityId: string;
+  capabilityName: string;
+  category: string;
+  byBackend: {
+    webgpu: string;
+    webgl2: string;
+    headless: string;
+  };
+  byProfile: Record<string, string>;
+  fallbackStrategy?: string;
+  notes?: string;
+}
+
+export interface CapabilityMatrix {
+  entries: CapabilityMatrixEntry[];
+}

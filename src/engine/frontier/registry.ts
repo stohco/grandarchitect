@@ -624,6 +624,50 @@ export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
     applicableSystems: ['visual-evidence-fabric', 'visual-accuracy-oracle', 'bible-reference-ingestion', 'screenshot-analysis', 'ci-visual-reports'],
     createdAt: '2026-08-05T00:00:00Z',
   },
+  // -------------------------------------------------------------------------
+  // Unified 3D Asset Intelligence — Hunyuan3D-Buffalo
+  // Paper: arXiv:2608.02711 (submitted Aug 3, 2026)
+  // -------------------------------------------------------------------------
+  {
+    id: 'unified-3d-asset-intelligence',
+    name: 'Unified 3D Asset Intelligence (Hunyuan3D-Buffalo)',
+    category: 'ai-asset-authoring',
+    problemSolved: '3D understanding, generation, localized editing, and semantic part extraction should share one representation rather than being separate capabilities',
+    observedSources: [
+      { type: 'paper', title: 'Hunyuan3D-Buffalo: Unified 3D Understanding, Generation, Editing and Part Extraction', author: 'Tencent Hunyuan Team', url: 'https://arxiv.org/abs/2608.02711' },
+    ],
+    underlyingPrinciples: [
+      'Shared VLM encodes colored point cloud (position+normals path + RGB path) into 512 tokens',
+      'VLM hidden states condition a diffusion transformer (DiT) initialized from Hunyuan3D-2.1',
+      'For editing: original object representation provided directly to DiT alongside VLM conditioning',
+      'Nano3D-v2 data pipeline: 8 canonical views → VLM selects best → 2D image edit → 3D difference mask → learned planner predicts edit box → protected-region restoration',
+      'Semantic part discovery: object-specific part vocabulary, multi-view highlighted renders, macro-part merging',
+      'Post-edit re-description: VLM compares source/result and describes actual change (not trusting original prompt)',
+      'Training corpus: ~25M understanding samples, ~50M text-to-3D pairs, ~12M editing/part pairs',
+      'Key empirical claim: stronger generation improves editing; stronger understanding improves editing',
+    ],
+    maturity: 'research',
+    licenseAssessment: {
+      license: 'unknown',
+      compatible: false,
+      notes: 'Paper submitted Aug 3 2026. No public model checkpoints, no inference code, no license disclosure. Official GitHub repo contains only static project website.',
+    },
+    browserFeasibility: {
+      browserFeasible: false,
+      notes: 'Paper does not disclose parameter count, VRAM, inference time, or GPU requirements. Almost certainly requires remote GPU. Not deployable in browser.',
+    },
+    benchmarks: [
+      { metric: 'Chamfer distance (3D-VLM edit variant)', value: '0.0091', source: 'paper' },
+      { metric: 'Chamfer distance (Omni123 baseline)', value: '0.0684', source: 'paper' },
+      { metric: 'Human preference (text alignment)', value: '~55-57%', source: '100-prompt study' },
+      { metric: 'Human preference (geometry quality)', value: '~55-57%', source: '100-prompt study' },
+    ],
+    decisionStatus: 'researching',
+    integrationPlan: 'Editor and asset-processor only. Provider plugin implements Unified3DProvider interface. Produces CANDIDATE assets — never authoritative. Human approval required before commit. Stage 1: provider-neutral interfaces + mock. Stage 2: real adapter when inference available. Stage 3: processing pipeline. Stage 4: Grand Architect tool integration. Stage 5: UnboundLoop orchestration.',
+    runtimeAuthority: 'none',
+    currentBlocker: 'No demonstrated public inference implementation. No VRAM/latency/GPU requirements disclosed. No model checkpoints published. Cannot benchmark against production requirements (topology, rigging, UVs, collision, LODs).',
+    paperRef: 'arXiv:2608.02711',
+  },
 ];
 
 // ============================================================================
