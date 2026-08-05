@@ -810,3 +810,43 @@ REMAINING (per critique's priority order):
 - Embodied traversal (player walks through tunnel) — not yet demonstrated
 - Independent critic provider — not yet implemented
 - Controlled benchmark corpus — not yet built
+
+---
+Task ID: BINARY-TRANSFER
+Agent: main (Z.ai Code)
+Task: Replace JSON arrays with transferable typed arrays for terrain geometry. Measure compute, transfer, and buffer creation separately.
+
+BINARY TRANSFER (28/28 tests pass):
+- Worker now converts JS arrays to typed arrays before postMessage:
+  positions: Float32Array, normals: Float32Array, indices: Uint32Array,
+  materialIds: Uint16Array, vegetation transforms: Float32Array
+- All ArrayBuffers transferred via postMessage transfer list (zero-copy)
+- Buffer ownership moves from worker to main thread — no serialization
+
+Test results:
+1. Typed arrays verified (all 5 are correct typed array types)
+2. Data integrity (correct lengths, valid values, no NaN)
+3. Artifact hashes match sync reference (be2ee1845fe54c7d...)
+4. Counts match sync reference (13600 vertices, 6800 triangles, 141 vegetation)
+5. Transfer performance:
+   - Worker execution: 83ms
+   - Buffer transfer: 0ms (zero-copy — no serialization overhead)
+   - Three.js buffer creation: 42ms (vertex colors from material IDs)
+   - Total data: 427.8 KB (positions 159.4KB + normals 159.4KB + indices 79.7KB + materialIds 26.6KB + vegetation 2.8KB)
+6. Buffer ownership transferred (usable on main thread)
+7. Three.js buffer creation simulated (color attribute filled from material IDs)
+
+CURRENT TEST SUITE TOTALS:
+- Worker identity: 28/28
+- Terrain visual review: 19/19
+- Cancellation + stale rejection: 17/17
+- Worker crash recovery: 20/20
+- Fresh-process persistence: 22/22
+- Binary transfer: 28/28
+Total: 134/134 tests pass across 6 test suites
+
+REMAINING:
+- Browser responsiveness measurement (frame intervals, long tasks, input latency)
+- Embodied traversal (player walks through tunnel)
+- Independent critic provider
+- Controlled benchmark corpus
