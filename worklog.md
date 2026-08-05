@@ -235,3 +235,33 @@ Stage Summary:
 - Canonical claim-block schema built with scope-aware relations, 12 edge types, approval records with hash-based staleness.
 - 10 claims are honestly described as "fixture-level integration tests" not "meaningful corpus coverage."
 - Everything pushed to GitHub. Immutable recovery tag protects against future resets.
+
+---
+Task ID: APPROVAL-WORKFLOW + SEMANTIC-REVIEW
+Agent: main (Z.ai Code)
+Task: Build human approval workflow (Phase 6 from critique) and natural-language semantic review (5th validation layer).
+
+Work Log:
+- Built POST /api/architect/claims/approve: human approval workflow with security checks.
+  CRITICAL: AI cannot self-approve reconstructed claims. If provenance is 'script-inserted' or 'inferred' and actorType is not 'user', returns 403.
+  Tested: user approval succeeds (ok:true). AI self-approval correctly rejected with 403.
+  Approval records include: actorId, actorType, timestamp, claimRevisionHash, comment.
+  If claim text changes after approval, hash mismatches and approval becomes stale.
+- Updated ClaimsPanel with approve/reject/revise buttons on candidate claims.
+  Approval modal with comment input. Status filter (needs-review/approved/rejected).
+  Reviewed claims show review date and notes.
+- Built 5th validation layer: natural-language semantic review (semantic-review.ts).
+  Heuristic checks: duplicate-claim, ambiguous-statement, unsupported-canon,
+  overly-broad-claim, missing-measurement, likely-contradiction.
+  Every finding PROPOSES action — does NOT auto-decide. Requires human review.
+  Result on 10 fixture claims: verdict=pass, 0 findings (claims are clean).
+- Coverage now: 5/6 layers implemented. Only runtime-enforcement remains.
+- Updated Claims panel honesty warning to reflect 5/6 layers.
+- Lint clean. All pushed to GitHub.
+
+Stage Summary:
+- 5/6 validation layers LIVE: structural, semantic-graph, numerical, provenance, natural-language-semantic.
+- Human approval workflow works with AI self-approval protection (403 on forged approval).
+- 1 claim has been user-approved as a test. 9 remain candidate.
+- 1 layer remains: runtime-enforcement (connecting approved claims to actual engine rules).
+- Everything pushed to github.com/stohco/grandarchitect.
