@@ -6,7 +6,7 @@
       "claimId": "claim-governance-71a6a51f",
       "statement": "The Cangli Riverlands occupy a basin approximately 120 km north-south.",
       "truthLevel": "PROC",
-      "approvalStatus": "candidate",
+      "approvalStatus": "approved",
       "provenance": "script-inserted",
       "source": {
         "doc": "50_GROUND_TRUTH_SYSTEM_SPECIFICATION.md",
@@ -23,7 +23,17 @@
         "governance"
       ],
       "createdAt": "2026-08-04T23:43:13.570Z",
-      "createdBy": "extractor-script"
+      "createdBy": "extractor-script",
+      "reviewedAt": "2026-08-05T00:50:22.790Z",
+      "reviewNotes": "First test approval",
+      "approvalRecord": {
+        "decision": "approved",
+        "actorId": "user",
+        "actorType": "user",
+        "timestamp": "2026-08-05T00:50:22.790Z",
+        "claimRevisionHash": "e2bde2fe371075b84ca101d186f78d748e1941be14a864b9622b75f0814097b7",
+        "comment": "First test approval"
+      }
     },
     {
       "claimId": "claim-governance-56eb05e9",
@@ -253,8 +263,8 @@
       "UNRESOLVED": 1
     },
     "byApprovalStatus": {
-      "approved": 0,
-      "candidate": 10,
+      "approved": 1,
+      "candidate": 9,
       "rejected": 0,
       "blocked": 0
     },

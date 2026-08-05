@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import {
   ShieldAlert, Loader2, Search, FileText, Link2, AlertTriangle,
-  CheckCircle2, XCircle, HelpCircle,
+  CheckCircle2, XCircle, HelpCircle, Pencil, MessageSquare,
 } from 'lucide-react';
 
 interface ClaimRecord {
@@ -23,6 +23,8 @@ interface ClaimRecord {
   applicableSystems: string[];
   tags: string[];
   createdBy: string;
+  reviewedAt?: string;
+  reviewNotes?: string;
 }
 
 interface ClaimRegistry {
@@ -70,7 +72,47 @@ export default function ClaimsPanel() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState('');
   const [domainFilter, setDomainFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
   const [expandedClaim, setExpandedClaim] = useState<string | null>(null);
+  const [approvingClaim, setApprovingClaim] = useState<string | null>(null);
+  const [approvalComment, setApprovalComment] = useState('');
+  const [approvalDecision, setApprovalDecision] = useState<'approved' | 'rejected' | 'needs-revision'>('approved');
+  const [submitting, setSubmitting] = useState(false);
+
+  const refreshRegistry = useCallback(async () => {
+    try {
+      const res = await fetch('/api/architect/claims');
+      if (res.ok) {
+        const data = await res.json();
+        setRegistry(data);
+      }
+    } catch {}
+  }, []);
+
+  const submitApproval = useCallback(async () => {
+    if (!approvingClaim) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/architect/claims/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          claimId: approvingClaim,
+          decision: approvalDecision,
+          actorId: 'user',
+          actorType: 'user',
+          comment: approvalComment,
+        }),
+      });
+      if (res.ok) {
+        setApprovingClaim(null);
+        setApprovalComment('');
+        await refreshRegistry();
+      }
+    } catch {} finally {
+      setSubmitting(false);
+    }
+  }, [approvingClaim, approvalDecision, approvalComment, refreshRegistry]);
 
   useEffect(() => {
     let cancelled = false;
@@ -124,6 +166,7 @@ export default function ClaimsPanel() {
   const domains = ['all', ...Object.keys(registry.summary.byDomain).sort()];
   const filtered = registry.claims.filter(c => {
     if (domainFilter !== 'all' && c.domain !== domainFilter) return false;
+    if (statusFilter !== 'all' && c.approvalStatus !== statusFilter) return false;
     if (filter) {
       const q = filter.toLowerCase();
       return c.statement.toLowerCase().includes(q) ||
@@ -152,8 +195,9 @@ export default function ClaimsPanel() {
 
       {/* Honesty warning */}
       <div className="border-b border-[#2a2a4a] bg-amber-500/5 px-3 py-1 text-[9px] text-amber-400/80">
-        All claims are CANDIDATE until human-reviewed. Claim-level structural validation only —
-        semantic, numerical, provenance layers not yet implemented.
+        All claims are CANDIDATE until human-reviewed. 4/6 validation layers implemented
+        (structural, semantic-graph, numerical, provenance). Natural-language and runtime layers pending.
+        Exercise level: fixture (10 claims).
       </div>
 
       {/* Filters */}
@@ -173,6 +217,16 @@ export default function ClaimsPanel() {
           {domains.map(d => (
             <option key={d} value={d}>{d === 'all' ? 'All domains' : d}</option>
           ))}
+        </select>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="h-6 rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1.5 text-[10px] text-[#c8c8e0]"
+        >
+          <option value="all">All status</option>
+          <option value="candidate">Needs review</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
         </select>
       </div>
 
@@ -269,6 +323,87 @@ export default function ClaimsPanel() {
                         ))}
                       </div>
                     )}
+
+                    {/* Approval workflow buttons */}
+                    {claim.approvalStatus === 'candidate' && (
+                      <div className="mt-2 flex items-center gap-1 border-t border-[#2a2a4a] pt-1.5">
+                        <Button
+                          size="sm"
+                          className="h-5 gap-1 bg-emerald-600 px-2 text-[9px] text-white hover:bg-emerald-500"
+                          onClick={() => { setApprovingClaim(claim.claimId); setApprovalDecision('approved'); }}
+                          disabled={submitting}
+                        >
+                          <CheckCircle2 className="h-2.5 w-2.5" /> Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="h-5 gap-1 bg-rose-600 px-2 text-[9px] text-white hover:bg-rose-500"
+                          onClick={() => { setApprovingClaim(claim.claimId); setApprovalDecision('rejected'); }}
+                          disabled={submitting}
+                        >
+                          <XCircle className="h-2.5 w-2.5" /> Reject
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-5 gap-1 border-amber-500/30 px-2 text-[9px] text-amber-300 hover:bg-amber-500/10"
+                          onClick={() => { setApprovingClaim(claim.claimId); setApprovalDecision('needs-revision'); }}
+                          disabled={submitting}
+                        >
+                          <Pencil className="h-2.5 w-2.5" /> Revise
+                        </Button>
+                      </div>
+                    )}
+
+                    {/* Show approval record if reviewed */}
+                    {claim.approvalStatus !== 'candidate' && claim.reviewedAt && (
+                      <div className="mt-1.5 border-t border-[#2a2a4a] pt-1 text-[9px] text-[#5a5a7a]">
+                        <span>Reviewed: {claim.reviewedAt.slice(0, 10)}</span>
+                        {claim.reviewNotes && (
+                          <span className="ml-2 text-[#8888aa]">"{claim.reviewNotes.slice(0, 60)}"</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Approval modal */}
+                {approvingClaim === claim.claimId && (
+                  <div className="border-t border-purple-500/30 bg-purple-500/5 px-2 py-2">
+                    <div className="mb-1.5 flex items-center gap-1.5">
+                      <MessageSquare className="h-3 w-3 text-purple-400" />
+                      <span className="text-[10px] font-medium text-purple-300">
+                        {approvalDecision === 'approved' ? 'Approve claim' : approvalDecision === 'rejected' ? 'Reject claim' : 'Request revision'}
+                      </span>
+                    </div>
+                    <Input
+                      value={approvalComment}
+                      onChange={(e) => setApprovalComment(e.target.value)}
+                      placeholder="Review comment (optional)..."
+                      className="mb-1.5 h-6 rounded border-[#2a2a4a] bg-[#1a1a2e] px-2 text-[10px] text-[#c8c8e0] placeholder:text-[#4a4a6a]"
+                    />
+                    <div className="flex items-center gap-1">
+                      <Button
+                        size="sm"
+                        className={`h-5 px-2 text-[9px] text-white ${
+                          approvalDecision === 'approved' ? 'bg-emerald-600 hover:bg-emerald-500' :
+                          approvalDecision === 'rejected' ? 'bg-rose-600 hover:bg-rose-500' :
+                          'bg-amber-600 hover:bg-amber-500'
+                        }`}
+                        onClick={submitApproval}
+                        disabled={submitting}
+                      >
+                        {submitting ? <Loader2 className="h-2.5 w-2.5 animate-spin" /> : 'Confirm'}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-5 px-2 text-[9px] text-[#5a5a7a]"
+                        onClick={() => { setApprovingClaim(null); setApprovalComment(''); }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
