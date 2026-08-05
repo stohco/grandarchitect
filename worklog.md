@@ -673,3 +673,61 @@ Stage Summary:
 - ModLens is registered as researching with honest limitations (no pixel grounding, security risk, not commercial-ready).
 - The production goal is not "ModLens vs VLM" — it is: engine truth + deterministic measurements + native multimodal reasoning + optional structured evidence + human confirmation.
 - Next: benchmark corpus, constrained structured output from VLM, cancellation, stale-result rejection, fresh-process persistence, embodied traversal.
+
+---
+Task ID: VISUAL-EVIDENCE-FABRIC-V2
+Agent: main (Z.ai Code)
+Task: Correct three core problems in the Visual Evidence Fabric: global authority ranking, weak verdicts, and unscoped observations. The critique demanded domain-specific authority, validation profiles, and proposition-level assertions.
+
+Corrections made:
+
+1. Global ranking → domain-specific authority (10 domains):
+   - identity, spatial, temporal, physical: engine-measured is authoritative
+   - canonical, art-direction: human-confirmed is authoritative
+   - aesthetic: human-confirmed + model-inferred (VLM critique supports, doesn't decide)
+   - runtime, performance: engine-measured is authoritative
+   - textual: text-extracted (OCR) verified against source
+   - Each domain has AuthorityPolicy with preferredEvidenceKinds, requiredEvidenceKinds, humanApprovalRequired, allowedToOverride
+
+2. "Verdict: accepted" → 7 evidence verdicts:
+   - insufficient-evidence, partial, consistent, conflicted, needs-human-review, validation-failed, validated
+   - "validated" requires ALL required criteria in a ValidationProfile to be exercised AND passed
+   - Terrain Visual Review profile: 8 required criteria (entity-count, tunnel-opening-width/height, render-collision-sync, navigation-valid, silhouette-readability, vegetation-density, style-compliance), 2 optional (performance-fps, chunk-seam-check), humanApprovalRequired=true
+
+3. Simple observations → proposition-level assertions:
+   - EvidenceAssertion with propositionId, targetId, domain, property, value, spatialScope, temporalScope, viewingContext
+   - Contradictions only detected when same proposition AND overlapping scopes
+   - VLM assertions have engineGrounded=false — cannot invent entity IDs, coordinates, or provenance
+   - Capture manifest preserves full context: camera position/orientation/FOV/exposure, viewport, renderer backend/version, quality profile, lighting, weather, time of day, visible/selected entities, buffers available, image hash
+
+4. ModLens status corrected:
+   - License: MIT (code) + personal-learning disclaimer (README) + Google account terms
+   - Production eligibility: "legally ambiguous — review required" (NOT "not compatible")
+   - Default Antigravity adapter: "security-sensitive; sandbox required"
+
+Test results:
+- Without validation profile: verdict=consistent (honest)
+- With terrain-visual-review profile: verdict=needs-human-review (6 exercised, 7 missing, human required — honest)
+- Domain authority correctly applied: identity→engine-measured, aesthetic→model-inferred
+
+Corrected status labels:
+- Provider-neutral interfaces: Implemented
+- Engine-truth provider: Prototype operational
+- Native VLM provider: Prototype operational (structured output, not free-form)
+- Deterministic provider: Prototype operational
+- Evidence fusion: Prototype operational (domain-specific authority)
+- Domain-specific authority: Implemented (10 domains with policies)
+- Proposition-level assertions: Implemented (scoped contradictions)
+- Validation profiles: Implemented (terrain-visual-review-v1)
+- Exact target grounding: Not yet demonstrated (needs engine object-ID buffer)
+- Controlled benchmark corpus: Not implemented
+- Independent critic: Not implemented
+- Visual Accuracy Oracle: Not yet validated (needs end-to-end terrain scenario)
+- ModLens adapter: Research-only, not integrated
+
+Honest remaining work:
+- End-to-end terrain visual review scenario (user asks about tunnel → engine resolves → VLM interprets → fusion reports)
+- Deliberately introduced defects (narrow tunnel, collision offset, empty hillside)
+- Before/after evidence bundles
+- Benchmark corpus with known cases
+- Provider benchmarking (accuracy, hallucination, abstention, stability, latency)
