@@ -1,13 +1,13 @@
 {
-  "worldId": "default-world",
-  "worldName": "Xianxia Multiverse",
-  "createdAt": "2026-08-05T02:19:30.631Z",
-  "lastModified": "2026-08-05T02:19:30.631Z",
+  "worldId": "fresh-process-test",
+  "worldName": "Fresh Process Test World",
+  "createdAt": "2026-08-05T04:28:13.214Z",
+  "lastModified": "2026-08-05T04:28:13.214Z",
   "graphIds": [
-    "terrain-persistence-test"
+    "fresh-process-test-graph"
   ],
+  "activeBundleId": "bundle-v2-1-msfl6pk2",
   "graphRevisions": {
-    "terrain-persistence-test": 1
-  },
-  "activeBundleId": "bundle-v2-1-msfgl6rh"
+    "fresh-process-test-graph": 1
+  }
 }
