@@ -359,3 +359,49 @@ Stage Summary:
 - Frame budget defined: 16.67ms target (simulation 3ms, physics 2ms, animation 1.5ms,
   render-prep 1.5ms, GPU 7ms, margin 1.67ms).
 - All pushed to github.com/stohco/grandarchitect.
+
+---
+Task ID: OPERATION-GRAPH + CAPABILITY-GAPS
+Agent: main (Z.ai Code)
+Task: Build the Editable Operation Graph (Unbound-inspired non-destructive editing) and the Capability Gap system (Architect must not take shortcuts).
+
+Work Log:
+- Built src/engine/frontier/operation-graph.ts: OperationGraphManager implementing
+  the non-destructive editing core. Every operation is selectable, reorderable,
+  parameterized, previewable, attributable (user vs architect), independently
+  disableable, undoable, procedurally regenerable. Runtime bakes to optimized
+  meshes; editor retains source graph. Supports undo/redo (disable/enable without
+  delete), bake (marks as baked with content hash), serialize/deserialize.
+  Standard factories: addTerrainPrimitive, subtractVolume, paintMaterial,
+  scatterVegetation, applyErosion, placeEntity.
+
+- Built POST /api/frontier/operation-graph: create graphs, add/toggle/remove/
+  reorder operations, update params, undo/redo, bake. Tested: created terrain
+  graph successfully.
+
+- Built src/engine/frontier/capability-gaps.ts: CapabilityGapManager. When the
+  Architect can't produce a result, it creates a formal gap with: desired result,
+  current capabilities, missing capabilities, proposed plugins (with complexity
+  + fallback strategy), development stage (identified→researching→prototyping→
+  testing→integrated/blocked), approximation used and its risk level.
+  3 seed gaps:
+  1. Million-blade sword formation (researching, moderate approximation risk,
+     2 proposed plugins: gpu-agent-swarm, sword-formation-collision-field)
+  2. FFT ocean (identified, low risk approximation, 1 proposed plugin: fft-ocean)
+  3. Path-traced validation (blocked — WebGPU ray tracing not available, 1 proposed
+     plugin: editor-path-tracer)
+
+- Built GET/POST /api/frontier/gaps: list and create capability gaps.
+
+- Lint clean. All pushed to GitHub.
+
+Stage Summary:
+- Editable Operation Graph is LIVE: non-destructive editing for terrain, structures,
+  characters, settlements, technique-effects. Every edit is a graph node.
+- Capability Gap system is LIVE: the Architect formally requests missing capabilities
+  instead of taking shortcuts. 3 seed gaps demonstrate the system.
+- The AI must never create a hidden one-off patch. Anything it invents becomes
+  versioned, documented, testable, undoable, reusable, inspectable, benchmarked,
+  and replaceable.
+- Total frontier system: 15 techniques, 10 capability matrix entries, 3 capability
+  gaps, operation graph manager — all with API routes.
