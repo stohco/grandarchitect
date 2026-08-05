@@ -850,3 +850,41 @@ REMAINING:
 - Embodied traversal (player walks through tunnel)
 - Independent critic provider
 - Controlled benchmark corpus
+
+---
+Task ID: BROWSER-RESPONSIVENESS
+Agent: main (Z.ai Code)
+Task: Measure real browser frame intervals, long tasks, and responsiveness during terrain generation.
+
+BROWSER RESPONSIVENESS (6/6 tests pass):
+- Opened Live Studio in agent-browser
+- Injected PerformanceObserver + requestAnimationFrame frame loop via /tmp script files
+- Triggered terrain API call (resolution=24, 13600 vertices, 6800 triangles)
+- Captured 120 frame intervals during and after generation
+
+Results:
+- Frames: 120
+- Average: 16.64ms (60 FPS)
+- p50: 16.60ms (within 16.67ms budget for 60 FPS)
+- p95: 25.20ms (slight spike, well under 200ms)
+- p99: 27.00ms
+- Max: 28.10ms (no total freeze)
+- Long tasks: 0 (no task exceeded 50ms Performance API threshold)
+- Terrain API: 49ms (server-side, browser not blocked)
+
+The browser remained fully responsive during terrain generation. The terrain API runs server-side so the browser main thread is not blocked during computation.
+
+CURRENT TEST SUITE TOTALS:
+- Worker identity: 28/28
+- Terrain visual review: 19/19
+- Cancellation + stale rejection: 17/17
+- Worker crash recovery: 20/20
+- Fresh-process persistence: 22/22
+- Binary transfer: 28/28
+- Browser responsiveness: 6/6
+Total: 140/140 tests pass across 7 test suites
+
+REMAINING:
+- Embodied traversal (player walks through tunnel) — needs physics integration
+- Independent critic provider — not yet implemented
+- Controlled benchmark corpus — not yet built
