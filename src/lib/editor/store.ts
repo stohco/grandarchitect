@@ -81,6 +81,7 @@ export interface EditorState {
   showGizmos: boolean;
   showStats: boolean;
   showMinimap: boolean;
+  showTerrain: boolean;
   showOutliner: boolean;
   showInspector: boolean;
   showBottomDock: boolean;
@@ -153,6 +154,7 @@ export interface EditorState {
   toggleGizmos: () => void;
   toggleStats: () => void;
   toggleMinimap: () => void;
+  toggleTerrain: () => void;
   toggleOutliner: () => void;
   toggleInspector: () => void;
   toggleBottomDock: () => void;
@@ -233,6 +235,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   showGizmos: true,
   showStats: true,
   showMinimap: false,
+  showTerrain: false,
   showOutliner: true,
   showInspector: true,
   showBottomDock: true,
@@ -388,6 +391,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setRenderMode: (m) => set({ renderMode: m }),
   toggleSnap: () => set((s) => ({ snapEnabled: !s.snapEnabled })),
   toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
+  toggleTerrain: () => set((s) => ({ showTerrain: !s.showTerrain })),
   toggleGizmos: () => set((s) => ({ showGizmos: !s.showGizmos })),
   toggleStats: () => set((s) => ({ showStats: !s.showStats })),
   toggleMinimap: () => set((s) => ({ showMinimap: !s.showMinimap })),

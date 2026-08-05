@@ -438,6 +438,135 @@ export default function Viewport3D() {
   }, [settlement, renderMode]);
 
   // -----------------------------------------------------------------------
+  // Terrain mesh — real generated geometry from the terrain plugin
+  // -----------------------------------------------------------------------
+  const showTerrain = useEditorStore((s) => s.showTerrain);
+  const terrainGroupRef = useRef<THREE.Group | null>(null);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+
+    // Remove existing terrain group
+    if (terrainGroupRef.current) {
+      scene.remove(terrainGroupRef.current);
+      terrainGroupRef.current.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.geometry?.dispose();
+          if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
+          else child.material?.dispose();
+        }
+      });
+      terrainGroupRef.current = null;
+    }
+
+    if (!showTerrain) return;
+
+    // Fetch real terrain geometry from the API
+    fetch('/api/frontier/terrain?resolution=24&seed=42')
+      .then(res => res.json())
+      .then(data => {
+        if (!sceneRef.current) return; // unmounted
+
+        const group = new THREE.Group();
+        group.name = 'terrain';
+
+        // Build real mesh from the terrain plugin's vertex/index buffers
+        const { positions, normals, indices, materialIds, vertexCount, triangleCount } = data.renderMesh;
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+        geometry.setIndex(indices);
+        geometry.computeBoundingSphere();
+
+        // Vertex colors based on material ID
+        const colors = new Float32Array(vertexCount * 3);
+        const matColors = [
+          [0.4, 0.5, 0.3], // 0: default (brown)
+          [0.2, 0.6, 0.2], // 1: grass (green)
+          [0.5, 0.4, 0.2], // 2: dirt (brown)
+          [0.6, 0.6, 0.6], // 3: stone (grey)
+        ];
+        for (let i = 0; i < vertexCount; i++) {
+          const matId = materialIds[i] || 0;
+          const c = matColors[matId] || matColors[0];
+          colors[i * 3] = c[0];
+          colors[i * 3 + 1] = c[1];
+          colors[i * 3 + 2] = c[2];
+        }
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        const material = new THREE.MeshStandardMaterial({
+          vertexColors: true,
+          flatShading: true,
+          roughness: 0.8,
+          metalness: 0.1,
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        mesh.userData.isTerrain = true;
+        group.add(mesh);
+
+        // Add vegetation instances (simple cones)
+        if (data.vegetation.instanceCount > 0) {
+          const vegGeo = new THREE.ConeGeometry(0.5, 2, 6);
+          const vegMat = new THREE.MeshStandardMaterial({ color: 0x2d5a2d, roughness: 0.9 });
+          const vegMesh = new THREE.InstancedMesh(vegGeo, vegMat, data.vegetation.instanceCount);
+          const matrix = new THREE.Matrix4();
+          const transforms = data.vegetation.transforms;
+          for (let i = 0; i < data.vegetation.instanceCount; i++) {
+            const x = transforms[i * 5];
+            const y = transforms[i * 5 + 1];
+            const z = transforms[i * 5 + 2];
+            const rotY = transforms[i * 5 + 3];
+            const scale = transforms[i * 5 + 4];
+            matrix.compose(
+              new THREE.Vector3(x, y + scale, z),
+              new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotY),
+              new THREE.Vector3(scale, scale, scale),
+            );
+            vegMesh.setMatrixAt(i, matrix);
+          }
+          vegMesh.instanceMatrix.needsUpdate = true;
+          vegMesh.castShadow = true;
+          group.add(vegMesh);
+        }
+
+        // Add a wireframe overlay for the tunnel visibility
+        const wireMat = new THREE.MeshBasicMaterial({
+          color: 0x44aa44,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.15,
+        });
+        const wireMesh = new THREE.Mesh(geometry, wireMat);
+        group.add(wireMesh);
+
+        scene.add(group);
+        terrainGroupRef.current = group;
+
+        // Reposition camera to frame the terrain (bounds 0-128)
+        const cam = cameraRef.current;
+        const ctrl = controlsRef.current;
+        if (cam && ctrl) {
+          cam.position.set(140, 100, 140);
+          ctrl.target.set(64, 20, 64);
+          ctrl.update();
+        }
+
+        // Log terrain info
+        useEditorStore.getState().log('info', 'terrain',
+          `Terrain generated: ${vertexCount} vertices, ${triangleCount} triangles, ${data.vegetation.instanceCount} vegetation, nav: ${data.navigation.polygonCount} polygons, path: ${data.navigation.pathLength} steps`);
+      })
+      .catch(err => {
+        useEditorStore.getState().log('error', 'terrain', `Terrain generation failed: ${err instanceof Error ? err.message : 'unknown'}`);
+      });
+  }, [showTerrain]);
+
+  // -----------------------------------------------------------------------
   // Apply local edits → mesh transforms
   // -----------------------------------------------------------------------
   const edits = useEditorStore((s) => s.edits);

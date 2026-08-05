@@ -38,6 +38,7 @@ import {
   Crosshair,
   BarChart3,
   Map,
+  Mountain,
   PanelLeft,
   PanelRight,
   PanelBottom,
@@ -106,6 +107,7 @@ export default function EditorToolbar() {
   const showGizmos = useEditorStore((s) => s.showGizmos);
   const showStats = useEditorStore((s) => s.showStats);
   const showMinimap = useEditorStore((s) => s.showMinimap);
+  const showTerrain = useEditorStore((s) => s.showTerrain);
   const showOutliner = useEditorStore((s) => s.showOutliner);
   const showInspector = useEditorStore((s) => s.showInspector);
   const showBottomDock = useEditorStore((s) => s.showBottomDock);
@@ -115,6 +117,7 @@ export default function EditorToolbar() {
   const toggleGizmos = useEditorStore((s) => s.toggleGizmos);
   const toggleStats = useEditorStore((s) => s.toggleStats);
   const toggleMinimap = useEditorStore((s) => s.toggleMinimap);
+  const toggleTerrain = useEditorStore((s) => s.toggleTerrain);
   const toggleOutliner = useEditorStore((s) => s.toggleOutliner);
   const toggleInspector = useEditorStore((s) => s.toggleInspector);
   const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
@@ -206,6 +209,9 @@ export default function EditorToolbar() {
         </ToggleButton>
         <ToggleButton active={showMinimap} onClick={toggleMinimap} title="Toggle minimap">
           <Map className="h-3.5 w-3.5" />
+        </ToggleButton>
+        <ToggleButton active={showTerrain} onClick={toggleTerrain} title="Generate & show real terrain (SDF mountain + tunnel + vegetation)">
+          <Mountain className="h-3.5 w-3.5" />
         </ToggleButton>
 
         <div className="h-6 w-px bg-[#2a2a4a]" />
