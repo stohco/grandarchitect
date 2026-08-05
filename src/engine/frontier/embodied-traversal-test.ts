@@ -42,7 +42,9 @@ async function run() {
   // Step 1: Generate terrain with tunnel
   // ========================================================================
   console.log('Step 1: Generate terrain with known tunnel');
-  const splinePoints: [number, number, number][] = [[10, 25, 64], [64, 30, 64], [118, 25, 64]];
+  // Spline must pass THROUGH the mountain (center at x=64, radius=30, so x=34..94)
+  // Start at the mountain's western edge (x=34) and exit at the eastern edge (x=94)
+  const splinePoints: [number, number, number][] = [[34, 25, 64], [64, 30, 64], [94, 25, 64]];
   const tunnelRadius = 3;
 
   const region = createDensityRegion('region-traversal', 1,
