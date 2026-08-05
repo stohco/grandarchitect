@@ -114,6 +114,22 @@ export default function Viewport3D() {
   const hoveredIdRef = useRef<number | null>(null);
   const hoveredMeshRef = useRef<THREE.Mesh | null>(null);
 
+  // Terrain/overlay/player refs — MUST be declared before any useEffect
+  const terrainGroupRef = useRef<THREE.Group | null>(null);
+  const collisionOverlayRef = useRef<THREE.LineSegments | null>(null);
+  const navOverlayRef = useRef<THREE.Group | null>(null);
+  const playerRef = useRef<THREE.Group | null>(null);
+  const playerStateRef = useRef<{
+    position: THREE.Vector3;
+    velocity: THREE.Vector3;
+    onGround: boolean;
+    keys: Record<string, boolean>;
+    raycaster: THREE.Raycaster;
+    traversalLog: { position: [number, number, number]; timestamp: number }[];
+    enteredTunnel: boolean;
+    exitedTunnel: boolean;
+  } | null>(null);
+
   // -----------------------------------------------------------------------
   // Scene init (runs once)
   // -----------------------------------------------------------------------
@@ -446,7 +462,6 @@ export default function Viewport3D() {
   // Terrain mesh — real generated geometry from the terrain plugin
   // -----------------------------------------------------------------------
   const showTerrain = useEditorStore((s) => s.showTerrain);
-  const terrainGroupRef = useRef<THREE.Group | null>(null);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -575,7 +590,6 @@ export default function Viewport3D() {
   // Collision overlay — red wireframe of the collision mesh
   // -----------------------------------------------------------------------
   const showCollisionOverlay = useEditorStore((s) => s.showCollisionOverlay);
-  const collisionOverlayRef = useRef<THREE.LineSegments | null>(null);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -608,7 +622,6 @@ export default function Viewport3D() {
   // Navigation overlay — green polygons showing walkable surfaces
   // -----------------------------------------------------------------------
   const showNavigationOverlay = useEditorStore((s) => s.showNavigationOverlay);
-  const navOverlayRef = useRef<THREE.Group | null>(null);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -694,17 +707,6 @@ export default function Viewport3D() {
   // generated and collision-backed tunnel in the running Studio."
   // -----------------------------------------------------------------------
   const showPlayer = useEditorStore((s) => s.showPlayer);
-  const playerRef = useRef<THREE.Group | null>(null);
-  const playerStateRef = useRef<{
-    position: THREE.Vector3;
-    velocity: THREE.Vector3;
-    onGround: boolean;
-    keys: Record<string, boolean>;
-    raycaster: THREE.Raycaster;
-    traversalLog: { position: [number, number, number]; timestamp: number }[];
-    enteredTunnel: boolean;
-    exitedTunnel: boolean;
-  } | null>(null);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -1034,10 +1036,13 @@ export default function Viewport3D() {
     );
   }
 
-  if (!settlement) {
-    return (
-      <div className="relative h-full w-full bg-[#0e0e24]">
-        <div className="flex h-full w-full items-center justify-center">
+  // Always render the mount div so the Three.js useEffect can attach to it.
+  // Overlay the "no world" message when settlement is null.
+  return (
+    <div className="relative h-full w-full bg-[#0e0e24]">
+      <div ref={mountRef} className="h-full w-full" />
+      {!settlement && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <p className="text-sm uppercase tracking-widest text-[#5a5a7a]">No world loaded</p>
             <p className="mt-2 text-lg text-[#c8c8e0]">Enter a seed above and press Generate.</p>
@@ -1053,14 +1058,7 @@ export default function Viewport3D() {
             </div>
           </div>
         </div>
-        <div ref={mountRef} className="absolute inset-0 -z-10" aria-hidden />
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative h-full w-full bg-[#0e0e24]">
-      <div ref={mountRef} className="h-full w-full" />
+      )}
     </div>
   );
 }
