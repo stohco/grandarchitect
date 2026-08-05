@@ -1,0 +1,13 @@
+{
+  "worldId": "fresh-process-test",
+  "worldName": "Fresh Process Test World",
+  "createdAt": "2026-08-05T04:28:13.214Z",
+  "lastModified": "2026-08-05T04:28:13.214Z",
+  "graphIds": [
+    "fresh-process-test-graph"
+  ],
+  "activeBundleId": "bundle-v2-1-msfl6pk2",
+  "graphRevisions": {
+    "fresh-process-test-graph": 1
+  }
+}

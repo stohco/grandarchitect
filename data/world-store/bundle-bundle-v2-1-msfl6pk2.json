@@ -1,0 +1,21 @@
+{
+  "bundleId": "bundle-v2-1-msfl6pk2",
+  "graphId": "fresh-process-test-graph",
+  "graphRevision": 1,
+  "regionId": "region-fresh-process-test-graph",
+  "recipeHash": "2271f440bf732beb1ac77c7bc14adfe8434d75f10ac606cd233668a9291d0923",
+  "artifactHash": "423475acf00c90589fd251028fb4f7a3326795bae405e8c94a92afc4c6caf00c",
+  "status": "validated",
+  "serializedAt": "2026-08-05T04:28:13.155Z",
+  "renderVertexCount": 13600,
+  "renderTriangleCount": 6800,
+  "collisionVertexCount": 13600,
+  "navigationPolygonCount": 583,
+  "vegetationInstanceCount": 141,
+  "validation": {
+    "renderCollisionRevisionMatch": true,
+    "navigationHasPolygons": true,
+    "instancesOnValidSurface": true,
+    "allComponentsPresent": true
+  }
+}

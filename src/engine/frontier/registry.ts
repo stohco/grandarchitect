@@ -1,0 +1,747 @@
+/**
+ * Frontier Technique Registry — seed data
+ *
+ * Initial set of frontier techniques to evaluate. Each has a formal record
+ * with source references, principles, maturity, license, feasibility,
+ * benchmarks, and adoption decision.
+ *
+ * These are CANDIDATE records — not approved for production until they
+ * pass the full pipeline.
+ */
+
+import type { FrontierTechniqueRecord, CapabilityMatrix, CapabilityMatrixEntry } from './types';
+
+// ============================================================================
+// Seed techniques (15 candidates across 10 categories)
+// ============================================================================
+
+export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
+  {
+    id: 'gpu-instance-culling',
+    name: 'GPU-Driven Instance Culling',
+    category: 'rendering',
+    problemSolved: 'Moving "what should be drawn?" from thousands of JS object operations to compact data-oriented buffers and GPU processing',
+    observedSources: [
+      { type: 'engine-feature', title: 'Unreal Engine 5 Nanite visibility', author: 'Epic Games' },
+      { type: 'repository', title: 'PlayCanvas WebGPU Gaussian-splat renderer', url: 'https://playcanvas.com' },
+    ],
+    underlyingPrinciples: [
+      'Frustum culling on GPU compute',
+      'Distance/LOD selection on GPU',
+      'Occlusion culling via depth pyramid',
+      'Instance compaction via atomic operations',
+      'Indirect draw preparation',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Reimplemented from principle, no external dependency' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'reduced', notes: 'WebGPU compute required for GPU culling; WebGL2 falls back to CPU culling' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: true, fallback: 'CPU culling on main thread or worker' },
+      { feature: 'storage-buffer', required: true, fallback: 'Standard buffer with readback' },
+      { feature: 'indirect-draw', required: true, fallback: 'Direct draw calls (higher CPU cost)' },
+    ],
+    expectedBenefits: [
+      { metric: 'draw-calls', expected: 'reduced 80-90% for vegetation', confidence: 'high' },
+      { metric: 'cpu-frame-ms', expected: '< 1ms for 10k instances', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'gpu-memory', expected: '+2-4MB for culling buffers', confidence: 'high' },
+      { metric: 'shader-compilation', expected: '+200ms first-frame', confidence: 'medium' },
+    ],
+    knownLimitations: [
+      'No WebGL2 compute support — falls back to CPU',
+      'Indirect draw not available in all WebGPU implementations',
+      'Requires cross-origin isolation for SharedArrayBuffer fast path',
+    ],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'prototyping',
+    qualityModes: [
+      { name: 'ultra', description: 'Full GPU culling + indirect draw', gpuRequired: true, estimatedCost: '< 1ms GPU' },
+      { name: 'high', description: 'GPU culling, direct draw', gpuRequired: true, estimatedCost: '< 2ms GPU' },
+      { name: 'medium', description: 'Worker-thread CPU culling', gpuRequired: false, estimatedCost: '< 3ms CPU' },
+      { name: 'low', description: 'Main-thread CPU culling, reduced distance', gpuRequired: false, estimatedCost: '< 2ms CPU' },
+      { name: 'fallback', description: 'No culling, draw all objects', gpuRequired: false, estimatedCost: 'baseline' },
+    ],
+    applicableSystems: ['renderer', 'vegetation', 'particles', 'distant-buildings', 'sword-formations'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'sdf-live-sculpting',
+    name: 'SDF Live Sculpting (Unbound-inspired)',
+    category: 'terrain',
+    problemSolved: 'Terrain edits remain non-destructive operations that can be reordered and changed while the game is running',
+    observedSources: [
+      { type: 'documentation', title: 'Unbound Engine documentation', author: 'Unbound' },
+      { type: 'paper', title: 'Euclidean Distance Transform', author: 'Various' },
+    ],
+    underlyingPrinciples: [
+      'Signed distance fields as non-destructive operation stacks',
+      'Addition, subtraction, blending, painting as graph nodes',
+      'Runtime mesh extraction from SDF',
+      'Edit while running — no rebuild required',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Concept inspired by Unbound, reimplemented independently' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'SDF evaluation works on CPU; WebGPU compute accelerates but not required' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: false, fallback: 'CPU SDF evaluation in worker' },
+    ],
+    expectedBenefits: [
+      { metric: 'edit-flexibility', expected: 'reorderable, disableable, undoable operations', confidence: 'high' },
+      { metric: 'terrain-revision', expected: 'no mesh rebuild on edit', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'cpu-frame-ms', expected: '2-5ms for SDF meshing', confidence: 'medium' },
+    ],
+    knownLimitations: [
+      'High-resolution SDFs are memory-intensive',
+      'Mesh extraction quality depends on voxel resolution',
+    ],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'prototyping',
+    applicableSystems: ['terrain', 'editor', 'architect-editing'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'meshlet-virtualized-geometry',
+    name: 'Meshlet/Cluster Virtualized Geometry (Nanite-inspired)',
+    category: 'geometry',
+    problemSolved: 'Virtualized geometry that selects detail level dynamically based on screen-space error',
+    observedSources: [
+      { type: 'engine-feature', title: 'Unreal Engine 5 Nanite', author: 'Epic Games' },
+    ],
+    underlyingPrinciples: [
+      'Mesh preprocessing into hierarchical triangle clusters',
+      'Per-cluster bounds and screen-space error',
+      'Dynamic cluster selection',
+      'Cluster-level culling',
+      'Progressive streaming',
+    ],
+    maturity: 'research',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Principles studied, not copying UE5 code' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'reduced', notes: 'WebGPU needed for GPU cluster selection; WebGL2 uses traditional LODs' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: true, fallback: 'CPU cluster selection (slower)' },
+      { feature: 'storage-buffer', required: true, fallback: 'Standard buffer' },
+      { feature: 'indirect-draw', required: true, fallback: 'Direct draw' },
+    ],
+    expectedBenefits: [
+      { metric: 'triangle-density', expected: 'millions of triangles at stable framerate', confidence: 'low' },
+      { metric: 'memory', expected: 'streamed clusters reduce peak memory', confidence: 'medium' },
+    ],
+    expectedCosts: [
+      { metric: 'preprocessing', expected: 'significant mesh preprocessing time', confidence: 'high' },
+      { metric: 'gpu-memory', expected: 'cluster metadata overhead', confidence: 'medium' },
+    ],
+    knownLimitations: [
+      'Web GPU compute not universally available',
+      'Animated meshes remain a separate problem',
+      'Preprocessing pipeline is complex',
+    ],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    applicableSystems: ['mountains', 'statues', 'sect-complexes', 'ruins', 'celestial-structures'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'world-partition-streaming',
+    name: 'Hierarchical World Partition & Streaming',
+    category: 'streaming',
+    problemSolved: 'Automatic loading/unloading of world cells based on streaming sources for enormous worlds',
+    observedSources: [
+      { type: 'engine-feature', title: 'Unreal Engine 5 World Partition', author: 'Epic Games' },
+      { type: 'documentation', title: 'Cesium 3D Tiles', author: 'Cesium' },
+    ],
+    underlyingPrinciples: [
+      'Grid-based world division',
+      'Streaming sources (player, camera, preview, teleport destination)',
+      'HLOD generation for distant regions',
+      'Multiple load tiers (summary, strategic, proxy, HLOD, full, physics+AI, editable)',
+      'Persistent identity across load/unload',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Architecture inspired by UE5 + Cesium, independently implemented' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'Streaming is backend-agnostic' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'world-size', expected: 'unlimited world size with finite memory', confidence: 'high' },
+      { metric: 'load-time', expected: 'progressive loading under device budget', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'complexity', expected: 'significant system complexity', confidence: 'high' },
+    ],
+    knownLimitations: [
+      'Cross-cell interactions need special handling',
+      'Navigation across cell boundaries is complex',
+    ],
+    integrationStrategy: 'native-plugin',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'prototyping',
+    applicableSystems: ['world-streaming', 'spatial-partitioning', 'navigation', 'physics'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'virtual-shadow-pages',
+    name: 'Virtual Shadow Maps (Page-based)',
+    category: 'rendering',
+    problemSolved: 'High-resolution shadows for large scenes without a single giant shadow map',
+    observedSources: [
+      { type: 'engine-feature', title: 'Unreal Engine 5 Virtual Shadow Maps', author: 'Epic Games' },
+    ],
+    underlyingPrinciples: [
+      'Tiled shadow pages',
+      'Allocate only needed pages',
+      'Cache pages between frames unless invalidated',
+      'Resolution based on screen importance',
+      'Separate budgets for nearby and distant shadows',
+    ],
+    maturity: 'research',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Principles studied, not copying UE5 code' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'none', notes: 'Requires WebGPU for page management; WebGL2 uses cascaded shadow maps' },
+    webgpuRequirements: [
+      { feature: 'storage-texture', required: true, fallback: 'Cascaded shadow maps' },
+    ],
+    expectedBenefits: [
+      { metric: 'shadow-quality', expected: 'consistent high-res shadows everywhere', confidence: 'medium' },
+    ],
+    expectedCosts: [
+      { metric: 'gpu-memory', expected: 'page pool overhead', confidence: 'medium' },
+    ],
+    knownLimitations: ['Complex implementation', 'WebGL2 has no equivalent'],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    applicableSystems: ['renderer', 'shadows', 'lighting'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'compute-particles',
+    name: 'WebGPU Compute Particles',
+    category: 'rendering',
+    problemSolved: 'GPU-based particle simulation for rain, snow, qi motes, embers, debris without CPU bottleneck',
+    observedSources: [
+      { type: 'repository', title: 'Three.js WebGPU compute particles example', author: 'Three.js' },
+      { type: 'repository', title: 'Babylon.js compute particles', author: 'Babylon.js' },
+    ],
+    underlyingPrinciples: [
+      'Compute shader particle update',
+      'Storage buffer for particle data',
+      'Indirect draw for rendering',
+      'No CPU readback for simulation',
+    ],
+    maturity: 'experimental',
+    licenseAssessment: { license: 'MIT', compatible: true, notes: 'Three.js MIT license, fully compatible' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'reduced', notes: 'WebGPU compute for simulation; WebGL2 falls back to CPU particles' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: true, fallback: 'CPU particle update in worker' },
+      { feature: 'storage-buffer', required: true, fallback: 'Standard buffer' },
+    ],
+    expectedBenefits: [
+      { metric: 'particle-count', expected: '100k+ particles at 60fps', confidence: 'high' },
+      { metric: 'cpu-frame-ms', expected: '< 0.5ms (GPU does all work)', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'gpu-frame-ms', expected: '1-2ms for 100k particles', confidence: 'medium' },
+    ],
+    knownLimitations: ['Gameplay-critical particles need CPU authority for determinism'],
+    integrationStrategy: 'external-adapter',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'accepted',
+    qualityModes: [
+      { name: 'ultra', description: '100k GPU particles', gpuRequired: true, estimatedCost: '2ms GPU' },
+      { name: 'high', description: '50k GPU particles', gpuRequired: true, estimatedCost: '1ms GPU' },
+      { name: 'medium', description: '10k CPU particles in worker', gpuRequired: false, estimatedCost: '1ms CPU' },
+      { name: 'low', description: '2k CPU particles main thread', gpuRequired: false, estimatedCost: '0.5ms CPU' },
+      { name: 'fallback', description: 'No particles', gpuRequired: false, estimatedCost: '0ms' },
+    ],
+    applicableSystems: ['weather', 'qi-effects', 'combat-vfx', 'ambient'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'data-oriented-simulation',
+    name: 'Data-Oriented Entity Simulation',
+    category: 'simulation',
+    problemSolved: 'Large-scale systems without a heavyweight scene object for every simulated element',
+    observedSources: [
+      { type: 'engine-feature', title: 'Unity Entities (ECS)', author: 'Unity' },
+      { type: 'engine-feature', title: 'Unreal MassEntity', author: 'Epic Games' },
+      { type: 'engine-feature', title: 'Godot Servers', author: 'Godot' },
+    ],
+    underlyingPrinciples: [
+      'Packed component storage (SoA)',
+      'Relevance/tier processors',
+      'Distant entities are data, not Object3Ds',
+      'Only nearby/inspected entities get full presentation',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Architecture inspired by ECS principles, independently implemented' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'Pure CPU architecture' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'entity-count', expected: '10k+ simulated entities', confidence: 'high' },
+      { metric: 'memory', expected: 'cache-friendly data layout', confidence: 'high' },
+    ],
+    expectedCosts: [],
+    knownLimitations: ['Paradigm shift from traditional scene graph'],
+    integrationStrategy: 'native-plugin',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'prototyping',
+    applicableSystems: ['npc-simulation', 'cultivation', 'economy', 'ecology', 'history'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'motion-matching',
+    name: 'Motion Matching Animation',
+    category: 'animation',
+    problemSolved: 'Natural character movement by selecting poses from animation database rather than fixed state machines',
+    observedSources: [
+      { type: 'engine-feature', title: 'Unreal Engine 5 Motion Matching', author: 'Epic Games' },
+      { type: 'paper', title: 'Motion Matching (Clavet 2016)', author: 'Daniel Holden' },
+    ],
+    underlyingPrinciples: [
+      'Animation database with pose metadata',
+      'Runtime query for best-matching clip',
+      'Motion warping to target',
+      'Foot IK and terrain adaptation',
+      'Upper/lower body layers',
+    ],
+    maturity: 'research',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Principles from paper, independently implemented' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'CPU algorithm' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'animation-quality', expected: 'natural movement without state machine complexity', confidence: 'medium' },
+    ],
+    expectedCosts: [
+      { metric: 'memory', expected: 'animation database size', confidence: 'high' },
+    ],
+    knownLimitations: ['Requires quality animation data', 'Initial setup is complex'],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    applicableSystems: ['animation', 'character-movement', 'combat'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'gaussian-splat-hybrid',
+    name: 'Gaussian Splat Hybrid Rendering',
+    category: 'rendering',
+    problemSolved: 'Fast rendering of scanned/captured environments with hybrid proxy meshes for gameplay',
+    observedSources: [
+      { type: 'repository', title: 'PlayCanvas WebGPU Gaussian-splat', author: 'PlayCanvas' },
+      { type: 'paper', title: '3D Gaussian Splatting for Real-Time Radiance Field Rendering', author: 'Kerbl et al.' },
+    ],
+    underlyingPrinciples: [
+      'Gaussian splats for visual representation',
+      'Proxy depth mesh for collision',
+      'Explicit collision mesh',
+      'Semantic scene metadata',
+      'GPU sorting and streaming',
+    ],
+    maturity: 'research',
+    licenseAssessment: { license: 'research', compatible: true, notes: 'Research paper, reimplemented from principle' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'none', notes: 'WebGPU needed for splat rendering; no WebGL2 equivalent' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: true, fallback: 'Not feasible without WebGPU' },
+      { feature: 'storage-buffer', required: true, fallback: 'Not feasible' },
+    ],
+    expectedBenefits: [
+      { metric: 'visual-quality', expected: 'photorealistic scanned environments', confidence: 'medium' },
+    ],
+    expectedCosts: [
+      { metric: 'gpu-memory', expected: 'large splat datasets', confidence: 'high' },
+    ],
+    knownLimitations: ['Not authoritative for collision', 'Not for animated characters', 'No WebGL2 fallback'],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    applicableSystems: ['scanned-references', 'distant-scenery', 'concept-visualization'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'clustered-lighting',
+    name: 'Clustered Forward+ Lighting',
+    category: 'rendering',
+    problemSolved: 'Many dynamic lights without performance collapse by clustering lights in view space',
+    observedSources: [
+      { type: 'paper', title: 'Clustered Shading (Olsson et al.)', author: 'Olsson' },
+      { type: 'engine-feature', title: 'Various engine implementations', author: 'Multiple' },
+    ],
+    underlyingPrinciples: [
+      'View-space light clustering',
+      'Per-cluster light list',
+      'Frustum-aligned clusters',
+      'Compute shader light assignment',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Standard technique, independently implemented' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'reduced', notes: 'WebGPU for compute light assignment; WebGL2 uses traditional forward rendering' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: true, fallback: 'CPU light assignment (limited lights)' },
+    ],
+    expectedBenefits: [
+      { metric: 'light-count', expected: '100+ dynamic lights', confidence: 'high' },
+    ],
+    expectedCosts: [],
+    knownLimitations: ['WebGL2 limited to fewer lights'],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'prototyping',
+    applicableSystems: ['renderer', 'lighting'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'worker-wasm-simulation',
+    name: 'Web Worker + WASM Simulation Pipeline',
+    category: 'simulation',
+    problemSolved: 'Main thread cannot own rendering, simulation, pathfinding, generation, meshing, and AI simultaneously',
+    observedSources: [
+      { type: 'documentation', title: 'Web Workers API', author: 'MDN' },
+      { type: 'documentation', title: 'SharedArrayBuffer', author: 'MDN' },
+    ],
+    underlyingPrinciples: [
+      'Main thread: input, UI, presentation',
+      'Simulation workers: NPCs, factions, economy',
+      'Terrain workers: meshing, colliders',
+      'Asset workers: processing, compression',
+      'SharedArrayBuffer for fast path',
+      'Transferable ArrayBuffers for fallback',
+    ],
+    maturity: 'experimental',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Standard web APIs' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'Workers work everywhere; SharedArrayBuffer requires cross-origin isolation' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'main-thread-blocking', expected: '< 2ms main thread', confidence: 'high' },
+    ],
+    expectedCosts: [],
+    knownLimitations: ['SharedArrayBuffer requires COOP/COEP headers', 'Worker startup latency'],
+    integrationStrategy: 'native-plugin',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'accepted',
+    applicableSystems: ['simulation', 'terrain', 'asset-processing', 'ai', 'persistence'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'gltf-ktx2-streaming',
+    name: 'Progressive glTF/KTX2 Asset Streaming',
+    category: 'asset-authoring',
+    problemSolved: 'Efficient asset delivery with compressed geometry and textures across device tiers',
+    observedSources: [
+      { type: 'documentation', title: 'glTF 2.0 Specification', author: 'Khronos' },
+      { type: 'documentation', title: 'KHR_texture_basisu extension', author: 'Khronos' },
+    ],
+    underlyingPrinciples: [
+      'glTF/GLB as primary interchange format',
+      'Meshopt or Draco geometry compression',
+      'KTX2/Basis Universal texture compression',
+      'Progressive LOD streaming',
+      'Content-addressed asset storage',
+    ],
+    maturity: 'production-proven',
+    licenseAssessment: { license: 'MIT/Khronos', compatible: true, notes: 'Open standards, fully compatible' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'Works on all backends' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'download-size', expected: '70-90% texture compression', confidence: 'high' },
+      { metric: 'gpu-memory', expected: 'transcoded format saves memory', confidence: 'high' },
+    ],
+    expectedCosts: [],
+    knownLimitations: [],
+    integrationStrategy: 'native-plugin',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'accepted',
+    applicableSystems: ['asset-pipeline', 'streaming'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'gpu-erosion',
+    name: 'GPU Hydraulic Erosion Simulation',
+    category: 'terrain',
+    problemSolved: 'Realistic terrain erosion patterns for mountains, valleys, and river systems',
+    observedSources: [
+      { type: 'repository', title: 'Babylon.js compute erosion', author: 'Babylon.js' },
+      { type: 'paper', title: 'Hydraulic Erosion (Mei et al.)', author: 'Xing Mei' },
+    ],
+    underlyingPrinciples: [
+      'Compute shader particle-based water flow',
+      'Sediment transport and deposition',
+      'Heightmap modification',
+    ],
+    maturity: 'research',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Algorithm from paper, independently implemented' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: true, webgl2Fallback: 'none', notes: 'WebGPU compute required; WebGL2 has no equivalent' },
+    webgpuRequirements: [
+      { feature: 'compute-shader', required: true, fallback: 'CPU erosion (slow, offline only)' },
+    ],
+    expectedBenefits: [
+      { metric: 'terrain-realism', expected: 'natural erosion patterns', confidence: 'medium' },
+    ],
+    expectedCosts: [
+      { metric: 'gpu-time', expected: 'seconds to minutes for full erosion', confidence: 'high' },
+    ],
+    knownLimitations: ['Offline process, not real-time', 'No WebGL2 fallback'],
+    integrationStrategy: 'independent-reimplementation',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    applicableSystems: ['terrain-generation', 'editor'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'editable-operation-graph',
+    name: 'Editable Operation Graph (Non-destructive)',
+    category: 'editor',
+    problemSolved: 'Preserve editable construction history rather than only a final mesh — Unbound-inspired',
+    observedSources: [
+      { type: 'documentation', title: 'Unbound Engine SDF operation stacks', author: 'Unbound' },
+    ],
+    underlyingPrinciples: [
+      'Operations are selectable, reorderable, parameterized',
+      'Each operation is previewable, disableable, undoable',
+      'Attributable to user or AI',
+      'Procedurally regenerable',
+      'Runtime bakes to optimized meshes; editor retains source graph',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Concept inspired by Unbound, independently implemented' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'Pure data structure' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'edit-flexibility', expected: 'non-destructive editing for all generated content', confidence: 'high' },
+    ],
+    expectedCosts: [],
+    knownLimitations: ['Graph complexity can grow large for complex scenes'],
+    integrationStrategy: 'native-plugin',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'accepted',
+    applicableSystems: ['terrain', 'structures', 'characters', 'settlements', 'technique-effects'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'temporal-aa',
+    name: 'Temporal Anti-Aliasing (TAA)',
+    category: 'rendering',
+    problemSolved: 'Smooth edges and stable image without MSAA performance cost',
+    observedSources: [
+      { type: 'engine-feature', title: 'Standard TAA implementation', author: 'Various' },
+    ],
+    underlyingPrinciples: [
+      'Jittered projection matrix',
+      'Temporal accumulation',
+      'Reprojection from previous frame',
+      'Ghosting mitigation',
+    ],
+    maturity: 'production-proven',
+    licenseAssessment: { license: 'engine-internal', compatible: true, notes: 'Standard technique' },
+    browserFeasibility: { browserFeasible: true, webgpuRequired: false, webgl2Fallback: 'full', notes: 'Works on all backends' },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'image-quality', expected: 'smooth edges, stable image', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'gpu-frame-ms', expected: '+0.5-1ms', confidence: 'high' },
+    ],
+    knownLimitations: ['Ghosting on fast motion', 'Requires motion vectors'],
+    integrationStrategy: 'native-plugin',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'accepted',
+    applicableSystems: ['renderer', 'post-processing'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+  {
+    id: 'modlens-structured-vision',
+    name: 'ModLens — Structured Visual Evidence Adapter',
+    category: 'editor',
+    problemSolved: 'Converts images into structured JSON evidence (OCR, layout, semantics) for text-only LLMs and as a schema-normalized visual evidence provider',
+    observedSources: [
+      { type: 'repository', title: 'liustack/modlens', url: 'https://github.com/liustack/modlens', author: 'liustack', license: 'MIT' },
+    ],
+    underlyingPrinciples: [
+      'Provider-swappable vision adapter (Antigravity CLI, Gemini API, OpenAI-compatible, Anthropic, Claude CLI)',
+      'Schema-normalized visual evidence: OCR, layout regions, reading order, entities, relations, uncertainty',
+      'Intentionally avoids model-generated bounding boxes and confidence scores (fabrication risk)',
+      'Read-only observation — does not modify engine state',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: {
+      license: 'MIT (code) + personal-learning disclaimer (README) + Google account terms (Antigravity provider)',
+      compatible: false,
+      notes: 'MIT code license is compatible. BUT: (1) README says "personal learning and experimentation only"; (2) Antigravity default provider uses --dangerously-skip-permissions; (3) Google account terms and quota apply. Needs legal/operational review before commercial or distributed use.',
+    },
+    browserFeasibility: {
+      browserFeasible: false,
+      webgpuRequired: false,
+      webgl2Fallback: 'none',
+      notes: 'ModLens is a CLI tool, not browser-runnable. Would need a server-side adapter. Antigravity CLI must be installed separately.',
+    },
+    webgpuRequirements: [],
+    expectedBenefits: [
+      { metric: 'ocr-accuracy', expected: 'structured text extraction with reading order and language detection', confidence: 'medium' },
+      { metric: 'layout-analysis', expected: 'region detection with types and reading order', confidence: 'medium' },
+      { metric: 'evidence-schema', expected: 'normalized JSON contract for visual evidence', confidence: 'high' },
+    ],
+    expectedCosts: [
+      { metric: 'latency', expected: '15-40s (Antigravity), 5-10s (Gemini API), few seconds (Anthropic)', confidence: 'medium' },
+      { metric: 'dependency', expected: 'requires Antigravity CLI or API key for chosen provider', confidence: 'high' },
+    ],
+    knownLimitations: [
+      'No pixel-accurate bounding boxes or confidence scores (intentionally removed — models fabricate them)',
+      'Not suitable for exact target grounding (use engine object-ID buffers instead)',
+      'Default Antigravity provider uses --dangerously-skip-permissions (security risk)',
+      'README says "personal learning and experimentation only" — not commercial-ready',
+      'CLI tool, not browser-runnable',
+      'Must be sandboxed if used as an Architect tool',
+    ],
+    integrationStrategy: 'external-adapter',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'researching',
+    qualityModes: [
+      { name: 'ultra', description: 'Gemini 3.1 Pro (dense screenshots)', gpuRequired: false, estimatedCost: '10-30s' },
+      { name: 'high', description: 'Gemini 3.6 Flash (default)', gpuRequired: false, estimatedCost: '5-15s' },
+      { name: 'medium', description: 'Anthropic provider', gpuRequired: false, estimatedCost: 'few seconds' },
+      { name: 'low', description: 'OpenAI-compatible endpoint', gpuRequired: false, estimatedCost: 'provider-dependent' },
+      { name: 'fallback', description: 'Native VLM with structured prompt (no ModLens)', gpuRequired: false, estimatedCost: '3-10s' },
+    ],
+    applicableSystems: ['visual-evidence-fabric', 'visual-accuracy-oracle', 'bible-reference-ingestion', 'screenshot-analysis', 'ci-visual-reports'],
+    createdAt: '2026-08-05T00:00:00Z',
+  },
+];
+
+// ============================================================================
+// Capability Matrix — what's available on each backend/profile
+// ============================================================================
+
+export const CAPABILITY_MATRIX: CapabilityMatrix = {
+  generatedAt: '2026-08-05T00:00:00Z',
+  entries: [
+    {
+      capabilityId: 'gpu-instance-culling',
+      capabilityName: 'GPU Instance Culling',
+      category: 'rendering',
+      byBackend: { webgpu: 'experimental', webgl2: 'unavailable', headless: 'unavailable' },
+      byProfile: { 'legacy-desktop': 'experimental', 'mainstream-desktop': 'experimental', 'high-end-desktop': 'experimental', 'integrated-graphics': 'unavailable', 'mobile-tablet': 'unavailable', 'webgl2-fallback': 'unavailable' },
+      fallbackStrategy: 'CPU culling in worker thread',
+      notes: 'Requires WebGPU compute + indirect draw',
+    },
+    {
+      capabilityId: 'sdf-live-sculpting',
+      capabilityName: 'SDF Live Sculpting',
+      category: 'terrain',
+      byBackend: { webgpu: 'experimental', webgl2: 'native', headless: 'native' },
+      byProfile: { 'legacy-desktop': 'native', 'mainstream-desktop': 'native', 'high-end-desktop': 'native', 'integrated-graphics': 'native', 'mobile-tablet': 'emulated', 'webgl2-fallback': 'native' },
+      fallbackStrategy: 'CPU SDF evaluation in worker',
+      notes: 'WebGPU accelerates meshing; CPU works everywhere',
+    },
+    {
+      capabilityId: 'meshlet-virtualized-geometry',
+      capabilityName: 'Meshlet Virtualized Geometry',
+      category: 'geometry',
+      byBackend: { webgpu: 'unavailable', webgl2: 'unavailable', headless: 'unavailable' },
+      byProfile: { 'legacy-desktop': 'unavailable', 'mainstream-desktop': 'unavailable', 'high-end-desktop': 'unavailable', 'integrated-graphics': 'unavailable', 'mobile-tablet': 'unavailable', 'webgl2-fallback': 'unavailable' },
+      fallbackStrategy: 'Traditional LOD system',
+      notes: 'Research stage — not yet prototyped',
+    },
+    {
+      capabilityId: 'compute-particles',
+      capabilityName: 'GPU Compute Particles',
+      category: 'rendering',
+      byBackend: { webgpu: 'native', webgl2: 'emulated', headless: 'unavailable' },
+      byProfile: { 'legacy-desktop': 'native', 'mainstream-desktop': 'native', 'high-end-desktop': 'native', 'integrated-graphics': 'emulated', 'mobile-tablet': 'emulated', 'webgl2-fallback': 'emulated' },
+      fallbackStrategy: 'CPU particles in worker',
+      notes: 'WebGPU compute; WebGL2 falls back to CPU',
+    },
+    {
+      capabilityId: 'clustered-lighting',
+      capabilityName: 'Clustered Forward+ Lighting',
+      category: 'rendering',
+      byBackend: { webgpu: 'experimental', webgl2: 'unavailable', headless: 'unavailable' },
+      byProfile: { 'legacy-desktop': 'experimental', 'mainstream-desktop': 'experimental', 'high-end-desktop': 'experimental', 'integrated-graphics': 'unavailable', 'mobile-tablet': 'unavailable', 'webgl2-fallback': 'unavailable' },
+      fallbackStrategy: 'Traditional forward rendering (limited lights)',
+      notes: 'WebGPU compute for light assignment',
+    },
+    {
+      capabilityId: 'gaussian-splat-hybrid',
+      capabilityName: 'Gaussian Splat Rendering',
+      category: 'rendering',
+      byBackend: { webgpu: 'unavailable', webgl2: 'unavailable', headless: 'unavailable' },
+      byProfile: { 'legacy-desktop': 'unavailable', 'mainstream-desktop': 'unavailable', 'high-end-desktop': 'unavailable', 'integrated-graphics': 'unavailable', 'mobile-tablet': 'unavailable', 'webgl2-fallback': 'unavailable' },
+      fallbackStrategy: 'No equivalent — use mesh rendering',
+      notes: 'Research stage — no WebGL2 fallback possible',
+    },
+    {
+      capabilityId: 'worker-wasm-simulation',
+      capabilityName: 'Worker/WASM Simulation',
+      category: 'simulation',
+      byBackend: { webgpu: 'native', webgl2: 'native', headless: 'native' },
+      byProfile: { 'legacy-desktop': 'native', 'mainstream-desktop': 'native', 'high-end-desktop': 'native', 'integrated-graphics': 'native', 'mobile-tablet': 'native', 'webgl2-fallback': 'native' },
+      fallbackStrategy: 'Message passing (no SharedArrayBuffer)',
+      notes: 'SharedArrayBuffer requires COOP/COEP',
+    },
+    {
+      capabilityId: 'gltf-ktx2-streaming',
+      capabilityName: 'glTF/KTX2 Asset Streaming',
+      category: 'asset-authoring',
+      byBackend: { webgpu: 'native', webgl2: 'native', headless: 'native' },
+      byProfile: { 'legacy-desktop': 'native', 'mainstream-desktop': 'native', 'high-end-desktop': 'native', 'integrated-graphics': 'native', 'mobile-tablet': 'native', 'webgl2-fallback': 'native' },
+      fallbackStrategy: 'Uncompressed assets (larger download)',
+      notes: 'Production-proven, works everywhere',
+    },
+    {
+      capabilityId: 'editable-operation-graph',
+      capabilityName: 'Editable Operation Graph',
+      category: 'editor',
+      byBackend: { webgpu: 'native', webgl2: 'native', headless: 'native' },
+      byProfile: { 'legacy-desktop': 'native', 'mainstream-desktop': 'native', 'high-end-desktop': 'native', 'integrated-graphics': 'native', 'mobile-tablet': 'native', 'webgl2-fallback': 'native' },
+      fallbackStrategy: 'N/A — pure data structure',
+      notes: 'Non-destructive editing foundation',
+    },
+    {
+      capabilityId: 'temporal-aa',
+      capabilityName: 'Temporal Anti-Aliasing',
+      category: 'rendering',
+      byBackend: { webgpu: 'native', webgl2: 'native', headless: 'unavailable' },
+      byProfile: { 'legacy-desktop': 'native', 'mainstream-desktop': 'native', 'high-end-desktop': 'native', 'integrated-graphics': 'native', 'mobile-tablet': 'emulated', 'webgl2-fallback': 'native' },
+      fallbackStrategy: 'FXAA (cheaper, lower quality)',
+      notes: 'Standard technique',
+    },
+  ],
+};
+
+// ============================================================================
+// Helpers
+// ============================================================================
+
+export function getTechniquesByCategory(techniques: FrontierTechniqueRecord[], category: string): FrontierTechniqueRecord[] {
+  return techniques.filter(t => t.category === category);
+}
+
+export function getTechniquesByDecision(techniques: FrontierTechniqueRecord[], status: string): FrontierTechniqueRecord[] {
+  return techniques.filter(t => t.decisionStatus === status);
+}
+
+export function getAcceptedTechniques(techniques: FrontierTechniqueRecord[]): FrontierTechniqueRecord[] {
+  return techniques.filter(t => t.decisionStatus === 'accepted');
+}
+
+export function getTechniquesWithoutWebGLFallback(techniques: FrontierTechniqueRecord[]): FrontierTechniqueRecord[] {
+  return techniques.filter(t => t.browserFeasibility.webgl2Fallback === 'none');
+}
