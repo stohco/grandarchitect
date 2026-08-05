@@ -225,19 +225,19 @@ function SceneContent() {
       <ambientLight intensity={renderMode === 'solid' ? 1.2 : 0.4} />
       <directionalLight position={[30, 40, 20]} intensity={renderMode === 'solid' ? 0 : 1.2} castShadow
         shadow-mapSize-width={2048} shadow-mapSize-height={2048}
-        shadow-camera-near={0.5} shadow-camera-far={150}
-        shadow-camera-left={-60} shadow-camera-right={60}
-        shadow-camera-top={60} shadow-camera-bottom={-60} />
+        shadow-camera-near={0.5} shadow-camera-far={400}
+        shadow-camera-left={-120} shadow-camera-right={120}
+        shadow-camera-top={120} shadow-camera-bottom={-120} />
       <directionalLight position={[-20, 20, -10]} intensity={renderMode === 'solid' ? 0 : 0.3} />
       <hemisphereLight args={['#87CEEB', '#3B2F1E', renderMode === 'solid' ? 0 : 0.3]} />
-      <fog attach="fog" args={['#1a1a2e', 60, 150]} />
+      <fog attach="fog" args={['#1a1a2e', 200, 600]} />
       <color attach="background" args={['#1a1a2e']} />
 
       <GroundPlane />
 
       {showGrid && (
         <Grid position-y={0.01} args={[100, 100]} cellSize={2} cellThickness={0.5} cellColor="#2a2a4a"
-          sectionSize={10} sectionThickness={1} sectionColor="#3a3a5a" fadeDistance={80} fadeStrength={1} infiniteGrid />
+          sectionSize={10} sectionThickness={1} sectionColor="#3a3a5a" fadeDistance={400} fadeStrength={1} infiniteGrid />
       )}
 
       <ContactShadows position={[0, 0.01, 0]} opacity={0.4} scale={100} blur={2} far={20} />
@@ -335,7 +335,7 @@ export default function Viewport3D() {
         </div>
       ) : (
         <Canvas shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }} style={{ background: '#1a1a2e' }}>
-          <PerspectiveCamera makeDefault position={[40, 35, 40]} fov={50} near={0.1} far={500} />
+          <PerspectiveCamera makeDefault position={[40, 35, 40]} fov={50} near={0.1} far={2000} />
           <SceneContent />
         </Canvas>
       )}
