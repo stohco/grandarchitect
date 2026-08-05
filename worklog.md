@@ -291,3 +291,71 @@ Stage Summary:
 - THE COMPLETE VALIDATION ARCHITECTURE IS NOW IMPLEMENTED. All 6 layers the critique demanded are live.
 - The system is honest: all claims are candidate until human-reviewed, the AI cannot self-approve, every layer reports what it checks and what it doesn't, exercise level is fixture (10 claims).
 - The validation architecture specified in the critique is complete. Next phases: increase claim coverage (add structured claim-blocks to bible docs), build the approval-centered UX with more views (Needs Review, High-Risk, Contradictions, etc.), and connect the entity-level runtime check to the actual viewport.
+
+---
+Task ID: FRONTIER-OBSERVATORY
+Agent: main (Z.ai Code)
+Task: Build the Frontier Technology Observatory, Laboratory, and Integration Program. The goal is not to copy every fashionable feature — the goal is to make the modular engine capable of safely acquiring new techniques without architectural rewrites.
+
+Work Log:
+- Built src/engine/frontier/types.ts: full type system for the frontier program.
+  FrontierTechniqueRecord (problem, sources, principles, maturity, license, feasibility,
+  WebGPU requirements, benefits, costs, limitations, integration strategy, quality modes,
+  decision status). CapabilityMatrix (native/emulated/baked/experimental/unavailable/
+  unsupported per backend and hardware profile). CapabilityGap (when Architect can't do
+  something). EditableOperationGraph (Unbound-inspired non-destructive editing).
+  FrontierPlugin (4 faces: runtime/editor/assetProcessor/architect — O3DE Gem-inspired).
+  PipelineStage (12 stages from discovered to production-decided). FrameBudget (16.67ms
+  allocation: simulation 3ms, physics 2ms, animation 1.5ms, render-prep 1.5ms, GPU 7ms).
+  QualityMode (ultra/high/medium/low/fallback). HardwareProfile (6 tiers from legacy
+  desktop GTX 1070 to mobile).
+
+- Built src/engine/frontier/registry.ts: 15 seed techniques across 10 categories:
+  1. GPU Instance Culling (rendering, prototype) — GPU-driven visibility
+  2. SDF Live Sculpting (terrain, prototype) — Unbound-inspired non-destructive
+  3. Meshlet Virtualized Geometry (geometry, research) — Nanite-inspired
+  4. World Partition Streaming (streaming, prototype) — UE5 + Cesium inspired
+  5. Virtual Shadow Pages (rendering, research) — UE5 VSM inspired
+  6. Compute Particles (rendering, accepted) — Three.js WebGPU compute
+  7. Data-Oriented Simulation (simulation, prototype) — Unity ECS / UE5 Mass / Godot Servers
+  8. Motion Matching (animation, research) — UE5 motion matching
+  9. Gaussian Splat Hybrid (rendering, research) — PlayCanvas + 3DGS paper
+  10. Clustered Lighting (rendering, prototype) — Forward+ clustered
+  11. Worker/WASM Pipeline (simulation, accepted) — Web Workers + SharedArrayBuffer
+  12. glTF/KTX2 Streaming (asset-authoring, accepted) — Khronos standards
+  13. GPU Erosion (terrain, research) — Babylon.js compute erosion
+  14. Editable Operation Graph (editor, accepted) — Unbound-inspired
+  15. Temporal AA (rendering, accepted) — Standard TAA
+
+  Plus 10-entry Capability Matrix showing what's available on WebGPU/WebGL2/headless
+  and 6 hardware profiles.
+
+- Built 2 API routes:
+  GET /api/frontier/techniques — list with filters + summary (15 total, 5 accepted, 5 researching, 3 without WebGL2 fallback)
+  GET /api/frontier/matrix — capability matrix
+
+- Built FrontierLabPanel.tsx (14th dock tab):
+  List view: browse techniques with search + category filter. Detail panel shows problem,
+  principles, license (compatible/incompatible), browser feasibility, WebGL2 fallback
+  (full/reduced/none), benefits, costs, limitations, quality modes (ultra→fallback),
+  sources with links, applicable systems.
+  Matrix view: capability matrix table with color-coded status (native=emerald,
+  emulated=amber, experimental=purple, unavailable=rose) per backend and hardware profile.
+
+- Verified via agent-browser: 14 dock tabs visible including Frontier. API returns 15
+  techniques with honest summary. Matrix shows 10 capabilities across backends.
+
+Stage Summary:
+- Frontier Technology Observatory is LIVE. 15 techniques formally registered with full
+  records (sources, principles, maturity, license, feasibility, benchmarks placeholder,
+  decision status). 5 accepted, 5 researching, 5 prototyping.
+- Capability Matrix shows exactly what's available on each backend and hardware profile.
+  3 techniques have no WebGL2 fallback (virtual shadows, Gaussian splats, GPU erosion).
+- Pipeline stages defined: no technique enters production without passing all 12 stages
+  from discovered to production-decided.
+- Editable Operation Graph schema defined (Unbound-inspired): operations are selectable,
+  reorderable, parameterized, previewable, disableable, undoable, procedurally regenerable.
+  Runtime bakes to optimized meshes; editor retains source graph.
+- Frame budget defined: 16.67ms target (simulation 3ms, physics 2ms, animation 1.5ms,
+  render-prep 1.5ms, GPU 7ms, margin 1.67ms).
+- All pushed to github.com/stohco/grandarchitect.
