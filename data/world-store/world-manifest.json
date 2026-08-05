@@ -1,0 +1,13 @@
+{
+  "worldId": "default-world",
+  "worldName": "Xianxia Multiverse",
+  "createdAt": "2026-08-05T02:19:30.631Z",
+  "lastModified": "2026-08-05T02:19:30.631Z",
+  "graphIds": [
+    "terrain-persistence-test"
+  ],
+  "graphRevisions": {
+    "terrain-persistence-test": 1
+  },
+  "activeBundleId": "bundle-v2-1-msfgl6rh"
+}
