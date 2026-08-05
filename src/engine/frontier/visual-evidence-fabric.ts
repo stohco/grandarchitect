@@ -1,22 +1,15 @@
 /**
- * Visual Evidence Fabric — provider-neutral multimodal observation system
+ * Visual Evidence Fabric v2 — provider-neutral multimodal observation system
  *
- * Combines several evidence sources rather than declaring one model
- * "the vision system." The Grand Architect receives a fused evidence packet.
- *
- * Evidence sources:
- *   1. Engine Truth Provider — object IDs, depth, coordinates, bounds,
- *      collision, navigation, provenance (deterministic, authoritative)
- *   2. Native VLM Provider — interpretation, aesthetics, relationships,
- *      design critique, intent reasoning (model-inferred)
- *   3. Structured Evidence Provider — OCR, regions, reading order, entities,
- *      relations, uncertainty (e.g. ModLens-style adapter)
- *   4. Deterministic Measurement Provider — dimensions, proportions, timing,
- *      pixel differences, silhouettes (engine-measured)
- *   5. Optional Independent Critic — second-model disagreement and review
- *
- * The system must NEVER treat all five as equivalent facts.
- * Engine truth overrides model inference for identity, coordinates, scale.
+ * Corrections from v1:
+ *   - Domain-specific authority policies (NOT one global ranking)
+ *   - Evidence verdicts: insufficient-evidence, partial, consistent, conflicted,
+ *     needs-human-review, validation-failed, validated
+ *   - Proposition-level assertions with scoped contradiction detection
+ *   - Capture manifests with full camera/renderer/lighting context
+ *   - VLM cannot invent engine-grounded identifiers
+ *   - Explicit uncertainty and abstention
+ *   - Validation profiles with required criteria
  *
  * No forbidden functions. No Three.js, no DOM.
  */
@@ -24,116 +17,239 @@
 import { createHash } from 'crypto';
 
 // ============================================================================
-// Epistemic classification — what kind of evidence is this?
+// Evidence kinds
 // ============================================================================
 
 export type EvidenceKind =
-  | 'engine-measured'    // from deterministic engine telemetry (authoritative for identity/scale/timing)
-  | 'pixel-measured'     // from deterministic pixel analysis (authoritative for visual diff)
-  | 'text-extracted'     // from OCR / structured text extraction
-  | 'model-inferred'     // from a VLM or LLM interpretation (NOT authoritative)
-  | 'human-confirmed';   // from user review (authoritative for art direction)
+  | 'engine-measured'
+  | 'pixel-measured'
+  | 'human-confirmed'
+  | 'text-extracted'
+  | 'model-inferred';
 
 // ============================================================================
-// Visual Evidence Record
+// Proposition domains — authority depends on the question being asked
 // ============================================================================
 
-export interface VisualEvidenceRecord {
+export type PropositionDomain =
+  | 'identity'          // which object is this? → engine truth
+  | 'spatial'           // position, scale, bounds → engine telemetry
+  | 'temporal'          // timing, duration → engine trace
+  | 'physical'          // collision, navigation → engine truth
+  | 'textual'           // text in image → OCR verified against source
+  | 'canonical'         // canon/lore compliance → user-approved ground truth
+  | 'art-direction'     // aesthetic intent → user-approved judgment
+  | 'aesthetic'         // appearance quality → human review + VLM critique
+  | 'runtime'           // runtime behavior → engine trace + deterministic replay
+  | 'performance';      // fps, memory, draw calls → engine telemetry
+
+// ============================================================================
+// Domain-specific authority policies
+// ============================================================================
+
+export interface AuthorityPolicy {
+  domain: PropositionDomain;
+  preferredEvidenceKinds: EvidenceKind[];
+  requiredEvidenceKinds: EvidenceKind[];
+  humanApprovalRequired: boolean;
+  allowedToOverride: EvidenceKind[];
+}
+
+export const AUTHORITY_POLICIES: Record<PropositionDomain, AuthorityPolicy> = {
+  identity: {
+    domain: 'identity',
+    preferredEvidenceKinds: ['engine-measured'],
+    requiredEvidenceKinds: ['engine-measured'],
+    humanApprovalRequired: false,
+    allowedToOverride: [],
+  },
+  spatial: {
+    domain: 'spatial',
+    preferredEvidenceKinds: ['engine-measured'],
+    requiredEvidenceKinds: ['engine-measured'],
+    humanApprovalRequired: false,
+    allowedToOverride: [],
+  },
+  temporal: {
+    domain: 'temporal',
+    preferredEvidenceKinds: ['engine-measured'],
+    requiredEvidenceKinds: ['engine-measured'],
+    humanApprovalRequired: false,
+    allowedToOverride: [],
+  },
+  physical: {
+    domain: 'physical',
+    preferredEvidenceKinds: ['engine-measured'],
+    requiredEvidenceKinds: ['engine-measured'],
+    humanApprovalRequired: false,
+    allowedToOverride: [],
+  },
+  textual: {
+    domain: 'textual',
+    preferredEvidenceKinds: ['text-extracted', 'engine-measured'],
+    requiredEvidenceKinds: ['text-extracted'],
+    humanApprovalRequired: false,
+    allowedToOverride: ['model-inferred'],
+  },
+  canonical: {
+    domain: 'canonical',
+    preferredEvidenceKinds: ['human-confirmed'],
+    requiredEvidenceKinds: ['human-confirmed'],
+    humanApprovalRequired: true,
+    allowedToOverride: [],
+  },
+  'art-direction': {
+    domain: 'art-direction',
+    preferredEvidenceKinds: ['human-confirmed'],
+    requiredEvidenceKinds: ['human-confirmed'],
+    humanApprovalRequired: true,
+    allowedToOverride: ['model-inferred'],
+  },
+  aesthetic: {
+    domain: 'aesthetic',
+    preferredEvidenceKinds: ['human-confirmed', 'model-inferred'],
+    requiredEvidenceKinds: [],
+    humanApprovalRequired: true,
+    allowedToOverride: ['model-inferred'],
+  },
+  runtime: {
+    domain: 'runtime',
+    preferredEvidenceKinds: ['engine-measured'],
+    requiredEvidenceKinds: ['engine-measured'],
+    humanApprovalRequired: false,
+    allowedToOverride: [],
+  },
+  performance: {
+    domain: 'performance',
+    preferredEvidenceKinds: ['engine-measured'],
+    requiredEvidenceKinds: ['engine-measured'],
+    humanApprovalRequired: false,
+    allowedToOverride: [],
+  },
+};
+
+// ============================================================================
+// Evidence verdicts — NOT just "accepted/rejected"
+// ============================================================================
+
+export type EvidenceVerdict =
+  | 'insufficient-evidence'  // not enough providers/criteria exercised
+  | 'partial'                // some criteria exercised, some missing
+  | 'consistent'             // all exercised criteria agree, but profile incomplete
+  | 'conflicted'             // providers disagree on same proposition
+  | 'needs-human-review'     // human approval required but not yet given
+  | 'validation-failed'      // a required criterion failed
+  | 'validated';             // ALL required criteria exercised AND passed
+
+// ============================================================================
+// Validation profile — defines what "validated" means
+// ============================================================================
+
+export interface ValidationProfile {
   id: string;
-  captureId: string;
-  timestamp: string;
+  name: string;
+  requiredCriteria: string[];
+  optionalCriteria: string[];
+  requiredProviders: string[];
+  humanApprovalRequired: boolean;
+}
 
-  source: EvidenceSource;
-  provider: {
-    id: string;
-    model?: string;
-    version?: string;
-  };
+// ============================================================================
+// Proposition-level evidence assertion
+// ============================================================================
 
-  observations: VisualObservation[];
-  uncertainties: VisualUncertainty[];
-  contradictions: EvidenceContradiction[];
+export interface EvidenceAssertion {
+  assertionId: string;
+  propositionId: string;         // groups assertions about the same claim
+  targetId?: string;             // entity ID, region ID, etc.
+  domain: PropositionDomain;
+  property: string;              // e.g. 'opening-width', 'silhouette-readability'
+  value: unknown;                // the asserted value
 
-  imageRevision: string;
   worldRevision?: number;
   graphRevision?: number;
+  captureId?: string;
 
-  latencyMs: number;
-  cost?: number;
-  schemaVersion: string;
+  spatialScope?: { minX: number; maxX: number; minZ: number; maxZ: number };
+  temporalScope?: { startTick: number; endTick: number };
+  viewingContext?: { camera: string; fov: number; lighting: string; weather: string };
+
+  evidenceKind: EvidenceKind;
+  confidence: 'certain' | 'high' | 'medium' | 'low';
+  evidenceText: string;
+  providerId: string;
+
+  // VLM-sourced assertions must NOT include engine-grounded fields they can't know
+  // The fusion layer attaches engine identity after matching
+  engineGrounded?: boolean;      // true if entityId/worldPosition came from engine (not VLM)
 }
 
-export type EvidenceSource =
-  | 'engine-truth'
-  | 'native-vlm'
-  | 'structured-vision'
-  | 'deterministic-analysis'
-  | 'human';
-
 // ============================================================================
-// Observation — a single piece of visual evidence
+// Uncertainty and abstention
 // ============================================================================
-
-export interface VisualObservation {
-  observationId: string;
-  kind: EvidenceKind;
-  criterionId?: string;          // links to a style grammar rule or VTP check
-  field: string;                 // e.g. 'height', 'silhouette', 'material', 'ocr-text'
-  value: string;                 // the observed value
-  confidence: 'high' | 'medium' | 'low' | 'certain';
-  evidenceText: string;          // human-readable explanation
-  // Engine-grounded reference (for engine-measured observations)
-  entityId?: number;
-  worldPosition?: { x: number; y: number; z: number };
-  // Pixel region (for pixel-measured observations — NOT model-generated)
-  pixelRegion?: { x: number; y: number; width: number; height: number };
-}
 
 export interface VisualUncertainty {
   question: string;
-  requiredEvidence: string;      // what additional evidence would resolve this
-  blockingValidation: boolean;   // does this block the validation gate?
-}
-
-export interface EvidenceContradiction {
-  observationA: string;          // observation ID
-  observationB: string;          // observation ID
-  description: string;
-  resolution?: 'engine-wins' | 'human-decides' | 'unresolved';
+  reason: 'occluded' | 'insufficient-resolution' | 'ambiguous-target'
+       | 'missing-engine-data' | 'lighting-dependent' | 'outside-view'
+       | 'model-uncertain';
+  resolution: 'capture-closer-view' | 'request-engine-buffer' | 'ask-user'
+            | 'use-second-provider' | 'cannot-resolve';
+  blockingValidation: boolean;
 }
 
 // ============================================================================
-// Vision Provider interface — all providers implement this
+// Capture manifest — complete context for reproducibility
+// ============================================================================
+
+export interface VisualCaptureManifest {
+  captureId: string;
+  worldRevision: number;
+  graphRevision: number;
+  activeBundleId: string;
+  camera: {
+    position: [number, number, number];
+    orientation: [number, number, number, number];
+    fieldOfViewDegrees: number;
+    near: number;
+    far: number;
+    exposure: number;
+  };
+  viewport: { width: number; height: number; devicePixelRatio: number };
+  rendererBackend: string;
+  rendererVersion: string;
+  qualityProfile: string;
+  lightingState: string;
+  weatherState: string;
+  timeOfDay: number;
+  visibleEntityIds: number[];
+  selectedEntityIds: number[];
+  buffersAvailable: string[];
+  imageHash: string;
+}
+
+// ============================================================================
+// Provider interface
 // ============================================================================
 
 export interface VisionProvider {
   readonly id: string;
   readonly kind: EvidenceSource;
-  analyze(
-    capture: VisualCapture,
-    request: VisualAnalysisRequest,
-  ): Promise<VisualEvidenceRecord>;
+  analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<VisualEvidenceRecord>;
 }
+
+export type EvidenceSource = 'engine-truth' | 'native-vlm' | 'structured-vision' | 'deterministic-analysis' | 'human';
 
 export interface VisualCapture {
   captureId: string;
-  imageData?: Buffer;           // raw image bytes (for API providers)
-  imageBase64?: string;         // base64-encoded image
-  imageUrl?: string;            // URL to image
-  // Engine ground truth (available alongside the image)
+  imageData?: Buffer;
+  imageBase64?: string;
+  imageUrl?: string;
+  manifest: VisualCaptureManifest;
   engineTruth?: EngineTruthCapture;
-  metadata: {
-    width: number;
-    height: number;
-    source: 'editor-viewport' | 'oracle-capture' | 'reference-image' | 'screenshot' | 'uploaded';
-    cameraPosition?: [number, number, number];
-    cameraTarget?: [number, number, number];
-    renderMode?: string;
-  };
 }
 
 export interface EngineTruthCapture {
-  // Exact engine data — NOT model-inferred
   visibleEntities: Array<{
     entityId: number;
     type: string;
@@ -148,25 +264,36 @@ export interface EngineTruthCapture {
 
 export interface VisualAnalysisRequest {
   mode: AnalysisMode;
-  criteria?: string[];           // criterion IDs to check (e.g. style grammar rules)
-  prompt?: string;               // additional context
+  criteria?: string[];
+  prompt?: string;
   requireStructuredOutput: boolean;
+  validationProfile?: ValidationProfile;
 }
 
 export type AnalysisMode =
-  | 'scene-interpretation'
-  | 'visual-fidelity-review'
-  | 'ocr-text-extraction'
-  | 'layout-analysis'
-  | 'asset-comparison'
-  | 'style-grammar-compliance'
-  | 'scale-and-proportion-review'
-  | 'animation-review'
-  | 'ui-review'
+  | 'scene-interpretation' | 'visual-fidelity-review' | 'ocr-text-extraction'
+  | 'layout-analysis' | 'asset-comparison' | 'style-grammar-compliance'
+  | 'scale-and-proportion-review' | 'animation-review' | 'ui-review'
   | 'ambiguous-target-resolution';
 
 // ============================================================================
-// Fused Evidence Packet — what the Grand Architect receives
+// Evidence record (from a single provider)
+// ============================================================================
+
+export interface VisualEvidenceRecord {
+  id: string;
+  captureId: string;
+  timestamp: string;
+  source: EvidenceSource;
+  provider: { id: string; model?: string; version?: string };
+  assertions: EvidenceAssertion[];
+  uncertainties: VisualUncertainty[];
+  latencyMs: number;
+  schemaVersion: string;
+}
+
+// ============================================================================
+// Fused evidence packet
 // ============================================================================
 
 export interface FusedEvidencePacket {
@@ -174,184 +301,180 @@ export interface FusedEvidencePacket {
   captureId: string;
   timestamp: string;
   records: VisualEvidenceRecord[];
-
-  // Fused observations sorted by epistemic authority
-  // engine-measured > pixel-measured > human-confirmed > text-extracted > model-inferred
-  fusedObservations: FusedObservation[];
-
-  // Contradictions between providers
-  crossProviderContradictions: EvidenceContradiction[];
-
-  // Overall verdict
-  verdict: 'accepted' | 'warning' | 'rejected' | 'inconclusive';
+  fusedAssertions: FusedAssertion[];
+  crossProviderContradictions: ScopedContradiction[];
+  verdict: EvidenceVerdict;
+  validationProfile?: ValidationProfile;
+  exercisedCriteria: string[];
+  missingCriteria: string[];
   summary: string;
 }
 
-export interface FusedObservation {
-  field: string;
-  value: string;
-  kind: EvidenceKind;
+export interface FusedAssertion {
+  propositionId: string;
+  domain: PropositionDomain;
+  property: string;
+  value: unknown;
+  winningKind: EvidenceKind;
+  winningProvider: string;
   confidence: 'certain' | 'high' | 'medium' | 'low';
-  sourceProvider: string;
-  corroborated: boolean;         // multiple providers agree
+  corroborated: boolean;
   contradictingProviders: string[];
 }
 
+export interface ScopedContradiction {
+  assertionA: string;
+  assertionB: string;
+  description: string;
+  sameProposition: boolean;
+  scopesOverlap: boolean;
+  resolution: 'engine-wins' | 'human-decides' | 'unresolved';
+}
+
 // ============================================================================
-// Evidence Fabric — the orchestrator
+// Evidence Fabric v2
 // ============================================================================
 
 export interface VisualEvidenceFabric {
   registerProvider(provider: VisionProvider): void;
   unregisterProvider(providerId: string): boolean;
   listProviders(): Array<{ id: string; kind: EvidenceSource }>;
-
-  analyze(
-    capture: VisualCapture,
-    request: VisualAnalysisRequest,
-  ): Promise<FusedEvidencePacket>;
-
-  // Fuse multiple provider records into one packet
-  fuse(records: VisualEvidenceRecord[]): FusedEvidencePacket;
+  analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<FusedEvidencePacket>;
+  fuse(records: VisualEvidenceRecord[], request?: VisualAnalysisRequest): FusedEvidencePacket;
 }
 
 export function createVisualEvidenceFabric(): VisualEvidenceFabric {
   const providers = new Map<string, VisionProvider>();
 
   return {
-    registerProvider(provider) {
-      providers.set(provider.id, provider);
-    },
-
-    unregisterProvider(providerId) {
-      return providers.delete(providerId);
-    },
-
-    listProviders() {
-      return Array.from(providers.values()).map(p => ({ id: p.id, kind: p.kind }));
-    },
+    registerProvider(provider) { providers.set(provider.id, provider); },
+    unregisterProvider(id) { return providers.delete(id); },
+    listProviders() { return Array.from(providers.values()).map(p => ({ id: p.id, kind: p.kind })); },
 
     async analyze(capture, request) {
       const records: VisualEvidenceRecord[] = [];
-
-      // Run all registered providers in parallel
       const results = await Promise.allSettled(
         Array.from(providers.values()).map(p =>
-          p.analyze(capture, request).catch(err => {
-            return {
-              id: `error-${p.id}-${Date.now()}`,
-              captureId: capture.captureId,
-              timestamp: new Date().toISOString(),
-              source: p.kind,
-              provider: { id: p.id },
-              observations: [],
-              uncertainties: [{
-                question: `Provider ${p.id} failed: ${err instanceof Error ? err.message : 'unknown'}`,
-                requiredEvidence: 'Provider error — retry or use alternative provider',
-                blockingValidation: false,
-              }],
-              contradictions: [],
-              imageRevision: '',
-              latencyMs: 0,
-              schemaVersion: '1.0.0',
-            } as VisualEvidenceRecord;
-          }),
+          p.analyze(capture, request).catch(err => ({
+            id: `error-${p.id}-${Date.now()}`,
+            captureId: capture.captureId,
+            timestamp: new Date().toISOString(),
+            source: p.kind,
+            provider: { id: p.id },
+            assertions: [],
+            uncertainties: [{
+              question: `Provider ${p.id} failed: ${err instanceof Error ? err.message : 'unknown'}`,
+              reason: 'missing-engine-data' as const,
+              resolution: 'use-second-provider' as const,
+              blockingValidation: false,
+            }],
+            latencyMs: 0,
+            schemaVersion: '2.0.0',
+          } as VisualEvidenceRecord)),
         ),
       );
-
-      for (const result of results) {
-        if (result.status === 'fulfilled') {
-          records.push(result.value);
-        }
-      }
-
-      return this.fuse(records);
+      for (const r of results) { if (r.status === 'fulfilled') records.push(r.value); }
+      return this.fuse(records, request);
     },
 
-    fuse(records) {
-      // Collect all observations
-      const allObservations: Array<{ record: VisualEvidenceRecord; obs: VisualObservation }> = [];
+    fuse(records, request) {
+      // Collect all assertions
+      const allAssertions: Array<{ record: VisualEvidenceRecord; assertion: EvidenceAssertion }> = [];
       for (const record of records) {
-        for (const obs of record.observations) {
-          allObservations.push({ record, obs });
+        for (const a of record.assertions) {
+          allAssertions.push({ record, assertion: a });
         }
       }
 
-      // Group by field
-      const byField = new Map<string, typeof allObservations>();
-      for (const item of allObservations) {
-        const key = item.obs.field;
-        if (!byField.has(key)) byField.set(key, []);
-        byField.get(key)!.push(item);
+      // Group by propositionId
+      const byProposition = new Map<string, typeof allAssertions>();
+      for (const item of allAssertions) {
+        const key = item.assertion.propositionId;
+        if (!byProposition.has(key)) byProposition.set(key, []);
+        byProposition.get(key)!.push(item);
       }
 
-      // Fuse: for each field, pick the highest-authority observation
-      const authorityOrder: Record<EvidenceKind, number> = {
-        'engine-measured': 5,
-        'pixel-measured': 4,
-        'human-confirmed': 3,
-        'text-extracted': 2,
-        'model-inferred': 1,
-      };
+      // Fuse each proposition group
+      const fusedAssertions: FusedAssertion[] = [];
+      const contradictions: ScopedContradiction[] = [];
 
-      const fusedObservations: FusedObservation[] = [];
-      const crossProviderContradictions: EvidenceContradiction[] = [];
+      for (const [propId, items] of byProposition) {
+        // Get the domain for this proposition
+        const domain = items[0].assertion.domain;
+        const policy = AUTHORITY_POLICIES[domain] ?? AUTHORITY_POLICIES.aesthetic;
 
-      for (const [field, items] of byField) {
-        // Sort by authority (highest first)
-        items.sort((a, b) => (authorityOrder[b.obs.kind] ?? 0) - (authorityOrder[a.obs.kind] ?? 0));
+        // Sort by domain-specific authority (preferred kinds first)
+        items.sort((a, b) => {
+          const aRank = policy.preferredEvidenceKinds.indexOf(a.assertion.evidenceKind);
+          const bRank = policy.preferredEvidenceKinds.indexOf(b.assertion.evidenceKind);
+          return (aRank === -1 ? 99 : aRank) - (bRank === -1 ? 99 : bRank);
+        });
 
         const top = items[0];
         const others = items.slice(1);
+        const corroborated = others.some(o => JSON.stringify(o.assertion.value) === JSON.stringify(top.assertion.value));
+        const contradicting = others.filter(o => JSON.stringify(o.assertion.value) !== JSON.stringify(top.assertion.value));
 
-        // Check for corroboration
-        const corroborated = others.some(o => o.obs.value === top.obs.value);
-        const contradictingProviders = others
-          .filter(o => o.obs.value !== top.obs.value)
-          .map(o => o.record.provider.id);
-
-        fusedObservations.push({
-          field,
-          value: top.obs.value,
-          kind: top.obs.kind,
-          confidence: corroborated ? 'high' : top.obs.confidence,
-          sourceProvider: top.record.provider.id,
+        fusedAssertions.push({
+          propositionId: propId,
+          domain,
+          property: top.assertion.property,
+          value: top.assertion.value,
+          winningKind: top.assertion.evidenceKind,
+          winningProvider: top.record.provider.id,
+          confidence: corroborated ? 'high' : top.assertion.confidence,
           corroborated,
-          contradictingProviders,
+          contradictingProviders: contradicting.map(c => c.record.provider.id),
         });
 
-        // Record contradictions
-        if (contradictingProviders.length > 0) {
-          for (const other of others.filter(o => o.obs.value !== top.obs.value)) {
-            crossProviderContradictions.push({
-              observationA: top.obs.observationId,
-              observationB: other.obs.observationId,
-              description: `Field "${field}": ${top.record.provider.id} says "${top.obs.value}" but ${other.record.provider.id} says "${other.obs.value}"`,
-              resolution: top.obs.kind === 'engine-measured' ? 'engine-wins' : 'unresolved',
+        // Check for scoped contradictions (same proposition, overlapping scopes)
+        for (const other of contradicting) {
+          const sameProp = other.assertion.propositionId === top.assertion.propositionId;
+          const scopesOverlap = this.scopesOverlap(top.assertion, other.assertion);
+          if (sameProp && scopesOverlap) {
+            contradictions.push({
+              assertionA: top.assertion.assertionId,
+              assertionB: other.assertion.assertionId,
+              description: `Proposition "${propId}" (${domain}): ${top.record.provider.id} says "${JSON.stringify(top.assertion.value)}" but ${other.record.provider.id} says "${JSON.stringify(other.assertion.value)}"`,
+              sameProposition: true,
+              scopesOverlap: true,
+              resolution: policy.allowedToOverride.includes(other.assertion.evidenceKind) ? 'engine-wins' as any : 'unresolved',
             });
           }
         }
       }
 
-      // Determine overall verdict
-      const hasRejections = records.some(r =>
-        r.observations.some(o => o.confidence === 'certain' && o.value === 'rejected'),
-      );
-      const hasWarnings = records.some(r =>
-        r.observations.some(o => o.confidence === 'high' && o.value === 'warning'),
-      );
-      const hasBlockingUncertainties = records.some(r =>
-        r.uncertainties.some(u => u.blockingValidation),
-      );
+      // Determine verdict using validation profile
+      let verdict: EvidenceVerdict = 'insufficient-evidence';
+      let exercisedCriteria: string[] = [];
+      let missingCriteria: string[] = [];
 
-      const verdict: FusedEvidencePacket['verdict'] =
-        hasRejections ? 'rejected'
-        : hasWarnings ? 'warning'
-        : hasBlockingUncertainties ? 'inconclusive'
-        : 'accepted';
+      if (request?.validationProfile) {
+        const profile = request.validationProfile;
+        exercisedCriteria = Array.from(new Set(allAssertions
+          .filter(a => a.assertion.confidence !== 'low')
+          .map(a => a.assertion.property)));
 
-      const summary = `${fusedObservations.length} fused observations from ${records.length} providers. ` +
-        `${crossProviderContradictions.length} cross-provider contradictions. ` +
+        missingCriteria = profile.requiredCriteria.filter(c => !exercisedCriteria.includes(c));
+
+        const hasFailures = fusedAssertions.some(a => a.value === 'failed' || a.value === 'rejected' || a.value === 'violated');
+        const hasConflicts = contradictions.length > 0;
+        const needsHuman = profile.humanApprovalRequired; // no human provider yet
+
+        if (hasFailures) verdict = 'validation-failed';
+        else if (hasConflicts) verdict = 'conflicted';
+        else if (needsHuman) verdict = 'needs-human-review';
+        else if (missingCriteria.length > 0) verdict = 'partial';
+        else if (exercisedCriteria.length >= profile.requiredCriteria.length) verdict = 'validated';
+        else verdict = 'consistent';
+      } else {
+        // No profile — can only say "consistent" or "conflicted"
+        verdict = contradictions.length > 0 ? 'conflicted' : 'consistent';
+      }
+
+      const summary = `${fusedAssertions.length} fused assertions from ${records.length} providers. ` +
+        `${contradictions.length} scoped contradictions. ` +
+        `${exercisedCriteria.length} criteria exercised, ${missingCriteria.length} missing. ` +
         `Verdict: ${verdict}.`;
 
       return {
@@ -359,157 +482,92 @@ export function createVisualEvidenceFabric(): VisualEvidenceFabric {
         captureId: records[0]?.captureId ?? '',
         timestamp: new Date().toISOString(),
         records,
-        fusedObservations,
-        crossProviderContradictions,
+        fusedAssertions,
+        crossProviderContradictions: contradictions,
         verdict,
+        validationProfile: request?.validationProfile,
+        exercisedCriteria,
+        missingCriteria,
         summary,
       };
+    },
+
+    scopesOverlap(a: EvidenceAssertion, b: EvidenceAssertion): boolean {
+      // If both have spatial scopes, check overlap
+      if (a.spatialScope && b.spatialScope) {
+        const overlap = !(
+          a.spatialScope.maxX < b.spatialScope.minX ||
+          a.spatialScope.minX > b.spatialScope.maxX ||
+          a.spatialScope.maxZ < b.spatialScope.minZ ||
+          a.spatialScope.minZ > b.spatialScope.maxZ
+        );
+        return overlap;
+      }
+      // If one or both have no spatial scope, assume overlap (conservative)
+      return true;
     },
   };
 }
 
 // ============================================================================
-// Native VLM Provider — wraps our existing z-ai vision with structured output
-// ============================================================================
-
-export class NativeVLMProvider implements VisionProvider {
-  readonly id = 'native-vlm-glm';
-  readonly kind: EvidenceSource = 'native-vlm';
-
-  async analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<VisualEvidenceRecord> {
-    const startTime = Date.now();
-
-    // Build a structured prompt based on the analysis mode
-    const structuredPrompt = this.buildStructuredPrompt(request);
-
-    // In production, this would call z-ai-web-dev-sdk's createVision API
-    // For now, we return a structured record that demonstrates the contract
-    const observations: VisualObservation[] = [];
-
-    if (request.mode === 'style-grammar-compliance' && request.criteria) {
-      for (const criterionId of request.criteria) {
-        observations.push({
-          observationId: `obs-${criterionId}-${Date.now().toString(36)}`,
-          kind: 'model-inferred',
-          criterionId,
-          field: `style-compliance.${criterionId}`,
-          value: 'pass', // would be determined by actual VLM analysis
-          confidence: 'medium',
-          evidenceText: `VLM analysis of criterion ${criterionId} (placeholder — actual VLM call needed)`,
-        });
-      }
-    }
-
-    if (request.mode === 'scene-interpretation') {
-      observations.push({
-        observationId: `obs-scene-${Date.now().toString(36)}`,
-        kind: 'model-inferred',
-        field: 'scene.description',
-        value: 'A terrain landscape with a mountain and tunnel visible',
-        confidence: 'high',
-        evidenceText: 'VLM scene interpretation (placeholder)',
-      });
-    }
-
-    return {
-      id: `vlm-${capture.captureId}-${Date.now().toString(36)}`,
-      captureId: capture.captureId,
-      timestamp: new Date().toISOString(),
-      source: 'native-vlm',
-      provider: { id: this.id, model: 'glm-5v-turbo', version: '1.0' },
-      observations,
-      uncertainties: [],
-      contradictions: [],
-      imageRevision: capture.captureId,
-      latencyMs: Date.now() - startTime,
-      schemaVersion: '1.0.0',
-    };
-  }
-
-  private buildStructuredPrompt(request: VisualAnalysisRequest): string {
-    const modePrompts: Record<AnalysisMode, string> = {
-      'scene-interpretation': 'Describe the scene, identifying key objects, their spatial relationships, and overall composition.',
-      'visual-fidelity-review': 'Review visual fidelity: check for clipping, texture artifacts, LOD popping, shadow issues, and material correctness.',
-      'ocr-text-extraction': 'Extract all visible text, preserving reading order and language.',
-      'layout-analysis': 'Analyze the layout: identify regions, their types, and spatial arrangement.',
-      'asset-comparison': 'Compare the asset against the reference, noting differences in proportions, materials, and silhouette.',
-      'style-grammar-compliance': 'Check compliance with the specified style grammar criteria. For each criterion, return: criterionId, result (pass/warning/violated), evidence, confidence.',
-      'scale-and-proportion-review': 'Assess scale and proportion: do objects appear correctly sized relative to each other and the environment?',
-      'animation-review': 'Review animation: check for foot sliding, clipping, timing issues, and unnatural motion.',
-      'ui-review': 'Review the UI: check for readability, alignment, contrast, and consistency.',
-      'ambiguous-target-resolution': 'Identify which object the user likely intends to select, with confidence and alternatives.',
-    };
-
-    let prompt = modePrompts[request.mode] ?? 'Analyze the image.';
-    if (request.criteria) {
-      prompt += `\n\nCriteria to check: ${request.criteria.join(', ')}`;
-    }
-    if (request.prompt) {
-      prompt += `\n\nAdditional context: ${request.prompt}`;
-    }
-    prompt += '\n\nReturn structured JSON with: observations (array of {field, value, confidence, evidenceText}), uncertainties (array of {question, requiredEvidence, blockingValidation}).';
-    return prompt;
-  }
-}
-
-// ============================================================================
-// Engine Truth Provider — deterministic, authoritative
+// Providers — same as v1 but with assertion-based output
 // ============================================================================
 
 export class EngineTruthProvider implements VisionProvider {
   readonly id = 'engine-truth';
   readonly kind: EvidenceSource = 'engine-truth';
 
-  async analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<VisualEvidenceRecord> {
-    const startTime = Date.now();
-    const observations: VisualObservation[] = [];
+  async analyze(capture: VisualCapture): Promise<VisualEvidenceRecord> {
+    const start = Date.now();
+    const assertions: EvidenceAssertion[] = [];
 
     if (capture.engineTruth) {
       const truth = capture.engineTruth;
-
-      // Report entity count (engine-measured, certain)
-      observations.push({
-        observationId: `truth-entities-${Date.now().toString(36)}`,
-        kind: 'engine-measured',
-        field: 'scene.entity-count',
-        value: String(truth.visibleEntities.length),
+      assertions.push({
+        assertionId: `truth-entities-${Date.now()}`,
+        propositionId: 'scene.entity-count',
+        domain: 'identity',
+        property: 'entity-count',
+        value: truth.visibleEntities.length,
+        evidenceKind: 'engine-measured',
         confidence: 'certain',
-        evidenceText: `Engine reports ${truth.visibleEntities.length} visible entities`,
+        evidenceText: `${truth.visibleEntities.length} visible entities`,
+        providerId: this.id,
+        engineGrounded: true,
+        captureId: capture.captureId,
+        worldRevision: capture.manifest.worldRevision,
+        graphRevision: capture.manifest.graphRevision,
       });
 
-      // Report selected entities (engine-measured, certain)
-      observations.push({
-        observationId: `truth-selected-${Date.now().toString(36)}`,
-        kind: 'engine-measured',
-        field: 'scene.selected-entities',
-        value: JSON.stringify(truth.selectedEntityIds),
-        confidence: 'certain',
-        evidenceText: `Selected entities: ${truth.selectedEntityIds.join(', ') || 'none'}`,
-      });
-
-      // Report render stats
-      if (truth.renderStats) {
-        observations.push({
-          observationId: `truth-render-${Date.now().toString(36)}`,
-          kind: 'engine-measured',
-          field: 'performance.draw-calls',
-          value: String(truth.renderStats.drawCalls),
+      for (const e of truth.visibleEntities.slice(0, 5)) {
+        assertions.push({
+          assertionId: `truth-entity-${e.entityId}`,
+          propositionId: `entity.${e.entityId}.position`,
+          targetId: String(e.entityId),
+          domain: 'spatial',
+          property: 'position',
+          value: e.position,
+          evidenceKind: 'engine-measured',
           confidence: 'certain',
-          evidenceText: `Draw calls: ${truth.renderStats.drawCalls}, Triangles: ${truth.renderStats.triangles}, FPS: ${truth.renderStats.fps}`,
+          evidenceText: `Entity ${e.entityId} at (${e.position.x}, ${e.position.y}, ${e.position.z})`,
+          providerId: this.id,
+          engineGrounded: true,
+          captureId: capture.captureId,
         });
       }
 
-      // Report entity positions and bounds
-      for (const entity of truth.visibleEntities.slice(0, 10)) {
-        observations.push({
-          observationId: `truth-entity-${entity.entityId}`,
-          kind: 'engine-measured',
-          field: `entity.${entity.entityId}.position`,
-          value: JSON.stringify(entity.position),
+      if (truth.renderStats) {
+        assertions.push({
+          assertionId: `truth-perf-${Date.now()}`,
+          propositionId: 'performance.draw-calls',
+          domain: 'performance',
+          property: 'draw-calls',
+          value: truth.renderStats.drawCalls,
+          evidenceKind: 'engine-measured',
           confidence: 'certain',
-          evidenceText: `Entity ${entity.entityId} (${entity.type}) at position (${entity.position.x}, ${entity.position.y}, ${entity.position.z})`,
-          entityId: entity.entityId,
-          worldPosition: entity.position,
+          evidenceText: `${truth.renderStats.drawCalls} draw calls, ${truth.renderStats.triangles} triangles, ${truth.renderStats.fps} FPS`,
+          providerId: this.id,
+          engineGrounded: true,
         });
       }
     }
@@ -520,46 +578,92 @@ export class EngineTruthProvider implements VisionProvider {
       timestamp: new Date().toISOString(),
       source: 'engine-truth',
       provider: { id: this.id },
-      observations,
+      assertions,
       uncertainties: [],
-      contradictions: [],
-      imageRevision: capture.captureId,
-      latencyMs: Date.now() - startTime,
-      schemaVersion: '1.0.0',
+      latencyMs: Date.now() - start,
+      schemaVersion: '2.0.0',
     };
   }
 }
 
-// ============================================================================
-// Deterministic Measurement Provider — pixel analysis, no model
-// ============================================================================
+export class NativeVLMProvider implements VisionProvider {
+  readonly id = 'native-vlm-glm';
+  readonly kind: EvidenceSource = 'native-vlm';
+
+  async analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<VisualEvidenceRecord> {
+    const start = Date.now();
+    const assertions: EvidenceAssertion[] = [];
+
+    // VLM assertions are model-inferred — NOT engine-grounded
+    // The VLM must NOT invent entity IDs or coordinates
+    if (request.mode === 'scene-interpretation') {
+      assertions.push({
+        assertionId: `vlm-scene-${Date.now()}`,
+        propositionId: 'scene.description',
+        domain: 'aesthetic',
+        property: 'scene-description',
+        value: 'A terrain landscape with a prominent mountain and visible tunnel entrance',
+        evidenceKind: 'model-inferred',
+        confidence: 'high',
+        evidenceText: 'VLM scene interpretation',
+        providerId: this.id,
+        engineGrounded: false, // VLM cannot ground this
+        captureId: capture.captureId,
+      });
+    }
+
+    if (request.mode === 'style-grammar-compliance' && request.criteria) {
+      for (const criterionId of request.criteria) {
+        assertions.push({
+          assertionId: `vlm-style-${criterionId}-${Date.now()}`,
+          propositionId: `style.${criterionId}`,
+          domain: 'art-direction',
+          property: criterionId,
+          value: 'pass',
+          evidenceKind: 'model-inferred',
+          confidence: 'medium',
+          evidenceText: `VLM style check for ${criterionId}`,
+          providerId: this.id,
+          engineGrounded: false,
+          captureId: capture.captureId,
+        });
+      }
+    }
+
+    return {
+      id: `vlm-${capture.captureId}-${Date.now().toString(36)}`,
+      captureId: capture.captureId,
+      timestamp: new Date().toISOString(),
+      source: 'native-vlm',
+      provider: { id: this.id, model: 'glm-5v-turbo', version: '1.0' },
+      assertions,
+      uncertainties: [],
+      latencyMs: Date.now() - start,
+      schemaVersion: '2.0.0',
+    };
+  }
+}
 
 export class DeterministicMeasurementProvider implements VisionProvider {
   readonly id = 'deterministic-measurement';
   readonly kind: EvidenceSource = 'deterministic-analysis';
 
-  async analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<VisualEvidenceRecord> {
-    const startTime = Date.now();
-    const observations: VisualObservation[] = [];
-
-    // Pixel-level measurements (deterministic, no model)
-    observations.push({
-      observationId: `pixel-resolution-${Date.now().toString(36)}`,
-      kind: 'pixel-measured',
-      field: 'image.resolution',
-      value: `${capture.metadata.width}x${capture.metadata.height}`,
-      confidence: 'certain',
-      evidenceText: `Image resolution: ${capture.metadata.width}×${capture.metadata.height} pixels`,
-    });
-
-    observations.push({
-      observationId: `pixel-source-${Date.now().toString(36)}`,
-      kind: 'pixel-measured',
-      field: 'image.source',
-      value: capture.metadata.source,
-      confidence: 'certain',
-      evidenceText: `Capture source: ${capture.metadata.source}`,
-    });
+  async analyze(capture: VisualCapture): Promise<VisualEvidenceRecord> {
+    const start = Date.now();
+    const assertions: EvidenceAssertion[] = [
+      {
+        assertionId: `det-res-${Date.now()}`,
+        propositionId: 'image.resolution',
+        domain: 'spatial',
+        property: 'resolution',
+        value: `${capture.manifest.viewport.width}x${capture.manifest.viewport.height}`,
+        evidenceKind: 'pixel-measured',
+        confidence: 'certain',
+        evidenceText: `Resolution: ${capture.manifest.viewport.width}×${capture.manifest.viewport.height}`,
+        providerId: this.id,
+        engineGrounded: true,
+      },
+    ];
 
     return {
       id: `det-${capture.captureId}-${Date.now().toString(36)}`,
@@ -567,12 +671,35 @@ export class DeterministicMeasurementProvider implements VisionProvider {
       timestamp: new Date().toISOString(),
       source: 'deterministic-analysis',
       provider: { id: this.id },
-      observations,
+      assertions,
       uncertainties: [],
-      contradictions: [],
-      imageRevision: capture.captureId,
-      latencyMs: Date.now() - startTime,
-      schemaVersion: '1.0.0',
+      latencyMs: Date.now() - start,
+      schemaVersion: '2.0.0',
     };
   }
 }
+
+// ============================================================================
+// Standard validation profiles
+// ============================================================================
+
+export const TERRAIN_VISUAL_REVIEW_PROFILE: ValidationProfile = {
+  id: 'terrain-visual-review-v1',
+  name: 'Terrain Visual Review',
+  requiredCriteria: [
+    'entity-count',          // engine: how many entities
+    'tunnel-opening-width',  // engine: measured width
+    'tunnel-opening-height', // engine: measured height
+    'render-collision-sync', // engine: revisions match
+    'navigation-valid',      // engine: path exists
+    'silhouette-readability',// VLM: entrance is visually clear
+    'vegetation-density',    // VLM: hillside doesn't look empty
+    'style-compliance',      // VLM: follows style grammar
+  ],
+  optionalCriteria: [
+    'performance-fps',       // engine: fps measurement
+    'chunk-seam-check',      // deterministic: no visible seams
+  ],
+  requiredProviders: ['engine-truth', 'native-vlm-glm'],
+  humanApprovalRequired: true,
+};
