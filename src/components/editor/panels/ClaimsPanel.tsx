@@ -194,10 +194,10 @@ export default function ClaimsPanel() {
       </div>
 
       {/* Honesty warning */}
-      <div className="border-b border-[#2a2a4a] bg-amber-500/5 px-3 py-1 text-[9px] text-amber-400/80">
-        All claims are CANDIDATE until human-reviewed. 5/6 validation layers implemented
-        (structural, semantic-graph, numerical, provenance, natural-language-semantic).
-        Runtime-enforcement layer pending. Exercise level: fixture (10 claims).
+      <div className="border-b border-[#2a2a4a] bg-emerald-500/5 px-3 py-1 text-[9px] text-emerald-400/80">
+        6/6 validation layers implemented (structural, semantic-graph, numerical,
+        provenance, natural-language-semantic, runtime-enforcement). All claims are
+        CANDIDATE until human-reviewed. Exercise level: fixture (10 claims).
       </div>
 
       {/* Filters */}
