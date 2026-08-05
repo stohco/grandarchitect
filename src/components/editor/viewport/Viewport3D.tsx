@@ -14,7 +14,7 @@
 
 import { useRef, useMemo, useEffect, useCallback } from 'react';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
-import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, PerspectiveCamera, TransformControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
@@ -125,10 +125,11 @@ function GroundPlane() {
 // Structure Mesh
 // ---------------------------------------------------------------------------
 
-function StructureMesh({ entityId, position, rotation, width, depth, kind, name, isSelected, isHovered }: {
+function StructureMesh({ entityId, position, rotation, width, depth, kind, name, isSelected, isHovered, groupRef }: {
   entityId: number; position: { x: number; z: number }; rotation: number;
   width: number; depth: number; kind: StructureKind; name: string;
   isSelected: boolean; isHovered: boolean;
+  groupRef?: React.Ref<THREE.Group>;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const height = KIND_HEIGHTS[kind];
@@ -140,7 +141,7 @@ function StructureMesh({ entityId, position, rotation, width, depth, kind, name,
   const isFlat = kind === 'path' || kind === 'paddy' || kind === 'threshing_ground';
 
   return (
-    <group position={[position.x, 0, position.z]} rotation-y={rotRad}>
+    <group ref={groupRef} position={[position.x, 0, position.z]} rotation-y={rotRad}>
       <mesh
         ref={meshRef} castShadow={!isFlat} receiveShadow
         position-y={isFlat ? 0.01 : isWell ? 0 : isShrine ? 0 : height / 2}
@@ -178,6 +179,117 @@ function StructureMesh({ entityId, position, rotation, width, depth, kind, name,
         </Html>
       )}
     </group>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Transform Gizmo — wraps the selected structure with Drei TransformControls
+// ---------------------------------------------------------------------------
+
+function TransformGizmo() {
+  const selectedEntityIds = useEditorStore((s) => s.selectedEntityIds);
+  const transformMode = useEditorStore((s) => s.transformMode);
+  const showGizmos = useEditorStore((s) => s.showGizmos);
+  const snapEnabled = useEditorStore((s) => s.snapEnabled);
+  const groupRef = useRef<THREE.Group>(null);
+
+  // Sync the group's transform to the selected entity's effective transform
+  // whenever selection or edits change. This runs AFTER the StructureMesh
+  // has been positioned, so the gizmo appears at the right place.
+  const settlement = useEditorStore((s) => s.settlement);
+  const edits = useEditorStore((s) => s.edits);
+
+  useEffect(() => {
+    const g = groupRef.current;
+    if (!g || selectedEntityIds.length === 0) return;
+    const id = selectedEntityIds[0];
+    const effective = getEffective(settlement, edits, id);
+    if (!effective) return;
+    g.position.set(effective.position.x, 0, effective.position.z);
+    g.rotation.y = (effective.rotation * Math.PI) / 180;
+  }, [selectedEntityIds, settlement, edits]);
+
+  if (!showGizmos || selectedEntityIds.length === 0) return null;
+
+  const id = selectedEntityIds[0];
+  const effective = getEffective(settlement, edits, id);
+  if (!effective) return null;
+
+  const commitTransform = () => {
+    const g = groupRef.current;
+    if (!g) return;
+    // Read the gizmo's final transform and commit to store.
+    const newX = g.position.x;
+    const newZ = g.position.z;
+    const newRotDeg = (g.rotation.y * 180) / Math.PI;
+    const store = useEditorStore.getState();
+    const base = store.settlement?.structures.find((s) => s.entityId === id);
+    if (!base) return;
+    // Scale: the group's scale represents the ratio of new width/depth to base.
+    const newW = Math.max(0.5, base.width * g.scale.x);
+    const newD = Math.max(0.5, base.depth * g.scale.z);
+
+    // Snap if enabled
+    let snapX = newX, snapZ = newZ, snapRot = newRotDeg, snapW = newW, snapD = newD;
+    if (snapEnabled) {
+      snapX = Math.round(newX * 4) / 4;
+      snapZ = Math.round(newZ * 4) / 4;
+      snapRot = Math.round(newRotDeg / 15) * 15;
+      snapW = Math.round(newW * 10) / 10;
+      snapD = Math.round(newD * 10) / 10;
+    }
+
+    // Validate finite values
+    if (!Number.isFinite(snapX) || !Number.isFinite(snapZ) || !Number.isFinite(snapRot) ||
+        !Number.isFinite(snapW) || !Number.isFinite(snapD)) return;
+
+    store.applyEdits([
+      { entityId: id, field: 'position.x', value: snapX },
+      { entityId: id, field: 'position.z', value: snapZ },
+      { entityId: id, field: 'rotation', value: snapRot },
+      { entityId: id, field: 'width', value: snapW },
+      { entityId: id, field: 'depth', value: snapD },
+    ]);
+  };
+
+  return (
+    <TransformControls
+      object={groupRef}
+      mode={transformMode}
+      size={0.8}
+      translationSnap={snapEnabled ? 0.25 : null}
+      rotationSnap={snapEnabled ? (Math.PI / 12) : null}
+      scaleSnap={snapEnabled ? 0.1 : null}
+      onObjectChange={() => {
+        // Live preview — the StructureMesh reads from the store, but during
+        // drag we don't commit yet. The gizmo directly manipulates the group,
+        // which is the StructureMesh's parent, so the user sees the drag.
+      }}
+      onMouseUp={commitTransform}
+      onDraggingChange={(e: { value: boolean }) => {
+        if (!e.value) {
+          // Drag ended — commit
+          commitTransform();
+        }
+      }}
+    >
+      {/* Invisible proxy group that the gizmo controls.
+          The selected StructureMesh is rendered as a child so its transform
+          follows the gizmo. */}
+      <group ref={groupRef} position={[effective.position.x, 0, effective.position.z]} rotation-y={(effective.rotation * Math.PI) / 180}>
+        <StructureMesh
+          entityId={id}
+          position={{ x: 0, z: 0 }}
+          rotation={0}
+          width={effective.width}
+          depth={effective.depth}
+          kind={settlement?.structures.find((s) => s.entityId === id)?.kind ?? 'household'}
+          name={settlement?.structures.find((s) => s.entityId === id)?.name ?? ''}
+          isSelected={true}
+          isHovered={false}
+        />
+      </group>
+    </TransformControls>
   );
 }
 
@@ -247,14 +359,18 @@ function SceneContent() {
         .map((s) => {
           const effective = getEffective(settlement, edits, s.entityId);
           if (!effective) return null;
+          const isSelected = selectedEntityIds.includes(s.entityId);
           return (
             <StructureMesh key={s.entityId} entityId={s.entityId} position={effective.position}
               rotation={effective.rotation} width={effective.width} depth={effective.depth}
               kind={s.kind} name={s.name}
-              isSelected={selectedEntityIds.includes(s.entityId)}
+              isSelected={isSelected}
               isHovered={hoveredEntityId === s.entityId} />
           );
         })}
+
+      {/* Transform gizmo on the selected structure */}
+      <TransformGizmo />
 
       <mesh position={[0, -0.1, 0]} rotation-x={-Math.PI / 2} visible={false} onClick={handleBackgroundClick}>
         <planeGeometry args={[500, 500]} />
