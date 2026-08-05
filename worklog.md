@@ -919,3 +919,61 @@ Stage Summary:
 - Cron: robust 15-min QA job with bounded scope and explicit time budget
 - 0 compile errors, 0 runtime errors, 0 crashes
 - APIs verified: /api/editor/crash-report (GET lists reports), /api/frontier/collision-tests (5/5 pass)
+
+---
+Task ID: ASSET-INTELLIGENCE-STAGES-1-4
+Agent: main (Z.ai Code)
+Task: Implement Hunyuan3D-Buffalo integration per user's architectural specification — provider-neutral interfaces, mock provider, asset forge, acceptance gate, UI panel
+
+Work Log:
+- Created src/engine/assets/semantic-asset.ts — engine-owned, provider-neutral:
+  SemanticAsset, SemanticPartGraph, EditableRegion, AttachmentPoint,
+  CandidateAsset, AssetDiff, AIAssetEditNode, AssetProvenance, AssetValidationState
+- Created src/engine/assets/unified-provider.ts — provider-neutral contract:
+  Unified3DProvider interface with understand/generate/edit/extractParts
+  ProviderCapability with implemented/requiresRemoteGPU/hardwareRequirements
+- Created src/engine/assets/providers/hunyuan3d-buffalo.ts — mock provider:
+  available=false, all capabilities implemented=false
+  Returns mock candidates with explicit warnings
+  Correct classification: research/researching/none
+- Created src/engine/assets/asset-forge.ts — provider broker:
+  registerProvider, selectProvider, job tracking
+  Protected-part validation (rejects if target ∩ protected ≠ ∅)
+  Singleton getAssetForge() — Buffalo auto-registered
+- Created src/engine/assets/acceptance-gate.ts — game-readiness validation:
+  validateCandidate() with 9 deterministic checks:
+  finite geometry, valid indices, degenerate triangles, triangle/vertex budget,
+  normals, bounds sanity, protected-region deviation, provenance
+  Returns AcceptanceResult with checks + defects + summary
+- Created src/engine/assets/refinement.ts — boundary stitching interface:
+  GeometryRefinementCapability, refineBoundary()
+  Provider-neutral — built-in, retopology, AI, or DCC adapter
+- Added FrontierTechniqueRecord + CapabilityMatrix types to frontier/types.ts
+  (were missing — registry imported them but types didn't exist)
+- Registered 'unified-3d-asset-intelligence' technique in registry:
+  category=ai-asset-authoring, maturity=research, decision=researching,
+  runtimeAuthority=none, blocker documented, paperRef=arXiv:2608.02711
+- Created API routes:
+  GET/POST /api/assets/forge — list providers/jobs, submit jobs
+  POST /api/assets/validate — run acceptance gate
+  Both dev-only guarded
+- Created AssetForgePanel UI component — bottom dock 'Forge' tab:
+  Provider list with availability status
+  Job submission form (generate/edit/understand/extract-parts)
+  Recent jobs with status icons
+  Last result JSON viewer
+  Architecture note + mock warning banner
+- Wired AssetForgePanel into EditorLayout BOTTOM_TABS + TALL_TABS
+- Also fixed: gizmo restored (TransformControls from Drei), zoom freed
+  (camera controller only animates 60 frames after preset change), fog
+  pushed out (200-600 range), build provenance manifest, inverse-patch undo,
+  conformance exit-code check, API safety guards, .gitignore cleanup
+
+Stage Summary:
+- Stage 1 (provider-neutral interfaces): COMPLETE
+- Stage 2 (mock provider): COMPLETE
+- Stage 3 (acceptance gate): COMPLETE
+- Stage 4 (refinement interface): COMPLETE (interface only, implementation pending)
+- Stage 5 (Grand Architect tool integration): NOT STARTED
+- Stage 6 (UnboundLoop orchestration): NOT STARTED
+- All code on GitHub at 86fdbc2, lint clean, APIs verified
