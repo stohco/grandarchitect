@@ -235,7 +235,7 @@ export default function ConstraintsPanel() {
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="flex items-center gap-2 border-b border-[#2a2a4a] px-3 py-1.5">
+      <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
         <GitBranch className="h-3.5 w-3.5 text-emerald-400" />
         <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">
           Constraint Solver · Proof

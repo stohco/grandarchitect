@@ -78,7 +78,7 @@ export default function AssetBrowserPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-2 border-b border-[#2a2a4a] px-3 py-1.5">
+      <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
         <FolderOpen className="h-3.5 w-3.5 text-amber-400" />
         <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Asset Browser</span>
         <Badge variant="outline" className="h-4 border-[#2a2a4a] bg-[#1a1a2e] text-[9px] text-[#aaaacc]">{ASSET_CATALOG.length}</Badge>

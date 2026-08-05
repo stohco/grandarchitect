@@ -10,7 +10,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ResizablePanelGroup,
   ResizablePanel,
@@ -27,9 +27,23 @@ import {
   ChevronUp,
   ChevronDown,
   Monitor,
+  ShieldAlert,
+  ListTree,
+  Settings2,
+  Cpu,
+  MemoryStick,
+  Move,
+  RotateCcw,
+  Maximize2,
+  Activity,
 } from 'lucide-react';
 import { useEditorStore } from '@/lib/editor/store';
-import type { WorldExecutionState } from '@/lib/editor/types';
+import type { WorldExecutionState, TransformMode } from '@/lib/editor/types';
+import {
+  installCrashObservatory,
+  getCrashCount,
+  subscribeToCrashes,
+} from '@/lib/editor/crash-observatory';
 
 import OutlinerPanel from '@/components/editor/panels/OutlinerPanel';
 import InspectorPanel from '@/components/editor/panels/InspectorPanel';
@@ -41,9 +55,11 @@ import ReasoningPanel from '@/components/editor/panels/ReasoningPanel';
 import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
 import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
 import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
+import FrontierPanel from '@/components/editor/panels/FrontierPanel';
 import ConformancePanel from '@/components/editor/panels/ConformancePanel';
 import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
 import EnginePanel from '@/components/editor/panels/EnginePanel';
+import CrashObservatoryPanel from '@/components/editor/panels/CrashObservatoryPanel';
 import ArchitectPresence from '@/components/editor/ArchitectPresence';
 import EditorToolbar from '@/components/editor/toolbar/EditorToolbar';
 import WorldGenBar from '@/components/editor/toolbar/WorldGenBar';
@@ -92,10 +108,190 @@ function formatWorldState(s: WorldExecutionState): string {
 }
 
 // ---------------------------------------------------------------------------
+// Status Bar — sticky footer with crash indicator, transform mode, memory
+// ---------------------------------------------------------------------------
+
+interface PerformanceMemory {
+  usedJSHeapSize: number;
+  totalJSHeapSize: number;
+  jsHeapSizeLimit: number;
+}
+interface WindowWithMemory extends Window {
+  performance?: Performance & { memory?: PerformanceMemory };
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes}B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)}KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+const TRANSFORM_ICON: Record<TransformMode, React.ComponentType<{ className?: string }>> = {
+  translate: Move,
+  rotate: RotateCcw,
+  scale: Maximize2,
+};
+
+function StatusBar() {
+  const transformMode = useEditorStore((s) => s.transformMode);
+  const worldState = useEditorStore((s) => s.worldState);
+  const editorMode = useEditorStore((s) => s.editorMode);
+  const frozenTick = useEditorStore((s) => s.frozenTick);
+  const perf = useEditorStore((s) => s.perf);
+  const showBottomDock = useEditorStore((s) => s.showBottomDock);
+  const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
+  const setActiveBottomTab = useEditorStore((s) => s.setActiveBottomTab);
+
+  // Install the crash observatory once for the whole editor shell, then
+  // subscribe to live crash counts. Initial count is read via the lazy
+  // useState initializer so we don't trigger a synchronous setState-in-effect.
+  const [crashCount, setCrashCount] = useState<number>(() => {
+    try {
+      return getCrashCount();
+    } catch {
+      return 0;
+    }
+  });
+  const [memBytes, setMemBytes] = useState<number | null>(null);
+
+  useEffect(() => {
+    const uninstall = installCrashObservatory();
+    // After install, sync the count in case the observatory had any
+    // pre-existing records (e.g. from a prior mount under HMR). Use a
+    // microtask so it isn't a synchronous setState-in-effect.
+    const sync = () => setCrashCount(getCrashCount());
+    Promise.resolve().then(sync);
+    const unsub = subscribeToCrashes(sync);
+    return () => {
+      unsub();
+      uninstall();
+    };
+  }, []);
+
+  // Poll memory usage every 2 seconds. performance.memory is Chrome-only;
+  // on other browsers we just don't show the value.
+  useEffect(() => {
+    let cancelled = false;
+    const read = () => {
+      if (cancelled) return;
+      try {
+        const w = window as WindowWithMemory;
+        const m = w.performance?.memory;
+        if (m && typeof m.usedJSHeapSize === 'number') {
+          setMemBytes(m.usedJSHeapSize);
+        }
+      } catch {
+        // ignore — performance.memory may be unavailable
+      }
+    };
+    read();
+    const t = setInterval(read, 2000);
+    return () => {
+      cancelled = true;
+      clearInterval(t);
+    };
+  }, []);
+
+  const openCrashObservatory = () => {
+    if (!showBottomDock) toggleBottomDock();
+    setActiveBottomTab('crashes');
+  };
+
+  const TransformIcon = TRANSFORM_ICON[transformMode];
+
+  return (
+    <footer
+      role="contentinfo"
+      aria-label="Editor status bar"
+      className="flex h-6 shrink-0 items-center gap-3 border-t border-[#2a2a4a] bg-[#0e0e24] px-3 font-mono text-[10px] text-[#8888aa]"
+    >
+      {/* Editor mode */}
+      <span className="flex items-center gap-1">
+        <Cpu className="h-3 w-3 text-emerald-400" />
+        <span className="capitalize">{editorMode.replace('_', ' ')}</span>
+      </span>
+
+      <span aria-hidden className="h-3 w-px bg-[#2a2a4a]" />
+
+      {/* Transform mode */}
+      <span className="flex items-center gap-1" title="Active transform mode">
+        <TransformIcon className="h-3 w-3 text-emerald-400" />
+        <span className="capitalize">{transformMode}</span>
+      </span>
+
+      <span aria-hidden className="h-3 w-px bg-[#2a2a4a]" />
+
+      {/* World state */}
+      <span className="flex items-center gap-1" title="World execution state">
+        <Activity className="h-3 w-3 text-amber-400" />
+        <span>{formatWorldState(worldState)}</span>
+      </span>
+
+      <span aria-hidden className="h-3 w-px bg-[#2a2a4a]" />
+
+      {/* Tick */}
+      <span title="Frozen simulation tick">tick {frozenTick}</span>
+
+      <div className="flex-1" />
+
+      {/* FPS (from viewport perf) */}
+      <span title="Frames per second">{perf.fps} FPS</span>
+
+      {/* Memory usage (Chrome only) */}
+      {memBytes != null && (
+        <>
+          <span aria-hidden className="h-3 w-px bg-[#2a2a4a]" />
+          <span className="flex items-center gap-1" title="JS heap usage (Chrome only)">
+            <MemoryStick className="h-3 w-3 text-[#5a5a7a]" />
+            {formatBytes(memBytes)}
+          </span>
+        </>
+      )}
+
+      {/* Crash indicator */}
+      <button
+        type="button"
+        onClick={openCrashObservatory}
+        className={`flex items-center gap-1 rounded px-1.5 py-0.5 transition-colors ${
+          crashCount > 0
+            ? 'bg-red-500/15 text-red-300 hover:bg-red-500/25'
+            : 'text-[#5a5a7a] hover:bg-[#1e1e3e] hover:text-[#aaaacc]'
+        }`}
+        aria-label={
+          crashCount > 0
+            ? `${crashCount} crashes recorded — open Crash Observatory`
+            : 'No crashes recorded — open Crash Observatory'
+        }
+        title={
+          crashCount > 0
+            ? `${crashCount} crashes — open Crash Observatory`
+            : 'Open Crash Observatory'
+        }
+      >
+        <span
+          aria-hidden
+          className={`h-1.5 w-1.5 rounded-full ${
+            crashCount > 0 ? 'bg-red-400 animate-pulse' : 'bg-emerald-400'
+          }`}
+        />
+        <ShieldAlert className="h-3 w-3" />
+        {crashCount > 0 && <span>{crashCount}</span>}
+      </button>
+    </footer>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Bottom Dock
 // ---------------------------------------------------------------------------
 
-const BOTTOM_TABS = [
+type BottomTab = {
+  value: string;
+  label: string;
+  icon?: React.ComponentType<{ className?: string }>;
+};
+
+const BOTTOM_TABS: readonly BottomTab[] = [
   { value: 'console', label: 'Console' },
   { value: 'architect', label: 'Architect' },
   { value: 'assets', label: 'Assets' },
@@ -108,7 +304,9 @@ const BOTTOM_TABS = [
   { value: 'constraints', label: 'Constraints' },
   { value: 'complexity', label: 'Complexity' },
   { value: 'benchmarks', label: 'Benchmarks' },
-] as const;
+  { value: 'frontier', label: 'Frontier' },
+  { value: 'crashes', label: 'Crashes', icon: ShieldAlert },
+];
 
 /** Tabs that benefit from a slightly taller dock (dense content panels). */
 const TALL_TABS = new Set([
@@ -119,6 +317,8 @@ const TALL_TABS = new Set([
   'conformance',
   'capabilities',
   'engine',
+  'crashes',
+  'frontier',
 ]);
 
 function HistoryPanel() {
@@ -170,11 +370,15 @@ function BottomDock() {
       <div className="flex items-center justify-between border-b border-[#2a2a4a]">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="h-7 w-full justify-start gap-0 rounded-none border-0 bg-transparent p-0">
-            {BOTTOM_TABS.map((t) => (
-              <TabsTrigger key={t.value} value={t.value} className="h-7 rounded-none border-b-2 border-transparent px-3 text-[11px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none hover:text-[#8888aa]">
-                {t.label}
-              </TabsTrigger>
-            ))}
+            {BOTTOM_TABS.map((t) => {
+              const Icon = t.icon;
+              return (
+                <TabsTrigger key={t.value} value={t.value} className="h-7 rounded-none border-b-2 border-transparent px-3 text-[11px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none hover:text-[#8888aa]">
+                  {Icon && <Icon className="mr-1 h-3 w-3" />}
+                  {t.label}
+                </TabsTrigger>
+              );
+            })}
           </TabsList>
         </Tabs>
         <Tooltip>
@@ -203,6 +407,8 @@ function BottomDock() {
         {activeTab === 'constraints' && <ConstraintsPanel />}
         {activeTab === 'complexity' && <ComplexityPanel />}
         {activeTab === 'benchmarks' && <BenchmarksPanel />}
+        {activeTab === 'frontier' && <FrontierPanel />}
+        {activeTab === 'crashes' && <CrashObservatoryPanel />}
       </div>
     </div>
   );
@@ -219,6 +425,17 @@ export default function EditorLayout() {
   const toggleOutliner = useEditorStore((s) => s.toggleOutliner);
   const toggleInspector = useEditorStore((s) => s.toggleInspector);
   const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
+
+  // Auto-generate the default world on first mount so the user sees a
+  // settlement immediately without having to click Generate.
+  const settlement = useEditorStore((s) => s.settlement);
+  const generateWorld = useEditorStore((s) => s.generateWorld);
+  const seedInput = useEditorStore((s) => s.seedInput);
+  useEffect(() => {
+    if (!settlement && seedInput) {
+      void generateWorld(seedInput);
+    }
+  }, [settlement, generateWorld, seedInput]);
 
   const centerSize = useMemo(() => {
     if (showOutliner && showInspector) return 58;
@@ -237,8 +454,10 @@ export default function EditorLayout() {
             {showOutliner && (<>
               <ResizablePanel defaultSize={18} minSize={12} maxSize={30} className="min-w-[200px]">
                 <div className="flex h-full flex-col border-r border-[#2a2a4a] bg-[#12122a]">
-                  <div className="flex h-8 items-center justify-between border-b border-[#2a2a4a] px-3">
+                  <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
+                    <ListTree className="h-3.5 w-3.5 text-emerald-400" />
                     <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Hierarchy</span>
+                    <div className="flex-1" />
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-5 w-5 text-[#5a5a7a] hover:text-white" onClick={toggleOutliner}><PanelLeftClose className="h-3 w-3" /></Button>
@@ -297,8 +516,10 @@ export default function EditorLayout() {
               <ResizableHandle withHandle className="bg-[#2a2a4a]" />
               <ResizablePanel defaultSize={24} minSize={14} maxSize={36} className="min-w-[240px]">
                 <div className="flex h-full flex-col border-l border-[#2a2a4a] bg-[#12122a]">
-                  <div className="flex h-8 items-center justify-between border-b border-[#2a2a4a] px-3">
+                  <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
+                    <Settings2 className="h-3.5 w-3.5 text-emerald-400" />
                     <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Inspector</span>
+                    <div className="flex-1" />
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-5 w-5 text-[#5a5a7a] hover:text-white" onClick={toggleInspector}><PanelRightClose className="h-3 w-3" /></Button>
@@ -313,6 +534,7 @@ export default function EditorLayout() {
           </ResizablePanelGroup>
         </div>
       </div>
+      <StatusBar />
     </div>
   );
 }

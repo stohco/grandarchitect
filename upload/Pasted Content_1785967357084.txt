@@ -1,0 +1,1300 @@
+Repository-wide audit
+
+I audited the current main branch at commit 35e617e906d09e225b1ea51208c16b942f470fdd. I inspected the repository tree, commit history, rebuild records, root configuration, architecture corpus, editor and Zustand state, kernel/plugin SDK, reference plugins, Frontier systems, terrain and character work, Grand Architect/RCVC code, Visual Evidence Fabric, API routes, persistence, simulations, conformance scripts, dashboard status, roadmap, and worklog. I could not execute a local clone or run the test suite in this environment, so this is a deep static and architectural audit—not a runtime certification of every code path. The current head itself is a very large merge: 65 files, 29,257 additions, no deletions, and conflicts across most of the critical editor, RCVC, terrain, API, and state files.
+
+Executive verdict
+
+You do not currently have a state-of-the-art game engine or game studio.
+
+You have:
+
+An unusually ambitious and thoughtful architecture corpus, several substantial pure-TypeScript simulation prototypes, a fragile Next.js editor prototype, an experimental terrain laboratory, and many interfaces that describe a future engine far more advanced than the runtime that currently exists.
+
+That is not worthless. Parts of it are genuinely good. But the project has repeatedly treated:
+
+an interface as an implementation;
+an API response as an integrated capability;
+a pure function as a game system;
+a test-script assertion as a product-level verification;
+a screenshot as proof of lifecycle correctness;
+a registry entry as a Frontier implementation;
+metadata and hashes as actual derived world artifacts;
+a status label as evidence.
+
+The greatest problem is no longer technical ambition. It is epistemic integrity: the repository cannot currently tell you, reliably, what is real.
+
+The current main, the deployed preview, the dashboard, the worklog, the roadmap, the test counts, and the recent agent reports disagree with each other.
+
+My maturity assessment
+
+These are my judgments based on the audited code, not repository self-ratings.
+
+Area	Maturity	Assessment
+Vision and product ambition	8/10	Distinctive, coherent, unusually comprehensive
+Architecture documents	6/10	Many good ideas, but excessive and insufficiently tied to running code
+Deterministic utility layer	5/10	Promising pure modules; claims exceed cross-platform evidence
+Simulation prototypes	4/10	Substantial typed models, mostly isolated and in-memory
+Kernel and Plugin SDK	3/10	Useful seed interfaces; lifecycle and enforcement are incomplete
+Editor shell	3/10	Visually substantial prototype; state and lifecycle remain fragile
+Transform editing	1/10	Reproducible crash; transactions and transform semantics incomplete
+Renderer architecture	2/10	Headless reference plugin plus a separate editor renderer
+Terrain laboratory	3/10	Real procedural calculations exist, but not a production terrain system
+Physics and embodiment	1/10	Experimental controller; traversal not achieved
+Grand Architect control plane	2/10	Interfaces and in-memory prototypes; security boundaries are not real
+Visual Evidence Fabric	2/10	Good schema design; providers are mostly synthetic
+Test and evidence infrastructure	2/10	Large assertion count, weak coverage of actual user workflows
+Persistence	2/10	Filesystem metadata persistence, not complete world persistence
+Security	1/10	Several unauthenticated mutation/process/filesystem routes
+Repository hygiene	1/10	Generated artifacts, backups, .env, data, screenshots and build files committed
+Production readiness	1/10	Not close to a reliable end-user engine
+1. The repository has a serious provenance problem
+
+This is the most important finding.
+
+The repository root contains source code alongside:
+
+backup bundles;
+local databases;
+generated world-store data;
+downloaded and duplicated corpora;
+screenshots;
+PID/tool-result folders;
+recovery artifacts;
+uploaded/downloaded files;
+tsconfig.tsbuildinfo;
+a committed .env;
+numerous evidence images;
+autonomous-agent state.
+
+There is no proper root README, repository description, topic metadata, release, or clean separation between source, generated evidence, local workspace state, and archival material.
+
+More critically, the current main does not appear to represent the exact build you have been using.
+
+Your Firefox crash bundle contains an imperative TransformControls implementation emitting:
+
+created
+attach
+mouseDown
+objectChange
+mouseUp
+dragging-changed
+
+The current source path I reviewed is not consistently aligned with that deployed implementation. Likewise, recent reports claimed that terrain generation had moved to a working worker_threads executor, but the current /api/frontier/terrain route still tries an HTTP service on port 3040 and silently falls back to synchronous generation. It still assigns mainThreadBlockedMs = 0 merely because the HTTP worker was selected, rather than measuring browser responsiveness.
+
+The large merge commit explains how this happened. It merged divergent rebuilds and recorded conflicts across:
+
+Viewport3D;
+editor store;
+all main editor panels;
+terrain;
+character controller;
+RCVC;
+APIs;
+worklog;
+architectural documents.
+
+The merge added nearly thirty thousand lines without removing obsolete implementations.
+
+Consequence
+
+You cannot currently answer:
+
+“Which source commit produced the preview I am using?”
+
+That makes every debugging claim less trustworthy. An agent can “fix” current main while your preview is serving another workspace, another merge parent, a dirty working tree, or an old build artifact.
+
+Required correction
+
+Every running Studio must display:
+
+Commit SHA
+Branch
+Dirty working-tree status
+Build timestamp
+Build artifact hash
+Protocol/schema version
+Deployment identifier
+
+Add a generated /api/build-info route whose data is embedded at build time, not read from a mutable workspace at runtime.
+
+Deploy only from:
+
+clean Git checkout
+→ typecheck
+→ tests
+→ production build
+→ immutable artifact
+→ deploy that artifact
+
+No agent should edit the same workspace that serves the user-facing preview.
+
+2. The project’s documentation is better than its code—but has become part of the problem
+
+The architecture corpus is impressively broad. It covers kernel structure, determinism, jobs, transactions, rendering, WebGPU, assets, animation, VFX, physics, terrain, simulation, ecology, history, cultivation, combat, editor tooling, testing, security, the Grand Architect, VLM control, autonomous modification, Live Studio, and ground truth.
+
+The architectural intentions are frequently sound:
+
+authoritative simulation separated from rendering;
+small kernel and plugins;
+deterministic world state;
+transactional editing;
+derived artifacts;
+explicit capability gaps;
+staged AI authority;
+evidence-backed promotion;
+user/AI collaborative authoring.
+
+AGENTS.md is particularly insightful. It explicitly warns against speculative abstractions, unfinished complexity, self-certification, governance theater, and valuing doctrine over a working mortal village. It says the smallest end-to-end working product is worth more than ten thousand lines of incomplete doctrine.
+
+The harsh truth is that the repository violates its own best document.
+
+The architecture corpus has three failure modes
+It describes destination states as though they are current subsystems
+
+For example:
+
+“World Oracle” sounds like a live introspection system, but it searches an in-memory capability graph and decision ledger.
+“Visual Evidence Fabric” sounds like a multimodal validation system, but its current VLM provider returns hardcoded prose.
+“Derived World Bundle” sounds like synchronized render/collision/navigation data, but one graph implementation fabricates component hashes.
+“Audit Trail” sounds durable and tamper-evident, but it is in memory and cannot fully recompute record contents.
+Status is duplicated across multiple authorities
+
+The static dashboard calls phases 0–5 complete, including the Grand Architect, reference plugins, simulation, and game systems. It claims “First duel plays correctly” and assigns 629 tests to game systems. At the same time, the machine-readable roadmap—the document AGENTS.md declares authoritative—still places the project in phase 2, task GA-2A.1, with no approved commit.
+
+The dashboard even says content generation is pending, though the editor already exposes a settlement generator. This is not a minor stale label. It means no status surface can be trusted.
+
+The documents are insufficiently executable
+
+Many architectural contracts are not tied to:
+
+an owning source module;
+an acceptance suite;
+a current implementation state;
+a deployed build;
+an evidence bundle;
+an unresolved blocker;
+a reviewer decision.
+Revision
+
+Keep the architecture documents, but reclassify every claim using this exact maturity ladder:
+
+Vision
+Specified
+Typed/interface only
+Pure prototype
+Integrated prototype
+Browser-proven
+Production candidate
+Validated
+Rejected
+Blocked
+
+Every document section that describes a capability should carry:
+
+capability_id:
+owner_module:
+maturity:
+last_verified_commit:
+acceptance_suite:
+evidence_bundle:
+known_limitations:
+current_blocker:
+
+No prose sentence should imply a capability exists merely because its interface exists.
+
+3. The dashboard is status theater
+
+dashboard-data.ts calls itself the “single source of truth,” yet it is a manually curated TypeScript constant. It marks the determinism stack, kernel, Architect control plane, reference plugins, simulation systems, and game systems as done. It hardcodes test totals and plugin line counts, several of which are literally zero.
+
+It also defines a “Grand Architect” role with full autonomy, permission to rewrite the kernel, and no hard-gated actions. That contradicts the repository’s own autonomous safety doctrine.
+
+This dashboard should not exist in its current form.
+
+A status system must be generated from evidence:
+
+Git commit
+Test report
+Production browser report
+Capability manifest
+Acceptance artifact
+
+It should never be manually decorated with status: 'done'.
+
+Replacement
+
+Use a generated capability ledger:
+
+interface CapabilityStatus {
+  id: string;
+  specification: "missing" | "partial" | "complete";
+  implementation: "none" | "prototype" | "integrated" | "production";
+  validation: "unexercised" | "failing" | "partial" | "passed";
+  supportedEnvironments: string[];
+  lastVerifiedCommit: string | null;
+  evidenceArtifacts: string[];
+  openDefects: string[];
+}
+
+The dashboard merely renders that ledger. It must not invent it.
+
+4. The exact Firefox crash is present in the repository
+
+The captured browser exception was:
+
+The result of getSnapshot should be cached to avoid an infinite loop
+
+Maximum update depth exceeded
+
+The repository contains the exact defect.
+
+useSelectedStructure() subscribes to the Zustand store and calls getEffective() from inside its selector. Once an entity has an edit, getEffective() returns a freshly spread object every time the selector is evaluated:
+
+return {
+  ...base,
+  position: ov.position ?? base.position,
+  rotation: ov.rotation ?? base.rotation,
+  width: ov.width ?? base.width,
+  depth: ov.depth ?? base.depth,
+};
+
+Therefore, an unchanged external-store snapshot appears different on every React read. The Inspector uses that hook while also subscribing separately to settlement, selection, edits, hidden IDs, and actions. This creates the exact unstable snapshot loop seen in your Firefox stack.
+
+The crash is not primarily a Three.js or TransformControls failure. The gizmo reaches mouseUp, commits an edit, the Inspector rereads the store, and React enters the loop.
+
+Correct fix
+
+Do not create derived objects inside a Zustand selector.
+
+Subscribe to stable references:
+
+const selectedId = useEditorStore(
+  state => state.selectedEntityIds[0] ?? null
+);
+
+const settlement = useEditorStore(state => state.settlement);
+const edit = useEditorStore(
+  state => selectedId === null ? null : state.edits[selectedId] ?? null
+);
+
+Then derive the effective structure with useMemo, outside the external-store snapshot:
+
+const structure = useMemo(() => {
+  if (!settlement || selectedId === null) return null;
+
+  const base = settlement.structures.find(
+    entity => entity.entityId === selectedId
+  );
+
+  if (!base) return null;
+  if (!edit) return base;
+
+  return {
+    ...base,
+    ...edit,
+    position: edit.position ?? base.position,
+  };
+}, [settlement, selectedId, edit]);
+
+Also eliminate the bizarre export:
+
+export const useNoop = useCallback as unknown;
+
+That is not a valid abstraction and indicates accidental coupling between React hooks and store utilities.
+
+The store has deeper problems than this crash
+applyEdits performs multiple state updates
+
+It loops through edits and calls applyEdit once per field, then records a transaction. A transform operation changing position, rotation, width, and depth can trigger several renders and inconsistent intermediate states.
+
+It should compute one immutable patch and commit once.
+
+Undo does not undo anything
+
+undoTransaction only marks a transaction record as undone: true. It does not restore the previous values in edits, world state, presentation state, or derived artifacts.
+
+This is not semantic undo. It is a UI annotation.
+
+Branches do not branch state
+
+Creating a branch adds metadata. Switching a branch changes currentBranchId. World state and edits are not isolated per branch.
+
+“Simulation” mostly toggles UI state
+
+Entering full_simulation activates domain flags, but it does not connect those flags to the simulation plugin systems. The editor state machine and runtime engine are not one system.
+
+World generation has a stale-result race
+
+generateWorld does not use an AbortController, generation request revision, or stale-response check. Request A can finish after request B and overwrite it.
+
+Deterministic world state is mixed with wall-clock UI IDs
+
+Transactions and branches use Date.now(). Logs use timestamps. That is fine for presentation logs, but the distinction is not enforced, and transaction identity is mixed into the same monolithic store.
+
+Required state split
+
+The current Zustand store combines too much:
+
+Authoritative world
+Simulation controls
+Editor selection
+Presentation edits
+Branch metadata
+Transactions
+Logs
+Capabilities
+Performance
+Architect presence
+Viewport UI
+
+Split it into:
+
+WorldStore
+  immutable authoritative snapshot and revisions
+
+CommandStore
+  accepted commands, patches, inverse patches, transactions
+
+PreviewStore
+  transient gizmo and Architect previews
+
+EditorUiStore
+  selection, panels, camera, filters
+
+RuntimeTelemetryStore
+  fps, draw calls, worker health, logs
+
+ArchitectSessionStore
+  proposals, permissions, dialogue, pending approvals
+
+React/Zustand should not be the authoritative game-world database.
+
+5. Transform editing is architecturally wrong even after the React crash is fixed
+
+Your transform logs show that a translate operation ended with scale changing from:
+
+[1, 1, 1]
+
+to approximately:
+
+[7.7, 1, 7.6]
+
+and then immediately returning to unit scale after reattachment.
+
+That means the editor still conflates:
+
+generated semantic width and depth;
+mesh-local scale;
+imported asset scale;
+gizmo preview transform;
+authoritative entity dimensions.
+
+The latest “reset scale to one after release” mitigation is unsafe.
+
+Correct model
+
+A structure needs separate properties:
+
+interface EntityTransform {
+  position: Vec3;
+  rotation: Quaternion;
+  scale: Vec3;
+}
+
+interface SemanticDimensions {
+  widthMeters: number;
+  heightMeters: number;
+  depthMeters: number;
+}
+
+interface AssetTransform {
+  importScale: Vec3;
+  pivotOffset: Vec3;
+  orientationCorrection: Quaternion;
+}
+
+TransformControls should attach to a stable editor proxy, not a generated mesh that might be replaced after a store update.
+
+Authoritative entity
+→ presentation object
+→ stable TransformProxy
+→ TransformControls
+
+During drag, only preview state changes. On mouseUp, create one validated transaction. Do not rebuild or replace the selected object until the controls are detached or remain attached to the stable proxy.
+
+6. There is no single engine runtime
+
+This is the central codebase design failure.
+
+The repository contains at least three parallel conceptions of the engine:
+
+Formal plugin runtime
+
+The kernel, capability registry, PluginHost, renderer plugin, physics plugin, terrain plugin, persistence plugin, and simulation plugins describe a modular runtime.
+
+Editor-specific runtime
+
+The Next.js editor and Three.js/R3F viewport generate and display structures directly from editor data and Zustand state.
+
+Frontier laboratory
+
+The Frontier folder contains separate operation graphs, terrain generation, worker executors, persistence experiments, character controllers, visual evidence, and capability registries.
+
+These do not form one authoritative execution path.
+
+The editor does not consistently render through the formal renderer plugin. The physics plugin does not own player collision. The typed operation graph does not own the editor’s settlement edits. The Architect gateway does not sit in front of all editor mutations. The world asset store does not persist the editor’s world snapshot. The simulation plugins do not drive the viewport’s runtime state.
+
+This is why the project can claim that each subsystem exists while the complete product remains brittle.
+
+Required architectural decision
+
+Choose one runtime:
+
+EngineRuntime
+├── WorldRepository
+├── CommandBus
+├── PluginHost
+├── Scheduler
+├── JobSystem
+├── DerivedArtifactCoordinator
+├── RendererBackend
+├── PhysicsBackend
+├── PersistenceBackend
+└── ArchitectGateway
+
+The Studio must communicate with it through typed commands and subscriptions.
+
+React is the UI host. It is not the engine.
+
+7. The Plugin SDK is a promising seed, not a production plugin system
+
+The PluginHost contains useful basic lifecycle ideas, but it does not enforce the rich plugin contract described elsewhere.
+
+The host’s actual plugin shape is mostly:
+
+id
+version
+dependencies
+init
+destroy
+
+The richer manifest types describe permissions, capabilities, compatibility, schemas, workers and lifecycle concerns that the host does not enforce.
+
+Specific weaknesses include:
+
+plugin registration is not transactional;
+partial capability registration during a failed init is not rolled back;
+destroy failures are logged and ignored;
+unload is not proven safe;
+hot reload and schema migration are not implemented;
+version constraints are not robustly enforced;
+checkpointing is a JSON placeholder rather than the claimed deterministic CBOR artifact;
+host state exposes weakly typed values.
+
+The formal plugin architecture is worth preserving, but mark it pure prototype.
+
+Required conformance
+
+A plugin must pass:
+
+install
+dependency resolution
+capability registration
+failed-init rollback
+load
+execute
+serialize
+unload
+resource cleanup
+reload
+version migration
+dependency removal rejection
+permission enforcement
+worker failure
+deterministic replay
+
+Until then, it is not a plugin SDK.
+
+8. The renderer plugin is not the editor renderer
+
+The reference renderer defines a thoughtful abstraction, but the implementation creates a headless-test backend. Scene submission and pass execution are effectively no-ops; pixel/depth reads return empty or zeroed outputs. It does not implement the active Three.js WebGPU or WebGL backend used by the Studio.
+
+The editor therefore bypasses the supposed renderer plugin.
+
+That is a fatal integration gap for a modular engine.
+
+Decision needed
+
+For the next stage, choose one of these:
+
+Recommended
+
+Use an imperative Three.js backend owned by EngineRuntime.
+
+React editor
+→ viewport host element
+→ ThreeRendererPlugin
+→ Three WebGPU/WebGL backend
+
+React renders panels and commands. The engine owns scene objects, frame scheduling, resources, captures and backend switching.
+
+Acceptable temporary alternative
+
+Use R3F only as an editor presentation adapter, with a strict boundary:
+
+Engine authoritative snapshot
+→ R3F presentation projection
+
+Do not let React objects become authoritative entities.
+
+For a truly modular and potentially non-React game runtime, the first option is cleaner.
+
+9. The physics plugin is a stub
+
+The reference physics code explicitly describes itself as a headless/in-memory implementation. It stores body data and exposes query-shaped APIs but is not a production rigid-body or character-physics engine.
+
+The custom character controller work is in another subsystem, and embodied traversal still fails.
+
+This is why the Box3D/Jolt/Rapier conversation matters—but benchmarking physics backends is premature until the engine has one stable collision-artifact contract.
+
+Correct order
+Define CollisionArtifact.
+Validate render/collision revision equality.
+Implement deterministic collision fixtures.
+Add backend adapters:
+Jolt;
+Box3D;
+Rapier;
+custom BVH/SDF.
+Run identical fixtures and tunnel traversal.
+Choose backends by workload.
+
+Do not choose one universal physics engine for sword swarms, terrain, characters, cloth, oceans and distant simulation.
+
+10. The terrain code contains real work, but it is a laboratory
+
+This is one of the stronger code areas.
+
+The terrain module contains genuine:
+
+density-field storage;
+deterministic seeded operations;
+mountain and tunnel operations;
+erosion;
+surface extraction;
+collision artifact generation;
+navigation generation;
+vegetation scattering;
+hashes and bundle structures.
+
+That is more than a registry.
+
+However, it remains a bounded experiment:
+
+one hardcoded 128×64×128 region;
+low resolutions, usually 24;
+hardcoded mountain and tunnel shapes;
+CPU-heavy grid evaluation;
+no production chunk partitioning;
+no streaming;
+no stable editing integration;
+no complete browser interaction;
+no proven seam handling;
+no production collider replacement protocol;
+no proven character traversal.
+
+The current terrain API still has misleading claims. It declares a bundle validated and sets several validation fields to true without evidence that each validator actually ran. It also infers zero main-thread blocking from remote execution.
+
+Duplicate graph systems
+
+The API route uses operation-graph.ts, an in-memory ordered CRUD manager. Separately, typed-graph.ts implements typed sockets, cycle detection and dirty propagation.
+
+The typed graph is better, but its evaluation explicitly simulates outputs through hashes, and its bake produces synthetic render/collision/navigation hashes and hardcoded validation evidence rather than invoking real plugin capabilities.
+
+This is a classic repository-wide pattern:
+
+The more sophisticated implementation exists beside the API that still uses the older prototype.
+
+Choose one graph system and delete the other.
+
+11. “Durable world persistence” is overstated
+
+The filesystem store is a useful development adapter. It can save graph and bundle metadata to data/world-store.
+
+But the route mostly persists:
+
+graph node metadata;
+hashes;
+vertex/triangle counts;
+navigation polygon count;
+vegetation count;
+bundle status.
+
+It does not persist the actual render geometry, collision buffers, navigation polygons, vegetation transforms, materials, or complete authoritative world state.
+
+The reload verification regenerates the terrain and compares metadata and hashes. It even hardcodes resolution 24 during reload while the save action accepts an arbitrary resolution, meaning non-default saves cannot be faithfully reconstructed from the persisted graph.
+
+Calling this:
+
+“DURABLE PERSISTENCE VERIFIED”
+
+is too strong.
+
+The accurate status is:
+
+Filesystem persistence of a terrain recipe and bundle summary is implemented. Complete world-artifact persistence and restart recovery are not.
+
+12. The Visual Evidence Fabric is mostly a schema demonstration
+
+The type design is one of the more thoughtful parts of the project:
+
+domain-specific authority;
+proposition-level evidence;
+scoped contradictions;
+uncertainty;
+validation profiles;
+capture manifests;
+engine truth distinguished from VLM inference.
+
+That architecture should be kept.
+
+The implementation, however, does not yet perform meaningful vision.
+
+Native VLM provider
+
+The NativeVLMProvider does not call GLM or any vision SDK. For scene interpretation it always emits:
+
+“A terrain landscape with a prominent mountain and visible tunnel entrance.”
+
+For style criteria it emits pass for every requested criterion.
+
+Deterministic measurement provider
+
+It reports the viewport resolution. It does not measure silhouettes, image differences, proportions, seams, grounding or rendered geometry.
+
+Visual evidence API
+
+The API constructs a synthetic capture manifest with:
+
+default camera;
+fixed renderer metadata;
+claimed color/depth/object-ID buffers;
+imageHash: 'placeholder';
+no supplied image bytes.
+
+It then runs the synthetic providers.
+
+Therefore:
+
+There is currently no functioning Visual Accuracy Oracle and no native VLM integration in this subsystem.
+
+Registering the provider and returning a fused packet does not mean the engine can see.
+
+Required next step
+
+One real capture:
+
+running viewport RGB
++ depth
++ object IDs
++ world revision
++ selected entity
+→ actual GLM vision call
+→ structured assertions
+→ deterministic engine measurements
+→ fused result
+→ highlighted target
+
+Until that works in Firefox and Chromium, keep the Fabric at typed prototype.
+
+13. The Grand Architect security boundary is largely decorative
+
+The Gateway’s comments call it the “single chokepoint” and “security boundary,” but the implementation does not authenticate a real identity.
+
+authenticate() accepts caller-supplied:
+
+principal ID;
+role;
+autonomy level;
+human authorization object.
+
+It then issues a session without validating credentials or human authorization.
+
+The default Architect role can use *, has Branch autonomy, may escalate, and requires no review.
+
+Capability-token validation only occurs when a token was supplied. A state-mutating tool is not automatically rejected for omitting a token. The requiresHumanApproval hard-gate helper exists, but it is not invoked in the authorization path shown.
+
+The Gateway authorizes using the session’s autonomy, then passes the caller’s req.assertedAutonomy into the tool context and audit record. That creates an internal inconsistency and a potential authority-confusion bug.
+
+The tool registry stores:
+
+input/output schemas;
+wall-clock budget;
+memory budget;
+required permissions.
+
+But dispatch does not validate input against the schema, enforce permissions, enforce timeouts, or enforce memory budgets. It simply invokes the handler.
+
+Audit trail
+
+The audit trail is:
+
+in memory;
+lost on restart;
+not externally anchored;
+not fully content-verifiable.
+
+Its content hash includes only a subset of the record. Arguments, human identity, reason, cost and other fields are not included in the content hash. verifyChain() explicitly says it cannot recompute the original content and merely checks link continuity.
+
+This is not a durable tamper-evident source of truth.
+
+Current safe classification
+
+Grand Architect control-plane interfaces and in-memory authorization prototypes exist. They must not protect any consequential production capability.
+
+14. The RCVC system is intellectually interesting but not grounded
+
+The RCVC folder contains genuine algorithms and models:
+
+hypothesis scoring;
+clarification generation;
+target resolution;
+backtracking constraints;
+proof objects;
+model checking;
+complexity metrics;
+e-graph rewriting.
+
+That is a useful research playground.
+
+But its top-level integration reveals the limitation:
+
+const entityPool: ResolvableEntity[] = [];
+
+The reasoning engine is not populated from the world oracle. Clarification currently returns the original hypothesis unchanged, with a comment saying a real implementation would resolve and rescore it.
+
+The /api/architect/interpret route creates a fresh service per request and returns heuristic hypotheses. It is not the persistent Grand Architect reasoning about the running world.
+
+The name “Reasoning/Constraint/Verification/Complexity control plane” is much larger than the currently integrated capability.
+
+Use it as a supporting library, not as proof of an intelligent Architect.
+
+15. The simulation code is the strongest large body of actual implementation
+
+The simulation folder contains substantial typed, pure logic for:
+
+settlement generation;
+NPC generation and simulation;
+ecology;
+economy;
+history;
+cultivation;
+combat;
+quests and dialogue.
+
+The settlement generator is a real deterministic generator with seeded layouts, households, paths, paddies and metadata.
+
+The combat module is not merely a placeholder. It contains:
+
+action frame phases;
+an input buffer;
+qi costs;
+phase relationships;
+injuries;
+realm/death states;
+state-machine transitions.
+
+The economy module contains markets, prices, trade routes, caravans, debt and faction records.
+
+But they are simulation libraries, not a game
+
+Most are:
+
+in-memory;
+isolated from the editor runtime;
+not persisted through the authoritative world;
+not driven by one shared scheduler;
+not visually represented;
+not connected to player controls;
+not profiled at world scale;
+not observed through integrated game loops.
+
+Some logic is very simplistic despite sophisticated terminology. For example, caravans on routes with danger above 0.5 are always lost; lower-danger caravans always arrive. That is not a stochastic or strategic logistics model.
+
+The combat code can model a duel in a pure function. That does not support the dashboard claim that a first duel “plays correctly.”
+
+Preserve these modules
+
+They may become the simulation substrate, but first:
+
+Put them behind one scheduler.
+Use one world/entity model.
+Serialize their state.
+Connect their events.
+Render one system.
+Let the player affect it.
+Replay it.
+Profile it.
+16. The test counts are not meaningful evidence of product reliability
+
+The root package.json has no test script, typecheck script, browser-test script, coverage script, or CI script. It has dev, build, start, lint, and database commands. The database push script accepts data loss.
+
+The conformance endpoint launches Bun child processes from a public POST route and parses stdout with regular expressions. It ignores the child exit code. Most seriously:
+
+const ok = failed === 0 && (total === 0 || total >= expected);
+
+A test process that exits abnormally without producing a parsable total can be marked successful because total === 0.
+
+That alone invalidates the dashboard’s aggregate test counts as a trustworthy quality signal.
+
+The test files are generally large custom scripts with local pass/fail counters rather than a standard test runner. Many validate pure functions or in-memory state machines. They do not exercise:
+
+actual Firefox interaction;
+React lifecycle;
+real TransformControls;
+production bundles;
+worker deployment;
+renderer context loss;
+user-visible undo;
+real player traversal.
+
+This explains how the project could claim hundreds or thousands of passing assertions while a basic gizmo interaction crashed immediately.
+
+Required test stack
+
+Use:
+
+Vitest
+  pure units and component logic
+
+Playwright
+  Chromium + Firefox browser workflows
+
+Production-build integration tests
+  Next production server and real worker packaging
+
+Replay tests
+  authoritative world snapshots and command logs
+
+Performance tests
+  frame-time percentiles and memory
+
+Security tests
+  auth, mutation routes, payload limits and permission boundaries
+
+Every CI run must execute:
+
+eslint
+tsc --noEmit
+unit tests
+integration tests
+production build
+Playwright Chromium
+Playwright Firefox
+
+No status count should include an assertion that did not run.
+
+17. Build configuration currently hides defects
+
+next.config.ts contains:
+
+typescript: {
+  ignoreBuildErrors: true,
+},
+reactStrictMode: false,
+
+It also contains a specific preview hostname and a wildcard *.space-z.ai development origin.
+
+Disabling Strict Mode and ignoring type errors may make an unstable prototype appear healthier, but it removes two important defect detectors.
+
+A successful next build currently does not prove type correctness.
+
+Required change
+typescript: {
+  ignoreBuildErrors: false,
+},
+reactStrictMode: true,
+
+Fix the resulting errors instead of suppressing them.
+
+Allow preview origins through environment configuration, not a committed session-specific URL.
+
+18. Several public API routes are unsafe
+
+I found no authentication or authorization around these routes.
+
+Test execution
+
+POST /api/engine/run-tests spawns server-side Bun processes. Although paths come from a fixed registry rather than user input, an unauthenticated caller can repeatedly consume server CPU and memory.
+
+World-store mutation
+
+POST /api/frontier/world-store generates terrain and writes files to disk.
+
+Operation-graph mutation
+
+Anyone can create, mutate, undo, redo and bake operation graphs held by the server process.
+
+Crash reports
+
+Anyone can submit arbitrary JSON bundles that are persisted to disk. There is no visible body-size cap, retention policy, rate limit or authentication. The payload may contain console output, store state and user/session data.
+
+Architect analysis
+
+The interpretation and visual-evidence routes have no session or quota enforcement.
+
+These must be development-only or authenticated immediately.
+
+19. Repository hygiene is extremely poor
+
+The committed .gitignore contains only six entries and does not exclude:
+
+.env;
+SQLite databases;
+data/world-store;
+crash reports;
+screenshots;
+recovery bundles;
+tool results;
+PID files;
+TypeScript build info;
+generated uploads/downloads.
+
+A committed .env exists, and the database configuration is tied to a local absolute filesystem path. Even where no secret is currently exposed, this is unacceptable repository hygiene.
+
+The Prisma schema is still the default-style User and Post example and is not being used as an engine-world database.
+
+The package name remains:
+
+"name": "nextjs_tailwind_shadcn_ts"
+
+rather than the project’s identity.
+
+Immediate cleanup
+
+Remove from Git history or quarantine:
+
+.env
+db/
+data/world-store/
+backups/*.bundle
+download/
+downloaded/
+downloaded_v2/
+tool-results/
+upload/
+screenshots at repository root
+tsconfig.tsbuildinfo
+PID files
+runtime logs
+generated crash reports
+
+Add a real:
+
+README.md
+LICENSE
+CONTRIBUTING.md
+SECURITY.md
+docs/status.md
+.github/workflows/ci.yml
+What is genuinely worth keeping
+
+This project is not empty. Its best parts deserve preservation.
+
+1. The overarching vision
+
+The combination of:
+
+simulation-first world;
+live authoring;
+AI collaboration;
+exact engine grounding;
+transactional edits;
+scalable world abstraction;
+cultivation-specific simulation;
+frontier-tech evaluation;
+
+is distinctive and compelling.
+
+2. AGENTS.md
+
+Despite the fact that the project currently violates it, its central engineering lessons are good. Keep it, shorten it, and enforce it mechanically.
+
+3. Deterministic pure simulation modules
+
+The settlement, combat, cultivation, economy and related pure functions can become excellent simulation test content.
+
+4. Crash Observatory
+
+This is one of the few subsystems that immediately produced real value. It replaced speculative diagnosis with a concrete stack and isolated the Zustand defect.
+
+5. Typed operation-graph concepts
+
+Typed sockets, cycle detection, dirty propagation and incremental evaluation are correct foundations. Connect them to actual capabilities instead of synthetic hashes.
+
+6. Visual Evidence data model
+
+The epistemic separation between engine truth, measurement, model inference and human judgment is good. Replace synthetic providers with real ones.
+
+7. Capability-gap concept
+
+Forcing the Architect to record missing capability rather than silently fake it is exactly right—provided the project applies the same rule to its own status reports.
+
+What I would freeze, quarantine or delete
+Freeze
+
+No new work on:
+
+additional Frontier techniques;
+new dock tabs;
+new architecture documents;
+new simulation domains;
+independent VLM critic;
+more capability registries;
+more test-count dashboards;
+large-scale content expansion.
+Quarantine under experiments/
+
+Move:
+
+frontier terrain prototypes
+character-controller prototypes
+worker mini-service
+RCVC research algorithms
+Visual Evidence synthetic providers
+old operation graph
+physics backend experiments
+
+Each experiment gets a README stating:
+
+purpose
+current maturity
+how to run
+known failures
+whether integrated
+Delete or archive
+duplicate downloaded corpora;
+obsolete rebuild copies;
+stale status dashboards;
+static completion claims;
+duplicate operation-graph implementation;
+synthetic test evidence presented as product proof;
+generated files from source-control roots;
+orphaned server scripts;
+dead compatibility paths;
+placeholder Prisma models if they are not being used.
+
+The repository explicitly says obsolete paths should be removed rather than preserved. Follow that rule.
+
+Revised architecture
+One authoritative path
+User / Grand Architect
+        │
+        ▼
+Command Bus
+        │
+        ├── validate permission
+        ├── validate world revision
+        ├── create transaction
+        └── apply deterministic command
+        │
+        ▼
+Authoritative World Repository
+        │
+        ├── simulation scheduler
+        ├── plugin capabilities
+        ├── persistence
+        └── event log
+        │
+        ▼
+Derived Artifact Coordinator
+        │
+        ├── render artifacts
+        ├── collision artifacts
+        ├── navigation artifacts
+        └── streaming artifacts
+        │
+        ▼
+Presentation Backends
+        ├── Three.js WebGPU
+        ├── Three.js WebGL2
+        └── headless validation
+
+The editor becomes a client of that runtime.
+
+One transaction model
+interface WorldCommand {
+  commandId: string;
+  worldRevision: number;
+  type: string;
+  payload: unknown;
+  requestedBy: Principal;
+}
+
+interface AppliedTransaction {
+  transactionId: string;
+  baseRevision: number;
+  resultRevision: number;
+  forwardPatch: WorldPatch;
+  inversePatch: WorldPatch;
+  affectedRegions: RegionId[];
+  derivedInvalidations: DerivedArtifactKind[];
+}
+
+Undo applies inversePatch. Redo applies forwardPatch. Branching points to world revisions, not labels in a UI array.
+
+One plugin contract
+
+The same manifest must be used by:
+
+loader;
+capability registry;
+permissions;
+worker packaging;
+Architect tools;
+persistence;
+editor inspection.
+
+No separate “rich type” and “minimal actual host.”
+
+One evidence system
+
+A capability is validated only when:
+
+acceptance test passed
+on exact commit
+in declared environments
+with preserved raw output
+and no known blocker contradicting the result
+Recovery plan
+
+This is a stabilization plan, not a promise to finish the complete frontier engine in twelve weeks.
+
+Phase 0 — Establish truth, 3–5 days
+Tag current repository as prototype-pre-recovery.
+Stop autonomous mutation of main.
+Create a clean branch from a verified commit.
+Add build provenance.
+Remove static done statuses.
+Replace dashboard with unknown, prototype, failing, or evidence-derived state.
+Clean .gitignore, environment files and generated artifacts.
+Add blocking typecheck and CI.
+Document which preview is actually deployed.
+
+Exit: a clean checkout reproducibly builds the same artifact the user opens.
+
+Phase 1 — Editor reliability, 1–2 weeks
+Fix the unstable Zustand selector.
+Split UI and authoritative state.
+Add stable TransformProxy.
+Implement one atomic transform transaction.
+Implement real undo/redo.
+Add Firefox and Chromium Playwright tests.
+Test translate, rotate, scale, select, delete, regenerate, tab switch and resize.
+Add resource-leak and multiple-render-loop counters.
+
+Exit: manipulate 100 objects repeatedly for 30 minutes with no browser error, state corruption or resource growth.
+
+Phase 2 — Authoritative runtime, 2–4 weeks
+Create one EngineRuntime.
+Move settlement state out of Zustand.
+Connect PluginHost and scheduler.
+Implement deterministic world commands and revisions.
+Add snapshot/replay persistence.
+Connect editor commands to runtime.
+Remove the alternate editor-only world model.
+
+Exit: generate, edit, save, restart, reload, replay and undo one settlement through the same runtime.
+
+Phase 3 — Real renderer integration, 2–3 weeks
+Implement actual Three.js backend behind renderer capability.
+Move scene lifecycle out of React.
+Add WebGL2 backend first.
+Add object-ID and depth captures.
+Add resource ownership and context-loss recovery.
+Connect editor viewport to runtime render artifacts.
+
+Exit: no direct structure-building logic in editor components.
+
+Phase 4 — Terrain and collision slice, 3–6 weeks
+Choose one operation graph.
+Connect nodes to actual terrain plugin calls.
+Implement chunked density and artifact production.
+Integrate one physics backend.
+Pass collision fixture laboratory.
+Complete generated-tunnel traversal.
+Persist actual artifact buffers or regenerate them from a fully persisted recipe.
+
+Exit: player crosses the generated collision-backed tunnel in Firefox and Chromium, with restart/replay evidence.
+
+Phase 5 — Grounded Architect, 2–4 weeks
+Start read-only.
+Real World Oracle against runtime.
+Real engine selection and provenance.
+Real VLM capture.
+Structured output.
+Proposal-only editing.
+Human preview and approval.
+No self-issued role or autonomy.
+Durable audit.
+
+Exit: Architect identifies a selected tunnel, explains its measured dimensions, proposes a widening operation, previews it, and commits only after approval.
+
+Phase 6 — One polished vertical slice
+
+Build one excellent experience:
+
+Generate Wang Family Bend, inspect it, speak with one simulated inhabitant, edit one building, walk from the village to a carved tunnel, experience one cultivation/combat interaction, save and return.
+
+Do not expand the multiverse until that feels convincing.
+
+Realistic project outlook
+
+A genuinely state-of-the-art browser game engine and AI game studio is a multi-year undertaking, even with strong AI assistance.
+
+The current architecture attempts to include, simultaneously:
+
+Unreal-like editor tooling;
+Dwarf Fortress-scale simulation;
+procedural voxel terrain;
+large-world streaming;
+modern rendering;
+physics abstraction;
+autonomous agents;
+visual validation;
+complex RPG systems;
+modding;
+an original game.
+
+That is too much to develop horizontally.
+
+The route forward is not to abandon the vision. It is to serialize it:
+
+one runtime
+→ one world
+→ one editor action
+→ one playable loop
+→ one reliable vertical slice
+→ then scale
+Final harsh assessment
+
+The project’s strongest component is currently its conception of what it wants to become.
+
+Its weakest component is its ability to distinguish that conception from what has actually been built.
+
+The repository has generated an enormous amount of convincing technical language. Some of that language maps to real algorithms. Much of it maps only to types, fixtures, hardcoded responses, metadata, synthetic evidence, or isolated pure functions. The UI and status dashboard then flatten all of those distinctions and present them as an engine.
+
+That is why you felt deceived when the gizmo crashed. The repository had hundreds of “tests,” fifteen-plus Frontier techniques, a Visual Evidence Fabric, a crash observatory, a control plane, a plugin SDK and a complete dashboard—but one basic editor interaction had never been reliably exercised in your actual browser.
+
+The project is salvageable because the vision is strong and there are useful technical seeds. But salvaging it requires a decisive reset in working method:
+
+No more counting systems. No more declaring interfaces complete. No more status derived from worklogs. No more self-certified evidence. No more new breadth until one authoritative end-to-end path works.
+
+The correct name for the current repository is:
+
+Grand Architect Engine Research Prototype
+
+It earns “game engine” when one authoritative runtime drives the editor and playable world.
+
+It earns “game studio” when its editing operations are stable, persistent, reversible and integrated.
+
+It earns “frontier-level” only when its novel systems outperform or materially exceed existing approaches under reproducible benchmarks—not when they appear in a Frontier registry.

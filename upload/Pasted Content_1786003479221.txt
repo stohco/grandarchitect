@@ -1,0 +1,1137 @@
+After reviewing the strongest current repositories across durable execution, symbolic planning, constraint solving, versioned knowledge, sandboxed plugins, simulation, planetary rendering, volumetric terrain, asset processing, animation, and verification, my conclusion is:
+
+STOK and FDRS should not be foundational dependencies for Grand Architect.
+STOK is an interesting experimental feasibility planner. FDRS may inspire hierarchical time representation. Neither is the central technology your project has been missing.
+
+There is also no single “magnum opus” repository that can become the Grand Architect. The optimal system is a carefully composed authorial capability fabric in which each technology performs the job it is best at.
+
+The architecture I would actually build
+You
+│
+▼
+Authorial Grand Architect
+├── intent interpretation
+├── canon/style/ontology retrieval
+├── narrative understanding
+├── visual reasoning
+└── capability selection
+        │
+        ▼
+Durable Authorial Runtime
+Restate
+        │
+        ▼
+Planning Router
+├── Unified Planning      — action and temporal planning
+├── OR-Tools CP-SAT       — scheduling, layout, allocation
+├── Z3                    — hard laws and invariant checking
+├── clingo                — defaults, exceptions and conflicting lore
+└── learned planners      — experimental proposal providers only
+        │
+        ▼
+Authorization and Isolation
+├── Cedar                 — who may do what
+├── Wasmtime/WIT          — low-level plugin boundary
+└── Extism                — practical cross-language plugin hosting
+        │
+        ▼
+Canonical StudioActionRegistry
+        │
+        ▼
+World and Asset Runtime
+├── Flecs                 — large-scale entity simulation
+├── Rapier/Jolt           — embodied physics
+├── Recast/Detour         — terrestrial navigation
+├── 3DTilesRendererJS     — planetary/global streaming
+├── custom sparse SDF     — destructible terrain
+└── glTF runtime          — accepted asset delivery
+        │
+        ▼
+Production Providers
+├── OpenUSD / MaterialX
+├── glTF-Transform / meshoptimizer
+├── MHR / Momentum
+├── Kimodo / ARDY
+├── ozz-animation / ACL
+└── OpenVDB / fVDB
+        │
+        ▼
+Verification and Evidence
+├── Quint
+├── Z3 invariants
+├── deterministic engine measurements
+├── independent visual review
+└── Playwright Chromium + Firefox
+
+The most important architectural rule is:
+
+The LLM proposes intent and plans. Durable execution, authorization, solvers, transactions, and validators decide what is actually allowed to alter the universe.
+
+My highest-confidence core choices
+1. Restate — Grand Architect’s durable nervous system
+
+This is the strongest candidate for making UnboundLoop genuinely persistent, resumable, observable, and resistant to duplicated operations.
+
+Restate supports durable workflows, durable AI agents, stateful actors, reliable communication, persisted timers and promises, and TypeScript and Rust SDKs. Completed work is recorded so retries do not repeat already completed steps. It also supplies introspection and OpenTelemetry tracing.
+
+That aligns almost exactly with:
+
+OBSERVE
+→ UNDERSTAND
+→ RETRIEVE
+→ GROUND
+→ DISCOVER
+→ PLAN
+→ PREVIEW
+→ EXECUTE
+→ VALIDATE
+→ CRITIQUE
+→ PRESENT
+→ COMMIT
+→ REMEMBER
+
+A Restate-backed request could:
+
+survive a server crash during planning;
+wait days for your approval;
+resume a failed img2threejs or animation job;
+preserve idempotency when an asset processor times out;
+maintain one serialized writer per world, asset, or authorial scope;
+expose exact workflow state to the Architect Action Center.
+Alternatives
+
+DBOS Transact is an attractive lighter alternative if you are willing to make PostgreSQL the workflow foundation. It checkpoints TypeScript workflows in Postgres and supports queues, notifications, scheduling, recovery, and long-running execution without a separate workflow server.
+
+Temporal is the most established heavyweight option. Its TypeScript SDK supports durable, distributed, long-running orchestration, but it introduces more infrastructure and Node-specific worker requirements.
+
+My ranking for Grand Architect:
+
+1. Restate        Best architectural fit
+2. DBOS           Best low-infrastructure alternative
+3. Temporal       Best large-distributed-enterprise alternative
+
+The agent should run Restate and DBOS through the same crash, resume, approval, idempotency, and tracing benchmark before committing.
+
+2. Unified Planning — the planner-independent planning language
+
+Unified Planning is more useful as the Grand Architect’s general planning interface than STOK. It lets the application define planning problems independently of a particular solver and select engines compatible with classical, temporal, numeric, and other planning requirements. It also supports transformations, grounding, PDDL interchange, and multiple planner integrations.
+
+The Grand Architect could translate a request into:
+
+Initial state:
+- valley exists
+- river is protected
+- road is protected
+- sect population target is 2,300
+- local stone and timber are available
+- style constraints resolved
+
+Goals:
+- defensible sect settlement
+- adequate housing
+- cultivation infrastructure
+- navigable paths
+- functioning economy
+- style and canon compliance
+
+Actions:
+- carve terrace
+- generate structure
+- place asset revision
+- establish water supply
+- create road segment
+- assign population
+- compile navigation
+- run simulation
+- validate
+
+Temporal constraints:
+- terrain before foundations
+- foundations before buildings
+- buildings before population
+- navigation after geometry activation
+
+Hard prohibitions:
+- river displacement
+- village-road destruction
+- unmatched render/collision/nav revisions
+
+Unified Planning should not execute anything. It should construct and compare valid action plans using actions registered by the Studio.
+
+3. OR-Tools CP-SAT — schedules, layouts and resources
+
+Google OR-Tools is the better tool for constraint-heavy optimization:
+
+NPC schedules;
+settlement layout;
+room and building placement;
+production chains;
+transport routing;
+construction sequencing;
+sect resource allocation;
+animation job scheduling;
+asset-processing queues;
+encounter composition;
+non-overlapping spatial packing.
+
+Its CP-SAT solver combines constraint programming with SAT/MaxSAT machinery and supports scheduling, circuit, cumulative-resource and non-overlap constraints.
+
+For example, the Grand Architect could solve:
+
+Place:
+- 600 outer-disciple rooms
+- 80 inner-disciple residences
+- kitchens
+- water storage
+- training courts
+- infirmary
+- workshops
+- scripture hall
+
+Subject to:
+- no building intersects cliffs
+- all residences reach water
+- maximum walking-distance targets
+- training courts receive morning light
+- elders remain in the most qi-dense area
+- roads preserve maximum grade
+- buildings do not overlap
+- total triangle and draw-call budget remains bounded
+
+An LLM should formulate and explain the constraints. OR-Tools should find the configuration.
+
+4. Z3 — the universe-law verifier
+
+Z3 is one of the most important repositories for this project. It is a mature SMT theorem prover with native interfaces and a WebAssembly TypeScript/JavaScript package.
+
+It should enforce hard invariants such as:
+
+An entity instance must reference an existing asset revision.
+
+Render, collision and navigation artifacts activated together
+must derive from the same source revision.
+
+A mortal cannot select a traversal regime requiring void survival.
+
+A spatial transition must resolve to a valid coordinate frame.
+
+A clone manifestation cannot simultaneously own a unique artifact
+unless its identity-sharing policy permits it.
+
+A forbidden canon rule cannot be overridden without a retcon record.
+
+A committed authorial plan cannot target a stale world revision.
+
+Z3 is not a planner for artistic decisions. It is the system that says:
+
+“This proposed operation contradicts the laws or current state of the universe.”
+
+That is more fundamental than a probabilistic plan score.
+
+5. clingo — the lore, defaults and exceptions reasoner
+
+A xianxia universe is full of rules that are not purely monotonic:
+
+Cultivators normally require spiritual energy to fly.
+
+Except:
+- body cultivators with physical void-stepping;
+- artifact-assisted mortals;
+- beings whose species naturally flies;
+- suppressed realms where flight is forbidden;
+- locations where formations alter gravity.
+
+Answer Set Programming is designed for declarative problems with alternatives, defaults, exclusions and exceptions. clingo combines a logic-program grounder and solver and supports incremental and reactive reasoning.
+
+That makes it substantially better than a vector database or ordinary rule list for:
+
+conflicting histories;
+rumors;
+institutional doctrine;
+uncertain identities;
+inheritance eligibility;
+sect law;
+technique compatibility;
+artifact ownership;
+supernatural exceptions;
+NPC belief formation;
+mystery consistency.
+
+A compiled rule might look conceptually like:
+
+can_fly(X) :-
+    cultivator(X),
+    realm_at_least(X, core_formation),
+    not flight_suppressed(X).
+
+can_fly(X) :-
+    possesses(X, flight_artifact),
+    artifact_active(flight_artifact).
+
+cannot_survive_void(X) :-
+    mortal_body(X),
+    not protected_by_void_vessel(X).
+
+The Grand Architect uses the verbose Bible to produce and explain these rules. clingo evaluates their consequences.
+
+6. Cedar — exact authorization for authorial power
+
+The Grand Architect should have broad capability access, but that access still needs explicit policy boundaries.
+
+Cedar is a purpose-built authorization language supporting role-based, attribute-based and relationship-based access control. Policies remain separate from application code, can be schema-validated, independently audited, and formally analyzed.
+
+It should determine:
+
+May the Grand Architect:
+- inspect authorial-only mystery truth?
+- invoke this experimental provider?
+- modify accepted canon?
+- execute a destructive world action?
+- install a plugin?
+- access the filesystem?
+- activate an unvalidated asset?
+- revise a protagonist's hard-canon identity?
+
+Examples:
+
+Permit Architect to preview terrain changes.
+
+Permit Architect to commit terrain changes
+only when:
+- request has user approval;
+- preview passed;
+- target revision is current;
+- collision and navigation rebuilds are scheduled.
+
+Forbid every external plugin from:
+- reading authorial-only narrative truth;
+- invoking world.commit;
+- changing Cedar policies;
+- accessing unrestricted network resources.
+
+This is the correct way to give the Grand Architect enormous reach without making it an unrestricted process with all credentials.
+
+7. Wasmtime and Extism — the plugin substrate
+
+Wasmtime is the strongest low-level foundation for secure native-side plugin execution. It is an actively maintained, standards-compliant WebAssembly runtime with resource controls, WASI support, fuzzing, security processes and the WebAssembly Component Model.
+
+Extism builds a more convenient cross-language plugin framework over WebAssembly. It supports Rust, JavaScript, Python, Go, C#, C/C++ and other host/plugin combinations, while the host controls variables, configuration, HTTP access, timers and limits.
+
+My division would be:
+
+Wasmtime + WIT
+- authoritative server-side plugin ABI
+- maximum control
+- long-term standardized contracts
+- strict capability isolation
+
+Extism
+- faster provider onboarding
+- asset processors
+- experimental plugins
+- cross-language capability adapters
+
+Neither should get direct world-memory access. Plugins receive immutable artifacts and scoped service handles, then return candidates or typed command proposals.
+
+8. TerminusDB — the most relevant canon-graph experiment
+
+TerminusDB is unusually aligned with your authorial knowledge problem because it treats structured data with Git-like concepts:
+
+commits;
+diffs;
+branching;
+push/pull/clone;
+time-travel queries;
+linked documents and knowledge graphs;
+Datalog reasoning.
+
+Its current version 12 line remains actively maintained under Apache 2.0.
+
+That maps naturally onto:
+
+Canon branch
+World-history branch
+Narrative experiment branch
+Retcon proposal
+Alternate timeline
+Realm-specific truth
+Player-save history
+Authorial decision diff
+
+It is not automatically the correct operational database for the entire game. I would run a focused pilot:
+
+100,000 canon records
++ 1,000,000 relationships
++ branches
++ retcons
++ source spans
++ character-knowledge projections
++ narrative impact queries
+
+Compare it against a conventional PostgreSQL event model.
+
+The best split may be:
+
+TerminusDB:
+canon, ontology, authorial decisions, narrative branches
+
+PostgreSQL:
+jobs, transactions, asset metadata, operational records
+
+pgvector or another vector index:
+semantic retrieval only
+
+Vector similarity must never decide what is canon. It only finds candidate evidence.
+
+The correct simulation and world stack
+Flecs for large-scale simulation
+
+Flecs is one of the strongest open ECS options for your huge NPC and world simulation. It supports entity relationships, hierarchies, prefabs, browser compilation through Emscripten, multithreaded scheduling, reflection and serialization, and is designed to process millions of entities.
+
+The relationship model matters as much as performance:
+
+Disciple
+  ChildOf → Wang Clan
+  MemberOf → Azure Sword Sect
+  OwesDebtTo → Physician
+  Hates → Outer Elder
+  KnowsRumor → Shrine Mystery
+  AssignedTo → Northern Herb Garden
+  IncarnationOf → Persistent Personhood
+
+Flecs should live in a worker, WebAssembly module, or native simulation service. Three.js should render only embodied nearby instances.
+
+It should not replace your canonical world schema; it should execute a compiled simulation representation of it.
+
+Rapier now, Jolt later
+
+Rapier is the strongest immediate fit for the browser-facing runtime. It is written in Rust, provides 2D/3D and f64 variants, and has maintained JavaScript/TypeScript packages.
+
+Use it first for:
+
+character capsules;
+rigid bodies;
+projectiles;
+local debris;
+triggers;
+interaction volumes;
+vehicle or artifact collision;
+initial terrain collision.
+
+Jolt Physics is the stronger long-term native-side contender. It is multithreaded, supports optional double precision for large worlds, has deterministic build options, and includes rigid bodies, soft bodies, buoyancy and other high-end game-oriented features.
+
+Recommended strategy:
+
+Rapier:
+browser and near-term authoritative physics
+
+Jolt:
+native-side benchmark and future high-end runtime provider
+
+Do not integrate both simultaneously into authority. Give them the same PhysicsCapability conformance suite and select one active provider per runtime profile.
+
+Recast/Detour for ground navigation
+
+Recast/Detour remains the best-established terrestrial navigation base. It supports tiled navmeshes, streaming, rebaking, hierarchical path planning and crowds.
+
+But it only solves one layer:
+
+Ground walking and conventional traversable surfaces
+
+Your game additionally needs:
+
+flying-volume navigation;
+atmosphere lanes;
+orbital paths;
+interplanetary trajectories;
+spatial-formation networks;
+realm topology;
+divine-sense target reachability;
+teleportation constraints.
+
+Do not stretch navmeshes into a universal traversal system.
+
+Planetary and cosmic traversal
+3DTilesRendererJS is the best direct fit
+
+For your existing Three.js/React Three Fiber architecture, NASA-AMMOS’s 3DTilesRendererJS is more directly useful than replacing the renderer with CesiumJS.
+
+It supports Three.js, React Three Fiber and Babylon.js, the 3D Tiles hierarchy, metadata and plugin systems, and already demonstrates Mars, lunar, globe and geospatial rendering workflows.
+
+It should form the distant planetary streaming layer:
+
+Planet
+→ continental tiles
+→ regional tiles
+→ local terrain cells
+→ destructible local overlays
+
+CesiumJS remains the best reference implementation for high-precision globe coordinates, WGS84-scale rendering and huge geospatial datasets. It is actively maintained and streams 3D Tiles on a high-precision globe.
+
+I would not make CesiumJS the entire renderer. I would use:
+
+3DTilesRendererJS
++ Three.js renderer
++ Grand Architect world cells
++ custom double-precision planet frames
++ local floating origins
++ custom atmospheric and orbital traversal
+
+The repository does not solve gameplay coordinate frames for you. You still need:
+
+local tangent frame
+→ planet-centered frame
+→ orbital frame
+→ star-system frame
+→ starry-realm frame
+→ realm-topology frame
+Destructible terrain
+
+There is no open repository that fully solves:
+
+seamless spherical planets + smooth non-blocky destructible terrain + caves + local remeshing + physics + navigation + WebGPU + massive scale.
+
+The optimal architecture remains composite.
+
+OpenVDB and NanoVDB
+
+OpenVDB is the mature sparse-volume foundation. It supplies hierarchical sparse volume storage and a large toolset for volume manipulation; NanoVDB provides a lighter representation suitable for GPU-oriented access.
+
+Use it for:
+
+offline terrain truth;
+sparse SDF interchange;
+erosion and geology jobs;
+cave-generation workers;
+high-quality meshing;
+asset-side volumetric operations;
+native sidecar processing.
+fVDB is the frontier candidate
+
+fVDB is now maintained through the OpenVDB organization and supplies GPU sparse spatial structures and operators built on NanoVDB and PyTorch. It supports sparse construction, ray tracing, meshing and large-domain spatial-intelligence workloads.
+
+It is genuinely frontier technology, but it is CUDA/Python/PyTorch-oriented. It does not belong in your GTX 1070 browser runtime.
+
+Correct placement:
+
+Remote or native GPU terrain laboratory
+→ candidate sparse fields
+→ validated compiled terrain bricks
+→ browser runtime
+
+The shipped terrain system still needs your own:
+
+sparse brick format;
+SDF operation history;
+local WebGPU meshing;
+crack-free chunk seams;
+matching-revision render/collision/nav activation;
+persistence and undo;
+planet-local coordinate mapping.
+Asset and material production
+OpenUSD for DCC composition, not runtime truth
+
+OpenUSD is the best available interchange and composition framework for large, layered, variant-rich, time-sampled scene descriptions.
+
+It is ideal for:
+
+Blender and other DCC sidecars;
+asset variants;
+layered edits;
+references and payloads;
+animation interchange;
+large scene composition;
+asset-production provenance.
+
+It should not become the browser runtime’s world representation. Accepted USD content should compile into Grand Architect asset revisions and glTF/runtime artifacts.
+
+MaterialX as the material interchange language
+
+MaterialX is the strongest provider-neutral basis for rich material definitions and look-development exchange. It is an Academy Software Foundation project with shader-generation and graph tooling, including JavaScript-related sources.
+
+Use it as:
+
+MaterialX-inspired canonical material graph
+→ WebGL GLSL compilation
+→ WebGPU WGSL/TSL compilation
+→ preview
+→ baked runtime variants
+
+The runtime should not evaluate every arbitrary MaterialX graph directly. Compile accepted graphs into quality-profile-specific material packages.
+
+glTF-Transform and meshoptimizer
+
+These should be near-immediate integrations.
+
+glTF-Transform provides TypeScript APIs for reproducibly reading, editing, validating and writing glTF in the browser and Node, including animation resampling, deduplication, compression and texture processing.
+
+meshoptimizer provides mesh simplification, compression, clustered LOD generation, meshlets, culling information and GPU-oriented optimization.
+
+These are much stronger than the agent’s previously reported:
+
+LOD = delete smallest faces
+collision proxy = decimated mesh
+
+Recommended asset compiler:
+
+SemanticAsset
+→ validated mesh
+→ glTF-Transform processing
+→ meshoptimizer simplification and clustering
+→ KTX2 textures
+→ runtime GLB
+→ AssetRevision
+Rigging and animation: the strongest current combination
+
+No single animation repository handles your entire requirement. The best available composition is unusually strong, however.
+
+MHR + Momentum for the character foundation
+
+Meta’s Momentum Human Rig supplies a parametric full-body human model with body identity parameters, full-body articulation, facial expressions, pose correctives and seven LOD levels. It is Apache 2.0.
+
+Meta’s Momentum library provides human kinematics and numerical optimization solvers for fitting, inverse kinematics, marker tracking and related motion tasks. It is actively maintained and MIT-licensed.
+
+This is far more credible than constructing a body from a few rotational rings.
+
+Use them as:
+
+MHR:
+parametric anatomical starting point
+
+Momentum:
+fitting, IK, constraints and retargeting
+
+Grand Architect character schema:
+stylization, cultivation-body variants, sockets,
+equipment zones, body-hide rules and xianxia proportions
+
+MHR should not dictate the final visual style. It provides anatomical and rigging truth that your stylized asset system can adapt.
+
+Kimodo for offline motion generation
+
+Kimodo is currently one of the most useful frontier motion repositories for your authoring pipeline. It generates human or humanoid motion from text and constraints including full-body keyframes, end-effector positions and rotations, paths and waypoints. It includes an interactive authoring interface, benchmarking and export, with Apache-licensed code; model checkpoints and data have separate terms.
+
+Useful requests include:
+
+“Walk uphill while holding a sword behind the back.”
+
+“Perform a restrained sword salute, turn, and begin low flight.”
+
+“Land at this position with the right hand aligned to the scabbard.”
+
+“Run along this path, leap over the wall, then decelerate into a hover.”
+
+Kimodo output remains a candidate. It needs:
+
+retargeting;
+foot-contact validation;
+weapon alignment;
+robe collision evaluation;
+root-motion checking;
+style review;
+compression.
+ARDY for interactive motion research
+
+ARDY is a very recent SIGGRAPH 2026 streaming motion-generation system. Its repository demonstrates autoregressive interactive motion controlled by live text and kinematic constraints, including path following and continuation from current motion.
+
+It belongs in the Animation Frontier Lab, not the shipped runtime.
+
+Use it to prototype:
+
+conversational motion direction;
+long-horizon locomotion;
+interactive pose corrections;
+rapid in-Studio previews;
+transitions created while the user adjusts paths.
+
+Its present hardware and model requirements make it unsuitable as a guarantee for your local GTX 1070 player runtime.
+
+ProtoMotions for physically trained behaviors
+
+ProtoMotions3 is a GPU-accelerated framework for training physically simulated humanoids. It integrates motion imitation, reinforcement learning, procedural scenes and Kimodo-authored motion, but its example training workloads use multiple high-end datacenter GPUs.
+
+Appropriate roles:
+
+falls and recovery;
+impact reactions;
+physical balancing;
+climbing;
+difficult terrain adaptation;
+physically grounded combat locomotion;
+training policies from generated clips.
+
+It is an offline research and training provider, not a browser runtime dependency.
+
+cuRoboV2 as an unconventional but powerful sidecar
+
+cuRoboV2 is robotics-oriented, but its GPU collision checking, high-DoF inverse kinematics, differentiable dynamics and trajectory optimization are directly relevant to:
+
+full-body constraint solving;
+complex hand/weapon reach;
+collision-free high-DoF pose generation;
+trajectory repair;
+animation retargeting around obstacles.
+
+Its 2026 release is CUDA/PyTorch based and Apache 2.0.
+
+Use it as an experimental authoring sidecar—not as character runtime code.
+
+ozz-animation + ACL for the shipped runtime
+
+Generated motion must eventually become efficient deterministic runtime data.
+
+ozz-animation is engine- and renderer-agnostic, data-oriented, tested on WebAssembly, and supports sampling, blending and animation conversion.
+
+ACL is a self-contained animation-compression library with Emscripten/WASM support and game-engine integration.
+
+The ideal chain is:
+
+Kimodo / ARDY / authored clip
+→ Momentum retargeting and correction
+→ contact and style validation
+→ ozz runtime representation
+→ ACL compression
+→ glTF/runtime asset
+Frontier reasoning technologies worth watching
+
+These are more relevant than FDRS, but should remain experiments until they outperform simpler systems.
+
+Salsa — incremental world compiler queries
+
+Salsa memoizes pure queries and recomputes only what is invalidated when inputs change. It is actively developed, though its own README still calls it a work in progress.
+
+It could power a Rust-side compiler:
+
+Bible rule changes
+→ only affected context packets rebuild
+
+Terrain operation changes
+→ only affected render/collision/nav artifacts rebuild
+
+Artifact definition changes
+→ only dependent instances and validations update
+
+Retcon occurs
+→ only impacted narrative and canon projections recompute
+
+This is valuable, but not authoritative storage.
+
+Differential Dataflow — enormous changing relationship graphs
+
+Differential Dataflow incrementally updates relational computations as records are added or removed and can scale across multiple workers.
+
+Potential future use:
+
+faction influence propagation;
+rumor spread;
+ancestry and inheritance;
+karmic relationships;
+impact analysis after retcons;
+population and economy aggregates;
+dependency and invalidation graphs.
+
+Do not introduce it until simpler query systems become a measured bottleneck.
+
+egglog — semantic operation-graph optimization
+
+egglog combines Datalog with equality saturation. It can represent many equivalent expressions and extract a preferred optimized form.
+
+This could eventually optimize:
+
+material graphs;
+technique formulas;
+procedural geometry graphs;
+simulation expressions;
+equivalent authorial operation plans;
+duplicated modifier sequences.
+
+Example:
+
+translate(A)
+→ rotate(B)
+→ inverse_rotate(B)
+→ translate(C)
+
+may be proved equivalent to a simpler graph and safely rewritten.
+
+This is genuine frontier compiler technology, but it comes after your operation system is real and stable.
+
+Verification must be a first-class engine subsystem
+Quint
+
+Quint is a modern executable specification language based on temporal logic. It includes simulation, invariant checking, symbolic model checking and model-based testing support.
+
+Use it to model the dangerous parts of Grand Architect:
+
+Preview never mutates accepted world state.
+
+Only matching render/collision/nav revisions activate together.
+
+Undo restores the prior authoritative state.
+
+A failed provider cannot promote its candidate.
+
+A workflow does not commit twice after restart.
+
+A retcon never silently mutates hard canon.
+
+Only authorized principals can invoke commit actions.
+
+A realm transition always has a valid origin and destination frame.
+
+Formal modeling should target narrow high-value invariants, not attempt to formally prove the entire xianxia universe.
+
+Playwright
+
+Playwright remains mandatory for proving that the Studio is actually operable. It drives Chromium, Firefox and WebKit through one API and provides traces, network records, DOM snapshots and screenshot evidence.
+
+It should test:
+
+natural-language request
+→ grounded target
+→ plan
+→ preview
+→ approval
+→ visible transformation
+→ undo
+→ redo
+→ save
+→ fresh-process reload
+
+No architecture report substitutes for this.
+
+What not to make foundational
+Do not make an agent framework authoritative
+
+LangGraphJS and the OpenAI Agents SDK are both useful model-facing reasoning shells. LangGraph supplies graph-based agent orchestration, memory and human-in-the-loop capabilities; OpenAI’s TypeScript SDK supplies tools, handoffs, guardrails, sessions, tracing and sandbox-agent support.
+
+They can host:
+
+intent interpretation;
+specialist author agents;
+visual critic agents;
+lore compiler agents;
+capability-discovery agents.
+
+They must not own:
+
+world truth;
+durable workflow state;
+transactions;
+permissions;
+asset acceptance;
+physics;
+canon authority.
+
+Those responsibilities belong to Restate, Cedar, the action registry, authoritative stores and validators.
+
+AutoGen should not be selected for a new foundation because its official repository now marks it as maintenance mode and directs new users to its successor.
+
+DSPy is promising for optimizing repeated LLM programs, such as canon extraction or style-compliance classification, but it is a Python model-program optimization layer—not the Grand Architect runtime.
+
+Do not make MCP the internal engine bus
+
+The official MCP TypeScript SDK is useful for connecting external tools, providers and context sources. Its current v2 line implements the July 2026 protocol.
+
+Use MCP for:
+
+Grand Architect
+→ external Blender worker
+→ external research provider
+→ model service
+→ repository tool
+→ remote asset generator
+
+Do not use MCP as the authoritative internal command protocol between Studio subsystems. Your typed StudioActionRegistry and runtime command contracts should remain stronger and more specific.
+
+My actual priority classification
+Integrate or benchmark now
+Role	Repository
+Durable UnboundLoop	Restate, benchmark against DBOS
+General planning model	Unified Planning
+Scheduling and layout	OR-Tools CP-SAT
+Hard universe laws	Z3
+Lore defaults/exceptions	clingo
+Authorization	Cedar
+Plugin isolation	Wasmtime/WIT, optionally Extism
+UI/workflow proof	Playwright
+Formal control invariants	Quint
+Asset post-processing	glTF-Transform
+LOD/mesh optimization	meshoptimizer
+Browser physics	Rapier
+Planet streaming	3DTilesRendererJS
+Pilot after the control plane works
+Role	Repository
+Versioned canon graph	TerminusDB
+Massive world simulation	Flecs
+Ground navigation	Recast/Detour
+Material interchange	MaterialX
+DCC composition	OpenUSD
+Sparse volumetric sidecar	OpenVDB/NanoVDB
+Parametric character	MHR
+IK and retargeting	Momentum
+Runtime animation	ozz-animation + ACL
+Native high-end physics	Jolt Physics
+Frontier Lab only
+Role	Repository
+Offline controllable motion	Kimodo
+Interactive streaming motion	ARDY
+Physics-trained humanoids	ProtoMotions3
+GPU whole-body optimization	cuRoboV2
+GPU sparse spatial intelligence	fVDB
+Incremental dependency compiler	Salsa
+Huge dynamic graph computation	Differential Dataflow
+Graph/expression optimization	egglog
+Probabilistic option evaluation	STOK
+Exotic hierarchical time research	FDRS
+The bake-offs I would order now
+
+Do not tell the agent to integrate everything. That would produce fifty manifests and no proven system.
+
+Bake-off 1: durable Grand Architect execution
+
+Implement the same reference workflow in Restate and DBOS:
+
+request
+→ plan
+→ provider job
+→ wait for approval
+→ execute
+→ validate
+→ persist decision
+
+During each run:
+
+kill the server in every stage;
+restart it;
+repeat messages;
+delay provider responses;
+cancel jobs;
+change the world revision;
+test 1,000 concurrent workflows;
+inspect traces and recovery.
+
+Choose based on correctness and operational burden, not demo brevity.
+
+Bake-off 2: multi-solver authorial planning
+
+Use one real request:
+
+“Create an ancient declining sword-sect city while preserving the river and village road.”
+
+Partition the problem:
+
+Unified Planning:
+action order and temporal dependencies
+
+OR-Tools:
+layout, capacities and schedules
+
+Z3:
+hard law and revision invariants
+
+clingo:
+canon defaults, exceptions and institutional rules
+
+Then compare it to the existing LLM-only plan.
+
+Measure:
+
+invalid operations proposed;
+constraint violations;
+explanation quality;
+solve latency;
+ability to replan after one world change;
+reproducibility.
+Bake-off 3: versioned canon
+
+Compare TerminusDB with your existing persistence model using:
+
+100,000 rules;
+source spans;
+world and regional scopes;
+conflicting histories;
+branch;
+merge;
+retcon;
+character-specific knowledge;
+mystery projections;
+affected-asset queries.
+
+Do not migrate until it clearly improves branching and provenance.
+
+Bake-off 4: plugin sandbox
+
+Create one malicious test plugin that attempts:
+
+filesystem escape;
+network access;
+process spawning;
+excessive memory;
+infinite looping;
+world mutation;
+policy alteration.
+
+Host it under Wasmtime or Extism, authorize through Cedar, and prove every unauthorized action fails.
+
+Bake-off 5: planet traversal
+
+Using 3DTilesRendererJS:
+
+stand on surface
+→ fly upward
+→ cross atmosphere
+→ observe curvature
+→ enter orbital frame
+→ travel around globe
+→ descend elsewhere
+
+Test:
+
+coordinate precision;
+floating-origin transitions;
+streaming;
+physics continuity;
+day/night continuity;
+save/reload;
+GTX 1070 frame budget.
+Bake-off 6: one production character
+MHR base body
+→ Grand Architect stylization
+→ equipment/body-hide schema
+→ Momentum fitting and retargeting
+→ Kimodo candidate locomotion
+→ ozz runtime conversion
+→ ACL compression
+→ browser playback
+
+Prove:
+
+modular underwear base;
+robe and armor fitting;
+stable sockets;
+joint deformation;
+foot contacts;
+weapon alignment;
+LOD switching;
+animation blending;
+equipment changes without rebuilding identity.
+Bake-off 7: destructible planetary terrain
+planetary streamed terrain
+→ local sparse SDF shell
+→ carve tunnel
+→ local remesh
+→ matching collision rebuild
+→ matching navigation rebuild
+→ walk through
+→ undo
+→ save
+→ fresh-process reload
+
+OpenVDB/fVDB may generate or process the sparse field externally, but the browser path must remain custom and hardware-appropriate.
+
+What I would tell the agent
+
+Do not integrate STOK or FDRS as foundational architecture. Reclassify both as Frontier Lab candidates.
+
+Create FRONTIER_TECHNOLOGY_MATRIX.md covering:
+
+exact repository and pinned revision;
+license and asset/model-license distinctions;
+architectural role;
+integration mode;
+maturity;
+hardware requirements;
+browser viability;
+authority level;
+expected advantage;
+benchmark;
+acceptance criteria;
+rejection conditions.
+
+The initial S-tier candidates are:
+
+Restate
+Unified Planning
+OR-Tools CP-SAT
+Z3
+clingo
+Cedar
+Wasmtime/WIT
+Extism
+Quint
+Playwright
+3DTilesRendererJS
+glTF-Transform
+meshoptimizer
+Rapier
+
+Do not merge all candidates.
+
+Create one isolated worktree and adapter per candidate. No candidate receives world authority merely because it compiles or registers a capability.
+
+First execute three bake-offs:
+
+Restate versus DBOS for durable UnboundLoop execution.
+Unified Planning + OR-Tools + Z3 + clingo versus the current LLM-only planner.
+Wasmtime/Extism + Cedar for sandboxed plugin execution.
+
+Require real failure injection, production builds, exact provenance and Chromium/Firefox evidence.
+
+Do not add UI tabs for these experiments. Expose them through the existing Frontier/Diagnostics workspace and canonical action registry.
+
+Do not label a candidate INTEGRATED unless one real authorial workflow uses it and passes its acceptance suite.
+
+Final judgment
+
+The best foundation is not STOK, FDRS, LangGraph, a world model, or any single autonomous-agent repository.
+
+It is this combination:
+
+Restate
+for durable authorial execution
+
+Unified Planning
+for planner-independent action models
+
+OR-Tools
+for schedules, layouts and resources
+
+Z3
+for inviolable universe laws
+
+clingo
+for lore, defaults and exceptions
+
+Cedar
+for authority and permissions
+
+Wasmtime/Extism
+for safe capability expansion
+
+TerminusDB
+for an experimental versioned canon graph
+
+Flecs
+for large-scale living-world simulation
+
+3DTilesRendererJS
+for globe-scale streaming
+
+OpenVDB/fVDB
+for volumetric production research
+
+MHR/Momentum/Kimodo/ARDY
+for character and motion creation
+
+glTF-Transform/meshoptimizer/ozz/ACL
+for production runtime assets
+
+Quint and Playwright
+for proving the system rather than describing it
+
+This gives the Grand Architect something far more powerful than an “AI that knows many tools”:
+
+A durable authorial intelligence that can understand the universe, formally reason about what is possible, optimize complex plans, enforce canon and physical laws, invoke isolated frontier providers, operate the entire Studio through canonical actions, and prove that its changes survived execution, validation, undo and reload.
+
+A monthly Frontier Repository Watch would be useful for this stack because several of the motion, volumetric, agent and protocol projects are changing quickly; say the word and I’ll schedule it.

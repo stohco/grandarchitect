@@ -113,7 +113,7 @@ export default function ArchitectPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-2 border-b border-[#2a2a4a] px-3 py-1.5">
+      <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
         <div className="relative flex h-4 w-4 items-center justify-center">
           <div className="absolute inset-0 rounded-full bg-purple-500/30 animate-ping opacity-60" />
           <Sparkles className="relative h-3.5 w-3.5 text-purple-400" />
