@@ -719,6 +719,51 @@ export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
     currentBlocker: undefined,
     paperRef: 'JCGT vol 11 no 3 (2022)',
   },
+  // -------------------------------------------------------------------------
+  // Recursive Language Model (RLM) Agent — Prime Agent
+  // Repo: https://github.com/PrimeIntellect-ai/prime-agent
+  // -------------------------------------------------------------------------
+  {
+    id: 'recursive-language-model-agent',
+    name: 'Recursive Language Model (RLM) Agent — Prime Agent',
+    category: 'ai-architecture',
+    problemSolved: 'Self-improving AI agent architecture: treats context as variables (prompt-as-a-variable), tools as recursive subagent function calls, and applies evidence-backed harness refinements for recursive self-improvement',
+    observedSources: [
+      { type: 'repository', title: 'Prime Agent — Self-Improving RLM Agent', author: 'PrimeIntellect-ai', url: 'https://github.com/PrimeIntellect-ai/prime-agent' },
+      { type: 'paper', title: 'Continual Harness (arXiv:2605.09998)', author: 'PrimeIntellect', url: 'https://arxiv.org/abs/2605.09998' },
+      { type: 'blog', title: 'Recursive Language Models', author: 'PrimeIntellect', url: 'https://www.primeintellect.ai/blog/rlm' },
+    ],
+    underlyingPrinciples: [
+      'Persistent IPython kernel as the model\'s only built-in tool — file ops, shell, skills all happen through code',
+      'rlm() spawns real child agents for parallel/background work — returns immediately with handle, results via messages',
+      'Continual Harness: /refine reviews trajectory, applies evidence-backed updates to supplemental prompts/memories/skills/subagent-specs',
+      'NEVER rewrites immutable base system prompt — only supplemental state',
+      'Recorded snapshots support rollback of harness refinements',
+      'Skills are importable Python packages (superset of instruction-only skills)',
+      'Direct agent-to-agent communication (agent_message) — no routing through user',
+      'Persistent goals survive across turns until completed/paused/cleared',
+      'Daemon-backed: sessions keep running when terminal disconnects, reattach later',
+      'Heartbeats and schedules re-enter session periodically',
+      'Bounded autonomous mode with turn/token/time budgets + quality gates',
+      'Automatic compaction summarizes older context while preserving kernel state',
+    ],
+    maturity: 'research',
+    licenseAssessment: {
+      license: 'mit',
+      compatible: true,
+      notes: 'Prime Agent is MIT-licensed. However, it is a Python CLI tool, not a browser library. Cannot run in Next.js/browser directly.',
+    },
+    browserFeasibility: {
+      browserFeasible: false,
+      notes: 'Prime Agent requires Python runtime + IPython kernel. Cannot run in browser. Would need a server-side adapter communicating via JSON/RPC mode. The RLM CONCEPTS are immediately adoptable in our architecture even without the Python runtime.',
+    },
+    benchmarks: [],
+    decisionStatus: 'researching',
+    integrationPlan: 'Provider-neutral RLMProvider interface (like Unified3DProvider for 3D). Prime Agent is one possible adapter — others could include custom RLM runtimes. The RLM concepts map directly to Grand Architect/UnboundLoop: rlm() → recursive delegation, Continual Harness /refine → self-improvement with rollback, Skills → plugin capabilities, agent_message → architect tool communication, persistent goals → long-running objectives. Stage 1: interfaces + mock (DONE). Stage 2: server-side adapter wrapping prime-agent CLI. Stage 3: JSON/RPC mode integration. Stage 4: UnboundLoop orchestration with recursive delegation. Stage 5: self-improvement loop with evidence-backed refinement.',
+    runtimeAuthority: 'none',
+    currentBlocker: 'Prime Agent is a Python CLI tool requiring IPython kernel — cannot run in browser/Next.js. Need server-side adapter with JSON/RPC mode. The RLM concepts are architecturally adopted (interfaces created) but not runtime-integrated.',
+    paperRef: 'arXiv:2605.09998 (Continual Harness)',
+  },
 ];
 
 // ============================================================================
