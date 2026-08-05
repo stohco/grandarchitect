@@ -8,7 +8,6 @@
 'use client';
 
 import { create } from 'zustand';
-import { useCallback } from 'react';
 import type {
   SerializableSettlement,
   SerializableStructure,
@@ -449,24 +448,50 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   },
 
   applyEdits: (es) => {
-    for (const e of es) get().applyEdit(e);
-    if (es.length) {
-      const first = es[0];
-      get().recordTransaction({
-        requestedBy: 'user',
-        originalRequest: `Transform edit on entity #${first.entityId}`,
-        toolsUsed: ['transform.gizmo'],
-        changedProperties: { edits: es.length },
-        affectedSystems: ['presentation'],
-        diffs: es.map((e) => ({
-          system: 'presentation',
-          changeType: 'modify' as const,
-          fieldPath: [String(e.entityId), e.field],
-          description: `${e.field} → ${e.value}`,
-        })),
-        permissionClass: 'presentation_only',
-      });
+    if (es.length === 0) return;
+    // Compute ONE immutable patch and commit once — do NOT call applyEdit
+    // per field (that caused multiple state updates and inconsistent
+    // intermediate states).
+    const state = get();
+    const edits = { ...state.edits };
+    for (const e of es) {
+      const existing = edits[e.entityId] ?? {};
+      if (e.field === 'position.x') {
+        const pos = existing.position ?? getEffectiveStructure(state.settlement, e.entityId)?.position ?? { x: 0, z: 0 };
+        edits[e.entityId] = { ...existing, position: { x: e.value, z: pos.z } };
+      } else if (e.field === 'position.z') {
+        const pos = existing.position ?? getEffectiveStructure(state.settlement, e.entityId)?.position ?? { x: 0, z: 0 };
+        edits[e.entityId] = { ...existing, position: { x: pos.x, z: e.value } };
+      } else if (e.field === 'rotation') {
+        edits[e.entityId] = { ...existing, rotation: e.value };
+      } else if (e.field === 'width') {
+        edits[e.entityId] = { ...existing, width: e.value };
+      } else if (e.field === 'depth') {
+        edits[e.entityId] = { ...existing, depth: e.value };
+      }
     }
+    // Snapshot the previous edits for undo BEFORE committing.
+    const previousEdits = state.edits;
+    set({ edits });
+
+    // Record transaction with undo info.
+    const first = es[0];
+    state.recordTransaction({
+      requestedBy: 'user',
+      originalRequest: `Transform edit on entity #${first.entityId}`,
+      toolsUsed: ['transform.gizmo'],
+      changedProperties: { edits: es.length },
+      affectedSystems: ['presentation'],
+      diffs: es.map((e) => ({
+        system: 'presentation',
+        changeType: 'modify' as const,
+        fieldPath: [String(e.entityId), e.field],
+        description: `${e.field} → ${e.value}`,
+      })),
+      permissionClass: 'presentation_only',
+      // Store the previous edits snapshot so undo can restore it.
+      _previousEdits: previousEdits,
+    } as Record<string, unknown>);
   },
 
   hideEntity: (id) => set((s) => {
@@ -508,11 +533,20 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     }),
 
   undoTransaction: (id) =>
-    set((s) => ({
-      transactions: s.transactions.map((t) =>
-        t.transactionId === id ? { ...t, undone: true } : t
-      ),
-    })),
+    set((s) => {
+      const tx = s.transactions.find((t) => t.transactionId === id);
+      if (!tx || tx.undone) return {};
+      // If the transaction stored a previous edits snapshot, restore it.
+      // This makes undo actually revert the state, not just mark a flag.
+      const prev = (tx as unknown as { _previousEdits?: typeof s.edits })._previousEdits;
+      const newEdits = prev !== undefined ? prev : s.edits;
+      return {
+        edits: newEdits,
+        transactions: s.transactions.map((t) =>
+          t.transactionId === id ? { ...t, undone: true } : t
+        ),
+      };
+    }),
 
   createBranch: (name, description) =>
     set((s) => ({
@@ -586,13 +620,35 @@ export function getEffective(
 }
 
 // Convenience hook for components that just want the current selection's entity.
-export function useSelectedStructure(): SerializableStructure | null {
-  return useEditorStore((s) => {
-    if (!s.settlement || s.selectedEntityIds.length === 0) return null;
-    const id = s.selectedEntityIds[0];
-    return getEffective(s.settlement, s.edits, id);
-  });
-}
+// CRITICAL: This hook uses ATOMIC selectors (stable stored references) and
+// useMemo to merge — it does NOT call getEffective() inside the selector.
+// The previous implementation returned a new object from the selector on every
+// call when edits existed, causing React useSyncExternalStore infinite loops
+// ("Maximum update depth exceeded" / "getSnapshot should be cached").
+import { useMemo } from 'react';
 
-// Stable no-op callback export for components needing a ref callback.
-export const useNoop = useCallback as unknown;
+export function useSelectedStructure(): SerializableStructure | null {
+  const selectedId = useEditorStore(
+    (s) => (s.selectedEntityIds.length > 0 ? s.selectedEntityIds[0] : null),
+  );
+  const baseStructure = useEditorStore((s) =>
+    selectedId !== null && s.settlement
+      ? s.settlement.structures.find((x) => x.entityId === selectedId) ?? null
+      : null,
+  );
+  const entityEdits = useEditorStore((s) =>
+    selectedId !== null ? s.edits[selectedId] ?? null : null,
+  );
+
+  return useMemo(() => {
+    if (!baseStructure) return null;
+    if (!entityEdits) return baseStructure;
+    return {
+      ...baseStructure,
+      position: entityEdits.position ?? baseStructure.position,
+      rotation: entityEdits.rotation ?? baseStructure.rotation,
+      width: entityEdits.width ?? baseStructure.width,
+      depth: entityEdits.depth ?? baseStructure.depth,
+    };
+  }, [baseStructure, entityEdits]);
+}

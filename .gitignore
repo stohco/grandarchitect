@@ -1,6 +1,98 @@
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+coverage/
+
+# Next.js
 .next/
+out/
+build/
+dist/
+
+# Production
+*.tsbuildinfo
+next-env.d.ts
+
+# Misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun-debug.log*
+
+# Local env files
+.env
+.env*.local
+.env.development
+.env.production
+
+# Vercel
+.vercel
+
+# Runtime logs
+*.log
 dev.log
 ws.log
 watchdog.log
-*.log
+server.log
+mini-service-*.log
+
+# PID files
+*.pid
+.zscripts/dev.pid
+.zscripts/*.pid
+
+# Databases
+db/
+*.sqlite
+*.sqlite3
+*.db
+prisma/dev.db
+
+# Generated world data
+data/world-store/
+data/
+
+# Crash reports (generated at runtime)
+crash-reports/
+
+# Backups
+backups/
+*.bundle
+
+# Tool results / agent context (ephemeral)
+tool-results/
+agent-ctx/
+
+# Uploads / downloads (user-supplied, not source)
+upload/
+download/
+downloaded/
+downloaded_v2/
+
+# Screenshots (ephemeral evidence)
+*.png
+!src/**/*.png
+!public/**/*.png
+
+# Videos
+*.webm
+*.mp4
+
+# Recovery artifacts
+recovery/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

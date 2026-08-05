@@ -9,6 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { requireDevMode } from '@/lib/editor/api-guards';
 import { createFilesystemWorldAssetStore } from '@/engine/frontier/world-asset-store';
 import {
   createDensityRegion, TerrainSourceOp, SdfMountainOp, SplineTunnelOp, ErosionOp,
@@ -41,6 +42,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
   try {
     const body = await req.json();
     const { action } = body;

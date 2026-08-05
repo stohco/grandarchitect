@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireDevMode } from '@/lib/editor/api-guards';
 import { createOperationGraphManager } from '@/engine/frontier/operation-graph';
 export const runtime = 'nodejs';
 
@@ -32,6 +33,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
   try {
     const body = await req.json();
     const { action } = body;

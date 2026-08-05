@@ -11,6 +11,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mkdir, writeFile, readdir, stat } from 'fs/promises';
 import { join } from 'path';
+import { requireDevMode, checkCrashReportRate, CRASH_REPORT_MAX_BYTES } from '@/lib/editor/api-guards';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -48,8 +49,27 @@ function safeId(id: unknown): string {
 }
 
 export async function POST(req: NextRequest) {
+  // Dev-only guard + rate limiting + body size cap for crash reports.
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
+
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
+  if (!checkCrashReportRate(ip)) {
+    return NextResponse.json(
+      { ok: false, error: 'Rate limit exceeded: max 20 crash reports per minute per IP' },
+      { status: 429 },
+    );
+  }
+
   try {
-    const body = (await req.json()) as CrashRequestBody;
+    const rawText = await req.text();
+    if (rawText.length > CRASH_REPORT_MAX_BYTES) {
+      return NextResponse.json(
+        { ok: false, error: `Body too large: max ${CRASH_REPORT_MAX_BYTES} bytes` },
+        { status: 413 },
+      );
+    }
+    const body = JSON.parse(rawText) as CrashRequestBody;
     if (!body || typeof body !== 'object') {
       return NextResponse.json(
         { ok: false, error: 'Invalid body: expected JSON object' },

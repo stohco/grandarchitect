@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireDevMode } from '@/lib/editor/api-guards';
 import { spawn } from 'child_process';
 import { resolve } from 'path';
 import { CONFORMANCE_FILES } from '@/lib/engine/dashboard-data';
@@ -49,7 +50,10 @@ function runOne(name: string, relPath: string, expected: number): Promise<SuiteR
         if (fMatch) failed = parseInt(fMatch[1], 10);
         total = passed + failed;
       }
-      const ok = failed === 0 && (total === 0 || total >= expected);
+      // A test run is OK only if: zero failures AND at least one test ran
+      // AND total meets or exceeds expected count. A crashed process that
+      // produces no parseable output (total === 0) must NOT be marked as pass.
+      const ok = failed === 0 && total > 0 && total >= expected;
       const tail = combined.trim().split('\n').slice(-12).join('\n');
       resolvePromise({ name, path: relPath, expected, passed, failed, total, ok, durationMs, tail });
     });
@@ -64,6 +68,8 @@ function runOne(name: string, relPath: string, expected: number): Promise<SuiteR
 }
 
 export async function POST() {
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
   const results: SuiteResult[] = [];
   for (const f of CONFORMANCE_FILES) {
     const r = await runOne(f.name, f.path, f.expected);
