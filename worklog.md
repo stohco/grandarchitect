@@ -514,3 +514,21 @@ Stage Summary:
   hash proves the same derived data was produced.
 - 47/47 tests pass. This is the first proof that the modular Live Studio is producing
   actual engine artifacts rather than catalog entries.
+
+---
+Task ID: LIVE-TERRAIN-RENDERING
+Agent: main (Z.ai Code)
+Task: Connect the real terrain plugin to the live Three.js viewport so the user can see actual generated geometry.
+
+Work Log:
+- Built GET /api/frontier/terrain: runs the full terrain pipeline (source → mountain → tunnel → erosion → surface extraction → collision → navigation → vegetation) and returns serialized geometry arrays. Parameters: resolution (8-48, default 24), seed (default 42).
+- Added terrain rendering to Viewport3D: when showTerrain is toggled, fetches terrain geometry from the API, builds real Three.js BufferGeometry from Float32Array positions/normals/indices, applies vertex colors based on material IDs (grass=green, dirt=brown, stone=grey), adds InstancedMesh vegetation (cone geometry for pine trees), wireframe overlay, and shadows. Camera repositions to frame the 128m terrain region.
+- Added Mountain toggle button to EditorToolbar (next to minimap toggle).
+- Added showTerrain + toggleTerrain to editor store.
+- Verified: terrain API returns 13600 vertices, 6800 triangles, 141 vegetation instances, 583 navigation polygons. Console confirms: "Terrain generated: 13600 vertices, 6800 triangles, 141 vegetation, nav: 583 polygons". The real geometry is now visible in the viewport.
+- Lint clean. Pushed to GitHub.
+
+Stage Summary:
+- REAL TERRAIN IS NOW VISIBLE IN THE EDITOR. The user can click the Mountain button in the toolbar and see actual generated SDF terrain with a mountain, carved tunnel, erosion, material coloring, and vegetation instances rendered as real Three.js geometry.
+- The terrain API serves real indexed geometry (positions, normals, indices, materialIds) from the terrain plugin, not synthetic hashes.
+- This bridges the gap between the engine subsystem (terrain plugin) and the Live Studio UI (Three.js viewport).
