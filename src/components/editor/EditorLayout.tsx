@@ -56,6 +56,7 @@ import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
 import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
 import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
 import FrontierPanel from '@/components/editor/panels/FrontierPanel';
+import AssetForgePanel from '@/components/editor/panels/AssetForgePanel';
 import ConformancePanel from '@/components/editor/panels/ConformancePanel';
 import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
 import EnginePanel from '@/components/editor/panels/EnginePanel';
@@ -341,6 +342,7 @@ const BOTTOM_TABS: readonly BottomTab[] = [
   { value: 'complexity', label: 'Complexity' },
   { value: 'benchmarks', label: 'Benchmarks' },
   { value: 'frontier', label: 'Frontier' },
+  { value: 'forge', label: 'Forge' },
   { value: 'crashes', label: 'Crashes', icon: ShieldAlert },
 ];
 
@@ -355,6 +357,7 @@ const TALL_TABS = new Set([
   'engine',
   'crashes',
   'frontier',
+  'forge',
 ]);
 
 function HistoryPanel() {
@@ -444,6 +447,7 @@ function BottomDock() {
         {activeTab === 'complexity' && <ComplexityPanel />}
         {activeTab === 'benchmarks' && <BenchmarksPanel />}
         {activeTab === 'frontier' && <FrontierPanel />}
+        {activeTab === 'forge' && <AssetForgePanel />}
         {activeTab === 'crashes' && <CrashObservatoryPanel />}
       </div>
     </div>
