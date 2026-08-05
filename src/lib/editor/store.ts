@@ -84,6 +84,7 @@ export interface EditorState {
   showTerrain: boolean;
   showCollisionOverlay: boolean;
   showNavigationOverlay: boolean;
+  showPlayer: boolean;
   showOutliner: boolean;
   showInspector: boolean;
   showBottomDock: boolean;
@@ -159,6 +160,7 @@ export interface EditorState {
   toggleTerrain: () => void;
   toggleCollisionOverlay: () => void;
   toggleNavigationOverlay: () => void;
+  togglePlayer: () => void;
   toggleOutliner: () => void;
   toggleInspector: () => void;
   toggleBottomDock: () => void;
@@ -242,6 +244,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   showTerrain: false,
   showCollisionOverlay: false,
   showNavigationOverlay: false,
+  showPlayer: false,
   showOutliner: true,
   showInspector: true,
   showBottomDock: true,
@@ -400,6 +403,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   toggleTerrain: () => set((s) => ({ showTerrain: !s.showTerrain })),
   toggleCollisionOverlay: () => set((s) => ({ showCollisionOverlay: !s.showCollisionOverlay })),
   toggleNavigationOverlay: () => set((s) => ({ showNavigationOverlay: !s.showNavigationOverlay })),
+  togglePlayer: () => set((s) => ({ showPlayer: !s.showPlayer })),
   toggleGizmos: () => set((s) => ({ showGizmos: !s.showGizmos })),
   toggleStats: () => set((s) => ({ showStats: !s.showStats })),
   toggleMinimap: () => set((s) => ({ showMinimap: !s.showMinimap })),

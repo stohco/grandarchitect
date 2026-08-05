@@ -41,6 +41,7 @@ import {
   Mountain,
   Box,
   Navigation,
+  PersonStanding,
   PanelLeft,
   PanelRight,
   PanelBottom,
@@ -116,6 +117,7 @@ export default function EditorToolbar() {
   const showTerrain = useEditorStore((s) => s.showTerrain);
   const showCollisionOverlay = useEditorStore((s) => s.showCollisionOverlay);
   const showNavigationOverlay = useEditorStore((s) => s.showNavigationOverlay);
+  const showPlayer = useEditorStore((s) => s.showPlayer);
   const showOutliner = useEditorStore((s) => s.showOutliner);
   const showInspector = useEditorStore((s) => s.showInspector);
   const showBottomDock = useEditorStore((s) => s.showBottomDock);
@@ -128,6 +130,7 @@ export default function EditorToolbar() {
   const toggleTerrain = useEditorStore((s) => s.toggleTerrain);
   const toggleCollisionOverlay = useEditorStore((s) => s.toggleCollisionOverlay);
   const toggleNavigationOverlay = useEditorStore((s) => s.toggleNavigationOverlay);
+  const togglePlayer = useEditorStore((s) => s.togglePlayer);
   const toggleOutliner = useEditorStore((s) => s.toggleOutliner);
   const toggleInspector = useEditorStore((s) => s.toggleInspector);
   const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
@@ -228,6 +231,9 @@ export default function EditorToolbar() {
         </ToggleButton>
         <ToggleButton active={showNavigationOverlay} onClick={toggleNavigationOverlay} title="Toggle navigation mesh overlay (green walkable surfaces)" disabled={!showTerrain}>
           <Navigation className="h-3.5 w-3.5" />
+        </ToggleButton>
+        <ToggleButton active={showPlayer} onClick={togglePlayer} title="Spawn player in tunnel — WASD to walk, traverse the tunnel" disabled={!showTerrain}>
+          <PersonStanding className="h-3.5 w-3.5" />
         </ToggleButton>
 
         <div className="h-6 w-px bg-[#2a2a4a]" />

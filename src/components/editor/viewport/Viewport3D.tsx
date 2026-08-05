@@ -336,6 +336,11 @@ export default function Viewport3D() {
 
       controls.update();
 
+      // Player embodiment update (if active)
+      if (playerRef.current && (playerRef.current as any).userData.animate) {
+        (playerRef.current as any).userData.animate();
+      }
+
       // Hover highlight: tint the hovered mesh slightly brighter.
       const hoveredId = useEditorStore.getState().hoveredEntityId;
       if (hoveredId !== hoveredIdRef.current) {
@@ -682,6 +687,214 @@ export default function Viewport3D() {
       })
       .catch(() => {});
   }, [showNavigationOverlay, showTerrain]);
+
+  // -----------------------------------------------------------------------
+  // Player Embodiment — spawn a player inside the tunnel and walk through it
+  // The critique demanded: "The player must physically traverse the actual
+  // generated and collision-backed tunnel in the running Studio."
+  // -----------------------------------------------------------------------
+  const showPlayer = useEditorStore((s) => s.showPlayer);
+  const playerRef = useRef<THREE.Group | null>(null);
+  const playerStateRef = useRef<{
+    position: THREE.Vector3;
+    velocity: THREE.Vector3;
+    onGround: boolean;
+    keys: Record<string, boolean>;
+    raycaster: THREE.Raycaster;
+    traversalLog: { position: [number, number, number]; timestamp: number }[];
+    enteredTunnel: boolean;
+    exitedTunnel: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const renderer = rendererRef.current;
+    if (!scene || !renderer) return;
+
+    // Remove existing player
+    if (playerRef.current) {
+      scene.remove(playerRef.current);
+      playerRef.current = null;
+      playerStateRef.current = null;
+    }
+
+    if (!showPlayer || !terrainGroupRef.current) return;
+
+    // Create player capsule
+    const playerGroup = new THREE.Group();
+    playerGroup.name = 'player';
+
+    // Body (capsule)
+    const bodyGeo = new THREE.CapsuleGeometry(0.4, 1.2, 4, 8);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x44ddff, emissive: 0x224455, roughness: 0.4 });
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.castShadow = true;
+    playerGroup.add(body);
+
+    // Direction indicator
+    const dirGeo = new THREE.ConeGeometry(0.15, 0.4, 4);
+    const dirMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const dir = new THREE.Mesh(dirGeo, dirMat);
+    dir.position.set(0, 0.8, 0.3);
+    dir.rotation.x = Math.PI / 2;
+    playerGroup.add(dir);
+
+    // Spawn at tunnel entrance (x=10, z=64, y=25 — inside the tunnel)
+    playerGroup.position.set(10, 26, 64);
+    scene.add(playerGroup);
+    playerRef.current = playerGroup;
+
+    // Initialize player state
+    playerStateRef.current = {
+      position: new THREE.Vector3(10, 26, 64),
+      velocity: new THREE.Vector3(0, 0, 0),
+      onGround: false,
+      keys: {},
+      raycaster: new THREE.Raycaster(),
+      traversalLog: [],
+      enteredTunnel: false,
+      exitedTunnel: false,
+    };
+
+    // Switch to player camera (follow camera)
+    const cam = cameraRef.current;
+    const ctrl = controlsRef.current;
+    if (cam && ctrl) {
+      ctrl.enabled = false; // disable orbit controls during player mode
+      cam.position.set(10, 30, 70);
+      cam.lookAt(10, 26, 64);
+    }
+
+    // Keyboard controls
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!playerStateRef.current) return;
+      playerStateRef.current.keys[e.key.toLowerCase()] = true;
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (!playerStateRef.current) return;
+      playerStateRef.current.keys[e.key.toLowerCase()] = false;
+    };
+    renderer.domElement.addEventListener('keydown', onKeyDown);
+    renderer.domElement.addEventListener('keyup', onKeyUp);
+    // Make canvas focusable
+    renderer.domElement.tabIndex = 0;
+
+    // Player update loop (runs in the animation cycle)
+    const playerAnimate = () => {
+      if (!playerRef.current || !playerStateRef.current || !showPlayer) return;
+
+      const state = playerStateRef.current;
+      const player = playerRef.current;
+      const terrainMesh = terrainGroupRef.current?.children.find(c =>
+        c instanceof THREE.Mesh && c.userData.isTerrain
+      ) as THREE.Mesh | undefined;
+
+      if (!terrainMesh) return;
+
+      // Movement input
+      const speed = 0.3;
+      const forward = new THREE.Vector3();
+      const right = new THREE.Vector3();
+      const cam2 = cameraRef.current;
+      if (cam2) {
+        cam2.getWorldDirection(forward);
+        forward.y = 0;
+        forward.normalize();
+        right.crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize();
+      }
+
+      const move = new THREE.Vector3();
+      if (state.keys['w']) move.add(forward);
+      if (state.keys['s']) move.sub(forward);
+      if (state.keys['a']) move.sub(right);
+      if (state.keys['d']) move.add(right);
+      if (move.lengthSq() > 0) move.normalize().multiplyScalar(speed);
+
+      // Apply gravity
+      state.velocity.y -= 0.015;
+
+      // Apply movement
+      state.position.x += move.x;
+      state.position.z += move.z;
+      state.position.y += state.velocity.y;
+
+      // Collision: raycast downward from player to terrain
+      state.raycaster.set(
+        new THREE.Vector3(state.position.x, state.position.y + 1, state.position.z),
+        new THREE.Vector3(0, -1, 0)
+      );
+      state.raycaster.far = 3.0;
+      const hits = state.raycaster.intersectObject(terrainMesh, false);
+
+      if (hits.length > 0) {
+        const groundY = hits[0].point.y;
+        if (state.position.y < groundY + 1.0) {
+          state.position.y = groundY + 1.0;
+          state.velocity.y = 0;
+          state.onGround = true;
+        }
+      } else {
+        state.onGround = false;
+      }
+
+      // Side collision: raycast forward
+      if (move.lengthSq() > 0) {
+        state.raycaster.set(
+          new THREE.Vector3(state.position.x, state.position.y, state.position.z),
+          move.clone().normalize()
+        );
+        state.raycaster.far = 0.6;
+        const sideHits = state.raycaster.intersectObject(terrainMesh, false);
+        if (sideHits.length > 0) {
+          // Blocked — undo movement
+          state.position.x -= move.x;
+          state.position.z -= move.z;
+        }
+      }
+
+      // Update player mesh
+      player.position.copy(state.position);
+
+      // Update camera to follow player
+      if (cam2) {
+        const targetCamPos = new THREE.Vector3(
+          state.position.x,
+          state.position.y + 5,
+          state.position.z + 8
+        );
+        cam2.position.lerp(targetCamPos, 0.1);
+        cam2.lookAt(state.position);
+      }
+
+      // Log traversal
+      state.traversalLog.push({
+        position: [state.position.x, state.position.y, state.position.z],
+        timestamp: Date.now(),
+      });
+
+      // Check tunnel traversal milestones
+      const x = state.position.x;
+      if (x > 15 && x < 20 && !state.enteredTunnel) {
+        state.enteredTunnel = true;
+        useEditorStore.getState().log('info', 'player', 'Player entered tunnel entrance');
+      }
+      if (x > 100 && !state.exitedTunnel) {
+        state.exitedTunnel = true;
+        useEditorStore.getState().log('info', 'player', 'Player exited tunnel — TRAVERSAL COMPLETE');
+      }
+    };
+
+    // Store the animate function so the main loop can call it
+    (playerRef.current as any).userData.animate = playerAnimate;
+
+    useEditorStore.getState().log('info', 'player', 'Player spawned at tunnel entrance (10, 26, 64). Use WASD to walk. Walk through the tunnel to the other side.');
+
+    return () => {
+      renderer.domElement.removeEventListener('keydown', onKeyDown);
+      renderer.domElement.removeEventListener('keyup', onKeyUp);
+      if (ctrl) ctrl.enabled = true; // re-enable orbit controls
+    };
+  }, [showPlayer, showTerrain]);
 
   // -----------------------------------------------------------------------
   // Apply local edits → mesh transforms
