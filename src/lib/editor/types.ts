@@ -104,6 +104,10 @@ export interface TransactionLite {
   timestamp: number;
   branchId: string;
   undone: boolean;
+  /** Forward patches for redo (applied on redoTransaction). */
+  _forwardPatches?: EntityEdit[];
+  /** Inverse patches for undo (applied on undoTransaction). */
+  _inversePatches?: Array<{ entityId: number; field: EntityEdit['field']; value: number | undefined }>;
 }
 
 export interface WorldBranchLite {

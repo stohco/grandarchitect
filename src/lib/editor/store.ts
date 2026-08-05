@@ -228,6 +228,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   showGrid: true,
   showGizmos: true,
   showStats: true,
+  showMinimap: false,
   showOutliner: true,
   showInspector: true,
   showBottomDock: true,
@@ -452,29 +453,42 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     // Compute ONE immutable patch and commit once — do NOT call applyEdit
     // per field (that caused multiple state updates and inconsistent
     // intermediate states).
+    //
+    // UNDO ARCHITECTURE: We store forward + inverse patches (not full
+    // snapshots) so undo memory grows with the number of CHANGED fields,
+    // not the total edits object size. This is O(changes) not O(total state).
     const state = get();
     const edits = { ...state.edits };
+    // Collect inverse patches: for each edit, record the OLD value so
+    // undo can restore it.
+    const inversePatches: Array<{ entityId: number; field: EntityEdit['field']; value: number | undefined }> = [];
+
     for (const e of es) {
       const existing = edits[e.entityId] ?? {};
+      // Record the old value before overwriting.
       if (e.field === 'position.x') {
         const pos = existing.position ?? getEffectiveStructure(state.settlement, e.entityId)?.position ?? { x: 0, z: 0 };
+        inversePatches.push({ entityId: e.entityId, field: 'position.x', value: pos.x });
         edits[e.entityId] = { ...existing, position: { x: e.value, z: pos.z } };
       } else if (e.field === 'position.z') {
         const pos = existing.position ?? getEffectiveStructure(state.settlement, e.entityId)?.position ?? { x: 0, z: 0 };
+        inversePatches.push({ entityId: e.entityId, field: 'position.z', value: pos.z });
         edits[e.entityId] = { ...existing, position: { x: pos.x, z: e.value } };
       } else if (e.field === 'rotation') {
+        inversePatches.push({ entityId: e.entityId, field: 'rotation', value: existing.rotation });
         edits[e.entityId] = { ...existing, rotation: e.value };
       } else if (e.field === 'width') {
+        inversePatches.push({ entityId: e.entityId, field: 'width', value: existing.width });
         edits[e.entityId] = { ...existing, width: e.value };
       } else if (e.field === 'depth') {
+        inversePatches.push({ entityId: e.entityId, field: 'depth', value: existing.depth });
         edits[e.entityId] = { ...existing, depth: e.value };
       }
     }
-    // Snapshot the previous edits for undo BEFORE committing.
-    const previousEdits = state.edits;
+    // Commit once.
     set({ edits });
 
-    // Record transaction with undo info.
+    // Record transaction with forward + inverse patches for real undo/redo.
     const first = es[0];
     state.recordTransaction({
       requestedBy: 'user',
@@ -489,9 +503,10 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
         description: `${e.field} → ${e.value}`,
       })),
       permissionClass: 'presentation_only',
-      // Store the previous edits snapshot so undo can restore it.
-      _previousEdits: previousEdits,
-    } as Record<string, unknown>);
+      // Forward + inverse patches for O(changes) undo/redo (not full snapshots).
+      _forwardPatches: es,
+      _inversePatches: inversePatches,
+    });
   },
 
   hideEntity: (id) => set((s) => {
@@ -536,12 +551,63 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
     set((s) => {
       const tx = s.transactions.find((t) => t.transactionId === id);
       if (!tx || tx.undone) return {};
-      // If the transaction stored a previous edits snapshot, restore it.
-      // This makes undo actually revert the state, not just mark a flag.
-      const prev = (tx as unknown as { _previousEdits?: typeof s.edits })._previousEdits;
-      const newEdits = prev !== undefined ? prev : s.edits;
+      // Apply inverse patches to revert the edits.
+      const inversePatches = (tx as unknown as { _inversePatches?: Array<{ entityId: number; field: EntityEdit['field']; value: number | undefined }> })._inversePatches;
+      if (!inversePatches || inversePatches.length === 0) {
+        // No patches stored (old transaction) — can't undo, just mark.
+        return {
+          transactions: s.transactions.map((t) =>
+            t.transactionId === id ? { ...t, undone: true } : t
+          ),
+        };
+      }
+      // Rebuild edits by applying inverse patches.
+      const edits = { ...s.edits };
+      for (const p of inversePatches) {
+        const existing = edits[p.entityId] ?? {};
+        if (p.value === undefined) {
+          // Field didn't exist before — remove it.
+          if (p.field === 'position.x' || p.field === 'position.z') {
+            const pos = existing.position;
+            if (pos) {
+              const newPos: { x?: number; z?: number } = { ...pos };
+              if (p.field === 'position.x') delete newPos.x;
+              else delete newPos.z;
+              // If position is now empty, remove it entirely.
+              if (newPos.x === undefined && newPos.z === undefined) {
+                const { position: _rmPos, ...restNoPos } = existing;
+                edits[p.entityId] = restNoPos;
+              } else {
+                // Reconstruct with the remaining coordinate.
+                const restored: Record<string, unknown> = { ...existing };
+                restored.position = { x: newPos.x ?? 0, z: newPos.z ?? 0 };
+                edits[p.entityId] = restored as typeof existing;
+              }
+            }
+          } else {
+            const rest = { ...existing } as Record<string, unknown>;
+            delete rest[p.field];
+            edits[p.entityId] = rest as typeof existing;
+          }
+        } else {
+          // Restore the old value.
+          if (p.field === 'position.x') {
+            const pos = existing.position ?? { z: 0 };
+            edits[p.entityId] = { ...existing, position: { x: p.value, z: pos.z } };
+          } else if (p.field === 'position.z') {
+            const pos = existing.position ?? { x: 0 };
+            edits[p.entityId] = { ...existing, position: { x: pos.x, z: p.value } };
+          } else if (p.field === 'rotation') {
+            edits[p.entityId] = { ...existing, rotation: p.value };
+          } else if (p.field === 'width') {
+            edits[p.entityId] = { ...existing, width: p.value };
+          } else if (p.field === 'depth') {
+            edits[p.entityId] = { ...existing, depth: p.value };
+          }
+        }
+      }
       return {
-        edits: newEdits,
+        edits,
         transactions: s.transactions.map((t) =>
           t.transactionId === id ? { ...t, undone: true } : t
         ),

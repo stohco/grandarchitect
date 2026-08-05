@@ -1,29 +1,32 @@
 import { NextResponse } from 'next/server';
 import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
-import path from 'path';
+import { BUILD_MANIFEST, type BuildManifest } from '@/generated/build-manifest';
 
 /**
  * GET /api/build-info
  *
- * Returns build provenance: commit SHA, branch, dirty status, build timestamp.
- * This lets the Studio display exactly which source commit produced the
- * preview the user is looking at — addressing the audit finding that the
- * repository cannot currently answer "which source commit produced the
- * preview I am using?"
+ * Returns TWO sections:
+ *
+ * 1. artifact — the immutable build manifest generated at build time.
+ *    This proves which source produced the loaded JavaScript.
+ *
+ * 2. workspace — the current git state of the running server's working tree.
+ *    This lets the client detect "workspace changed after build" by
+ *    comparing artifact.sourceTreeHash to workspace.sourceTreeHash.
+ *
+ * In production, the workspace section is omitted (no git access expected).
  */
 
-interface BuildInfo {
+interface WorkspaceInfo {
   commitSha: string | null;
   commitShort: string | null;
   branch: string | null;
   dirty: boolean;
-  buildTimestamp: string;
-  packageVersion: string;
-  nodeEnv: string;
+  sourceTreeHash: string | null;
 }
 
 function tryGit(command: string): string | null {
+  if (process.env.NODE_ENV === 'production') return null;
   try {
     return execSync(command, {
       cwd: process.cwd(),
@@ -36,32 +39,62 @@ function tryGit(command: string): string | null {
   }
 }
 
-export async function GET() {
-  const commitSha = tryGit('git rev-parse HEAD');
-  const branch = tryGit('git rev-parse --abbrev-ref HEAD');
-  const status = tryGit('git status --porcelain');
-  const dirty = status !== null && status.length > 0;
+interface BuildInfoResponse {
+  artifact: BuildManifest;
+  workspace: WorkspaceInfo | null;
+  /** True if the workspace has changed since the artifact was built. */
+  workspaceChanged: boolean;
+  /** API request time (for diagnostics only — NOT the build time). */
+  requestTime: string;
+}
 
-  let packageVersion = 'unknown';
-  try {
-    const pkgPath = path.join(process.cwd(), 'package.json');
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
-    packageVersion = pkg.version ?? 'unknown';
-  } catch {
-    // ignore
+export async function GET() {
+  const artifact = BUILD_MANIFEST;
+
+  // In development, also report current workspace state so the status bar
+  // can warn "workspace changed after build — reload required".
+  let workspace: WorkspaceInfo | null = null;
+  let workspaceChanged = false;
+
+  if (process.env.NODE_ENV !== 'production') {
+    const commitSha = tryGit('git rev-parse HEAD');
+    const branch = tryGit('git rev-parse --abbrev-ref HEAD');
+    const status = tryGit('git status --porcelain');
+    const dirty = status !== null && status.length > 0;
+
+    // Compute current source tree hash for comparison
+    let currentTreeHash: string | null = null;
+    if (commitSha) {
+      const diff = tryGit('git diff HEAD') ?? '';
+      const { createHash } = await import('crypto');
+      const h = createHash('sha256');
+      h.update(commitSha);
+      h.update(diff);
+      currentTreeHash = h.digest('hex').slice(0, 16);
+    }
+
+    workspace = {
+      commitSha,
+      commitShort: commitSha ? commitSha.slice(0, 12) : null,
+      branch,
+      dirty,
+      sourceTreeHash: currentTreeHash,
+    };
+
+    workspaceChanged =
+      artifact.sourceTreeHash !== null &&
+      currentTreeHash !== null &&
+      artifact.sourceTreeHash !== currentTreeHash;
   }
 
-  const info: BuildInfo = {
-    commitSha,
-    commitShort: commitSha ? commitSha.slice(0, 12) : null,
-    branch,
-    dirty,
-    buildTimestamp: new Date().toISOString(),
-    packageVersion,
-    nodeEnv: process.env.NODE_ENV ?? 'development',
+  const response: BuildInfoResponse = {
+    artifact,
+    workspace,
+    workspaceChanged,
+    requestTime: new Date().toISOString(),
   };
 
-  return NextResponse.json(info, {
+  return NextResponse.json(response, {
     headers: {
       'Cache-Control': 'no-store, no-cache, must-revalidate',
     },

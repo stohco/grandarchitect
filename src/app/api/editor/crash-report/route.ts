@@ -61,15 +61,34 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Enforce Content-Length BEFORE reading the body. Reading req.text()
+  // allocates the full string in memory — we must reject oversized payloads
+  // before any parsing to prevent memory exhaustion.
+  const contentLength = parseInt(req.headers.get('content-length') ?? '0', 10);
+  if (contentLength > CRASH_REPORT_MAX_BYTES) {
+    return NextResponse.json(
+      { ok: false, error: `Content-Length ${contentLength} exceeds max ${CRASH_REPORT_MAX_BYTES} bytes` },
+      { status: 413 },
+    );
+  }
+
   try {
     const rawText = await req.text();
     if (rawText.length > CRASH_REPORT_MAX_BYTES) {
       return NextResponse.json(
-        { ok: false, error: `Body too large: max ${CRASH_REPORT_MAX_BYTES} bytes` },
+        { ok: false, error: `Body too large: ${rawText.length} bytes, max ${CRASH_REPORT_MAX_BYTES}` },
         { status: 413 },
       );
     }
-    const body = JSON.parse(rawText) as CrashRequestBody;
+    let body: CrashRequestBody;
+    try {
+      body = JSON.parse(rawText) as CrashRequestBody;
+    } catch {
+      return NextResponse.json(
+        { ok: false, error: 'Invalid JSON' },
+        { status: 400 },
+      );
+    }
     if (!body || typeof body !== 'object') {
       return NextResponse.json(
         { ok: false, error: 'Invalid body: expected JSON object' },
@@ -117,6 +136,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
+  // Dev-only guard — crash reports may contain console output, store state,
+  // error stacks, URLs, and potentially user-entered text. Not for production.
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
+
   try {
     await ensureReportsDir();
     let files: string[];

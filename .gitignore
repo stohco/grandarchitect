@@ -78,14 +78,17 @@ download/
 downloaded/
 downloaded_v2/
 
-# Screenshots (ephemeral evidence)
-*.png
-!src/**/*.png
-!public/**/*.png
+# Screenshots — ephemeral runtime evidence only.
+# Do NOT globally ignore *.png — a game engine needs tracked images
+# (icons, UI assets, test goldens, reference captures, docs).
+/screenshots/
+/evidence/generated/
+/tool-results/*.png
+/crash-reports/*.png
 
-# Videos
-*.webm
-*.mp4
+# Videos — ephemeral recordings
+/screenshots/*.webm
+/screenshots/*.mp4
 
 # Recovery artifacts
 recovery/

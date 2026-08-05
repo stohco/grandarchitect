@@ -21,9 +21,12 @@
  * The hash input is the CBOR-encoded bytes of the state object.
  */
 
-import { encode as cborEncode, decode as cborDecode } from 'cbor-x';
+import { encode as cborEncode, decode as cborDecode, Encoder } from 'cbor-x';
 
-const deterministicEncoder = new Map();
+// Deterministic encoder: useRecords: false ensures stable key ordering
+// (RFC 8949 §4.2). We use a single Encoder instance to avoid creating
+// a new one per call.
+const deterministicEncoder = new Encoder({ useRecords: false });
 
 /**
  * Encode a state object to deterministic CBOR bytes.
@@ -40,9 +43,7 @@ const deterministicEncoder = new Map();
  * before encoding (see rng.ts snapshotState, fixed-point.ts snapshot).
  */
 export function encodeState(state: unknown): Uint8Array {
-  // cbor-x's encode with useRecords: false produces deterministic output.
-  // We use the module-level encode function with options.
-  const bytes = cborEncode(state, { useRecords: false });
+  const bytes = deterministicEncoder.encode(state);
   return bytes as Uint8Array;
 }
 
