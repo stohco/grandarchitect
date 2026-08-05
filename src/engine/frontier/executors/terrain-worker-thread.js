@@ -215,12 +215,50 @@ if (parentPort && !isMainThread) {
       try {
         const { seed = 42, resolution = 24 } = msg.input || {};
         const result = generateTerrain(seed, resolution);
+
+        // Convert JS arrays to typed arrays for transferable buffer transfer
+        const positions = new Float32Array(result.renderMesh.positions);
+        const normals = new Float32Array(result.renderMesh.normals);
+        const indices = new Uint32Array(result.renderMesh.indices);
+        const materialIds = new Uint16Array(result.renderMesh.materialIds);
+        const vegTransforms = new Float32Array(result.vegetation.transforms);
+
+        const transferStart = Date.now();
+
+        const output = {
+          renderMesh: {
+            positions, normals, indices, materialIds,
+            vertexCount: result.renderMesh.vertexCount,
+            triangleCount: result.renderMesh.triangleCount,
+            artifactHash: result.renderMesh.artifactHash,
+          },
+          navigation: result.navigation,
+          vegetation: {
+            instanceCount: result.vegetation.instanceCount,
+            transforms: vegTransforms,
+            artifactHash: result.vegetation.artifactHash,
+          },
+          region: result.region,
+          executionTimeMs: result.executionTimeMs,
+          workerThreadId: threadId,
+          workerPid: process.pid,
+          workerIdentity: { pid: process.pid, threadId: threadId, isMainThread: isMainThread },
+          binaryTransfer: true,
+        };
+
+        // Transfer ownership of all ArrayBuffers (zero-copy)
         parentPort.postMessage({
-          type: 'result', jobId: msg.jobId, output: result, outputHash: result.renderMesh.artifactHash,
-          executionTimeMs: result.executionTimeMs, queueTimeMs: 0, transferTimeMs: 0,
+          type: 'result', jobId: msg.jobId, output: output, outputHash: result.renderMesh.artifactHash,
+          executionTimeMs: result.executionTimeMs, queueTimeMs: 0, transferTimeMs: Date.now() - transferStart,
           workerThreadId: threadId, workerPid: process.pid,
           workerIdentity: { pid: process.pid, threadId: threadId, isMainThread: isMainThread },
-        });
+        }, [
+          positions.buffer,
+          normals.buffer,
+          indices.buffer,
+          materialIds.buffer,
+          vegTransforms.buffer,
+        ]);
       } catch (err) {
         parentPort.postMessage({ type: 'error', jobId: msg.jobId, message: err.message, stack: err.stack });
       }
