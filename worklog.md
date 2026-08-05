@@ -964,3 +964,42 @@ Embodied traversal test: 17/22 pass
 Root cause: simplified collision world uses single-ray sweep, not true capsule sweep. The ray misses triangles at high speed, allowing fall-through. A proper capsule sweep with BVH acceleration is needed.
 
 This is honest WORK IN PROGRESS. The architecture is correct but the collision detection needs upgrading.
+
+---
+Task ID: SPAWN-DIAGNOSTIC
+Agent: main (Z.ai Code)
+Task: Diagnose why the character falls through the floor before replacing the collision algorithm.
+
+Diagnostic findings (the critique was right — diagnose before replacing):
+
+1. ROOT CAUSE #1: Tunnel entrance at mountain edge has no floor triangles.
+   - Tunnel spline starts at [34, 25, 64] — at the mountain edge (radius 30 from center [64, *, 64])
+   - At the entrance, the transition is empty-to-empty (outside mountain → inside tunnel)
+   - Surface extractor only emits faces at solid-to-empty boundaries
+   - Zero triangles within 5m of the entrance spawn point
+   - SDF shows EMPTY at the entrance but no mesh geometry to collide with
+
+2. ROOT CAUSE #2: Spawn moved to midpoint (x=64) — solid floor below.
+   - SDF at x=64 shows proper solid-to-empty transition (tunnel floor)
+   - Character spawns at (64, 27.9, 64) — inside the tunnel
+   - 24 collision events recorded, but 0 classified as "floor"
+   - Character still falls through
+
+3. ROOT CAUSE #3 (suspected): Sweep ray from capsule center misses floor triangles.
+   - The simplified sweepCapsule casts a ray from the capsule CENTER
+   - It may hit tunnel walls but not the floor directly below
+   - The normal classification threshold (y > 0.7) may not be met
+   - Need to inspect the 24 collision event normals to understand what's being hit
+
+Key insight: the critique was correct that the problem is NOT speed (6.7cm/tick).
+The problem is that the collision world has no triangles to hit at the spawn,
+and the sweep ray doesn't query from the correct position.
+
+The character controller architecture is correct. The collision world implementation
+needs: (1) proper capsule segment-to-triangle distance (not center ray), (2) the terrain
+must actually produce triangles at the tunnel location, (3) spawn must be at a position
+where solid-to-empty transitions exist in the mesh.
+
+Current status: 17/22 tests pass. The 5 failures are all collision-detection related.
+The character controller, fixed timestep, deterministic input, checkpoints, and trajectory
+hashing are all correct. The collision world needs upgrading from ray-based to capsule-sweep.
