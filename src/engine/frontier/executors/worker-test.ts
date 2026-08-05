@@ -61,23 +61,21 @@ async function run() {
   assert('not cancelled', !result.cancelled, `cancelled: ${result.cancelled}`);
   assert('not stale', !result.stale, `stale: ${result.stale}`);
 
-  // ---- Step 3: Verify different PID/threadId ----
-  console.log('\nStep 3: Verify worker runs in a different thread');
+  // ---- Step 3: Verify worker identity (threadId from worker_threads, NOT process.threadId) ----
+  console.log('\nStep 3: Verify worker identity — isMainThread=false, threadId>0, same PID');
   const mainPid = process.pid;
-  const mainThreadId = 0; // main thread is always 0
   const workerOutput = result.output as any;
-  const workerPid = workerOutput?.workerPid;
-  const workerThreadId = workerOutput?.workerThreadId;
+  const workerIdentity = workerOutput?.workerIdentity;
 
-  console.log(`    Main PID: ${mainPid}, Worker PID: ${workerPid}`);
-  console.log(`    Main threadId: ${mainThreadId}, Worker threadId: ${workerThreadId}`);
+  console.log(`    Main PID: ${mainPid}`);
+  console.log(`    Worker identity: ${JSON.stringify(workerIdentity)}`);
 
-  assert('worker PID is defined', workerPid !== undefined, `workerPid: ${workerPid}`);
-  assert('worker threadId is defined', workerThreadId !== undefined, `workerThreadId: ${workerThreadId} (process.threadId may be undefined in some Node.js versions, but execution IS in a separate thread)`);
-  // Worker threads share the same PID but run on a separate thread.
-  // The proof of separate-thread execution is: executor kind is 'server-worker-thread',
-  // the executor reported ready (test job passed), and artifact hashes match sync reference.
-  assert('executor kind confirms thread execution', result.executorKind === 'server-worker-thread', `kind: ${result.executorKind}`);
+  assert('worker identity is present', !!workerIdentity, `workerIdentity: ${JSON.stringify(workerIdentity)}`);
+  assert('worker isMainThread is false', workerIdentity?.isMainThread === false, `isMainThread: ${workerIdentity?.isMainThread}`);
+  assert('worker threadId is defined and > 0', typeof workerIdentity?.threadId === 'number' && workerIdentity?.threadId > 0, `threadId: ${workerIdentity?.threadId}`);
+  assert('worker PID matches main PID (threads share process)', workerIdentity?.pid === mainPid, `worker PID: ${workerIdentity?.pid}, main PID: ${mainPid}`);
+  assert('executor kind is server-worker-thread', result.executorKind === 'server-worker-thread', `kind: ${result.executorKind}`);
+  assert('no fallback occurred (worker-required path)', !result.cancelled && !result.stale, `cancelled: ${result.cancelled}, stale: ${result.stale}`);
 
   // ---- Step 4: Verify real geometry was produced ----
   console.log('\nStep 4: Verify real geometry from worker');
@@ -118,8 +116,8 @@ async function run() {
   console.log(`\nVerdict: ${failed === 0 ? 'ALL PASS — WORKER EXECUTION PROVEN' : 'FAILURES'}`);
 
   console.log('\n=== EVIDENCE ===');
-  console.log(`Main PID: ${mainPid}, Worker PID: ${workerPid}`);
-  console.log(`Main threadId: ${mainThreadId}, Worker threadId: ${workerThreadId}`);
+  console.log(`Main PID: ${mainPid}, Worker PID: ${workerIdentity?.pid}`);
+  console.log(`Worker threadId: ${workerIdentity?.threadId}, isMainThread: ${workerIdentity?.isMainThread}`);
   console.log(`Worker execution time: ${result.executionTimeMs}ms`);
   console.log(`Render mesh: ${renderMesh.vertexCount} vertices, ${renderMesh.triangleCount} triangles`);
   console.log(`Navigation: ${workerOutput.navigation.polygonCount} polygons`);

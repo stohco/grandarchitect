@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 // Terrain Worker Thread — plain JavaScript (no TypeScript syntax)
 // Runs in a Node.js worker_thread, separate from the main event loop.
-const { parentPort, isMainThread } = require('worker_threads');
+const { parentPort, isMainThread, threadId } = require('worker_threads');
 const { createHash } = require('crypto');
+
+// CRITICAL: This script MUST run in a worker thread, not the main thread.
+// If isMainThread is true, the worker was incorrectly loaded.
+if (isMainThread) {
+  throw new Error('Terrain worker started on the main thread — this should never happen');
+}
 
 class DetPRNG {
   constructor(seed) { this.state = seed >>> 0; }
@@ -196,7 +202,7 @@ function generateTerrain(seed, resolution) {
     vegetation: { instanceCount: vegTransforms.length / 5, transforms: vegTransforms, artifactHash: vegHash },
     region: { resolution, solidVoxels: samples.filter(s => s < 0).length, densityHash: createHash('sha256').update(Buffer.from(samples.buffer)).digest('hex') },
     executionTimeMs,
-    workerThreadId: process.threadId,
+    workerThreadId: threadId,
     workerPid: process.pid,
   };
 }
@@ -204,7 +210,7 @@ function generateTerrain(seed, resolution) {
 if (parentPort && !isMainThread) {
   parentPort.on('message', (msg) => {
     if (msg.type === 'health-check') {
-      parentPort.postMessage({ type: 'ready', protocolVersion: '1.0.0', threadId: process.threadId, pid: process.pid });
+      parentPort.postMessage({ type: 'ready', protocolVersion: '1.0.0', threadId: threadId, isMainThread: isMainThread, pid: process.pid });
     } else if (msg.type === 'job') {
       try {
         const { seed = 42, resolution = 24 } = msg.input || {};
@@ -212,7 +218,8 @@ if (parentPort && !isMainThread) {
         parentPort.postMessage({
           type: 'result', jobId: msg.jobId, output: result, outputHash: result.renderMesh.artifactHash,
           executionTimeMs: result.executionTimeMs, queueTimeMs: 0, transferTimeMs: 0,
-          workerThreadId: process.threadId, workerPid: process.pid,
+          workerThreadId: threadId, workerPid: process.pid,
+          workerIdentity: { pid: process.pid, threadId: threadId, isMainThread: isMainThread },
         });
       } catch (err) {
         parentPort.postMessage({ type: 'error', jobId: msg.jobId, message: err.message, stack: err.stack });

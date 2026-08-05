@@ -124,6 +124,11 @@ export class ServerWorkerThreadExecutor implements JobExecutor {
 
         if (msg.type === 'result') {
           this.jobsCompleted++;
+          // Merge workerIdentity into the output so the test can verify it
+          const output = msg.output as any;
+          if (msg.workerIdentity) {
+            output.workerIdentity = msg.workerIdentity;
+          }
           resolve({
             jobId: request.jobId,
             executorId: this.id,
@@ -135,7 +140,7 @@ export class ServerWorkerThreadExecutor implements JobExecutor {
             queueTimeMs: msg.queueTimeMs ?? 0,
             executionTimeMs: msg.executionTimeMs ?? 0,
             transferTimeMs: msg.transferTimeMs ?? 0,
-            output: msg.output as TOutput,
+            output: output as TOutput,
             outputHash: msg.outputHash ?? '',
             cancelled: msg.cancelled ?? false,
             stale: false,
