@@ -1,0 +1,80 @@
+{
+  "$schema": "https://prime-agent.dev/schemas/settings.json",
+  "version": "0.1.0",
+  "project": {
+    "name": "live-architect-studio",
+    "description": "Deterministic xianxia multiverse RPG engine with Live Architect Studio editor",
+    "license": "MIT"
+  },
+  "agent": {
+    "model": "glm-4.6",
+    "provider": "zai",
+    "maxTurns": 50,
+    "maxTokens": 200000,
+    "maxTimeSec": 1800,
+    "autonomous": false,
+    "qualityGates": [
+      "npm run lint",
+      "npm run typecheck",
+      "npm run build"
+    ]
+  },
+  "worktree": {
+    "basePath": "../grandarchitect-work",
+    "autoCleanup": true,
+    "oneEditorPerWorktree": true
+  },
+  "roles": {
+    "implementer": {
+      "writeAccess": true,
+      "model": "glm-4.6"
+    },
+    "browser-verifier": {
+      "writeAccess": false,
+      "model": "glm-4.6",
+      "instructions": "Run the exact user workflow in Firefox and Chromium production builds. Use real pointer events, not synthetic."
+    },
+    "architecture-reviewer": {
+      "writeAccess": false,
+      "model": "glm-4.6",
+      "instructions": "Check architectural boundaries. No duplicate systems. Provider neutrality. Runtime/editor separation."
+    },
+    "adversarial-reviewer": {
+      "writeAccess": false,
+      "model": "glm-4.6",
+      "instructions": "Attempt to disprove completion claims. Try to break the workflow. Find false claims."
+    },
+    "security-reviewer": {
+      "writeAccess": false,
+      "model": "glm-4.6",
+      "instructions": "Audit API routes for auth. Check for unguarded mutations. Verify no secrets in git."
+    },
+    "performance-reviewer": {
+      "writeAccess": false,
+      "model": "glm-4.6",
+      "instructions": "Profile frame time, memory, draw calls. Check for leaks after 100 iterations."
+    }
+  },
+  "skills": [
+    "repo-truth",
+    "browser-reliability",
+    "evidence-bundle",
+    "capability-promotion",
+    "worktree-safety",
+    "architecture-conformance"
+  ],
+  "harness": {
+    "basePromptImmutable": true,
+    "refinementRequiresApproval": true,
+    "refinementEvidenceRequired": true,
+    "rollbackPreserved": true,
+    "maxSupplementalPrompts": 20,
+    "maxMemories": 50
+  },
+  "security": {
+    "noProductionSecrets": true,
+    "noMainMutation": true,
+    "noSelfGrantedAuthority": true,
+    "sandboxedWorktree": true
+  }
+}
