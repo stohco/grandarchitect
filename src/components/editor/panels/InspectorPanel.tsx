@@ -3,28 +3,168 @@
  *
  * Shows transform, properties, and metadata for the selected entity.
  * Three tabs: Transform, Properties, Metadata.
+ *
+ * TransformField UX (pro-editor behaviour):
+ *   - Drag label left/right to scrub value (cursor: ew-resize hint).
+ *   - Double-click label to reset to the entity's base (generated) value.
+ *   - When input is focused, Arrow Up/Down nudges value by step.
  */
 
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Package, Move3d, RotateCcw, Maximize2, Eye, EyeOff } from 'lucide-react';
-import { useEditorStore, useSelectedStructure, getEffective } from '@/lib/editor/store';
+import { Package, Move3d, RotateCcw, Maximize2, Eye, EyeOff, Settings2 } from 'lucide-react';
+import { useEditorStore, useSelectedStructure, getEffectiveStructure } from '@/lib/editor/store';
 import type { EntityEdit } from '@/lib/editor/types';
 
-function TransformField({ label, value, onChange, icon: Icon, color, min, max, step = 0.5 }: {
-  label: string; value: number; onChange: (v: number) => void;
-  icon: React.ComponentType<{ className?: string }>; color: string;
-  min?: number; max?: number; step?: number;
+function clamp(v: number, min?: number, max?: number): number {
+  if (typeof min === 'number' && v < min) return min;
+  if (typeof max === 'number' && v > max) return max;
+  return v;
+}
+
+function TransformField({
+  label,
+  value,
+  baseValue,
+  onChange,
+  icon: Icon,
+  color,
+  min,
+  max,
+  step = 0.5,
+}: {
+  label: string;
+  value: number;
+  baseValue: number;
+  onChange: (v: number) => void;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  min?: number;
+  max?: number;
+  step?: number;
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dragStateRef = useRef<{
+    startX: number;
+    startValue: number;
+    active: boolean;
+  } | null>(null);
+  const [isScrubbing, setIsScrubbing] = useState(false);
+
+  const commit = useCallback(
+    (v: number) => {
+      const clamped = clamp(v, min, max);
+      // Avoid emitting redundant edits that would mark the entity dirty.
+      if (Math.abs(clamped - value) < 1e-6) return;
+      onChange(clamped);
+    },
+    [onChange, value, min, max]
+  );
+
+  // Drag-to-scrub on the label.
+  const onLabelPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLSpanElement>) => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      dragStateRef.current = {
+        startX: e.clientX,
+        startValue: value,
+        active: true,
+      };
+      setIsScrubbing(true);
+    },
+    [value]
+  );
+
+  const onLabelPointerMove = useCallback(
+    (e: React.PointerEvent<HTMLSpanElement>) => {
+      const st = dragStateRef.current;
+      if (!st || !st.active) return;
+      const dx = e.clientX - st.startX;
+      // 1px = step (or 0.5 step for large steps, for finer control).
+      const speed = step >= 1 ? 0.5 : 1;
+      const next = st.startValue + dx * step * speed;
+      commit(next);
+    },
+    [commit, step]
+  );
+
+  const endDrag = useCallback(
+    (e: React.PointerEvent<HTMLSpanElement>) => {
+      const st = dragStateRef.current;
+      if (!st) return;
+      try {
+        (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {
+        // ignore — pointer may already be released
+      }
+      dragStateRef.current = null;
+      setIsScrubbing(false);
+    },
+    []
+  );
+
+  const onLabelDoubleClick = useCallback(() => {
+    if (Math.abs(baseValue - value) < 1e-6) return;
+    onChange(baseValue);
+  }, [baseValue, value, onChange]);
+
+  const onInputKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        commit(value + step);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        commit(value - step);
+      }
+    },
+    [commit, value, step]
+  );
+
+  useEffect(() => {
+    return () => {
+      dragStateRef.current = null;
+    };
+  }, []);
+
   return (
     <div className="flex items-center gap-2">
       <Icon className={`h-3.5 w-3.5 shrink-0 ${color}`} />
-      <span className="w-12 shrink-0 text-[10px] font-medium text-[#5a5a7a]">{label}</span>
-      <input type="number" value={value.toFixed(1)} step={step} min={min} max={max}
+      <span
+        className="w-12 shrink-0 cursor-ew-resize select-none text-[10px] font-medium text-[#5a5a7a] transition-colors hover:text-[#aaaacc]"
+        onPointerDown={onLabelPointerDown}
+        onPointerMove={onLabelPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onDoubleClick={onLabelDoubleClick}
+        title={`${label} — drag to scrub, double-click to reset to ${baseValue.toFixed(1)}`}
+        role="slider"
+        tabIndex={-1}
+        aria-valuenow={value}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-label={`${label} scrubber`}
+        data-scrubbing={isScrubbing ? 'true' : undefined}
+      >
+        {label}
+      </span>
+      <input
+        ref={inputRef}
+        type="number"
+        value={value.toFixed(1)}
+        step={step}
+        min={min}
+        max={max}
         onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-        className="h-6 w-16 rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1.5 font-mono text-[11px] text-[#c8c8e0] focus:outline-none focus:ring-1 focus:ring-emerald-500/30" />
+        onKeyDown={onInputKeyDown}
+        className="h-6 w-16 rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1.5 font-mono text-[11px] text-[#c8c8e0] focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
+        aria-label={`${label} value`}
+      />
       <Slider value={[value]} onValueChange={([v]) => onChange(v)} min={min ?? -50} max={max ?? 50} step={step} className="flex-1" />
     </div>
   );
@@ -45,20 +185,36 @@ export default function InspectorPanel() {
     applyEdit({ entityId: structure.entityId, field, value });
   };
 
+  // The base (generated, pre-edit) structure, used for double-click-reset.
+  const baseStructure =
+    structure && settlement ? getEffectiveStructure(settlement, structure.entityId) : null;
+
   if (!settlement) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-4">
-        <Package className="h-8 w-8 text-[#3a3a5a]" />
-        <span className="text-center text-[11px] text-[#5a5a7a]">No world loaded.<br />Generate a world to inspect entities.</span>
+      <div className="flex h-full flex-col">
+        <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
+          <Settings2 className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Inspector</span>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 p-4">
+          <Package className="h-8 w-8 text-[#3a3a5a]" />
+          <span className="text-center text-[11px] text-[#5a5a7a]">No world loaded.<br />Generate a world to inspect entities.</span>
+        </div>
       </div>
     );
   }
 
   if (selectedEntityIds.length === 0) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-4">
-        <Package className="h-8 w-8 text-[#3a3a5a]" />
-        <span className="text-center text-[11px] text-[#5a5a7a]">No entity selected.<br />Click an entity in the viewport or outliner.</span>
+      <div className="flex h-full flex-col">
+        <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
+          <Settings2 className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Inspector</span>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 p-4">
+          <Package className="h-8 w-8 text-[#3a3a5a]" />
+          <span className="text-center text-[11px] text-[#5a5a7a]">No entity selected.<br />Click an entity in the viewport or outliner.</span>
+        </div>
       </div>
     );
   }
@@ -67,29 +223,38 @@ export default function InspectorPanel() {
     const edited = selectedEntityIds.filter((id) => edits[id] != null).length;
     const hidden = selectedEntityIds.filter((id) => hiddenEntityIds.has(id)).length;
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-4">
-        <Package className="h-8 w-8 text-emerald-500/40" />
-        <span className="text-sm font-medium text-[#c8c8e0]">{selectedEntityIds.length} entities selected</span>
-        <div className="mt-2 space-y-1 text-[11px] text-[#8888aa]">
-          <div>{edited} edited locally</div>
-          <div>{hidden} hidden</div>
+      <div className="flex h-full flex-col">
+        <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
+          <Settings2 className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Inspector</span>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 p-4">
+          <Package className="h-8 w-8 text-emerald-500/40" />
+          <span className="text-sm font-medium text-[#c8c8e0]">{selectedEntityIds.length} entities selected</span>
+          <div className="mt-2 space-y-1 text-[11px] text-[#8888aa]">
+            <div>{edited} edited locally</div>
+            <div>{hidden} hidden</div>
+          </div>
         </div>
       </div>
     );
   }
 
-  if (!structure) return null;
+  if (!structure || !baseStructure) return null;
   const hasEdits = edits[structure.entityId] != null;
   const isHidden = hiddenEntityIds.has(structure.entityId);
 
   return (
     <div className="flex h-full flex-col">
       <Tabs defaultValue="transform" className="flex h-full flex-col">
-        <div className="border-b border-[#2a2a4a]">
-          <TabsList className="h-7 w-full justify-start gap-0 rounded-none border-0 bg-transparent p-0">
-            <TabsTrigger value="transform" className="h-7 rounded-none border-b-2 border-transparent px-3 text-[10px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none">Transform</TabsTrigger>
-            <TabsTrigger value="properties" className="h-7 rounded-none border-b-2 border-transparent px-3 text-[10px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none">Properties</TabsTrigger>
-            <TabsTrigger value="metadata" className="h-7 rounded-none border-b-2 border-transparent px-3 text-[10px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none">Metadata</TabsTrigger>
+        <div className="flex h-8 items-center gap-2 border-b border-[#2a2a4a] px-3">
+          <Settings2 className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Inspector</span>
+          <div className="flex-1" />
+          <TabsList className="h-7 gap-0 rounded-none border-0 bg-transparent p-0">
+            <TabsTrigger value="transform" className="h-7 rounded-none border-b-2 border-transparent px-2 text-[10px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none">Transform</TabsTrigger>
+            <TabsTrigger value="properties" className="h-7 rounded-none border-b-2 border-transparent px-2 text-[10px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none">Properties</TabsTrigger>
+            <TabsTrigger value="metadata" className="h-7 rounded-none border-b-2 border-transparent px-2 text-[10px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none">Metadata</TabsTrigger>
           </TabsList>
         </div>
 
@@ -99,21 +264,70 @@ export default function InspectorPanel() {
               <div>
                 <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-[#5a5a7a]">Position</span>
                 <div className="space-y-2">
-                  <TransformField label="X" value={structure.position.x} onChange={(v) => handleEdit('position.x', v)} icon={Move3d} color="text-red-400" min={-100} max={100} />
-                  <TransformField label="Z" value={structure.position.z} onChange={(v) => handleEdit('position.z', v)} icon={Move3d} color="text-blue-400" min={-100} max={100} />
+                  <TransformField
+                    label="X"
+                    value={structure.position.x}
+                    baseValue={baseStructure.position.x}
+                    onChange={(v) => handleEdit('position.x', v)}
+                    icon={Move3d}
+                    color="text-red-400"
+                    min={-100}
+                    max={100}
+                  />
+                  <TransformField
+                    label="Z"
+                    value={structure.position.z}
+                    baseValue={baseStructure.position.z}
+                    onChange={(v) => handleEdit('position.z', v)}
+                    icon={Move3d}
+                    color="text-blue-400"
+                    min={-100}
+                    max={100}
+                  />
                 </div>
               </div>
               <div>
                 <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-[#5a5a7a]">Rotation</span>
-                <TransformField label="Y°" value={structure.rotation} onChange={(v) => handleEdit('rotation', v)} icon={RotateCcw} color="text-green-400" min={0} max={360} step={15} />
+                <TransformField
+                  label="Y°"
+                  value={structure.rotation}
+                  baseValue={baseStructure.rotation}
+                  onChange={(v) => handleEdit('rotation', v)}
+                  icon={RotateCcw}
+                  color="text-green-400"
+                  min={0}
+                  max={360}
+                  step={15}
+                />
               </div>
               <div>
                 <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-[#5a5a7a]">Dimensions</span>
                 <div className="space-y-2">
-                  <TransformField label="Width" value={structure.width} onChange={(v) => handleEdit('width', v)} icon={Maximize2} color="text-amber-400" min={0.5} max={20} />
-                  <TransformField label="Depth" value={structure.depth} onChange={(v) => handleEdit('depth', v)} icon={Maximize2} color="text-amber-400" min={0.5} max={20} />
+                  <TransformField
+                    label="Width"
+                    value={structure.width}
+                    baseValue={baseStructure.width}
+                    onChange={(v) => handleEdit('width', v)}
+                    icon={Maximize2}
+                    color="text-amber-400"
+                    min={0.5}
+                    max={20}
+                  />
+                  <TransformField
+                    label="Depth"
+                    value={structure.depth}
+                    baseValue={baseStructure.depth}
+                    onChange={(v) => handleEdit('depth', v)}
+                    icon={Maximize2}
+                    color="text-amber-400"
+                    min={0.5}
+                    max={20}
+                  />
                 </div>
               </div>
+              <p className="text-[10px] leading-relaxed text-[#4a4a6a]">
+                Tip: drag a label left/right to scrub its value · double-click a label to reset · arrow keys nudge by step when input is focused.
+              </p>
             </div>
           </ScrollArea>
         </TabsContent>

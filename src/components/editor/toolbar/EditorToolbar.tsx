@@ -1,9 +1,15 @@
 /*
  * Live Architect Studio — Editor Toolbar
  *
- * Horizontal toolbar (h-9) with editor mode, transport controls,
+ * Horizontal toolbar with editor mode, transport controls,
  * transform mode, view toggles, render mode, world state, and utility actions.
+ *
+ * Wraps gracefully on narrow screens (`flex-wrap`).
+ * Related actions are grouped with subtle vertical separators.
+ * All toggle buttons expose `aria-pressed` for accessibility.
  */
+
+'use client';
 
 import {
   Play,
@@ -40,6 +46,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Badge } from '@/components/ui/badge';
 import { useEditorStore } from '@/lib/editor/store';
+import { useRenderTracker } from '@/lib/editor/render-tracker';
 import type {
   WorldExecutionState,
   RenderMode,
@@ -80,7 +87,15 @@ const STATE_COLORS: Record<WorldExecutionState, string> = {
   temporary_fork: 'bg-orange-500',
 };
 
+/** Subtle vertical separator used between toolbar groups. */
+function ToolbarSeparator() {
+  return <div aria-hidden className="mx-0.5 h-4 w-px shrink-0 bg-[#2a2a4a]" />;
+}
+
 export default function EditorToolbar() {
+  // Render tracking — catches toolbar render loops (e.g. from a store
+  // selector that returns a new array reference every call).
+  void useRenderTracker('EditorToolbar');
   const editorMode = useEditorStore((s) => s.editorMode);
   const setEditorMode = useEditorStore((s) => s.setEditorMode);
   const transformMode = useEditorStore((s) => s.transformMode);
@@ -111,14 +126,21 @@ export default function EditorToolbar() {
   const currentRenderMode = RENDER_MODES.find((m) => m.value === renderMode);
   const currentWorldState = WORLD_STATES.find((s) => s.value === worldState);
 
+  // Shared button sizing so every interactive element is the same height.
+  const btnBase = 'h-6 shrink-0';
+
   return (
-    <div className="flex h-9 items-center gap-1 border-b border-[#2a2a4a] bg-[#12122a] px-2">
-      {/* Editor Mode */}
+    <div
+      role="toolbar"
+      aria-label="Editor toolbar"
+      className="flex min-h-9 flex-wrap items-center gap-1 border-b border-[#2a2a4a] bg-[#12122a] px-2 py-1"
+    >
+      {/* ───────── Group: Editor mode ───────── */}
       <DropdownMenu>
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-6 gap-1.5 rounded px-2 text-[11px] font-medium text-[#8888aa] hover:text-white">
+              <Button variant="ghost" size="sm" className={`${btnBase} gap-1.5 rounded px-2 text-[11px] font-medium text-[#8888aa] hover:text-white`}>
                 {currentEditorMode?.label ?? editorMode}
                 <ChevronDown className="h-3 w-3" />
               </Button>
@@ -135,12 +157,19 @@ export default function EditorToolbar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <div className="mx-1 h-4 w-px bg-[#2a2a4a]" />
+      <ToolbarSeparator />
 
-      {/* Transport Controls */}
+      {/* ───────── Group: Transport controls ───────── */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className={`h-6 w-6 ${simRunning ? 'text-emerald-400' : 'text-[#8888aa]'} hover:text-white`} onClick={toggleSim}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={simRunning}
+            aria-label={simRunning ? 'Pause simulation' : 'Play simulation'}
+            className={`${btnBase} w-6 ${simRunning ? 'text-emerald-400' : 'text-[#8888aa]'} hover:text-white`}
+            onClick={toggleSim}
+          >
             {simRunning ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
           </Button>
         </TooltipTrigger>
@@ -149,7 +178,13 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-6 w-6 text-[#8888aa] hover:text-white" onClick={() => { if (simRunning) toggleSim(); requestWorldState('generation_freeze'); }}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Stop"
+            className={`${btnBase} w-6 text-[#8888aa] hover:text-white`}
+            onClick={() => { if (simRunning) toggleSim(); requestWorldState('generation_freeze'); }}
+          >
             <Square className="h-3 w-3" />
           </Button>
         </TooltipTrigger>
@@ -158,20 +193,26 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-6 w-6 text-[#8888aa] hover:text-white" onClick={() => step('physics_tick', 1)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Step forward"
+            className={`${btnBase} w-6 text-[#8888aa] hover:text-white`}
+            onClick={() => step('physics_tick', 1)}
+          >
             <StepForward className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom" className="text-xs">Step forward (.)</TooltipContent>
       </Tooltip>
 
-      <div className="mx-1 h-4 w-px bg-[#2a2a4a]" />
+      <ToolbarSeparator />
 
-      {/* Transform Mode Toggle Group */}
+      {/* ───────── Group: Transform mode ───────── */}
       <ToggleGroup type="single" value={transformMode} onValueChange={(v) => { if (v) setTransformMode(v as TransformMode); }} className="gap-0">
         <Tooltip>
           <TooltipTrigger asChild>
-            <ToggleGroupItem value="translate" className="h-6 w-6 rounded-l rounded-r-none border border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white">
+            <ToggleGroupItem value="translate" aria-label="Translate" className={`${btnBase} w-6 rounded-l rounded-r-none border border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white`}>
               <Move className="h-3 w-3" />
             </ToggleGroupItem>
           </TooltipTrigger>
@@ -179,7 +220,7 @@ export default function EditorToolbar() {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <ToggleGroupItem value="rotate" className="h-6 w-6 border-y border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white">
+            <ToggleGroupItem value="rotate" aria-label="Rotate" className={`${btnBase} w-6 border-y border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white`}>
               <RotateCcw className="h-3 w-3" />
             </ToggleGroupItem>
           </TooltipTrigger>
@@ -187,7 +228,7 @@ export default function EditorToolbar() {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <ToggleGroupItem value="scale" className="h-6 w-6 rounded-l-none rounded-r border border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white">
+            <ToggleGroupItem value="scale" aria-label="Scale" className={`${btnBase} w-6 rounded-l-none rounded-r border border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white`}>
               <Maximize2 className="h-3 w-3" />
             </ToggleGroupItem>
           </TooltipTrigger>
@@ -195,12 +236,19 @@ export default function EditorToolbar() {
         </Tooltip>
       </ToggleGroup>
 
-      <div className="mx-1 h-4 w-px bg-[#2a2a4a]" />
+      <ToolbarSeparator />
 
-      {/* View Toggles */}
+      {/* ───────── Group: View toggles ───────── */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className={`h-6 w-6 ${showGrid ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`} onClick={toggleGrid}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={showGrid}
+            aria-label="Toggle grid"
+            className={`${btnBase} w-6 ${showGrid ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={toggleGrid}
+          >
             <Grid3X3 className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
@@ -209,7 +257,14 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className={`h-6 w-6 ${showGizmos ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`} onClick={toggleGizmos}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={showGizmos}
+            aria-label="Toggle gizmos"
+            className={`${btnBase} w-6 ${showGizmos ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={toggleGizmos}
+          >
             <Box className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
@@ -218,21 +273,28 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className={`h-6 w-6 ${snapEnabled ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`} onClick={toggleSnap}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={snapEnabled}
+            aria-label="Toggle snapping"
+            className={`${btnBase} w-6 ${snapEnabled ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={toggleSnap}
+          >
             <Grid2X2 className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom" className="text-xs">Snap (X)</TooltipContent>
       </Tooltip>
 
-      <div className="mx-1 h-4 w-px bg-[#2a2a4a]" />
+      <ToolbarSeparator />
 
-      {/* Render Mode */}
+      {/* ───────── Group: Render + world state ───────── */}
       <DropdownMenu>
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-6 gap-1.5 rounded px-2 text-[11px] font-medium text-[#8888aa] hover:text-white">
+              <Button variant="ghost" size="sm" className={`${btnBase} gap-1.5 rounded px-2 text-[11px] font-medium text-[#8888aa] hover:text-white`}>
                 <MousePointer className="h-3 w-3" />
                 {currentRenderMode?.label ?? renderMode}
                 <ChevronDown className="h-3 w-3" />
@@ -250,12 +312,11 @@ export default function EditorToolbar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* World Execution State */}
       <DropdownMenu>
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-6 gap-1.5 rounded px-2 text-[11px] font-medium text-[#8888aa] hover:text-white">
+              <Button variant="ghost" size="sm" className={`${btnBase} gap-1.5 rounded px-2 text-[11px] font-medium text-[#8888aa] hover:text-white`}>
                 {currentWorldState?.label ?? worldState}
                 <ChevronDown className="h-3 w-3" />
               </Button>
@@ -273,18 +334,20 @@ export default function EditorToolbar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Status Badge */}
-      <Badge variant="outline" className="ml-1 h-5 gap-1 border-[#2a2a4a] text-[10px] text-white">
+      <Badge variant="outline" className="ml-1 h-5 shrink-0 gap-1 border-[#2a2a4a] text-[10px] text-white">
         <span className={`h-1.5 w-1.5 rounded-full ${STATE_COLORS[worldState]}`} />
         {worldState.split('_')[0]}
       </Badge>
 
+      {/* Spacer pushes the right-side actions to the end (and onto a new row if needed). */}
       <div className="flex-1" />
 
-      {/* Right side actions */}
+      <ToolbarSeparator />
+
+      {/* ───────── Group: Selection + edit actions ───────── */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-6 gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white" onClick={selectAll}>
+          <Button variant="ghost" size="sm" className={`${btnBase} gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white`} onClick={selectAll}>
             <CheckCheck className="h-3 w-3" /> Select All
           </Button>
         </TooltipTrigger>
@@ -293,7 +356,7 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-6 gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white" onClick={clearSelection}>
+          <Button variant="ghost" size="sm" className={`${btnBase} gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white`} onClick={clearSelection}>
             <X className="h-3 w-3" /> Deselect
           </Button>
         </TooltipTrigger>
@@ -302,7 +365,7 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-6 w-6 text-[#8888aa] hover:text-white" onClick={resetEdits}>
+          <Button variant="ghost" size="icon" aria-label="Reset edits" className={`${btnBase} w-6 text-[#8888aa] hover:text-white`} onClick={resetEdits}>
             <UndoIcon className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
@@ -311,7 +374,7 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-6 w-6 text-[#8888aa] hover:text-white" onClick={() => forkWorld()}>
+          <Button variant="ghost" size="icon" aria-label="Fork world" className={`${btnBase} w-6 text-[#8888aa] hover:text-white`} onClick={() => forkWorld()}>
             <GitBranch className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
@@ -320,7 +383,14 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className={`h-6 w-6 ${showStats ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`} onClick={toggleStats}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={showStats}
+            aria-label="Toggle stats overlay"
+            className={`${btnBase} w-6 ${showStats ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={toggleStats}
+          >
             <BarChart3 className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
@@ -329,7 +399,14 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" className={`h-6 w-6 ${showBottomDock ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`} onClick={toggleBottomDock}>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={showBottomDock}
+            aria-label="Toggle console"
+            className={`${btnBase} w-6 ${showBottomDock ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={toggleBottomDock}
+          >
             <Terminal className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>

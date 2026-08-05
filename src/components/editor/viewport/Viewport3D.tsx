@@ -17,6 +17,7 @@ import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
 import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
+import { useRenderTracker } from '@/lib/editor/render-tracker';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
 
 // ---------------------------------------------------------------------------
@@ -56,26 +57,54 @@ const CAMERA_PRESETS: Record<CameraPreset, { position: [number, number, number];
 function CameraController() {
   const cameraPreset = useEditorStore((s) => s.cameraPreset);
   const { camera } = useThree();
+  const controlsRef = useRef<React.ComponentRef<typeof OrbitControls>>(null);
+  // Track whether we're animating to a new preset. We only animate for a
+  // limited number of frames after a preset change — we do NOT continuously
+  // lerp every frame, because that would fight the user's zoom/pan/rotate.
+  const animatingRef = useRef(false);
+  const animFrameRef = useRef(0);
   const targetPos = useRef(new THREE.Vector3(40, 35, 40));
   const targetLook = useRef(new THREE.Vector3(0, 0, 0));
-  const controlsRef = useRef<React.ComponentRef<typeof OrbitControls>>(null);
 
   useEffect(() => {
     const preset = CAMERA_PRESETS[cameraPreset];
     targetPos.current.set(...preset.position);
     targetLook.current.set(...preset.target);
+    // Start a short animation (~60 frames ≈ 1s at 60fps) to ease into the
+    // new preset. After the animation completes, OrbitControls owns the
+    // camera and the user can freely zoom/pan/rotate.
+    animatingRef.current = true;
+    animFrameRef.current = 60;
   }, [cameraPreset]);
 
   useFrame(() => {
-    camera.position.lerp(targetPos.current, 0.05);
+    if (!animatingRef.current) return;
+    camera.position.lerp(targetPos.current, 0.08);
     if (controlsRef.current) {
-      controlsRef.current.target.lerp(targetLook.current, 0.05);
+      controlsRef.current.target.lerp(targetLook.current, 0.08);
       controlsRef.current.update();
+    }
+    animFrameRef.current--;
+    if (animFrameRef.current <= 0) {
+      animatingRef.current = false;
     }
   });
 
   return (
-    <OrbitControls ref={controlsRef} makeDefault enableDamping dampingFactor={0.1} minDistance={5} maxDistance={150} />
+    <OrbitControls
+      ref={controlsRef}
+      makeDefault
+      enableDamping
+      dampingFactor={0.1}
+      minDistance={2}
+      maxDistance={500}
+      maxPolarAngle={Math.PI * 0.495}
+      enableZoom={true}
+      enablePan={true}
+      zoomSpeed={1.2}
+      panSpeed={0.8}
+      rotateSpeed={0.8}
+    />
   );
 }
 
@@ -283,6 +312,10 @@ function useKeyboardShortcuts() {
 // ---------------------------------------------------------------------------
 
 export default function Viewport3D() {
+  // Render tracking — catches viewport render loops (e.g. selectors that
+  // return new array references every call).
+  void useRenderTracker('Viewport3D');
+
   const settlement = useEditorStore((s) => s.settlement);
   useKeyboardShortcuts();
 
