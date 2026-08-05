@@ -41,7 +41,7 @@ export default function HistoryPanel() {
         </span>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="p-3">
           {/* Branches */}
           <section className="mb-4">

@@ -352,7 +352,7 @@ export default function ReasoningPanel() {
         </div>
       )}
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="p-3">
           {/* Hypothesis cards */}
           {data ? (

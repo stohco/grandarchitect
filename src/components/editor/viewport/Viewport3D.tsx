@@ -153,6 +153,11 @@ export default function Viewport3D() {
       return;
     }
 
+    // Prevent duplicate initialization (Fast Refresh / remount)
+    if (rendererRef.current) {
+      return; // Already initialized — don't create a second renderer
+    }
+
     // --- Scene ---
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#0e0e24');
@@ -337,12 +342,25 @@ export default function Viewport3D() {
 
     // --- Animation loop + FPS counter ---
     let raf = 0;
+    let disposed = false;
     let last = performance.now();
     let frames = 0;
     let fpsAccumMs = 0;
     let lastFpsEmit = last;
 
+    // WebGL context loss handler
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      useEditorStore.getState().log('error', 'viewport', 'WebGL context lost — attempting recovery');
+    };
+    const onContextRestored = () => {
+      useEditorStore.getState().log('info', 'viewport', 'WebGL context restored');
+    };
+    renderer.domElement.addEventListener('webglcontextlost', onContextLost);
+    renderer.domElement.addEventListener('webglcontextrestored', onContextRestored);
+
     const animate = () => {
+      if (disposed) return;
       raf = requestAnimationFrame(animate);
       const now = performance.now();
       const dt = now - last;
@@ -409,11 +427,15 @@ export default function Viewport3D() {
     animate();
 
     return () => {
+      disposed = true;
       cancelAnimationFrame(raf);
       ro.disconnect();
       renderer.domElement.removeEventListener('pointermove', onPointerMove);
       renderer.domElement.removeEventListener('pointerdown', onPointerDown);
+      renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
+      renderer.domElement.removeEventListener('webglcontextrestored', onContextRestored);
       controls.dispose();
+      transform.detach(); // detach before dispose to prevent errors
       transform.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) {

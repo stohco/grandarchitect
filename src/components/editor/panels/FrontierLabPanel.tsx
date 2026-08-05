@@ -190,7 +190,7 @@ export default function FrontierLabPanel() {
             </ScrollArea>
 
             {/* Detail */}
-            <ScrollArea className="flex-1">
+            <ScrollArea className="min-h-0 flex-1">
               {selected ? (
                 <div className="space-y-2 p-2">
                   <div>
@@ -360,7 +360,7 @@ function CapabilityMatrixView() {
   };
 
   return (
-    <ScrollArea className="flex-1">
+    <ScrollArea className="min-h-0 flex-1">
       <div className="p-2">
         <div className="mb-2 text-[10px] text-[#5a5a7a]">Capability Matrix — what's available on each backend and hardware profile</div>
         <div className="overflow-x-auto">

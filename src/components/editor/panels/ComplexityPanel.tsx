@@ -308,7 +308,7 @@ export default function ComplexityPanel() {
         </div>
       )}
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="p-3">
           {/* Trend diagnosis banner */}
           {data && trendInfo && (

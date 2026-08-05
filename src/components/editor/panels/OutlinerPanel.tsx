@@ -162,7 +162,7 @@ export default function OutlinerPanel() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="p-1.5">
           {!settlement && (
             <p className="px-2 py-6 text-center text-xs text-[#5a5a7a]">No settlement loaded.</p>

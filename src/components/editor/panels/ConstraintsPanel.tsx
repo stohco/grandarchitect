@@ -352,7 +352,7 @@ export default function ConstraintsPanel() {
         </div>
       )}
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="p-3">
           {!sample ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">
