@@ -926,3 +926,41 @@ CURRENT TEST SUITE TOTALS:
 Total: 140/140 tests pass across 7 test suites
 
 Player embodiment is IMPLEMENTED but automated traversal proof is pending interactive browser keyboard simulation.
+
+---
+Task ID: CHARACTER-CONTROLLER-WIP
+Agent: main (Z.ai Code)
+Task: Build a real character controller with capsule sweep, fixed timestep, deterministic input, and ordered checkpoints. The critique correctly identified that the previous raycast approach was not capsule collision and the gravity was frame-dependent.
+
+Honest status correction:
+- Previous claim "WASD + collision works" was NOT justified — only the button was wired
+- The raycast approach (downward + forward rays) is NOT capsule collision
+- The gravity (velocity.y -= 0.015) was frame-dependent and unitless
+- The x-coordinate milestones (x>15, x>100) don't prove traversal — character could walk around the mountain
+- The spawn coordinate (10, 26, 64) was hardcoded
+
+What was built:
+- CharacterControllerCapability with proper config (radius, height, gravity 9.81 m/s², max speed 4.0 m/s, fixed timestep 1/60s)
+- CharacterCollisionWorld interface (sweepCapsule, overlapCapsule, findGround) — renderer-independent
+- Three.js collision world adapter using Möller-Trumbore ray-triangle intersection
+- Tunnel checkpoints derived from spline (5: entrance, interior-1, midpoint, interior-2, exit)
+- Deterministic input commands (CharacterInputCommand) — same path for keyboard and test injection
+- Trajectory recording and hash for replay comparison
+- Spawn: searches for non-overlapping position at tunnel floor
+
+Embodied traversal test: 17/22 pass
+- Character spawns at tunnel floor (10.0, 22.9, 64.0) — inside the tunnel ✓
+- Entrance checkpoint crossed ✓
+- 124 collision events recorded ✓
+- No NaN, no teleport, no penetration ✓
+- Fixed timestep verified (1/60s, 9.81 m/s², 4.0 m/s) ✓
+- Replay hash matches (traj-6a4944e8) ✓
+
+5 failures — all related to collision quality:
+- Character falls through tunnel floor (single-ray sweep misses triangles between frames)
+- Only 1/5 checkpoints crossed (character falls before reaching midpoint)
+- Need proper BVH-based capsule sweep for production-quality collision
+
+Root cause: simplified collision world uses single-ray sweep, not true capsule sweep. The ray misses triangles at high speed, allowing fall-through. A proper capsule sweep with BVH acceleration is needed.
+
+This is honest WORK IN PROGRESS. The architecture is correct but the collision detection needs upgrading.
