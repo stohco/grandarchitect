@@ -567,6 +567,123 @@ export default function Viewport3D() {
   }, [showTerrain]);
 
   // -----------------------------------------------------------------------
+  // Collision overlay — red wireframe of the collision mesh
+  // -----------------------------------------------------------------------
+  const showCollisionOverlay = useEditorStore((s) => s.showCollisionOverlay);
+  const collisionOverlayRef = useRef<THREE.LineSegments | null>(null);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+
+    if (collisionOverlayRef.current) {
+      scene.remove(collisionOverlayRef.current);
+      collisionOverlayRef.current.geometry?.dispose();
+      (collisionOverlayRef.current.material as THREE.Material)?.dispose();
+      collisionOverlayRef.current = null;
+    }
+
+    if (!showCollisionOverlay || !terrainGroupRef.current) return;
+
+    // Find the terrain mesh and create a wireframe overlay from its geometry
+    const terrainMesh = terrainGroupRef.current.children.find(c => c instanceof THREE.Mesh && c.userData.isTerrain) as THREE.Mesh | undefined;
+    if (!terrainMesh) return;
+
+    const edges = new THREE.EdgesGeometry(terrainMesh.geometry, 1);
+    const lineMat = new THREE.LineBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.6 });
+    const lineSeg = new THREE.LineSegments(edges, lineMat);
+    lineSeg.name = 'collision-overlay';
+    scene.add(lineSeg);
+    collisionOverlayRef.current = lineSeg;
+
+    useEditorStore.getState().log('info', 'collision', 'Collision overlay enabled — red edges show collider boundary');
+  }, [showCollisionOverlay, showTerrain]);
+
+  // -----------------------------------------------------------------------
+  // Navigation overlay — green polygons showing walkable surfaces
+  // -----------------------------------------------------------------------
+  const showNavigationOverlay = useEditorStore((s) => s.showNavigationOverlay);
+  const navOverlayRef = useRef<THREE.Group | null>(null);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+
+    if (navOverlayRef.current) {
+      scene.remove(navOverlayRef.current);
+      navOverlayRef.current.traverse(c => {
+        if (c instanceof THREE.Mesh) { c.geometry?.dispose(); (c.material as THREE.Material)?.dispose(); }
+      });
+      navOverlayRef.current = null;
+    }
+
+    if (!showNavigationOverlay || !terrainGroupRef.current) return;
+
+    // Fetch navigation data and render walkable surfaces as green quads
+    fetch('/api/frontier/terrain?resolution=24&seed=42')
+      .then(res => res.json())
+      .then(data => {
+        if (!sceneRef.current) return;
+
+        const group = new THREE.Group();
+        group.name = 'nav-overlay';
+
+        // Create a simple representation: for each navigation polygon,
+        // draw a small green quad at its center
+        const polyCount = data.navigation.polygonCount;
+        if (polyCount > 0) {
+          // Use instanced mesh for performance
+          const quadGeo = new THREE.PlaneGeometry(3, 3);
+          const quadMat = new THREE.MeshBasicMaterial({
+            color: 0x44ff44,
+            transparent: true,
+            opacity: 0.3,
+            side: THREE.DoubleSide,
+          });
+
+          // We don't have individual polygon positions from the API (only counts),
+          // so draw a grid of green quads on walkable surfaces by sampling the terrain
+          // mesh vertices that face upward
+          const terrainMesh = terrainGroupRef.current?.children.find(c => c instanceof THREE.Mesh && c.userData.isTerrain) as THREE.Mesh | undefined;
+          if (terrainMesh) {
+            const positions = terrainMesh.geometry.getAttribute('position');
+            const normals = terrainMesh.geometry.getAttribute('normal');
+            const upVector = new THREE.Vector3(0, 1, 0);
+            const sampledPoints: THREE.Vector3[] = [];
+            const step = Math.max(1, Math.floor(positions.count / 500)); // sample ~500 points
+
+            for (let i = 0; i < positions.count; i += step) {
+              const nx = normals.getX(i);
+              const ny = normals.getY(i);
+              const nz = normals.getZ(i);
+              // Upward-facing surfaces (normal.y > 0.7) are walkable
+              if (ny > 0.7) {
+                sampledPoints.push(new THREE.Vector3(positions.getX(i), positions.getY(i) + 0.1, positions.getZ(i)));
+              }
+            }
+
+            if (sampledPoints.length > 0) {
+              const instMesh = new THREE.InstancedMesh(quadGeo, quadMat, sampledPoints.length);
+              const matrix = new THREE.Matrix4();
+              const quat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2);
+              for (let i = 0; i < sampledPoints.length; i++) {
+                matrix.compose(sampledPoints[i], quat, new THREE.Vector3(1, 1, 1));
+                instMesh.setMatrixAt(i, matrix);
+              }
+              instMesh.instanceMatrix.needsUpdate = true;
+              group.add(instMesh);
+            }
+          }
+        }
+
+        scene.add(group);
+        navOverlayRef.current = group;
+        useEditorStore.getState().log('info', 'navigation', `Navigation overlay enabled — ${polyCount} walkable polygons shown in green`);
+      })
+      .catch(() => {});
+  }, [showNavigationOverlay, showTerrain]);
+
+  // -----------------------------------------------------------------------
   // Apply local edits → mesh transforms
   // -----------------------------------------------------------------------
   const edits = useEditorStore((s) => s.edits);

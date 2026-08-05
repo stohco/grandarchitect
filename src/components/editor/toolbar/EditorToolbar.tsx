@@ -39,6 +39,8 @@ import {
   BarChart3,
   Map,
   Mountain,
+  Box,
+  Navigation,
   PanelLeft,
   PanelRight,
   PanelBottom,
@@ -58,11 +60,13 @@ function ToggleButton({
   onClick,
   title,
   children,
+  disabled,
 }: {
   active: boolean;
   onClick: () => void;
   title: string;
   children: React.ReactNode;
+  disabled?: boolean;
 }) {
   return (
     <Tooltip>
@@ -72,7 +76,9 @@ function ToggleButton({
           size="icon"
           onClick={onClick}
           title={title}
+          disabled={disabled}
           className={`h-8 w-8 ${
+            disabled ? 'opacity-30 cursor-not-allowed' :
             active
               ? 'bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30'
               : 'text-[#8888aa] hover:bg-[#2a2a4a] hover:text-[#c8c8e0]'
@@ -108,6 +114,8 @@ export default function EditorToolbar() {
   const showStats = useEditorStore((s) => s.showStats);
   const showMinimap = useEditorStore((s) => s.showMinimap);
   const showTerrain = useEditorStore((s) => s.showTerrain);
+  const showCollisionOverlay = useEditorStore((s) => s.showCollisionOverlay);
+  const showNavigationOverlay = useEditorStore((s) => s.showNavigationOverlay);
   const showOutliner = useEditorStore((s) => s.showOutliner);
   const showInspector = useEditorStore((s) => s.showInspector);
   const showBottomDock = useEditorStore((s) => s.showBottomDock);
@@ -118,6 +126,8 @@ export default function EditorToolbar() {
   const toggleStats = useEditorStore((s) => s.toggleStats);
   const toggleMinimap = useEditorStore((s) => s.toggleMinimap);
   const toggleTerrain = useEditorStore((s) => s.toggleTerrain);
+  const toggleCollisionOverlay = useEditorStore((s) => s.toggleCollisionOverlay);
+  const toggleNavigationOverlay = useEditorStore((s) => s.toggleNavigationOverlay);
   const toggleOutliner = useEditorStore((s) => s.toggleOutliner);
   const toggleInspector = useEditorStore((s) => s.toggleInspector);
   const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
@@ -212,6 +222,12 @@ export default function EditorToolbar() {
         </ToggleButton>
         <ToggleButton active={showTerrain} onClick={toggleTerrain} title="Generate & show real terrain (SDF mountain + tunnel + vegetation)">
           <Mountain className="h-3.5 w-3.5" />
+        </ToggleButton>
+        <ToggleButton active={showCollisionOverlay} onClick={toggleCollisionOverlay} title="Toggle collision mesh overlay (red wireframe)" disabled={!showTerrain}>
+          <Box className="h-3.5 w-3.5" />
+        </ToggleButton>
+        <ToggleButton active={showNavigationOverlay} onClick={toggleNavigationOverlay} title="Toggle navigation mesh overlay (green walkable surfaces)" disabled={!showTerrain}>
+          <Navigation className="h-3.5 w-3.5" />
         </ToggleButton>
 
         <div className="h-6 w-px bg-[#2a2a4a]" />
