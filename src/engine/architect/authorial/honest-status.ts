@@ -5,15 +5,43 @@
  * This file documents the TRUE maturity of each authorial subsystem.
  * It exists to prevent the pattern of claiming "implemented" for schemas.
  *
- * Last updated: 2026-08-06 (post-vertical-slice)
- * Last verified commit: pending — vertical slice proven end-to-end
+ * Last updated: 2026-08-06 (post-auditor-correction)
+ * Last verified commit: fbaeae7
  *
  * STATUS CHANGE LOG:
- *   2026-08-06: Vertical slice proven. The authorial architecture is no
- *   longer "schema-only". One complete request passes through all 13
- *   UnboundLoop stages, changes real Studio objects via executeCommand(),
- *   inherits real Bible rules with verified source spans, survives
- *   restart, and affects the next request automatically.
+ *   2026-08-06 (initial): Schema-only. Types exist, no execution.
+ *   2026-08-06 (slice): 13-stage pipeline executed end-to-end. Initially
+ *     labeled "operationally-proven-for-one-vertical-slice".
+ *   2026-08-06 (auditor correction): Overstated. The 46ms slice proves a
+ *     DETERMINISTIC REFERENCE SLICE, not a model-driven authorial workflow.
+ *     The "transformation" was metadata-only — no real visual change was
+ *     proven. Renamed to "deterministic-reference-slice-proven".
+ *   2026-08-06 (visual fix): Added AuthorialOverride system that applies
+ *     real material changes (color, roughness, metalness, emissive) to the
+ *     viewport. The shrine now VISIBLY CHANGES when the slice runs. This
+ *     promotes the status to "deterministic-visual-reference-slice-proven".
+ *
+ * The correct current status is:
+ *
+ *   DETERMINISTIC_VISUAL_REFERENCE_SLICE_PROVEN
+ *
+ * What this means:
+ *   - A deterministic (non-model-driven) pipeline traverses 13 stages.
+ *   - Real browser selection flows in.
+ *   - Real Bible rules with verified source spans are retrieved.
+ *   - Real executeCommand() transactions are submitted.
+ *   - Real visual material changes are applied to the viewport.
+ *   - The transformation is undoable (clearAuthorialOverride).
+ *   - JSON persistence survives restarts.
+ *   - Future requests inherit prior decisions.
+ *
+ * What this does NOT mean:
+ *   - No LLM/VLM interpretation occurred (deterministic handlers only).
+ *   - No independent visual critique (deterministic critic only).
+ *   - No production-build browser verification (dev mode only).
+ *   - No transactional crash-safe persistence (JSON files only).
+ *   - No retcon propagation.
+ *   - No multi-structure batch processing.
  */
 
 export const AUTHORIAL_MATURITY = {
@@ -133,25 +161,33 @@ export const AUTHORIAL_MATURITY = {
     ],
   },
   authorialGrandArchitect: {
-    status: 'operationally-proven-for-one-vertical-slice',
+    status: 'deterministic-visual-reference-slice-proven',
     description:
-      'ONE complete authorial request has been proven through all 13 UnboundLoop stages with real browser selection, real Bible rule retrieval (9/9 source spans verified), real action execution (4 transactions via executeCommand()), real validation (style+canon+narrative+technical all PASS), independent critique (verdict=pass), real decision ledger entry (4 constraints on entity 1), and restart persistence (state survives server restart; next request inherits 4 constraints automatically).',
+      'A deterministic (non-model-driven) 13-stage pipeline executes end-to-end. Real browser selection flows in, real Bible rules with verified source spans are retrieved, real executeCommand() transactions are submitted, and real visual material changes (color, roughness, metalness, emissive) are applied to the viewport. The transformation is undoable. JSON persistence survives restarts. Future requests inherit prior decisions. This is NOT a model-driven authorial workflow — no LLM/VLM interpretation, no independent visual critique, no production-build browser verification.',
     correctDescription:
-      'Authorial Grand Architect — proven for the canonical vertical slice. Broader authorial requests (multiple structures, narrative arcs, retcon scenarios) remain future work.',
-    provenVerticalSlice: {
-      request: 'Make the selected structure feel ancient and sacred through restraint and weathering.',
-      stagesExecuted: 13,
-      totalDurationMs: 46,
-      transactionsRecorded: 4,
-      validationPassed: true,
-      critiqueVerdict: 'pass',
-      decisionLedgerEntryId: 'recorded',
-      narrativePromiseId: 'recorded',
-      restartRecoverable: true,
-      independentCritique: true,
-      bibleSourceSpansVerified: '9/9',
-      nextRequestInheritsConstraints: 4,
-    },
+      'Deterministic Visual Reference Slice — proven for ONE canonical request type. The shrine visibly changes (weathered gray, high roughness, faint warm emissive). The decision is durable and affects future requests. Broader model-driven authorial requests remain future work.',
+    proven: [
+      'thirteen-stage orchestration path executes',
+      'selected entity identity reaches the orchestration path',
+      'source-span records can be retrieved (9/9 verified)',
+      'runtime commands can be submitted (4 transactions)',
+      'deterministic checks produce a verdict (pass)',
+      'ledger records can be written and reloaded',
+      'scoped constraints can be queried (4 constraints)',
+      'a Studio surface can launch the reference path',
+      'real visual material changes are applied to the viewport',
+      'the visual transformation is undoable (clearAuthorialOverride)',
+    ],
+    unproven: [
+      'model-driven authorial understanding (no LLM)',
+      'independent visual critique (deterministic critic only)',
+      'provider behavior changed by inherited constraints (not behaviorally tested)',
+      'transactional crash-safe persistence (JSON files only)',
+      'production-build Chromium workflow',
+      'production-build Firefox workflow',
+      'retcon propagation',
+      'multi-structure batch processing',
+    ],
   },
 } as const;
 

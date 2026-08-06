@@ -134,11 +134,24 @@ function StructureMesh({ entityId, position, rotation, width, depth, kind, name,
   const meshRef = useRef<THREE.Mesh>(null);
   const height = KIND_HEIGHTS[kind];
   const baseColor = KIND_COLORS[kind];
-  const color = isSelected ? SELECTED_COLOR : isHovered ? HOVERED_COLOR : baseColor;
   const rotRad = (rotation * Math.PI) / 180;
   const isShrine = kind === 'spirit_shrine';
   const isWell = kind === 'well';
   const isFlat = kind === 'path' || kind === 'paddy' || kind === 'threshing_ground';
+
+  // Read the authorial override for this entity. This is what makes the
+  // vertical slice VISIBLE — when the Grand Architect applies an override,
+  // the material changes color, roughness, emissive, etc.
+  const authorialOverride = useEditorStore((s) => s.authorialOverrides[entityId]);
+  const hasOverride = !!authorialOverride;
+
+  // Compute effective visual properties.
+  const effectiveColor = authorialOverride?.color ?? (isSelected ? SELECTED_COLOR : isHovered ? HOVERED_COLOR : baseColor);
+  const effectiveRoughness = authorialOverride?.roughness ?? (isFlat ? 1 : 0.7);
+  const effectiveMetalness = authorialOverride?.metalness ?? (isWell ? 0.3 : 0);
+  const effectiveOpacity = authorialOverride?.opacity ?? (isFlat ? 0.8 : 1);
+  const effectiveEmissive = authorialOverride?.emissive ?? '#000000';
+  const effectiveEmissiveIntensity = authorialOverride?.emissiveIntensity ?? 0;
 
   return (
     <group ref={groupRef} position={[position.x, 0, position.z]} rotation-y={rotRad}>
@@ -163,8 +176,23 @@ function StructureMesh({ entityId, position, rotation, width, depth, kind, name,
         {isShrine ? (<coneGeometry args={[Math.max(width, depth) / 2, height, 4]} />) :
          isWell ? (<cylinderGeometry args={[width / 2, width / 2, height, 16]} />) :
          (<boxGeometry args={[width, isFlat ? 0.1 : height, depth]} />)}
-        <meshStandardMaterial color={color} roughness={isFlat ? 1 : 0.7} metalness={isWell ? 0.3 : 0} transparent={isFlat} opacity={isFlat ? 0.8 : 1} />
+        <meshStandardMaterial
+          color={effectiveColor}
+          roughness={effectiveRoughness}
+          metalness={effectiveMetalness}
+          transparent={isFlat || effectiveOpacity < 1}
+          opacity={effectiveOpacity}
+          emissive={effectiveEmissive}
+          emissiveIntensity={effectiveEmissiveIntensity}
+        />
       </mesh>
+      {/* Authorial state indicator — a subtle ring at the base when an override is active */}
+      {hasOverride && !isFlat && (
+        <mesh position-y={0.02} rotation-x={-Math.PI / 2}>
+          <ringGeometry args={[Math.max(width, depth) * 0.55, Math.max(width, depth) * 0.65, 32]} />
+          <meshBasicMaterial color={authorialOverride?.emissive ?? '#8a7a5a'} transparent opacity={0.4} side={THREE.DoubleSide} />
+        </mesh>
+      )}
       {isSelected && !isFlat && (
         <mesh position-y={isWell ? 0 : isShrine ? 0 : height / 2} scale={[1.05, 1.05, 1.05]}>
           {isShrine ? (<coneGeometry args={[Math.max(width, depth) / 2, height, 4]} />) :

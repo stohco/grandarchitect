@@ -158,3 +158,36 @@ export interface EntityEdit {
   field: 'position.x' | 'position.z' | 'rotation' | 'width' | 'depth';
   value: number;
 }
+
+/**
+ * Authorial Visual Override — applied by the Authorial Grand Architect
+ * vertical slice to produce REAL visible changes in the viewport.
+ *
+ * When the vertical slice runs "Make this structure ancient and sacred",
+ * it writes an AuthorialOverride that the StructureMesh reads and applies
+ * to its material. This makes the transformation VISIBLE, not just
+ * metadata.
+ *
+ * The override is undoable — clearAuthorialOverride(entityId) restores
+ * the original appearance.
+ */
+export interface AuthorialOverride {
+  /** Hex color string, e.g. '#5a6a5a' for weathered stone. */
+  color?: string;
+  /** Material roughness 0-1. Ancient structures → high roughness (0.8-0.95). */
+  roughness?: number;
+  /** Material metalness 0-1. Ancient sacred → low (0-0.1). */
+  metalness?: number;
+  /** Emissive color hex. Sacred structures → faint warm glow. */
+  emissive?: string;
+  /** Emissive intensity 0-1. Restrained → low (0-0.15). */
+  emissiveIntensity?: number;
+  /** Weathering amount 0-1. Affects color desaturation + roughness boost. */
+  weathering?: number;
+  /** Opacity 0-1 (for transparency effects). */
+  opacity?: number;
+  /** Label for the authorial state (shown in inspector). */
+  authorialState?: string;
+  /** Source decision ledger entry ID. */
+  sourceDecisionId?: string;
+}

@@ -11,7 +11,7 @@
  *   - Real Bible rules are retrieved (RETRIEVE shows source spans).
  *   - Real actions execute through executeCommand() (EXECUTE shows
  *     transaction IDs).
- *   - Independent critique verdict is shown (CRITIQUE).
+ *   - Deterministic critique verdict is shown (CRITIQUE).
  *   - Decision ledger entry is persisted (REMEMBER shows entry ID).
  *   - Restart recovery proof (status panel shows resumable loop).
  *   - Affects next request automatically (status panel shows ledger
@@ -38,11 +38,14 @@ import {
   History,
   Play,
   RefreshCw,
+  RotateCcw,
   ScrollText,
   Shield,
   Sparkles,
 } from 'lucide-react';
 import { useSelectedStructure } from '@/lib/editor/store';
+import { useEditorStore } from '@/lib/editor/store';
+import type { AuthorialOverride } from '@/lib/editor/types';
 import type { VerticalSliceResult, StageTrace } from '@/engine/architect/authorial/vertical-slice';
 
 interface AuthorialStatus {
@@ -105,6 +108,11 @@ const STAGE_LABELS: Record<string, string> = {
 
 export default function AuthorialVerticalSlicePanel() {
   const selected = useSelectedStructure();
+  const selectedEntityId = selected?.entityId ?? -1;
+  const applyAuthorialOverride = useEditorStore((s) => s.applyAuthorialOverride);
+  const clearAuthorialOverride = useEditorStore((s) => s.clearAuthorialOverride);
+  const undoAuthorialOverride = useEditorStore((s) => s.undoAuthorialOverride);
+  const currentOverride = useEditorStore((s) => s.authorialOverrides[selectedEntityId] ?? null);
   const [request, setRequest] = useState(
     'Make the selected structure feel ancient and sacred through restraint and weathering.',
   );
@@ -165,6 +173,23 @@ export default function AuthorialVerticalSlicePanel() {
         const lastSuccess = json.result.stages.filter((s: StageTrace) => s.success).at(-1);
         if (lastSuccess) {
           setSelectedStageIdx(json.result.stages.indexOf(lastSuccess));
+        }
+        // APPLY THE VISUAL OVERRIDE — this is what makes the shrine VISIBLY
+        // CHANGE, not just get metadata. The override changes the rendered
+        // material: color, roughness, metalness, emissive.
+        if (!dryRun && json.result.completed && json.result.decisionLedgerEntryId && selected) {
+          const override: AuthorialOverride = {
+            color: '#5a5a52',           // weathered stone gray (desaturated)
+            roughness: 0.92,             // high — weathered surface
+            metalness: 0.05,             // low — ancient, not metallic
+            emissive: '#3a2a1a',         // faint warm cinnabar glow
+            emissiveIntensity: 0.08,     // restrained — sacred quiet
+            weathering: 0.85,            // heavy weathering
+            opacity: 1,
+            authorialState: 'ancient-sacred',
+            sourceDecisionId: json.result.decisionLedgerEntryId,
+          };
+          applyAuthorialOverride(selected.entityId, override);
         }
       }
       await refreshStatus();
@@ -322,12 +347,71 @@ export default function AuthorialVerticalSlicePanel() {
                 )}
                 <div className="flex items-center gap-1.5 text-[#8888aa]">
                   <Shield className="h-3 w-3" />
-                  <span>Independent critique: {result.independentCritique ? 'YES' : 'NO'}</span>
+                  <span>Deterministic critic: {result.deterministicCritique ? 'YES' : 'NO'}</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-[#8888aa]">
                   <History className="h-3 w-3" />
                   <span>Restart-recoverable: {result.restartRecoverable ? 'YES' : 'NO'}</span>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Visual Transformation — before/after material parameters */}
+          {currentOverride && selected && (
+            <div className="mt-2 rounded border border-amber-500/30 bg-amber-500/5 p-2">
+              <div className="mb-1 flex items-center gap-1 text-[9px] uppercase tracking-wider text-amber-300">
+                <FlaskConical className="h-2.5 w-2.5" />
+                Visual Transformation Active
+              </div>
+              <div className="space-y-0.5 text-[9px] text-[#aaaacc]">
+                <div className="flex justify-between">
+                  <span className="text-[#8888aa]">state</span>
+                  <span className="font-mono text-amber-300">{currentOverride.authorialState ?? 'ancient-sacred'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8888aa]">color</span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2 w-2 rounded border border-white/20" style={{ backgroundColor: currentOverride.color ?? '#5a5a52' }} />
+                    <span className="font-mono">{currentOverride.color ?? '#5a5a52'}</span>
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8888aa]">roughness</span>
+                  <span className="font-mono text-amber-300">{currentOverride.roughness ?? 0.92}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8888aa]">metalness</span>
+                  <span className="font-mono text-amber-300">{currentOverride.metalness ?? 0.05}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8888aa]">emissive</span>
+                  <span className="font-mono text-amber-300">{currentOverride.emissive ?? '#3a2a1a'} @ {(currentOverride.emissiveIntensity ?? 0.08).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8888aa]">weathering</span>
+                  <span className="font-mono text-amber-300">{((currentOverride.weathering ?? 0.85) * 100).toFixed(0)}%</span>
+                </div>
+              </div>
+              <div className="mt-2 flex gap-1">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-5 flex-1 border-red-500/30 bg-red-500/5 px-1 text-[9px] text-red-300 hover:bg-red-500/15"
+                  onClick={() => selected && clearAuthorialOverride(selected.entityId)}
+                >
+                  <RotateCcw className="mr-1 h-2.5 w-2.5" />
+                  Revert Visual
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-5 flex-1 border-[#3a3a5a] bg-[#1e1e3e] px-1 text-[9px] text-[#aaaacc] hover:bg-[#2a2a4a]"
+                  onClick={() => undoAuthorialOverride()}
+                >
+                  <History className="mr-1 h-2.5 w-2.5" />
+                  Undo
+                </Button>
               </div>
             </div>
           )}

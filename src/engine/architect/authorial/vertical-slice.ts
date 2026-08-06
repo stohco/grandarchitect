@@ -110,7 +110,7 @@ export interface VerticalSliceResult {
   decisionLedgerEntryId?: string;
   narrativePromiseId?: string;
   restartRecoverable: boolean;
-  independentCritique: boolean;
+  deterministicCritique: boolean;
   error?: string;
 }
 
@@ -137,7 +137,7 @@ interface ExecutionArtifact {
   styleConstraintsApplicable: CompiledStyleConstraint[];
 }
 
-class IndependentCritic {
+class DeterministicCritic {
   private rules: CriticRule[];
 
   constructor() {
@@ -746,9 +746,9 @@ function checkCanonCompliance(artifact: ExecutionArtifact): ComplianceResult {
 
 // STAGE 10: CRITIQUE — Independent critic
 async function stage_critique(artifact: ExecutionArtifact): Promise<{ report: CritiqueReport; summary: string }> {
-  const critic = new IndependentCritic();
+  const critic = new DeterministicCritic();
   const report = await critic.critique(artifact);
-  return { report, summary: `Independent critique verdict: ${report.verdict}. ${report.findings.length} findings, ${report.recommendations.length} recommendations.` };
+  return { report, summary: `Deterministic critique verdict: ${report.verdict}. ${report.findings.length} findings, ${report.recommendations.length} recommendations.` };
 }
 
 // STAGE 11: PRESENT — Build presentation
@@ -765,7 +765,7 @@ function stage_present(
     changes: plan.operations.map((op) => `${op.label}: ${op.expectedOutput}`),
     evidence: [
       `Validation: ${validation.styleCompliance.passed ? 'PASS' : 'FAIL'} (style), ${validation.canonCompliance.passed ? 'PASS' : 'FAIL'} (canon)`,
-      `Independent critique verdict: ${critique.verdict}`,
+      `Deterministic critique verdict: ${critique.verdict}`,
       `World revision: ${execution.worldRevision}`,
     ],
     uncertainties: critique.recommendations,
@@ -893,7 +893,7 @@ async function stage_remember(
     provenance: [
       `Authorial vertical slice executed at ${nowIso()}.`,
       `Validation: ${validation.styleCompliance.passed ? 'PASS' : 'FAIL'} (style), ${validation.canonCompliance.passed ? 'PASS' : 'FAIL'} (canon).`,
-      `Independent critique verdict: ${critique.verdict}.`,
+      `Deterministic critique verdict: ${critique.verdict}.`,
       `Decision: ${decision.decision}.`,
     ],
     contextHash: `slice-${execution.worldRevision}-${ctx.input.selectedEntityId}`,
@@ -1070,7 +1070,7 @@ export async function runAuthorialVerticalSlice(
       decisionLedgerEntryId,
       narrativePromiseId,
       restartRecoverable: true, // Loop state persisted after every stage.
-      independentCritique: true, // IndependentCritic is a separate class.
+      deterministicCritique: true, // DeterministicCritic is a separate class.
       error: lastError,
     };
   }

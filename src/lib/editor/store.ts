@@ -25,6 +25,7 @@ import type {
   CapabilityDescriptorLite,
   PerfStats,
   EntityEdit,
+  AuthorialOverride,
 } from './types';
 
 // ----------------------------------------------------------------------------
@@ -112,6 +113,10 @@ export interface EditorStore {
   edits: Record<number, Partial<Pick<SerializableStructure, 'position' | 'rotation' | 'width' | 'depth'>>>;
   hiddenEntityIds: Set<number>;
 
+  // ---- authorial visual overrides (applied by Grand Architect slice) ----
+  authorialOverrides: Record<number, AuthorialOverride>;
+  authorialHistory: Array<{ entityId: number; override: AuthorialOverride | null; timestamp: number }>;
+
   // ---- console ----
   logs: LogEntry[];
 
@@ -172,6 +177,12 @@ export interface EditorStore {
   hideEntity: (id: number) => void;
   showEntity: (id: number) => void;
   resetEdits: () => void;
+
+  // ---- authorial override actions ----
+  applyAuthorialOverride: (entityId: number, override: AuthorialOverride) => void;
+  clearAuthorialOverride: (entityId: number) => void;
+  undoAuthorialOverride: () => void;
+  getAuthorialOverride: (entityId: number) => AuthorialOverride | null;
 
   log: (level: LogLevel, source: string, message: string) => void;
   clearLogs: () => void;
@@ -251,6 +262,10 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   // ---- edits ----
   edits: {},
   hiddenEntityIds: new Set(),
+
+  // ---- authorial overrides ----
+  authorialOverrides: {},
+  authorialHistory: [],
 
   // ---- console ----
   logs: initialLogs,
@@ -518,6 +533,53 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   resetEdits: () => {
     set({ edits: {} });
     get().log('info', 'editor', 'Local edits discarded (reverted to generated state).');
+  },
+
+  // ---- authorial visual overrides ----
+  applyAuthorialOverride: (entityId, override) => {
+    const prev = get().authorialOverrides[entityId] ?? null;
+    set((s) => ({
+      authorialOverrides: { ...s.authorialOverrides, [entityId]: override },
+      authorialHistory: [...s.authorialHistory.slice(-49), { entityId, override: prev, timestamp: Date.now() }],
+    }));
+    get().log('architect', 'authorial', `Applied visual override to entity ${entityId}: ${override.authorialState ?? 'ancient-sacred'}`);
+  },
+
+  clearAuthorialOverride: (entityId) => {
+    const prev = get().authorialOverrides[entityId] ?? null;
+    if (!prev) return;
+    set((s) => {
+      const next = { ...s.authorialOverrides };
+      delete next[entityId];
+      return {
+        authorialOverrides: next,
+        authorialHistory: [...s.authorialHistory.slice(-49), { entityId, override: prev, timestamp: Date.now() }],
+      };
+    });
+    get().log('info', 'authorial', `Cleared visual override on entity ${entityId} (reverted to original).`);
+  },
+
+  undoAuthorialOverride: () => {
+    const history = get().authorialHistory;
+    if (history.length === 0) return;
+    const last = history[history.length - 1];
+    set((s) => {
+      const next = { ...s.authorialOverrides };
+      if (last.override === null) {
+        delete next[last.entityId];
+      } else {
+        next[last.entityId] = last.override;
+      }
+      return {
+        authorialOverrides: next,
+        authorialHistory: s.authorialHistory.slice(0, -1),
+      };
+    });
+    get().log('info', 'authorial', `Undid authorial override on entity ${last.entityId}.`);
+  },
+
+  getAuthorialOverride: (entityId) => {
+    return get().authorialOverrides[entityId] ?? null;
   },
 
   log: (level, source, message) =>
