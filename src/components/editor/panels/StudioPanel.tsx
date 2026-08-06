@@ -19,7 +19,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Box, Building2, Layers, Zap, Code, Eye } from 'lucide-react';
+import { Box, Building2, Layers, Zap, Code, Eye, User, Mountain, Download, GitBranch } from 'lucide-react';
 
 interface StudioInfo {
   architecture: string;
@@ -131,6 +131,31 @@ export default function StudioPanel() {
               </Button>
               <Button size="sm" className="h-7 text-xs" onClick={() => void createAction('auto_unwrap', { params: { mode: 'box' } })}>
                 <Eye className="mr-1 h-3 w-3" /> UV Unwrap
+              </Button>
+            </div>
+            <div className="mt-1.5 grid grid-cols-2 gap-1.5">
+              <Button size="sm" className="h-7 text-xs bg-emerald-700/60 hover:bg-emerald-600/60" onClick={() => void createAction('generate_character', { params: { gender: 'male' } })}>
+                <User className="mr-1 h-3 w-3" /> Character M
+              </Button>
+              <Button size="sm" className="h-7 text-xs bg-emerald-700/60 hover:bg-emerald-600/60" onClick={() => void createAction('generate_character', { params: { gender: 'female' } })}>
+                <User className="mr-1 h-3 w-3" /> Character F
+              </Button>
+              <Button size="sm" className="h-7 text-xs bg-amber-700/60 hover:bg-amber-600/60" onClick={() => void createAction('terrain_mountain', { params: { bounds: { min: [0,0,0], max: [32,16,32] }, resolution: 1, peakHeight: 12 } })}>
+                <Mountain className="mr-1 h-3 w-3" /> Mountain
+              </Button>
+              <Button size="sm" className="h-7 text-xs bg-amber-700/60 hover:bg-amber-600/60" onClick={() => void createAction('terrain_tunnel', { params: { bounds: { min: [0,0,0], max: [32,16,32] }, resolution: 1, peakHeight: 12, start: [0,8,16], end: [32,8,16], radiusM: 2 } })}>
+                <Mountain className="mr-1 h-3 w-3" /> Carve Tunnel
+              </Button>
+            </div>
+            <div className="mt-1.5 grid grid-cols-3 gap-1.5">
+              <Button size="sm" className="h-7 text-xs bg-cyan-700/60 hover:bg-cyan-600/60" onClick={() => void createAction('export_glb')}>
+                <Download className="mr-1 h-3 w-3" /> GLB
+              </Button>
+              <Button size="sm" className="h-7 text-xs bg-purple-700/60 hover:bg-purple-600/60" onClick={() => void createAction('place_in_world')}>
+                <GitBranch className="mr-1 h-3 w-3" /> Place
+              </Button>
+              <Button size="sm" className="h-7 text-xs bg-slate-700/60 hover:bg-slate-600/60" onClick={() => void createAction('runtime_status')}>
+                <Zap className="mr-1 h-3 w-3" /> Runtime
               </Button>
             </div>
           </section>

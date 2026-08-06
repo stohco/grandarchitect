@@ -1021,3 +1021,39 @@ Stage Summary:
 - Architecture: Prime Agent = external dev harness, NOT in game runtime
 - Three AI layers: Prime Agent (repo) / UnboundLoop (Studio) / Grand Architect (game)
 - All on GitHub at 4e6a0ec, lint clean, 19 frontier techniques, 16 dock tabs
+
+---
+Task ID: LIVE-STUDIO-BLENDER-REPLACEMENT
+Agent: main (Z.ai Code)
+Task: Build the Live Studio as a Blender replacement — mesh kernel, operation stack, real mesh operations, structure grammar, character authoring, voxel terrain studio, GLB export, and studio-runtime bridge
+
+Work Log:
+- Read user's architectural correction: Live Studio IS the asset authoring environment, not a Blender viewer
+- Created MeshKernel (src/engine/studio/mesh-kernel.ts): engine-independent authoring model with vertices, half-edges, faces, UV sets, skin weights, morph targets, named regions, sockets, destruction regions, semantic tags. toBufferGeometry() converts to Three.js data.
+- Created Operation Stack (operation-stack.ts): nondestructive modifier stack with 50+ operation types, GLM-inspectable, serializeStack() outputs YAML
+- Created Mesh Operations (mesh-operations.ts): real extrude, bevel, loop_cut, solidify, autoUnwrap (4 modes), transferSkinWeights, generateLOD, generateCollisionProxy
+- Created Structure Grammar (structure-grammar.ts): 9 grammar types, generateStructure() creates foundation+floor+columns+walls+roof with damage states
+- Created Character Authoring (character-authoring.ts): generateBaseBody (16-point silhouette, 22 hide zones, 8 sockets), generateGarmentShell (6 regions with clearance), assembleCharacter (hide zone detection), generateCompleteCharacter
+- Created Voxel Terrain Studio (voxel-terrain-studio.ts): DensityField, 10-material palette, initializeMountainField, applyBrush (5 types), carveTunnel, extractSurface (Marching Cubes), getFieldStats
+- Created GLB Export (glb-export.ts): real binary glTF writer with proper header/chunk/padding
+- Created Studio-Runtime Bridge (studio-runtime-bridge.ts): placeAssetInWorld via executeCommand, no direct scene mutation
+- Created Studio API with 16 actions: create, evaluate, serialize, generate_structure, default_sect_hall, default_cottage, auto_unwrap, export_glb, generate_character, terrain_create/mountain/brush/tunnel/extract, place_in_world, runtime_status
+- Created StudioPanel UI with 11 quick action buttons (Sect Hall, Cottage, Box, UV, Character M/F, Mountain, Tunnel, GLB, Place, Runtime)
+- Updated production bible with Part XI: Live Studio as Blender Replacement
+- Wired real mesh operations into operation-stack evaluator (extrude, solidify, bevel, loop_cut, LOD, collision_proxy)
+- Verified: character 536 verts/512 faces/16 regions/8 sockets, mountain 16384 voxels/2986 solid, tunnel 288 carved, GLB 1272 bytes
+
+Stage Summary:
+- MeshKernel: 454 lines — authoritative editable model (NOT Three.js BufferGeometry)
+- Operation Stack: 573 lines — 50+ ops, nondestructive, GLM-inspectable
+- Mesh Operations: 540 lines — real extrude/bevel/solidify/UV/LOD/collision
+- Structure Grammar: 332 lines — procedural buildings with damage states
+- Character Authoring: 395 lines — body generator + garment fitting + hide zones
+- Voxel Terrain Studio: 524 lines — density field + brushes + tunnel + surface extraction
+- GLB Export: 165 lines — real binary glTF writer
+- Studio-Runtime Bridge: 130 lines — assets enter world via executeCommand
+- Studio API: 380 lines — 16 actions covering the full pipeline
+- StudioPanel UI: 220 lines — 11 quick action buttons
+- Total studio code: ~3,700 lines across 8 files
+- 18 dock tabs, 19 frontier techniques, lint clean
+- All on GitHub at 1112afa
