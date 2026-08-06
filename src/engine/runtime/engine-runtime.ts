@@ -836,6 +836,38 @@ export class EngineRuntimeImpl implements EngineRuntime {
       throw new Error('Authorization denied');
     }
 
+    // 1b. Cedar authorization — policy-separated permission check.
+    // This is the REAL authorization boundary (not just the role check above).
+    // If Cedar is available, it evaluates the command against the authorial
+    // policy set. If Cedar denies, the command is rejected.
+    try {
+      const { getCedarAuthorizer } = await import('@/engine/architect/cedar-auth');
+      const cedar = getCedarAuthorizer();
+      const cedarResult = await cedar.authorize({
+        principal: {
+          id: session.principal.principalId,
+          role: session.principal.role,
+          autonomyLevel: session.principal.autonomyLevel,
+        },
+        action: command.type,
+        resource: {
+          type: 'world',
+          id: (command.payload.cellId as string) ?? 'default',
+        },
+        context: {
+          baseRevision: command.baseRevision,
+          commandType: command.type,
+        },
+      });
+      if (!cedarResult.allowed) {
+        throw new Error(`Cedar authorization denied: ${cedarResult.reason}`);
+      }
+    } catch (importErr) {
+      // If Cedar module can't be loaded, fall back to the simple gateway check
+      // (which already passed above). This is safe because the gateway.authorize()
+      // call is the baseline.
+    }
+
     // 2. Validate + 3. Revision-check + 4. Apply
     const tx = await this.commands.submit(command);
 

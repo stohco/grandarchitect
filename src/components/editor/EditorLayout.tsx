@@ -37,6 +37,7 @@ import {
   Maximize2,
   Activity,
   Sparkles,
+  FlaskConical,
 } from 'lucide-react';
 import { useEditorStore } from '@/lib/editor/store';
 import type { WorldExecutionState, TransformMode } from '@/lib/editor/types';
@@ -63,6 +64,7 @@ import ProductionPanel from '@/components/editor/panels/ProductionPanel';
 import StudioPanel from '@/components/editor/panels/StudioPanel';
 import JobCenterPanel from '@/components/editor/panels/JobCenterPanel';
 import AuthorialVerticalSlicePanel from '@/components/editor/panels/AuthorialVerticalSlicePanel';
+import FrontierMatrixPanel from '@/components/editor/panels/FrontierMatrixPanel';
 import ConformancePanel from '@/components/editor/panels/ConformancePanel';
 import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
 import EnginePanel from '@/components/editor/panels/EnginePanel';
@@ -353,6 +355,7 @@ const BOTTOM_TABS: readonly BottomTab[] = [
   { value: 'production', label: 'Production' },
   { value: 'studio', label: 'Studio' },
   { value: 'authorial', label: 'Authorial', icon: Sparkles },
+  { value: 'frontier-matrix', label: 'Matrix', icon: FlaskConical },
   { value: 'jobs', label: 'Jobs' },
   { value: 'crashes', label: 'Crashes', icon: ShieldAlert },
 ];
@@ -373,6 +376,7 @@ const TALL_TABS = new Set([
   'production',
   'studio',
   'authorial',
+  'frontier-matrix',
   'jobs',
 ]);
 
@@ -473,6 +477,7 @@ function BottomDock() {
         {activeTab === 'production' && <ProductionPanel />}
         {activeTab === 'studio' && <StudioPanel />}
         {activeTab === 'authorial' && <AuthorialVerticalSlicePanel />}
+        {activeTab === 'frontier-matrix' && <FrontierMatrixPanel />}
         {activeTab === 'jobs' && <JobCenterPanel />}
         {activeTab === 'crashes' && <CrashObservatoryPanel />}
       </div>

@@ -1,30 +1,23 @@
 /**
- * Z3 Verifier — Universe-Law Invariant Checker
- * ==============================================
+ * Z3 Verifier — Server-Side Solver Service
+ * =========================================
  *
- * Z3 is the SMT theorem prover that enforces hard invariants.
- * It says: "This proposed operation contradicts the laws or current state
- * of the universe."
+ * Z3 WASM has issues loading in Next.js Turbopack (Emscripten's locateFile
+ * resolves to /ROOT/ instead of the project root). To work around this,
+ * we run Z3 as a separate Bun subprocess that can load the WASM file
+ * directly from the filesystem.
  *
- * Per the FRONTIER_TECHNOLOGY_MATRIX.md directive, Z3 checks:
- *   - An entity instance must reference an existing asset revision.
- *   - Render, collision, and navigation artifacts activated together
- *     must derive from the same source revision.
- *   - A mortal cannot select a traversal regime requiring void survival.
- *   - A spatial transition must resolve to a valid coordinate frame.
- *   - A clone manifestation cannot simultaneously own a unique artifact
- *     unless its identity-sharing policy permits it.
- *   - A forbidden canon rule cannot be overridden without a retcon record.
- *   - A committed authorial plan cannot target a stale world revision.
- *
- * This adapter uses the `z3-solver` npm package (WASM build).
+ * The subprocess receives a JSON problem, runs the invariants, and returns
+ * a JSON result.
  */
 
-import { init as initZ3 } from 'z3-solver';
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+import fs from 'node:fs';
 import type { PlanningSolver, PlanResult, PlanningProblem, InvariantSpec } from '../planning-router/types';
 
 // ---------------------------------------------------------------------------
-// Z3 Solver Adapter
+// Z3 Solver Adapter (delegates to bun subprocess)
 // ---------------------------------------------------------------------------
 
 class Z3SolverAdapter implements PlanningSolver {
@@ -32,23 +25,39 @@ class Z3SolverAdapter implements PlanningSolver {
   problemTypes: PlanningProblemType[] = ['hard-law-check'];
   available = false;
   reason: string | undefined;
-  private z3Instance: Awaited<ReturnType<typeof initZ3>> | null = null;
+  private bunPath: string | null = null;
+  private scriptPath: string | null = null;
 
   async ensureInitialized(): Promise<void> {
-    if (this.z3Instance) return;
+    if (this.available) return;
+
+    // Check if bun is available.
     try {
-      this.z3Instance = await initZ3();
-      this.available = true;
-      this.reason = 'Z3 WASM initialized successfully';
-    } catch (err) {
+      const { execSync } = await import('node:child_process');
+      this.bunPath = execSync('which bun', { encoding: 'utf8' }).trim();
+    } catch {
       this.available = false;
-      this.reason = `Z3 WASM initialization failed: ${(err as Error).message}`;
+      this.reason = 'Bun not found — Z3 requires bun to run the WASM subprocess';
+      return;
     }
+
+    // Check if the z3-solver package is installed.
+    const wasmPath = '/home/z/my-project/node_modules/z3-solver/build/z3-built.wasm';
+    if (!fs.existsSync(wasmPath)) {
+      this.available = false;
+      this.reason = 'z3-solver WASM file not found';
+      return;
+    }
+
+    // Write the subprocess script.
+    this.scriptPath = path.join(process.cwd(), 'src', 'engine', 'architect', 'z3-verifier', 'z3-worker.ts');
+    this.available = true;
+    this.reason = `Z3 ready (bun: ${this.bunPath})`;
   }
 
   async solve(problem: PlanningProblem): Promise<PlanResult> {
     await this.ensureInitialized();
-    if (!this.available || !this.z3Instance) {
+    if (!this.available || !this.bunPath || !this.scriptPath) {
       return {
         planId: `plan-z3-failed-${Date.now().toString(36)}`,
         problemId: problem.problemId,
@@ -56,77 +65,75 @@ class Z3SolverAdapter implements PlanningSolver {
         valid: false,
         errors: [this.reason ?? 'Z3 not available'],
         solveTimeMs: 0,
-        explanation: 'Z3 WASM could not be initialized.',
+        explanation: 'Z3 subprocess not available.',
       };
     }
 
     const start = Date.now();
-    const { Context } = this.z3Instance;
-    const Z3 = Context('main');
 
-    const invariantResults: Array<{ invariantId: string; satisfied: boolean; counterexample?: string }> = [];
-    let allSatisfied = true;
-
-    for (const invariant of problem.invariants ?? []) {
-      try {
-        const result = await this.checkInvariant(Z3, invariant);
-        invariantResults.push(result);
-        if (!result.satisfied) allSatisfied = false;
-      } catch (err) {
-        invariantResults.push({
-          invariantId: invariant.invariantId,
-          satisfied: false,
-          counterexample: `Check failed: ${(err as Error).message}`,
-        });
-        allSatisfied = false;
-      }
-    }
-
-    const solveTimeMs = Date.now() - start;
-
-    return {
-      planId: `plan-z3-${Date.now().toString(36)}`,
-      problemId: problem.problemId,
-      solverUsed: this.solverId,
-      valid: allSatisfied,
-      invariantResults,
-      errors: [],
-      solveTimeMs,
-      explanation: allSatisfied
-        ? `All ${invariantResults.length} invariant(s) satisfied.`
-        : `${invariantResults.filter((r) => !r.satisfied).length} invariant(s) violated.`,
-    };
-  }
-
-  private async checkInvariant(Z3: any, invariant: InvariantSpec): Promise<{ invariantId: string; satisfied: boolean; counterexample?: string }> {
-    const solver = new Z3.Solver();
     try {
-      // For the seed implementation, we check a simple arithmetic invariant.
-      // Real integration would build SMT formulas from the invariant spec.
-      const { Int } = Z3;
-      const x = Int.const('x');
-      const y = Int.const('y');
-
-      // Assert the invariant formula (simplified for seed).
-      // If the invariant is "x + 1 == y", we check if it's satisfiable.
-      solver.add(x.add(1).eq(y));
-      const result = await solver.check();
-
-      if (result === 'sat') {
-        return { invariantId: invariant.invariantId, satisfied: true };
-      }
+      const result = await this.runSubprocess(problem);
+      const solveTimeMs = Date.now() - start;
       return {
-        invariantId: invariant.invariantId,
-        satisfied: false,
-        counterexample: 'Invariant not satisfiable',
+        planId: `plan-z3-${Date.now().toString(36)}`,
+        problemId: problem.problemId,
+        solverUsed: this.solverId,
+        valid: result.valid,
+        invariantResults: result.invariantResults,
+        errors: result.errors,
+        solveTimeMs,
+        explanation: result.explanation,
       };
     } catch (err) {
       return {
-        invariantId: invariant.invariantId,
-        satisfied: false,
-        counterexample: `Formula evaluation failed: ${(err as Error).message}`,
+        planId: `plan-z3-error-${Date.now().toString(36)}`,
+        problemId: problem.problemId,
+        solverUsed: this.solverId,
+        valid: false,
+        errors: [`Z3 subprocess failed: ${(err as Error).message}`],
+        solveTimeMs: Date.now() - start,
+        explanation: 'Z3 subprocess error.',
       };
     }
+  }
+
+  private runSubprocess(problem: PlanningProblem): Promise<{
+    valid: boolean;
+    invariantResults: Array<{ invariantId: string; satisfied: boolean; counterexample?: string }>;
+    errors: string[];
+    explanation: string;
+  }> {
+    return new Promise((resolve, reject) => {
+      const child = spawn(this.bunPath!, ['run', this.scriptPath!], {
+        stdio: ['pipe', 'pipe', 'pipe'],
+        env: { ...process.env },
+      });
+
+      let stdout = '';
+      let stderr = '';
+
+      child.stdout.on('data', (data) => { stdout += data.toString(); });
+      child.stderr.on('data', (data) => { stderr += data.toString(); });
+
+      child.on('close', (code) => {
+        if (code !== 0) {
+          reject(new Error(`Z3 subprocess exited with code ${code}: ${stderr.slice(0, 500)}`));
+          return;
+        }
+        try {
+          const result = JSON.parse(stdout);
+          resolve(result);
+        } catch (err) {
+          reject(new Error(`Z3 subprocess returned invalid JSON: ${(err as Error).message}`));
+        }
+      });
+
+      child.on('error', (err) => reject(err));
+
+      // Send the problem as JSON on stdin.
+      child.stdin.write(JSON.stringify(problem));
+      child.stdin.end();
+    });
   }
 }
 
