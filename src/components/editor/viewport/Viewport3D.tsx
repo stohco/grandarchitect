@@ -19,6 +19,7 @@ import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
 import { useRapierPhysics } from '@/lib/editor/use-rapier-physics';
+import { CharacterController } from '@/components/editor/viewport/CharacterController';
 import type { StructureKind, CameraPreset, RenderMode, SerializableStructure } from '@/lib/editor/types';
 
 // ---------------------------------------------------------------------------
@@ -487,8 +488,8 @@ function SceneContent() {
       {/* Transform gizmo on the selected structure */}
       <TransformGizmo />
 
-      {/* Rapier physics simulation — real WASM physics when enabled */}
-      {physicsEnabled && <PhysicsSimulation structures={settlement?.structures ?? []} />}
+      {/* Rapier physics — real character controller when enabled */}
+      {physicsEnabled && <CharacterController />}
 
       <mesh position={[0, -0.1, 0]} rotation-x={-Math.PI / 2} visible={false} onClick={handleBackgroundClick}>
         <planeGeometry args={[500, 500]} />

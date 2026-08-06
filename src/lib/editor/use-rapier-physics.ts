@@ -58,12 +58,10 @@ export function useRapierPhysics(enabled: boolean) {
 
     async function init() {
       try {
-        const Rapier = await import('@dimforge/rapier3d-compat');
-        // Provide the WASM file URL from /public so Turbopack doesn't
-        // need to resolve the Emscripten module.
-        await Rapier.init({
-          wasmUrl: '/rapier_wasm3d_bg.wasm',
-        });
+        const mod = await import('@dimforge/rapier3d-compat');
+        // The compat package may export via default or named exports.
+        const Rapier = (mod as any).default ?? mod;
+        await Rapier.init();
         if (cancelled) return;
 
         RapierRef.current = Rapier;
@@ -80,12 +78,13 @@ export function useRapierPhysics(enabled: boolean) {
         if (cancelled) return;
         // Try fallback without wasmUrl (may work in some environments).
         try {
-          const Rapier = await import('@dimforge/rapier3d-compat');
-          await Rapier.init();
+          const mod2 = await import('@dimforge/rapier3d-compat');
+          const Rapier2 = (mod2 as any).default ?? mod2;
+          await Rapier2.init();
           if (cancelled) return;
-          RapierRef.current = Rapier;
+          RapierRef.current = Rapier2;
           const gravity = { x: 0, y: -9.81, z: 0 };
-          worldRef.current = new Rapier.World(gravity);
+          worldRef.current = new Rapier2.World(gravity);
           setState((s) => ({
             ...s,
             ready: true,
@@ -128,7 +127,8 @@ export function useRapierPhysics(enabled: boolean) {
 
     const bodyId = ++nextBodyIdRef.current;
     bodiesRef.current.set(bodyId, { body, entityId });
-    setState((s) => ({ ...s, bodyCount: bodiesRef.current.size }));
+    // Don't call setState here — it causes render loops when adding many bodies.
+    // Body count is read via getBodyPositions().length instead.
     return bodyId;
   };
 
@@ -147,7 +147,7 @@ export function useRapierPhysics(enabled: boolean) {
 
     const bodyId = ++nextBodyIdRef.current;
     bodiesRef.current.set(bodyId, { body, entityId: -1 });
-    setState((s) => ({ ...s, bodyCount: bodiesRef.current.size }));
+    // Don't call setState here — it causes render loops when adding many bodies.
     return bodyId;
   };
 
@@ -159,7 +159,6 @@ export function useRapierPhysics(enabled: boolean) {
     if (entry) {
       world.removeRigidBody(entry.body);
       bodiesRef.current.delete(bodyId);
-      setState((s) => ({ ...s, bodyCount: bodiesRef.current.size }));
     }
   };
 
@@ -178,9 +177,8 @@ export function useRapierPhysics(enabled: boolean) {
       // Step may fail if world is not fully initialized.
     }
     stepCountRef.current++;
-    if (stepCountRef.current % 60 === 0) {
-      setState((s) => ({ ...s, stepCount: stepCountRef.current }));
-    }
+    // Don't call setState here — stepCount is read via ref, not state.
+    // Calling setState every 60 frames causes render loops with useFrame.
   };
 
   const getBodyPositions = (): PhysicsBody[] => {
