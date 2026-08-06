@@ -3,6 +3,9 @@ import { requireDevMode } from '@/lib/editor/api-guards';
 import { createOperationStack, addOperation, evaluateStack, serializeStack } from '@/engine/studio/operation-stack';
 import { toBufferGeometry, getMeshStats } from '@/engine/studio/mesh-kernel';
 import type { OperationType } from '@/engine/studio/operation-stack';
+import { generateStructure, defaultSectHallParams, defaultCottageParams } from '@/engine/studio/structure-grammar';
+import type { StructureGrammarParams } from '@/engine/studio/structure-grammar';
+import { autoUnwrap, transferSkinWeights } from '@/engine/studio/mesh-operations';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -128,6 +131,73 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Stack not found' }, { status: 404 });
       }
       return NextResponse.json({ ok: true, serialized: serializeStack(stack) });
+    }
+
+    if (action === 'generate_structure') {
+      const params = body.params as StructureGrammarParams;
+      if (!params) {
+        return NextResponse.json({ error: 'Missing structure params' }, { status: 400 });
+      }
+      const kernel = generateStructure(params);
+      const buffer = toBufferGeometry(kernel);
+      const stats = getMeshStats(kernel);
+      return NextResponse.json({
+        ok: true,
+        assetId: params.assetId,
+        meshStats: stats,
+        buffer: {
+          vertexCount: buffer.positions.length / 3,
+          triangleCount: buffer.indices.length / 3,
+          hasNormals: buffer.normals.length > 0,
+          hasUVs: buffer.uvs !== null,
+          groupCount: buffer.groups.length,
+        },
+        tags: kernel.tags,
+      });
+    }
+
+    if (action === 'default_sect_hall') {
+      const params = defaultSectHallParams(assetId);
+      const kernel = generateStructure(params);
+      const stats = getMeshStats(kernel);
+      return NextResponse.json({
+        ok: true,
+        assetId,
+        params,
+        meshStats: stats,
+        tags: kernel.tags,
+      });
+    }
+
+    if (action === 'default_cottage') {
+      const params = defaultCottageParams(assetId);
+      const kernel = generateStructure(params);
+      const stats = getMeshStats(kernel);
+      return NextResponse.json({
+        ok: true,
+        assetId,
+        params,
+        meshStats: stats,
+        tags: kernel.tags,
+      });
+    }
+
+    if (action === 'auto_unwrap') {
+      const stack = stacks.get(assetId);
+      if (!stack) {
+        return NextResponse.json({ error: 'Stack not found' }, { status: 404 });
+      }
+      const kernel = evaluateStack(stack);
+      const mode = (body.params?.mode as string) ?? 'box';
+      autoUnwrap(kernel, { mode: mode as 'planar' | 'box' | 'cylindrical' | 'spherical', uvSetIndex: 0 });
+      const stats = getMeshStats(kernel);
+      return NextResponse.json({
+        ok: true,
+        assetId,
+        meshStats: stats,
+        uvSetCount: kernel.uvSets.length,
+        uvCoordCount: kernel.uvSets[0]?.coords.length ?? 0,
+      });
     }
 
     return NextResponse.json({ error: `Unknown action: ${action}` }, { status: 400 });

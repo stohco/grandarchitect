@@ -59,6 +59,7 @@ import FrontierPanel from '@/components/editor/panels/FrontierPanel';
 import AssetForgePanel from '@/components/editor/panels/AssetForgePanel';
 import WorkspaceAgentPanel from '@/components/editor/panels/WorkspaceAgentPanel';
 import ProductionPanel from '@/components/editor/panels/ProductionPanel';
+import StudioPanel from '@/components/editor/panels/StudioPanel';
 import ConformancePanel from '@/components/editor/panels/ConformancePanel';
 import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
 import EnginePanel from '@/components/editor/panels/EnginePanel';
@@ -347,6 +348,7 @@ const BOTTOM_TABS: readonly BottomTab[] = [
   { value: 'forge', label: 'Forge' },
   { value: 'workspace', label: 'Workspace' },
   { value: 'production', label: 'Production' },
+  { value: 'studio', label: 'Studio' },
   { value: 'crashes', label: 'Crashes', icon: ShieldAlert },
 ];
 
@@ -364,6 +366,7 @@ const TALL_TABS = new Set([
   'forge',
   'workspace',
   'production',
+  'studio',
 ]);
 
 function HistoryPanel() {
@@ -456,6 +459,7 @@ function BottomDock() {
         {activeTab === 'forge' && <AssetForgePanel />}
         {activeTab === 'workspace' && <WorkspaceAgentPanel />}
         {activeTab === 'production' && <ProductionPanel />}
+        {activeTab === 'studio' && <StudioPanel />}
         {activeTab === 'crashes' && <CrashObservatoryPanel />}
       </div>
     </div>

@@ -359,16 +359,46 @@ function createFoundation(params: Record<string, unknown>): MeshKernel {
 function evaluateModifier(kernel: MeshKernel, op: Operation): MeshKernel {
   switch (op.op) {
     case 'solidify':
+      // Use REAL solidify from mesh-operations.ts
+      importMeshOps().solidify(kernel, {
+        thicknessM: (op.params.thicknessM as number) ?? 0.0035,
+      });
+      return kernel;
     case 'add_thickness':
       return applySolidify(kernel, op.params);
+    case 'extrude':
+      // Use REAL extrude from mesh-operations.ts
+      importMeshOps().extrudeFaces(kernel, Array.from(kernel.faces.keys()), {
+        distanceM: (op.params.distanceM as number) ?? 0.1,
+        individual: (op.params.individual as boolean) ?? false,
+      });
+      return kernel;
+    case 'bevel':
+      // Use REAL bevel from mesh-operations.ts (simplified: bevel all edges)
+      {
+        const edgePairs: Array<[number, number]> = [];
+        for (const [, he] of kernel.halfEdges) {
+          if (he.twin !== -1 && he.halfEdgeId > he.twin) continue;
+          edgePairs.push([he.origin, he.destination]);
+        }
+        importMeshOps().bevelEdges(kernel, edgePairs, {
+          radiusM: (op.params.radiusM as number) ?? 0.01,
+          segments: (op.params.segments as number) ?? 1,
+        });
+      }
+      return kernel;
+    case 'loop_cut':
+      importMeshOps().loopCut(kernel, {
+        axis: (op.params.axis as 'x' | 'y' | 'z') ?? 'y',
+        positionM: (op.params.positionM as number) ?? 0,
+      });
+      return kernel;
     case 'mirror':
       return applyMirror(kernel, op.params);
     case 'smooth':
       return applySmooth(kernel, op.params);
     case 'subdivide':
       return applySubdivide(kernel, op.params);
-    case 'bevel':
-      return applyBevel(kernel, op.params);
     case 'shape_silhouette':
       return applyShapeSilhouette(kernel, op.params);
     case 'add_trim':
@@ -377,10 +407,26 @@ function evaluateModifier(kernel: MeshKernel, op: Operation): MeshKernel {
       return applyAssignClothRegions(kernel, op.params);
     case 'generate_normals':
       return applyGenerateNormals(kernel);
+    case 'generate_lod':
+      // Return the LOD kernel (doesn't modify in place)
+      return importMeshOps().generateLOD(kernel, {
+        targetRatio: (op.params.targetRatio as number) ?? 0.5,
+      });
+    case 'generate_collision_proxy':
+      return importMeshOps().generateCollisionProxy(kernel, {
+        simplifyRatio: (op.params.simplifyRatio as number) ?? 0.2,
+        convex: (op.params.convex as boolean) ?? false,
+      });
     default:
       // Unknown modifier — return kernel unchanged
       return kernel;
   }
+}
+
+// Lazy import to avoid circular dependency issues
+import * as meshOps from './mesh-operations';
+function importMeshOps() {
+  return meshOps;
 }
 
 function applySolidify(kernel: MeshKernel, params: Record<string, unknown>): MeshKernel {
