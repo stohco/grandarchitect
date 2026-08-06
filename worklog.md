@@ -977,3 +977,47 @@ Stage Summary:
 - Stage 5 (Grand Architect tool integration): NOT STARTED
 - Stage 6 (UnboundLoop orchestration): NOT STARTED
 - All code on GitHub at 86fdbc2, lint clean, APIs verified
+
+---
+Task ID: ASI-AGE-ADOPTION
+Agent: main (Z.ai Code)
+Task: Adopt Prime Agent as external development harness — provider-neutral interfaces, project skills, acceptance gates, evaluation framework, UI panel
+
+Work Log:
+- Read Prime Agent README + RLM docs from GitHub
+- Created RLM provider-neutral interface (src/engine/architect/rlm/types.ts):
+  RLMProvider with spawnChild, listChildren, sendMessage, listSkills, refine,
+  getHarnessState, rollback, setGoal, getGoals, startAutonomous, stopAutonomous
+- Created Prime Agent mock adapter (prime-agent-adapter.ts): available=false,
+  returns mock children/skills/harness/goals
+- Registered RLM as frontier technique: research/researching/none
+- Created WorkspaceAgentProvider interface (workspace/types.ts):
+  6 roles (implementer + 5 read-only reviewers), WorkspaceSession lifecycle,
+  WorkspaceEvent types, WorkspaceEvidenceBundle, WorkspaceArtifact
+- Created acceptance-gates.ts: 7 required gates (format-check, lint, typecheck,
+  test-unit, build, browser-chromium, browser-firefox) + EDITOR_RELIABILITY_WORKFLOW
+  (18 steps, 12 assertions) + CompletionReport interface
+- Created evaluation.ts: 10 comparison metrics + canonical evaluation task
+- Created PrimeAgentWorkspaceProvider mock: available=false, safety checks
+  (rejects main repo as worktree, enforces read-only for non-implementers)
+- Created 6 project-local skills (.prime/agent/skills/):
+  repo-truth, browser-reliability, evidence-bundle, capability-promotion,
+  worktree-safety, architecture-conformance
+- Created .prime/agent/settings.json (model, roles, worktree, harness, security)
+- Created prompts: stabilize-capability.md, audit-completion.md
+- Created API routes: /api/architect/rlm, /api/architect/workspace
+- Created WorkspaceAgentPanel UI component — bottom dock 'Workspace' tab
+- Wired into EditorLayout BOTTOM_TABS + TALL_TABS
+- Verified via agent-browser: 0 errors, 0 crashes, canvas renders, world loads,
+  16 dock tabs visible, Workspace panel shows all content (gates, skills, task)
+
+Stage Summary:
+- RLM Stage 1 (interfaces + mock): COMPLETE
+- Workspace Agent Provider: COMPLETE (interfaces + mock + API + UI)
+- Acceptance Gates: COMPLETE (7 gates + workflow + assertions)
+- Evaluation Framework: COMPLETE (10 metrics + canonical task)
+- Project Skills: COMPLETE (6 SKILL.md files)
+- Project Config: COMPLETE (.prime/agent/settings.json + prompts)
+- Architecture: Prime Agent = external dev harness, NOT in game runtime
+- Three AI layers: Prime Agent (repo) / UnboundLoop (Studio) / Grand Architect (game)
+- All on GitHub at 4e6a0ec, lint clean, 19 frontier techniques, 16 dock tabs
