@@ -161,6 +161,26 @@ export interface ExecutionResult {
   worldRevision: number;
   errors: string[];
   warnings: string[];
+  /** Full per-transaction detail (what each transaction actually changed). */
+  transactionDetails?: Array<{
+    transactionId: string;
+    actionId: string;
+    operationId: string;
+    commandType: string;
+    commandId: string;
+    inputPayloadHash: string;
+    targetEntityId: number;
+    targetStructureKind: string;
+    beforeRevision: number;
+    afterRevision: number;
+    affectedCells: string[];
+    forwardOperations: Array<{ operationId: string; type: string; cellId: string; payloadSummary: string }>;
+    inverseOperations: Array<{ operationId: string; type: string; cellId: string; payloadSummary: string }>;
+    invalidatedArtifacts: string[];
+    requestedBy: string;
+    timestamp: string;
+    undoResult?: { success: boolean; restoredRevision: number; error?: string };
+  }>;
 }
 
 export interface ValidationReport {

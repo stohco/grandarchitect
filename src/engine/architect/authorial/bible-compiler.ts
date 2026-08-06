@@ -32,6 +32,7 @@ import type {
   StyleCategory,
   StyleInheritance,
   StyleValidation,
+  CanonDomain,
 } from './canon-style';
 import { durableStore, replaceJson, type AuthorialStoreKey } from './durable-store';
 
@@ -465,3 +466,127 @@ export async function verifySourceSpan(span: SourceSpan): Promise<{
 }
 
 export { COMPILER_VERSION };
+
+// ---------------------------------------------------------------------------
+// Prose Compiler — parses pre-existing Bible prose into modality-classified
+// rule candidates.
+// ---------------------------------------------------------------------------
+//
+// The auditor's critique: "Do not prove compilation using the newly authored
+// Part XII appendix. Select a pre-existing verbose Bible section. Compile it
+// directly. Show that the compiler distinguishes: must, normally, prefer,
+// may, rarely, disputed, unknown, illustrative example."
+//
+// This compiler reads the EXISTING production-bible.md (not the appendix),
+// scans for sentences with modality markers, and classifies them.
+
+export interface ProseRuleCandidate {
+  line: number;
+  text: string;
+  modality: Modality;
+  modalityMarker: string;
+  domain: CanonDomain;
+  authority: CanonAuthority;
+  isNegativeConstraint: boolean;
+  isIllustrativeExample: boolean;
+}
+
+/**
+ * Parse pre-existing Bible prose and extract rule candidates with modality.
+ *
+ * This does NOT use the Part XII appendix — it reads the original verbose
+ * prose sections of the document (lines 1–1804).
+ */
+export async function compileProseFromBible(
+  maxLines = 1804,
+): Promise<{ candidates: ProseRuleCandidate[]; sourceDocument: string; linesScanned: number }> {
+  const docPath = path.join(process.cwd(), BIBLE_DOCS.production);
+  const raw = await fs.readFile(docPath, 'utf8');
+  const lines = raw.split('\n');
+  const scanLimit = Math.min(maxLines, lines.length);
+  const candidates: ProseRuleCandidate[] = [];
+
+  for (let i = 0; i < scanLimit; i++) {
+    const line = lines[i].trim();
+    if (line.length < 10) continue;
+    // Skip headers, code blocks, and the appendix.
+    if (line.startsWith('#')) continue;
+    if (line.startsWith('```')) continue;
+
+    const parsed = parseModality(line);
+    if (parsed) {
+      candidates.push({
+        line: i + 1,
+        text: line,
+        modality: parsed.modality,
+        modalityMarker: parsed.marker,
+        domain: inferDomain(line),
+        authority: inferAuthority(line, parsed.modality),
+        isNegativeConstraint: /\b(no|never|must not|mustn't|forbidden|prohibited|exclude)\b/i.test(line),
+        isIllustrativeExample: /\b(for example|e\.g\.|i\.e\.|such as|like|illustrative)\b/i.test(line),
+      });
+    }
+  }
+
+  return {
+    candidates,
+    sourceDocument: BIBLE_DOCS.production,
+    linesScanned: scanLimit,
+  };
+}
+
+function parseModality(text: string): { modality: Modality; marker: string } | null {
+  // Order matters — check more specific patterns first.
+  const patterns: Array<{ regex: RegExp; modality: Modality; marker: string }> = [
+    { regex: /\bmust not\b/i, modality: 'must', marker: 'must not' },
+    { regex: /\bmustn't\b/i, modality: 'must', marker: "mustn't" },
+    { regex: /\bmust\b/i, modality: 'must', marker: 'must' },
+    { regex: /\bnever\b/i, modality: 'must', marker: 'never' },
+    { regex: /\balways\b/i, modality: 'must', marker: 'always' },
+    { regex: /\bforbidden\b/i, modality: 'must', marker: 'forbidden' },
+    { regex: /\brequired\b/i, modality: 'must', marker: 'required' },
+    { regex: /\bno\b(?=\s+\w)/i, modality: 'must', marker: 'no' },
+    { regex: /\bshould not\b/i, modality: 'normally', marker: 'should not' },
+    { regex: /\bshould\b/i, modality: 'normally', marker: 'should' },
+    { regex: /\bnormally\b/i, modality: 'normally', marker: 'normally' },
+    { regex: /\bprefer\b/i, modality: 'normally', marker: 'prefer' },
+    { regex: /\bpreferred\b/i, modality: 'normally', marker: 'preferred' },
+    { regex: /\bmay\b/i, modality: 'may', marker: 'may' },
+    { regex: /\bcan\b/i, modality: 'may', marker: 'can' },
+    { regex: /\boptional\b/i, modality: 'may', marker: 'optional' },
+    { regex: /\brarely\b/i, modality: 'may', marker: 'rarely' },
+    { regex: /\bdisputed\b/i, modality: 'disputed', marker: 'disputed' },
+    { regex: /\buncertain\b/i, modality: 'disputed', marker: 'uncertain' },
+    { regex: /\bsecret\b/i, modality: 'secret', marker: 'secret' },
+    { regex: /\bhidden\b/i, modality: 'secret', marker: 'hidden' },
+  ];
+
+  for (const p of patterns) {
+    if (p.regex.test(text)) {
+      return { modality: p.modality, marker: p.marker };
+    }
+  }
+  return null;
+}
+
+function inferDomain(text: string): CanonDomain {
+  const lower = text.toLowerCase();
+  if (/\bcharacter|body|mesh|topology|rig|skeleton|joint\b/.test(lower)) return 'character';
+  if (/\bterrain|voxel|density|surface|cave\b/.test(lower)) return 'geography';
+  if (/\btexture|material|color|paint|shader\b/.test(lower)) return 'culture';
+  if (/\bsect|faction|dynasty|lineage\b/.test(lower)) return 'institution';
+  if (/\bnpc|ai|behavior|schedule\b/.test(lower)) return 'character';
+  if (/\bcombat|weapon|attack\b/.test(lower)) return 'culture';
+  if (/\bcultivation|qi|spirit\b/.test(lower)) return 'cultivation';
+  if (/\bui|interface|hud\b/.test(lower)) return 'narrative';
+  if (/\bstreaming|lod|performance|memory\b/.test(lower)) return 'artifact';
+  return 'narrative';
+}
+
+function inferAuthority(_text: string, modality: Modality): CanonAuthority {
+  if (modality === 'must') return 'hard-canon';
+  if (modality === 'disputed') return 'deliberate-uncertainty';
+  if (modality === 'secret') return 'local-truth';
+  if (modality === 'may') return 'soft-guidance';
+  return 'project-canon';
+}

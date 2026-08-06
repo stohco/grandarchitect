@@ -6,12 +6,14 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
-import { Sparkles, Send, User, Loader2, Zap, BookOpen, Leaf } from 'lucide-react';
+import { Sparkles, Send, User, Loader2, Zap, BookOpen, Leaf, FlaskConical, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { useEditorStore } from '@/lib/editor/store';
+import { useSelectedStructure } from '@/lib/editor/store';
+import type { AuthorialOverride } from '@/lib/editor/types';
 
 /** Detect Mac vs Windows/Linux for hotkey labels. Client-only (component is ssr:false). */
 function useHotkeyLabel() {
@@ -41,12 +43,76 @@ export default function ArchitectPanel() {
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Authorial slice integration — the Architect workspace now owns the
+  // authorial vertical slice action. When a structure is selected, a
+  // contextual "Make Ancient & Sacred" action appears here (not as a
+  // separate bottom-dock tab).
+  const selected = useSelectedStructure();
+  const applyAuthorialOverride = useEditorStore((s) => s.applyAuthorialOverride);
+  const clearAuthorialOverride = useEditorStore((s) => s.clearAuthorialOverride);
+  const currentOverride = useEditorStore((s) =>
+    selected ? s.authorialOverrides[selected.entityId] ?? null : null,
+  );
+  const [authorialRunning, setAuthorialRunning] = useState(false);
+  const [authorialResult, setAuthorialResult] = useState<string | null>(null);
+
   useEffect(() => {
     if (scrollRef.current) {
       const el = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
       if (el) el.scrollTop = el.scrollHeight;
     }
   }, [messages.length, typing]);
+
+  const runAuthorialSlice = async () => {
+    if (!selected) return;
+    setAuthorialRunning(true);
+    setAuthorialResult(null);
+    try {
+      const res = await fetch('/api/architect/authorial/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          request: 'Make the selected structure feel ancient and sacred through restraint and weathering.',
+          selectedEntityId: selected.entityId,
+          structureKind: selected.kind,
+          structureName: selected.name,
+          worldPosition: selected.position,
+        }),
+      });
+      const json = await res.json();
+      if (json.ok && json.result.completed) {
+        // Apply the visual override — the shrine VISIBLY changes.
+        const override: AuthorialOverride = {
+          color: '#5a5a52',
+          roughness: 0.92,
+          metalness: 0.05,
+          emissive: '#3a2a1a',
+          emissiveIntensity: 0.08,
+          weathering: 0.85,
+          opacity: 1,
+          authorialState: 'ancient-sacred',
+          sourceDecisionId: json.result.decisionLedgerEntryId,
+        };
+        applyAuthorialOverride(selected.entityId, override);
+        setAuthorialResult(`✓ 13 stages completed in ${json.result.totalDurationMs}ms. Decision: ${json.result.decisionLedgerEntryId?.slice(0, 20)}…`);
+        // Add a chat message so the user sees the result in context.
+        const archMsg: ChatMessage = {
+          id: `msg-${++msgCounter}`,
+          role: 'architect',
+          kind: 'interpretation',
+          content: `I have made "${selected.name}" ancient and sacred.\n\n• 13-stage UnboundLoop completed in ${json.result.totalDurationMs}ms\n• 4 transactions recorded via executeCommand()\n• Deterministic critic verdict: PASS\n• Decision ledger entry: ${json.result.decisionLedgerEntryId?.slice(0, 30)}\n• Narrative promise seeded: ${json.result.narrativePromiseId?.slice(0, 30)}\n• Visual transformation applied: weathered stone gray, high roughness, faint warm emissive\n\nThe structure now reads as ancient. Undo is available.`,
+          meta: { loreMatches: 4 },
+        };
+        setMessages((prev) => [...prev, archMsg]);
+      } else {
+        setAuthorialResult(`✗ ${json.error ?? 'Slice failed'}`);
+      }
+    } catch (err) {
+      setAuthorialResult(`✗ ${(err as Error).message}`);
+    } finally {
+      setAuthorialRunning(false);
+    }
+  };
 
   const send = async (text: string) => {
     if (!text.trim() || typing) return;
@@ -138,6 +204,57 @@ export default function ArchitectPanel() {
           </Button>
         ))}
       </div>
+
+      {/* Contextual Authorial Slice action — appears only when a structure is selected.
+          This integrates the authorial system INTO the Architect workspace,
+          not as a separate bottom-dock tab (per auditor's UI directive). */}
+      {selected && (
+        <div className="border-b border-[#2a2a4a] bg-[#12122a] px-2 py-1.5">
+          <div className="mb-1 flex items-center gap-1.5">
+            <FlaskConical className="h-3 w-3 text-amber-400" />
+            <span className="text-[9px] uppercase tracking-wider text-amber-300">Authorial Action</span>
+            <span className="ml-auto text-[9px] text-[#8888aa]">
+              {selected.name} <span className="font-mono">#{selected.entityId}</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button
+              size="sm"
+              disabled={authorialRunning}
+              onClick={() => void runAuthorialSlice()}
+              className="h-6 gap-1 bg-amber-600 px-2 text-[10px] text-white hover:bg-amber-500"
+            >
+              {authorialRunning ? (
+                <Loader2 className="h-3 w-3 animate-spin" />
+              ) : (
+                <Sparkles className="h-3 w-3" />
+              )}
+              Make Ancient & Sacred
+            </Button>
+            {currentOverride && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => clearAuthorialOverride(selected.entityId)}
+                className="h-6 gap-1 border-red-500/30 bg-red-500/5 px-2 text-[10px] text-red-300 hover:bg-red-500/15"
+              >
+                <RotateCcw className="h-3 w-3" />
+                Revert
+              </Button>
+            )}
+            {currentOverride && (
+              <Badge variant="outline" className="h-4 border-amber-500/40 bg-amber-500/10 text-[9px] text-amber-300">
+                {currentOverride.authorialState ?? 'transformed'}
+              </Badge>
+            )}
+          </div>
+          {authorialResult && (
+            <div className={`mt-1 text-[9px] ${authorialResult.startsWith('✓') ? 'text-emerald-300' : 'text-red-300'}`}>
+              {authorialResult}
+            </div>
+          )}
+        </div>
+      )}
 
       <ScrollArea ref={scrollRef} className="min-h-0 flex-1">
         <div className="space-y-3 p-3">

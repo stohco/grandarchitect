@@ -534,6 +534,70 @@ export default function AuthorialVerticalSlicePanel() {
               </div>
             )}
           </div>
+
+          {/* Transaction Details — what each transaction actually changed */}
+          {result?.transactionDetails && result.transactionDetails.length > 0 && (
+            <div className="min-h-0 flex-1 overflow-y-auto rounded border border-[#2a2a4a] bg-[#12122a] p-2">
+              <div className="mb-1 flex items-center gap-1 text-[9px] uppercase tracking-wider text-[#8888aa]">
+                <Database className="h-2.5 w-2.5" />
+                Transaction Details ({result.transactionDetails.length})
+              </div>
+              <div className="space-y-1">
+                {result.transactionDetails.map((td, i) => (
+                  <div key={td.transactionId} className="rounded border border-[#2a2a4a] bg-[#0a0a1e] p-1.5">
+                    <div className="flex items-center gap-1 text-[9px]">
+                      <span className="rounded bg-emerald-500/15 px-1 text-emerald-300">#{i + 1}</span>
+                      <span className="font-mono text-[8px] text-[#8888aa]">{td.actionId}</span>
+                      <span className="ml-auto font-mono text-[8px] text-[#5a5a7a]">rev {td.beforeRevision}→{td.afterRevision}</span>
+                    </div>
+                    <div className="mt-0.5 text-[8px] text-[#8888aa]">
+                      cmd: <span className="font-mono text-[#aaaacc]">{td.commandType}</span>
+                    </div>
+                    <div className="text-[8px] text-[#8888aa]">
+                      hash: <span className="font-mono text-[#aaaacc]">{td.inputPayloadHash}</span>
+                    </div>
+                    <div className="text-[8px] text-[#8888aa]">
+                      cells: <span className="font-mono text-[#aaaacc]">{td.affectedCells.join(', ')}</span>
+                    </div>
+                    <div className="text-[8px] text-[#8888aa]">
+                      fwd: <span className="font-mono text-emerald-300">{td.forwardOperations.length}</span>
+                      {' '}inv: <span className="font-mono text-amber-300">{td.inverseOperations.length}</span>
+                    </div>
+                    {td.undoResult && (
+                      <div className={`mt-0.5 text-[8px] ${td.undoResult.success ? 'text-emerald-300' : 'text-red-300'}`}>
+                        undo: {td.undoResult.success ? `✓ restored rev ${td.undoResult.restoredRevision}` : `✗ ${td.undoResult.error}`}
+                      </div>
+                    )}
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/api/architect/authorial/undo', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ transactionId: td.transactionId }),
+                          });
+                          const json = await res.json();
+                          if (json.ok) {
+                            // Clear the visual override since we undid
+                            if (selected) clearAuthorialOverride(selected.entityId);
+                            await refreshStatus();
+                          } else {
+                            setError(json.error ?? 'Undo failed');
+                          }
+                        } catch (err) {
+                          setError((err as Error).message);
+                        }
+                      }}
+                      className="mt-1 w-full rounded border border-red-500/30 bg-red-500/5 px-1 py-0.5 text-[8px] text-red-300 hover:bg-red-500/15"
+                    >
+                      <RotateCcw className="mr-1 inline h-2 w-2" />
+                      Undo Transaction
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right: Durable state + Bible verification */}

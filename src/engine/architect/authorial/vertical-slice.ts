@@ -112,6 +112,53 @@ export interface VerticalSliceResult {
   restartRecoverable: boolean;
   deterministicCritique: boolean;
   error?: string;
+  /** Full per-transaction detail — what each transaction actually did. */
+  transactionDetails?: TransactionDetail[];
+}
+
+/**
+ * Full per-transaction detail — answers the auditor's question:
+ * "Command 1 changed what? Command 2 changed what?"
+ *
+ * Each detail record contains:
+ *   - action ID (which authorial action)
+ *   - command type (world.create-cell, etc.)
+ *   - input payload hash (deterministic hash of the operation input)
+ *   - targeted entity (which structure)
+ *   - before/after world revision
+ *   - authoritative diff (what cells were created/modified)
+ *   - forward operations (apply to go from base → result)
+ *   - inverse operations (apply to undo)
+ *   - invalidated artifacts
+ */
+export interface TransactionDetail {
+  transactionId: string;
+  actionId: string;
+  operationId: string;
+  commandType: string;
+  commandId: string;
+  inputPayloadHash: string;
+  targetEntityId: number;
+  targetStructureKind: string;
+  beforeRevision: number;
+  afterRevision: number;
+  affectedCells: string[];
+  forwardOperations: Array<{
+    operationId: string;
+    type: string;
+    cellId: string;
+    payloadSummary: string;
+  }>;
+  inverseOperations: Array<{
+    operationId: string;
+    type: string;
+    cellId: string;
+    payloadSummary: string;
+  }>;
+  invalidatedArtifacts: string[];
+  requestedBy: string;
+  timestamp: string;
+  undoResult?: { success: boolean; restoredRevision: number; error?: string };
 }
 
 // ---------------------------------------------------------------------------
@@ -594,6 +641,7 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
   const warnings: string[] = [];
   const operationsApplied: string[] = [];
   const metadataWritten: Record<string, unknown> = {};
+  const transactionDetails: TransactionDetail[] = [];
 
   // Execute each operation as a single world.create-cell command that
   // attaches authorial metadata to a new "authorial-overlay" cell.
@@ -601,6 +649,7 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
   // command in the runtime; future iterations will add an
   // 'authorial.apply-metadata' handler.)
   for (const op of plan.operations) {
+    const beforeRev = runtime.getInfo().revision;
     const command: WorldCommand = {
       commandId: `cmd-${op.operationId}-${Date.now().toString(36)}`,
       type: 'world.create-cell',
@@ -623,15 +672,49 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
         requestedBy: 'architect',
       },
       requestedBy: session.principal,
-      baseRevision: runtime.getInfo().revision,
+      baseRevision: beforeRev,
     };
 
     try {
       const result = await runtime.executeCommand(session, command);
-      transactionIds.push(result.transaction.transactionId);
+      const afterRev = runtime.getInfo().revision;
+      const txId = result.transaction.id;
+      transactionIds.push(txId);
       operationsApplied.push(op.actionId);
       // Merge metadata for the critic to inspect.
       Object.assign(metadataWritten, op.input);
+
+      // Capture FULL per-transaction detail for the auditor.
+      const tx = result.transaction;
+      const inputHash = computePayloadHash(op.input);
+      transactionDetails.push({
+        transactionId: txId,
+        actionId: op.actionId,
+        operationId: op.operationId,
+        commandType: command.type,
+        commandId: command.commandId,
+        inputPayloadHash: inputHash,
+        targetEntityId: ctx.input.selectedEntityId,
+        targetStructureKind: ctx.input.structureKind,
+        beforeRevision: beforeRev,
+        afterRevision: afterRev,
+        affectedCells: result.invalidatedCells,
+        forwardOperations: (tx.forwardOperations ?? []).map((fo) => ({
+          operationId: fo.operationId,
+          type: fo.type,
+          cellId: fo.cellId,
+          payloadSummary: summarizePayload(fo.payload),
+        })),
+        inverseOperations: (tx.inverseOperations ?? []).map((io) => ({
+          operationId: io.operationId,
+          type: io.type,
+          cellId: io.cellId,
+          payloadSummary: summarizePayload(io.payload),
+        })),
+        invalidatedArtifacts: (tx.invalidatedArtifacts ?? []).map((a) => String(a)),
+        requestedBy: tx.requestedBy.principalId,
+        timestamp: tx.timestamp,
+      });
     } catch (err) {
       errors.push(`Operation ${op.operationId} failed: ${(err as Error).message}`);
     }
@@ -653,6 +736,7 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
       worldRevision: runtime.getInfo().revision,
       errors,
       warnings,
+      transactionDetails,
     },
     artifact: {
       operationsApplied,
@@ -662,6 +746,36 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
     },
     summary: `Executed ${operationsApplied.length}/${plan.operations.length} operations. ${transactionIds.length} transactions recorded. ${errors.length} errors.`,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Helpers for transaction detail
+// ---------------------------------------------------------------------------
+
+/** Deterministic hash of an operation's input payload. */
+function computePayloadHash(input: Record<string, unknown>): string {
+  const content = JSON.stringify(input, Object.keys(input).sort());
+  let h1 = 0x811c9dc5;
+  for (let i = 0; i < content.length; i++) {
+    const c = content.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 0x01000193) >>> 0;
+  }
+  return `pay-${h1.toString(16).padStart(8, '0')}`;
+}
+
+/** Short human-readable summary of a world operation payload. */
+function summarizePayload(payload: Record<string, unknown>): string {
+  const keys = Object.keys(payload).slice(0, 4);
+  if (keys.length === 0) return '{}';
+  const parts = keys.map((k) => {
+    const v = payload[k];
+    if (v === null || v === undefined) return `${k}=null`;
+    if (typeof v === 'string') return `${k}="${v.length > 30 ? v.slice(0, 30) + '…' : v}"`;
+    if (typeof v === 'number' || typeof v === 'boolean') return `${k}=${v}`;
+    if (Array.isArray(v)) return `${k}=[${v.length}]`;
+    return `${k}={…}`;
+  });
+  return `{${parts.join(', ')}}`;
 }
 
 // STAGE 9: VALIDATE — Deterministic checks
@@ -1058,6 +1172,13 @@ export async function runAuthorialVerticalSlice(
 
   function finalize(completed: boolean, finalStage: UnboundLoopStage): VerticalSliceResult {
     const finishedAt = nowIso();
+    // Extract transaction details from the EXECUTE stage artifact (if present).
+    const executeStage = stages.find((s) => s.stage === 'execute');
+    const executeArtifact = executeStage?.artifact as
+      | { result: ExecutionResult; artifact: ExecutionArtifact }
+      | undefined;
+    const transactionDetails = executeArtifact?.result?.transactionDetails;
+
     return {
       loopId: state.loopId,
       input,
@@ -1072,6 +1193,7 @@ export async function runAuthorialVerticalSlice(
       restartRecoverable: true, // Loop state persisted after every stage.
       deterministicCritique: true, // DeterministicCritic is a separate class.
       error: lastError,
+      transactionDetails,
     };
   }
 }
