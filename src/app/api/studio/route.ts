@@ -5,7 +5,13 @@ import { toBufferGeometry, getMeshStats } from '@/engine/studio/mesh-kernel';
 import type { OperationType } from '@/engine/studio/operation-stack';
 import { generateStructure, defaultSectHallParams, defaultCottageParams } from '@/engine/studio/structure-grammar';
 import type { StructureGrammarParams } from '@/engine/studio/structure-grammar';
-import { autoUnwrap, transferSkinWeights } from '@/engine/studio/mesh-operations';
+import { autoUnwrap } from '@/engine/studio/mesh-operations';
+import { exportToGLB } from '@/engine/studio/glb-export';
+import { generateCompleteCharacter } from '@/engine/studio/character-authoring';
+import { createDensityField, initializeMountainField, applyBrush, carveTunnel, extractSurface, getFieldStats } from '@/engine/studio/voxel-terrain-studio';
+import type { BrushType } from '@/engine/studio/voxel-terrain-studio';
+import { placeAssetInWorld, getStudioRuntimeStatus } from '@/engine/studio/studio-runtime-bridge';
+import { getEngineRuntime } from '@/engine/runtime/engine-runtime';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -198,6 +204,172 @@ export async function POST(req: NextRequest) {
         uvSetCount: kernel.uvSets.length,
         uvCoordCount: kernel.uvSets[0]?.coords.length ?? 0,
       });
+    }
+
+    if (action === 'export_glb') {
+      const stack = stacks.get(assetId);
+      if (!stack) {
+        return NextResponse.json({ error: 'Stack not found' }, { status: 404 });
+      }
+      const kernel = evaluateStack(stack);
+      const glb = exportToGLB(kernel);
+      return NextResponse.json({
+        ok: true,
+        assetId,
+        glb: {
+          sizeBytes: glb.sizeBytes,
+          vertexCount: glb.vertexCount,
+          triangleCount: glb.triangleCount,
+          materialCount: glb.materialCount,
+          hash: glb.hash,
+        },
+      });
+    }
+
+    if (action === 'generate_character') {
+      const gender = (body.params?.gender as 'male' | 'female') ?? 'male';
+      const result = generateCompleteCharacter(assetId, gender);
+      return NextResponse.json({
+        ok: true,
+        assetId,
+        body: getMeshStats(result.body),
+        innerTorso: getMeshStats(result.innerTorso),
+        innerLegs: getMeshStats(result.innerLegs),
+        boots: getMeshStats(result.boots),
+        assembly: result.assembly,
+      });
+    }
+
+    if (action === 'terrain_create') {
+      const bounds = body.params?.bounds ?? { min: [0, 0, 0], max: [64, 32, 64] };
+      const resolution = (body.params?.resolution as number) ?? 2;
+      const field = createDensityField(assetId, bounds, resolution);
+      return NextResponse.json({
+        ok: true,
+        fieldId: field.fieldId,
+        dimensions: field.dimensions,
+        totalVoxels: field.data.length,
+        revision: field.revision,
+      });
+    }
+
+    if (action === 'terrain_mountain') {
+      const bounds = body.params?.bounds ?? { min: [0, 0, 0], max: [64, 32, 64] };
+      const resolution = (body.params?.resolution as number) ?? 2;
+      const peakHeight = (body.params?.peakHeight as number) ?? 25;
+      const field = createDensityField(assetId, bounds, resolution);
+      initializeMountainField(field, peakHeight, [32, 0, 32], 30);
+      const stats = getFieldStats(field);
+      return NextResponse.json({
+        ok: true,
+        fieldId: field.fieldId,
+        dimensions: field.dimensions,
+        revision: field.revision,
+        stats,
+      });
+    }
+
+    if (action === 'terrain_brush') {
+      // This is a simplified demo — in production, the field would be stored
+      const bounds = body.params?.bounds ?? { min: [0, 0, 0], max: [64, 32, 64] };
+      const resolution = (body.params?.resolution as number) ?? 2;
+      const peakHeight = (body.params?.peakHeight as number) ?? 25;
+      const field = createDensityField(assetId, bounds, resolution);
+      initializeMountainField(field, peakHeight, [32, 0, 32], 30);
+
+      const brushType = (body.params?.brushType as BrushType) ?? 'subtract';
+      const center = body.params?.center ?? [32, 15, 32];
+      const radiusM = (body.params?.radiusM as number) ?? 5;
+      const strength = (body.params?.strength as number) ?? 0.5;
+
+      const result = applyBrush(field, {
+        type: brushType,
+        center: center as [number, number, number],
+        radiusM,
+        strength,
+        materialId: body.params?.materialId as number | undefined,
+        targetHeight: body.params?.targetHeight as number | undefined,
+      });
+
+      const stats = getFieldStats(field);
+      return NextResponse.json({
+        ok: true,
+        fieldId: field.fieldId,
+        brushResult: result,
+        stats,
+        revision: field.revision,
+      });
+    }
+
+    if (action === 'terrain_tunnel') {
+      const bounds = body.params?.bounds ?? { min: [0, 0, 0], max: [64, 32, 64] };
+      const resolution = (body.params?.resolution as number) ?? 2;
+      const peakHeight = (body.params?.peakHeight as number) ?? 25;
+      const field = createDensityField(assetId, bounds, resolution);
+      initializeMountainField(field, peakHeight, [32, 0, 32], 30);
+
+      const start = body.params?.start ?? [0, 15, 32];
+      const end = body.params?.end ?? [64, 15, 32];
+      const radiusM = (body.params?.radiusM as number) ?? 3;
+
+      const result = carveTunnel(field, {
+        start: start as [number, number, number],
+        end: end as [number, number, number],
+        radiusM,
+      });
+
+      const stats = getFieldStats(field);
+      return NextResponse.json({
+        ok: true,
+        fieldId: field.fieldId,
+        tunnelResult: result,
+        stats,
+        revision: field.revision,
+      });
+    }
+
+    if (action === 'terrain_extract') {
+      const bounds = body.params?.bounds ?? { min: [0, 0, 0], max: [64, 32, 64] };
+      const resolution = (body.params?.resolution as number) ?? 2;
+      const peakHeight = (body.params?.peakHeight as number) ?? 25;
+      const field = createDensityField(assetId, bounds, resolution);
+      initializeMountainField(field, peakHeight, [32, 0, 32], 30);
+
+      const mesh = extractSurface(field);
+      return NextResponse.json({
+        ok: true,
+        fieldId: field.fieldId,
+        extractedMesh: {
+          vertexCount: mesh.vertexCount,
+          triangleCount: mesh.triangleCount,
+          sourceRevision: mesh.sourceRevision,
+        },
+      });
+    }
+
+    if (action === 'place_in_world') {
+      const stack = stacks.get(assetId);
+      if (!stack) {
+        return NextResponse.json({ error: 'Stack not found' }, { status: 404 });
+      }
+      const kernel = evaluateStack(stack);
+      const runtime = getEngineRuntime();
+      const session = runtime.gateway.authenticate({
+        principalId: (body.params?.principalId as string) ?? 'studio-user',
+        token: 'dev-token',
+      });
+      if (!session) {
+        return NextResponse.json({ error: 'Authentication failed' }, { status: 403 });
+      }
+      const cellId = (body.params?.cellId as string) ?? assetId;
+      const position = (body.params?.position as [number, number, number]) ?? [0, 0, 0];
+      const result = await placeAssetInWorld(kernel, session, cellId, position);
+      return NextResponse.json({ ok: result.success, result });
+    }
+
+    if (action === 'runtime_status') {
+      const status = getStudioRuntimeStatus();
+      return NextResponse.json({ ok: true, status });
     }
 
     return NextResponse.json({ error: `Unknown action: ${action}` }, { status: 400 });
