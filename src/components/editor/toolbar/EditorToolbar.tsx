@@ -47,6 +47,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Badge } from '@/components/ui/badge';
 import { useEditorStore } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
+import { WorkspaceSwitcher } from '@/components/editor/toolbar/WorkspaceSwitcher';
 import type {
   WorldExecutionState,
   RenderMode,
@@ -412,6 +413,12 @@ export default function EditorToolbar() {
         </TooltipTrigger>
         <TooltipContent side="bottom" className="text-xs">Toggle console</TooltipContent>
       </Tooltip>
+
+      {/* ───────── Workspace Switcher ───────── */}
+      <div className="ml-auto flex items-center gap-1">
+        <ToolbarSeparator />
+        <WorkspaceSwitcher activeWorkspace={'world'} onWorkspaceChange={() => {}} />
+      </div>
     </div>
   );
 }
