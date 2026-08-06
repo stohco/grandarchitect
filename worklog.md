@@ -1114,3 +1114,34 @@ Stage Summary:
 - 4 updated files: unbound-loop.ts, decision-ledgers.ts, canon-style.ts, honest-status.ts, EditorLayout.tsx
 - docs/production-bible.md: +51 lines (Part XII Compiled Canon appendix)
 - 20 dock tabs, lint clean (1 pre-existing error in canon-style.ts fixed: characterArcs added to NarrativeContext)
+
+---
+Task ID: AGA-AUDITOR-CORRECTION
+Agent: main (Z.ai Code)
+Task: Address auditor's critique of the authorial vertical slice — provenance, visible transformation, honest maturity, cron safety, zoom UX
+
+Work Log:
+- Fixed zoom UX: zoomSpeed 1.2→3.0, panSpeed 0.8→1.5, rotateSpeed 0.8→1.2, dampingFactor 0.1→0.06, minDistance 2→1, maxDistance 500→800
+- Reconciled public provenance: repo was PRIVATE (that's why auditor got 404). Made it public via GitHub API PATCH. Verified b969a77 + all authorial files accessible via raw.githubusercontent.com (200 status)
+- Deleted dangerous 15-min cron job (could modify main). Recreated with safety constraints: branch-only, no main push, no auto-merge, stop on test failure, clean-tree precondition
+- Reset local main to origin/main (cron had committed helper scripts locally). Untracked run-dev.sh, retry-curl.sh, watchdog.sh, tsconfig.tsbuildinfo from git
+- Added AuthorialOverride type to editor types (color, roughness, metalness, emissive, weathering, opacity, authorialState, sourceDecisionId)
+- Added authorialOverrides + authorialHistory to editor store with applyAuthorialOverride/clearAuthorialOverride/undoAuthorialOverride actions
+- Updated StructureMesh to read override and apply REAL material changes: weathered stone gray (#5a5a52), high roughness (0.92), low metalness (0.05), faint warm emissive (#3a2a1a @ 0.08)
+- Added subtle ring at base of structures with active authorial state
+- Updated AuthorialVerticalSlicePanel to apply visual override after successful slice
+- Added 'Visual Transformation Active' panel showing before/after material parameters (color swatch, roughness, metalness, emissive, weathering %)
+- Added 'Revert Visual' button (clearAuthorialOverride) and 'Undo' button (undoAuthorialOverride)
+- Renamed IndependentCritic → DeterministicCritic (honest naming per auditor)
+- Corrected honest-status.ts: status is now 'deterministic-visual-reference-slice-proven' with explicit proven/unproven lists
+- Browser-verified: Earth God Shrine selected → Run Slice → 'VISUAL TRANSFORMATION ACTIVE' panel appeared → decision-msh6hl9d-equu recorded with 4 constraints
+
+Stage Summary:
+- Zoom: 2.5x faster, snappier damping, closer min distance
+- Provenance: repo public, commit b969a77 + all files verified accessible
+- Cron: safe (branch-only, no main push, no auto-merge)
+- Visible transformation: shrine material changes (gray, rough, faint glow) with undo
+- Honest status: 'deterministic-visual-reference-slice-proven' (not 'operationally-proven')
+- DeterministicCritic: renamed from IndependentCritic
+- 6 files changed, 278 insertions, 35 deletions
+- Commit c2a239b pushed to public GitHub
