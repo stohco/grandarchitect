@@ -116,7 +116,7 @@ export default function SimulationPanel() {
         </div>
       </ScrollArea>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="space-y-3">
           <div>
             <span className="mb-1.5 block text-[10px] font-semibold uppercase text-[#5a5a7a]">World Branches</span>

@@ -8,11 +8,14 @@
  */
 
 import { NextResponse } from 'next/server';
+import { requireDevMode } from '@/lib/editor/api-guards';
 import { createRCVCService } from '@/engine/architect/rcvc';
 
 export const runtime = 'nodejs';
 
 export async function POST() {
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
   try {
     const service = createRCVCService();
     const suite = service.runBenchmarks();

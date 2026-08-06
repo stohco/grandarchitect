@@ -2,21 +2,30 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Do NOT ignore TypeScript errors during build — they indicate real defects.
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  reactStrictMode: false,
+  // Enable React Strict Mode in development to catch unsafe lifecycles,
+  // deprecated APIs, and unexpected side effects.
+  reactStrictMode: true,
   // Allow the preview gateway to access the dev server. The gateway hostname
   // is preview-chat-<session-id>.space-z.ai and it proxies requests to
-  // localhost:3000. Without this, Next.js blocks cross-origin /_next/* requests.
+  // localhost:3000.
   allowedDevOrigins: [
-    "http://21.0.17.237:3000",
-    "http://0.0.0.0:3000",
     "http://localhost:3000",
-    "https://preview-chat-e82d4315-a735-4c03-a702-6b4b85564912.space-z.ai",
-    "http://preview-chat-e82d4315-a735-4c03-a702-6b4b85564912.space-z.ai",
     "*.space-z.ai",
   ],
+  // Enable WebAssembly support in webpack for Rapier WASM module.
+  // Per webpack 5: "WebAssembly is not enabled by default and flagged as
+  // experimental feature."
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;

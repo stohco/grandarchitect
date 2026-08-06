@@ -9,11 +9,14 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { requireDevMode } from '@/lib/editor/api-guards';
 import { createRCVCService, getClarificationQuestions } from '@/engine/architect/rcvc';
 
 export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
+  const devGuard = requireDevMode();
+  if (devGuard) return devGuard;
   try {
     const body = await req.json();
     const { request, selectionIds, observerPosition } = body as {

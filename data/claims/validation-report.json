@@ -1,0 +1,24 @@
+{
+  "totalClaims": 10,
+  "claimsReviewed": 10,
+  "findings": [],
+  "summary": {
+    "highRiskUnreviewed": 0,
+    "contradictoryClaims": 0,
+    "unsupportedCanon": 0,
+    "missingDependencies": 0,
+    "orphanClaims": 0
+  },
+  "verdict": "pass",
+  "coverage": {
+    "layersImplemented": [
+      "claim-level-structural (provenance, source, dependencies)"
+    ],
+    "layersNotImplemented": [
+      "semantic-graph (cross-claim relationship validation)",
+      "numerical-constraint (measurement consistency)",
+      "natural-language-semantic (AI contradiction review)",
+      "runtime (generation/asset/animation compliance)"
+    ]
+  }
+}

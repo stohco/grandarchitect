@@ -1,0 +1,85 @@
+{
+  "graphId": "terrain-persistence-test",
+  "graphType": "terrain",
+  "revision": 1,
+  "serializedAt": "2026-08-05T02:19:30.557Z",
+  "nodes": [
+    {
+      "nodeId": "node-source",
+      "nodeType": "terrain-source",
+      "pluginId": "ga:terrain",
+      "parameters": {
+        "seed": 42,
+        "baseHeight": 20,
+        "variation": 15
+      },
+      "enabled": true,
+      "attributableTo": "user",
+      "dependencies": []
+    },
+    {
+      "nodeId": "node-mountain",
+      "nodeType": "sdf-mountain",
+      "pluginId": "ga:terrain",
+      "parameters": {
+        "position": [
+          64,
+          20,
+          64
+        ],
+        "height": 40,
+        "radius": 30
+      },
+      "enabled": true,
+      "attributableTo": "user",
+      "dependencies": [
+        "node-source"
+      ]
+    },
+    {
+      "nodeId": "node-tunnel",
+      "nodeType": "spline-tunnel",
+      "pluginId": "ga:terrain",
+      "parameters": {
+        "splinePoints": [
+          [
+            10,
+            25,
+            64
+          ],
+          [
+            64,
+            30,
+            64
+          ],
+          [
+            118,
+            25,
+            64
+          ]
+        ],
+        "radius": 3
+      },
+      "enabled": true,
+      "attributableTo": "user",
+      "dependencies": [
+        "node-mountain"
+      ]
+    },
+    {
+      "nodeId": "node-erosion",
+      "nodeType": "erosion",
+      "pluginId": "ga:terrain",
+      "parameters": {
+        "iterations": 2,
+        "strength": 0.1
+      },
+      "enabled": true,
+      "attributableTo": "architect",
+      "dependencies": [
+        "node-tunnel"
+      ]
+    }
+  ],
+  "activeBundleRevision": 1
+}
