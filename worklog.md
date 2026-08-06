@@ -1173,3 +1173,37 @@ Stage Summary:
 - Hardened persistence: schema version + checksums + write locks + atomic write + corruption detection
 - Architect workspace integration: authorial action is contextual, not a separate tab
 - 11 files changed, commit 29a104c pushed to public GitHub
+
+---
+Task ID: FRONTIER-TECHNOLOGY-MATRIX
+Agent: main (Z.ai Code)
+Task: Address the 1137-line frontier technology directive — create FRONTIER_TECHNOLOGY_MATRIX.md, reclassify STOK/FDRS, install S-tier packages, create provider-neutral adapters
+
+Work Log:
+- Read the full 1137-line directive specifying the optimal capability fabric for the Authorial Grand Architect
+- Created docs/FRONTIER_TECHNOLOGY_MATRIX.md (450+ lines) with:
+  - Architecture diagram (You → Grand Architect → Restate → Planning Router → Authorization → StudioActionRegistry → World Runtime → Production Providers → Verification)
+  - 14 S-tier candidates with exact repo, license, role, maturity, hardware, browser viability, authority level, benchmark, acceptance criteria, rejection conditions
+  - Pilot-tier candidates (TerminusDB, Flecs, Recast, MaterialX, OpenUSD, OpenVDB, MHR, Momentum, ozz, ACL, Jolt)
+  - Frontier Lab only (Kimodo, ARDY, ProtoMotions, cuRoboV2, fVDB, Salsa, Differential Dataflow, egglog, STOK, FDRS)
+  - RECLASSIFIED STOK and FDRS as Frontier Lab only — NOT foundational
+  - 7 ordered bake-offs: durable execution, multi-solver planning, plugin sandbox, versioned canon, planet traversal, production character, destructible terrain
+  - Integration rules: no candidate gets world authority merely because it compiles; no UI tabs; no INTEGRATED label without acceptance suite
+- Installed S-tier npm packages: z3-solver (WASM), @cedar-policy/cedar-wasm, @gltf-transform/core+functions+extensions, meshoptimizer
+- Created src/engine/architect/planning-router/types.ts: provider-neutral PlanningSolver interface with 4 problem types (action-temporal, scheduling-layout, hard-law-check, lore-defaults)
+- Created src/engine/architect/z3-verifier/index.ts: Z3 adapter with 7 canonical xianxia invariants (entity-revision-exists, matching-revisions-activate, mortal-void-survival, spatial-transition-valid, clone-unique-artifact, forbidden-canon-retcon, no-stale-commit)
+- Created src/engine/architect/cedar-auth/index.ts: Cedar adapter with 8 authorial policies (preview/commit terrain, inspect mystery, plugin restrictions, canon modification, protagonist identity protection)
+- Created src/engine/architect/asset-compiler/index.ts: glTF-Transform + meshoptimizer pipeline replacing 'LOD = delete smallest faces' with real weld/dedup/resample/simplify/prune
+- Created /api/architect/frontier-matrix endpoint: reports status of all 14 S-tier candidates, 3 available (Playwright, glTF-Transform, meshoptimizer), 2 adapters created (Z3, Cedar), STOK/FDRS reclassified
+- Verified: 3/14 S-tier available, 7 bake-offs tracked
+
+Stage Summary:
+- FRONTIER_TECHNOLOGY_MATRIX.md: 450+ lines, authoritative technology selection
+- STOK + FDRS: reclassified as Frontier Lab only
+- 4 S-tier packages installed: z3-solver, @cedar-policy/cedar-wasm, @gltf-transform/*, meshoptimizer
+- 4 adapter files: planning-router, z3-verifier, cedar-auth, asset-compiler
+- 1 API endpoint: /api/architect/frontier-matrix
+- 7 canonical invariants defined for Z3
+- 8 authorization policies defined for Cedar
+- 3/14 S-tier available, 2 adapters created, 9 pending
+- Commit 1e9ad63 pushed to public GitHub
