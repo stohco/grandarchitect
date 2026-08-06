@@ -1207,3 +1207,37 @@ Stage Summary:
 - 8 authorization policies defined for Cedar
 - 3/14 S-tier available, 2 adapters created, 9 pending
 - Commit 1e9ad63 pushed to public GitHub
+
+---
+Task ID: FRONTIER-ADAPTER-TESTING
+Agent: main (Z.ai Code)
+Task: Test and fix Z3, Cedar, and asset compiler adapters; fix dev server stability
+
+Work Log:
+- Created dev-watchdog.sh with setsid for session-independent auto-restart (checks every 5s, restarts if next dev is down)
+- Created /api/architect/z3-check endpoint — Z3 WASM fails to load in Turbopack (ENOENT on .wasm file), 7 canonical invariants defined but pending bundler fix
+- Created /api/architect/cedar-check endpoint — Cedar WASM v4.12.0 working
+- Fixed Cedar policy syntax: 'principal is GrandArchitect' instead of 'principal == GrandArchitect::\"id\"' (Cedar WASM requires 'is' for type matching)
+- Fixed Cedar scope clauses: added 'resource' to all forbid clauses (Cedar requires principal+action+resource in scope)
+- Fixed Cedar attribute access: attached context attributes to resource entity (when/unless clauses read resource attrs, not context)
+- Added explicit permit for protagonist-identity with retcon (Cedar is default-deny — needs matching permit)
+- ALL 8 Cedar authorization tests pass:
+  ✓ Architect previews terrain: allowed=True
+  ✓ Architect commits terrain with approval: allowed=True
+  ✓ Architect commits terrain WITHOUT approval: allowed=False
+  ✓ Architect inspects mystery truth: allowed=True
+  ✓ Plugin inspects mystery truth: FORBIDDEN (denied)
+  ✓ Plugin commits world: FORBIDDEN (denied)
+  ✓ Architect modifies protagonist WITHOUT retcon: FORBIDDEN (denied)
+  ✓ Architect modifies protagonist WITH retcon: allowed=True
+- Created /api/architect/asset-compile endpoint — glTF-Transform + meshoptimizer working
+- Asset compiler test: 24 verts → 8 verts (welded), 12 tris, 836b GLB, 1 draw call, 11ms, LOD chain (2 levels)
+- Real weld/dedup/resample/simplify/prune replaces 'LOD = delete smallest faces'
+
+Stage Summary:
+- Cedar: 8/8 tests pass, WASM v4.12.0 confirmed working
+- Z3: adapter created, 7 invariants defined, WASM loading pending Turbopack fix
+- Asset compiler: working (glTF-Transform + meshoptimizer, real mesh optimization)
+- Dev server: watchdog with setsid auto-restart
+- 3 new API endpoints: /z3-check, /cedar-check, /asset-compile
+- Commit a473ddc pushed to public GitHub
