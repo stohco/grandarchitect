@@ -57,14 +57,14 @@ export const AUTHORIAL_CEDAR_POLICIES = `
 
 // Permit the Architect to preview terrain changes.
 permit (
-  principal == GrandArchitect::"authorial-grand-architect",
+  principal is GrandArchitect,
   action == Action::"preview.terrain",
   resource
 );
 
 // Permit the Architect to commit terrain changes only when approved.
 permit (
-  principal == GrandArchitect::"authorial-grand-architect",
+  principal is GrandArchitect,
   action == Action::"commit.terrain",
   resource
 )
@@ -75,7 +75,7 @@ when {
 
 // Permit the Architect to inspect authorial-only mystery truth.
 permit (
-  principal == GrandArchitect::"authorial-grand-architect",
+  principal is GrandArchitect,
   action == Action::"inspect.mystery",
   resource
 );
@@ -83,24 +83,28 @@ permit (
 // Forbid every external plugin from reading authorial-only narrative truth.
 forbid (
   principal is Plugin,
-  action == Action::"inspect.mystery"
+  action == Action::"inspect.mystery",
+  resource
 );
 forbid (
   principal is Plugin,
-  action == Action::"commit.world"
+  action == Action::"commit.world",
+  resource
 );
 forbid (
   principal is Plugin,
-  action == Action::"alter.policies"
+  action == Action::"alter.policies",
+  resource
 );
 forbid (
   principal is Plugin,
-  action == Action::"access.network"
+  action == Action::"access.network",
+  resource
 );
 
 // Permit the Architect to modify accepted canon only with explicit exception.
 permit (
-  principal == GrandArchitect::"authorial-grand-architect",
+  principal is GrandArchitect,
   action == Action::"modify.canon",
   resource
 )
@@ -110,7 +114,7 @@ when {
 
 // Forbid modifying protagonist hard-canon identity without retcon record.
 forbid (
-  principal == GrandArchitect::"authorial-grand-architect",
+  principal is GrandArchitect,
   action == Action::"modify.protagonist-identity",
   resource
 )
@@ -118,9 +122,19 @@ unless {
   resource.hasRetconRecord == true
 };
 
+// Permit modifying protagonist identity only when retcon record exists.
+permit (
+  principal is GrandArchitect,
+  action == Action::"modify.protagonist-identity",
+  resource
+)
+when {
+  resource.hasRetconRecord == true
+};
+
 // Permit the user to do anything.
 permit (
-  principal == User::"user",
+  principal is User,
   action,
   resource
 );
@@ -156,19 +170,45 @@ class CedarAuthorizer {
 
     try {
       const principalType = request.principal.role === 'architect' ? 'GrandArchitect' : request.principal.role === 'plugin' ? 'Plugin' : 'User';
+
+      // Build entities array — Cedar needs to know the entity types exist.
+      // Context attributes are attached to the resource entity so that
+      // `when { resource.hasApproval == true }` and `unless { resource.hasRetconRecord == true }`
+      // clauses can access them.
+      const contextAttrs = request.context ?? {};
+      const entities = [
+        {
+          uid: { type: principalType, id: request.principal.id },
+          attrs: {},
+          parents: [],
+        },
+        {
+          uid: { type: 'Action', id: request.action },
+          attrs: {},
+          parents: [],
+        },
+        {
+          uid: { type: request.resource.type, id: request.resource.id },
+          attrs: contextAttrs,
+          parents: [],
+        },
+      ];
+
       const result = cedarIsAuthorized({
         principal: { type: principalType, id: request.principal.id },
         action: { type: 'Action', id: request.action },
         resource: { type: request.resource.type, id: request.resource.id },
         policies: { staticPolicies: AUTHORIAL_CEDAR_POLICIES },
-        entities: [],
+        entities: entities as any,
         context: (request.context ?? {}) as any,
       });
 
       if (result.type === 'failure') {
+        const errorDetails = result.errors.map((e: any) => JSON.stringify(e)).join('; ');
+        const warningDetails = result.warnings?.map((w: any) => JSON.stringify(w)).join('; ') ?? '';
         return {
           allowed: false,
-          reason: `Cedar evaluation failed: ${result.errors.map((e: any) => e.error?.error ?? 'unknown').join('; ')}`,
+          reason: `Cedar evaluation failed: ${errorDetails}${warningDetails ? ' | warnings: ' + warningDetails : ''}`,
         };
       }
 
