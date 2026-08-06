@@ -166,22 +166,34 @@ export class PhysicsRuntime {
     if (this._ready) return;
 
     try {
-      const mod = await import('@dimforge/rapier3d-compat');
-      this.Rapier = (mod as any).default ?? mod;
+      // Use the non-compat @dimforge/rapier3d package which is designed
+      // for bundlers. We load the WASM manually from /public/ and pass
+      // it to the package's init function.
+      const RAIPER_RAW = await import('@dimforge/rapier3d');
 
-      // The compat package's init() hangs in Turbopack because Emscripten's
-      // locateFile resolves to a path that doesn't serve the WASM.
-      // Workaround: override locateFile to point to /public/.
-      // The compat package accepts init({ locateFile }) in some versions.
-      const rapierModule = this.Rapier;
-      if (rapierModule.init) {
-        // Try with locateFile override.
-        await rapierModule.init({
-          locateFile: (path: string) => {
-            if (path.endsWith('.wasm')) return '/rapier_wasm3d_bg.wasm';
-            return path;
-          },
-        });
+      // The non-compat package exports a default that needs WASM init.
+      // We fetch the WASM from /public/ and use WebAssembly.instantiate.
+      const wasmResponse = await fetch('/rapier_wasm3d_bg.wasm');
+      if (!wasmResponse.ok) {
+        throw new Error(`Failed to fetch rapier WASM: ${wasmResponse.status}`);
+      }
+      const wasmBytes = await wasmResponse.arrayBuffer();
+
+      // The non-compat package's default export is the module factory.
+      const rapierFactory = (RAIPER_RAW as any).default ?? RAIPER_RAW;
+
+      // Try to init with the WASM bytes.
+      if (typeof rapierFactory.init === 'function') {
+        await rapierFactory.init({ wasm: wasmBytes });
+        this.Rapier = rapierFactory;
+      } else if (typeof rapierFactory === 'function') {
+        // It's a factory function that takes the WASM module.
+        this.Rapier = await rapierFactory({ wasm: wasmBytes });
+      } else {
+        // Fall back to compat package.
+        const compat = await import('@dimforge/rapier3d-compat');
+        this.Rapier = (compat as any).default ?? compat;
+        await this.Rapier.init();
       }
 
       this.world = new this.Rapier.World(GRAVITY);
