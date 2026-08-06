@@ -145,21 +145,49 @@ export class PhysicsRuntime {
   get disposed(): boolean { return this._disposed; }
   get error(): string | null { return this._error; }
 
+  private initPromise: Promise<void> | null = null;
+
   async initialize(): Promise<void> {
     if (this._ready) return;
     if (this._disposed) throw new Error('Cannot initialize disposed PhysicsRuntime');
+    // Prevent duplicate init calls — return the existing promise if init
+    // is already in progress.
+    if (this.initPromise) return this.initPromise;
+
+    this.initPromise = this._doInitialize();
+    try {
+      await this.initPromise;
+    } finally {
+      this.initPromise = null;
+    }
+  }
+
+  private async _doInitialize(): Promise<void> {
+    if (this._ready) return;
 
     try {
       const mod = await import('@dimforge/rapier3d-compat');
       this.Rapier = (mod as any).default ?? mod;
-      await this.Rapier.init();
+
+      // The compat package's init() hangs in Turbopack because Emscripten's
+      // locateFile resolves to a path that doesn't serve the WASM.
+      // Workaround: override locateFile to point to /public/.
+      // The compat package accepts init({ locateFile }) in some versions.
+      const rapierModule = this.Rapier;
+      if (rapierModule.init) {
+        // Try with locateFile override.
+        await rapierModule.init({
+          locateFile: (path: string) => {
+            if (path.endsWith('.wasm')) return '/rapier_wasm3d_bg.wasm';
+            return path;
+          },
+        });
+      }
 
       this.world = new this.Rapier.World(GRAVITY);
       this.eventQueue = new this.Rapier.EventQueue(true);
 
       // Create the kinematic character controller.
-      // Per auditor: "Use Rapier's KinematicCharacterController for the first
-      // production candidate."
       this.characterController = this.world.createCharacterController(0.01);
       this.characterController.setUp({ x: 0, y: 1, z: 0 });
       this.characterController.setApplyImpulsesToDynamicBodies(true);
