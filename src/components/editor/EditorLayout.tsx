@@ -36,11 +36,6 @@ import {
   RotateCcw,
   Maximize2,
   Activity,
-<<<<<<< HEAD
-=======
-  Sparkles,
-  FlaskConical,
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
 } from 'lucide-react';
 import { useEditorStore } from '@/lib/editor/store';
 import type { WorldExecutionState, TransformMode } from '@/lib/editor/types';
@@ -61,16 +56,6 @@ import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
 import ComplexityPanel from '@/components/editor/panels/ComplexityPanel';
 import BenchmarksPanel from '@/components/editor/panels/BenchmarksPanel';
 import FrontierPanel from '@/components/editor/panels/FrontierPanel';
-<<<<<<< HEAD
-=======
-import AssetForgePanel from '@/components/editor/panels/AssetForgePanel';
-import WorkspaceAgentPanel from '@/components/editor/panels/WorkspaceAgentPanel';
-import ProductionPanel from '@/components/editor/panels/ProductionPanel';
-import StudioPanel from '@/components/editor/panels/StudioPanel';
-import JobCenterPanel from '@/components/editor/panels/JobCenterPanel';
-import AuthorialVerticalSlicePanel from '@/components/editor/panels/AuthorialVerticalSlicePanel';
-import FrontierMatrixPanel from '@/components/editor/panels/FrontierMatrixPanel';
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
 import ConformancePanel from '@/components/editor/panels/ConformancePanel';
 import CapabilitiesPanel from '@/components/editor/panels/CapabilitiesPanel';
 import EnginePanel from '@/components/editor/panels/EnginePanel';
@@ -168,42 +153,12 @@ function StatusBar() {
     }
   });
   const [memBytes, setMemBytes] = useState<number | null>(null);
-<<<<<<< HEAD
 
   useEffect(() => {
     const uninstall = installCrashObservatory();
     // After install, sync the count in case the observatory had any
     // pre-existing records (e.g. from a prior mount under HMR). Use a
     // microtask so it isn't a synchronous setState-in-effect.
-=======
-  const [buildInfo, setBuildInfo] = useState<{
-    commitShort: string | null;
-    branch: string | null;
-    dirty: boolean;
-    packageVersion: string;
-  } | null>(null);
-
-  // Fetch build provenance once on mount so the status bar can display
-  // exactly which commit produced this preview.
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/build-info')
-      .then((r) => r.json())
-      .then((data) => {
-        if (!cancelled) setBuildInfo(data);
-      })
-      .catch(() => {
-        // ignore — build info is best-effort
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  // Install the Crash Observatory on first mount.
-  useEffect(() => {
-    const uninstall = installCrashObservatory();
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
     const sync = () => setCrashCount(getCrashCount());
     Promise.resolve().then(sync);
     const unsub = subscribeToCrashes(sync);
@@ -322,24 +277,6 @@ function StatusBar() {
         <ShieldAlert className="h-3 w-3" />
         {crashCount > 0 && <span>{crashCount}</span>}
       </button>
-<<<<<<< HEAD
-=======
-
-      {/* Build provenance — commit SHA, branch, dirty status */}
-      {buildInfo && (
-        <span
-          className="ml-auto flex items-center gap-1.5 text-[#5a5a7a]"
-          title={`Commit: ${buildInfo.commitShort ?? '?'}\nBranch: ${buildInfo.branch ?? '?'}\nDirty: ${buildInfo.dirty}\nVersion: ${buildInfo.packageVersion}`}
-        >
-          {buildInfo.dirty && (
-            <span className="text-amber-500" title="Working tree has uncommitted changes">●</span>
-          )}
-          <span className="text-[#5a5a7a]">{buildInfo.branch ?? '?'}</span>
-          <span className="text-[#3a3a5a]">·</span>
-          <span className="font-mono text-[#5a5a7a]">{buildInfo.commitShort ?? '?'}</span>
-        </span>
-      )}
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
     </footer>
   );
 }
@@ -368,16 +305,6 @@ const BOTTOM_TABS: readonly BottomTab[] = [
   { value: 'complexity', label: 'Complexity' },
   { value: 'benchmarks', label: 'Benchmarks' },
   { value: 'frontier', label: 'Frontier' },
-<<<<<<< HEAD
-=======
-  { value: 'forge', label: 'Forge' },
-  { value: 'workspace', label: 'Workspace' },
-  { value: 'production', label: 'Production' },
-  { value: 'studio', label: 'Studio' },
-  { value: 'authorial', label: 'Authorial', icon: Sparkles },
-  { value: 'frontier-matrix', label: 'Matrix', icon: FlaskConical },
-  { value: 'jobs', label: 'Jobs' },
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
   { value: 'crashes', label: 'Crashes', icon: ShieldAlert },
 ];
 
@@ -392,16 +319,6 @@ const TALL_TABS = new Set([
   'engine',
   'crashes',
   'frontier',
-<<<<<<< HEAD
-=======
-  'forge',
-  'workspace',
-  'production',
-  'studio',
-  'authorial',
-  'frontier-matrix',
-  'jobs',
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
 ]);
 
 function HistoryPanel() {
@@ -450,7 +367,6 @@ function BottomDock() {
 
   return (
     <div className="flex flex-col border-t border-[#2a2a4a] bg-[#0e0e24]">
-<<<<<<< HEAD
       <div className="flex items-center justify-between border-b border-[#2a2a4a]">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="h-7 w-full justify-start gap-0 rounded-none border-0 bg-transparent p-0">
@@ -465,27 +381,6 @@ function BottomDock() {
             })}
           </TabsList>
         </Tabs>
-=======
-      <div className="flex items-center border-b border-[#2a2a4a]">
-        <div
-          style={{ overflowX: 'auto', overflowY: 'hidden', minWidth: 0, flex: 1, scrollbarWidth: 'thin' }}
-          className="bottom-tab-scroller"
-        >
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-max min-w-full">
-            <TabsList className="h-7 w-max min-w-full justify-start gap-0 rounded-none border-0 bg-transparent p-0">
-              {BOTTOM_TABS.map((t) => {
-                const Icon = t.icon;
-                return (
-                  <TabsTrigger key={t.value} value={t.value} className="h-7 w-auto shrink-0 rounded-none border-b-2 border-transparent px-3 text-[11px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none hover:text-[#8888aa]">
-                    {Icon && <Icon className="mr-1 h-3 w-3" />}
-                    {t.label}
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-          </Tabs>
-        </div>
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
         <Tooltip>
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon" className="mr-1 h-6 w-6 shrink-0 text-[#5a5a7a] hover:text-white" onClick={toggleBottomDock}>
@@ -513,16 +408,6 @@ function BottomDock() {
         {activeTab === 'complexity' && <ComplexityPanel />}
         {activeTab === 'benchmarks' && <BenchmarksPanel />}
         {activeTab === 'frontier' && <FrontierPanel />}
-<<<<<<< HEAD
-=======
-        {activeTab === 'forge' && <AssetForgePanel />}
-        {activeTab === 'workspace' && <WorkspaceAgentPanel />}
-        {activeTab === 'production' && <ProductionPanel />}
-        {activeTab === 'studio' && <StudioPanel />}
-        {activeTab === 'authorial' && <AuthorialVerticalSlicePanel />}
-        {activeTab === 'frontier-matrix' && <FrontierMatrixPanel />}
-        {activeTab === 'jobs' && <JobCenterPanel />}
->>>>>>> 7a4f5e29fb7830ff0142679ec9c1732b964d1184
         {activeTab === 'crashes' && <CrashObservatoryPanel />}
       </div>
     </div>
