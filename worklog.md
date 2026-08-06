@@ -1145,3 +1145,31 @@ Stage Summary:
 - DeterministicCritic: renamed from IndependentCritic
 - 6 files changed, 278 insertions, 35 deletions
 - Commit c2a239b pushed to public GitHub
+
+---
+Task ID: AGA-AUDITOR-DIRECTIVES
+Agent: main (Z.ai Code)
+Task: Address all 11 remaining auditor directives — transaction detail, undo, prose compiler, behavioral proof, hardened persistence, Architect workspace integration
+
+Work Log:
+- Added TransactionDetail type with full per-transaction detail: actionId, commandType, inputPayloadHash, targetEntityId, before/after revision, affectedCells, forward/inverse operations, invalidatedArtifacts, requestedBy, timestamp, undoResult
+- Added /api/architect/authorial/transactions endpoint — returns full detail for all 4 transactions, cross-verified with runtime history (runtimeTransactionExists=True)
+- Added /api/architect/authorial/undo endpoint — submits transaction.undo command through executeCommand(), applies inverse operations (action=delete), real undo (world revision changes)
+- Updated AuthorialVerticalSlicePanel with transaction details section + per-transaction undo buttons
+- Added compileProseFromBible() — reads PRE-EXISTING Bible prose (lines 1–1804, NOT the Part XII appendix), classifies modality: must (103), normally (1), may (16), secret (5), 37 negative constraints, 2 illustrative examples
+- Added /api/architect/authorial/prose-compile endpoint — samples from real pre-existing lines (L8, L20, L218, L342, L594, L762, L917)
+- Added /api/architect/authorial/behavioral-proof endpoint — Generation A (no inherited: bright red, rough=0.4, metal=0.6, emissive=0.5) vs Generation B (4 inherited: weathered gray, rough=0.9, metal=0.05, emissive=0.08). All 7 dimensions changed. 4 satisfied, 0 violated. materiallyDifferent=TRUE
+- Hardened durable-store.ts: PersistedEnvelope (schemaVersion + checksum + writtenAt + data), SCHEMA_VERSION=1, FNV-1a checksum verification on read, per-key write locks, atomic tmp+rename, orphaned .tmp cleanup, legacy format backward compatibility
+- Added /api/architect/authorial/persistence-check endpoint — all 6 proofs PASS (schemaVersion, checksums, atomicWrite, writeLocking, interruptedWriteRecovery, corruptionDetection)
+- Integrated Authorial slice into ArchitectPanel — contextual 'Authorial Action' bar appears when structure selected, 'Make Ancient & Sacred' button runs slice, result appears as chat message
+- Browser-verified: Earth God Shrine selected → Architect tab → Make Ancient & Sacred → '✓ 13 stages completed in 263ms' + 'ancient-sacred' badge + Revert button + chat message with full details
+
+Stage Summary:
+- 5 new API endpoints: transactions, undo, prose-compile, behavioral-proof, persistence-check
+- TransactionDetail: full per-transaction transparency (actionId, payload hash, before/after rev, forward/inverse ops)
+- Real undo: transaction.undo through executeCommand(), applies inverse operations
+- Prose compiler: 125 candidates from pre-existing Bible prose, 4 modalities distinguished
+- Behavioral proof: Generation A vs B materially different, 4/4 constraints satisfied
+- Hardened persistence: schema version + checksums + write locks + atomic write + corruption detection
+- Architect workspace integration: authorial action is contextual, not a separate tab
+- 11 files changed, commit 29a104c pushed to public GitHub
