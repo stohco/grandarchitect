@@ -1269,3 +1269,28 @@ Stage Summary:
 - Frontier Matrix UI: new 'Matrix' bottom dock tab with full candidate status
 - 5 files changed, commit 8fecda0 pushed to public GitHub
 - 21 dock tabs total, frontier matrix integrated
+
+---
+Task ID: FRONTIER-Z3-VALIDATE + PLANETARY-PHYSICS
+Agent: main (Z.ai Code)
+Task: Wire Z3 invariants into VALIDATE stage, install 3DTilesRendererJS + Rapier, create adapters
+
+Work Log:
+- Added universe-law invariant checking to the VALIDATE stage of the authorial vertical slice
+- 7 canonical xianxia invariants now checked: entity-revision-exists, matching-revisions-activate, mortal-void-survival, spatial-transition-valid, clone-unique-artifact, forbidden-canon-retcon, no-stale-commit
+- Z3 SMT solver attempted first; if unavailable (WASM threading issue), falls back to deterministic TypeScript checker evaluating same invariants
+- Validation summary now includes: 'universeLaw=true (7/7 invariants)'
+- Verified: authorial slice passes all 5 compliance checks (style, canon, narrative, technical, universeLaw)
+- Installed 3d-tiles-renderer@0.5.0 for planetary streaming (Bake-off 5)
+- Installed @dimforge/rapier3d-compat@0.19.3 for browser physics (Bake-off 5+7)
+- Created planetary-streaming adapter: tile set management, coordinate frame stack (6 frames: local-tangent, planet-centered, orbital, star-system, starry-realm, realm-topology)
+- Created physics-runtime adapter: world creation, character capsule, step simulation, Jolt as native alternative
+- Updated frontier-matrix endpoint: 3DTilesRendererJS and Rapier now show 'installed' status
+
+Stage Summary:
+- VALIDATE stage: 5 compliance checks (style, canon, narrative, technical, universeLaw=7/7)
+- 7 S-tier candidates now installed or adapter-created (3 available, 4 adapters)
+- 2 new adapters: planetary-streaming, physics-runtime
+- 2 new npm packages: 3d-tiles-renderer, @dimforge/rapier3d-compat
+- Commit 63eb69e pushed to public GitHub
+- Bake-offs #2, #3, #5, #7 now have adapters ready for testing
