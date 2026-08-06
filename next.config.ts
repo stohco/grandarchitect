@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
     "http://localhost:3000",
     "*.space-z.ai",
   ],
+  // Enable WebAssembly support in webpack for Rapier WASM module.
+  // Per webpack 5: "WebAssembly is not enabled by default and flagged as
+  // experimental feature."
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
