@@ -89,6 +89,8 @@ export interface EditorStore {
   showGrid: boolean;
   showGizmos: boolean;
   showStats: boolean;
+  physicsEnabled: boolean;
+  playtestMode: boolean;
   showMinimap: boolean;
   showOutliner: boolean;
   showInspector: boolean;
@@ -145,6 +147,8 @@ export interface EditorStore {
   toggleGrid: () => void;
   toggleGizmos: () => void;
   toggleStats: () => void;
+  togglePhysics: () => void;
+  setPlaytestMode: (mode: boolean) => void;
   toggleOutliner: () => void;
   toggleInspector: () => void;
   toggleBottomDock: () => void;
@@ -229,6 +233,9 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   showGrid: true,
   showGizmos: true,
   showStats: true,
+  physicsEnabled: false,
+  playtestMode: false,
+  showMinimap: false,
   showOutliner: true,
   showInspector: true,
   showBottomDock: true,
@@ -392,6 +399,8 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
   toggleGizmos: () => set((s) => ({ showGizmos: !s.showGizmos })),
   toggleStats: () => set((s) => ({ showStats: !s.showStats })),
+  togglePhysics: () => set((s) => ({ physicsEnabled: !s.physicsEnabled })),
+  setPlaytestMode: (mode: boolean) => set({ playtestMode: mode, physicsEnabled: mode }),
   toggleOutliner: () => set((s) => ({ showOutliner: !s.showOutliner })),
   toggleInspector: () => set((s) => ({ showInspector: !s.showInspector })),
   toggleBottomDock: () => set((s) => ({ showBottomDock: !s.showBottomDock })),

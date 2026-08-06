@@ -18,6 +18,7 @@ import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, 
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
+import { PlaytestController } from '@/components/editor/viewport/PlaytestController';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
 
 // ---------------------------------------------------------------------------
@@ -56,6 +57,7 @@ const CAMERA_PRESETS: Record<CameraPreset, { position: [number, number, number];
 
 function CameraController() {
   const cameraPreset = useEditorStore((s) => s.cameraPreset);
+  const playtestMode = useEditorStore((s) => s.playtestMode);
   const { camera } = useThree();
   const controlsRef = useRef<React.ComponentRef<typeof OrbitControls>>(null);
   // Track whether we're animating to a new preset. We only animate for a
@@ -94,6 +96,7 @@ function CameraController() {
     <OrbitControls
       ref={controlsRef}
       makeDefault
+      enabled={!playtestMode}
       enableDamping
       dampingFactor={0.1}
       minDistance={2}
@@ -194,6 +197,7 @@ function SceneContent() {
   const showGrid = useEditorStore((s) => s.showGrid);
   const showGizmos = useEditorStore((s) => s.showGizmos);
   const renderMode = useEditorStore((s) => s.renderMode);
+  const playtestMode = useEditorStore((s) => s.playtestMode);
   const setPerf = useEditorStore((s) => s.setPerf);
   const pushFps = useEditorStore((s) => s.pushFps);
 
@@ -268,6 +272,9 @@ function SceneContent() {
       )}
 
       <CameraController />
+
+      {/* Playtest mode — third-person character controller */}
+      {playtestMode && <PlaytestController />}
     </>
   );
 }
@@ -294,6 +301,7 @@ function useKeyboardShortcuts() {
         case 'r': s.setTransformMode('scale'); break;
         case 'g': s.toggleGrid(); break;
         case 'x': s.toggleSnap(); break;
+        case 'p': s.setPlaytestMode(!s.playtestMode); break;
         case 'f5': e.preventDefault(); s.toggleSim(); break;
         case '.': e.preventDefault(); s.step('physics_tick', 1); break;
         case 'escape': s.clearSelection(); break;

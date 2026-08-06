@@ -30,6 +30,8 @@ import {
   BarChart3,
   Terminal,
   ChevronDown,
+  Atom,
+  Gamepad2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -115,6 +117,10 @@ export default function EditorToolbar() {
   const toggleSnap = useEditorStore((s) => s.toggleSnap);
   const showStats = useEditorStore((s) => s.showStats);
   const toggleStats = useEditorStore((s) => s.toggleStats);
+  const physicsEnabled = useEditorStore((s) => s.physicsEnabled);
+  const togglePhysics = useEditorStore((s) => s.togglePhysics);
+  const playtestMode = useEditorStore((s) => s.playtestMode);
+  const setPlaytestMode = useEditorStore((s) => s.setPlaytestMode);
   const showBottomDock = useEditorStore((s) => s.showBottomDock);
   const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
   const selectAll = useEditorStore((s) => s.selectAll);
@@ -206,6 +212,24 @@ export default function EditorToolbar() {
         <TooltipContent side="bottom" className="text-xs">Step forward (.)</TooltipContent>
       </Tooltip>
 
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={playtestMode}
+            aria-label="Enter playtest mode"
+            className={`${btnBase} w-6 ${playtestMode ? 'text-amber-400' : 'text-[#8888aa]'} hover:text-white`}
+            onClick={() => setPlaytestMode(!playtestMode)}
+          >
+            <Gamepad2 className="h-3.5 w-3.5" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="text-xs">
+          {playtestMode ? 'Exit Playtest (Esc)' : 'Enter Playtest (P)'}
+        </TooltipContent>
+      </Tooltip>
+
       <ToolbarSeparator />
 
       {/* ───────── Group: Transform mode ───────── */}
@@ -269,6 +293,24 @@ export default function EditorToolbar() {
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom" className="text-xs">Gizmos</TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={physicsEnabled}
+            aria-label="Toggle Rapier physics"
+            className={`${btnBase} w-6 ${physicsEnabled ? 'text-amber-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={togglePhysics}
+          >
+            <Atom className="h-3.5 w-3.5" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="text-xs">
+          {physicsEnabled ? 'Physics ON (Rapier WASM)' : 'Physics OFF'}
+        </TooltipContent>
       </Tooltip>
 
       <Tooltip>
