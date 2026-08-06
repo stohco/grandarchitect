@@ -1241,3 +1241,31 @@ Stage Summary:
 - Dev server: watchdog with setsid auto-restart
 - 3 new API endpoints: /z3-check, /cedar-check, /asset-compile
 - Commit a473ddc pushed to public GitHub
+
+---
+Task ID: FRONTIER-WIRING
+Agent: main (Z.ai Code)
+Task: Wire Cedar into executeCommand, fix Z3 WASM loading, create Frontier Matrix UI panel
+
+Work Log:
+- Attempted to fix Z3 WASM loading with locateFile hook — Emscripten resolves to /ROOT/ in Turbopack
+- Created z3-worker.ts subprocess script to run Z3 via 'bun run' (bypasses Turbopack)
+- Z3 WASM has Pthread initialization issues in sandbox ('Aborted(Assertion failed)') — Emscripten threaded WASM fails in constrained runtimes
+- Z3 adapter honestly marked as 'adapter-created' with WASM threading issue pending single-threaded build or Docker
+- Wired Cedar authorization into engine-runtime.ts executeCommand() — every command now goes through Cedar policy evaluation before execution
+- Cedar checks: principal role, action type, resource, context attributes against 8 authorial policies
+- If Cedar denies → command rejected with 'Cedar authorization denied'
+- Fallback: if Cedar module can't load, falls back to simple gateway role check
+- Verified: authorial slice still runs 4/4 transactions with Cedar active (0 errors)
+- Created FrontierMatrixPanel.tsx — bottom dock 'Matrix' tab with FlaskConical icon
+- Panel shows: 14 S-tier candidates (3 available), 7 bake-offs, STOK/FDRS reclassified
+- 'Test' buttons for Z3, Cedar, glTF-Transform, meshoptimizer with inline JSON results
+- Auto-refreshes every 15s
+- Browser-verified: Matrix tab opens, shows all candidates, reclassified section visible
+
+Stage Summary:
+- Cedar: wired into executeCommand (real authorization boundary), 8/8 tests pass
+- Z3: subprocess adapter created, WASM threading issue documented honestly
+- Frontier Matrix UI: new 'Matrix' bottom dock tab with full candidate status
+- 5 files changed, commit 8fecda0 pushed to public GitHub
+- 21 dock tabs total, frontier matrix integrated
