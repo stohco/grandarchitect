@@ -1375,3 +1375,35 @@ Stage Summary:
 - All 6 frontier adapters testable from single Matrix panel
 - Physics hotkey (P) for quick toggle
 - Commit c2c6568 pushed to public GitHub
+
+---
+Task ID: FRONTIER-SELF-CRITIQUE + CHARACTER-CONTROLLER
+Agent: main (Z.ai Code)
+Task: Harsh self-evaluation of frontier technology work + depth-first Rapier character controller
+
+Work Log:
+- Wrote docs/FRONTIER_SELF_CRITIQUE.md — brutal honest evaluation of all 10 frontier technology areas
+- Identified the root pattern: breadth over depth — registering capabilities without proving they work
+- Updated frontier-matrix endpoint with honest status labels:
+  - Z3: 'BROKEN — WASM threading issue' (was 'adapter-created')
+  - 3DTilesRendererJS: 'INSTALLED ONLY — no tiles rendered' (was 'installed')
+  - Cedar: 'WASM WORKS — policies are rubber stamps' (was 'adapter-created')
+  - Rapier: 'DEBUG-LEVEL — cubes on approximate boxes' (was 'installed')
+  - glTF-Transform: 'TRIVIAL TEST ONLY — cube, not real assets' (was 'installed')
+- Acted on critique by building real CharacterController (depth over breadth):
+  - WASD movement, Space jump, Shift sprint
+  - Real capsule collider with gravity and ground detection
+  - Camera follows character in third-person
+  - Structure colliders use KIND_HEIGHTS for better-fitting boxes
+  - HUD shows position, ground/air state, speed
+  - Color changes: green on ground, lighter green in air
+- Fixed useRapierPhysics hook to not call setState during body addition or step (prevents render loops)
+- Browser-verified: character controller HUD shows "WASD move · Space jump · Shift sprint"
+- Known issue: React "Maximum update depth exceeded" warning from physics hook state management (needs ref-based refactor)
+
+Stage Summary:
+- Self-critique document: 316 lines of honest evaluation
+- Character controller: real controllable character (not debug cubes)
+- Honest status labels: all 6 frontier candidates now show true maturity
+- Commit 991c62c pushed to public GitHub
+- Commitment: stop adding breadth, start adding depth
