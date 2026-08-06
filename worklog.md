@@ -1294,3 +1294,31 @@ Stage Summary:
 - 2 new npm packages: 3d-tiles-renderer, @dimforge/rapier3d-compat
 - Commit 63eb69e pushed to public GitHub
 - Bake-offs #2, #3, #5, #7 now have adapters ready for testing
+
+---
+Task ID: FRONTIER-CEDAR-AUDIT + MULTI-SOLVER
+Agent: main (Z.ai Code)
+Task: Add Cedar audit trail per transaction, create multi-solver plan endpoint, planetary+physics test endpoints
+
+Work Log:
+- Added cedarAuthorization field to TransactionDetail: { allowed, reason, policyId, principal, action, resource }
+- Updated execute stage to capture Cedar authorization result for each transaction
+- Added Cedar permits for world.create-cell, transaction.undo, terrain.raise (11 total policies)
+- All 4 authorial slice transactions now show: cedar: allowed=True 'Allowed by Cedar policy'
+- Updated /api/architect/authorial/transactions to return cedarAuthorization per transaction
+- Created POST /api/architect/multi-solver-plan (Bake-off 2 prototype):
+  - Takes real request: 'Create an ancient declining sword-sect city while preserving the river and village road'
+  - Runs 3 solvers: deterministic planner (11 actions + temporal constraints), Z3 (7 invariants), Cedar (authorization)
+  - Returns combined result with overallValid, solverSummary, plan, invariantCheck, authorizationCheck
+- Created GET /api/architect/planetary-test: 3DTilesRendererJS available, 2 tile sets, 6 coordinate frames, ready for Bake-off 5
+- Created GET /api/architect/physics-test: Rapier WASM available, world created, ready for Bake-off 5+7
+- Verified: multi-solver plan produces 11 actions (carve-terrace, generate-foundation, place-structures, establish-water, create-roads, compile-navigation, assign-population, run-simulation, validate, apply-weathering, apply-restraint)
+
+Stage Summary:
+- Cedar audit trail: every transaction records which policy allowed it (allowed=True for all 4)
+- Multi-solver plan: 3 solvers combined (deterministic + Z3 + Cedar), 11 actions with temporal constraints
+- Planetary test: 3DTilesRendererJS ready, 6 coordinate frames
+- Physics test: Rapier WASM ready, world creation verified
+- 3 new API endpoints: multi-solver-plan, planetary-test, physics-test
+- 11 Cedar policies active (added world.create-cell, transaction.undo, terrain.raise)
+- Commit 0c6938c pushed to public GitHub
