@@ -1351,3 +1351,27 @@ Stage Summary:
 - Physics pipeline: Rapier WASM init → World → addStaticBox → addCharacterCapsule → useFrame(step) → InstancedMesh
 - Commit f0cafde pushed to public GitHub
 - Bake-off 5+7 physics foundation: READY
+
+---
+Task ID: FRONTIER-MATRIX-TEST-BUTTONS
+Agent: main (Z.ai Code)
+Task: Add test buttons for all frontier adapters in Matrix panel + physics hotkey
+
+Work Log:
+- Added Test buttons for 3DTilesRendererJS and Rapier in FrontierMatrixPanel
+- Added 'Test Bake-off' buttons for bake-offs #2, #3, #5, #7
+- Multi-Solver Plan test sends real request with sword-sect city scenario
+- All 6 frontier endpoints now testable from the Matrix panel
+- Added 'P' hotkey to toggle Rapier physics in the viewport
+- Verified all endpoints return valid results:
+  1. Z3: available via bun subprocess, 7 invariants
+  2. Cedar: 8/8 tests pass
+  3. glTF-Transform+meshoptimizer: 8v 12t 836b GLB
+  4. 3DTilesRendererJS: available, 2 tile sets, 6 coordinate frames, ready for Bake-off 5
+  5. Rapier: available, world created, ready for Bake-off 5+7
+  6. Multi-Solver Plan: Z3 7 invariants + Cedar authorized
+
+Stage Summary:
+- All 6 frontier adapters testable from single Matrix panel
+- Physics hotkey (P) for quick toggle
+- Commit c2c6568 pushed to public GitHub
