@@ -764,6 +764,47 @@ export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
     currentBlocker: 'Prime Agent is a Python CLI tool requiring IPython kernel — cannot run in browser/Next.js. Need server-side adapter with JSON/RPC mode. The RLM concepts are architecturally adopted (interfaces created) but not runtime-integrated.',
     paperRef: 'arXiv:2605.09998 (Continual Harness)',
   },
+  // -------------------------------------------------------------------------
+  // FiberLab — Code-Driven Three.js Experiment Laboratory
+  // Reference: FiberToy (https://github.com/NabilNYMansour/fibertoy)
+  // -------------------------------------------------------------------------
+  {
+    id: 'fiberlab-experiment-laboratory',
+    name: 'FiberLab — Code-Driven Three.js Experiment Laboratory',
+    category: 'ai-architecture',
+    problemSolved: 'Grand Architect needs a fast scratchpad where visual ideas become executable images instead of speculative code. Isolated sandbox for R3F experiments before promoting into production capabilities.',
+    observedSources: [
+      { type: 'repository', title: 'FiberToy — R3F Scene Builder', author: 'NabilNYMansour', url: 'https://github.com/NabilNYMansour/fibertoy' },
+    ],
+    underlyingPrinciples: [
+      'Sandboxed iframe with allow-scripts (no same-origin)',
+      'Live code editor (CodeMirror) + react-live evaluation',
+      'R3F/Drei/Leva/Zustand scope for experiments',
+      'SceneCapsule: save, fork, view, template, thumbnail model',
+      'postMessage protocol between parent and sandbox',
+      'Budget enforcement: frame time, draw calls, triangles, memory',
+      'Capture: color, depth, normal, object-ID, wireframe, performance',
+      'Promotion pipeline: experiment → review → extract → contract → integrate → test → promote',
+      'FiberLab is NOT authoritative Studio — experimental code only',
+      'SceneCapsule maturity: draft → running → visually-reviewed → benchmark-passed → promotion-candidate → promoted/rejected',
+    ],
+    maturity: 'prototype',
+    licenseAssessment: {
+      license: 'mit',
+      compatible: true,
+      notes: 'FiberToy is MIT-licensed. We borrow concepts (iframe sandbox, scene save/fork, capture) rather than importing the whole social hub.',
+    },
+    browserFeasibility: {
+      browserFeasible: true,
+      notes: 'Sandboxed iframe with R3F works in Chromium and Firefox. Security hardening needed: dedicated origin, CSP, no network, AST validation, heartbeat, timeout, budget enforcement.',
+    },
+    benchmarks: [],
+    decisionStatus: 'accepted',
+    integrationPlan: 'FiberLab under Diagnostics/Frontier. SceneCapsule type for experiments. Prototype tools (create/run/stop/capture/fork/compare/benchmark/promote/reject) registered in UI Action Registry. Promotion pipeline: experiment → security review → extract implementation → provider-neutral contract → conformance tests → browser verification → production. First reference: hex terrain anti-tiling shader experiment → promote to Terrain Material System.',
+    runtimeAuthority: 'none',
+    currentBlocker: undefined,
+    paperRef: 'FiberToy repository (MIT)',
+  },
 ];
 
 // ============================================================================

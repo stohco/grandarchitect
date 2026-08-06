@@ -378,6 +378,85 @@ registry.register(createAction({
   apiRoute: '/api/architect/rlm',
 }));
 
+// --- FIBERLAB (under Diagnostics) ---
+
+registry.register(createAction({
+  id: 'prototype.create',
+  label: 'Create Experiment',
+  description: 'Create a new FiberLab SceneCapsule for code-driven R3F experimentation',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'experiment', 'fiberlab', 'capsule', 'r3f', 'shader', 'create'],
+  apiRoute: '/api/fiberlab',
+}));
+
+registry.register(createAction({
+  id: 'prototype.run',
+  label: 'Run Experiment',
+  description: 'Run a SceneCapsule in the sandboxed FiberLab environment',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'run', 'execute', 'fiberlab', 'capsule'],
+  apiRoute: '/api/fiberlab',
+}));
+
+registry.register(createAction({
+  id: 'prototype.capture',
+  label: 'Capture Experiment',
+  description: 'Capture a screenshot or performance data from a running experiment',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'capture', 'screenshot', 'evidence', 'fiberlab'],
+  apiRoute: '/api/fiberlab',
+}));
+
+registry.register(createAction({
+  id: 'prototype.fork',
+  label: 'Fork Experiment',
+  description: 'Fork a SceneCapsule to create a variant for comparison',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'fork', 'variant', 'compare', 'fiberlab'],
+  apiRoute: '/api/fiberlab',
+}));
+
+registry.register(createAction({
+  id: 'prototype.benchmark',
+  label: 'Benchmark Experiment',
+  description: 'Run performance benchmark on a SceneCapsule (frame time, draw calls, memory)',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'benchmark', 'performance', 'fps', 'fiberlab'],
+  apiRoute: '/api/fiberlab',
+}));
+
+registry.register(createAction({
+  id: 'prototype.promote',
+  label: 'Promote Experiment',
+  description: 'Promote a benchmarked SceneCapsule to a production engine capability',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'promote', 'production', 'capability', 'fiberlab'],
+  apiRoute: '/api/fiberlab',
+}));
+
+registry.register(createAction({
+  id: 'prototype.reject',
+  label: 'Reject Experiment',
+  description: 'Reject a SceneCapsule experiment',
+  category: 'fiberlab',
+  workspace: 'diagnostics',
+  maturity: 'prototype',
+  keywords: ['prototype', 'reject', 'discard', 'fiberlab'],
+  apiRoute: '/api/fiberlab',
+}));
+
 // --- DIAGNOSTICS workspace ---
 
 registry.register(createAction({
