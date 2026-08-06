@@ -1642,3 +1642,147 @@ The asset factory is accepted only when all of the following are true:
     Every approved asset has an evidence package from the gauntlet loop, not only a beauty render.
 
     The six reference boards remain readable visual indexes, while this document and sidecar manifests preserve exact implementation detail.
+---
+
+## PART XI — LIVE STUDIO AS BLENDER REPLACEMENT (CORRECTION)
+
+### Core Principle
+
+The project must NOT assume Blender or any external DCC is available. The
+World Fabric Live Studio is the primary asset-authoring environment.
+Three.js supplies viewport rendering and runtime presentation, while an
+engine-independent geometry, rigging, material, animation, voxel, and
+semantic-authoring layer supplies Blender-like production capabilities.
+
+External Blender import or headless automation is optional and must never
+be required for the standard asset-factory loop.
+
+### Intended Architecture
+
+Grand Architect / GLM intention
+    ↓
+Structured AssetBrief
+    ↓
+Procedural modeling and authored operations
+    ↓
+Live Studio editor
+    ↓
+Mesh / rig / material / animation representation (MeshKernel)
+    ↓
+Asset validation gauntlet
+    ↓
+GLB or internal runtime asset compilation
+    ↓
+WorldRepository transaction
+    ↓
+Derived render / collision / navigation artifacts
+    ↓
+Atomic activation in the running world
+
+### Three.js Role (rendering layer only)
+
+Three.js provides:
+  - Perspective and orthographic viewports
+  - Scene graph display
+  - Mesh rendering
+  - Materials and shader previews
+  - Lights and environment previews
+  - Skeleton and skin display
+  - Animation playback
+  - Selection outlines
+  - Transform gizmos
+  - Grid and snapping visualization
+  - LOD preview
+  - Collision and navigation overlays
+  - Runtime-equivalent preview
+  - The final game itself
+
+Three.js does NOT provide:
+  - A topology editor
+  - A sculpting package
+  - A UV unwrapping system
+  - A procedural modeling language
+  - A rig editor
+  - A weight-painting system
+  - A cloth authoring application
+  - A texture-painting application
+  - A complete animation authoring suite
+  - An asset database
+  - A nondestructive modifier stack
+
+We build those systems around Three.js.
+
+### MeshKernel (engine-independent authoring model)
+
+The MeshKernel is the authoritative editable model. Three.js
+BufferGeometry is DERIVED from it, not the source of truth.
+
+MeshKernel contains:
+  - Vertices with positions, normals, tangents
+  - Half-edge adjacency (for topology queries)
+  - Faces with material groups
+  - UV sets (multiple)
+  - Skin weights (bone influences)
+  - Morph targets (blend shapes)
+  - Named regions (body-hide zones, equipment areas)
+  - Attachment sockets
+  - Destruction regions
+  - Semantic tags
+
+### Nondestructive Operation Stack
+
+Instead of forcing GLM to manipulate thousands of vertices directly,
+assets are generated through inspectable operations:
+
+    operations:
+      - op: create_garment_shell
+        body: CHR_PLAYER_BASE_M_01
+        region: torso_to_ankle
+        clearance_m: 0.025
+      - op: split_panels
+        pattern: [front_left, front_right, back, side_left, side_right]
+      - op: shape_silhouette
+        waist_taper: 0.12
+        hem_flare: 0.42
+      - op: add_thickness
+        thickness_m: 0.0035
+      - op: add_trim
+        target: hem
+        width_m: 0.028
+      - op: assign_cloth_regions
+        pinned: [shoulders, upper_back, waist]
+        simulated: [sleeves, front_panels, back_panel]
+
+GLM can safely alter parameters without destroying the asset.
+The stack is re-evaluated to produce the final mesh.
+
+### Procedural Primitive and Modifier Library
+
+The Live Studio needs operations such as:
+  - Create box, cylinder, sphere, capsule, plane, curve and profile
+  - Extrude, Inset, Bevel, Bridge loops, Loop cut, Knife cut
+  - Merge and weld, Separate, Mirror, Array, Radial array
+  - Sweep profile along curve, Loft between profiles
+  - Boolean union, subtraction and intersection
+  - Solidify, Smooth, Relax, Remesh, Decimate, Subdivide
+  - Shrinkwrap, Conform to body, Conform to terrain
+  - Generate thickness, normals and tangents
+  - Create collision proxy, Generate LOD, Bake procedural result
+
+### Correct Workflow
+
+NOT:
+  GLM creates asset in Blender → Exports GLB → Three.js displays it
+
+INSTEAD:
+  GLM writes/modifies structured asset operations
+    → Live Studio executes those operations
+    → Three.js presents the editable result
+    → Automated tools generate topology, UVs, rigging, collision, LODs, manifests
+    → GLM visually and numerically inspects the result
+    → Gauntlet tests reject or approve it
+    → World Fabric atomically integrates it
+
+Optional external path:
+  Blender / external DCC → GLB import → Semantic conversion → World Fabric
+  (This is an import bridge, not the foundation.)
