@@ -1,0 +1,145 @@
+{
+  "$schema": "./schemas/context-profiles.schema.json",
+  "schemaVersion": "1.0.0",
+  "description": "Context profiles for Grand Architect. Each profile defines a minimal set of files to load for a class of task. The goal is to reduce context, not multiply it. Never load the entire Bible or all architecture docs into a single agent startup context.",
+  "profiles": {
+    "core": {
+      "description": "Minimum context for any task in this repository.",
+      "includes": [
+        "AGENTS.md",
+        ".ai/START_HERE.md",
+        ".ai/project.manifest.json",
+        ".ai/authority-map.json"
+      ],
+      "excludes": [
+        "corpus-extension/",
+        "engine-architecture/",
+        "recovery-manifest.json",
+        "worklog.md",
+        "*.png"
+      ],
+      "maxApproxTokens": 12000,
+      "rationale": "Universal rules plus the verified front door. Every agent needs this and nothing more for trivial tasks."
+    },
+    "ui": {
+      "extends": "core",
+      "description": "Tasks touching the editor UI: panels, viewport, toolbar, command palette.",
+      "includes": [
+        "src/components/editor/AGENTS.md",
+        "src/lib/studio-ui/action-registry.ts",
+        "src/lib/studio-ui/surface-inventory.ts",
+        "src/lib/studio-ui/action-registrations.ts",
+        "src/lib/editor/store.ts",
+        "src/lib/editor/types.ts"
+      ],
+      "excludes": [
+        "corpus-extension/",
+        "engine-architecture/",
+        "src/engine/architect/z3-verifier/",
+        "src/engine/architect/rcvc/",
+        "src/engine/plugins/simulation/"
+      ],
+      "maxApproxTokens": 24000,
+      "rationale": "UI work needs the action registry and store, not the cosmology or the constraint solver."
+    },
+    "engine": {
+      "extends": "core",
+      "description": "Tasks touching the engine kernel, plugin SDK, or architect control plane.",
+      "includes": [
+        "src/engine/AGENTS.md",
+        "src/engine/kernel/types.ts",
+        "src/engine/kernel/capability-registry.ts",
+        "src/engine/kernel/event-bus.ts",
+        "src/engine/kernel/scheduler.ts",
+        "src/engine/kernel/plugin-host.ts",
+        "src/engine/architect/types.ts",
+        "src/engine/architect/decision-ledger.ts"
+      ],
+      "excludes": [
+        "corpus-extension/",
+        "src/components/editor/panels/"
+      ],
+      "maxApproxTokens": 30000,
+      "rationale": "Engine work needs the kernel and architect types. Simulation plugins are loaded on demand per task."
+    },
+    "authorial": {
+      "extends": "core",
+      "description": "Tasks touching the xianxia design corpus, content schemas, or vertical slice authoring.",
+      "includes": [
+        "corpus-extension/00_FOUNDATIONAL_DECISIONS.md",
+        "corpus-extension/49_CONTENT_ARCHITECTURE.md",
+        "src/engine/architect/authorial/"
+      ],
+      "excludes": [
+        "src/engine/architect/z3-verifier/",
+        "src/engine/architect/rcvc/",
+        "src/engine/frontier/"
+      ],
+      "maxApproxTokens": 18000,
+      "rationale": "Retrieve specific Bible sections on demand by querying the corpus-extension index. Never load all 48 docs automatically.",
+      "retrievalRoots": [
+        "corpus-extension/"
+      ],
+      "retrievalHint": "Use Grep or Glob to find docs by heading. Each doc filename starts with NN_ (zero-indexed). The corpus is FROZEN."
+    },
+    "physics": {
+      "extends": "core",
+      "description": "Tasks touching Rapier physics, character controller, collision, embodiment.",
+      "includes": [
+        "src/engine/AGENTS.md",
+        "src/engine/runtime/physics-runtime.ts",
+        "src/engine/runtime/types.ts",
+        "src/engine/frontier/bvh.ts",
+        "src/engine/frontier/character-controller.ts",
+        "src/engine/frontier/collision-fixtures.ts",
+        "src/lib/editor/physics-manager.ts",
+        "src/components/editor/viewport/CharacterController.tsx",
+        "src/components/editor/viewport/PlaytestCharacter.tsx",
+        "public/rapier_wasm3d_bg.wasm"
+      ],
+      "excludes": [
+        "corpus-extension/",
+        "src/engine/architect/z3-verifier/",
+        "src/engine/architect/rcvc/"
+      ],
+      "maxApproxTokens": 24000,
+      "rationale": "Physics work needs PhysicsRuntime, BVH, and the Rapier WASM module. Bible is irrelevant."
+    },
+    "terrain": {
+      "extends": "core",
+      "description": "Tasks touching terrain generation, voxel terrain studio, streaming, destruction.",
+      "includes": [
+        "src/engine/AGENTS.md",
+        "src/engine/studio/voxel-terrain-studio.ts",
+        "src/engine/frontier/terrain-plugin.ts",
+        "src/engine/frontier/geometry.ts",
+        "src/engine/production/terrain-factory.ts",
+        "src/engine/production/streaming-optimization.ts",
+        "mini-services/terrain-worker/index.ts"
+      ],
+      "excludes": [
+        "corpus-extension/",
+        "src/engine/architect/z3-verifier/",
+        "src/engine/architect/rcvc/"
+      ],
+      "maxApproxTokens": 22000,
+      "rationale": "Terrain work needs the voxel studio, frontier terrain, production factory, and the terrain-worker mini-service."
+    }
+  },
+  "taskSpecificProfiles": {
+    "description": "Built on demand from a handoff's TASK.md. The handoff's `relevantProfiles` field selects zero or more base profiles to extend with the handoff's own files.",
+    "example": {
+      "taskId": "AI-REPO-SYSTEM",
+      "extends": "core",
+      "includes": [
+        "handoffs/AI-REPO-SYSTEM/TASK.md",
+        "handoffs/AI-REPO-SYSTEM/STATE.json",
+        "upload/Pasted Content_1786047075967.txt"
+      ]
+    }
+  },
+  "defaults": {
+    "onUnknownTask": "core",
+    "onMultipleProfiles": "Union the includes; respect excludes from each profile; cap at the smallest maxApproxTokens."
+  }
+}

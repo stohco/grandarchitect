@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://grandarchitect.local/schemas/handoff.schema.json",
+  "title": "Grand Architect Task Handoff Bundle — STATE.json",
+  "description": "Schema for handoffs/<task-id>/STATE.json. The handoff bundle also includes TASK.md, EVIDENCE.json, CHANGES.md, NEXT.md — only STATE.json is machine-validated.",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "taskId",
+    "baseCommit",
+    "currentCommit",
+    "status",
+    "modifiedFiles"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "taskId": { "type": "string" },
+    "baseCommit": { "type": ["string", "null"] },
+    "currentCommit": { "type": ["string", "null"] },
+    "branch": { "type": ["string", "null"] },
+    "dirty": { "type": "boolean" },
+    "status": {
+      "type": "string",
+      "enum": ["not-started", "in-progress", "blocked", "complete", "abandoned"]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inScope": { "type": "array", "items": { "type": "string" } },
+        "outOfScope": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "completed": { "type": "array", "items": { "type": "string" } },
+    "active": { "type": ["string", "null"] },
+    "blockedBy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "evidence": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "modifiedFiles": { "type": "array", "items": { "type": "string" } },
+    "requiredNextAction": { "type": ["string", "null"] },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "runtime": { "type": "string" },
+        "branch": { "type": "string" },
+        "worktree": { "type": "string" }
+      }
+    },
+    "uncommittedState": { "type": "string" }
+  }
+}

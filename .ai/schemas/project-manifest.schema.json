@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://grandarchitect.local/schemas/project-manifest.schema.json",
+  "title": "Grand Architect Project Manifest",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "project",
+    "provenance",
+    "toolchain",
+    "commands",
+    "entrypoints",
+    "authoritativeSystems",
+    "currentMilestone",
+    "criticalBlockers"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["id", "name", "kind", "maturity"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "alternateNames": { "type": "array", "items": { "type": "string" } },
+        "kind": { "type": "string" },
+        "maturity": { "type": "string" },
+        "maturityReason": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["commit", "branch", "dirty", "generatedAt", "generatorVersion"],
+      "additionalProperties": false,
+      "properties": {
+        "commit": { "type": ["string", "null"] },
+        "commitShort": { "type": ["string", "null"] },
+        "branch": { "type": ["string", "null"] },
+        "dirty": { "type": "boolean" },
+        "dirtyReason": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "generatorVersion": { "type": "string" },
+        "generatedBy": { "type": "string" }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "required": ["runtime", "framework", "language"],
+      "additionalProperties": false,
+      "properties": {
+        "runtime": { "type": "string" },
+        "runtimeVersion": { "type": ["string", "null"] },
+        "runtimeVersionReason": { "type": "string" },
+        "framework": { "type": "string" },
+        "frameworkVersion": { "type": "string" },
+        "language": { "type": "string" },
+        "languageVersion": { "type": "string" },
+        "database": { "type": "string" },
+        "renderer": { "type": "array", "items": { "type": "string" } },
+        "packageManager": { "type": "string" },
+        "lockfile": { "type": "string" }
+      }
+    },
+    "commands": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["command", "verified"],
+        "additionalProperties": false,
+        "properties": {
+          "command": { "type": ["string", "null"] },
+          "verified": { "type": "boolean" },
+          "source": { "type": "string" },
+          "expandsTo": { "type": "string" },
+          "lastRunExitCode": { "type": ["integer", "null"] },
+          "lastRunNotes": { "type": "string" },
+          "blockedReason": { "type": "string" },
+          "alternativeEntryPoints": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "entrypoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "kind"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "kind": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "authoritativeSystems": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status"],
+        "properties": {
+          "status": { "type": "string", "enum": ["resolved", "partial", "unknown"] },
+          "path": { "type": "string" },
+          "reason": { "type": "string" },
+          "candidatePaths": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "currentMilestone": {
+      "type": "object",
+      "required": ["id", "title", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "acceptanceDocument": { "type": "string" },
+        "status": { "type": "string" },
+        "description": { "type": "string" },
+        "recentCommits": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "criticalBlockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+          "description": { "type": "string" },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
+    "requiredEnvironmentVariables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "required"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "purpose": { "type": "string" },
+          "required": { "type": "boolean" },
+          "hasDefault": { "type": "boolean" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "currentHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "taskId": { "type": "string" },
+        "path": { "type": "string" },
+        "status": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "activeArchitectureDecisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "status": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "contextProfileLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "honestMaturityBySubsystem": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,381 @@
+{
+  "$schema": "./schemas/project-manifest.schema.json",
+  "schemaVersion": "1.0.0",
+  "project": {
+    "id": "grandarchitect",
+    "name": "Grand Architect",
+    "alternateNames": [
+      "Live Architect Studio"
+    ],
+    "kind": "nextjs-threejs-game-engine-studio",
+    "maturity": "research-prototype",
+    "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
+  },
+  "provenance": {
+    "commit": "e0ca9b3161a030733c5c9cc16435669265eda9d0",
+    "commitShort": "e0ca9b3161a0",
+    "branch": "main",
+    "dirty": true,
+    "dirtyReason": "Working tree has 15 modified file(s): .gitignore, AGENTS.md, README.md, package.json, tsconfig.tsbuildinfo…",
+    "generatedAt": "2026-08-06T20:27:00.112Z",
+    "generatorVersion": "1.0.0",
+    "generatedBy": "scripts/ai-context/build.ts"
+  },
+  "toolchain": {
+    "runtime": "bun",
+    "runtimeVersion": "unknown",
+    "runtimeVersionReason": "Bun version not pinned in package.json. Run `bun --version` to verify locally.",
+    "framework": "next",
+    "frameworkVersion": "^16.1.1",
+    "language": "typescript",
+    "languageVersion": "^5",
+    "database": "sqlite-prisma",
+    "renderer": [
+      "three",
+      "react-three-fiber"
+    ],
+    "packageManager": "bun",
+    "lockfile": "bun.lock"
+  },
+  "commands": {
+    "install": {
+      "command": "bun install --frozen-lockfile",
+      "verified": true,
+      "source": "package.json (implicit; bun is the package manager)",
+      "notes": "Use --frozen-lockfile for reproducible installs. Plain `bun install` also works."
+    },
+    "dev": {
+      "command": "bun run dev",
+      "verified": true,
+      "source": "package.json scripts.dev",
+      "expandsTo": "next dev -p 3000 --webpack 2>&1 | tee dev.log",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": "Next.js dev server on port 3000 with Webpack (required for Rapier WASM). Output also tee'd to dev.log."
+    },
+    "build": {
+      "command": "bun run build",
+      "verified": true,
+      "source": "package.json scripts.build",
+      "expandsTo": "bun run prebuild && next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": "Runs prebuild (build-manifest generation), then next build, then copies static + public into standalone output."
+    },
+    "lint": {
+      "command": "bun run lint",
+      "verified": true,
+      "source": "package.json scripts.lint",
+      "expandsTo": "eslint .",
+      "lastRunExitCode": 0,
+      "lastRunNotes": "exit 0",
+      "notes": ""
+    },
+    "typecheck": {
+      "command": "bun run typecheck",
+      "verified": true,
+      "source": "package.json scripts.typecheck",
+      "expandsTo": "tsc --noEmit",
+      "lastRunExitCode": 2,
+      "lastRunNotes": "$ tsc --noEmit",
+      "notes": "Historical drift note: an earlier version of this repo referenced `bun run typecheck` in README.md before the script existed in package.json. ai:check mechanically detects this class of drift."
+    },
+    "test": {
+      "command": null,
+      "verified": false,
+      "blockedReason": "No canonical `test` script exists in package.json. Conformance tests are run as standalone TypeScript files.",
+      "alternativeEntryPoints": [
+        "src/engine/conformance-test.ts",
+        "src/engine/kernel/conformance-test.ts (37 tests)",
+        "src/engine/architect/conformance-test.ts (113 tests)",
+        "src/engine/plugins/reference/conformance-test.ts (252 tests)",
+        "src/engine/plugins/simulation/conformance-test.ts (247 tests)",
+        "src/engine/plugins/simulation/ga-quest-conformance.ts (224 tests)",
+        "src/engine/plugins/simulation/ga-cultivation-conformance.ts (203 tests)",
+        "src/engine/plugins/simulation/ga-combat-conformance.ts (202 tests)",
+        "src/engine/studio/conformance-test.ts"
+      ]
+    },
+    "db:push": {
+      "command": "bun run db:push",
+      "verified": true,
+      "source": "package.json scripts.db:push",
+      "expandsTo": "prisma db push --accept-data-loss",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": "Pushes prisma/schema.prisma to SQLite. --accept-data-loss is set."
+    },
+    "db:generate": {
+      "command": "bun run db:generate",
+      "verified": true,
+      "source": "package.json scripts.db:generate",
+      "expandsTo": "prisma generate",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "ai:doctor": {
+      "command": "bun run ai:doctor",
+      "verified": true,
+      "source": "package.json scripts.ai:doctor",
+      "expandsTo": "bun run scripts/ai-context/doctor.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": "Reports SHA, dirty state, verified commands, blockers, maturity, authoritative paths."
+    },
+    "ai:check": {
+      "command": "bun run ai:check",
+      "verified": true,
+      "source": "package.json scripts.ai:check",
+      "expandsTo": "bun run scripts/ai-context/check.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": "Fails when documented commands don't exist, manifests are stale, etc."
+    },
+    "ai:build": {
+      "command": "bun run ai:build",
+      "verified": true,
+      "source": "package.json scripts.ai:build",
+      "expandsTo": "bun run scripts/ai-context/build.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": "Regenerates .ai/*.json manifests from the actual codebase."
+    },
+    "prebuild": {
+      "command": "bun run prebuild",
+      "verified": true,
+      "source": "package.json scripts.prebuild",
+      "expandsTo": "bun run scripts/generate-build-manifest.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "start": {
+      "command": "bun run start",
+      "verified": true,
+      "source": "package.json scripts.start",
+      "expandsTo": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "db:migrate": {
+      "command": "bun run db:migrate",
+      "verified": true,
+      "source": "package.json scripts.db:migrate",
+      "expandsTo": "prisma migrate dev",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "db:reset": {
+      "command": "bun run db:reset",
+      "verified": true,
+      "source": "package.json scripts.db:reset",
+      "expandsTo": "prisma migrate reset",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    }
+  },
+  "entrypoints": [
+    {
+      "id": "studio-web",
+      "path": "src/app",
+      "kind": "nextjs-app",
+      "description": "Next.js 16 App Router root. Only route visible to the user is / (src/app/page.tsx). Editor at /editor (src/app/editor/page.tsx)."
+    },
+    {
+      "id": "editor-ui",
+      "path": "src/components/editor",
+      "kind": "react-ui",
+      "description": "Editor shell: viewport, panels, toolbar. React Three Fiber for 3D, shadcn/ui for chrome, Zustand for transient state."
+    },
+    {
+      "id": "engine",
+      "path": "src/engine",
+      "kind": "engine-runtime",
+      "description": "TypeScript engine kernel + plugin SDK + architect control plane + studio + frontier + production modules."
+    },
+    {
+      "id": "api",
+      "path": "src/app/api",
+      "kind": "nextjs-api-routes",
+      "description": "Next.js Route Handlers. 50+ endpoints under /api/architect, /api/editor, /api/frontier, /api/world, /api/studio, /api/engine, /api/fiberlab, /api/studio-ui."
+    },
+    {
+      "id": "determinism-stack",
+      "path": "src/lib/determinism",
+      "kind": "library",
+      "description": "Deterministic RNG, hashing, serialization, fixed-point, transcendentals. Proven with cross-browser hash parity."
+    }
+  ],
+  "authoritativeSystems": {
+    "world": {
+      "status": "partial",
+      "reason": "src/engine/world/world-fabric.ts and src/engine/frontier/world-asset-store.ts both touch world state. Canonical ownership not fully resolved. The studio/transactions.ts module provides the transaction path.",
+      "candidatePaths": [
+        "src/engine/world/world-fabric.ts",
+        "src/engine/frontier/world-asset-store.ts",
+        "src/engine/studio/transactions.ts"
+      ]
+    },
+    "assets": {
+      "status": "unknown",
+      "reason": "Multiple asset systems exist (src/engine/assets/, src/engine/studio/asset-registry.ts, src/engine/frontier/world-asset-store.ts). No single canonical owner declared."
+    },
+    "uiTransientState": {
+      "status": "resolved",
+      "path": "src/lib/editor/store.ts",
+      "reason": "Zustand store is the single source of truth for editor UI transient state (selection, transforms, panel state, logs). React state must not be authoritative for engine data."
+    },
+    "actions": {
+      "status": "resolved",
+      "path": "src/lib/studio-ui/action-registry.ts",
+      "reason": "Canonical UI Action Registry shared by buttons, context menus, command palette, keyboard shortcuts, and Grand Architect capability discovery."
+    },
+    "physics": {
+      "status": "resolved",
+      "path": "src/engine/runtime/physics-runtime.ts",
+      "reason": "Authoritative PhysicsRuntime service. Plain TypeScript class (not React). Fixed 60Hz timestep, Rapier KinematicCharacterController."
+    },
+    "persistence": {
+      "status": "partial",
+      "path": "prisma/sqlite",
+      "reason": "Prisma + SQLite is the configured database. DATABASE_URL is in .env. Schema currently has only User and Post models (placeholder). Engine persistence is in-memory via ga:persistence plugin (src/engine/plugins/reference/ga-persistence.ts)."
+    },
+    "determinism": {
+      "status": "resolved",
+      "path": "src/lib/determinism",
+      "reason": "LCG PRNG, no Math.random in simulation code, hash parity proven. Determinism hash: 7fde855dc9d17c7ba11c7d40c1dda10535a10dd269af0b37149104c256213f75"
+    }
+  },
+  "currentMilestone": {
+    "id": "frontier-depth-rapier",
+    "title": "Rapier embodied traversal — depth over breadth",
+    "acceptanceDocument": "docs/FRONTIER_SELF_CRITIQUE.md",
+    "status": "in_progress",
+    "description": "Prove Rapier embodied traversal end-to-end: walk, sprint, jump, terrain collision, structure collision, camera mode separation, fresh-process reload. Stop adding breadth; start adding depth.",
+    "recentCommits": [
+      "e0ca9b3 fix: resolve merge conflict markers in EditorLayout, crash-report, FrontierPanel",
+      "0eed640 merge: resolve conflicts, keep playtest + architect fixes",
+      "bf562fc feat: playtest mode + architect world-awareness + chat scroll fix",
+      "455f5d6 feat(physics): authoritative PhysicsRuntime + maturity ladder + evidence system"
+    ]
+  },
+  "criticalBlockers": [
+    {
+      "id": "no-canonical-test-command",
+      "severity": "high",
+      "description": "package.json has no `test` script. Conformance tests must be run individually as standalone TypeScript files. ai:check cannot verify test pass/fail in one command.",
+      "evidence": "package.json scripts section"
+    },
+    {
+      "id": "typecheck-fails",
+      "severity": "high",
+      "description": "bun run typecheck exits non-zero (lastRunExitCode is in commands.typecheck.lastRunExitCode). 12+ TypeScript errors in src/engine/studio/* and src/lib/determinism/hash.ts. Most are missing re-exports from src/engine/studio/types.ts (CapabilityId, EntityId, PluginId, Tick).",
+      "evidence": "Run `bun run typecheck` to see the full list. The exact exit code may vary (1 or 2) depending on tsc's error classification."
+    },
+    {
+      "id": "tsbuildinfo-tracked",
+      "severity": "low",
+      "description": "tsconfig.tsbuildinfo is tracked in git but should be gitignored (it is in .gitignore but was committed before being added). Causes spurious dirty state.",
+      "evidence": "git status shows ` M tsconfig.tsbuildinfo` despite .gitignore entry."
+    },
+    {
+      "id": "world-ownership-unresolved",
+      "severity": "medium",
+      "description": "Multiple modules touch world state without a single canonical owner. See authoritativeSystems.world.",
+      "evidence": "src/engine/world/world-fabric.ts, src/engine/frontier/world-asset-store.ts, src/engine/studio/transactions.ts"
+    },
+    {
+      "id": "asset-system-fragmented",
+      "severity": "medium",
+      "description": "Multiple asset registries exist. See authoritativeSystems.assets.",
+      "evidence": "src/engine/assets/, src/engine/studio/asset-registry.ts, src/engine/frontier/world-asset-store.ts"
+    },
+    {
+      "id": "z3-runtime-initialization",
+      "severity": "high",
+      "description": "Z3 WASM runtime fails to initialize (threading issue). Z3 verifier is BLOCKED_RUNTIME_INITIALIZATION.",
+      "evidence": "src/engine/architect/z3-verifier/index.ts; docs/FRONTIER_SELF_CRITIQUE.md"
+    },
+    {
+      "id": "competing-context-sources",
+      "severity": "medium",
+      "description": "Multiple context sources compete for AI attention without enforced precedence: AGENTS.md, README.md, worklog.md, roadmap-state.json, recovery-manifest.json, agent-ctx/, .prime/agent/, docs/, engine-architecture/, corpus-extension/. The .ai/authority-map.json defines precedence; ai:check enforces it.",
+      "evidence": "Repository root and .ai/authority-map.json"
+    }
+  ],
+  "requiredEnvironmentVariables": [
+    {
+      "name": "DATABASE_URL",
+      "purpose": "Prisma SQLite connection string",
+      "required": true,
+      "hasDefault": false,
+      "source": ".env (gitignored)"
+    }
+  ],
+  "currentHandoff": {
+    "taskId": "AI-REPO-SYSTEM",
+    "path": "handoffs/AI-REPO-SYSTEM/",
+    "status": "in_progress",
+    "description": "Create the AI-native repository handoff and introspection system per the 1327-line directive."
+  },
+  "activeArchitectureDecisions": [
+    {
+      "id": "ADR-001",
+      "title": "Use Rapier KinematicCharacterController (not dynamic + impulses)",
+      "status": "accepted",
+      "source": "src/engine/runtime/physics-runtime.ts"
+    },
+    {
+      "id": "ADR-002",
+      "title": "PhysicsRuntime is a plain TypeScript class, not a React hook",
+      "status": "accepted",
+      "source": "src/engine/runtime/physics-runtime.ts"
+    },
+    {
+      "id": "ADR-003",
+      "title": "Fixed 60Hz timestep with accumulator and MAX_SUBSTEPS=4",
+      "status": "accepted",
+      "source": "src/engine/runtime/physics-runtime.ts"
+    },
+    {
+      "id": "ADR-004",
+      "title": "Bible and engine-architecture corpora are FROZEN",
+      "status": "accepted",
+      "source": "worklog.md (testimony); enforced by AGENTS.md"
+    },
+    {
+      "id": "ADR-005",
+      "title": "Use Webpack (not Turbopack) for dev server due to Rapier WASM",
+      "status": "accepted",
+      "source": "package.json scripts.dev (--webpack flag)"
+    }
+  ],
+  "contextProfileLink": {
+    "path": ".ai/context-profiles.json",
+    "description": "Profiles for core/ui/engine/authorial/physics/terrain. Use `bun run ai:context <profile>` (future) to load only the relevant context for a task."
+  },
+  "honestMaturityBySubsystem": {
+    "visionAndArchitecture": "extensive",
+    "deterministicSimulationModules": "pure-prototype",
+    "editorShell": "prototype",
+    "crashObservatory": "working",
+    "transformEditing": "fixed-via-transform-proxy",
+    "terrainPipeline": "laboratory",
+    "physicsAndEmbodiment": "experimental",
+    "grandArchitectControlPlane": "interface-prototype",
+    "visualEvidenceFabric": "schema-prototype",
+    "productionReadiness": "not-established",
+    "rapier": "instantiated",
+    "z3": "blocked-runtime-initialization",
+    "cedar": "exercised",
+    "3dTilesRendererJS": "importable",
+    "gltfTransform": "exercised-on-trivial-fixture",
+    "planningRouter": "specified-only",
+    "multiSolver": "hardcoded-reference-fixture",
+    "bible": "heuristic-candidate-extractor"
+  }
+}

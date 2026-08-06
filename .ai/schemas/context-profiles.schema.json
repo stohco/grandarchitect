@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://grandarchitect.local/schemas/context-profiles.schema.json",
+  "title": "Grand Architect Context Profiles",
+  "type": "object",
+  "required": ["$schema", "schemaVersion", "profiles"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string" },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["includes"],
+        "additionalProperties": false,
+        "properties": {
+          "extends": { "type": "string" },
+          "description": { "type": "string" },
+          "includes": { "type": "array", "items": { "type": "string" } },
+          "excludes": { "type": "array", "items": { "type": "string" } },
+          "maxApproxTokens": { "type": "integer", "minimum": 1000 },
+          "rationale": { "type": "string" },
+          "retrievalRoots": { "type": "array", "items": { "type": "string" } },
+          "retrievalHint": { "type": "string" }
+        }
+      }
+    },
+    "taskSpecificProfiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": { "type": "string" },
+        "example": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "taskId": { "type": "string" },
+            "extends": { "type": "string" },
+            "includes": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "onUnknownTask": { "type": "string" },
+        "onMultipleProfiles": { "type": "string" }
+      }
+    }
+  }
+}

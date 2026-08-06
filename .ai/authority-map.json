@@ -1,0 +1,149 @@
+{
+  "$schema": "./schemas/authority-map.schema.json",
+  "schemaVersion": "1.0.0",
+  "description": "Truth precedence hierarchy for Grand Architect. When sources disagree, the higher-ranked source wins for the question it actually addresses. Lower-ranked sources are testimony, not proof. Always report conflicts rather than silently picking one source.",
+  "precedence": [
+    {
+      "rank": 1,
+      "kind": "executed-code-and-config",
+      "description": "Current checked-out implementation: source files, package.json, tsconfig, prisma/schema.prisma, next.config.ts, Caddyfile. This is the ground truth of what the system does right now.",
+      "canonicalPaths": [
+        "src/",
+        "package.json",
+        "tsconfig.json",
+        "prisma/schema.prisma",
+        "next.config.ts",
+        "Caddyfile"
+      ],
+      "owner": "git-history",
+      "updateMechanism": "git commit on main branch (or approved worktree branch)",
+      "canOverride": [],
+      "cannotOverride": []
+    },
+    {
+      "rank": 2,
+      "kind": "test-and-evidence",
+      "description": "Reproducible behavior from the current SHA: conformance tests, browser traces, replay hashes, captured artifacts under evidence/ or artifacts/. A test that does not run on the current SHA is not evidence.",
+      "canonicalPaths": [
+        "src/**/conformance-test.ts",
+        "src/engine/frontier/*-test.ts",
+        "evidence/",
+        "artifacts/"
+      ],
+      "owner": "test-author",
+      "updateMechanism": "test runner + evidence capture script",
+      "canOverride": ["maintained-documentation", "worklog-or-self-report", "screenshot"],
+      "cannotOverride": ["executed-code-and-config"]
+    },
+    {
+      "rank": 3,
+      "kind": "generated-manifest",
+      "description": "Machine-generated index derived from ranks 1 and 2: .ai/project.manifest.json, .ai/architecture.graph.json, .ai/capabilities.json, etc. These are navigation aids, not independent truth. They must be regenerated when the codebase changes.",
+      "canonicalPaths": [
+        ".ai/project.manifest.json",
+        ".ai/architecture.graph.json",
+        ".ai/capabilities.json",
+        ".ai/actions.json",
+        ".ai/routes.json",
+        ".ai/tests.json",
+        ".ai/maturity.json",
+        ".ai/known-failures.json"
+      ],
+      "owner": "scripts/ai-context/build.ts",
+      "updateMechanism": "bun run ai:build",
+      "canOverride": ["maintained-documentation", "worklog-or-self-report", "screenshot"],
+      "cannotOverride": ["executed-code-and-config", "test-and-evidence"]
+    },
+    {
+      "rank": 4,
+      "kind": "accepted-decision",
+      "description": "Architectural and product intent that has been accepted: ADRs in docs/decisions/, decisions recorded in src/engine/architect/decision-ledger.ts, accepted milestone documents. Intent, not implementation.",
+      "canonicalPaths": [
+        "docs/decisions/",
+        "docs/milestones/",
+        "src/engine/architect/decision-ledger.ts"
+      ],
+      "owner": "decision-author",
+      "updateMechanism": "ADR proposal + acceptance",
+      "canOverride": ["maintained-documentation", "worklog-or-self-report", "screenshot"],
+      "cannotOverride": ["executed-code-and-config", "test-and-evidence", "generated-manifest"]
+    },
+    {
+      "rank": 5,
+      "kind": "maintained-documentation",
+      "description": "Human explanation of intent and design: AGENTS.md, README.md, docs/product/engineering-principles.md, engine-architecture/ spec, corpus-extension/ Bible. Documentation lags code. When it conflicts with code, code wins.",
+      "canonicalPaths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/",
+        "engine-architecture/",
+        "corpus-extension/"
+      ],
+      "owner": "doc-author",
+      "updateMechanism": "manual edit + review",
+      "canOverride": ["worklog-or-self-report", "screenshot"],
+      "cannotOverride": [
+        "executed-code-and-config",
+        "test-and-evidence",
+        "generated-manifest",
+        "accepted-decision"
+      ]
+    },
+    {
+      "rank": 6,
+      "kind": "worklog-or-self-report",
+      "description": "Historical testimony: worklog.md, roadmap-state.json status fields, agent-ctx/ notes, recovery-manifest.json, retrofit-audit-report.md. Useful for context, never proof of current state.",
+      "canonicalPaths": [
+        "worklog.md",
+        "roadmap-state.json",
+        "agent-ctx/",
+        "recovery-manifest.json",
+        "retrofit-audit-report.md"
+      ],
+      "owner": "iterating-agent",
+      "updateMechanism": "append on each iteration",
+      "canOverride": ["screenshot"],
+      "cannotOverride": [
+        "executed-code-and-config",
+        "test-and-evidence",
+        "generated-manifest",
+        "accepted-decision",
+        "maintained-documentation"
+      ]
+    },
+    {
+      "rank": 7,
+      "kind": "screenshot",
+      "description": "Visual evidence of one state at one instant in one browser. PNGs at repository root (*.png), evidence/ captures. A screenshot cannot prove a behavior persists across processes, browsers, or rebuilds.",
+      "canonicalPaths": [
+        "*.png",
+        "evidence/screenshots/",
+        "artifacts/video/"
+      ],
+      "owner": "capture-script",
+      "updateMechanism": "manual or scripted capture",
+      "canOverride": [],
+      "cannotOverride": [
+        "executed-code-and-config",
+        "test-and-evidence",
+        "generated-manifest",
+        "accepted-decision",
+        "maintained-documentation",
+        "worklog-or-self-report"
+      ]
+    }
+  ],
+  "conflictPolicy": "When sources disagree, do not silently pick one. Report the conflict in the completion report and follow the highest authoritative source that actually addresses the question. A worklog entry never overrides code. A screenshot never overrides a test. A README never overrides package.json.",
+  "knownDriftExamples": [
+    {
+      "description": "README references bun run typecheck; package.json must define that script or the doctor must report it missing.",
+      "documents": ["README.md", "package.json"],
+      "check": "ai:check verifies every command named in README.md exists as a package.json script."
+    },
+    {
+      "description": "worklog.md claims a milestone COMPLETE; the conformance test for that milestone must still pass on the current SHA or the claim is downgraded to testimony.",
+      "documents": ["worklog.md", "src/**/conformance-test.ts"],
+      "check": "ai:check runs conformance tests and compares pass/fail to worklog claims."
+    }
+  ]
+}

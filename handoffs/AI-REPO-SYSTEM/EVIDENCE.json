@@ -1,0 +1,141 @@
+{
+  "$schema": "../../.ai/schemas/handoff-evidence.schema.json",
+  "schemaVersion": "1.0.0",
+  "taskId": "AI-REPO-SYSTEM",
+  "claims": [
+    {
+      "claim": "bun run ai:doctor runs and prints a useful report",
+      "status": "proven",
+      "evidence": [
+        "scripts/ai-context/doctor.ts",
+        "package.json scripts.ai:doctor"
+      ],
+      "commands": [
+        {
+          "command": "bun run ai:doctor",
+          "exitCode": 0,
+          "notes": "Prints repository name, commit, branch, dirty state, product maturity, current milestone, verified commands, authoritative paths, critical blockers, manifest freshness, and read-next pointers."
+        }
+      ]
+    },
+    {
+      "claim": "bun run ai:check runs and either passes (exit 0) or fails (exit 1) with specific drift messages",
+      "status": "proven",
+      "evidence": [
+        "scripts/ai-context/check.ts"
+      ],
+      "commands": [
+        {
+          "command": "bun run ai:check",
+          "exitCode": 0,
+          "notes": "Runs 15 checks: README command existence, manifest validity, authority-map ranks, context-profiles required profiles, manifest SHA freshness, command verified-not-null, entrypoint paths, handoff path, shim byte-equality, schemas, hierarchical AGENTS.md, .gitignore patterns, handoff STATE.json, root PNG warning, handoff SHA match."
+        }
+      ]
+    },
+    {
+      "claim": "bun run ai:build runs and refreshes .ai/project.manifest.json provenance + command exit codes",
+      "status": "proven",
+      "evidence": [
+        "scripts/ai-context/build.ts"
+      ],
+      "commands": [
+        {
+          "command": "bun run ai:build",
+          "exitCode": 0,
+          "notes": "Refreshes provenance (commit, branch, dirty, dirtyReason, generatedAt), refreshes commands (verified flag from package.json, expandsTo, lastRunExitCode for lint and typecheck). Preserves human-curated fields (milestone, blockers, ADRs, maturity)."
+        }
+      ]
+    },
+    {
+      "claim": "Tool shims (CLAUDE.md, GEMINI.md, .github/copilot-instructions.md) are byte-identical except for the first two lines",
+      "status": "proven",
+      "evidence": [
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".github/copilot-instructions.md",
+        "scripts/ai-context/lib.ts:shimsMatch"
+      ],
+      "commands": [],
+      "notes": "shimsMatch() reads each file, slices off the first two lines (title + tagline), and compares the rest byte-for-byte. All three shims were generated from the same template."
+    },
+    {
+      "claim": "AGENTS.md is under ~2 pages",
+      "status": "proven",
+      "evidence": [
+        "AGENTS.md"
+      ],
+      "commands": [],
+      "notes": "AGENTS.md is now ~110 lines (was 169). Contains: product, read-first, authority precedence, verified commands, hard rules, change discipline, required evidence, architectural boundaries, completion report format, where deeper information lives. Extended essays moved to docs/product/engineering-principles.md."
+    },
+    {
+      "claim": "Hierarchical AGENTS.md files exist for src/engine, src/components/editor, src/app/api",
+      "status": "proven",
+      "evidence": [
+        "src/engine/AGENTS.md",
+        "src/components/editor/AGENTS.md",
+        "src/app/api/AGENTS.md"
+      ],
+      "commands": []
+    },
+    {
+      "claim": "The README references bun run typecheck and package.json defines it (historical drift fixed; ai:check enforces it going forward)",
+      "status": "proven",
+      "evidence": [
+        "README.md (Quick Start section)",
+        "package.json scripts.typecheck = tsc --noEmit",
+        "scripts/ai-context/check.ts (extractBunRunScripts reads README.md, compares to package.json scripts)"
+      ],
+      "commands": [
+        {
+          "command": "bun run typecheck",
+          "exitCode": 1,
+          "notes": "Script exists. Currently produces 12+ TypeScript errors in src/engine/studio/* and src/lib/determinism/hash.ts. The directive's drift example (typecheck script missing) has been fixed. The remaining type errors are an open blocker tracked in the manifest."
+        }
+      ]
+    },
+    {
+      "claim": ".ai/project.manifest.json uses the actual git SHA e0ca9b3161a030733c5c9cc16435669265eda9d0 and actual package.json scripts",
+      "status": "proven",
+      "evidence": [
+        ".ai/project.manifest.json (provenance.commit field)",
+        "git rev-parse HEAD output: e0ca9b3161a030733c5c9cc16435669265eda9d0",
+        "package.json scripts (dev, build, lint, typecheck, db:push, db:generate, db:migrate, db:reset, ai:doctor, ai:check, ai:build)"
+      ],
+      "commands": [
+        {
+          "command": "git rev-parse HEAD",
+          "exitCode": 0,
+          "notes": "e0ca9b3161a030733c5c9cc16435669265eda9d0"
+        }
+      ]
+    },
+    {
+      "claim": "Unknown authoritative paths are marked status: unknown with a reason — not invented",
+      "status": "proven",
+      "evidence": [
+        ".ai/project.manifest.json authoritativeSystems.assets: { status: 'unknown', reason: 'Multiple asset systems exist (src/engine/assets/, src/engine/studio/asset-registry.ts, src/engine/frontier/world-asset-store.ts). No single canonical owner declared.' }",
+        ".ai/project.manifest.json authoritativeSystems.world: { status: 'partial', reason: '...ownership not fully resolved...' }"
+      ],
+      "commands": []
+    },
+    {
+      "claim": ".gitignore excludes runtime data, backups, logs, tsconfig.tsbuildinfo, data/, tool-results/, agent-ctx/, upload/",
+      "status": "proven",
+      "evidence": [
+        ".gitignore",
+        "scripts/ai-context/check.ts (runChecks step 12 verifies requiredIgnores)"
+      ],
+      "commands": []
+    },
+    {
+      "claim": "ai:check detects the directive's reference drift class (README references commands not in package.json)",
+      "status": "proven",
+      "evidence": [
+        "scripts/ai-context/check.ts:extractBunRunScripts reads README.md and compares to package.json scripts",
+        "scripts/ai-context/lib.ts:extractBunRunScripts regex /bun\\s+run\\s+([a-zA-Z0-9:_-]+)/g"
+      ],
+      "commands": [],
+      "notes": "If a future commit removes the typecheck script from package.json but leaves the README reference, ai:check will fail with: 'README references `bun run typecheck` but no such script exists in package.json'."
+    }
+  ]
+}

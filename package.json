@@ -12,7 +12,10 @@
     "db:push": "prisma db push --accept-data-loss",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "ai:doctor": "bun run scripts/ai-context/doctor.ts",
+    "ai:check": "bun run scripts/ai-context/check.ts",
+    "ai:build": "bun run scripts/ai-context/build.ts"
   },
   "dependencies": {
     "3d-tiles-renderer": "^0.5.0",

@@ -1,169 +1,128 @@
-# AGENTS.md
+# Grand Architect Agent Instructions
 
-This file governs all work in this project. Every agent, every task, every layer. Read it before you start. Honor it while you work. Cite it when you push back.
-
----
-
-## Part 1 — Ponytail (engineering discipline)
-
-- Do not preserve backward compatibility. Remove obsolete paths instead of adding compatibility layers, fallbacks, or migrations.
-- Choose the simplest implementation that fully meets the current requirements. Avoid speculative abstractions, configuration, and indirection.
-- Grow the system in layers. Start from the smallest version that works end to end, and add each new capability on top of a product that already works. Never trade a working product for unfinished complexity.
-- Keep components modular and concerns clearly separated.
-- Prefer established, well-maintained libraries when they reduce overall complexity or improve reliability. Do not reimplement common functionality without a clear reason.
-- Lean on the dependencies already in the project before writing your own implementation or adding packages. Do not assume a library lacks a capability without checking its documentation and types.
-- Make architectural decisions for the long term. Do not accept a stopgap that only works for now and is meant to be replaced later.
-- Study how established products solve the problem before designing a solution. Adopt their proven patterns and conventions rather than inventing an approach from scratch.
-
-## Part 2 — Karpathy skills (agent behavior)
-
-- Think before coding. State assumptions, surface tradeoffs, push back when warranted.
-- Simplicity first. Minimum code that solves the problem. Nothing speculative.
-- Surgical changes. Touch only what you must. Clean up only your own mess.
-- Goal-driven execution. Define success criteria. Loop until verified.
-
-These bias toward caution over speed. For trivial tasks (typo fixes, obvious one-liners), skip the rigor. The goal is reducing costly mistakes on non-trivial work, not slowing down simple changes.
-
-## Part 3 — Lessons from the xianxia design corpus (engine, not just brake)
-
-These principles are distilled from two rounds of harsh critique on a large design-research corpus. That corpus was the most rigorous negative-feedback control system I have ever reviewed — and it had no positive-feedback design engine. Every principle below exists to prevent that failure mode. Read them as the engine Ponytail and Karpathy do not provide.
-
-### Build the engine, not just the brake
-Every forbidding rule must be paired with a positive specification of what you are building toward. A document of prohibitions produces disciplined emptiness. Before adding another gate, ask: what does this gate unlock? If the answer is "more gates," do not write it. State the experience, the outcome, or the capability — not just the constraint.
-
-### Make decisions; do not defer in the name of rigor
-"Defer / select none" is not intellectual honesty when it is the answer to every fork. A research program that preserves every option forever ships nothing. Close a door. If the decision is wrong, the world will tell you. The cost of a wrong decision is almost always lower than the cost of no decision multiplied by the number of forks remaining.
-
-### Authorize the smallest end-to-end thing that works
-A binary "research / production" gate with a "measured evidence required" exit is a closed loop if measurement requires code. Break it. Authorize narrowly scoped prototypes as research artifacts — one verb, one scene, one transaction — and let measured evidence replace hypothesis. The smallest thing that runs teaches more than the largest thing that is written about.
-
-### Exhibit reviewer voices; do not self-certify
-An audit that quotes no first-person objection, preserves no dissent, and names no reviewer is a position paper wearing a review's clothes. If you ran a review, sign it. If a reviewer disagreed, quote them. Uniform "every finding repaired" closure is the tell that no real review happened.
-
-### Do not confuse the apparatus with the work
-Governance, ontologies, contradiction registers, test architectures, and red-team checklists are apparatus. They are useful only in service of work someone wants to use. If the apparatus is growing and the work is not, you are building a cathedral of governance for a faith with no congregation. Audit the ratio: every page of apparatus should produce at least one page of experience.
-
-### Confront the central tension directly
-Every domain has a central tension between what the doctrine forbids and what the genre/tradition/user expects. Xianxia forbids power acceleration; xianxia readers want power acceleration. Do not dissolve the tension by redefinition and then assert the residue is "worth it." Name the tension, choose a side, defend the choice, and provide a positive account of what the user gets instead.
-
-### Design for joy first; the system serves the experience
-Before any ontology, before any contract, before any test architecture, answer: what does the player do in the first hour, and why do they want a second hour? Session 1, session 10, session 100. The first verb. The first awe. The first failure that teaches. The loop. The thing you tell a friend. If this cannot be written, no amount of system rigor will save the project.
-
-### Cite the precedent; do not float above it
-Every claim about readability, feel, pacing, or fun must be anchored to a shipped product. "Readable counterplay" means what — as readable as Sekiro's deflection window? As Monster Hunter's tell animations? Name the game, name the mechanic, name the number. Uncalibrated thresholds are aspiration dressed as engineering.
-
-### Police historical derivation as rigorously as literary derivation
-If your originality apparatus has twelve tests for "did you copy a novel" and zero tests for "did you silently import a 16th-century social structure as universal," the apparatus is asymmetric. Derivation from history is still derivation. Name the base; audit the base; do not pretend a late-imperial synthesis is an original universe because the proper nouns were changed.
-
-### Engage the primary source, not the secondary summary
-A research record built on anglophone academic summaries of a tradition will inherit every emphasis and silence of those summaries. Go to the primary text. Cite the edition. Translate the passage. If you cannot read the source language, name the reviewer who can. A claim sourced from a teaching packet is not the same epistemic object as a claim sourced from the text itself.
-
-### Add exits, not gates
-Every governance addition should be measured by whether it reduces the distance from today to a working thing. A new gate that depends on three other unresolved gates multiplies the closure time. A new exit that lets one subsystem proceed while others wait divides it. Prefer exits.
-
-### State the calendar and the budget
-Per-track hours without a project-level timeline is a ceiling without a floor. Name the date. Name the budget. Name the staffing. A governance system designed for a fifty-person research institute, run by fewer people than that, is a machine for producing bounded unknowns forever. The honesty about scale is itself a deliverable.
-
-### Ship the working thing before the perfect thing
-The smallest end-to-end working product teaches more than the largest incomplete vision. A mortal village that runs in a browser for one hour, with one verb that feels good, is worth more than ten thousand lines of design doctrine about a century-spanning multiverse. Ship the valley. If the valley feels hollow, you have learned the most important thing you could learn — and you have learned it now, not after another year of governance.
-
-## Part 4 — David Ondrej skills (the workflow toolkit)
-
-Source: `github.com/davidondrej/skills` (MIT, 3.0k stars, verified Aug 2026). A library of reusable agent skills grouped into five categories. These are the workflow tools — use them when the task calls for them, not as ambient context. Each skill loads on demand.
-
-### Thinking and docs — use these before and after building
-
-- **`/before-building`** — fire the instant a build is proposed. Surface the 1-3 truly consequential choices hidden in the idea (one-off vs. repeated later, few lines vs. proper module, biggest thing it could break). Gut answer, no tool calls, then stop and wait. This is the Ponytail §8 "study established products" and Karpathy §1 "think before coding" made into a single reflex. Use it before every non-trivial build.
-- **`/decisions`** — after a work session, list the choices made that you are not confident about. Retrospective; surfaces the doubts. Pair with Part 3's "Exhibit reviewer voices" — this is how you self-audit instead of self-certify.
-- **`/next-decision`** — drill open decisions one at a time: present the most important unresolved decision, give four choices, state a preference, ask the user, then stop. Forward-looking; the complement to `/decisions`. Use when a plan has several unresolved forks and you are tempted to defer all of them (Part 3's "Make decisions" failure mode).
-- **`/before-building` → `/decisions` → `/next-decision`** is the decision loop. Before = surface choices. During = do the work. After = surface doubts. Next = pick the next unresolved one. Do not let more than one round of this loop pass without closing a decision.
-
-### Skill authoring — use when writing or revising skills
-
-- **`effective-agent-skills`** — the consolidated reference on how to write SKILL.md files: progressive disclosure, design patterns, anti-patterns, testing, security. Read this whenever a skill is being created, edited, or reviewed. Do not write a SKILL.md without it.
-
-### Research and web — use for the xianxia source research
-
-- **`deep-research`** — find and pull information from the web, research APIs, browsers, and YouTube. Use for the primary-source research the xianxia corpus requires (齊民要術, 王禎農書, 天工開物, 大清律例, 地方志, 族譜).
-- **`research-prompt`** — a structured prompt for research tasks. Use when the research question is ambiguous and needs scoping before fetching sources.
-- **`browser-harness`** — browser automation for research. Use when a source requires interaction (scrolling, clicking, login) to access.
-
-### Agent orchestration — use for the prototype build
-
-- **`launch-subagent`** / **`codex-subagent`** — delegate work to a subagent. Use for parallelizable prototype tasks (e.g., the determinism module and the asset pipeline can proceed in parallel).
-- **`handoff`** — pass work between agents with a clean context. Use when a task crosses the boundary between the lore work and the code work.
-- **`goal-loop`** — run an agent against a goal until verified. Use for the prototype's "build → test → fix → re-test until the hash matches" loop (Karpathy §4).
-- **`gpt-review`** / **`fable-review`** — independent review of agent output. Use to satisfy Part 3's "Exhibit reviewer voices" — an actual second pass, not a self-certified audit.
-
-### Ops and setup — use for the platform work
-
-- **`global-agent-guardrails`** — cross-cutting safety rules. Use as a baseline before any ops work.
-- **`vps-server-management`** — server setup. Use for self-hosting (required for COOP+COEP per the Three.js research; GitHub Pages will not work).
-
-### How to use these skills
-
-- **Load on demand, not ambiently.** A skill loaded into context that is not being used is context tax. Ponytail §2: avoid speculative abstractions, and that includes speculative context.
-- **Prefer the slash command.** `/before-building`, `/decisions`, `/next-decision` are designed to be invoked at the moment of need. Do not pre-load them.
-- **The skills are tools, not doctrine.** Parts 1-3 are the doctrine that governs *how* and *what*. Part 4 is the toolkit for *when* and *how to execute*. A skill used badly (e.g., `/next-decision` invoked to defer rather than to decide) violates Part 3 even though the skill itself is sound.
+This file is the **constitution**. Every agent, every task, every layer reads it
+first. For the *why* behind these rules, see `docs/product/engineering-principles.md`.
+For verified commands and current state, see `.ai/project.manifest.json`.
 
 ---
 
-## How to use this file
+## Product
 
-- Before starting any task: read Parts 1 and 2. They govern how you work.
-- Before designing anything: read Part 3. It governs what you work toward.
-- When the task calls for a workflow tool: consult Part 4. Load the skill on demand.
-- When you find yourself adding a gate, a contract, or a red-team test: stop. Ask whether you are adding brake or engine. If only brake, also write the engine.
-- When you find yourself deferring a decision: ask whether deferral is honesty or refusal. If the latter, decide. Use `/next-decision` to make yourself pick.
+Grand Architect (a.k.a. *Live Architect Studio*) is a research-stage
+deterministic **xianxia multiverse engine** plus a **Live Architect Studio**
+editor. Built on Next.js 16 + React Three Fiber + Zustand + shadcn/ui +
+Prisma/SQLite + Rapier physics. **Not production-ready.** See
+`docs/FRONTIER_SELF_CRITIQUE.md` for honest maturity.
 
-## Part 5 — Autonomous Iteration Safety
+## Read first
 
-1. Every invocation must acquire an exclusive project lease. Never run two
-   modifying iterations concurrently.
+1. `.ai/START_HERE.md` — 2-minute onboarding.
+2. `.ai/project.manifest.json` — verified commands, blockers, maturity.
+3. The nearest directory-level `AGENTS.md` (`src/engine/`, `src/components/editor/`, `src/app/api/`).
+4. The active task handoff under `handoffs/<task-id>/` when assigned.
 
-2. Work must occur in an isolated Git worktree based on the last approved
-   commit. Failed iterations must not alter the approved branch.
+## Authority precedence (high → low)
 
-3. The machine-readable roadmap state is authoritative. The worklog is
-   explanatory and must not independently determine the next task.
+1. **Executed source code and configuration** (src/, package.json, tsconfig, prisma).
+2. **Reproducible tests and captured evidence** (conformance tests, browser traces).
+3. **Generated `.ai/*.json` manifests** (navigation aids, regenerated by `ai:build`).
+4. **Accepted decisions** (ADRs, decision-ledger entries).
+5. **Maintained documentation** (AGENTS.md, README, docs/, specs, Bible).
+6. **Worklogs and agent self-reports** (testimony, not proof).
+7. **Screenshots** (one state at one instant).
 
-4. A task is complete only when all declared acceptance tests, security tests,
-   replay tests, and applicable performance budgets pass.
+When sources disagree, **report the conflict** and follow the highest source
+that actually addresses the question. A worklog never overrides code. A
+screenshot never overrides a test. A README never overrides package.json.
+See `.ai/authority-map.json`.
 
-5. The implementer may not be the only evaluator. Every change requires a
-   separate adversarial review and test-audit stage.
+## Verified commands
 
-6. Do not modify AGENTS.md, permission boundaries, authentication, audit
-   systems, branch protections, the autonomous runner, or its approval logic
-   without an explicitly authorized security task.
+Run `bun run ai:doctor` first. It prints the exact SHA, dirty state, verified
+commands, current milestone, and critical blockers. Then use **only** commands
+reported by `.ai/project.manifest.json`. Do not invent scripts.
 
-7. The Grand Architect Control Plane must be implemented in progressive
-   authority levels: Observe, Diagnose, Sandbox, Branch, Integrate, Release.
-   Never silently expand the agent's own authority.
+The `bun run typecheck` script **exists** but currently exits with code 1
+(type errors in `src/engine/studio/*` and `src/lib/determinism/hash.ts`).
+This is an open blocker — see the manifest.
 
-8. Do not install or adopt a dependency until license, maintenance, browser
-   compatibility, security, deterministic impact, bundle impact, and adapter
-   strategy are recorded and validated in an isolated research workspace.
+## Hard rules
 
-9. Architecture documents are baselined and change-controlled, not infallible.
-   Change architecture only when implementation evidence demonstrates a
-   blocker or contradiction, and record the decision formally.
+- **No backward compatibility.** Remove obsolete paths instead of adding fallbacks.
+- **No `Math.random()`** in simulation code. Use `src/lib/determinism/rng.ts`.
+- **No package installs** without an approved capability gap.
+- **No panels or endpoints** as substitutes for integration.
+- **No authoritative mutation in React components.** Engine state goes through
+  the canonical command/transaction path. `src/lib/editor/store.ts` is for
+  transient UI state only.
+- **No React state in physics hot path.** Use `PhysicsRuntime` (plain TS class).
+- **No modifying** `AGENTS.md`, permission boundaries, audit systems, branch
+  protections, or the autonomous runner without an explicitly authorized task.
+- **No treating** a 200 response, screenshot, registered type, API route, or
+  agent self-report as implementation proof. Tests + evidence are required.
 
-10. Authoritative simulation must use approved deterministic random and math
-    services. Presentation-only systems may use native floating-point functions
-    when they cannot affect authoritative outcomes.
+## Change discipline
 
-11. After three failed approaches to the same task, stop implementation and
-    produce a blocker report. Do not continue speculative patching.
+- Work on **one bounded acceptance criterion** at a time.
+- Touch only what you must. Clean up only your own mess.
+- Run `bun run lint` after code changes.
+- Run `bun run ai:check` before claiming a task is complete.
+- Update or create the relevant `handoffs/<task-id>/` bundle.
+- After three failed approaches, stop and produce a blocker report.
 
-12. Every accepted commit must include an evidence record containing commands,
-    results, replay hashes, benchmarks, changed capabilities, permission or
-    dependency changes, known limitations, and rollback instructions.
+## Required evidence
 
-13. A passing page load, successful compilation, or favorable VLM description
-    is never sufficient evidence of correctness.
+A claim of completion must include:
 
-14. Stop immediately on suspected repository corruption, save corruption,
-    credential exposure, unauthorized permission expansion, irreproducible
-    failures, or unexplained divergence from the approved base commit.
-- When you finish a task: cite which principles you honored and which you violated, and why. Use `/decisions` to surface the doubts you are not confident about. The citation is the review.
+- exact SHA after your work, and dirty state;
+- files changed;
+- commands run and their exit codes (especially `lint`, `typecheck`, conformance tests);
+- evidence artifacts (paths under `evidence/` or `artifacts/`);
+- known failures (honest — do not hide);
+- maturity assessment (honest — `prototype` not `complete`).
+
+## Architectural boundaries
+
+- **Engine** (`src/engine/`): kernel, plugin SDK, architect control plane,
+  simulation, frontier, studio. Mutates authoritative state only through
+  runtime command/transaction path. See `src/engine/AGENTS.md`.
+- **Editor UI** (`src/components/editor/`): view and control surface over
+  canonical actions. No authoritative mutation in components. See
+  `src/components/editor/AGENTS.md`.
+- **API routes** (`src/app/api/`): Next.js Route Handlers. Thin transport
+  layer over engine services. No business logic. See `src/app/api/AGENTS.md`.
+- **Determinism stack** (`src/lib/determinism/`): RNG, hashing,
+  serialization, fixed-point. Cross-browser hash parity proven.
+- **Bible** (`corpus-extension/`) and **architecture spec**
+  (`engine-architecture/`): **FROZEN**. No new docs unless a gap blocks
+  implementation.
+
+## Completion report format
+
+When you finish a task, report:
+
+```
+SHA:        <full SHA after your work>
+Dirty:      yes/no
+Files:      <list>
+Commands:   bun run lint → exit N
+            bun run typecheck → exit N
+            <conformance test paths> → exit N
+Evidence:   <paths under evidence/ or artifacts/>
+Known failures: <honest list, or "none">
+Maturity:   <honest assessment>
+Handoff:    handoffs/<task-id>/ updated
+```
+
+Then update the worklog (`worklog.md`) and the relevant handoff bundle.
+
+## Where deeper information lives
+
+- `docs/product/engineering-principles.md` — extended philosophy (the *why*).
+- `docs/FRONTIER_TECHNOLOGY_MATRIX.md` — frontier tech maturity matrix.
+- `docs/FRONTIER_SELF_CRITIQUE.md` — brutal honest evaluation.
+- `engine-architecture/` — frozen engine architecture spec (50 docs).
+- `corpus-extension/` — frozen xianxia design corpus (48 docs, the Bible).
+- `roadmap-state.json` — machine-readable phase/task roadmap.
+- `worklog.md` — historical iteration log (testimony, not proof).
+- `.ai/context-profiles.json` — load only relevant context per task.

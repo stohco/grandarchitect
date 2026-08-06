@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://grandarchitect.local/schemas/handoff-evidence.schema.json",
+  "title": "Grand Architect Task Handoff Bundle — EVIDENCE.json",
+  "description": "Schema for handoffs/<task-id>/EVIDENCE.json. Every completion claim must map to exact artifacts, commands, exit codes, tests, traces, hashes, or screenshots.",
+  "type": "object",
+  "required": ["$schema", "schemaVersion", "claims"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "taskId": { "type": "string" },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "claim": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["proven", "failed", "blocked", "unverified"]
+          },
+          "evidence": { "type": "array", "items": { "type": "string" } },
+          "commands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "command": { "type": "string" },
+                "exitCode": { "type": "integer" },
+                "notes": { "type": "string" }
+              }
+            }
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

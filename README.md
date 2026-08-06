@@ -20,10 +20,16 @@ The Live Architect Studio is a Next.js 16 + React Three Fiber + Zustand + shadcn
 
 ```bash
 bun install
-bun run dev      # http://localhost:3000
-bun run lint     # ESLint
-bun run typecheck # TypeScript --noEmit
+bun run ai:doctor  # first command — prints SHA, blockers, verified commands
+bun run dev        # http://localhost:3000
+bun run lint       # ESLint
+bun run typecheck  # TypeScript --noEmit (currently exits 1; see ai:doctor)
+bun run ai:check   # consistency gate; fails on drift
 ```
+
+> **New agent?** Read `AGENTS.md` and `.ai/START_HERE.md` first. The
+> `.ai/project.manifest.json` file is the verified machine-readable front
+> door — never run a command that isn't listed there as `verified: true`.
 
 ## Tech Stack
 

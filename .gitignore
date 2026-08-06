@@ -1,3 +1,18 @@
+# =============================================================================
+# .gitignore — Grand Architect
+# =============================================================================
+# Rules:
+# 1. Runtime data, backups, logs, build outputs, secrets, and obsolete
+#    screenshots are NEVER tracked.
+# 2. AI-context manifests under .ai/ ARE tracked (they are the machine-readable
+#    front door for new agents). Only .ai/generated/ is ephemeral.
+# 3. Do NOT globally ignore *.png — a game engine needs tracked images
+#    (icons, UI assets, test goldens, reference captures, docs).
+# 4. The handoffs/ bundles ARE tracked. Only handoffs/*/artifacts/ is ephemeral.
+# 5. Historical testimony (worklog.md, roadmap-state.json, recovery-manifest.json,
+#    retrofit-audit-report.md) IS tracked but downranked in .ai/authority-map.json.
+# =============================================================================
+
 # Dependencies
 node_modules/
 .pnp
@@ -13,14 +28,15 @@ out/
 build/
 dist/
 
-# Production
+# Production build info
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 next-env.d.ts
 
 # Misc
 .DS_Store
-*.pem
 Thumbs.db
+*.pem
 
 # Debug
 npm-debug.log*
@@ -28,7 +44,7 @@ yarn-debug.log*
 yarn-error.log*
 bun-debug.log*
 
-# Local env files
+# Local env files (SECRETS — never track)
 .env
 .env*.local
 .env.development
@@ -82,7 +98,6 @@ downloaded_v2/
 # Do NOT globally ignore *.png — a game engine needs tracked images
 # (icons, UI assets, test goldens, reference captures, docs).
 /screenshots/
-/evidence/generated/
 /tool-results/*.png
 /crash-reports/*.png
 
@@ -102,4 +117,16 @@ recovery/
 run-dev.sh
 retry-curl.sh
 watchdog.sh
-tsconfig.tsbuildinfo
+
+# AI context tooling — generated manifests are tracked (they are part of the
+# repository's machine-readable front door), but generated *summaries* and
+# per-task artifacts are ephemeral.
+.ai/generated/
+handoffs/*/artifacts/
+
+# Evidence captures — ephemeral runtime evidence.
+# Hand-curated evidence under evidence/handpicked/ may be tracked.
+/evidence/generated/
+/evidence/traces/
+/evidence/video/
+/artifacts/
