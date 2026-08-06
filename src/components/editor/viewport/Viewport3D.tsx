@@ -18,7 +18,6 @@ import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, 
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
-import { useRapierPhysics } from '@/lib/editor/use-rapier-physics';
 import { CharacterController } from '@/components/editor/viewport/CharacterController';
 import type { StructureKind, CameraPreset, RenderMode, SerializableStructure } from '@/lib/editor/types';
 
@@ -320,91 +319,6 @@ function TransformGizmo() {
         />
       </group>
     </TransformControls>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Physics Simulation — Rapier WASM physics with falling debug cubes
-// ---------------------------------------------------------------------------
-
-function PhysicsSimulation({ structures }: { structures: SerializableStructure[] }) {
-  const physics = useRapierPhysics(true);
-  const meshRef = useRef<THREE.InstancedMesh>(null);
-  const initializedRef = useRef(false);
-
-  // Initialize: add static ground + static structure colliders + dynamic debug cubes.
-  useEffect(() => {
-    if (!physics.state.ready || initializedRef.current) return;
-    initializedRef.current = true;
-
-    // Add static ground plane (large flat box).
-    physics.addStaticBox({ x: 0, y: -0.5, z: 0 }, { x: 200, y: 1, z: 200 });
-
-    // Add static colliders for visible structures (first 20 to keep perf reasonable).
-    for (const s of structures.slice(0, 20)) {
-      const height = KIND_HEIGHTS[s.kind] ?? 2;
-      physics.addStaticBox(
-        { x: s.position.x, y: height / 2, z: s.position.z },
-        { x: s.width, y: height, z: s.depth },
-      );
-    }
-
-    // Add 10 dynamic falling cubes above the settlement for visual proof.
-    for (let i = 0; i < 10; i++) {
-      physics.addCharacterCapsule(
-        -1, // entityId -1 = debug physics body
-        {
-          x: (Math.random() - 0.5) * 30,
-          y: 20 + Math.random() * 10,
-          z: (Math.random() - 0.5) * 30,
-        },
-        0.5,
-        1,
-      );
-    }
-  }, [physics.state.ready, structures, physics]);
-
-  // Step physics every frame and update instanced mesh positions.
-  useFrame((_, delta) => {
-    if (!physics.state.ready) return;
-    physics.step(Math.min(delta, 1 / 30));
-
-    const bodies = physics.getBodyPositions();
-    if (meshRef.current && bodies.length > 0) {
-      const dummy = new THREE.Object3D();
-      for (let i = 0; i < bodies.length; i++) {
-        const body = bodies[i];
-        dummy.position.set(body.position.x, body.position.y, body.position.z);
-        dummy.quaternion.set(body.rotation.x, body.rotation.y, body.rotation.z, body.rotation.w);
-        dummy.updateMatrix();
-        meshRef.current.setMatrixAt(i, dummy.matrix);
-      }
-      meshRef.current.instanceMatrix.needsUpdate = true;
-    }
-  });
-
-  if (!physics.state.ready) {
-    return (
-      <Html position={[0, 30, 0]} center>
-        <div className="rounded bg-amber-500/20 px-3 py-1 text-[10px] text-amber-300 backdrop-blur-sm">
-          {physics.state.error ? `Physics error: ${physics.state.error}` : 'Initializing Rapier WASM…'}
-        </div>
-      </Html>
-    );
-  }
-
-  return (
-    <>
-      <instancedMesh ref={meshRef} args={[undefined, undefined, 20]} castShadow>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="#ff8800" roughness={0.5} metalness={0.3} />
-      </instancedMesh>
-      <Html position={[0, 35, 0]} center>
-        <div className="rounded bg-amber-500/20 px-3 py-1 text-[10px] text-amber-300 backdrop-blur-sm">
-          Rapier Physics ON — {physics.state.bodyCount} bodies, {physics.state.stepCount} steps
-        </div>
-      </Html>
-    </>
   );
 }
 

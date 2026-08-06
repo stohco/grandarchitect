@@ -3,22 +3,17 @@
  * ========================================================
  *
  * Per FRONTIER_TECHNOLOGY_MATRIX.md, Rapier is the S-tier candidate for
- * browser-facing physics. This hook initializes Rapier and provides
- * a physics world that the viewport can use for real collision detection,
- * character capsules, and rigid body simulation.
+ * browser-facing physics.
  *
- * Usage in Viewport3D:
- *   const physics = useRapierPhysics();
- *   if (physics.ready) {
- *     physics.addCharacterCapsule(entityId, position, radius, height);
- *     physics.step(dt);
- *   }
+ * CRITICAL: This hook uses refs for ALL mutable state to prevent render
+ * loops. The only React state is `ready` (boolean) and `error` (string),
+ * which change once during initialization. Everything else (body count,
+ * step count, positions) is read via refs, not state.
  */
 
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import type * as RapierType from '@dimforge/rapier3d-compat';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export interface PhysicsBody {
   bodyId: number;
@@ -32,22 +27,20 @@ export interface RapierPhysicsState {
   ready: boolean;
   error: string | null;
   version: string | null;
-  bodyCount: number;
-  stepCount: number;
 }
 
 export function useRapierPhysics(enabled: boolean) {
+  // Only `ready` and `error` are React state — they change ONCE during init.
   const [state, setState] = useState<RapierPhysicsState>({
     ready: false,
     error: null,
     version: null,
-    bodyCount: 0,
-    stepCount: 0,
   });
 
-  const worldRef = useRef<RapierType.World | null>(null);
-  const RapierRef = useRef<typeof RapierType | null>(null);
-  const bodiesRef = useRef<Map<number, { body: RapierType.RigidBody; entityId: number }>>(new Map());
+  // ALL hot-path data is in refs — never triggers re-render.
+  const worldRef = useRef<unknown>(null);
+  const RapierRef = useRef<unknown>(null);
+  const bodiesRef = useRef<Map<number, { body: unknown; entityId: number }>>(new Map());
   const nextBodyIdRef = useRef(0);
   const stepCountRef = useRef(0);
 
@@ -59,7 +52,6 @@ export function useRapierPhysics(enabled: boolean) {
     async function init() {
       try {
         const mod = await import('@dimforge/rapier3d-compat');
-        // The compat package may export via default or named exports.
         const Rapier = (mod as any).default ?? mod;
         await Rapier.init();
         if (cancelled) return;
@@ -68,33 +60,14 @@ export function useRapierPhysics(enabled: boolean) {
         const gravity = { x: 0, y: -9.81, z: 0 };
         worldRef.current = new Rapier.World(gravity);
 
-        setState((s) => ({
-          ...s,
+        setState({
           ready: true,
-          version: (Rapier as unknown as { version?: string }).version ?? 'unknown',
           error: null,
-        }));
+          version: typeof Rapier.version === 'function' ? Rapier.version() : 'unknown',
+        });
       } catch (err) {
         if (cancelled) return;
-        // Try fallback without wasmUrl (may work in some environments).
-        try {
-          const mod2 = await import('@dimforge/rapier3d-compat');
-          const Rapier2 = (mod2 as any).default ?? mod2;
-          await Rapier2.init();
-          if (cancelled) return;
-          RapierRef.current = Rapier2;
-          const gravity = { x: 0, y: -9.81, z: 0 };
-          worldRef.current = new Rapier2.World(gravity);
-          setState((s) => ({
-            ...s,
-            ready: true,
-            version: (Rapier as unknown as { version?: string }).version ?? 'unknown',
-            error: null,
-          }));
-        } catch (err2) {
-          if (cancelled) return;
-          setState((s) => ({ ...s, ready: false, error: (err2 as Error).message }));
-        }
+        setState({ ready: false, error: (err as Error).message, version: null });
       }
     }
 
@@ -103,21 +76,25 @@ export function useRapierPhysics(enabled: boolean) {
     return () => {
       cancelled = true;
       if (worldRef.current) {
-        worldRef.current.free();
+        try {
+          (worldRef.current as { free?: () => void }).free?.();
+        } catch {
+          // ignore
+        }
         worldRef.current = null;
       }
       bodiesRef.current.clear();
     };
   }, [enabled]);
 
-  const addCharacterCapsule = (
+  const addCharacterCapsule = useCallback((
     entityId: number,
     position: { x: number; y: number; z: number },
     radius = 0.4,
     height = 1.8,
   ): number | null => {
-    const Rapier = RapierRef.current;
-    const world = worldRef.current;
+    const Rapier = RapierRef.current as any;
+    const world = worldRef.current as any;
     if (!Rapier || !world) return null;
 
     const bodyDesc = Rapier.RigidBodyDesc.dynamic().setTranslation(position.x, position.y, position.z);
@@ -127,17 +104,15 @@ export function useRapierPhysics(enabled: boolean) {
 
     const bodyId = ++nextBodyIdRef.current;
     bodiesRef.current.set(bodyId, { body, entityId });
-    // Don't call setState here — it causes render loops when adding many bodies.
-    // Body count is read via getBodyPositions().length instead.
     return bodyId;
-  };
+  }, []);
 
-  const addStaticBox = (
+  const addStaticBox = useCallback((
     position: { x: number; y: number; z: number },
     size: { x: number; y: number; z: number },
   ): number | null => {
-    const Rapier = RapierRef.current;
-    const world = worldRef.current;
+    const Rapier = RapierRef.current as any;
+    const world = worldRef.current as any;
     if (!Rapier || !world) return null;
 
     const bodyDesc = Rapier.RigidBodyDesc.fixed().setTranslation(position.x, position.y, position.z);
@@ -147,55 +122,59 @@ export function useRapierPhysics(enabled: boolean) {
 
     const bodyId = ++nextBodyIdRef.current;
     bodiesRef.current.set(bodyId, { body, entityId: -1 });
-    // Don't call setState here — it causes render loops when adding many bodies.
     return bodyId;
-  };
+  }, []);
 
-  const removeBody = (bodyId: number): void => {
-    const Rapier = RapierRef.current;
-    const world = worldRef.current;
+  const removeBody = useCallback((bodyId: number): void => {
+    const Rapier = RapierRef.current as any;
+    const world = worldRef.current as any;
     if (!Rapier || !world) return;
     const entry = bodiesRef.current.get(bodyId);
     if (entry) {
       world.removeRigidBody(entry.body);
       bodiesRef.current.delete(bodyId);
     }
-  };
+  }, []);
 
-  const step = (dt: number): void => {
-    const world = worldRef.current;
+  const step = useCallback((dt: number): void => {
+    const world = worldRef.current as any;
     if (!world) return;
-    // Rapier's World.timestep is optional — only set if the property exists.
     try {
-      (world as unknown as { timestep: number }).timestep = dt;
+      world.timestep = dt;
     } catch {
-      // If timestep can't be set, use the default.
+      // default timestep
     }
     try {
       world.step();
     } catch {
-      // Step may fail if world is not fully initialized.
+      // not initialized
     }
     stepCountRef.current++;
-    // Don't call setState here — stepCount is read via ref, not state.
-    // Calling setState every 60 frames causes render loops with useFrame.
-  };
+  }, []);
 
-  const getBodyPositions = (): PhysicsBody[] => {
+  const getBodyPositions = useCallback((): PhysicsBody[] => {
     const bodies: PhysicsBody[] = [];
     for (const [bodyId, { body, entityId }] of bodiesRef.current) {
-      const pos = body.translation();
-      const rot = body.rotation();
-      bodies.push({
-        bodyId,
-        entityId,
-        position: { x: pos.x, y: pos.y, z: pos.z },
-        rotation: { x: rot.x, y: rot.y, z: rot.z, w: rot.w },
-        colliding: false,
-      });
+      const b = body as any;
+      try {
+        const pos = b.translation();
+        const rot = b.rotation();
+        bodies.push({
+          bodyId,
+          entityId,
+          position: { x: pos.x, y: pos.y, z: pos.z },
+          rotation: { x: rot.x, y: rot.y, z: rot.z, w: rot.w },
+          colliding: false,
+        });
+      } catch {
+        // body may be freed
+      }
     }
     return bodies;
-  };
+  }, []);
+
+  const getBodyCount = useCallback((): number => bodiesRef.current.size, []);
+  const getStepCount = useCallback((): number => stepCountRef.current, []);
 
   return {
     state,
@@ -204,5 +183,7 @@ export function useRapierPhysics(enabled: boolean) {
     removeBody,
     step,
     getBodyPositions,
+    getBodyCount,
+    getStepCount,
   };
 }
