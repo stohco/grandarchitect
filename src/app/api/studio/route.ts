@@ -5,7 +5,7 @@ import { toBufferGeometry, getMeshStats } from '@/engine/studio/mesh-kernel';
 import type { OperationType } from '@/engine/studio/operation-stack';
 import { generateStructure, defaultSectHallParams, defaultCottageParams } from '@/engine/studio/structure-grammar';
 import type { StructureGrammarParams } from '@/engine/studio/structure-grammar';
-import { autoUnwrap } from '@/engine/studio/mesh-operations';
+import { projectUVs } from '@/engine/studio/mesh-operations';
 import { exportToGLB } from '@/engine/studio/glb-export';
 import { generateCompleteCharacter } from '@/engine/studio/character-authoring';
 import { createDensityField, initializeMountainField, applyBrush, carveTunnel, extractSurface, getFieldStats } from '@/engine/studio/voxel-terrain-studio';
@@ -195,7 +195,7 @@ export async function POST(req: NextRequest) {
       }
       const kernel = evaluateStack(stack);
       const mode = (body.params?.mode as string) ?? 'box';
-      autoUnwrap(kernel, { mode: mode as 'planar' | 'box' | 'cylindrical' | 'spherical', uvSetIndex: 0 });
+      projectUVs(kernel, { mode: mode as 'planar' | 'box' | 'cylindrical' | 'spherical', uvSetIndex: 0 });
       const stats = getMeshStats(kernel);
       return NextResponse.json({
         ok: true,

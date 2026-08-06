@@ -12,7 +12,7 @@ import type { MeshKernel } from './mesh-kernel';
 import { createMeshKernel, addVertex, addFace, addRegion, addSocket } from './mesh-kernel';
 import type { CharacterScale, BodyHideZone, EquipmentSlotId } from '../production/character-factory';
 import { MALE_BASE_SCALE, FEMALE_BASE_SCALE } from '../production/character-factory';
-import { autoUnwrap, transferSkinWeights } from './mesh-operations';
+import { projectUVs, transferSkinWeights } from './mesh-operations';
 
 // ---------------------------------------------------------------------------
 // Base Body Generator

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireDevMode } from '@/lib/editor/api-guards';
 import { analyzeUVIslands, computeTexelDensity, detectUVSeams, getMaterialPreviewInfo } from '@/engine/studio/uv-material-editor';
 import { createMeshKernel, addVertex, addFace } from '@/engine/studio/mesh-kernel';
-import { autoUnwrap } from '@/engine/studio/mesh-operations';
+import { projectUVs } from '@/engine/studio/mesh-operations';
 import type { MeshKernel } from '@/engine/studio/mesh-kernel';
 
 export const dynamic = 'force-dynamic';
@@ -32,7 +32,7 @@ function getOrCreateTestMesh(assetId: string): MeshKernel {
   addFace(kernel, [v[3], v[2], v[6], v[7]]);
   addFace(kernel, [v[4], v[5], v[1], v[0]]);
   // Generate UVs
-  autoUnwrap(kernel, { mode: 'box', uvSetIndex: 0 });
+  projectUVs(kernel, { mode: 'box', uvSetIndex: 0 });
   meshes.set(assetId, kernel);
   return kernel;
 }
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
       case 'unwrap': {
         const kernel = getOrCreateTestMesh(id);
         const mode = (params?.mode as string) ?? 'box';
-        autoUnwrap(kernel, { mode: mode as 'planar' | 'box' | 'cylindrical' | 'spherical', uvSetIndex: 0 });
+        projectUVs(kernel, { mode: mode as 'planar' | 'box' | 'cylindrical' | 'spherical', uvSetIndex: 0 });
         const info = getMaterialPreviewInfo(kernel, 0, 2048);
         return NextResponse.json({
           ok: true,
