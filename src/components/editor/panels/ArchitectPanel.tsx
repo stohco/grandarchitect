@@ -139,7 +139,7 @@ export default function ArchitectPanel() {
         ))}
       </div>
 
-      <ScrollArea ref={scrollRef} className="flex-1">
+      <ScrollArea ref={scrollRef} className="min-h-0 flex-1">
         <div className="space-y-3 p-3">
           {messages.length === 0 && !typing && (
             <div className="py-6 text-center text-[11px] text-[#5a5a7a]">

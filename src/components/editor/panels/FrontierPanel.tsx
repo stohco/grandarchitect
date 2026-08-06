@@ -154,7 +154,7 @@ export default function FrontierPanel() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="space-y-3 p-3">
           {error && (
             <div className="rounded border border-red-500/40 bg-red-500/10 p-2 text-red-300">

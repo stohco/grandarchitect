@@ -439,7 +439,7 @@ function BottomDock() {
         </Tooltip>
       </div>
       <div
-        className={`overflow-hidden transition-[height] duration-150 ${
+        className={`min-h-0 overflow-hidden transition-[height] duration-150 ${
           TALL_TABS.has(activeTab) ? 'h-56' : 'h-48'
         }`}
       >

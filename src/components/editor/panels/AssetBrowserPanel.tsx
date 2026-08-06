@@ -98,7 +98,7 @@ export default function AssetBrowserPanel() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="min-h-0 flex-1">
         <div className="grid grid-cols-3 gap-2 p-3">
           {filtered.map((asset) => {
             const Icon = TYPE_ICONS[asset.type];

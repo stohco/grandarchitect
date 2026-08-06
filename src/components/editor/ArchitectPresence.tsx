@@ -34,6 +34,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEditorStore } from '@/lib/editor/store';
+import { ActionRegistryBrowser } from '@/components/editor/panels/ActionRegistryBrowser';
 
 // ============================================================================
 // Platform detection — Windows uses Ctrl, Mac uses Cmd
@@ -426,29 +427,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
         )}
 
         {mode === 'actions' && (
-          <ScrollArea className="flex-1">
-            <div className="p-4">
-              <p className="mb-3 text-[11px] text-[#5a5a7a]">The Architect is capable of everything. Choose a capability:</p>
-              <div className="grid grid-cols-2 gap-2">
-                {QUICK_ACTIONS.map((action) => (
-                  <button
-                    key={action.id}
-                    onClick={() => { setMode('chat'); send(action.prompt); }}
-                    className="group flex items-start gap-2.5 rounded-lg border border-[#2a2a4a] bg-[#12122a] p-3 text-left transition-all hover:border-purple-500/40 hover:bg-[#1a1a3e]"
-                  >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-purple-500/10 text-purple-300 group-hover:bg-purple-500/20">
-                      <action.icon className="h-3.5 w-3.5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[12px] font-medium text-[#c8c8e0]">{action.label}</div>
-                      <div className="truncate text-[10px] text-[#5a5a7a]">{action.hint}</div>
-                    </div>
-                    <CornerDownLeft className="h-3 w-3 shrink-0 text-[#3a3a5a] opacity-0 group-hover:opacity-100" />
-                  </button>
-                ))}
-              </div>
-            </div>
-          </ScrollArea>
+          <ActionRegistryBrowser onClose={onClose} onSwitchToChat={() => setMode('chat')} send={send} />
         )}
 
         {mode === 'lore' && (
