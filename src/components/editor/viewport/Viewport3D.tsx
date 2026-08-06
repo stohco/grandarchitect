@@ -18,7 +18,7 @@ import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, 
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
-import { CharacterController } from '@/components/editor/viewport/CharacterController';
+import { PlaytestCharacter } from '@/components/editor/viewport/PlaytestCharacter';
 import type { StructureKind, CameraPreset, RenderMode, SerializableStructure } from '@/lib/editor/types';
 
 // ---------------------------------------------------------------------------
@@ -57,6 +57,7 @@ const CAMERA_PRESETS: Record<CameraPreset, { position: [number, number, number];
 
 function CameraController() {
   const cameraPreset = useEditorStore((s) => s.cameraPreset);
+  const physicsEnabled = useEditorStore((s) => s.physicsEnabled);
   const { camera } = useThree();
   const controlsRef = useRef<React.ComponentRef<typeof OrbitControls>>(null);
   // Track whether we're animating to a new preset. We only animate for a
@@ -95,6 +96,7 @@ function CameraController() {
     <OrbitControls
       ref={controlsRef}
       makeDefault
+      enabled={!physicsEnabled}
       enableDamping
       dampingFactor={0.06}
       minDistance={1}
@@ -402,8 +404,8 @@ function SceneContent() {
       {/* Transform gizmo on the selected structure */}
       <TransformGizmo />
 
-      {/* Rapier physics — real character controller when enabled */}
-      {physicsEnabled && <CharacterController />}
+      {/* Rapier physics — real character controller in PLAYTEST mode */}
+      {physicsEnabled && <PlaytestCharacter />}
 
       <mesh position={[0, -0.1, 0]} rotation-x={-Math.PI / 2} visible={false} onClick={handleBackgroundClick}>
         <planeGeometry args={[500, 500]} />
@@ -446,7 +448,10 @@ function useKeyboardShortcuts() {
         case 'p': s.togglePhysics(); break;
         case 'f5': e.preventDefault(); s.toggleSim(); break;
         case '.': e.preventDefault(); s.step('physics_tick', 1); break;
-        case 'escape': s.clearSelection(); break;
+        case 'escape':
+          if (s.physicsEnabled) s.togglePhysics(); // Exit playtest
+          else s.clearSelection();
+          break;
         case '1': s.setCameraPreset('perspective'); break;
         case '7': s.setCameraPreset('top'); break;
         case '3': s.setCameraPreset('front'); break;
