@@ -1427,3 +1427,50 @@ Stage Summary:
 - PhysicsManager singleton: no React state, no render loops
 - CharacterController: WASD/Space/Shift input, camera follow, HUD with body/step count
 - Commit 26ebd19 pushed to public GitHub
+
+---
+Task ID: FRONTIER-DEPTH-SPRINT-1
+Agent: main (Z.ai Code)
+Task: Prove Rapier embodied traversal — correct maturity labels, build evidence infrastructure, create authoritative PhysicsRuntime with fixed timestep and kinematic character controller
+
+Work Log:
+- Created capability-maturity.ts with 13-state maturity ladder + extended states
+- Created CapabilityEvidenceManifest type — maturity derived from evidence predicates
+- Created RAPIER_MATURITY_RULES with 8 promotion rules
+- Corrected all frontier status labels to honest maturity levels:
+  Rapier: INSTANTIATED, Cedar: EXERCISED, Z3: BLOCKED_RUNTIME_INITIALIZATION,
+  glTF-Transform: EXERCISED_ON_TRIVIAL_FIXTURE, 3DTilesRendererJS: IMPORTABLE,
+  Planning Router: SPECIFIED_ONLY, Multi-Solver: HARDCODED_REFERENCE_FIXTURE,
+  Bible: HEURISTIC_CANDIDATE_EXTRACTOR
+- Created PhysicsRuntime service (physics-runtime.ts):
+  - Plain TypeScript class, NOT React, NOT hooks
+  - Fixed 60Hz timestep with accumulator and MAX_SUBSTEPS=4
+  - Previous/current snapshots for interpolation
+  - Rapier KinematicCharacterController (not dynamic + impulses)
+  - Character state: grounded, velocities, movementMode, slopeAngle
+  - Shape-aware colliders: cuboid, cylinder, capsule, heightfield
+  - addStructureCollider dispatches by kind (well→cylinder, hall→cuboid)
+  - Lifecycle: init/start/pause/resume/reset/dispose
+  - Evidence tracking via Set<string>
+- Created PlaytestCharacter component:
+  - Uses PhysicsRuntime singleton (no React state in hot path)
+  - Camera-relative WASD, sprint, jump
+  - Interpolated render from physics snapshots
+  - Camera follow only in PLAYTEST mode
+  - OrbitControls disabled in PLAYTEST mode
+  - HUD: mode, position, velocity, slope, colliders, steps
+  - Color: green=ground, blue=jumping, orange=falling
+- Added EDITOR vs PLAYTEST camera mode separation
+- Escape key exits playtest mode
+- Browser test shows 'Initializing Rapier physics…' — WASM loading (1.5MB)
+- Dev log shows zero server errors
+
+Stage Summary:
+- Maturity ladder: 13 states + evidence predicates, no self-reporting
+- PhysicsRuntime: authoritative service outside React
+- KinematicCharacterController: real Rapier controller (not impulse hack)
+- Fixed timestep: 60Hz with accumulator and capped catch-up
+- Shape-aware colliders: cylinder for wells, cuboid for halls
+- Camera modes: EDITOR (OrbitControls) vs PLAYTEST (character follow)
+- Commit 455f5d6 pushed to public GitHub
+- Next: terrain heightfield, failure tests, browser acceptance
