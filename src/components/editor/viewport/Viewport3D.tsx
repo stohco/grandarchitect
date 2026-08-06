@@ -95,15 +95,15 @@ function CameraController() {
       ref={controlsRef}
       makeDefault
       enableDamping
-      dampingFactor={0.1}
-      minDistance={2}
-      maxDistance={500}
+      dampingFactor={0.06}
+      minDistance={1}
+      maxDistance={800}
       maxPolarAngle={Math.PI * 0.495}
       enableZoom={true}
       enablePan={true}
-      zoomSpeed={1.2}
-      panSpeed={0.8}
-      rotateSpeed={0.8}
+      zoomSpeed={3.0}
+      panSpeed={1.5}
+      rotateSpeed={1.2}
     />
   );
 }

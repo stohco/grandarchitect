@@ -99,3 +99,7 @@ recovery/
 *.swp
 *.swo
 *~
+run-dev.sh
+retry-curl.sh
+watchdog.sh
+tsconfig.tsbuildinfo
