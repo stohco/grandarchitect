@@ -121,9 +121,9 @@ export async function GET() {
       {
         name: '3DTilesRendererJS',
         role: 'Planetary streaming',
-        status: 'pending',
+        status: 'installed',
         available: false,
-        reason: 'Not yet installed. Bake-off 5.',
+        reason: 'npm 3d-tiles-renderer installed — adapter created, pending WASM init test',
         installMode: 'npm 3d-tiles-renderer',
       },
       {
@@ -145,10 +145,10 @@ export async function GET() {
       {
         name: 'Rapier',
         role: 'Browser physics (WASM)',
-        status: 'pending',
+        status: 'installed',
         available: false,
-        reason: 'Not yet installed. Bake-off 5+7.',
-        installMode: 'npm @dimforge/rapier3d',
+        reason: 'npm @dimforge/rapier3d-compat installed — adapter created, pending WASM init test',
+        installMode: 'npm @dimforge/rapier3d-compat',
       },
     ];
 
