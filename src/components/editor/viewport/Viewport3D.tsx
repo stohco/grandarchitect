@@ -528,6 +528,7 @@ function useKeyboardShortcuts() {
         case 'r': s.setTransformMode('scale'); break;
         case 'g': s.toggleGrid(); break;
         case 'x': s.toggleSnap(); break;
+        case 'p': s.togglePhysics(); break;
         case 'f5': e.preventDefault(); s.toggleSim(); break;
         case '.': e.preventDefault(); s.step('physics_tick', 1); break;
         case 'escape': s.clearSelection(); break;

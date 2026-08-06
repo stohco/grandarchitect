@@ -93,14 +93,22 @@ export default function FrontierMatrixPanel() {
       if (name === 'Z3') endpoint = '/api/architect/z3-check';
       else if (name === 'Cedar') endpoint = '/api/architect/cedar-check';
       else if (name === 'glTF-Transform' || name === 'meshoptimizer') endpoint = '/api/architect/asset-compile';
+      else if (name === '3DTilesRendererJS') endpoint = '/api/architect/planetary-test';
+      else if (name === 'Rapier') endpoint = '/api/architect/physics-test';
+      else if (name === 'Multi-Solver Plan') endpoint = '/api/architect/multi-solver-plan';
 
       if (endpoint) {
-        const isPost = name === 'glTF-Transform' || name === 'meshoptimizer';
+        const isPost = name === 'glTF-Transform' || name === 'meshoptimizer' || name === 'Multi-Solver Plan';
+        const body = name === 'Multi-Solver Plan'
+          ? JSON.stringify({ request: 'Create an ancient declining sword-sect city while preserving the river and village road.' })
+          : name === 'glTF-Transform' || name === 'meshoptimizer'
+            ? JSON.stringify({ generateLODs: true, qualityProfile: 'mainstream' })
+            : null;
         const res = isPost
           ? await fetch(endpoint, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ generateLODs: true, qualityProfile: 'mainstream' }),
+              body: body ?? '{}',
             })
           : await fetch(endpoint);
         const json = await res.json();
@@ -190,7 +198,7 @@ export default function FrontierMatrixPanel() {
               )}
               <div className="mt-0.5 flex items-center gap-2">
                 <span className="text-[8px] text-[#5a5a7a]">{s.installMode}</span>
-                {(s.name === 'Z3' || s.name === 'Cedar' || s.name === 'glTF-Transform' || s.name === 'meshoptimizer') && (
+                {(s.name === 'Z3' || s.name === 'Cedar' || s.name === 'glTF-Transform' || s.name === 'meshoptimizer' || s.name === '3DTilesRendererJS' || s.name === 'Rapier') && (
                   <button
                     onClick={() => void testCandidate(s.name)}
                     disabled={testingCandidate === s.name}
@@ -221,6 +229,15 @@ export default function FrontierMatrixPanel() {
                   <div className="mt-0.5 text-[8px] text-[#8888aa]">
                     Solvers: {b.solvers.join(', ')}
                   </div>
+                  {(b.id === 2 || b.id === 3 || b.id === 5 || b.id === 7) && (
+                    <button
+                      onClick={() => void testCandidate(b.id === 2 ? 'Multi-Solver Plan' : b.id === 5 ? '3DTilesRendererJS' : b.id === 7 ? 'Rapier' : 'Cedar')}
+                      disabled={testingCandidate === (b.id === 2 ? 'Multi-Solver Plan' : b.id === 5 ? '3DTilesRendererJS' : b.id === 7 ? 'Rapier' : 'Cedar')}
+                      className="mt-1 w-full rounded border border-[#3a3a5a] bg-[#1e1e3e] px-1 py-0.5 text-[8px] text-[#aaaacc] hover:bg-[#2a2a4a] disabled:opacity-50"
+                    >
+                      {testingCandidate === (b.id === 2 ? 'Multi-Solver Plan' : b.id === 5 ? '3DTilesRendererJS' : b.id === 7 ? 'Rapier' : 'Cedar') ? 'Testing…' : 'Test Bake-off'}
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
