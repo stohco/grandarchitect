@@ -1,14 +1,15 @@
 #!/bin/bash
-cd /home/z/my-project
+# Watchdog: restart dev server if it dies
 while true; do
-  if ! pgrep -f "next-server" > /dev/null 2>&1; then
-    echo "[$(date)] dev server dead, restarting..." >> /home/z/my-project/watchdog.log
-    pkill -9 -f "next" 2>/dev/null
-    pkill -9 -f "bun run dev" 2>/dev/null
-    sleep 2
-    nohup bun run dev > /home/z/my-project/dev.log 2>&1 &
-    echo "[$(date)] restarted, pid $!" >> /home/z/my-project/watchdog.log
-    sleep 8
+  if ! pgrep -f "next dev" > /dev/null; then
+    echo "[$(date)] Dev server down — restarting..."
+    cd /home/z/my-project
+    NODE_OPTIONS="--max-old-space-size=2048" ./node_modules/.bin/next dev -p 3000 >> dev.log 2>&1 &
+    NEXT_PID=$!
+    disown
+    echo "[$(date)] Started next dev (pid=$NEXT_PID)"
+    sleep 10
+  else
+    sleep 5
   fi
-  sleep 3
 done

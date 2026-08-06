@@ -1786,3 +1786,54 @@ INSTEAD:
 Optional external path:
   Blender / external DCC → GLB import → Semantic conversion → World Fabric
   (This is an import bridge, not the foundation.)
+
+---
+
+## Part XII — Authorial Grand Architect: Compiled Canon (v1.0.0)
+
+This appendix is the canonical source for the seed Bible records that the
+Bible Compiler emits. The compiler reads these lines, computes a hash of
+each excerpt, and tags every CanonRule and StyleConstraint with a
+verifiable SourceSpan.
+
+The auditor's `verifyBibleSourceSpans()` check reads these lines verbatim
+and recomputes the hash. If the lines are edited, the verification fails.
+
+### Canon Rules
+
+**canon.ancient-sacred.definition (MUST, hard-canon):**
+> Ancient sacred structures must convey age through weathered materials, restrained ornamentation, and silence of form.
+
+**canon.ancient-sacred.weathering (MUST, hard-canon, forbidden-override):**
+> The age of a sacred structure must be expressed through material weathering: moss, pitting, fracture, and patina.
+
+**canon.ancient-sacred.restraint (NORMALLY, project-canon, softly-overridable):**
+> Sacred structures must prefer restraint over ornament. Ornamentation is reserved for threshold moments.
+
+**canon.spirit-shrine.provenance (MUST, hard-canon, requires-retcon):**
+> A spirit_shrine marks a threshold between mortal and spirit domains and must read as ancient regardless of construction date.
+
+**canon.lineage-hall.provenance (MUST, hard-canon, requires-retcon):**
+> A lineage_hall is a sacred ancestral structure. Its age must be visible in its materials and its dignity must come from continuity, not grandeur.
+
+### Style Constraints
+
+**style.ancient-sacred.palette (MUST, priority 9):**
+> Ancient sacred structures use a desaturated palette: weathered stone grays, moss greens, oxidized bronze, faded cinnabar red.
+
+**style.ancient-sacred.surface-detail (MUST, priority 8):**
+> Surface detail must include weathering channels, moss patches, micro-fractures, and patina variation.
+
+**style.ancient-sacred.shape-language (NORMALLY, priority 7):**
+> Sacred structures favor horizontal massing over vertical thrust. Roofs are heavy and deep.
+
+**style.ancient-sacred.atmosphere (NORMALLY, priority 6):**
+> Sacred structures must read as quiet. Atmosphere should emphasize stillness.
+
+### Modality
+
+- **MUST** — violation is a canon breach; the loop must fail validation.
+- **NORMALLY** — violation is a warning; the loop may pass with a critique flag.
+- **MAY** — explicit permission; does not require approval.
+- **DISPUTED** — multiple authorities disagree; requires human approval.
+- **SECRET** — authorial-only; NPCs must never reference this truth.

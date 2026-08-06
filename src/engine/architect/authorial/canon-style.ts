@@ -240,38 +240,70 @@ export interface ContextConflict {
 }
 
 // ---------------------------------------------------------------------------
-// Creative Context Resolver
+// Creative Context Resolver (with explainable traces)
 // ---------------------------------------------------------------------------
+//
+// The resolver now produces a ResolutionTrace that explains WHY each canon
+// rule and style constraint was included, WHY each was overridden (or not),
+// and which approval flags fired. This is required for the auditor's
+// "explainable creative context resolution" milestone.
+
+import { loadCompiledBible, type CompiledCanonRule, type CompiledStyleConstraint } from './bible-compiler';
+
+export interface ResolutionTrace {
+  scope: StyleScope;
+  intent: AuthorialIntent;
+  canonConsidered: Array<{ ruleId: string; included: boolean; reason: string }>;
+  styleConsidered: Array<{ constraintId: string; included: boolean; reason: string }>;
+  overridesApplied: Array<{ constraintId: string; overriddenBy: string; reason: string }>;
+  approvalFlags: string[];
+  notes: string[];
+}
 
 export class CreativeContextResolver {
-  private canonRules: Map<string, CanonRule> = new Map();
-  private styleConstraints: Map<string, StyleConstraint> = new Map();
+  private canonRules: Map<string, CompiledCanonRule> = new Map();
+  private styleConstraints: Map<string, CompiledStyleConstraint> = new Map();
+  private loaded = false;
+
+  async ensureLoaded(): Promise<void> {
+    if (this.loaded) return;
+    this.loaded = true;
+    const { canon, style } = await loadCompiledBible();
+    for (const rule of canon) this.canonRules.set(rule.ruleId, rule);
+    for (const c of style) this.styleConstraints.set(c.constraintId, c);
+  }
 
   registerCanonRule(rule: CanonRule): void {
-    this.canonRules.set(rule.ruleId, rule);
+    this.canonRules.set(rule.ruleId, rule as CompiledCanonRule);
   }
 
   registerStyleConstraint(constraint: StyleConstraint): void {
-    this.styleConstraints.set(constraint.constraintId, constraint);
+    this.styleConstraints.set(constraint.constraintId, constraint as CompiledStyleConstraint);
   }
 
   /**
    * Resolve applicable canon and style for a given scope.
-   * Style inherits through: project → cosmology → realm → region →
-   * culture/faction → asset family → location/character → scene → user request.
+   * Returns BOTH the CreativeContextPacket AND a ResolutionTrace explaining
+   * every inclusion / exclusion / override.
    */
-  resolve(scope: StyleScope, intent: AuthorialIntent): CreativeContextPacket {
-    const applicableStyle = this.resolveStyle(scope);
-    const hardCanon = this.resolveCanon(scope);
+  async resolve(scope: StyleScope, intent: AuthorialIntent): Promise<{
+    packet: CreativeContextPacket;
+    trace: ResolutionTrace;
+  }> {
+    await this.ensureLoaded();
+    const { applicableStyle, styleTrace } = this.resolveStyle(scope);
+    const { hardCanon, canonTrace } = this.resolveCanon(scope);
+    const overrides = this.computeOverrides(applicableStyle);
+    const approvalFlags = this.computeApprovalFlags(hardCanon, applicableStyle, intent);
     const contextHash = this.computeHash(scope, intent);
 
-    return {
+    const packet: CreativeContextPacket = {
       requestId: `ctx-${Date.now().toString(36)}`,
       userIntent: intent.primaryIntent,
       interpretedIntent: intent,
       hardCanon,
       applicableStyle,
-      narrativeContext: { activePromises: [], thematicMotifs: [] },
+      narrativeContext: { activePromises: [], thematicMotifs: [], characterArcs: [] },
       historicalContext: { era: '', relevantEvents: [], regionalHistory: '' },
       culturalContext: { culture: '', faction: '', practices: [], prohibitions: [], aestheticPreferences: [] },
       references: [],
@@ -294,26 +326,133 @@ export class CreativeContextResolver {
       contradictions: [],
       contextHash,
     };
+
+    const trace: ResolutionTrace = {
+      scope,
+      intent,
+      canonConsidered: canonTrace,
+      styleConsidered: styleTrace,
+      overridesApplied: overrides,
+      approvalFlags,
+      notes: [
+        `Resolved ${hardCanon.length} canon rules and ${applicableStyle.length} style constraints for scope.`,
+        overrides.length > 0
+          ? `${overrides.length} override(s) applied via higher-priority constraints.`
+          : 'No overrides applied — all constraints compatible.',
+      ],
+    };
+
+    return { packet, trace };
   }
 
-  private resolveStyle(scope: StyleScope): StyleConstraint[] {
+  private resolveStyle(scope: StyleScope): {
+    applicableStyle: StyleConstraint[];
+    styleTrace: Array<{ constraintId: string; included: boolean; reason: string }>;
+  } {
     const resolved: StyleConstraint[] = [];
+    const styleTrace: Array<{ constraintId: string; included: boolean; reason: string }> = [];
+
     for (const constraint of this.styleConstraints.values()) {
-      if (this.scopeMatches(constraint.scope, scope)) {
+      const matches = this.scopeMatches(constraint.scope, scope);
+      if (matches) {
         resolved.push(constraint);
+        styleTrace.push({
+          constraintId: constraint.constraintId,
+          included: true,
+          reason: `Scope match: project=${constraint.scope.project ?? false}, assetFamily=${constraint.scope.assetFamily ?? 'n/a'}`,
+        });
+      } else {
+        styleTrace.push({
+          constraintId: constraint.constraintId,
+          included: false,
+          reason: `Scope mismatch — constraint targets ${JSON.stringify(constraint.scope)}`,
+        });
       }
     }
-    return resolved.sort((a, b) => b.priority - a.priority);
+    return { applicableStyle: resolved.sort((a, b) => b.priority - a.priority), styleTrace };
   }
 
-  private resolveCanon(scope: StyleScope): CanonRule[] {
+  private resolveCanon(scope: StyleScope): {
+    hardCanon: CanonRule[];
+    canonTrace: Array<{ ruleId: string; included: boolean; reason: string }>;
+  } {
     const resolved: CanonRule[] = [];
+    const canonTrace: Array<{ ruleId: string; included: boolean; reason: string }> = [];
+
     for (const rule of this.canonRules.values()) {
-      if (this.scopeMatches(rule.scope, scope)) {
+      const matches = this.scopeMatches(rule.scope, scope);
+      if (matches) {
         resolved.push(rule);
+        canonTrace.push({
+          ruleId: rule.ruleId,
+          included: true,
+          reason: `Scope match: authority=${rule.authority}, modality=${(rule as CompiledCanonRule).modality ?? 'unknown'}`,
+        });
+      } else {
+        canonTrace.push({
+          ruleId: rule.ruleId,
+          included: false,
+          reason: `Scope mismatch — rule targets ${JSON.stringify(rule.scope)}`,
+        });
       }
     }
-    return resolved;
+    return { hardCanon: resolved, canonTrace };
+  }
+
+  /**
+   * Compute overrides: if a higher-priority constraint's negativeConstraints
+   * directly contradict a lower-priority constraint's requirement, the lower
+   * one is overridden.
+   */
+  private computeOverrides(style: StyleConstraint[]): Array<{ constraintId: string; overriddenBy: string; reason: string }> {
+    const overrides: Array<{ constraintId: string; overriddenBy: string; reason: string }> = [];
+    for (let i = 0; i < style.length; i++) {
+      for (let j = i + 1; j < style.length; j++) {
+        const high = style[i];
+        const low = style[j];
+        if (high.priority <= low.priority) continue;
+        for (const neg of high.negativeConstraints) {
+          if (low.requirement.toLowerCase().includes(neg.toLowerCase())) {
+            overrides.push({
+              constraintId: low.constraintId,
+              overriddenBy: high.constraintId,
+              reason: `Higher-priority "${high.constraintId}" forbids "${neg}", overriding "${low.constraintId}".`,
+            });
+          }
+        }
+      }
+    }
+    return overrides;
+  }
+
+  private computeApprovalFlags(
+    canon: CanonRule[],
+    style: StyleConstraint[],
+    intent: AuthorialIntent,
+  ): string[] {
+    const flags: string[] = [];
+    // Flag any 'must' modality canon rule — these are hard requirements.
+    for (const rule of canon) {
+      const compiled = rule as CompiledCanonRule;
+      if (compiled.modality === 'must' && rule.authority === 'hard-canon') {
+        flags.push(`approval-required:hard-canon:${rule.ruleId}`);
+      }
+      if (compiled.modality === 'disputed') {
+        flags.push(`approval-required:disputed:${rule.ruleId}`);
+      }
+    }
+    // Flag any 'must' modality style constraint.
+    for (const c of style) {
+      const compiled = c as CompiledStyleConstraint;
+      if (compiled.modality === 'must') {
+        flags.push(`approval-required:style-must:${c.constraintId}`);
+      }
+    }
+    // Flag low-confidence intents.
+    if (intent.confidence < 0.5) {
+      flags.push('approval-required:low-intent-confidence');
+    }
+    return flags;
   }
 
   private scopeMatches(ruleScope: CanonScope, requestScope: StyleScope): boolean {
@@ -342,4 +481,11 @@ export function getCreativeContextResolver(): CreativeContextResolver {
     resolverInstance = new CreativeContextResolver();
   }
   return resolverInstance;
+}
+
+/**
+ * Test-only: reset singleton.
+ */
+export function __resetCreativeContextResolverSingleton(): void {
+  resolverInstance = null;
 }

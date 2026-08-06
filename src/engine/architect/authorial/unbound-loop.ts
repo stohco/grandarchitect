@@ -226,14 +226,54 @@ export interface DecisionRecord {
 }
 
 // ---------------------------------------------------------------------------
-// Loop Manager
+// Loop Manager (Durable)
 // ---------------------------------------------------------------------------
+//
+// All loop states are persisted to disk so a crash mid-loop is recoverable.
+// On restart, the manager loads prior loops from data/authorial/loops.json
+// and resumes the oldest non-completed one (or the most recent, depending on
+// caller intent).
+
+import { durableStore, replaceJson, type AuthorialStoreKey } from './durable-store';
+
+const LOOP_FILE = 'loops' as AuthorialStoreKey;
+const MAX_PERSISTED_LOOPS = 100;
 
 export class UnboundLoopManager {
   private loops = new Map<string, LoopState>();
   private counter = 0;
+  private loaded = false;
 
-  start(request: string): LoopState {
+  constructor() {
+    // Load is lazy — caller must await loadFromDisk() before any operation
+    // that needs prior state. For test simplicity, we also lazy-load on
+    // first start()/get()/list() call.
+  }
+
+  private async ensureLoaded(): Promise<void> {
+    if (this.loaded) return;
+    this.loaded = true;
+    const persisted = await durableStore.read<LoopState[]>(LOOP_FILE, []);
+    for (const state of persisted) {
+      this.loops.set(state.loopId, state);
+      // Recover counter from highest loop id suffix.
+      const match = state.loopId.match(/loop-(\d+)-/);
+      if (match) {
+        const n = parseInt(match[1], 10);
+        if (n > this.counter) this.counter = n;
+      }
+    }
+  }
+
+  private async persist(): Promise<void> {
+    const all = Array.from(this.loops.values())
+      .sort((a, b) => b.startedAt.localeCompare(a.startedAt))
+      .slice(0, MAX_PERSISTED_LOOPS);
+    await replaceJson(LOOP_FILE, all);
+  }
+
+  async start(request: string): Promise<LoopState> {
+    await this.ensureLoaded();
     const loopId = `loop-${++this.counter}-${Date.now().toString(36)}`;
     const now = new Date().toISOString();
     const state: LoopState = {
@@ -247,21 +287,26 @@ export class UnboundLoopManager {
       completed: false,
     };
     this.loops.set(loopId, state);
+    await this.persist();
     return state;
   }
 
-  get(loopId: string): LoopState | null {
+  async get(loopId: string): Promise<LoopState | null> {
+    await this.ensureLoaded();
     return this.loops.get(loopId) ?? null;
   }
 
-  update(loopId: string, updates: Partial<LoopState>): LoopState | null {
+  async update(loopId: string, updates: Partial<LoopState>): Promise<LoopState | null> {
+    await this.ensureLoaded();
     const state = this.loops.get(loopId);
     if (!state) return null;
     Object.assign(state, updates, { updatedAt: new Date().toISOString() });
+    await this.persist();
     return state;
   }
 
-  advanceStage(loopId: string): UnboundLoopStage | null {
+  async advanceStage(loopId: string): Promise<UnboundLoopStage | null> {
+    await this.ensureLoaded();
     const state = this.loops.get(loopId);
     if (!state) return null;
 
@@ -277,35 +322,51 @@ export class UnboundLoopManager {
       if (state.stage === 'remember') {
         state.completed = true;
       }
+      await this.persist();
       return state.stage;
     }
     return null;
   }
 
-  pause(loopId: string): void {
+  async pause(loopId: string): Promise<void> {
+    await this.ensureLoaded();
     const state = this.loops.get(loopId);
     if (state) {
       state.paused = true;
       state.updatedAt = new Date().toISOString();
+      await this.persist();
     }
   }
 
-  resume(loopId: string): void {
+  async resume(loopId: string): Promise<void> {
+    await this.ensureLoaded();
     const state = this.loops.get(loopId);
     if (state) {
       state.paused = false;
       state.updatedAt = new Date().toISOString();
+      await this.persist();
     }
   }
 
-  list(): LoopState[] {
+  async list(): Promise<LoopState[]> {
+    await this.ensureLoaded();
     return Array.from(this.loops.values()).sort((a, b) =>
       b.startedAt.localeCompare(a.startedAt),
     );
   }
 
-  getActive(): LoopState[] {
-    return this.list().filter((s) => !s.completed && !s.paused);
+  async getActive(): Promise<LoopState[]> {
+    const all = await this.list();
+    return all.filter((s) => !s.completed && !s.paused);
+  }
+
+  /**
+   * Returns the most recent loop that crashed (paused but not completed).
+   * Used for restart recovery proof.
+   */
+  async getResumable(): Promise<LoopState | null> {
+    const all = await this.list();
+    return all.find((s) => !s.completed) ?? null;
   }
 }
 
@@ -317,4 +378,11 @@ export function getUnboundLoop(): UnboundLoopManager {
     loopManager = new UnboundLoopManager();
   }
   return loopManager;
+}
+
+/**
+ * Test-only: reset the singleton (for verification scripts).
+ */
+export function __resetUnboundLoopSingleton(): void {
+  loopManager = null;
 }
