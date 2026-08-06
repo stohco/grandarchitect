@@ -89,6 +89,7 @@ export interface EditorStore {
   showGrid: boolean;
   showGizmos: boolean;
   showStats: boolean;
+  physicsEnabled: boolean;
   showMinimap: boolean;
   showOutliner: boolean;
   showInspector: boolean;
@@ -148,6 +149,7 @@ export interface EditorStore {
   toggleSnap: () => void;
   toggleGrid: () => void;
   toggleGizmos: () => void;
+  togglePhysics: () => void;
   toggleStats: () => void;
   toggleOutliner: () => void;
   toggleInspector: () => void;
@@ -239,6 +241,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   showGrid: true,
   showGizmos: true,
   showStats: true,
+  physicsEnabled: false,
   showMinimap: false,
   showOutliner: true,
   showInspector: true,
@@ -406,6 +409,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   toggleSnap: () => set((s) => ({ snapEnabled: !s.snapEnabled })),
   toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
   toggleGizmos: () => set((s) => ({ showGizmos: !s.showGizmos })),
+  togglePhysics: () => set((s) => ({ physicsEnabled: !s.physicsEnabled })),
   toggleStats: () => set((s) => ({ showStats: !s.showStats })),
   toggleOutliner: () => set((s) => ({ showOutliner: !s.showOutliner })),
   toggleInspector: () => set((s) => ({ showInspector: !s.showInspector })),

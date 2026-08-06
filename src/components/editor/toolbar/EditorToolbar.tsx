@@ -30,6 +30,7 @@ import {
   BarChart3,
   Terminal,
   ChevronDown,
+  Atom,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -112,6 +113,8 @@ export default function EditorToolbar() {
   const toggleGrid = useEditorStore((s) => s.toggleGrid);
   const showGizmos = useEditorStore((s) => s.showGizmos);
   const toggleGizmos = useEditorStore((s) => s.toggleGizmos);
+  const physicsEnabled = useEditorStore((s) => s.physicsEnabled);
+  const togglePhysics = useEditorStore((s) => s.togglePhysics);
   const snapEnabled = useEditorStore((s) => s.snapEnabled);
   const toggleSnap = useEditorStore((s) => s.toggleSnap);
   const showStats = useEditorStore((s) => s.showStats);
@@ -270,6 +273,24 @@ export default function EditorToolbar() {
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom" className="text-xs">Gizmos</TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={physicsEnabled}
+            aria-label="Toggle Rapier physics"
+            className={`${btnBase} w-6 ${physicsEnabled ? 'text-amber-400' : 'text-[#5a5a7a]'} hover:text-white`}
+            onClick={togglePhysics}
+          >
+            <Atom className="h-3.5 w-3.5" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" className="text-xs">
+          {physicsEnabled ? 'Physics ON (Rapier WASM)' : 'Physics OFF — click to enable Rapier'}
+        </TooltipContent>
       </Tooltip>
 
       <Tooltip>
