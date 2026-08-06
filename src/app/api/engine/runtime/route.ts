@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireDevMode } from '@/lib/editor/api-guards';
-import { getEngineRuntime } from '@/engine/runtime/engine-runtime';
+import { getEngineRuntime, getRegisteredCommandTypes } from '@/engine/runtime/engine-runtime';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 /**
  * GET /api/engine/runtime
- *   Returns the engine runtime state — the single authoritative path.
+ *   Returns the engine runtime state.
  *
  * POST /api/engine/runtime
- *   Executes a runtime action: start, stop, step, submitCommand.
+ *   Executes a runtime action via the SINGLE authoritative entrance.
+ *   All mutations go through runtime.executeCommand() — never bypassing
+ *   the gateway authorization.
  */
 
 export async function GET() {
@@ -24,12 +26,14 @@ export async function GET() {
 
   return NextResponse.json({
     info,
+    registeredCommandTypes: getRegisteredCommandTypes(),
     transactions: transactions.slice(-10),
     auditTrail: auditTrail.slice(-10),
     cells: runtime.world.listCells().map((c) => ({
       cellId: c.cellId,
       revision: c.revision,
       activeLayers: c.activeLayers,
+      destructionCount: c.destructionLog.length,
     })),
   });
 }
@@ -56,14 +60,14 @@ export async function POST(req: NextRequest) {
         runtime.scheduler.step();
         return NextResponse.json({ ok: true, tick: runtime.scheduler.getTick() });
 
-      case 'submitCommand': {
+      case 'executeCommand': {
         const { type, payload, principalId } = params as {
           type: string;
           payload: Record<string, unknown>;
           principalId: string;
         };
 
-        // Authenticate
+        // Authenticate (required)
         const session = runtime.gateway.authenticate({
           principalId: principalId ?? 'user',
           token: 'dev-token',
@@ -72,7 +76,7 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: 'Authentication failed' }, { status: 403 });
         }
 
-        // Create command
+        // Create command with current revision
         const command = {
           commandId: `cmd-${Date.now().toString(36)}`,
           type,
@@ -81,20 +85,15 @@ export async function POST(req: NextRequest) {
           baseRevision: runtime.world.getRevision(),
         };
 
-        // Authorize
-        if (!runtime.gateway.authorize(session, command)) {
-          return NextResponse.json({ error: 'Authorization denied' }, { status: 403 });
-        }
+        // Execute via the SINGLE authoritative entrance
+        // This enforces: authorize → validate → revision-check → apply → audit
+        const result = await runtime.executeCommand(session, command);
 
-        // Submit
-        const tx = await runtime.commands.submit(command);
-
-        // Invalidate derived artifacts for affected cells
-        for (const cellId of tx.affectedCells) {
-          runtime.coordinator.invalidateCell(cellId, tx.invalidatedArtifacts);
-        }
-
-        return NextResponse.json({ ok: true, transaction: tx });
+        return NextResponse.json({
+          ok: true,
+          transaction: result.transaction,
+          invalidatedCells: result.invalidatedCells,
+        });
       }
 
       default:

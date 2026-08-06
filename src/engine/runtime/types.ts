@@ -306,6 +306,25 @@ export interface EngineRuntime {
   isInitialized(): boolean;
   /** Get runtime info. */
   getInfo(): RuntimeInfo;
+
+  /**
+   * The SINGLE authoritative mutation entrance.
+   * Every world mutation MUST go through this method.
+   *
+   * Enforces: authenticate → authorize → validate → revision-check → apply → audit
+   *
+   * Direct access to commands.submit() should NOT be used outside the runtime.
+   * The command bus is exposed for read-only inspection only.
+   */
+  executeCommand(
+    session: PrincipalSession,
+    command: WorldCommand,
+  ): Promise<CommandExecutionResult>;
+}
+
+export interface CommandExecutionResult {
+  transaction: WorldTransaction;
+  invalidatedCells: string[];
 }
 
 export interface DerivedArtifactCoordinatorHandle {
