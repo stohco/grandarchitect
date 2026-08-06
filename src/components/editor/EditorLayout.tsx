@@ -418,23 +418,28 @@ function BottomDock() {
 
   return (
     <div className="flex flex-col border-t border-[#2a2a4a] bg-[#0e0e24]">
-      <div className="flex items-center justify-between border-b border-[#2a2a4a]">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="h-7 w-full justify-start gap-0 rounded-none border-0 bg-transparent p-0">
-            {BOTTOM_TABS.map((t) => {
-              const Icon = t.icon;
-              return (
-                <TabsTrigger key={t.value} value={t.value} className="h-7 rounded-none border-b-2 border-transparent px-3 text-[11px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none hover:text-[#8888aa]">
-                  {Icon && <Icon className="mr-1 h-3 w-3" />}
-                  {t.label}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-        </Tabs>
+      <div className="flex items-center border-b border-[#2a2a4a]">
+        <div
+          style={{ overflowX: 'auto', overflowY: 'hidden', minWidth: 0, flex: 1, scrollbarWidth: 'thin' }}
+          className="bottom-tab-scroller"
+        >
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-max min-w-full">
+            <TabsList className="h-7 w-max min-w-full justify-start gap-0 rounded-none border-0 bg-transparent p-0">
+              {BOTTOM_TABS.map((t) => {
+                const Icon = t.icon;
+                return (
+                  <TabsTrigger key={t.value} value={t.value} className="h-7 w-auto shrink-0 rounded-none border-b-2 border-transparent px-3 text-[11px] font-medium uppercase tracking-wider text-[#5a5a7a] data-[state=active]:border-emerald-500 data-[state=active]:bg-transparent data-[state=active]:text-emerald-300 data-[state=active]:shadow-none hover:text-[#8888aa]">
+                    {Icon && <Icon className="mr-1 h-3 w-3" />}
+                    {t.label}
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </Tabs>
+        </div>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="mr-1 h-6 w-6 text-[#5a5a7a] hover:text-white" onClick={toggleBottomDock}>
+            <Button variant="ghost" size="icon" className="mr-1 h-6 w-6 shrink-0 text-[#5a5a7a] hover:text-white" onClick={toggleBottomDock}>
               <ChevronDown className="h-3.5 w-3.5" />
             </Button>
           </TooltipTrigger>
