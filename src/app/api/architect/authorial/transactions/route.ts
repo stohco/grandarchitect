@@ -69,6 +69,8 @@ export async function GET() {
         requestedBy: d.requestedBy,
         timestamp: d.timestamp,
         undoResult: d.undoResult,
+        // Cedar authorization audit trail
+        cedarAuthorization: d.cedarAuthorization,
         // Cross-reference with runtime transaction history
         runtimeTransactionExists: runtimeTxs.some((t) => t.id === d.transactionId),
       })),

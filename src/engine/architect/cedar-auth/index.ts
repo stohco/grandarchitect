@@ -62,6 +62,27 @@ permit (
   resource
 );
 
+// Permit the Architect to create world cells (used by authorial slice).
+permit (
+  principal is GrandArchitect,
+  action == Action::"world.create-cell",
+  resource
+);
+
+// Permit the Architect to undo transactions.
+permit (
+  principal is GrandArchitect,
+  action == Action::"transaction.undo",
+  resource
+);
+
+// Permit the Architect to raise terrain.
+permit (
+  principal is GrandArchitect,
+  action == Action::"terrain.raise",
+  resource
+);
+
 // Permit the Architect to commit terrain changes only when approved.
 permit (
   principal is GrandArchitect,

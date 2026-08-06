@@ -159,6 +159,15 @@ export interface TransactionDetail {
   requestedBy: string;
   timestamp: string;
   undoResult?: { success: boolean; restoredRevision: number; error?: string };
+  /** Cedar authorization audit trail — which policy allowed this command. */
+  cedarAuthorization?: {
+    allowed: boolean;
+    reason: string;
+    policyId?: string;
+    principal: string;
+    action: string;
+    resource: string;
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -687,6 +696,41 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
       // Capture FULL per-transaction detail for the auditor.
       const tx = result.transaction;
       const inputHash = computePayloadHash(op.input);
+
+      // Capture Cedar authorization audit trail for this transaction.
+      let cedarAuth: TransactionDetail['cedarAuthorization'] | undefined;
+      try {
+        const { getCedarAuthorizer } = await import('../cedar-auth');
+        const cedar = getCedarAuthorizer();
+        const cedarResult = await cedar.authorize({
+          principal: {
+            id: session.principal.principalId,
+            role: session.principal.role,
+            autonomyLevel: session.principal.autonomyLevel,
+          },
+          action: command.type,
+          resource: {
+            type: 'world',
+            id: (command.payload.cellId as string) ?? 'default',
+          },
+          context: {
+            baseRevision: beforeRev,
+            commandType: command.type,
+            operationId: op.operationId,
+          },
+        });
+        cedarAuth = {
+          allowed: cedarResult.allowed,
+          reason: cedarResult.reason,
+          policyId: cedarResult.policyId,
+          principal: session.principal.principalId,
+          action: command.type,
+          resource: (command.payload.cellId as string) ?? 'default',
+        };
+      } catch {
+        // Cedar module not available — skip audit trail.
+      }
+
       transactionDetails.push({
         transactionId: txId,
         actionId: op.actionId,
@@ -714,6 +758,7 @@ async function stage_execute(ctx: StageContext, plan: OperationPlan): Promise<{ 
         invalidatedArtifacts: (tx.invalidatedArtifacts ?? []).map((a) => String(a)),
         requestedBy: tx.requestedBy.principalId,
         timestamp: tx.timestamp,
+        cedarAuthorization: cedarAuth,
       });
     } catch (err) {
       errors.push(`Operation ${op.operationId} failed: ${(err as Error).message}`);
