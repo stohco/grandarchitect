@@ -274,4 +274,5 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Prime Agent', path: 'src/engine/architect/providers/prime-agent/conformance-test.ts', expected: 12 },
   { name: 'Assets Pipeline', path: 'src/engine/assets/conformance-test.ts', expected: 68 },
   { name: 'Terrain Viewport', path: 'src/engine/frontier/terrain-conformance-test.ts', expected: 56 },
+  { name: 'Settlement Day', path: 'src/engine/simulation/settlement-day-conformance.ts', expected: 42 },
 ];

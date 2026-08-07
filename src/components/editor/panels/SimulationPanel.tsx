@@ -12,6 +12,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEditorStore } from '@/lib/editor/store';
 import type { SimulationDomain, WorldExecutionState } from '@/lib/editor/types';
 
+const PHASE_LABELS: Record<string, string> = {
+  night: 'Night 夜深', dawn: 'Dawn 拂曉', morning_work: 'Morning Work 晨耕',
+  noon_rest: 'Noon Rest 午歇', afternoon_work: 'Afternoon Work 午作',
+  dusk: 'Dusk 黃昏', evening: 'Evening 夜膳',
+};
+
 const DOMAIN_LABELS: Record<SimulationDomain, string> = {
   physics: 'Physics', animation: 'Animation', ai: 'AI', ecology: 'Ecology', economy: 'Economy',
   weather: 'Weather', history: 'History', combat: 'Combat', cultivation: 'Cultivation',
@@ -62,6 +68,7 @@ export default function SimulationPanel() {
   const frozenTick = useEditorStore((s) => s.frozenTick);
   const branches = useEditorStore((s) => s.branches);
   const transactions = useEditorStore((s) => s.transactions);
+  const simDay = useEditorStore((s) => s.simDay);
   const activeDomainCount = domains.filter((d) => d.active).length;
 
   return (
@@ -118,6 +125,56 @@ export default function SimulationPanel() {
 
       <ScrollArea className="min-h-0 flex-1">
         <div className="space-y-3">
+          <div className="rounded-lg border border-[#2a2a4a] bg-[#0e0e24] p-2.5">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#8888aa]">Settlement Day</span>
+              <Badge variant="outline" className="h-4 border-[#2a2a4a] bg-[#1a1a2e] text-[9px] text-emerald-300">REAL SIM</Badge>
+            </div>
+            {simDay ? (
+              <>
+                <div className="mt-1.5 flex items-center gap-2 text-[11px]">
+                  <span className="font-semibold text-[#c8c8e0]">Day {simDay.day}</span>
+                  <span className="text-[#8888aa]">hour {String(simDay.hourOfDay).padStart(2, '0')}:00</span>
+                  <span className="ml-auto rounded border border-[#2a2a4a] bg-[#1a1a2e] px-1.5 py-0.5 text-[9px] text-amber-300">{PHASE_LABELS[simDay.phase]}</span>
+                </div>
+                <div className="mt-1.5 grid grid-cols-4 gap-1.5 text-center">
+                  {[
+                    ['Stored', simDay.aggregates.foodStored],
+                    ['Produced', simDay.aggregates.today.foodProduced],
+                    ['Consumed', simDay.aggregates.today.foodConsumed],
+                    ['Work h', simDay.aggregates.today.workHours],
+                    ['Qi', simDay.aggregates.today.qiMeditated],
+                    ['Awake', simDay.aggregates.today.peopleAwake],
+                    ['Asleep', simDay.aggregates.today.peopleAsleep],
+                    ['Hungry', simDay.aggregates.today.peopleHungry],
+                  ].map(([label, value]) => (
+                    <div key={String(label)} className="rounded border border-[#22223e] bg-[#0a0a1c] px-1 py-1">
+                      <div className="text-[8px] uppercase tracking-wide text-[#4a4a6a]">{label}</div>
+                      <div className="text-[11px] font-semibold text-[#c8c8e0]">{typeof value === 'number' ? value.toFixed(1) : value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2">
+                  <div className="mb-1 text-[9px] font-semibold uppercase tracking-wide text-[#5a5a7a]">Today&apos;s Event Log</div>
+                  {simDay.events.length === 0 ? (
+                    <div className="py-1 text-[10px] text-[#5a5a7a]">No events in this window — step an hour or a day.</div>
+                  ) : (
+                    <div className="space-y-0.5">
+                      {simDay.events.slice(-8).reverse().map((e, i) => (
+                        <div key={`${e.hour}-${i}`} className="flex items-start gap-1.5 text-[10px]">
+                          <span className="mt-px shrink-0 rounded bg-[#1a1a2e] px-1 text-[8px] text-[#8888aa]">h{e.hourOfDay}</span>
+                          <span className="text-[#aaaacc]">{e.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="py-2 text-[11px] text-[#5a5a7a]">Generate a world, then step an hour — the village day is simulated deterministically server-side.</div>
+            )}
+          </div>
+
           <div>
             <span className="mb-1.5 block text-[10px] font-semibold uppercase text-[#5a5a7a]">World Branches</span>
             <div className="space-y-1">

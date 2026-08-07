@@ -27,6 +27,7 @@ import type {
   PerfStats,
   EntityEdit,
 } from './types';
+import type { SettlementDayState } from '@/engine/simulation/settlement-day';
 
 // ----------------------------------------------------------------------------
 // World state-machine transitions (mirrors studio/world-states.ts)
@@ -72,6 +73,9 @@ export interface EditorStore {
   settlement: SerializableSettlement | null;
   loadingWorld: boolean;
   worldError: string | null;
+
+  // ---- settlement day simulation (server-computed, step-driven) ----
+  simDay: SettlementDayState | null;
 
   // ---- world runtime ----
   worldState: WorldExecutionState;
@@ -216,6 +220,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   settlement: null,
   loadingWorld: false,
   worldError: null,
+  simDay: null,
 
   // ---- runtime ----
   worldState: 'generation_freeze',
@@ -291,6 +296,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
         seed,
         seedInput: seed,
         settlement,
+        simDay: null,
         loadingWorld: false,
         frozenTick: settlement.tick,
         worldState: 'dormant_architect',
@@ -345,18 +351,18 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
       const res = await fetch('/api/editor/step', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ granularity, count, fromTick: get().frozenTick }),
+        body: JSON.stringify({ granularity, count, fromTick: get().frozenTick, seed: get().seed }),
       });
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || 'step failed');
       const newTick = json.newTick as number;
-      set({ frozenTick: newTick });
+      set({ frozenTick: newTick, simDay: (json.day as SettlementDayState) ?? null });
       const evs = json.eventsFired as string[];
       if (evs.length) {
         for (const e of evs.slice(0, 8)) get().log('architect', 'sim-event', e);
         if (evs.length > 8) get().log('debug', 'sim-event', `…and ${evs.length - 8} more events`);
       }
-      get().log('success', 'world-runtime', `Stepped +${json.ticksAdvanced} (${granularity}×${count}) → tick ${newTick}`);
+      get().log('success', 'world-runtime', `Stepped +${json.ticksAdvanced} (${granularity}×${count}) → tick ${newTick} · ${json.hoursAdvanced} sim hours`);
     } catch (e) {
       get().log('error', 'world-runtime', `Step failed: ${e instanceof Error ? e.message : String(e)}`);
     } finally {
