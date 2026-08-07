@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireDevMode } from '@/lib/editor/api-guards';
 import type { TerrainDestructionOperation, TerrainOperationType } from '@/engine/world/world-fabric';
+import { getMatterSink, eventIdFromOperation } from '@/engine/world/matter/matter-sink';
+import type { RemovalCauseType } from '@/engine/world/matter/matter-events';
+import type { MaterialId } from '@/engine/world/matter/material-composition';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -41,6 +44,11 @@ export async function POST(req: NextRequest) {
       falloff,
       sourceEntityId,
       techniqueId,
+      actorId,
+      cause,
+      materialId,
+      matterSeed,
+      tick,
     } = body as {
       cellId: string;
       type: TerrainOperationType;
@@ -53,6 +61,11 @@ export async function POST(req: NextRequest) {
       falloff: number;
       sourceEntityId?: string;
       techniqueId?: string;
+      actorId?: string;
+      cause?: RemovalCauseType;
+      materialId?: MaterialId;
+      matterSeed?: string;
+      tick?: number;
     };
 
     if (!cellId || !type || !transform) {
@@ -89,6 +102,18 @@ export async function POST(req: NextRequest) {
       timestamp: new Date().toISOString(),
     };
 
+    // Matter conservation: a successful destruction emits a
+    // MatterRemovalEvent → accounting ledger → loot accumulator, so loot
+    // always agrees with what genuinely left the terrain.
+    const matter = getMatterSink().onTerrainDestruction(operation, {
+      actorId: actorId ?? sourceEntityId ?? 'world',
+      cause: cause ?? (techniqueId ? 'shockwave' : 'smash'),
+      materialId: materialId ?? 'stone',
+      seed: matterSeed ?? `${cellId}:${materialId ?? 'stone'}`,
+      regionId: cellId,
+      tick,
+    });
+
     // In a real implementation, this would:
     // 1. Identify intersecting sparse bricks
     // 2. Mark field/material samples dirty
@@ -103,6 +128,20 @@ export async function POST(req: NextRequest) {
       message: `Destruction operation recorded: ${type} in cell ${cellId}. ` +
         `Affected bricks would be remeshed, collision/nav rebuilt, and ` +
         `activated as an atomic bundle.`,
+      matter: {
+        eventId: eventIdFromOperation(operation.id),
+        removedVolumeM3: matter.removedVolumeM3,
+        removedMassKg: matter.removedMassKg,
+        recoveredMassKg: matter.recoveredMassKg,
+        recoveryRatio: matter.recoveryRatio,
+        cause: matter.event.cause,
+        materials: matter.event.materials.map((m) => ({
+          materialId: m.materialId,
+          removedMassKg: m.removedMassKg,
+          grade: m.grade,
+        })),
+        sinkSummary: getMatterSink().summary(),
+      },
     });
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
