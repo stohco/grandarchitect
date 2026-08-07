@@ -7,8 +7,8 @@
  * Pure function of (economy_state, events, rng).
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
-import type { EntityId, Tick, SimulationTier } from '../kernel/types';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
+import type { EntityId, Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================
 // Currency Types (doc 29 §1)

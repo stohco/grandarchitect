@@ -23,7 +23,7 @@ import { sha256 as nobleSha256 } from '@noble/hashes/sha2.js';
 export async function hashAsync(bytes: Uint8Array): Promise<string> {
   if (typeof crypto !== 'undefined' && crypto.subtle && crypto.subtle.digest) {
     try {
-      const hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', bytes as unknown as BufferSource);
       return toHex(new Uint8Array(hashBuffer));
     } catch {
       // Fall through to noble if crypto.subtle fails at runtime

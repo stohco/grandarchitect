@@ -439,7 +439,7 @@ export function createTypedGraphManager(): TypedGraphManager {
         color.set(node, GRAY);
         path.push(node);
         
-        const dependents = graph.edges.filter(e => e.fromNode === node).map(e => e.toNode);
+        const dependents = graph?.edges.filter(e => e.fromNode === node).map(e => e.toNode) ?? [];
         for (const dep of dependents) {
           const c = color.get(dep);
           if (c === GRAY) {

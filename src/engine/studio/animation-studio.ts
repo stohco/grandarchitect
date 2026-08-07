@@ -235,7 +235,7 @@ export function retargetAnimation(
       success: unmapped.length === 0,
       clipsRetargeted: 1,
       unmappedBones: unmapped,
-      warnings: unmapped.length > 0 ? `${unmapped.length} bones had no mapping` : [],
+      warnings: unmapped.length > 0 ? [`${unmapped.length} bones had no mapping`] : [],
     },
   };
 }

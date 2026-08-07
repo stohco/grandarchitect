@@ -1,0 +1,70 @@
+{
+  "runId": "GA-2026-08-06-03-prod",
+  "browser": "chrome",
+  "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36",
+  "baseUrl": "http://localhost:3000",
+  "timestamp": "2026-08-07T06:32:10.935Z",
+  "passCount": 10,
+  "failCount": 0,
+  "results": [
+    {
+      "name": "P1 enter-playtest-HUD",
+      "pass": true,
+      "detail": "mode=idle y=1.3 GROUND colliders=39"
+    },
+    {
+      "name": "P2 grounded",
+      "pass": true,
+      "detail": "y=1.3"
+    },
+    {
+      "name": "P3 wasd-velocity",
+      "pass": true,
+      "detail": "speed=4.00 m/s mode=walking"
+    },
+    {
+      "name": "P4 sprint",
+      "pass": true,
+      "detail": "sprinting"
+    },
+    {
+      "name": "P5 jump-air-ground",
+      "pass": true,
+      "detail": "airY=2.1 groundY=1.3"
+    },
+    {
+      "name": "P6 no-structure-penetration (head-on)",
+      "pass": true,
+      "detail": "min-clearance=1.12m (household@(-19,-2)) endDistToTarget=8.6m (wallFace=5.0)"
+    },
+    {
+      "name": "P7 exit-esc-returns-editor",
+      "pass": true,
+      "detail": "HUD removed"
+    },
+    {
+      "name": "P8 re-entry-no-duplicates",
+      "pass": true,
+      "detail": "colliders 39 -> 39"
+    },
+    {
+      "name": "P9 fresh-process-reload",
+      "pass": true,
+      "detail": "grounded=true speed=4.00"
+    },
+    {
+      "name": "P10 no-page-errors",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "screenshots": [
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/prod-chrome-01-entered.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/prod-chrome-02-walked.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/prod-chrome-03-jumped.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/prod-chrome-04-blocked.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/prod-chrome-05-reentered.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/prod-chrome-06-reload.png"
+  ],
+  "consoleErrors": []
+}

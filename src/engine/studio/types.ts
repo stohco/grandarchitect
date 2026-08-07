@@ -16,6 +16,7 @@
  */
 
 import type { EntityId, CapabilityId, PluginId, Tick } from '../kernel/types';
+export type { EntityId, CapabilityId, PluginId, Tick } from '../kernel/types';
 
 // ============================================================================
 // World Execution States (doc 50 §6.1)

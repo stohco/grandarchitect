@@ -75,6 +75,8 @@ export interface ClaimRecord {
   /** Physical quantities (if this is a measurement claim). */
   physicalSpec?: {
     dimensions?: Record<string, { min: number; max: number; typical?: number; unit: string }>;
+    speedMetersPerSecond?: { min: number; max: number; typical?: number; unit: string };
+    massKilograms?: { min: number; max: number; typical?: number; unit: string };
     measurementConfidence: ConfidenceLevel;
     rationale: string;
   };

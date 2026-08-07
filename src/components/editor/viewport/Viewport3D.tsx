@@ -12,13 +12,13 @@
 
 'use client';
 
-import { useRef, useMemo, useEffect, useCallback } from 'react';
-import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
+import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
+import { Canvas, useFrame, useThree, invalidate, type ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
-import { PlaytestController } from '@/components/editor/viewport/PlaytestController';
+import { PlaytestCharacter } from '@/components/editor/viewport/PlaytestCharacter';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
 
 // ---------------------------------------------------------------------------
@@ -201,6 +201,20 @@ function SceneContent() {
   const setPerf = useEditorStore((s) => s.setPerf);
   const pushFps = useEditorStore((s) => s.pushFps);
 
+  // Wake the R3F frame loop while playtest is active. Firefox can fail to
+  // start the loop on its own (canvas stays DOM-only, no frames, no
+  // useFrame); periodic invalidate() requests make the loop begin/continue.
+  useEffect(() => {
+    if (!playtestMode) return;
+    const id = setInterval(() => invalidate(), 200);
+    return () => clearInterval(id);
+  }, [playtestMode]);
+
+  useFrame(() => {
+    // no-op: keep this component subscribed so the invalidate wakeup above
+    // has a frame target even before the character mounts.
+  });
+
   const frameCount = useRef(0);
   const lastFpsTime = useRef(performance.now());
 
@@ -219,7 +233,8 @@ function SceneContent() {
 
   const handleBackgroundClick = useCallback((_e: ThreeEvent<MouseEvent>) => {
     // Only deselect if clicking the background plane
-    if (_e.eventObject.geometry?.type === 'PlaneGeometry' && _e.intersections.length <= 1) {
+    const geo = (_e.eventObject as THREE.Mesh).geometry;
+    if (geo?.type === 'PlaneGeometry' && _e.intersections.length <= 1) {
       useEditorStore.getState().clearSelection();
     }
   }, []);
@@ -273,8 +288,10 @@ function SceneContent() {
 
       <CameraController />
 
-      {/* Playtest mode — third-person character controller */}
-      {playtestMode && <PlaytestController />}
+      {/* Playtest mode — real embodied character (Rapier KCC + collision).
+          Always mounted; stepping is gated on the store value read directly
+          inside useFrame (subscription-free hot path). */}
+      <PlaytestCharacter />
     </>
   );
 }
@@ -295,6 +312,16 @@ function useKeyboardShortcuts() {
       const s = useEditorStore.getState();
       if (e.ctrlKey || e.metaKey) return;
       const k = e.key.toLowerCase();
+      // In playtest mode only playtest keys matter — editor transform,
+      // camera preset, grid and simulation shortcuts must not fight the
+      // embodied camera.
+      if (s.playtestMode) {
+        switch (k) {
+          case 'p': s.setPlaytestMode(!s.playtestMode); break;
+          case 'escape': s.setPlaytestMode(false); s.clearSelection(); break;
+        }
+        return;
+      }
       switch (k) {
         case 'w': s.setTransformMode('translate'); break;
         case 'e': s.setTransformMode('rotate'); break;
@@ -316,6 +343,57 @@ function useKeyboardShortcuts() {
 }
 
 // ---------------------------------------------------------------------------
+// Playtest HUD — plain DOM overlay (no drei Html: works in every browser,
+// readable by automated evidence harnesses via [data-hud]).
+// ---------------------------------------------------------------------------
+
+function PlaytestHud() {
+  const [line, setLine] = useState<string | null>('Initializing Rapier physics…');
+  useEffect(() => {
+    // Subscription-free: reads the store + runtime directly each tick, so
+    // visibility never depends on React update scheduling (Firefox can
+    // stall subscription-driven re-renders).
+    const id = setInterval(() => {
+      const store = useEditorStore.getState();
+      if (!store.playtestMode) { setLine(null); return; }
+      const w = window as unknown as {
+        __physicsRuntime?: {
+          ready: boolean; running: boolean; error: string | null;
+          getCharacterSnapshot?: () => {
+            movementMode: string; position: { x: number; y: number; z: number };
+            grounded: boolean; horizontalVelocity: { x: number; z: number };
+            verticalVelocity: number; slopeAngle: number;
+          } | null;
+          getDiagnostics?: () => { colliderCount: number; stepCount: number };
+        };
+      };
+      const rt = w.__physicsRuntime;
+      if (!rt) { setLine('Initializing Rapier physics…'); return; }
+      if (!rt.ready) { setLine(rt.error ? `Physics error: ${rt.error}` : 'Initializing Rapier physics…'); return; }
+      const s = rt.getCharacterSnapshot?.();
+      const d = rt.getDiagnostics?.();
+      if (!s || !d) { setLine('Building physics world…'); return; }
+      setLine(
+        `${s.movementMode} | pos=(${s.position.x.toFixed(1)},${s.position.z.toFixed(1)}) ` +
+        `y=${s.position.y.toFixed(1)} ${s.grounded ? 'GROUND' : 'AIR'} ` +
+        `vel=(${s.horizontalVelocity.x.toFixed(1)},${s.horizontalVelocity.z.toFixed(1)}) ` +
+        `vy=${s.verticalVelocity.toFixed(1)} ` +
+        `slope=${(s.slopeAngle * 180 / Math.PI).toFixed(0)}° ` +
+        `| ${d.colliderCount} colliders, ${d.stepCount} steps`,
+      );
+    }, 150);
+    return () => clearInterval(id);
+  }, []);
+  if (line === null) return null;
+  return (
+    <div className="pointer-events-none absolute left-1/2 top-2 z-10 -translate-x-1/2 rounded bg-black/60 px-3 py-1 text-[10px] text-emerald-300 backdrop-blur-sm">
+      <div className="whitespace-nowrap">WASD move · Space jump · Shift sprint · RMB look · Esc → Editor</div>
+      <div data-hud className="whitespace-nowrap font-mono text-[9px] text-[#aaaacc]">{line}</div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Main Viewport3D Component
 // ---------------------------------------------------------------------------
 
@@ -325,10 +403,11 @@ export default function Viewport3D() {
   void useRenderTracker('Viewport3D');
 
   const settlement = useEditorStore((s) => s.settlement);
+  const playtestMode = useEditorStore((s) => s.playtestMode);
   useKeyboardShortcuts();
 
   return (
-    <div className="h-full w-full">
+    <div className="relative h-full w-full">
       {!settlement ? (
         <div className="flex h-full w-full items-center justify-center bg-[#1a1a2e]">
           <div className="flex flex-col items-center gap-3 text-[#5a5a8a]">
@@ -347,6 +426,9 @@ export default function Viewport3D() {
           <SceneContent />
         </Canvas>
       )}
+      {/* Always mounted; the HUD polls the store and returns null when not
+          in playtest — visibility is subscription-free. */}
+      <PlaytestHud />
     </div>
   );
 }

@@ -13,8 +13,8 @@
  * No Three.js, no DOM, no rendering.
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
-import type { EntityId, Tick, SimulationTier } from '../kernel/types';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
+import type { EntityId, Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================
 // Combat State Machine (§1)

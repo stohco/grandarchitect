@@ -7,8 +7,8 @@
  * Pure function of (ecology_state, seasonal_modulation, harvest_pressure, contamination, rng).
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
-import type { Tick, SimulationTier } from '../kernel/types';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
+import type { Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================
 // Food Web Types (doc 28 §1)

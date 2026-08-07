@@ -1,0 +1,78 @@
+{
+  "runId": "GA-2026-08-06-02",
+  "browser": "chrome",
+  "browserVersion": "Chrome/150.0.7871.189",
+  "baseUrl": "http://localhost:3000",
+  "timestamp": "2026-08-07T06:40:49.922Z",
+  "passCount": 11,
+  "failCount": 0,
+  "results": [
+    {
+      "name": "A1 enter-playtest (runtime ready+running)",
+      "pass": true,
+      "detail": "colliders=39"
+    },
+    {
+      "name": "A2 grounded-after-fall",
+      "pass": true,
+      "detail": "y=1.30 mode=idle"
+    },
+    {
+      "name": "A3 wasd-moves",
+      "pass": true,
+      "detail": "from (-15.0,1.0) to (-15.0,-0.2) mode=idle"
+    },
+    {
+      "name": "A5 sprint-mode",
+      "pass": true,
+      "detail": "sprinting"
+    },
+    {
+      "name": "A4 jump-air-then-ground",
+      "pass": true,
+      "detail": "airY=1.34 reGround=true"
+    },
+    {
+      "name": "A6 structure-collision-blocks",
+      "pass": true,
+      "detail": "nearest-structure clearance=0.50m (blocked by household@(-16,7)); target=lineage_hall wallFace=9.0"
+    },
+    {
+      "name": "A7 evidence-flags",
+      "pass": true,
+      "detail": "module-import,world-created,character-controller-created,cuboid-collider-created,cylinder-collider-created,character-created,character-moved,character-grounded,character-jumped"
+    },
+    {
+      "name": "A1 exit-playtest (mode off, stepping stopped)",
+      "pass": true,
+      "detail": "mode=false stepsFrozen=true"
+    },
+    {
+      "name": "A8 re-entry-no-duplicate-colliders",
+      "pass": true,
+      "detail": "before=39 after=39"
+    },
+    {
+      "name": "A9 fresh-process-reload",
+      "pass": true,
+      "detail": "grounded=true moved=true"
+    },
+    {
+      "name": "A10 no-page-errors",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "screenshots": [
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/chrome-01-entered.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/chrome-02-walked.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/chrome-03-jumped.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/chrome-04-blocked-by-wall.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/chrome-05-evidence.png",
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/chrome-06-after-reload.png"
+  ],
+  "consoleErrors": [
+    "[chrome] reqfail: http://localhost:3000/?_rsc=1ch6o",
+    "[chrome] reqfail: http://localhost:3000/?_rsc=1ch6o"
+  ]
+}

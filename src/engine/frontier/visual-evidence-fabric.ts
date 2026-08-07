@@ -341,6 +341,8 @@ export interface VisualEvidenceFabric {
   listProviders(): Array<{ id: string; kind: EvidenceSource }>;
   analyze(capture: VisualCapture, request: VisualAnalysisRequest): Promise<FusedEvidencePacket>;
   fuse(records: VisualEvidenceRecord[], request?: VisualAnalysisRequest): FusedEvidencePacket;
+  /** True when two assertions share a proposition and their scopes overlap. */
+  scopesOverlap(a: EvidenceAssertion, b: EvidenceAssertion): boolean;
 }
 
 export function createVisualEvidenceFabric(): VisualEvidenceFabric {

@@ -7,6 +7,7 @@
  */
 
 import type { PluginId, CapabilityId, Tick, Result } from '../kernel/types';
+export type { PluginId, CapabilityId, Tick, Result } from '../kernel/types';
 
 // ============================================================================
 // Autonomy Levels

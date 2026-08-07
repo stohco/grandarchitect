@@ -18,9 +18,9 @@ import { createHash } from 'crypto';
 // Types (re-exported from frontier/types.ts for convenience)
 // ============================================================================
 
-export type { EditableOperation, EditableOperationGraph, OperationType } from '../types';
+export type { EditableOperation, EditableOperationGraph, OperationType } from './types';
 
-import type { EditableOperation, EditableOperationGraph, OperationType } from '../types';
+import type { EditableOperation, EditableOperationGraph, OperationType } from './types';
 
 // ============================================================================
 // Operation Graph Manager

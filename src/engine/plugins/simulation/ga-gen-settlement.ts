@@ -13,7 +13,7 @@
  * Uses determinism RNG (xoshiro256**) for all stochastic choices.
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
 import type { EntityId, Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================

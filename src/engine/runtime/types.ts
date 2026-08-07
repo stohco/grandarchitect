@@ -33,6 +33,7 @@
  */
 
 import type { WorldCell, WorldTransaction, WorldOperation, Principal } from '../world/world-fabric';
+export type { WorldTransaction } from '../world/world-fabric';
 import type { ArtifactKind } from '../world/world-fabric';
 
 // ---------------------------------------------------------------------------

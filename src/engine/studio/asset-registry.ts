@@ -157,7 +157,7 @@ export class AssetRegistry {
     const instance: EntityInstance = {
       entityId,
       assetId,
-      assetRevision,
+      assetRevision: revision,
       transform: {
         position,
         rotation: [0, 0, 0, 1],

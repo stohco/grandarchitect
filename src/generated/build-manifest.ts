@@ -20,12 +20,12 @@ export interface BuildManifest {
 }
 
 export const BUILD_MANIFEST: BuildManifest = {
-  "commitSha": "bc2d97148cad41072751e68566d181beff9a7a04",
-  "commitShort": "bc2d97148cad",
-  "branch": "main",
+  "commitSha": "9a1da997e69128cd79c2cb68ea0a73dd33a20e59",
+  "commitShort": "9a1da997e691",
+  "branch": "slice/rapier-embodied-playtest",
   "dirty": true,
-  "buildTimestamp": "2026-08-05T22:31:24.859Z",
+  "buildTimestamp": "2026-08-07T06:01:17.637Z",
   "packageVersion": "0.3.0",
-  "sourceTreeHash": "8b8a14c41dce18bf",
-  "buildId": "65c75042-819c-42a8-a870-43acc508efb5"
+  "sourceTreeHash": "5d7ecb704348e5b5",
+  "buildId": "0f30058a-70a1-4ac2-8a73-037d9c943eff"
 };

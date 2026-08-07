@@ -1,0 +1,28 @@
+{
+  "runId": "GA-2026-08-06-02-firefox",
+  "browser": "firefox",
+  "baseUrl": "http://localhost:3000",
+  "timestamp": "2026-08-07T00:40:53.507Z",
+  "passCount": 1,
+  "failCount": 2,
+  "results": [
+    {
+      "name": "A1 enter-playtest (runtime ready+running)",
+      "pass": true,
+      "detail": "colliders=39"
+    },
+    {
+      "name": "A2 grounded-after-fall",
+      "pass": false,
+      "detail": ""
+    },
+    {
+      "name": "HARNESS",
+      "pass": false,
+      "detail": "TypeError: null is not an object (evaluating 'rt.snapshot.position')"
+    }
+  ],
+  "screenshots": [
+    "C:/Users/st3v3/AppData/Local/Temp/opencode/grandarchitect/evidence/rapier-playtest/firefox-01-entered.png"
+  ]
+}

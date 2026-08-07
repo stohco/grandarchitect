@@ -8,8 +8,8 @@
  * Pure function of (event_state, worldState, rng).
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
-import type { EntityId, Tick, SimulationTier } from '../kernel/types';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
+import type { EntityId, Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================
 // Event Types (doc 30 §1 — 32 types)

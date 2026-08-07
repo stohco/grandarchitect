@@ -9,8 +9,8 @@
  * Tier degradation: full cognition at S4, 12 policies at S2, frozen at S0.
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
-import type { EntityId, Tick, SimulationTier } from '../kernel/types';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
+import type { EntityId, Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================
 // NPC Traits (doc 26 §1 — 15 traits, stable except via named events)
@@ -389,7 +389,7 @@ const VERB_DESIRE_MAP: Partial<Record<NPCVerb, DesireName>> = {
 };
 
 const VERB_FEAR_MAP: Partial<Record<NPCVerb, FearName>> = {
-  challenge_rival: 'death', murder: 'dishonor', smugg_goods: 'authority',
+  challenge_rival: 'death', murder: 'dishonor', smuggle_goods: 'authority',
   frame_rival: 'exposure', hide_in_wilderness: 'isolation', flee_region: 'poverty',
   challenge_law: 'authority', betray_faction: 'dishonor',
 };

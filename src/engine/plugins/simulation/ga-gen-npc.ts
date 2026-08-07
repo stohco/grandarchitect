@@ -13,7 +13,7 @@
  * Uses LCG RNG (same approach as ga:gen-settlement) for all stochastic choices.
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
 import type { EntityId } from '../../kernel/types';
 
 // ============================================================================

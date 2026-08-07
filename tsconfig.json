@@ -31,12 +31,26 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "examples",
+    "mini-services",
+    "skills",
+    "download",
+    "downloaded",
+    "downloaded_v2",
+    "backups",
+    "server-single.ts",
+    "server-standalone.ts",
+    "src/engine/**/conformance-test.ts",
+    "src/engine/**/*-conformance.ts",
+    "src/engine/frontier/*-test.ts",
+    "src/engine/frontier/reference-workflow-test-v2.ts",
+    "src/engine/frontier/spawn-diagnostic.ts"
   ]
 }

@@ -202,6 +202,9 @@ export function createArchitectGateway(deps: GatewayDeps): ArchitectGateway {
         result: { status: 'error', summary: auth.reason },
         capabilityTokenHash: 'none',
         autonomy: req.assertedAutonomy,
+        sessionId: req.sessionId,
+        cost: { cpuMs: 0, wallMs: 0 },
+        tick: deps.getTick(),
       });
 
       return {

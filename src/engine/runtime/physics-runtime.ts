@@ -102,6 +102,11 @@ export class PhysicsRuntime {
   private nextBodyId = 0;
   private nextColliderId = 0;
 
+  // Static fixture bodies (ground, structures, terrain) so resetWorld()
+  // can remove every fixture without leaking colliders between playtest
+  // sessions. The character body is tracked separately.
+  private fixtureBodies: any[] = [];
+
   // Fixed timestep accumulator
   private accumulator = 0;
   private stepCount = 0;
@@ -226,11 +231,46 @@ export class PhysicsRuntime {
     };
   }
 
+  /**
+   * Remove every world fixture (ground, terrain, structure colliders) and
+   * the character, then reset simulation state. Called on each playtest
+   * entry so re-entering playtest never piles up duplicate colliders while
+   * keeping the initialized Rapier world and character controller alive.
+   */
+  resetWorld(): void {
+    if (!this._ready || !this.world) return;
+
+    if (this.characterCollider) {
+      try { this.world.removeCollider(this.characterCollider, false); } catch {}
+      this.characterCollider = null;
+    }
+    if (this.characterBody) {
+      try { this.world.removeRigidBody(this.characterBody); } catch {}
+      this.characterBody = null;
+    }
+
+    for (const body of this.fixtureBodies) {
+      try { this.world.removeRigidBody(body); } catch {}
+    }
+    this.fixtureBodies = [];
+
+    this.bodies.clear();
+    this.colliders.clear();
+    this.terrainRevision = 0;
+    this.structureRevision = 0;
+    this.reset();
+    this.evidence.clear();
+    this.evidence.add('module-import');
+    this.evidence.add('world-created');
+    this.evidence.add('character-controller-created');
+  }
+
   dispose(): void {
     if (this._disposed) return;
     this._running = false;
     this.bodies.clear();
     this.colliders.clear();
+    this.fixtureBodies = [];
     if (this.world) {
       try { this.world.free(); } catch {}
       this.world = null;
@@ -317,6 +357,7 @@ export class PhysicsRuntime {
       this.characterState.verticalVelocity = JUMP_VELOCITY;
       this.characterState.grounded = false;
       this.characterState.movementMode = 'jumping';
+      this.evidence.add('character-jumped');
     }
 
     // Apply gravity if not grounded.
@@ -368,14 +409,32 @@ export class PhysicsRuntime {
         this.characterState.movementMode = 'idle';
       }
 
-      // Slope angle.
-      this.characterState.slopeAngle = this.characterController.computedSlopeAngle() ?? 0;
+      // Slope angle — derived from the ground contact normal (Rapier 0.19.x
+      // exposes no computedSlopeAngle; the normal of the first collision is
+      // the closest available signal).
+      let slopeAngle = 0;
+      try {
+        if (this.characterController.numComputedCollisions() > 0) {
+          const contact = this.characterController.computedCollision(0);
+          if (contact && contact.normal1) {
+            const n = contact.normal1;
+            const len = Math.hypot(n.x, n.y, n.z) || 1;
+            slopeAngle = Math.acos(Math.min(1, Math.max(-1, n.y / len)));
+          }
+        }
+      } catch {
+        slopeAngle = 0;
+      }
+      this.characterState.slopeAngle = slopeAngle;
 
       this.evidence.add('character-moved');
       if (grounded) this.evidence.add('character-grounded');
       if (intent.jump && grounded) this.evidence.add('character-jumped');
     } catch (err) {
-      // Character controller may fail on first step.
+      // Character controller may fail on first step — surface for diagnostics.
+      if (typeof console !== 'undefined') {
+        console.error('[PhysicsRuntime] KCC step failed:', err instanceof Error ? err.message : err);
+      }
     }
   }
 
@@ -500,6 +559,7 @@ export class PhysicsRuntime {
     const bodyDesc = this.Rapier.RigidBodyDesc.fixed();
     const body = this.world.createRigidBody(bodyDesc);
     const collider = this.world.createCollider(colliderDesc, body);
+    this.fixtureBodies.push(body);
 
     const id = ++this.nextColliderId;
     this.colliders.set(id, {
@@ -529,6 +589,7 @@ export class PhysicsRuntime {
     const body = this.world.createRigidBody(bodyDesc);
     const colliderDesc = this.Rapier.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2);
     this.world.createCollider(colliderDesc, body);
+    this.fixtureBodies.push(body);
 
     const id = ++this.nextColliderId;
     this.colliders.set(id, {
@@ -560,6 +621,7 @@ export class PhysicsRuntime {
     const body = this.world.createRigidBody(bodyDesc);
     const colliderDesc = this.Rapier.ColliderDesc.cylinder(height / 2, radius);
     this.world.createCollider(colliderDesc, body);
+    this.fixtureBodies.push(body);
 
     const id = ++this.nextColliderId;
     this.colliders.set(id, {
@@ -591,6 +653,7 @@ export class PhysicsRuntime {
     const body = this.world.createRigidBody(bodyDesc);
     const colliderDesc = this.Rapier.ColliderDesc.capsule(height / 2, radius);
     this.world.createCollider(colliderDesc, body);
+    this.fixtureBodies.push(body);
 
     const id = ++this.nextColliderId;
     this.colliders.set(id, {

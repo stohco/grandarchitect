@@ -28,9 +28,9 @@
 
 
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
 
-import type { EntityId, Tick, SimulationTier } from '../kernel/types';
+import type { EntityId, Tick, SimulationTier } from '../../kernel/types';
 
 
 
@@ -97,6 +97,8 @@ export interface DialogueCondition {
 export interface DialogueConsequence {
 
   type: string;
+
+  flag?: string;
 
   target?: unknown;
 
@@ -682,7 +684,7 @@ function clamp(v: number, min: number, max: number): number {
 
 
 
-function keyOf(id: EntityId): string {
+function keyOf(id: EntityId | number | string): string {
 
   return String(id);
 
@@ -1104,7 +1106,7 @@ export function createQuestApi(maxCutsPerDay = 1): QuestApi {
 
       sharedExperiences: [],
 
-      personalArc: arcId ? companionArcs.get(arcId) ?? { stages: [], currentStage: 0 } : null,
+      personalArc: arcId ? companionArcs.get(arcId) ?? { arcId, stages: [] as CompanionArcStage[], currentStage: 0 } : null,
 
     };
 

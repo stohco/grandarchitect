@@ -117,7 +117,7 @@ interface PerformanceMemory {
   jsHeapSizeLimit: number;
 }
 interface WindowWithMemory extends Window {
-  performance?: Performance & { memory?: PerformanceMemory };
+  performance: Performance & { memory?: PerformanceMemory };
 }
 
 function formatBytes(bytes: number): string {

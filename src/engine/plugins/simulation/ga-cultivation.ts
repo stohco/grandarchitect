@@ -10,8 +10,8 @@
  * No Three.js, no DOM, no rendering.
  */
 
-import type { Plugin, PluginHost } from '../kernel/plugin-host';
-import type { Tick, SimulationTier } from '../kernel/types';
+import type { Plugin, PluginHost } from '../../kernel/plugin-host';
+import type { Tick, SimulationTier } from '../../kernel/types';
 
 // ============================================================================
 // Realm Types
@@ -1145,9 +1145,7 @@ export function advanceRealm(cultivator: CultivatorState, tick: number): Cultiva
 
   const newRealm = REALM_LADDER[ri + 1];
   const newQiState = createQiState(newRealm);
-  // Preserve phase affinity from roots
-  newQiState.phaseAffinity = { ...cultivator.spiritualRoots.phases.wood, ...cultivator.spiritualRoots.phases.fire };
-  // Actually, construct from root strengths normalized
+  // Construct phase affinity from root strengths normalized
   const rp = cultivator.spiritualRoots.phases;
   newQiState.phaseAffinity = normalizePhaseAffinity({
     wood: rp.wood.strength,
@@ -1378,7 +1376,7 @@ export function createCultivationApi(): CultivationApi {
   }
 
   function getBreakthroughState(id: number): BreakthroughState | undefined {
-    return cultivators.get(id)?.breakthrough;
+    return cultivators.get(id)?.breakthrough ?? undefined;
   }
 
   function advanceBreakthroughStage(id: number, tick: number, action?: string): BreakthroughState | undefined {

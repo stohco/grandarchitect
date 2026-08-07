@@ -160,7 +160,7 @@ registerHandler({
     }
     const prevRevision = cell.revision;
     cell.revision = resultRevision;
-    return { inverse: { cellId, previousRevision } };
+    return { inverse: { cellId, previousRevision: prevRevision } };
   },
 });
 
@@ -173,7 +173,8 @@ registerHandler({
     if (!payload.transform) errors.push('Missing transform');
     const t = payload.transform as { position?: number[] };
     if (!t?.position || t.position.length !== 3) errors.push('Invalid transform.position');
-    if (payload.strength !== undefined && (payload.strength < 0 || payload.strength > 1)) {
+    const strength = payload.strength as number | undefined;
+    if (strength !== undefined && (strength < 0 || strength > 1)) {
       errors.push('strength must be 0-1');
     }
     return { valid: errors.length === 0, errors, warnings: [] };

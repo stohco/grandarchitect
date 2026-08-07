@@ -1,0 +1,60 @@
+{
+  "runId": "GA-2026-08-06-03-prod-firefox",
+  "browser": "firefox",
+  "baseUrl": "http://localhost:3000",
+  "timestamp": "2026-08-07T05:58:48.036Z",
+  "passCount": 10,
+  "failCount": 0,
+  "results": [
+    {
+      "name": "P1 enter-playtest (runtime ready+running)",
+      "pass": true,
+      "detail": "colliders=39"
+    },
+    {
+      "name": "P2 grounded-after-fall",
+      "pass": true,
+      "detail": "y=1.30 mode=idle"
+    },
+    {
+      "name": "P3 wasd-moves",
+      "pass": true,
+      "detail": "from (-15.0,1.0) to (-15.0,-0.2) mode=idle"
+    },
+    {
+      "name": "P4 sprint-mode",
+      "pass": true,
+      "detail": "sprinting"
+    },
+    {
+      "name": "P5 jump-air-then-ground",
+      "pass": true,
+      "detail": "airY=1.35 reGround=true"
+    },
+    {
+      "name": "P6 no-structure-penetration (head-on)",
+      "pass": true,
+      "detail": "min-clearance=-0.73m (household@(-19,-2)) endDistToTarget=8.9m (wallFace=3.5)"
+    },
+    {
+      "name": "P7 evidence-flags",
+      "pass": true,
+      "detail": "module-import,world-created,character-controller-created,cuboid-collider-created,cylinder-collider-created,character-created,character-moved,character-grounded,character-jumped"
+    },
+    {
+      "name": "P7b exit-esc (stepping paused)",
+      "pass": true,
+      "detail": "running=true"
+    },
+    {
+      "name": "P8 re-entry-no-duplicates",
+      "pass": true,
+      "detail": "colliders 39 -> 39"
+    },
+    {
+      "name": "P9 fresh-process-reload",
+      "pass": true,
+      "detail": "grounded=true moved=true"
+    }
+  ]
+}

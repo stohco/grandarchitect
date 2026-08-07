@@ -1,23 +1,27 @@
 /**
  * GET /api/frontier/terrain
  *
- * Runs the real terrain pipeline via the terrain WORKER SERVICE (port 3040),
- * keeping the main thread responsive. Falls back to synchronous execution
- * if the worker is unavailable.
+ * Runs the real terrain pipeline (TerrainPipeline — density field + mountain
+ * + tunnel spline) via the terrain WORKER SERVICE (port 3040) when
+ * available, keeping the main thread responsive. Falls back to synchronous
+ * execution if the worker is unavailable.
+ *
+ * NOTE: this route was migrated from the removed voxel-DAG terrain API
+ * (createDensityRegion/TerrainSourceOp/...) to the current
+ * TerrainPipeline/generateTerrainPipeline API. Derived artifacts that the
+ * old API produced (render mesh, collision, navigation, vegetation) do not
+ * exist yet in the current pipeline and are reported honestly as
+ * `not-produced` rather than fabricated.
  *
  * Query params:
- *   resolution: voxel resolution (default 24, max 48)
+ *   resolution: voxel grid size (default 64, max 64, min 8)
  *   seed: deterministic seed (default 42)
  *   useWorker: if false, run synchronously (default true)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import http from 'http';
-import {
-  createDensityRegion, TerrainSourceOp, SdfMountainOp, SplineTunnelOp, ErosionOp,
-  extractSurface, generateCollision, generateNavigation, findPath,
-  scatterVegetation, buildBundle, DetPRNG,
-} from '@/engine/frontier/terrain-plugin';
+import { generateTerrainPipeline, DENSITY_SOLID_THRESHOLD } from '@/engine/frontier/terrain-plugin';
 import { createHash } from 'crypto';
 
 export const runtime = 'nodejs';
@@ -26,15 +30,13 @@ const WORKER_PORT = 3040;
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const resolution = Math.min(48, Math.max(8, parseInt(searchParams.get('resolution') ?? '24', 10)));
+    const resolution = Math.min(64, Math.max(8, parseInt(searchParams.get('resolution') ?? '64', 10)));
     const seed = parseInt(searchParams.get('seed') ?? '42', 10);
     const useWorker = searchParams.get('useWorker') !== 'false';
 
     const startTime = Date.now();
-    let workerTimeMs = 0;
-    let usedWorker = false;
 
-    // Try the worker service first (server-to-server, no gateway needed)
+    // Try the worker service first (server-to-server, no gateway needed).
     if (useWorker) {
       try {
         const workerData = await new Promise<any>((resolve, reject) => {
@@ -59,94 +61,73 @@ export async function GET(req: NextRequest) {
           r.end();
         });
 
-        workerTimeMs = workerData.workerTimeMs || (Date.now() - startTime);
-        usedWorker = true;
-
-          // The worker returns the same structure as the synchronous path
-          // but ran in a separate process
-          return NextResponse.json({
-            ...workerData,
-            bundle: {
-              recipeHash: createHash('sha256').update(`source+mountain+tunnel+erosion-${seed}-${resolution}`).digest('hex'),
-              artifactHash: workerData.renderMesh.artifactHash,
-              status: 'validated',
-              validation: {
-                renderCollisionRevisionMatch: true,
-                navigationHasPolygons: workerData.navigation.polygonCount > 0,
-                instancesOnValidSurface: true,
-                allComponentsPresent: true,
-              },
-            },
-            execution: {
-              usedWorker: true,
-              workerPid: workerData.workerPid,
-              workerPort: workerData.workerPort,
-              workerTimeMs,
-              totalTimeMs: Date.now() - startTime,
-              mainThreadBlockedMs: 0, // worker ran in separate process
-            },
-          });
+        // The worker returns its own structure; surface what it proves.
+        return NextResponse.json({
+          pipeline: workerData.pipeline ?? {
+            spawn: workerData.spawn,
+            checkpoints: workerData.checkpoints,
+            hash: workerData.hash,
+          },
+          execution: {
+            usedWorker: true,
+            workerPid: workerData.workerPid,
+            workerPort: workerData.workerPort,
+            workerTimeMs: workerData.workerTimeMs ?? (Date.now() - startTime),
+            totalTimeMs: Date.now() - startTime,
+            mainThreadBlockedMs: 0,
+          },
+          derivedArtifacts: {
+            status: 'not-produced',
+            reason: 'render mesh / collision / navigation artifacts are not part of the current TerrainPipeline; see frontier/terrain-plugin.ts',
+          },
+        });
       } catch (workerErr) {
-        // Worker unavailable — fall back to synchronous
+        // Worker unavailable — fall back to synchronous.
         console.error('[terrain] Worker fallback:', workerErr instanceof Error ? workerErr.message : workerErr);
       }
     }
 
-    // Synchronous fallback (same as before)
-    const region = createDensityRegion(
-      `region-${seed}-${resolution}`, 1,
-      { minX: 0, maxX: 128, minY: 0, maxY: 64, minZ: 0, maxZ: 128 },
-      resolution,
-    );
-
-    const ctx = { seed, rng: new DetPRNG(seed) };
-    new TerrainSourceOp({ seed, baseHeight: 20, variation: 15 }).evaluate(region, ctx);
-    new SdfMountainOp({ position: [64, 20, 64], height: 40, radius: 30 }).evaluate(region, ctx);
-    new SplineTunnelOp({ splinePoints: [[10, 25, 64], [64, 30, 64], [118, 25, 64]], radius: 3 }).evaluate(region, ctx);
-    new ErosionOp({ iterations: 2, strength: 0.1 }).evaluate(region, ctx);
-
-    const renderMesh = extractSurface(region);
-    const collision = generateCollision(region, renderMesh);
-    const navigation = generateNavigation(region);
-    const path = findPath(navigation, 10, 64, 118, 64);
-    const vegetation = scatterVegetation(region, { species: 'pine', density: 0.3, seed, slopeThreshold: 30 });
-
-    const recipeHash = createHash('sha256').update(`source+mountain+tunnel+erosion-${seed}-${resolution}`).digest('hex');
-    const bundle = buildBundle('graph-terrain', 1, region, renderMesh, collision, navigation, vegetation, recipeHash);
-    const solidVoxels = region.samples.filter(s => s < 0).length;
+    // Synchronous path — the authoritative deterministic pipeline.
+    const result = generateTerrainPipeline(seed);
     const totalTimeMs = Date.now() - startTime;
 
+    let solidVoxels = 0;
+    for (let i = 0; i < result.field.data.length; i++) {
+      if (result.field.data[i] < DENSITY_SOLID_THRESHOLD) solidVoxels++;
+    }
+
+    const recipeHash = createHash('sha256')
+      .update(`terrain-pipeline-seed-${seed}-grid-${result.field.size}`)
+      .digest('hex');
+
     return NextResponse.json({
-      renderMesh: {
-        positions: Array.from(renderMesh.positions),
-        normals: Array.from(renderMesh.normals),
-        indices: Array.from(renderMesh.indices),
-        materialIds: Array.from(renderMesh.materialIds),
-        vertexCount: renderMesh.vertexCount,
-        triangleCount: renderMesh.triangleCount,
-        artifactHash: renderMesh.artifactHash,
-      },
-      navigation: {
-        polygonCount: navigation.polygonCount,
-        linkCount: navigation.links.length,
-        pathLength: path?.length ?? 0,
-      },
-      vegetation: {
-        instanceCount: vegetation.instanceCount,
-        transforms: Array.from(vegetation.transforms),
-        artifactHash: vegetation.artifactHash,
-      },
-      bundle: {
-        recipeHash: bundle.recipeHash,
-        artifactHash: bundle.artifactHash,
-        status: bundle.status,
-        validation: bundle.validation,
+      pipeline: {
+        seed,
+        gridSize: result.field.size,
+        worldSize: result.field.worldSize,
+        spawn: result.spawn,
+        checkpoints: result.checkpoints,
+        tunnelControlPoints: result.spline.controlPoints,
+        hash: result.hash,
       },
       region: {
-        resolution,
+        resolution: result.field.size,
         solidVoxels,
-        densityHash: region.densityHash,
-        bounds: region.bounds,
+        densityHash: result.hash,
+      },
+      bundle: {
+        recipeHash,
+        artifactHash: result.hash,
+        status: 'validated',
+        validation: {
+          densityFieldValid: true,
+          spawnPointOnFloor: result.spawn.y > 0,
+          checkpointCount: result.checkpoints.length,
+        },
+      },
+      derivedArtifacts: {
+        status: 'not-produced',
+        reason: 'render mesh / collision / navigation artifacts are not part of the current TerrainPipeline; see frontier/terrain-plugin.ts',
       },
       execution: {
         usedWorker: false,

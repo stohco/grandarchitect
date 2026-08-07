@@ -152,3 +152,73 @@ export interface CheckpointProgress {
   /** Hex SHA-256 of the recorded trajectory (positions every 10 ticks). */
   trajectoryHash: string;
 }
+
+// ============================================================================
+// Editable Operation Graph (non-destructive editing)
+// ============================================================================
+
+export type OperationType = 'add' | 'subtract' | 'paint' | 'scatter' | 'erosion' | 'place';
+
+export interface EditableOperation {
+  operationId: string;
+  type: OperationType;
+  label: string;
+  parameters: Record<string, unknown>;
+  enabled: boolean;
+  attributableTo: string;
+  timestamp: string;
+}
+
+export interface EditableOperationGraph {
+  graphId: string;
+  graphType: string;
+  operations: EditableOperation[];
+  runtimeBaked: boolean;
+  lastBakedAt?: string;
+}
+
+// ============================================================================
+// Frontier technique registry
+// ============================================================================
+
+export interface FrontierTechniqueRecord {
+  id: string;
+  name: string;
+  category: string;
+  problemSolved: string;
+  observedSources: Array<{ type: string; title: string; author?: string; url?: string; license?: string }>;
+  underlyingPrinciples: string[];
+  maturity: string;
+  licenseAssessment: { license: string; compatible: boolean; notes: string };
+  browserFeasibility: { browserFeasible: boolean; webgpuRequired?: boolean; webgl2Fallback?: string; notes: string };
+  webgpuRequirements?: Array<{ feature: string; required: boolean; fallback: string }>;
+  expectedBenefits?: Array<{ metric: string; expected: string; confidence: string }>;
+  expectedCosts?: Array<{ metric: string; expected: string; confidence: string }>;
+  knownLimitations?: string[];
+  integrationStrategy?: string;
+  integrationPlan?: unknown;
+  runtimeAuthority?: string;
+  currentBlocker?: string;
+  paperRef?: string;
+  benchmarks?: unknown[];
+  visualEvidence?: unknown[];
+  decisionStatus: string;
+  qualityModes?: Array<{ name: string; description: string; gpuRequired: boolean; estimatedCost: string }>;
+  applicableSystems?: string[];
+  createdAt?: string;
+}
+
+export interface CapabilityMatrixEntry {
+  capabilityId: string;
+  capabilityName: string;
+  category: string;
+  byBackend: Record<string, string>;
+  byProfile: Record<string, string>;
+  fallbackStrategy: string;
+  notes: string;
+}
+
+export interface CapabilityMatrix {
+  generatedAt: string;
+  entries: CapabilityMatrixEntry[];
+}

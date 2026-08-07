@@ -270,7 +270,7 @@ function inferSystems(text: string, domain: ClaimDomain): string[] {
 }
 
 function inferTags(text: string, domain: ClaimDomain): string[] {
-  const tags = [domain];
+  const tags: string[] = [domain];
   const lower = text.toLowerCase();
 
   if (lower.includes('forbidden')) tags.push('forbidden-interpretation');

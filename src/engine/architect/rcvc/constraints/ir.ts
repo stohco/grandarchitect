@@ -89,7 +89,7 @@ export function evalConstraint(expr: ConstraintExpression, assignments: Record<s
     case 'or': return expr.exprs.some(e => evalConstraint(e, assignments));
     case 'not': return !evalConstraint(expr.expr, assignments);
     case 'in_range': {
-      const v = evalTerm(expr.var as Term, assignments) as number;
+      const v = evalTerm(expr.var as unknown as Term, assignments) as number;
       return v >= (evalTerm(expr.min, assignments) as number) && v <= (evalTerm(expr.max, assignments) as number);
     }
     case 'distance_le': {

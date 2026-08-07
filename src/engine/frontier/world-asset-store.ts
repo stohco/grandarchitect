@@ -56,17 +56,22 @@ export interface SerializedDerivedBundle {
   bundleId: string;
   graphId: string;
   graphRevision: number;
-  regionId: string;
+  regionId?: string;
   recipeHash: string;
   artifactHash: string;
   status: string;
   serializedAt: string;
-  // Artifact summaries (not full geometry — too large for JSON storage)
-  renderVertexCount: number;
-  renderTriangleCount: number;
-  collisionVertexCount: number;
-  navigationPolygonCount: number;
-  vegetationInstanceCount: number;
+  // Artifact summaries (not full geometry — too large for JSON storage).
+  // Legacy fields from the removed voxel-DAG terrain API are optional; the
+  // current TerrainPipeline bundles carry pipeline determinism fields.
+  renderVertexCount?: number;
+  renderTriangleCount?: number;
+  collisionVertexCount?: number;
+  navigationPolygonCount?: number;
+  vegetationInstanceCount?: number;
+  spawnPoint?: { x: number; y: number; z: number };
+  checkpointCount?: number;
+  solidVoxelCount?: number;
   validation: Record<string, boolean>;
 }
 
