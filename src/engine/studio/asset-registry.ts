@@ -1,33 +1,66 @@
 /**
- * Asset / Entity / Cell Separation
- * =================================
+ * Asset / Entity / Cell Separation — Canonical Asset Registry
+ * =============================================================
  *
  * Corrects the architectural issue where placeAssetInWorld() conflated
  * GLB assets with world cells. The proper hierarchy is:
  *
- *   MeshKernel → compile → AssetRevision (content-addressed)
+ *   AssetPipeline → validate → AssetRevision (content-addressed)
  *     → EntityInstance (placed in world with transform)
  *       → WorldCell (spatial streaming container)
  *
  * Multiple entities can reference the same asset revision.
  * Multiple cells can contain multiple entities.
  * An asset revision change doesn't require moving entities.
+ *
+ * This registry is REAL:
+ *   - content hashes are SHA-256 over the full GLB bytes (not a 4 KB slice),
+ *   - revisions record their source semantic hash and validation state,
+ *   - derived artifacts (LOD chain, collision hierarchy, GLB) are attached
+ *     and revisioned AGAINST the source revision (engine rule: derived
+ *     artifacts record their source revision; never activate artifacts
+ *     from mismatched source revisions),
+ *   - the whole registry serializes to JSON (GLB bytes as base64) and
+ *     reloads from disk with matching hashes (world-asset-store pattern).
  */
 
-import type { GLBExportResult } from './glb-export';
-import { createHash } from 'crypto';
+import { writeFile, readFile, mkdir } from 'fs/promises';
+import { join } from 'path';
+import { existsSync } from 'fs';
+import { sha256Hex } from '../assets/content-hash';
 
 // ---------------------------------------------------------------------------
 // Asset Revision (content-addressed, immutable)
 // ---------------------------------------------------------------------------
 
+export type AssetSource =
+  | 'studio-operation-stack'
+  | 'structure-grammar'
+  | 'character-authoring'
+  | 'imported-glb'
+  | 'procedural-pipeline'
+  | 'placeholder';
+
+export interface DerivedArtifact {
+  artifactId: string;
+  kind: 'lod-chain' | 'collision-hierarchy' | 'glb';
+  /** Source revision this artifact was derived from. */
+  sourceRevision: number;
+  /** Content hash of the artifact. */
+  hash: string;
+  /** Machine-readable artifact summary (counts, sizes, levels). */
+  summary: Record<string, unknown>;
+}
+
 export interface AssetRevision {
   assetId: string;
   revision: number;
-  /** Content hash of the GLB binary. */
+  /** SHA-256 of the full GLB binary. */
   contentHash: string;
+  /** Hash of the source SemanticAsset geometry (positions+uvs+normals+indices). */
+  semanticHash: string;
   /** GLB binary artifact. */
-  glbArtifact: GLBExportResult | null;
+  glbBytes: Uint8Array | null;
   /** Mesh stats at this revision. */
   vertexCount: number;
   faceCount: number;
@@ -37,7 +70,9 @@ export interface AssetRevision {
   /** When this revision was created. */
   createdAt: string;
   /** Provenance: what created this asset. */
-  source: 'studio-operation-stack' | 'structure-grammar' | 'character-authoring' | 'imported-glb' | 'placeholder';
+  source: AssetSource;
+  /** Derived artifacts bound to this revision. */
+  artifacts: DerivedArtifact[];
 }
 
 // ---------------------------------------------------------------------------
@@ -80,7 +115,23 @@ export interface WorldCellV2 {
 }
 
 // ---------------------------------------------------------------------------
-// Asset Registry (in-memory)
+// Register input
+// ---------------------------------------------------------------------------
+
+export interface RegisterRevisionInput {
+  assetId: string;
+  glbBytes?: Uint8Array | null;
+  semanticHash: string;
+  vertexCount: number;
+  faceCount: number;
+  triangleCount: number;
+  materialCount: number;
+  source: AssetSource;
+  createdAt?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Asset Registry (in-memory + fs-persisted)
 // ---------------------------------------------------------------------------
 
 export class AssetRegistry {
@@ -89,41 +140,62 @@ export class AssetRegistry {
   private cells = new Map<string, WorldCellV2>();
   private entityCounter = 0;
   private cellCounter = 0;
+  private storageDir: string | null;
+
+  constructor(storageDir: string | null = null) {
+    this.storageDir = storageDir;
+  }
 
   /**
-   * Register a new asset revision. Returns the revision.
+   * Register a new asset revision. The revision number is the append index
+   * (1-based); the content hash is SHA-256 over the FULL GLB bytes when a
+   * GLB is provided, else derived from the semantic hash (still
+   * deterministic and content-addressed).
    */
-  registerRevision(
-    assetId: string,
-    glb: GLBExportResult | null,
-    vertexCount: number,
-    faceCount: number,
-    triangleCount: number,
-    materialCount: number,
-    source: AssetRevision['source'],
-  ): AssetRevision {
-    const existing = this.revisions.get(assetId) ?? [];
+  registerRevision(input: RegisterRevisionInput): AssetRevision {
+    const existing = this.revisions.get(input.assetId) ?? [];
     const revision = existing.length + 1;
-    const contentHash = glb?.hash ?? createHash('sha256')
-      .update(`${assetId}-${revision}-${vertexCount}-${faceCount}`)
-      .digest('hex').slice(0, 16);
+    const contentHash = input.glbBytes
+      ? sha256Hex(input.glbBytes)
+      : sha256Hex(new TextEncoder().encode(`${input.assetId}:${revision}:${input.semanticHash}`));
 
     const assetRevision: AssetRevision = {
-      assetId,
+      assetId: input.assetId,
       revision,
       contentHash,
-      glbArtifact: glb,
-      vertexCount,
-      faceCount,
-      triangleCount,
-      materialCount,
-      createdAt: new Date().toISOString(),
-      source,
+      semanticHash: input.semanticHash,
+      glbBytes: input.glbBytes ?? null,
+      vertexCount: input.vertexCount,
+      faceCount: input.faceCount,
+      triangleCount: input.triangleCount,
+      materialCount: input.materialCount,
+      createdAt: input.createdAt ?? new Date().toISOString(),
+      source: input.source,
+      artifacts: [],
     };
 
     existing.push(assetRevision);
-    this.revisions.set(assetId, existing);
+    this.revisions.set(input.assetId, existing);
     return assetRevision;
+  }
+
+  /**
+   * Attach a derived artifact (LOD chain, collision hierarchy, GLB) to a
+   * specific source revision. Every artifact carries its sourceRevision so
+   * consumers can refuse mismatched combinations.
+   */
+  attachDerivedArtifact(assetId: string, revision: number, artifact: DerivedArtifact): boolean {
+    const rev = this.getRevision(assetId, revision);
+    if (!rev) return false;
+    rev.artifacts.push(artifact);
+    return true;
+  }
+
+  /** Get artifacts of a kind for a revision. */
+  getArtifacts(assetId: string, revision: number, kind: DerivedArtifact['kind']): DerivedArtifact[] {
+    const rev = this.getRevision(assetId, revision);
+    if (!rev) return [];
+    return rev.artifacts.filter((a) => a.kind === kind);
   }
 
   /**
@@ -132,7 +204,7 @@ export class AssetRegistry {
   getLatestRevision(assetId: string): AssetRevision | null {
     const revisions = this.revisions.get(assetId);
     if (!revisions || revisions.length === 0) return null;
-    return revisions[revisions.length - 1];
+    return revisions[revisions.length - 1]!;
   }
 
   /**
@@ -145,13 +217,15 @@ export class AssetRegistry {
   }
 
   /**
-   * Create an entity instance from an asset revision.
+   * Create an entity instance from an asset revision. Multiple instances
+   * may share one revision — this is the proof of revision sharing.
    */
   createEntityInstance(
     assetId: string,
     revision: number,
     position: [number, number, number],
     cellId: string,
+    tags: string[] = [],
   ): EntityInstance {
     const entityId = `entity-${++this.entityCounter}-${Date.now().toString(36)}`;
     const instance: EntityInstance = {
@@ -165,7 +239,7 @@ export class AssetRegistry {
       },
       cellId,
       visible: true,
-      tags: [],
+      tags,
     };
 
     this.instances.set(entityId, instance);
@@ -190,6 +264,14 @@ export class AssetRegistry {
     return instance;
   }
 
+  getInstance(entityId: string): EntityInstance | null {
+    return this.instances.get(entityId) ?? null;
+  }
+
+  listInstances(): EntityInstance[] {
+    return Array.from(this.instances.values());
+  }
+
   /**
    * Move an entity to a new position (may change cells).
    */
@@ -201,7 +283,6 @@ export class AssetRegistry {
     instance.transform.position = newPosition;
 
     // Check if entity crossed cell boundary (simplified: cells are 20m squares)
-    // In production, this would use proper spatial partitioning
     const oldCell = this.cells.get(oldCellId);
     if (oldCell) {
       const inBounds =
@@ -260,7 +341,7 @@ export class AssetRegistry {
     return Array.from(this.revisions.entries()).map(([assetId, revs]) => ({
       assetId,
       revisionCount: revs.length,
-      latestHash: revs[revs.length - 1].contentHash,
+      latestHash: revs[revs.length - 1]!.contentHash,
     }));
   }
 
@@ -286,6 +367,119 @@ export class AssetRegistry {
       instancesPerAsset,
     };
   }
+
+  // -------------------------------------------------------------------------
+  // Persistence (fs-backed; world-asset-store pattern)
+  // -------------------------------------------------------------------------
+
+  /**
+   * Persist the full registry to the storage directory as JSON. GLB bytes
+   * are stored base64 so a reload reproduces byte-identical hashes.
+   */
+  async persist(dir?: string): Promise<string> {
+    const target = dir ?? this.storageDir;
+    if (!target) throw new Error('AssetRegistry has no storage dir configured');
+    await mkdir(target, { recursive: true });
+    const snapshot = this.toSnapshot();
+    const path = join(target, 'asset-registry.json');
+    await writeFile(path, JSON.stringify(snapshot), 'utf-8');
+    return path;
+  }
+
+  /**
+   * Load a registry from disk (fresh instance — hashes must match).
+   */
+  static async load(dir: string): Promise<AssetRegistry> {
+    const path = join(dir, 'asset-registry.json');
+    if (!existsSync(path)) throw new Error(`No registry snapshot at ${path}`);
+    const snapshot = JSON.parse(await readFile(path, 'utf-8')) as RegistrySnapshot;
+    const registry = new AssetRegistry(dir);
+    registry.fromSnapshot(snapshot);
+    return registry;
+  }
+
+  toSnapshot(): RegistrySnapshot {
+    return {
+      revisions: Array.from(this.revisions.entries()).map(([assetId, revs]) => ({
+        assetId,
+        revisions: revs.map((r) => ({
+          assetId: r.assetId,
+          revision: r.revision,
+          contentHash: r.contentHash,
+          semanticHash: r.semanticHash,
+          glbBase64: r.glbBytes ? Buffer.from(r.glbBytes).toString('base64') : null,
+          vertexCount: r.vertexCount,
+          faceCount: r.faceCount,
+          triangleCount: r.triangleCount,
+          materialCount: r.materialCount,
+          createdAt: r.createdAt,
+          source: r.source,
+          artifacts: r.artifacts,
+        })),
+      })),
+      instances: Array.from(this.instances.values()),
+      cells: Array.from(this.cells.values()),
+      entityCounter: this.entityCounter,
+      cellCounter: this.cellCounter,
+    };
+  }
+
+  fromSnapshot(snapshot: RegistrySnapshot): void {
+    this.revisions.clear();
+    this.instances.clear();
+    this.cells.clear();
+    for (const entry of snapshot.revisions) {
+      this.revisions.set(
+        entry.assetId,
+        entry.revisions.map((r) => ({
+          assetId: r.assetId,
+          revision: r.revision,
+          contentHash: r.contentHash,
+          semanticHash: r.semanticHash,
+          glbBytes: r.glbBase64 ? new Uint8Array(Buffer.from(r.glbBase64, 'base64')) : null,
+          vertexCount: r.vertexCount,
+          faceCount: r.faceCount,
+          triangleCount: r.triangleCount,
+          materialCount: r.materialCount,
+          createdAt: r.createdAt,
+          source: r.source,
+          artifacts: r.artifacts,
+        })),
+      );
+    }
+    for (const inst of snapshot.instances) {
+      this.instances.set(inst.entityId, inst);
+    }
+    for (const cell of snapshot.cells) {
+      this.cells.set(cell.cellId, cell);
+    }
+    this.entityCounter = snapshot.entityCounter ?? this.instances.size;
+    this.cellCounter = snapshot.cellCounter ?? this.cells.size;
+  }
+}
+
+export interface RegistrySnapshot {
+  revisions: Array<{
+    assetId: string;
+    revisions: Array<{
+      assetId: string;
+      revision: number;
+      contentHash: string;
+      semanticHash: string;
+      glbBase64: string | null;
+      vertexCount: number;
+      faceCount: number;
+      triangleCount: number;
+      materialCount: number;
+      createdAt: string;
+      source: AssetSource;
+      artifacts: DerivedArtifact[];
+    }>;
+  }>;
+  instances: EntityInstance[];
+  cells: WorldCellV2[];
+  entityCounter?: number;
+  cellCounter?: number;
 }
 
 // Singleton
