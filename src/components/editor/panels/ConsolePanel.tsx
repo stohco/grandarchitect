@@ -15,6 +15,7 @@ import { Trash2, ChevronDown, TerminalSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEditorStore } from '@/lib/editor/store';
+import { dispatchAction } from '@/lib/studio-ui/action-dispatch';
 import type { LogEntry, LogLevel } from '@/lib/editor/types';
 
 const LEVEL_COLORS: Record<LogLevel, string> = {
@@ -43,7 +44,6 @@ export default function ConsolePanel() {
   const logs = useEditorStore((s) => s.logs);
   const consoleFilter = useEditorStore((s) => s.consoleFilter);
   const setConsoleFilter = useEditorStore((s) => s.setConsoleFilter);
-  const clearLogs = useEditorStore((s) => s.clearLogs);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isNearBottom, setIsNearBottom] = useState(true);
 
@@ -117,7 +117,7 @@ export default function ConsolePanel() {
         <span className="text-[11px] font-semibold uppercase tracking-wider text-[#8888aa]">Console</span>
         <span className="text-[10px] text-[#5a5a7a]">{logs.length}</span>
         <div className="flex-1" />
-        <Button variant="ghost" size="icon" aria-label="Clear logs" className="h-5 w-5 text-[#5a5a7a] hover:text-white" onClick={clearLogs}>
+        <Button variant="ghost" size="icon" aria-label="Clear logs" className="h-5 w-5 text-[#5a5a7a] hover:text-white" onClick={() => void dispatchAction('diagnostics.clearLogs')}>
           <Trash2 className="h-3 w-3" />
         </Button>
       </div>

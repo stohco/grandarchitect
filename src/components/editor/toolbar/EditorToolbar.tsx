@@ -4,8 +4,12 @@
  * Horizontal toolbar with editor mode, transport controls,
  * transform mode, view toggles, render mode, world state, and utility actions.
  *
+ * EVERY action button dispatches through the canonical UI Action Registry
+ * (src/lib/studio-ui/action-dispatch.ts) — ONE definition per action,
+ * shared with keyboard shortcuts, the command palette, context menus and
+ * the Grand Architect. No button embeds ad hoc logic.
+ *
  * Wraps gracefully on narrow screens (`flex-wrap`).
- * Related actions are grouped with subtle vertical separators.
  * All toggle buttons expose `aria-pressed` for accessibility.
  */
 
@@ -49,6 +53,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Badge } from '@/components/ui/badge';
 import { useEditorStore } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
+import { dispatchAction } from '@/lib/studio-ui/action-dispatch';
 import type {
   WorldExecutionState,
   RenderMode,
@@ -101,32 +106,18 @@ export default function EditorToolbar() {
   const editorMode = useEditorStore((s) => s.editorMode);
   const setEditorMode = useEditorStore((s) => s.setEditorMode);
   const transformMode = useEditorStore((s) => s.transformMode);
-  const setTransformMode = useEditorStore((s) => s.setTransformMode);
   const renderMode = useEditorStore((s) => s.renderMode);
   const setRenderMode = useEditorStore((s) => s.setRenderMode);
   const worldState = useEditorStore((s) => s.worldState);
   const requestWorldState = useEditorStore((s) => s.requestWorldState);
   const simRunning = useEditorStore((s) => s.simRunning);
-  const toggleSim = useEditorStore((s) => s.toggleSim);
-  const step = useEditorStore((s) => s.step);
   const showGrid = useEditorStore((s) => s.showGrid);
-  const toggleGrid = useEditorStore((s) => s.toggleGrid);
   const showGizmos = useEditorStore((s) => s.showGizmos);
-  const toggleGizmos = useEditorStore((s) => s.toggleGizmos);
   const snapEnabled = useEditorStore((s) => s.snapEnabled);
-  const toggleSnap = useEditorStore((s) => s.toggleSnap);
   const showStats = useEditorStore((s) => s.showStats);
-  const toggleStats = useEditorStore((s) => s.toggleStats);
   const physicsEnabled = useEditorStore((s) => s.physicsEnabled);
-  const togglePhysics = useEditorStore((s) => s.togglePhysics);
   const playtestMode = useEditorStore((s) => s.playtestMode);
-  const setPlaytestMode = useEditorStore((s) => s.setPlaytestMode);
   const showBottomDock = useEditorStore((s) => s.showBottomDock);
-  const toggleBottomDock = useEditorStore((s) => s.toggleBottomDock);
-  const selectAll = useEditorStore((s) => s.selectAll);
-  const clearSelection = useEditorStore((s) => s.clearSelection);
-  const resetEdits = useEditorStore((s) => s.resetEdits);
-  const forkWorld = useEditorStore((s) => s.forkWorld);
 
   const currentEditorMode = EDITOR_MODES.find((m) => m.value === editorMode);
   const currentRenderMode = RENDER_MODES.find((m) => m.value === renderMode);
@@ -165,7 +156,7 @@ export default function EditorToolbar() {
 
       <ToolbarSeparator />
 
-      {/* ───────── Group: Transport controls ───────── */}
+      {/* ───────── Group: Transport controls (registry-dispatched) ───────── */}
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -174,7 +165,7 @@ export default function EditorToolbar() {
             aria-pressed={simRunning}
             aria-label={simRunning ? 'Pause simulation' : 'Play simulation'}
             className={`${btnBase} w-6 ${simRunning ? 'text-emerald-400' : 'text-[#8888aa]'} hover:text-white`}
-            onClick={toggleSim}
+            onClick={() => void dispatchAction(simRunning ? 'simulation.stop' : 'simulation.start')}
           >
             {simRunning ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
           </Button>
@@ -189,12 +180,12 @@ export default function EditorToolbar() {
             size="icon"
             aria-label="Stop"
             className={`${btnBase} w-6 text-[#8888aa] hover:text-white`}
-            onClick={() => { if (simRunning) toggleSim(); requestWorldState('generation_freeze'); }}
+            onClick={() => void dispatchAction('simulation.stop')}
           >
             <Square className="h-3 w-3" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="bottom" className="text-xs">Stop</TooltipContent>
+        <TooltipContent side="bottom" className="text-xs">Stop (legal transition to generation_freeze)</TooltipContent>
       </Tooltip>
 
       <Tooltip>
@@ -204,7 +195,7 @@ export default function EditorToolbar() {
             size="icon"
             aria-label="Step forward"
             className={`${btnBase} w-6 text-[#8888aa] hover:text-white`}
-            onClick={() => step('physics_tick', 1)}
+            onClick={() => void dispatchAction('simulation.step')}
           >
             <StepForward className="h-3.5 w-3.5" />
           </Button>
@@ -220,7 +211,7 @@ export default function EditorToolbar() {
             aria-pressed={playtestMode}
             aria-label="Enter playtest mode"
             className={`${btnBase} w-6 ${playtestMode ? 'text-amber-400' : 'text-[#8888aa]'} hover:text-white`}
-            onClick={() => setPlaytestMode(!playtestMode)}
+            onClick={() => void dispatchAction('playtest.toggle')}
           >
             <Gamepad2 className="h-3.5 w-3.5" />
           </Button>
@@ -232,8 +223,8 @@ export default function EditorToolbar() {
 
       <ToolbarSeparator />
 
-      {/* ───────── Group: Transform mode ───────── */}
-      <ToggleGroup type="single" value={transformMode} onValueChange={(v) => { if (v) setTransformMode(v as TransformMode); }} className="gap-0">
+      {/* ───────── Group: Transform mode (registry-dispatched) ───────── */}
+      <ToggleGroup type="single" value={transformMode} onValueChange={(v) => { if (v) void dispatchAction(`global.${v}Mode`); }} className="gap-0">
         <Tooltip>
           <TooltipTrigger asChild>
             <ToggleGroupItem value="translate" aria-label="Translate" className={`${btnBase} w-6 rounded-l rounded-r-none border border-[#2a2a4a] bg-transparent px-0 text-[#8888aa] data-[state=on]:bg-[#2a2a5a] data-[state=on]:text-emerald-300 hover:text-white`}>
@@ -262,7 +253,7 @@ export default function EditorToolbar() {
 
       <ToolbarSeparator />
 
-      {/* ───────── Group: View toggles ───────── */}
+      {/* ───────── Group: View toggles (registry-dispatched) ───────── */}
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -271,7 +262,7 @@ export default function EditorToolbar() {
             aria-pressed={showGrid}
             aria-label="Toggle grid"
             className={`${btnBase} w-6 ${showGrid ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
-            onClick={toggleGrid}
+            onClick={() => void dispatchAction('global.toggleGrid')}
           >
             <Grid3X3 className="h-3.5 w-3.5" />
           </Button>
@@ -287,7 +278,7 @@ export default function EditorToolbar() {
             aria-pressed={showGizmos}
             aria-label="Toggle gizmos"
             className={`${btnBase} w-6 ${showGizmos ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
-            onClick={toggleGizmos}
+            onClick={() => void dispatchAction('global.toggleGizmos')}
           >
             <Box className="h-3.5 w-3.5" />
           </Button>
@@ -303,7 +294,7 @@ export default function EditorToolbar() {
             aria-pressed={physicsEnabled}
             aria-label="Toggle Rapier physics"
             className={`${btnBase} w-6 ${physicsEnabled ? 'text-amber-400' : 'text-[#5a5a7a]'} hover:text-white`}
-            onClick={togglePhysics}
+            onClick={() => void dispatchAction('global.togglePhysics')}
           >
             <Atom className="h-3.5 w-3.5" />
           </Button>
@@ -321,7 +312,7 @@ export default function EditorToolbar() {
             aria-pressed={snapEnabled}
             aria-label="Toggle snapping"
             className={`${btnBase} w-6 ${snapEnabled ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
-            onClick={toggleSnap}
+            onClick={() => void dispatchAction('global.toggleSnap')}
           >
             <Grid2X2 className="h-3.5 w-3.5" />
           </Button>
@@ -386,10 +377,10 @@ export default function EditorToolbar() {
 
       <ToolbarSeparator />
 
-      {/* ───────── Group: Selection + edit actions ───────── */}
+      {/* ───────── Group: Selection + edit actions (registry-dispatched) ───────── */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="sm" className={`${btnBase} gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white`} onClick={selectAll}>
+          <Button variant="ghost" size="sm" className={`${btnBase} gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white`} onClick={() => void dispatchAction('global.selectAll')}>
             <CheckCheck className="h-3 w-3" /> Select All
           </Button>
         </TooltipTrigger>
@@ -398,7 +389,7 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="sm" className={`${btnBase} gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white`} onClick={clearSelection}>
+          <Button variant="ghost" size="sm" className={`${btnBase} gap-1 rounded px-2 text-[10px] text-[#8888aa] hover:text-white`} onClick={() => void dispatchAction('global.deselect')}>
             <X className="h-3 w-3" /> Deselect
           </Button>
         </TooltipTrigger>
@@ -407,7 +398,7 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Reset edits" className={`${btnBase} w-6 text-[#8888aa] hover:text-white`} onClick={resetEdits}>
+          <Button variant="ghost" size="icon" aria-label="Reset edits" className={`${btnBase} w-6 text-[#8888aa] hover:text-white`} onClick={() => void dispatchAction('world.resetEdits')}>
             <UndoIcon className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
@@ -416,11 +407,11 @@ export default function EditorToolbar() {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Fork world" className={`${btnBase} w-6 text-[#8888aa] hover:text-white`} onClick={() => forkWorld()}>
+          <Button variant="ghost" size="icon" aria-label="Fork world" className={`${btnBase} w-6 text-[#8888aa] hover:text-white`} onClick={() => void dispatchAction('world.fork')}>
             <GitBranch className="h-3.5 w-3.5" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="bottom" className="text-xs">Fork world</TooltipContent>
+        <TooltipContent side="bottom" className="text-xs">Fork world (real branch)</TooltipContent>
       </Tooltip>
 
       <Tooltip>
@@ -431,7 +422,7 @@ export default function EditorToolbar() {
             aria-pressed={showStats}
             aria-label="Toggle stats overlay"
             className={`${btnBase} w-6 ${showStats ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
-            onClick={toggleStats}
+            onClick={() => void dispatchAction('global.toggleStats')}
           >
             <BarChart3 className="h-3.5 w-3.5" />
           </Button>
@@ -447,7 +438,7 @@ export default function EditorToolbar() {
             aria-pressed={showBottomDock}
             aria-label="Toggle console"
             className={`${btnBase} w-6 ${showBottomDock ? 'text-emerald-400' : 'text-[#5a5a7a]'} hover:text-white`}
-            onClick={toggleBottomDock}
+            onClick={() => void dispatchAction('global.toggleBottomDock')}
           >
             <Terminal className="h-3.5 w-3.5" />
           </Button>

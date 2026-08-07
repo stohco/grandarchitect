@@ -21,8 +21,16 @@ import {
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { useEditorStore } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
+import { dispatchAction } from '@/lib/studio-ui/action-dispatch';
 import type { StructureKind, SerializableStructure } from '@/lib/editor/types';
 
 const KIND_ICONS: Record<StructureKind, React.ComponentType<{ className?: string }>> = {
@@ -66,10 +74,7 @@ export default function OutlinerPanel() {
   const outlinerGrouping = useEditorStore((s) => s.outlinerGrouping);
   const setOutlinerGrouping = useEditorStore((s) => s.setOutlinerGrouping);
   const selectEntity = useEditorStore((s) => s.selectEntity);
-  const toggleSelectEntity = useEditorStore((s) => s.toggleSelectEntity);
   const setHovered = useEditorStore((s) => s.setHovered);
-  const hideEntity = useEditorStore((s) => s.hideEntity);
-  const showEntity = useEditorStore((s) => s.showEntity);
 
   const [collapsedKinds, setCollapsedKinds] = useState<Set<string>>(new Set());
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
@@ -128,7 +133,9 @@ export default function OutlinerPanel() {
   };
 
   const handleClick = (id: number, shift: boolean) => {
-    if (shift) toggleSelectEntity(id); else selectEntity(id);
+    // Canonical action path: the same registered action the viewport,
+    // command palette and shortcuts use.
+    void dispatchAction('global.select', { entityId: id, mode: shift ? 'toggle' : 'replace' });
   };
 
   // Keep focused index in sync with selection: if a single entity is selected
@@ -259,36 +266,55 @@ export default function OutlinerPanel() {
                 const isFocused = focusedIndex === idx;
                 const isGrouped = outlinerGrouping !== 'none';
                 const Icon = KIND_ICONS[structure.kind];
+                const entityId = structure.entityId;
                 return (
-                  <div
-                    key={row.key}
-                    ref={(el) => { rowRefs.current[idx] = el; }}
-                    className={`group flex items-center gap-1.5 rounded px-2 py-0.5 text-[11px] transition-colors border-l-2 ${
-                      isSelected
-                        ? 'border-l-transparent bg-[#2a2a5a] text-white'
-                        : isFocused
-                        ? 'border-l-emerald-400/70 bg-[#1e1e3e] text-[#c8c8e0]'
-                        : isHovered
-                        ? 'border-l-transparent bg-[#1e1e3e] text-[#c8c8e0]'
-                        : 'border-l-transparent text-[#8888aa] hover:bg-[#1a1a3e] hover:text-[#aaaacc]'
-                    } ${isHidden ? 'opacity-40' : ''}`}
-                    onClick={(e) => handleClick(structure.entityId, e.shiftKey)}
-                    onMouseEnter={() => setHovered(structure.entityId)}
-                    onMouseLeave={() => setHovered(null)}
-                    role="treeitem"
-                    aria-selected={isSelected}
-                  >
-                    {isGrouped ? <span className="w-4" /> : <Icon className={`h-3 w-3 shrink-0 ${KIND_COLORS[structure.kind]}`} />}
-                    <span className="flex-1 truncate">{structure.name}</span>
-                    {hasEdits && <span className="h-1.5 w-1.5 rounded-full bg-amber-400" title="Has local edits" />}
-                    <button
-                      className="ml-auto h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
-                      onClick={(e) => { e.stopPropagation(); if (isHidden) showEntity(structure.entityId); else hideEntity(structure.entityId); }}
-                      aria-label={isHidden ? 'Show entity' : 'Hide entity'}
-                    >
-                      {isHidden ? <EyeOff className="h-3 w-3 text-[#5a5a7a]" /> : <Eye className="h-3 w-3 text-[#5a5a7a]" />}
-                    </button>
-                  </div>
+                  <ContextMenu key={row.key} onOpenChange={(open) => { if (open) setHovered(entityId); }}>
+                    <ContextMenuTrigger asChild>
+                      <div
+                        ref={(el) => { rowRefs.current[idx] = el; }}
+                        className={`group flex items-center gap-1.5 rounded px-2 py-0.5 text-[11px] transition-colors border-l-2 ${
+                          isSelected
+                            ? 'border-l-transparent bg-[#2a2a5a] text-white'
+                            : isFocused
+                            ? 'border-l-emerald-400/70 bg-[#1e1e3e] text-[#c8c8e0]'
+                            : isHovered
+                            ? 'border-l-transparent bg-[#1e1e3e] text-[#c8c8e0]'
+                            : 'border-l-transparent text-[#8888aa] hover:bg-[#1a1a3e] hover:text-[#aaaacc]'
+                        } ${isHidden ? 'opacity-40' : ''}`}
+                        onClick={(e) => handleClick(entityId, e.shiftKey)}
+                        onMouseEnter={() => setHovered(entityId)}
+                        onMouseLeave={() => setHovered(null)}
+                        role="treeitem"
+                        aria-selected={isSelected}
+                      >
+                        {isGrouped ? <span className="w-4" /> : <Icon className={`h-3 w-3 shrink-0 ${KIND_COLORS[structure.kind]}`} />}
+                        <span className="flex-1 truncate">{structure.name}</span>
+                        {hasEdits && <span className="h-1.5 w-1.5 rounded-full bg-amber-400" title="Has local edits" />}
+                        <button
+                          className="ml-auto h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+                          onClick={(e) => { e.stopPropagation(); void dispatchAction('world.toggleVisibility', { entityId }); }}
+                          aria-label={isHidden ? 'Show entity' : 'Hide entity'}
+                        >
+                          {isHidden ? <EyeOff className="h-3 w-3 text-[#5a5a7a]" /> : <Eye className="h-3 w-3 text-[#5a5a7a]" />}
+                        </button>
+                      </div>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent className="min-w-[170px] border-[#2a2a4a] bg-[#12122a] text-[#c8c8e0]">
+                      <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('global.select', { entityId })}>
+                        Select
+                      </ContextMenuItem>
+                      <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('world.toggleVisibility', { entityId })}>
+                        {isHidden ? 'Show in viewport' : 'Hide from viewport'}
+                      </ContextMenuItem>
+                      <ContextMenuSeparator className="bg-[#2a2a4a]" />
+                      <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('world.resetEdits')}>
+                        Reset Local Edits
+                      </ContextMenuItem>
+                      <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('global.deselect')}>
+                        Deselect All
+                      </ContextMenuItem>
+                    </ContextMenuContent>
+                  </ContextMenu>
                 );
               })
             )}

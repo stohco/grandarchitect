@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Package, Move3d, RotateCcw, Maximize2, Eye, EyeOff, Settings2 } from 'lucide-react';
 import { useEditorStore, useSelectedStructure, getEffectiveStructure } from '@/lib/editor/store';
+import { dispatchAction } from '@/lib/studio-ui/action-dispatch';
 import type { EntityEdit } from '@/lib/editor/types';
 
 function clamp(v: number, min?: number, max?: number): number {
@@ -175,14 +176,13 @@ export default function InspectorPanel() {
   const selectedEntityIds = useEditorStore((s) => s.selectedEntityIds);
   const edits = useEditorStore((s) => s.edits);
   const hiddenEntityIds = useEditorStore((s) => s.hiddenEntityIds);
-  const applyEdit = useEditorStore((s) => s.applyEdit);
-  const hideEntity = useEditorStore((s) => s.hideEntity);
-  const showEntity = useEditorStore((s) => s.showEntity);
   const structure = useSelectedStructure();
 
   const handleEdit = (field: EntityEdit['field'], value: number) => {
     if (!structure) return;
-    applyEdit({ entityId: structure.entityId, field, value });
+    // Canonical action path: transform edits dispatch through the registry
+    // (world.applyEntityEdit), the same action keyboard/palette surfaces use.
+    void dispatchAction('world.applyEntityEdit', { entityId: structure.entityId, field, value });
   };
 
   // The base (generated, pre-edit) structure, used for double-click-reset.
@@ -344,7 +344,7 @@ export default function InspectorPanel() {
               <div className="flex items-center gap-2 rounded bg-[#1a1a2e] px-3 py-2">
                 {hasEdits ? (<><span className="h-2 w-2 rounded-full bg-amber-400" /><span className="text-[11px] text-amber-300">Has local edits</span></>) : (<><span className="h-2 w-2 rounded-full bg-[#3a3a5a]" /><span className="text-[11px] text-[#5a5a7a]">No local edits</span></>)}
               </div>
-              <Button variant="outline" size="sm" className={`w-full gap-2 text-[11px] ${isHidden ? 'border-red-500/30 text-red-400 hover:bg-red-500/10' : 'border-[#2a2a4a] text-[#8888aa] hover:text-white'}`} onClick={() => { if (isHidden) showEntity(structure.entityId); else hideEntity(structure.entityId); }}>
+              <Button variant="outline" size="sm" className={`w-full gap-2 text-[11px] ${isHidden ? 'border-red-500/30 text-red-400 hover:bg-red-500/10' : 'border-[#2a2a4a] text-[#8888aa] hover:text-white'}`} onClick={() => void dispatchAction('world.toggleVisibility', { entityId: structure.entityId })}>
                 {isHidden ? (<><Eye className="h-3 w-3" />Show in viewport</>) : (<><EyeOff className="h-3 w-3" />Hide from viewport</>)}
               </Button>
             </div>

@@ -2,26 +2,28 @@
  * Action Registrations
  * ====================
  *
- * Registers all existing Studio capabilities into the canonical UI Action
- * Registry. Every action has: id, label, description, workspace, maturity,
- * availability check, invoke function, shortcut, keywords.
+ * Registers all Studio capabilities into the canonical UI Action Registry.
+ * Every action has ONE implementation — its `invoke` resolves to a real
+ * handler from action-handlers.ts (API or store transition) or an honest
+ * DISABLED_WITH_REASON (no backend exists). There are NO silent no-ops.
  *
  * This is what makes capabilities discoverable by:
- *   - buttons (reference action ID)
+ *   - buttons (dispatch by action ID)
  *   - command palette (search by keywords)
- *   - keyboard shortcuts
+ *   - keyboard shortcuts (registry shortcut table)
  *   - Grand Architect (capability discovery)
  *   - automated testing (invoke by ID)
  */
 
 import { getUiActionRegistry } from './action-registry';
 import type { UiActionDefinition, ActionContext, UiActionResult } from './action-registry';
+import { actionHandlers, blockedResult, type ActionHandler } from './action-handlers';
 
 // ---------------------------------------------------------------------------
-// Helper: create a simple action
+// Registration helper
 // ---------------------------------------------------------------------------
 
-function createAction(partial: {
+interface ActionSpec {
   id: string;
   label: string;
   description: string;
@@ -30,62 +32,61 @@ function createAction(partial: {
   maturity: UiActionDefinition['maturity'];
   shortcut?: string;
   keywords: string[];
-  apiRoute?: string;
   undoable?: boolean;
   dangerous?: boolean;
-}): UiActionDefinition {
-  return {
+  /** Optional per-action availability override (default: world must be loaded). */
+  availability?: (ctx: ActionContext) => { available: boolean; reason?: string; remediation?: string };
+  /** When set, the action is honestly disabled with this reason. */
+  disabledReason?: string;
+}
+
+function registerAction(spec: ActionSpec): void {
+  const handler: ActionHandler | undefined = actionHandlers[spec.id];
+  const hasHandler = Object.prototype.hasOwnProperty.call(actionHandlers, spec.id);
+  const disabledReason = spec.disabledReason ?? (hasHandler ? undefined : `No handler registered for action "${spec.id}".`);
+
+  const def: UiActionDefinition = {
+    id: spec.id,
+    label: spec.label,
+    description: spec.description,
+    category: spec.category,
+    workspace: spec.workspace,
+    maturity: spec.maturity,
+    shortcut: spec.shortcut,
+    keywords: spec.keywords,
+    undoable: spec.undoable ?? false,
+    dangerous: spec.dangerous ?? false,
+    requiresConfirmation: spec.dangerous,
+    supportsPreview: false,
     icon: undefined,
-    capabilityId: partial.id,
+    capabilityId: spec.id,
     documentationRef: undefined,
     shortLabel: undefined,
-    requiresConfirmation: partial.dangerous,
-    supportsPreview: false,
-    availability: (ctx: ActionContext) => {
-      // Most actions require a world to be loaded
-      if (!ctx.worldLoaded && partial.workspace !== 'diagnostics' && partial.workspace !== 'global') {
-        return { available: false, reason: 'No world loaded', remediation: 'Generate a world first' };
-      }
-      return { available: true };
+    disabledReason,
+    availability:
+      spec.availability ??
+      ((ctx: ActionContext) => {
+        if (spec.workspace !== 'diagnostics' && spec.workspace !== 'global' && !ctx.worldLoaded) {
+          return { available: false, reason: 'No world loaded', remediation: 'Generate a world first' };
+        }
+        return { available: true };
+      }),
+    invoke: (ctx: ActionContext, signal: AbortSignal): Promise<UiActionResult> => {
+      if (disabledReason) return Promise.resolve(blockedResult(disabledReason));
+      return handler!(ctx, signal);
     },
-    invoke: async (_ctx: ActionContext, _signal: AbortSignal): Promise<UiActionResult> => {
-      // In production, this would call the API route
-      // For now, return a placeholder result
-      const response = await fetch(partial.apiRoute ?? `/api/studio`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: partial.id.split('.')[1] ?? partial.id, assetId: 'action-test' }),
-        signal: _signal,
-      });
-      if (!response.ok) {
-        return {
-          status: 'failed',
-          message: `API returned ${response.status}`,
-          error: { code: 'API_ERROR', message: `HTTP ${response.status}`, retryable: true },
-        };
-      }
-      const data = await response.json();
-      return {
-        status: 'completed',
-        message: data.ok ? `${partial.label} completed` : 'Action returned without ok flag',
-        revision: data.worldRevision,
-      };
-    },
-    undoable: partial.undoable ?? false,
-    dangerous: partial.dangerous ?? false,
-    ...partial,
   };
+
+  getUiActionRegistry().register(def);
 }
 
 // ---------------------------------------------------------------------------
 // Register all actions
 // ---------------------------------------------------------------------------
 
-const registry = getUiActionRegistry();
-
 // --- WORLD workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'world.generate',
   label: 'Generate World',
   description: 'Generate a settlement from a seed',
@@ -94,11 +95,9 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'Ctrl+G',
   keywords: ['generate', 'world', 'settlement', 'seed', 'village'],
-  apiRoute: '/api/editor/world',
-  undoable: false,
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'terrain.createMountain',
   label: 'Create Mountain',
   description: 'Generate a mountain density field with material layers',
@@ -106,10 +105,9 @@ registry.register(createAction({
   workspace: 'world',
   maturity: 'prototype',
   keywords: ['terrain', 'mountain', 'density', 'field', 'generate'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'terrain.carveTunnel',
   label: 'Carve Tunnel',
   description: 'Carve a tunnel through the terrain density field',
@@ -117,11 +115,10 @@ registry.register(createAction({
   workspace: 'world',
   maturity: 'prototype',
   keywords: ['terrain', 'tunnel', 'carve', 'cave', 'subtract'],
-  apiRoute: '/api/studio',
   undoable: true,
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'terrain.brush',
   label: 'Terrain Brush',
   description: 'Apply a density brush (add, subtract, smooth, flatten, paint)',
@@ -129,11 +126,10 @@ registry.register(createAction({
   workspace: 'world',
   maturity: 'prototype',
   keywords: ['terrain', 'brush', 'sculpt', 'paint', 'density'],
-  apiRoute: '/api/studio',
   undoable: true,
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'terrain.extractSurface',
   label: 'Extract Surface',
   description: 'Run surface extraction on the density field',
@@ -141,12 +137,11 @@ registry.register(createAction({
   workspace: 'world',
   maturity: 'prototype',
   keywords: ['terrain', 'surface', 'extract', 'mesh', 'marching'],
-  apiRoute: '/api/studio',
-}));
+});
 
 // --- ASSETS workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'asset.createBox',
   label: 'Create Box',
   description: 'Create a box primitive mesh',
@@ -155,10 +150,9 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'Shift+B',
   keywords: ['create', 'box', 'primitive', 'mesh', 'cube'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.createCylinder',
   label: 'Create Cylinder',
   description: 'Create a cylinder primitive mesh',
@@ -166,10 +160,9 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'integrated',
   keywords: ['create', 'cylinder', 'primitive', 'mesh'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.createSphere',
   label: 'Create Sphere',
   description: 'Create a sphere primitive mesh',
@@ -177,10 +170,9 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'integrated',
   keywords: ['create', 'sphere', 'primitive', 'mesh'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.createSectHall',
   label: 'Create Sect Hall',
   description: 'Generate a sect hall structure from grammar (7×5 bays, double eave hip roof)',
@@ -188,10 +180,9 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['structure', 'sect', 'hall', 'building', 'grammar', 'generate'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.createCottage',
   label: 'Create Cottage',
   description: 'Generate a mortal cottage structure from grammar (3×2 bays, thatch gable roof)',
@@ -199,10 +190,9 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['structure', 'cottage', 'building', 'grammar', 'generate', 'mortal'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.exportGlb',
   label: 'Export GLB',
   description: 'Export the current mesh kernel to binary glTF',
@@ -210,10 +200,9 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['export', 'glb', 'gltf', 'binary', 'file'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.projectUVs',
   label: 'Project UVs',
   description: 'Apply projection-based UV mapping (planar, box, cylindrical, spherical)',
@@ -221,10 +210,9 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['uv', 'project', 'unwrap', 'mapping', 'texture'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.generateLOD',
   label: 'Generate LOD (Experimental)',
   description: 'Generate a simplified LOD using area-based face deletion (EXPERIMENTAL — not production-safe)',
@@ -232,10 +220,11 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['lod', 'simplify', 'decimate', 'level', 'detail'],
-  apiRoute: '/api/studio',
-}));
+  disabledReason:
+    'No backend: /api/studio has no generate_lod POST case (the operation-stack engine op exists but no transport handler; adding one is outside this worktree).',
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.generateCollisionProxy',
   label: 'Generate Collision Proxy (Experimental)',
   description: 'Generate a simplified collision proxy (EXPERIMENTAL — not validated collision)',
@@ -243,10 +232,11 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['collision', 'proxy', 'simplify', 'physics'],
-  apiRoute: '/api/studio',
-}));
+  disabledReason:
+    'No backend: /api/studio has no generate_collision_proxy POST case (engine op exists but no transport handler; adding one is outside this worktree).',
+});
 
-registry.register(createAction({
+registerAction({
   id: 'asset.placeInWorld',
   label: 'Place Asset in World',
   description: 'Register asset revision and place entity instance in a world cell via executeCommand',
@@ -254,13 +244,12 @@ registry.register(createAction({
   workspace: 'assets',
   maturity: 'prototype',
   keywords: ['place', 'world', 'instance', 'entity', 'cell', 'runtime'],
-  apiRoute: '/api/studio',
   undoable: true,
-}));
+});
 
 // --- CHARACTERS workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'character.generateMale',
   label: 'Generate Male Character',
   description: 'Generate a complete male base body with underwear and basic equipment',
@@ -268,10 +257,9 @@ registry.register(createAction({
   workspace: 'characters',
   maturity: 'prototype',
   keywords: ['character', 'male', 'body', 'generate', 'player', 'base'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'character.generateFemale',
   label: 'Generate Female Character',
   description: 'Generate a complete female base body with underwear and basic equipment',
@@ -279,12 +267,11 @@ registry.register(createAction({
   workspace: 'characters',
   maturity: 'prototype',
   keywords: ['character', 'female', 'body', 'generate', 'player', 'base'],
-  apiRoute: '/api/studio',
-}));
+});
 
 // --- ANIMATION workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'animation.createWalkCycle',
   label: 'Create Walk Cycle',
   description: 'Generate a walk cycle animation clip with pelvis bob, leg swing, and footstep events',
@@ -292,10 +279,9 @@ registry.register(createAction({
   workspace: 'animation',
   maturity: 'prototype',
   keywords: ['animation', 'walk', 'cycle', 'clip', 'locomotion'],
-  apiRoute: '/api/studio/animation',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'animation.evaluate',
   label: 'Evaluate Animation',
   description: 'Evaluate an animation clip at a specific time and return bone transforms',
@@ -303,10 +289,9 @@ registry.register(createAction({
   workspace: 'animation',
   maturity: 'prototype',
   keywords: ['animation', 'evaluate', 'sample', 'bone', 'transform'],
-  apiRoute: '/api/studio/animation',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'animation.retarget',
   label: 'Retarget Animation',
   description: 'Retarget an animation clip to a different skeleton via bone name mapping',
@@ -314,73 +299,67 @@ registry.register(createAction({
   workspace: 'animation',
   maturity: 'prototype',
   keywords: ['animation', 'retarget', 'skeleton', 'bone', 'mapping'],
-  apiRoute: '/api/studio/animation',
-}));
+});
 
 // --- SIMULATION workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'simulation.start',
   label: 'Start Simulation',
-  description: 'Start the world simulation scheduler',
+  description: 'Start the engine runtime scheduler and enter full_simulation',
   category: 'simulation',
   workspace: 'simulation',
   maturity: 'prototype',
   shortcut: 'Space',
   keywords: ['simulation', 'start', 'run', 'play', 'tick'],
-  apiRoute: '/api/engine/runtime',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'simulation.stop',
   label: 'Stop Simulation',
-  description: 'Stop the world simulation scheduler',
+  description: 'Stop the engine runtime scheduler and return to generation_freeze via legal transitions',
   category: 'simulation',
   workspace: 'simulation',
   maturity: 'prototype',
   keywords: ['simulation', 'stop', 'pause', 'freeze'],
-  apiRoute: '/api/engine/runtime',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'simulation.step',
   label: 'Step One Tick',
-  description: 'Advance the simulation by one tick',
+  description: 'Advance the engine runtime scheduler by one tick',
   category: 'simulation',
   workspace: 'simulation',
   maturity: 'prototype',
   shortcut: '.',
   keywords: ['simulation', 'step', 'tick', 'advance', 'debug'],
-  apiRoute: '/api/engine/runtime',
-}));
+});
 
 // --- ARCHITECT workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'architect.discover',
   label: 'Discover Capabilities',
-  description: 'List all capabilities available to the Grand Architect',
+  description: 'List all capabilities available to the Grand Architect (RLM provider info)',
   category: 'architect',
   workspace: 'architect',
   maturity: 'prototype',
   keywords: ['architect', 'discover', 'capabilities', 'tools', 'ai'],
-  apiRoute: '/api/architect/rlm',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'architect.refine',
   label: 'Refine Harness',
-  description: 'Review trajectory and apply evidence-backed harness refinements (mock)',
+  description: 'Review trajectory and apply evidence-backed harness refinements (mock RLM)',
   category: 'architect',
   workspace: 'architect',
   maturity: 'prototype',
   keywords: ['architect', 'refine', 'harness', 'learn', 'improve'],
-  apiRoute: '/api/architect/rlm',
-}));
+});
 
 // --- FIBERLAB (under Diagnostics) ---
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.create',
   label: 'Create Experiment',
   description: 'Create a new FiberLab SceneCapsule for code-driven R3F experimentation',
@@ -388,10 +367,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'experiment', 'fiberlab', 'capsule', 'r3f', 'shader', 'create'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.run',
   label: 'Run Experiment',
   description: 'Run a SceneCapsule in the sandboxed FiberLab environment',
@@ -399,10 +377,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'run', 'execute', 'fiberlab', 'capsule'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.capture',
   label: 'Capture Experiment',
   description: 'Capture a screenshot or performance data from a running experiment',
@@ -410,21 +387,19 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'capture', 'screenshot', 'evidence', 'fiberlab'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.fork',
   label: 'Fork Experiment',
-  description: 'Fork a SceneCapsule to create a variant for comparison',
+  description: 'Fork a SceneCapsule to create a variant for comparison (real FiberLab fork)',
   category: 'fiberlab',
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'fork', 'variant', 'compare', 'fiberlab'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.benchmark',
   label: 'Benchmark Experiment',
   description: 'Run performance benchmark on a SceneCapsule (frame time, draw calls, memory)',
@@ -432,10 +407,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'benchmark', 'performance', 'fps', 'fiberlab'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.promote',
   label: 'Promote Experiment',
   description: 'Promote a benchmarked SceneCapsule to a production engine capability',
@@ -443,10 +417,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'promote', 'production', 'capability', 'fiberlab'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'prototype.reject',
   label: 'Reject Experiment',
   description: 'Reject a SceneCapsule experiment',
@@ -454,12 +427,11 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['prototype', 'reject', 'discard', 'fiberlab'],
-  apiRoute: '/api/fiberlab',
-}));
+});
 
 // --- DIAGNOSTICS workspace ---
 
-registry.register(createAction({
+registerAction({
   id: 'diagnostics.runtimeStatus',
   label: 'Runtime Status',
   description: 'Show Engine Runtime status (revision, cells, coordinator, command types)',
@@ -467,10 +439,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'integrated',
   keywords: ['runtime', 'status', 'engine', 'revision', 'coordinator'],
-  apiRoute: '/api/studio',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'diagnostics.destructionMilestone',
   label: 'Run Destruction Milestone',
   description: 'Run the 13-step destruction milestone test (6 real assertions, 7 not-implemented)',
@@ -478,10 +449,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'prototype',
   keywords: ['destruction', 'milestone', 'test', 'terrain', 'tunnel'],
-  apiRoute: '/api/world/destruction-milestone',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'diagnostics.collisionTests',
   label: 'Run Collision Tests',
   description: 'Run all collision fixture tests (5 fixtures, deterministic)',
@@ -489,10 +459,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'integrated',
   keywords: ['collision', 'test', 'fixture', 'bvh', 'capsule'],
-  apiRoute: '/api/frontier/collision-tests',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'diagnostics.buildInfo',
   label: 'Build Info',
   description: 'Show build provenance (commit SHA, branch, dirty status, build timestamp)',
@@ -500,10 +469,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'integrated',
   keywords: ['build', 'info', 'provenance', 'commit', 'sha'],
-  apiRoute: '/api/build-info',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'diagnostics.crashReports',
   label: 'Crash Reports',
   description: 'List crash reports captured by the Crash Observatory',
@@ -511,10 +479,9 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'integrated',
   keywords: ['crash', 'report', 'error', 'observatory', 'diagnostic'],
-  apiRoute: '/api/editor/crash-report',
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'diagnostics.frontierTechniques',
   label: 'Frontier Techniques',
   description: 'List all registered frontier techniques (19 techniques)',
@@ -522,25 +489,32 @@ registry.register(createAction({
   workspace: 'diagnostics',
   maturity: 'integrated',
   keywords: ['frontier', 'techniques', 'registry', 'research'],
-  apiRoute: '/api/frontier/techniques',
-}));
+});
+
+registerAction({
+  id: 'diagnostics.clearLogs',
+  label: 'Clear Console',
+  description: 'Clear the editor console log',
+  category: 'diagnostics',
+  workspace: 'diagnostics',
+  maturity: 'integrated',
+  keywords: ['console', 'clear', 'logs', 'diagnostic'],
+});
 
 // --- GLOBAL actions ---
 
-registry.register(createAction({
+registerAction({
   id: 'global.undo',
   label: 'Undo',
-  description: 'Undo the last transaction',
+  description: 'Undo the last transaction (engine authorial undo, falling back to editor transaction history)',
   category: 'global',
   workspace: 'global',
   maturity: 'prototype',
   shortcut: 'Ctrl+Z',
   keywords: ['undo', 'revert', 'history', 'transaction'],
-  apiRoute: '/api/engine/runtime',
-  undoable: false, // Undo itself is not undoable (redo is)
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'global.redo',
   label: 'Redo',
   description: 'Redo the last undone transaction',
@@ -549,10 +523,21 @@ registry.register(createAction({
   maturity: 'prototype',
   shortcut: 'Ctrl+Shift+Z',
   keywords: ['redo', 'reapply', 'history', 'transaction'],
-  apiRoute: '/api/engine/runtime',
-}));
+  disabledReason:
+    'No redo backend exists: the engine runtime has no redo stack, there is no authorial redo endpoint, and the editor store has no redo action.',
+});
 
-registry.register(createAction({
+registerAction({
+  id: 'global.select',
+  label: 'Select Entity',
+  description: 'Select an entity (replace, add, or toggle)',
+  category: 'global',
+  workspace: 'global',
+  maturity: 'integrated',
+  keywords: ['select', 'entity', 'choose', 'click'],
+});
+
+registerAction({
   id: 'global.deselect',
   label: 'Deselect',
   description: 'Clear the current selection',
@@ -561,9 +546,20 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'Escape',
   keywords: ['deselect', 'clear', 'selection', 'escape'],
-}));
+});
 
-registry.register(createAction({
+registerAction({
+  id: 'global.selectAll',
+  label: 'Select All',
+  description: 'Select every entity in the settlement',
+  category: 'global',
+  workspace: 'global',
+  maturity: 'integrated',
+  shortcut: 'Ctrl+A',
+  keywords: ['select', 'all', 'every', 'entity'],
+});
+
+registerAction({
   id: 'global.translateMode',
   label: 'Translate Mode',
   description: 'Switch the transform gizmo to translate mode',
@@ -572,9 +568,9 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'W',
   keywords: ['translate', 'move', 'gizmo', 'mode', 'transform'],
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'global.rotateMode',
   label: 'Rotate Mode',
   description: 'Switch the transform gizmo to rotate mode',
@@ -583,9 +579,9 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'E',
   keywords: ['rotate', 'gizmo', 'mode', 'transform'],
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'global.scaleMode',
   label: 'Scale Mode',
   description: 'Switch the transform gizmo to scale mode',
@@ -594,9 +590,9 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'R',
   keywords: ['scale', 'gizmo', 'mode', 'transform'],
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'global.toggleGrid',
   label: 'Toggle Grid',
   description: 'Show or hide the viewport grid',
@@ -605,9 +601,9 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'G',
   keywords: ['grid', 'toggle', 'show', 'hide', 'viewport'],
-}));
+});
 
-registry.register(createAction({
+registerAction({
   id: 'global.toggleGizmos',
   label: 'Toggle Gizmos',
   description: 'Show or hide transform gizmos',
@@ -616,7 +612,117 @@ registry.register(createAction({
   maturity: 'integrated',
   shortcut: 'Q',
   keywords: ['gizmo', 'toggle', 'show', 'hide', 'transform'],
-}));
+});
+
+registerAction({
+  id: 'global.toggleSnap',
+  label: 'Toggle Snapping',
+  description: 'Show or hide snapping',
+  category: 'global',
+  workspace: 'global',
+  maturity: 'integrated',
+  shortcut: 'X',
+  keywords: ['snap', 'toggle', 'snapping', 'grid'],
+});
+
+registerAction({
+  id: 'global.toggleStats',
+  label: 'Toggle Stats Overlay',
+  description: 'Show or hide the FPS/draw-call stats overlay',
+  category: 'global',
+  workspace: 'global',
+  maturity: 'integrated',
+  keywords: ['stats', 'fps', 'toggle', 'overlay', 'performance'],
+});
+
+registerAction({
+  id: 'global.togglePhysics',
+  label: 'Toggle Physics',
+  description: 'Toggle the Rapier physics indicator',
+  category: 'global',
+  workspace: 'global',
+  maturity: 'integrated',
+  keywords: ['physics', 'toggle', 'rapier', 'collision'],
+});
+
+registerAction({
+  id: 'global.toggleBottomDock',
+  label: 'Toggle Console Dock',
+  description: 'Show or hide the bottom dock',
+  category: 'global',
+  workspace: 'global',
+  maturity: 'integrated',
+  keywords: ['console', 'dock', 'toggle', 'bottom'],
+});
+
+// --- PLAYTEST workspace ---
+
+registerAction({
+  id: 'playtest.toggle',
+  label: 'Toggle Playtest',
+  description: 'Enter or exit embodied playtest mode (Rapier character controller)',
+  category: 'playtest',
+  workspace: 'playtest',
+  maturity: 'browser-proven',
+  shortcut: 'P',
+  keywords: ['playtest', 'play', 'embodied', 'toggle', 'game'],
+});
+
+// --- WORLD lifecycle (fork / edits / visibility) ---
+
+registerAction({
+  id: 'world.fork',
+  label: 'Fork World',
+  description: 'Create a real world branch (transaction history fork) at the current tick',
+  category: 'world',
+  workspace: 'world',
+  maturity: 'integrated',
+  keywords: ['fork', 'branch', 'world', 'temporary'],
+  dangerous: true,
+});
+
+registerAction({
+  id: 'world.resetEdits',
+  label: 'Reset Edits',
+  description: 'Discard all local transform edits (revert to generated state)',
+  category: 'world',
+  workspace: 'world',
+  maturity: 'integrated',
+  keywords: ['reset', 'edits', 'revert', 'discard', 'transform'],
+});
+
+registerAction({
+  id: 'world.toggleVisibility',
+  label: 'Toggle Visibility',
+  description: 'Hide or show an entity in the viewport',
+  category: 'world',
+  workspace: 'world',
+  maturity: 'integrated',
+  keywords: ['visibility', 'hide', 'show', 'entity', 'viewport'],
+});
+
+registerAction({
+  id: 'world.applyEntityEdit',
+  label: 'Apply Entity Edit',
+  description: 'Apply a transform edit (position/rotation/size) to an entity',
+  category: 'world',
+  workspace: 'world',
+  maturity: 'integrated',
+  keywords: ['edit', 'transform', 'entity', 'position', 'rotation', 'size'],
+  undoable: true,
+});
+
+// --- VIEWPORT ---
+
+registerAction({
+  id: 'viewport.setCameraPreset',
+  label: 'Set Camera Preset',
+  description: 'Set the viewport camera preset (perspective, top, front, side)',
+  category: 'viewport',
+  workspace: 'world',
+  maturity: 'integrated',
+  keywords: ['camera', 'preset', 'view', 'viewport', 'top', 'front', 'side'],
+});
 
 // Export the registry for use
 export { getUiActionRegistry };

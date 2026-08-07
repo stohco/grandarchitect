@@ -108,6 +108,11 @@ export interface UiActionDefinition {
   keywords: string[];
   /** Documentation reference path. */
   documentationRef?: string;
+  /**
+   * Honest disable reason. When set, invoke() MUST return a blocked
+   * result with code DISABLED_WITH_REASON — never a silent no-op.
+   */
+  disabledReason?: string;
 }
 
 export interface ActionContext {

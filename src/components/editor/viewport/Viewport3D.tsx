@@ -5,7 +5,10 @@
  * - StructureMesh for each settlement entity
  * - Ground plane, lights, grid, contact shadows, fog
  * - Click-to-select (shift for multi), hover highlighting
- * - Keyboard shortcuts for transform/camera
+ * - Keyboard shortcuts for transform/camera (ALL dispatched through the
+ *   canonical UI Action Registry — including Ctrl+Z / Ctrl+Shift+Z)
+ * - Right-click context menu (registry-backed actions) on structures and
+ *   the viewport background
  * - Smooth camera controller with presets
  * - FPS counter and perf stats
  */
@@ -18,6 +21,14 @@ import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, 
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
+import { dispatchAction } from '@/lib/studio-ui/action-dispatch';
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { PlaytestCharacter } from '@/components/editor/viewport/PlaytestCharacter';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
 
@@ -39,6 +50,9 @@ const KIND_COLORS: Record<StructureKind, string> = {
 
 const SELECTED_COLOR = '#4488ff';
 const HOVERED_COLOR = '#88aaff';
+
+/** Entity right-clicked last — read by the viewport context menu items. */
+const pendingContextEntity = { current: null as number | null };
 
 // ---------------------------------------------------------------------------
 // Camera presets
@@ -149,9 +163,18 @@ function StructureMesh({ entityId, position, rotation, width, depth, kind, name,
         position-y={isFlat ? 0.01 : isWell ? 0 : isShrine ? 0 : height / 2}
         onClick={(e: ThreeEvent<MouseEvent>) => {
           e.stopPropagation();
-          const store = useEditorStore.getState();
-          if (e.shiftKey) { store.toggleSelectEntity(entityId); }
-          else { store.selectEntity(entityId); }
+          // Canonical action path: viewport click-to-select dispatches the
+          // same registered action the outliner and command palette use.
+          void dispatchAction('global.select', {
+            entityId,
+            mode: e.shiftKey ? 'toggle' : 'replace',
+          });
+        }}
+        onContextMenu={(e: ThreeEvent<MouseEvent>) => {
+          // Remember which entity was right-clicked; the DOM contextmenu
+          // bubbles to the ContextMenuTrigger wrapper, which opens the
+          // registry-backed menu for it.
+          pendingContextEntity.current = entityId;
         }}
         onPointerEnter={(e: ThreeEvent<PointerEvent>) => {
           e.stopPropagation();
@@ -235,7 +258,7 @@ function SceneContent() {
     // Only deselect if clicking the background plane
     const geo = (_e.eventObject as THREE.Mesh).geometry;
     if (geo?.type === 'PlaneGeometry' && _e.intersections.length <= 1) {
-      useEditorStore.getState().clearSelection();
+      void dispatchAction('global.deselect');
     }
   }, []);
 
@@ -297,7 +320,7 @@ function SceneContent() {
 }
 
 // ---------------------------------------------------------------------------
-// Keyboard Shortcuts
+// Keyboard Shortcuts — ALL through the canonical action registry
 // ---------------------------------------------------------------------------
 
 function useKeyboardShortcuts() {
@@ -310,36 +333,110 @@ function useKeyboardShortcuts() {
     function onKey(e: KeyboardEvent) {
       if (isTyping(e.target)) return;
       const s = useEditorStore.getState();
-      if (e.ctrlKey || e.metaKey) return;
       const k = e.key.toLowerCase();
+
+      // Ctrl/Meta combos — the registry's declared shortcuts. Previously the
+      // handler bailed on ALL ctrl keys, which silently ignored the declared
+      // Ctrl+Z (undo) and Ctrl+Shift+Z (redo) shortcuts.
+      if (e.ctrlKey || e.metaKey) {
+        if (k === 'z' && e.shiftKey) { e.preventDefault(); void dispatchAction('global.redo'); return; }
+        if (k === 'z') { e.preventDefault(); void dispatchAction('global.undo'); return; }
+        if (k === 'g') { e.preventDefault(); void dispatchAction('world.generate'); return; }
+        if (k === 'a') { e.preventDefault(); void dispatchAction('global.selectAll'); return; }
+        if (k === 'k') return; // Architect Presence owns Ctrl+K
+        return;
+      }
+
       // In playtest mode only playtest keys matter — editor transform,
       // camera preset, grid and simulation shortcuts must not fight the
       // embodied camera.
       if (s.playtestMode) {
         switch (k) {
-          case 'p': s.setPlaytestMode(!s.playtestMode); break;
-          case 'escape': s.setPlaytestMode(false); s.clearSelection(); break;
+          case 'p': void dispatchAction('playtest.toggle'); break;
+          case 'escape': void dispatchAction('playtest.toggle', { mode: false }); void dispatchAction('global.deselect'); break;
         }
         return;
       }
       switch (k) {
-        case 'w': s.setTransformMode('translate'); break;
-        case 'e': s.setTransformMode('rotate'); break;
-        case 'r': s.setTransformMode('scale'); break;
-        case 'g': s.toggleGrid(); break;
-        case 'x': s.toggleSnap(); break;
-        case 'p': s.setPlaytestMode(!s.playtestMode); break;
-        case 'f5': e.preventDefault(); s.toggleSim(); break;
-        case '.': e.preventDefault(); s.step('physics_tick', 1); break;
-        case 'escape': s.clearSelection(); break;
-        case '1': s.setCameraPreset('perspective'); break;
-        case '7': s.setCameraPreset('top'); break;
-        case '3': s.setCameraPreset('front'); break;
+        case 'w': void dispatchAction('global.translateMode'); break;
+        case 'e': void dispatchAction('global.rotateMode'); break;
+        case 'r': void dispatchAction('global.scaleMode'); break;
+        case 'g': void dispatchAction('global.toggleGrid'); break;
+        case 'x': void dispatchAction('global.toggleSnap'); break;
+        case 'q': void dispatchAction('global.toggleGizmos'); break;
+        case 'b': if (e.shiftKey) void dispatchAction('asset.createBox'); break;
+        case 'p': void dispatchAction('playtest.toggle'); break;
+        case ' ': e.preventDefault(); void dispatchAction('simulation.start'); break;
+        case 'f5': e.preventDefault(); void dispatchAction(s.simRunning ? 'simulation.stop' : 'simulation.start'); break;
+        case '.': e.preventDefault(); void dispatchAction('simulation.step'); break;
+        case 'escape': void dispatchAction('global.deselect'); break;
+        case '1': void dispatchAction('viewport.setCameraPreset', { preset: 'perspective' }); break;
+        case '7': void dispatchAction('viewport.setCameraPreset', { preset: 'top' }); break;
+        case '3': void dispatchAction('viewport.setCameraPreset', { preset: 'front' }); break;
       }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
+}
+
+// ---------------------------------------------------------------------------
+// Viewport context menu — registry-backed actions
+// ---------------------------------------------------------------------------
+
+function ViewportContextMenu({ children }: { children: React.ReactNode }) {
+  // Re-render when the menu opens so `disabled` reflects the entity that was
+  // just right-clicked (the ref changes without a React state update).
+  const [, setMenuTick] = useState(0);
+  const pending = pendingContextEntity.current;
+  return (
+    <ContextMenu
+      onOpenChange={(open) => {
+        if (open) setMenuTick((t) => t + 1);
+        else pendingContextEntity.current = null;
+      }}
+    >
+      <ContextMenuTrigger asChild>
+        <div className="h-full w-full">{children}</div>
+      </ContextMenuTrigger>
+      <ContextMenuContent className="min-w-[190px] border-[#2a2a4a] bg-[#12122a] text-[#c8c8e0]">
+        <ContextMenuItem
+          className="text-[11px]"
+          disabled={pending == null}
+          onSelect={() => { const id = pendingContextEntity.current; if (id != null) void dispatchAction('global.select', { entityId: id }); }}
+        >
+          Select Entity
+        </ContextMenuItem>
+        <ContextMenuItem
+          className="text-[11px]"
+          disabled={pending == null}
+          onSelect={() => { const id = pendingContextEntity.current; if (id != null) void dispatchAction('world.toggleVisibility', { entityId: id }); }}
+        >
+          Toggle Visibility
+        </ContextMenuItem>
+        <ContextMenuSeparator className="bg-[#2a2a4a]" />
+        <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('global.deselect')}>
+          Deselect All
+        </ContextMenuItem>
+        <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('world.resetEdits')}>
+          Reset Local Edits
+        </ContextMenuItem>
+        <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('world.fork')}>
+          Fork World
+        </ContextMenuItem>
+        <ContextMenuSeparator className="bg-[#2a2a4a]" />
+        <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('global.toggleGrid')}>
+          Toggle Grid (G)
+        </ContextMenuItem>
+        <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('global.toggleGizmos')}>
+          Toggle Gizmos (Q)
+        </ContextMenuItem>
+        <ContextMenuItem className="text-[11px]" onSelect={() => void dispatchAction('playtest.toggle')}>
+          Enter Playtest (P)
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -406,6 +503,13 @@ export default function Viewport3D() {
   const playtestMode = useEditorStore((s) => s.playtestMode);
   useKeyboardShortcuts();
 
+  const canvas = (
+    <Canvas shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }} style={{ background: '#1a1a2e' }}>
+      <PerspectiveCamera makeDefault position={[40, 35, 40]} fov={50} near={0.1} far={500} />
+      <SceneContent />
+    </Canvas>
+  );
+
   return (
     <div className="relative h-full w-full">
       {!settlement ? (
@@ -420,11 +524,11 @@ export default function Viewport3D() {
             <span className="text-xs text-[#4a4a6a]">Generate a world using the seed bar above</span>
           </div>
         </div>
+      ) : playtestMode ? (
+        // Playtest: right-click is camera look — no editor context menu.
+        canvas
       ) : (
-        <Canvas shadows gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }} style={{ background: '#1a1a2e' }}>
-          <PerspectiveCamera makeDefault position={[40, 35, 40]} fov={50} near={0.1} far={500} />
-          <SceneContent />
-        </Canvas>
+        <ViewportContextMenu>{canvas}</ViewportContextMenu>
       )}
       {/* Always mounted; the HUD polls the store and returns null when not
           in playtest — visibility is subscription-free. */}
