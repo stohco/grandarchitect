@@ -1,0 +1,37 @@
+{
+  "$schema": "../../.ai/schemas/evidence.schema.json",
+  "schemaVersion": "1.0.0",
+  "taskId": "UI-ONE-ACTION-SYSTEM",
+  "commit": "1738795088ae68426d417062dd9b75c9051a4789",
+  "branch": "swarm/a-one-action-system",
+  "run": "GA-2026-08-07 / swarm-a",
+  "staticGates": [
+    { "command": "bun run typecheck", "exit": 0 },
+    { "command": "bun run lint", "exit": 0, "note": "2 pre-existing warnings in src/engine/architect/asset-compiler/index.ts (unused eslint-disable directives), untouched" },
+    { "command": "bun run src/lib/studio-ui/conformance-test.ts", "exit": 0, "asserts": "45 passed / 0 failed" },
+    { "command": "bun run src/engine/conformance-test.ts", "exit": 0, "asserts": "37 passed / 0 failed" },
+    { "command": "bun run src/engine/architect/conformance-test.ts", "exit": 0, "asserts": "113 passed / 0 failed" },
+    { "command": "bun run ai:check", "exit": 1, "note": "PRE-EXISTING: 17/18 pass; only failure = .ai/project.manifest.json provenance.commit 4d6f053 does not match HEAD 064a14e (stale manifest shipped at base commit). Regenerating would require bun run ai:build (touches shared .ai files) — deliberately not run; out of scope." }
+  ],
+  "conformanceSweep": {
+    "registeredActions": 59,
+    "silentNoOps": 0,
+    "disabledWithReason": 3,
+    "unknownActionHandling": "failed UNKNOWN_ACTION (asserted)"
+  },
+  "parityMatrix": {
+    "note": "Same action ID reachable from registry (a), shortcut table (b), palette search (c), Architect capability matrix (d), API action list (e) — all asserted in src/lib/studio-ui/conformance-test.ts:71-101",
+    "world.generate": { "registry": "action-registrations.ts:89-98", "shortcut": "Ctrl+G", "handler": "action-handlers.ts:169", "result": "completed — real settlement generation (238 structures, pop 157, local engine path)" },
+    "global.select": { "registry": "action-registrations.ts:530-538", "shortcut": "none (click surface)", "handler": "action-handlers.ts:878", "result": "completed — store selection actually changed (asserted)" },
+    "global.translateMode": { "registry": "action-registrations.ts:562-572", "shortcut": "W", "handler": "action-handlers.ts:902", "result": "completed — store transformMode actually changed (asserted)" },
+    "global.undo": { "registry": "action-registrations.ts:506-515", "shortcut": "Ctrl+Z", "handler": "action-handlers.ts:845", "result": "completed — seeded transaction marked undone (asserted)" },
+    "playtest.toggle": { "registry": "action-registrations.ts:660-669", "shortcut": "P", "handler": "action-handlers.ts:960", "result": "completed on/off; blocked UNAVAILABLE without world (asserted)" }
+  },
+  "brokenControlsFixed": [
+    "toolbar Stop illegal transition → simulation.stop walks legal transitions (action-handlers.ts:1035-1043)",
+    "Ctrl+Z / Ctrl+Shift+Z dead ctrl-key branch → registry-dispatched (Viewport3D.tsx:336-346)",
+    "fork button no-op-ish → world.fork real branch (action-handlers.ts:972-981)",
+    "input focus during playtest → isTyping guards in Viewport3D shortcuts + PlaytestCharacter movement keys"
+  ],
+  "browserAcceptance": "NOT run in this worktree (mission scope = static gates + conformance; no browser harness was assigned). Playtest/browser evidence belongs to the RAPIER-EMBODIED-PLAYTEST bundle (4d6f053)."
+}

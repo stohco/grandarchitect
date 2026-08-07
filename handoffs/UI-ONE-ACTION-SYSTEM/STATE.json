@@ -1,0 +1,66 @@
+{
+  "$schema": "../../.ai/schemas/handoff.schema.json",
+  "schemaVersion": "1.0.0",
+  "taskId": "UI-ONE-ACTION-SYSTEM",
+  "baseCommit": "064a14e31fc07b4f35e09d9d2ba0bb2f7a9edcb4",
+  "currentCommit": "1738795088ae68426d417062dd9b75c9051a4789",
+  "branch": "swarm/a-one-action-system",
+  "dirty": false,
+  "status": "complete",
+  "scope": {
+    "inScope": [
+      "canonical UI action registry (src/lib/studio-ui/)",
+      "dispatch wiring for toolbar, keyboard shortcuts, command palette, context menus, panels",
+      "broken controls: toolbar Stop illegal transition, Ctrl+Z, fork, playtest input focus guard",
+      "parity conformance test (5 actions x 4 surfaces)"
+    ],
+    "outOfScope": [
+      "src/engine/assets/**",
+      "terrain-plugin.ts",
+      "physics-runtime.ts",
+      "src/engine/plugins/simulation/**",
+      "src/engine/architect/asset-compiler/** (untouched, pre-existing lint warnings)",
+      "regenerating .ai manifests (ai:build)",
+      "bun run build (per mission constraints)"
+    ]
+  },
+  "completed": [
+    "action-registry.ts: canonical registry + disabledReason + capability access matrix",
+    "action-registrations.ts: 59 actions registered, honest DISABLED_WITH_REASON where no backend exists",
+    "action-handlers.ts: single invoke implementation per action (store transition, real API/engine call, or honest block)",
+    "action-dispatch.ts: single dispatchAction entrance used by every UI surface; console logging",
+    "EditorToolbar: all buttons dispatch by action ID; Stop uses legal world-state transitions",
+    "Viewport3D: shortcuts (incl. Ctrl+Z/Ctrl+Shift+Z), click-to-select, viewport context menu all registry-backed",
+    "Outliner/Inspector/Console: select/toggle-visibility/apply-edit/clear-logs dispatch by action ID; outliner context menu",
+    "/api/studio-ui: GET exposes disabledReason + shortcuts; POST invoke routes through canonical registry",
+    "conformance-test.ts: 45/45 assertions, exit 0",
+    "cleanup: dev-smoke.log.err deleted (killed stale next dev server holding the lock); tsconfig.tsbuildinfo restored"
+  ],
+  "active": null,
+  "blockedBy": [],
+  "modifiedFiles": [
+    "src/app/api/studio-ui/route.ts",
+    "src/components/editor/panels/ConsolePanel.tsx",
+    "src/components/editor/panels/InspectorPanel.tsx",
+    "src/components/editor/panels/OutlinerPanel.tsx",
+    "src/components/editor/toolbar/EditorToolbar.tsx",
+    "src/components/editor/viewport/Viewport3D.tsx",
+    "src/lib/studio-ui/action-registrations.ts",
+    "src/lib/studio-ui/action-registry.ts",
+    "src/lib/studio-ui/action-dispatch.ts",
+    "src/lib/studio-ui/action-handlers.ts",
+    "src/lib/studio-ui/conformance-test.ts",
+    "handoffs/UI-ONE-ACTION-SYSTEM/CHANGES.md",
+    "handoffs/UI-ONE-ACTION-SYSTEM/EVIDENCE.json",
+    "handoffs/UI-ONE-ACTION-SYSTEM/NEXT.md",
+    "handoffs/UI-ONE-ACTION-SYSTEM/STATE.json",
+    "handoffs/UI-ONE-ACTION-SYSTEM/TASK.md"
+  ],
+  "requiredNextAction": "Main runner: merge/review 1738795 on swarm/a-one-action-system; ai:check stale-manifest warning is pre-existing (provenance 4d6f053 vs HEAD 064a14e) — run bun run ai:build at the merge point if desired.",
+  "environment": {
+    "runtime": "bun 1.3.x (bun run)",
+    "branch": "swarm/a-one-action-system",
+    "worktree": "C:\\Users\\st3v3\\AppData\\Local\\Temp\\opencode\\swarm-a",
+    "platform": "win32"
+  }
+}
