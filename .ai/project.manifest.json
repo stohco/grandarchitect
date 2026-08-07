@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "e0ca9b3161a030733c5c9cc16435669265eda9d0",
-    "commitShort": "e0ca9b3161a0",
-    "branch": "main",
+    "commit": "4d6f0536431c16dd3deafa0a860bf04f5c96ef13",
+    "commitShort": "4d6f0536431c",
+    "branch": "slice/rapier-embodied-playtest",
     "dirty": true,
-    "dirtyReason": "Working tree has 15 modified file(s): .gitignore, AGENTS.md, README.md, package.json, tsconfig.tsbuildinfo…",
-    "generatedAt": "2026-08-06T20:27:00.112Z",
+    "dirtyReason": "Working tree has 23 modified file(s): docs/FRONTIER_SELF_CRITIQUE.md, docs/FRONTIER_TECHNOLOGY_MATRIX.md, evidence/rapier-playtest/prod-chrome-01-entered.png, evidence/rapier-playtest/prod-chrome-02-walked.png, evidence/rapier-playtest/prod-chrome-03-jumped.png…",
+    "generatedAt": "2026-08-07T07:50:51.164Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -57,7 +57,7 @@
       "command": "bun run build",
       "verified": true,
       "source": "package.json scripts.build",
-      "expandsTo": "bun run prebuild && next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
+      "expandsTo": "bun run prebuild && next build && bun run scripts/copy-standalone.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": "Runs prebuild (build-manifest generation), then next build, then copies static + public into standalone output."
@@ -76,8 +76,8 @@
       "verified": true,
       "source": "package.json scripts.typecheck",
       "expandsTo": "tsc --noEmit",
-      "lastRunExitCode": 2,
-      "lastRunNotes": "$ tsc --noEmit",
+      "lastRunExitCode": 0,
+      "lastRunNotes": "exit 0",
       "notes": "Historical drift note: an earlier version of this repo referenced `bun run typecheck` in README.md before the script existed in package.json. ai:check mechanically detects this class of drift."
     },
     "test": {

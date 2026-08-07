@@ -100,7 +100,27 @@ Throughout this frontier technology work, I have repeated the exact pattern the 
 
 ---
 
-### 5. Rapier Physics — MOST GENUINELY WORKING (but still debug-level)
+### 5. Rapier Physics — MOST GENUINELY WORKING (superseded by the embodied playtest)
+
+> **Update (2026-08-07, slice `slice/rapier-embodied-playtest`):** most of the
+> "inflated" list below is now delivered and browser-proven. The shipped
+> Playtest path is a real Rapier KinematicCharacterController character —
+> WASD, sprint, grounded jump, shape-aware structure colliders (wells and
+> shrines are cylinders, halls and households are cuboids — matching the
+> rendered geometry), camera-mode separation, Esc exit, idempotent re-entry,
+> fresh-process reload. Acceptance: 10/10 production Chrome + Edge + Firefox,
+> 11/11 dev Chrome + Edge, 10/10 dev Firefox (evidence/rapier-playtest/,
+> independent red-team review ACCEPT_WITH_LIMITATIONS on 4d6f053).
+>
+> **Still true (honest):** the ground is a flat 200×200 collider because the
+> settlement model carries no heightmap yet (the runtime's
+> `addTerrainHeightfield` is ready for when it does — collision always
+> mirrors the rendered surface). Rapier 0.19.3's KCC clips box corners by
+> ~0.8 m on diagonal approaches (measured; head-on face contact holds
+> ≤0.05 m) — the documented tolerance and upgrade path (Rapier ≥ 0.20). The
+> engine-runtime command path still does not own the physics world (the
+> PhysicsRuntime is a singleton service; command-path integration is future
+> work).
 
 **What I claimed:** "31 bodies, 60 steps, real collision, first REAL browser physics"
 
@@ -111,14 +131,14 @@ Throughout this frontier technology work, I have repeated the exact pattern the 
 - 10 orange cubes fall with gravity and collide with static boxes ✓
 - No console errors ✓
 
-**What's inflated:**
+**What's inflated (as of the original writing):**
 - **The static colliders are approximate boxes, not the actual rendered geometry.** A shrine (cone shape) gets a box collider. A well (cylinder) gets a box collider. The physics doesn't match the visuals.
 - **No character controller.** There's no player capsule that the user can control. The 10 cubes are debug objects, not gameplay entities.
 - **No terrain collision.** The ground is a flat 200×200 box. There's no heightfield or mesh collider for actual terrain.
 - **Physics bodies don't sync back to rendered meshes.** The instanced cubes are separate from the structure meshes. Physics doesn't affect the actual world.
 - **No integration with the engine runtime.** Physics runs in its own React component, not through `executeCommand()`.
 
-**Honest status:** Rapier WASM works. The physics is debug cubes falling on approximate boxes. Not integrated with gameplay.
+**Honest status (original):** Rapier WASM works. The physics is debug cubes falling on approximate boxes. Not integrated with gameplay.
 
 ---
 

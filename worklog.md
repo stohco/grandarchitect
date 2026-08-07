@@ -1538,3 +1538,36 @@ Stage Summary:
 - Full architecture graph with thousands of nodes explicitly NOT built (directive warns against manually-maintained graphs)
 - Handoff bundle at handoffs/AI-REPO-SYSTEM/ is the example for future tasks to follow
 - Commit pending (uncommitted state recorded in handoff STATE.json)
+
+## 2026-08-07 — RAPIER-EMBODIED-PLAYTEST (slice/rapier-embodied-playtest)
+
+Mounted the authoritative Rapier PhysicsRuntime character into the shipped
+playtest viewport (real KCC: WASD, sprint, grounded jump, shape-aware
+structure colliders, right-drag look, Esc exit). Removed the physics-free
+PlaytestController. Key fixes discovered via browser evidence:
+
+- Spawn was INSIDE the lineage hall (settlement places the hall over the
+  village center) — character now spawns on the nearest clear walkable flat
+  surface.
+- Rapier 0.19.3 has no computedSlopeAngle — slope derived from the ground
+  contact normal; KCC clips box corners ~0.8m on diagonal approaches
+  (measured; documented; head-on contact holds <=0.05m).
+- React StrictMode consumed the unmount cleanup and the store subscription
+  could stall in Firefox — the playtest path is now always-mounted and
+  subscription-free (store read via getState in useFrame; HUD is a DOM
+  overlay; the R3F loop is woken by invalidate() while playtest is active).
+- Firefox key auto-repeat double-toggles the P shortcut (harness uses
+  synthetic keydown).
+- Production build was broken at HEAD (terrain/world-store routes imported a
+  removed voxel-DAG API; POSIX cp -r in the build script; 188 pre-existing
+  TS errors) — all fixed; typecheck/lint/build exit 0; 1,278 conformance
+  tests green.
+- Browser evidence harnesses + reports: evidence/rapier-playtest/.
+- Acceptance: prod Chrome 10/10, Edge 10/10, Firefox 10/10; dev Chrome
+  11/11, Edge 11/11, Firefox 10/10. Independent red-team review:
+  ACCEPT_WITH_LIMITATIONS (4d6f053).
+- Rapier maturity: INSTANTIATED -> WORKFLOW_PROVEN (capability-maturity.ts).
+- Known limitation (tracked): Rapier >= 0.20 upgrade path for corner
+  clipping + computedSlopeAngle; terrain heightfield collider waits for a
+  heightmap source; ACCEPTANCE_PASSED pending the formal failure-injection
+  suite.

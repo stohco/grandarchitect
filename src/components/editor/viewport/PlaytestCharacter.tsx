@@ -247,8 +247,10 @@ export function PlaytestCharacter() {
     }
 
     // Build the world on the first mount regardless of playtest state — the
-    // frame loop gates stepping on the store value directly.
-    void ensurePlaytestWorld(rt, useEditorStore.getState().settlement);
+    // frame loop gates stepping on the store value directly. Init failures
+    // surface through the runtime error state + the DOM HUD (no unhandled
+    // rejection).
+    void ensurePlaytestWorld(rt, useEditorStore.getState().settlement).catch(() => {});
   }, []);
 
   // Per-frame: sample input, step physics, update render.
@@ -263,6 +265,16 @@ export function PlaytestCharacter() {
     const store = useEditorStore.getState();
     if (!store.playtestMode) return;
     if (!runtime.ready) return;
+
+    // The settlement can be regenerated while the editor is open (no page
+    // reload). If the fingerprint changed, rebuild the world fixtures so
+    // the colliders always match the currently rendered settlement.
+    const fp = store.settlement ? `${String(store.settlement.seed)}:${store.settlement.structures.length}` : '';
+    if (fp !== builtFingerprint) {
+      void ensurePlaytestWorld(runtime, store.settlement);
+      return;
+    }
+
     if (!runtime.running) runtime.start();
 
     // Build character intent from input. Forward intent (W) is +moveZ and is

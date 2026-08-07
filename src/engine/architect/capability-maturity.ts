@@ -200,7 +200,15 @@ export const RAPIER_MATURITY_RULES: MaturityRule[] = [
 // ---------------------------------------------------------------------------
 
 export const CURRENT_MATURITY: Record<string, ExtendedMaturity> = {
-  rapier: 'INSTANTIATED',
+  // WORKFLOW_PROVEN (2026-08-07): Rapier embodied playtest acceptance —
+  // real KCC character in the shipped viewport, 10/10 acceptance on
+  // Chrome + Edge + Firefox (production) and 11/11 dev Chrome/Edge,
+  // evidence in evidence/rapier-playtest/. ACCEPTANCE_PASSED remains
+  // pending the formal failure-injection suite (dynamic WASM-failure
+  // exercise), though the init-error path is code-verified and surfaces
+  // visibly via the DOM HUD. Known limitation: Rapier 0.19.3 KCC clips
+  // box corners ~0.8m on diagonal approaches (measured, documented).
+  rapier: 'WORKFLOW_PROVEN',
   cedar: 'EXERCISED',
   z3: 'BLOCKED_RUNTIME_INITIALIZATION',
   gltfTransform: 'EXERCISED_ON_TRIVIAL_FIXTURE',

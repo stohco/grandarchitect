@@ -313,8 +313,8 @@ Verification and Evidence
 | **Repository** | `dimforge/rapier` (Rust); `@dimforge/rapier3d` npm |
 | **License** | Apache-2.0 |
 | **Architectural Role** | Browser-facing physics runtime |
-| **Integration Mode** | npm `@dimforge/rapier3d` (WASM) |
-| **Maturity** | Production-ready |
+| **Integration Mode** | npm `@dimforge/rapier3d-compat` 0.19.3 (WASM) |
+| **Maturity** | WORKFLOW_PROVEN (2026-08-07: embodied playtest accepted in Chrome/Edge/Firefox; evidence/rapier-playtest/) |
 | **Hardware Requirements** | WASM in browser |
 | **Browser Viability** | Yes |
 | **Authority Level** | Near-term authoritative physics |

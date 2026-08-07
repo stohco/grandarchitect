@@ -3,7 +3,7 @@
   "browser": "edge",
   "browserVersion": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0",
   "baseUrl": "http://localhost:3000",
-  "timestamp": "2026-08-07T05:57:46.640Z",
+  "timestamp": "2026-08-07T07:20:16.818Z",
   "passCount": 10,
   "failCount": 0,
   "results": [
@@ -35,7 +35,7 @@
     {
       "name": "P6 no-structure-penetration (head-on)",
       "pass": true,
-      "detail": "min-clearance=-0.73m (household@(-19,-2)) endDistToTarget=8.9m (wallFace=3.5)"
+      "detail": "min-clearance=1.12m (household@(-19,-2)) endDistToTarget=8.6m (wallFace=5.0)"
     },
     {
       "name": "P7 exit-esc-returns-editor",

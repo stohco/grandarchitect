@@ -1,0 +1,24 @@
+{
+  "$schema": "../../.ai/schemas/handoff.schema.json",
+  "schemaVersion": "1.0.0",
+  "taskId": "RAPIER-EMBODIED-PLAYTEST",
+  "baseCommit": "9a1da997e69128cd79c2cb68ea0a73dd33a20e59",
+  "currentCommit": "4d6f0536431c16dd3deafa0a860bf04f5c96ef13",
+  "branch": "slice/rapier-embodied-playtest",
+  "dirty": false,
+  "status": "complete",
+  "reviewerVerdict": "ACCEPT_WITH_LIMITATIONS",
+  "reviewerNotes": "Independent red-team reviewer (clean worktree 4d6f053): all claims survived attack; limitations: prod runtime verified by producer evidence only; stale-world hazard fixed post-review (regenerate-while-open rebuilds fixtures); running stays true after Esc (stepping frozen via store gate); ensurePlaytestWorld now has .catch; typecheck scope excludes conformance files (they execute under bun instead).",
+  "acceptance": {
+    "devChrome": "11/11",
+    "devEdge": "11/11",
+    "devFirefox": "10/10",
+    "prodChrome": "10/10",
+    "prodEdge": "10/10",
+    "prodFirefox": "10/10",
+    "conformance": "1278/1278",
+    "typecheckExit": 0,
+    "lintExit": 0,
+    "buildExit": 0
+  }
+}

@@ -2,7 +2,7 @@
   "runId": "GA-2026-08-06-03-prod-firefox",
   "browser": "firefox",
   "baseUrl": "http://localhost:3000",
-  "timestamp": "2026-08-07T05:58:48.036Z",
+  "timestamp": "2026-08-07T07:48:04.480Z",
   "passCount": 10,
   "failCount": 0,
   "results": [
@@ -19,7 +19,7 @@
     {
       "name": "P3 wasd-moves",
       "pass": true,
-      "detail": "from (-15.0,1.0) to (-15.0,-0.2) mode=idle"
+      "detail": "from (-15.0,1.0) to (-15.0,-3.6) mode=idle"
     },
     {
       "name": "P4 sprint-mode",
@@ -34,7 +34,7 @@
     {
       "name": "P6 no-structure-penetration (head-on)",
       "pass": true,
-      "detail": "min-clearance=-0.73m (household@(-19,-2)) endDistToTarget=8.9m (wallFace=3.5)"
+      "detail": "min-clearance=1.13m (household@(-19,-2)) endDistToTarget=8.6m (wallFace=5.0)"
     },
     {
       "name": "P7 evidence-flags",
