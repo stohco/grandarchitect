@@ -276,4 +276,5 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Terrain Viewport', path: 'src/engine/frontier/terrain-conformance-test.ts', expected: 56 },
   { name: 'Settlement Day', path: 'src/engine/simulation/settlement-day-conformance.ts', expected: 42 },
   { name: 'Matter Conservation', path: 'src/engine/world/matter/matter-conformance.ts', expected: 54 },
+  { name: 'Cosmology', path: 'src/engine/cosmos/cosmos-conformance.ts', expected: 104 },
 ];
