@@ -73,6 +73,8 @@ export interface SemanticPart {
   bounds: Bounds3;
   editable: boolean;
   extractable: boolean;
+  /** Material slot this part renders with (index into SemanticAsset.materials). */
+  materialIndex?: number;
   attachmentPoints?: AttachmentPoint[];
 }
 
