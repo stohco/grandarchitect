@@ -273,4 +273,5 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Quest', path: 'src/engine/plugins/simulation/ga-quest-conformance.ts', expected: 224 },
   { name: 'Prime Agent', path: 'src/engine/architect/providers/prime-agent/conformance-test.ts', expected: 12 },
   { name: 'Assets Pipeline', path: 'src/engine/assets/conformance-test.ts', expected: 68 },
+  { name: 'Terrain Viewport', path: 'src/engine/frontier/terrain-conformance-test.ts', expected: 56 },
 ];

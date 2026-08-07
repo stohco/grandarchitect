@@ -30,6 +30,7 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu';
 import { PlaytestCharacter } from '@/components/editor/viewport/PlaytestCharacter';
+import { TerrainMesh } from '@/components/editor/viewport/TerrainMesh';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
 
 // ---------------------------------------------------------------------------
@@ -276,6 +277,11 @@ function SceneContent() {
       <color attach="background" args={['#1a1a2e']} />
 
       <GroundPlane />
+
+      {/* Frontier terrain (density field + mountain + tunnel). Additive —
+          shares the settlement seed with playtest collision, so what the
+          player walks on is exactly what renders. */}
+      <TerrainMesh seed={settlement?.seed ?? null} />
 
       {showGrid && (
         <Grid position-y={0.01} args={[100, 100]} cellSize={2} cellThickness={0.5} cellColor="#2a2a4a"

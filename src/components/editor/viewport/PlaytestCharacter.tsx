@@ -27,6 +27,11 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useEditorStore } from '@/lib/editor/store';
 import { getPhysicsRuntime, type CharacterIntent } from '@/engine/runtime/physics-runtime';
+import {
+  TerrainPipeline,
+  terrainSeedFromSettlementSeed,
+  sampleHeightmap,
+} from '@/engine/frontier/terrain-plugin';
 
 // Camera orbit parameters (right-drag look).
 const CAM_DISTANCE = 14;
@@ -69,17 +74,66 @@ function ensurePlaytestWorld(
       // Reset any fixtures left over from a previous playtest session.
       runtime.resetWorld();
 
-      // Add ground plane matching the rendered GroundPlane (200x200 at y=0).
-      // NOTE: the settlement model carries no terrain heightmap yet, so the
-      // rendered ground is flat and the collision must match it. The runtime
-      // API for real terrain (addTerrainHeightfield) is ready for when a
-      // heightmap source exists — collision always mirrors what is rendered.
-      runtime.addCuboidCollider(
-        { x: 0, y: -0.5, z: 0 },
-        { x: 200, y: 1, z: 200 },
-        undefined,
-        'Ground plane',
-      );
+      // Real terrain: when a settlement seed is available, build the SAME
+      // density-field pipeline the TerrainMesh renders and feed its
+      // heightmap to the runtime. The heightmap surface matches the
+      // rendered mesh exactly (same field, same resolution, same crossing
+      // formula — see frontier/terrain-conformance-test.ts). The flat
+      // 200x200 cuboid remains the fallback when no settlement is loaded
+      // or the heightfield cannot be built.
+      let terrainSpawn: { x: number; y: number; z: number } | null = null;
+      if (settlement) {
+        try {
+          const terrainSeed = terrainSeedFromSettlementSeed(String(settlement.seed));
+          const pipeline = new TerrainPipeline({ seed: terrainSeed });
+          pipeline.generate();
+          const heightmap = pipeline.getHeightmap();
+          const colliderId = runtime.addTerrainHeightfield(
+            heightmap.heights,
+            { x: heightmap.scaleX, z: heightmap.scaleZ },
+            heightmap.revision,
+          );
+          if (colliderId !== null) {
+            // Out-of-bounds guard: the terrain tile spans ±32m; a fall
+            // guard deep below prevents falling through the world at the
+            // edges without ever interfering with the terrain surface.
+            runtime.addCuboidCollider(
+              { x: 0, y: -80, z: 0 },
+              { x: 400, y: 1, z: 400 },
+              undefined,
+              'Terrain fall guard',
+            );
+
+            // Spawn inside the tunnel on the walkable surface, snapped to a
+            // voxel center (a cell interior of the Rapier heightfield —
+            // avoids the upstream vertex-contact quirk where bodies dropped
+            // exactly on a heightfield vertex can pass through).
+            const spawn = pipeline.getSpawnPoint();
+            const snappedX = Math.floor(spawn.x + 32) + 0.5 - 32;
+            const snappedZ = Math.floor(spawn.z + 32) + 0.5 - 32;
+            const surface = sampleHeightmap(heightmap, snappedX, snappedZ);
+            terrainSpawn = { x: snappedX, y: surface + 1.2, z: snappedZ };
+          }
+        } catch (err) {
+          // Rapier heightfield construction can fail in some runtimes —
+          // fall back to the flat ground so playtest still works.
+          if (typeof console !== 'undefined') {
+            console.error('[playtest] Terrain heightfield failed, falling back to flat ground:',
+              err instanceof Error ? err.message : err);
+          }
+        }
+      }
+
+      if (!terrainSpawn) {
+        // Flat fallback: ground plane matching the rendered GroundPlane
+        // (200x200 at y=0). Collision always mirrors what is rendered.
+        runtime.addCuboidCollider(
+          { x: 0, y: -0.5, z: 0 },
+          { x: 200, y: 1, z: 200 },
+          undefined,
+          'Ground plane',
+        );
+      }
 
       // Add shape-aware structure colliders (mirrors StructureMesh render).
       let spawn = { x: 0, z: 0 };
@@ -99,30 +153,35 @@ function ensurePlaytestWorld(
           );
         }
 
-        // Spawn on a flat walkable surface (path/threshing ground/paddy)
-        // whose center is not inside any building footprint — the village
-        // center itself may be occupied (e.g. the lineage hall).
-        const FLAT_KINDS = new Set(['path', 'threshing_ground', 'dryland_garden', 'paddy']);
-        const isInsideBuilding = (x: number, z: number): boolean =>
-          all.some((s) => {
-            if (FLAT_KINDS.has(s.kind)) return false;
-            return Math.abs(x - s.position.x) < s.width / 2
-              && Math.abs(z - s.position.z) < s.depth / 2;
-          });
-        const candidates = all
-          .filter((s) => FLAT_KINDS.has(s.kind))
-          .sort((a, b) =>
-            Math.hypot(a.position.x, a.position.z) - Math.hypot(b.position.x, b.position.z));
-        for (const cand of candidates) {
-          if (!isInsideBuilding(cand.position.x, cand.position.z)) {
-            spawn = { x: cand.position.x, z: cand.position.z };
-            break;
+        if (!terrainSpawn) {
+          // Spawn on a flat walkable surface (path/threshing ground/paddy)
+          // whose center is not inside any building footprint — the village
+          // center itself may be occupied (e.g. the lineage hall).
+          const FLAT_KINDS = new Set(['path', 'threshing_ground', 'dryland_garden', 'paddy']);
+          const isInsideBuilding = (x: number, z: number): boolean =>
+            all.some((s) => {
+              if (FLAT_KINDS.has(s.kind)) return false;
+              return Math.abs(x - s.position.x) < s.width / 2
+                && Math.abs(z - s.position.z) < s.depth / 2;
+            });
+          const candidates = all
+            .filter((s) => FLAT_KINDS.has(s.kind))
+            .sort((a, b) =>
+              Math.hypot(a.position.x, a.position.z) - Math.hypot(b.position.x, b.position.z));
+          for (const cand of candidates) {
+            if (!isInsideBuilding(cand.position.x, cand.position.z)) {
+              spawn = { x: cand.position.x, z: cand.position.z };
+              break;
+            }
           }
         }
       }
 
-      // Create the character (capsule center 1.3m above the flat ground top).
-      runtime.createCharacter({ x: spawn.x, y: 1.3, z: spawn.z });
+      // Create the character (capsule center 1.3m above the flat ground top,
+      // or on the terrain surface when the heightfield is active).
+      runtime.createCharacter(
+        terrainSpawn ?? { x: spawn.x, y: 1.3, z: spawn.z },
+      );
       // NOTE: start() is intentionally NOT called here — the frame loop
       // starts the runtime the moment playtest mode engages, so `running`
       // never leaks true while the editor is idle.

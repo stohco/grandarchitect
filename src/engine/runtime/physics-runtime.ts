@@ -538,6 +538,18 @@ export class PhysicsRuntime {
   /**
    * Add a heightfield collider for terrain.
    * Per auditor: "use a heightfield collider for the current surface terrain"
+   *
+   * CONTRACT (verified empirically against @dimforge/rapier3d-compat 0.19.3
+   * in bun AND Chromium): Rapier's ColliderDesc.heightfield builds a
+   * DMatrix of (nrows+1) x (ncols+1) from `heights` and PANICS ("unreachable"
+   * wasm trap) when heights.length !== (nrows+1)*(ncols+1). The naive
+   * nrows = sqrt(heights.length) therefore always traps. Cell counts are
+   * sqrt(heights.length) - 1: a 64-cell heightmap (like the frontier
+   * terrain's) carries 65x65 = 4225 heights.
+   *
+   * The heights matrix is column-major: heights[j * (nrows+1) + i] is the
+   * surface at x = j * scale.x / nrows, z = i * scale.z / nrows (relative
+   * to the collider origin, which Rapier centers on the shape's own frame).
    */
   addTerrainHeightfield(
     heights: Float32Array,
@@ -546,8 +558,12 @@ export class PhysicsRuntime {
   ): number | null {
     if (!this._ready || !this.Rapier || !this.world) return null;
 
-    const nrows = Math.sqrt(heights.length);
+    const n = Math.sqrt(heights.length);
+    const nrows = n - 1; // Rapier cells = matrix dims - 1
     const ncols = nrows;
+    if (!Number.isInteger(n) || nrows < 1) {
+      return null; // malformed heights array — refuse (caller falls back)
+    }
 
     const colliderDesc = this.Rapier.ColliderDesc.heightfield(
       nrows,
