@@ -53,6 +53,10 @@ import type {
 import type { WorldCell, Principal, TerrainDestructionOperation, TerrainOperationType } from '../world/world-fabric';
 import type { ArtifactKind, Bounds3, TerrainLayer, SimulationTier } from '../world/world-fabric';
 import { createHash } from 'crypto';
+import { getMatterSink, eventIdFromOperation } from '../world/matter/matter-sink';
+import type { MatterSink, MatterSinkResult } from '../world/matter/matter-sink';
+import type { MaterialId } from '../world/matter/material-composition';
+import type { RemovalCauseType } from '../world/matter/matter-events';
 
 // ---------------------------------------------------------------------------
 // Command Handler Registry
@@ -61,8 +65,8 @@ import { createHash } from 'crypto';
 export interface CommandHandler {
   type: string;
   validate(payload: Record<string, unknown>): ValidationResult;
-  /** Apply the operation to the world. Returns the inverse operation. */
-  apply(world: InMemoryWorldRepository, payload: Record<string, unknown>, resultRevision: number): { inverse: Record<string, unknown> };
+  /** Apply the operation to the world. Returns the inverse operation (plus optional derived results). */
+  apply(world: InMemoryWorldRepository, payload: Record<string, unknown>, resultRevision: number): { inverse: Record<string, unknown>; matter?: unknown };
 }
 
 const commandHandlers = new Map<string, CommandHandler>();
@@ -202,12 +206,31 @@ registerHandler({
     });
     cell.revision = resultRevision;
 
+    // Matter conservation: a genuinely applied destruction emits removal
+    // events → accounting ledger → loot accumulator. Failure here must
+    // never break terrain destruction, so it is guarded.
+    let matterResult: MatterSinkResult | null = null;
+    try {
+      matterResult = getMatterSink().onTerrainDestruction(op, {
+        actorId: payload.actorId as string | undefined,
+        cause: (payload.cause as RemovalCauseType | undefined) ?? 'smash',
+        materialId: (payload.materialId as MaterialId | undefined) ?? 'stone',
+        seed: (payload.matterSeed as string | undefined) ?? `${cellId}:${(payload.materialId as string | undefined) ?? 'stone'}`,
+        regionId: cellId,
+        tick: payload.tick as number | undefined,
+      });
+    } catch (err) {
+      // Accounting must never break terrain. Log and continue.
+      console.warn(`[matter] removal emission failed for ${op.id}:`, err);
+    }
+
     return {
       inverse: {
         cellId,
         operationId: op.id,
         action: 'remove-destruction-op',
       },
+      matter: matterResult ? { eventId: eventIdFromOperation(op.id), result: matterResult } : null,
     };
   },
 });
@@ -460,8 +483,11 @@ class InMemoryCommandBus implements CommandBus {
     const resultRevision = baseRevision + 1;
     const txId = `tx-${++this.nextTxId}-${Date.now().toString(36)}`;
 
-    // Apply the command through the handler
-    const { inverse } = handler.apply(this.world, command.payload, resultRevision);
+    // Apply the command through the handler. The handler may attach
+    // derived results (e.g. matter accounting) alongside the inverse —
+    // those ride on the transaction payload for downstream consumers.
+    const applied = handler.apply(this.world, command.payload, resultRevision);
+    const inverse = applied.inverse;
 
     const tx: WorldTransaction = {
       id: txId,
@@ -477,7 +503,7 @@ class InMemoryCommandBus implements CommandBus {
         operationId: `inv-${txId}`,
         type: command.type as never,
         cellId: (command.payload.cellId as string) ?? 'default',
-        payload: inverse,
+        payload: applied.matter ? { ...inverse, matter: applied.matter } : inverse,
       }],
       affectedCells: (command.payload.cellId as string) ? [command.payload.cellId as string] : [],
       invalidatedArtifacts: ['render-mesh', 'collision-mesh', 'navigation-mesh'] as ArtifactKind[],
@@ -792,6 +818,8 @@ export class EngineRuntimeImpl implements EngineRuntime {
   readonly renderer: null = null;
   readonly physics: null = null;
   readonly persistence: null = null;
+  /** Matter conservation subsystem (removal → accounting → loot). */
+  readonly matter: MatterSink = getMatterSink();
 
   private initialized = false;
 
