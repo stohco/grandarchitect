@@ -325,6 +325,27 @@ Verification and Evidence
 
 ---
 
+### 15. Prime Agent — RLM Harness Provider
+
+| Field | Value |
+|-------|-------|
+| **Repository** | `PrimeIntellect-ai/prime-agent` (pinned revision `10fb172b`) |
+| **License** | MIT (fully open source); LLM providers are external subscriptions (separate licenses) |
+| **Architectural Role** | Authorial control plane runtime — the "omniscient multiverse Grand Architect" harness (RLM recursion, Continual Harness, persistent goals) |
+| **Integration Mode** | Isolated native sidecar: `prime-agent --mode rpc` JSONL over stdin/stdout (implemented: `src/engine/architect/providers/prime-agent/`); alternative: in-process `@earendil-works/pi-coding-agent` (npm 0.84.1, MIT) |
+| **Maturity** | EXERCISED (2026-08-07): protocol-compliant JSONL client — framing, command/response correlation, event stream — proven against the documented protocol (12/12 conformance). Prompting BLOCKED until a model is configured (`prime-agent /login`). |
+| **Hardware Requirements** | Node runtime for the adapter; sidecar needs its own environment (Python runtime via uv for IPython) |
+| **Browser Viability** | No — server-side sidecar only; the browser never talks to it directly |
+| **Authority Level** | NONE — editor/architect-time capability; never wired into the shipped runtime |
+| **Expected Advantage** | Persistent IPython reasoning, rlm() recursive children, /refine Continual Harness with rollback, persistent goals, bounded /autonomous — mapped 1:1 to the Grand Architect UnboundLoop vision |
+| **Benchmark** | RLM recursion budget discipline (Prime Intellect's own findings: recursion helps decomposable large-context work; deeper recursion can reduce performance — the harness must use bounded recursion) |
+| **Acceptance Criteria** | Real prompt round-trip in a disposable worktree with a configured provider; child-agent delegation via rlm(); /refine with rollback; bounded autonomous run |
+| **Rejection Conditions** | Untrusted code execution without sandboxing; unbounded recursion budgets; credentials in the adapter; running against the host repo root |
+
+**Security boundary (recorded):** Prime Agent executes model-generated code with the user's permissions — its worker/kernel processes are lifecycle isolation, NOT a security sandbox. The provider therefore requires a disposable worktree, refuses the host repo root, is dev-only, and never touches credentials. See `src/engine/architect/providers/prime-agent/prime-agent-provider.ts`.
+
+---
+
 ## Pilot After Control Plane Works
 
 | Role | Repository | License |

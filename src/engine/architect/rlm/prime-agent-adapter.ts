@@ -2,21 +2,30 @@
  * Prime Agent Adapter — Mock Implementation
  * ==========================================
  *
- * STATUS: Research candidate. Prime Agent is a Python CLI tool, not a
- * browser library. This mock validates the RLMProvider interface and
- * provides a test bed for the recursive self-improvement workflow.
+ * STATUS: SUPERSEDED by the real implementation. Use
+ * `src/engine/architect/providers/prime-agent/prime-agent-provider.ts`
+ * (RPC sidecar transport, protocol-compliant JSONL client) and
+ * `src/engine/architect/providers/prime-agent/conformance-test.ts`.
  *
- * Prime Agent (https://github.com/PrimeIntellect-ai/prime-agent) is:
+ * This mock validates the RLMProvider interface in isolation and provides a
+ * dependency-free test bed for the recursive self-improvement workflow
+ * shapes. The real provider implements the SAME interface — swap the
+ * constructor, keep the call sites.
+ *
+ * Prime Agent (https://github.com/PrimeIntellect-ai/prime-agent, MIT):
  *   - A standalone CLI tool (`prime-agent` command)
  *   - Built on persistent IPython + TypeScript host
  *   - Designed for long-running autonomous coding/research tasks
- *   - NOT deployable in a browser or Next.js API route
+ *   - NOT deployable in a browser; server-side sidecar only
  *
- * To use a real Prime Agent:
- *   1. Install prime-agent on a server with Python
- *   2. Create an adapter that spawns prime-agent processes
- *   3. Communicate via its JSON/RPC mode
- *   4. This mock interface stays the same — swap the implementation
+ * Real integration (see the provider + docs/FRONTIER_TECHNOLOGY_MATRIX.md):
+ *   1. Install prime-agent on a host (macOS/Linux install.sh; the npm
+ *      library @earendil-works/pi-coding-agent works everywhere incl.
+ *      Windows for the in-process path)
+ *   2. Run it in RPC mode: `prime-agent --mode rpc`
+ *   3. The PrimeAgentProvider talks the JSONL protocol (id-correlated
+ *      responses, strict LF framing, event stream)
+ *   4. Configure a model: `prime-agent /login` in the sidecar environment
  *
  * The RLM concepts are immediately valuable to the Grand Architect:
  *   - rlm() recursive delegation → UnboundLoop

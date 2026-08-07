@@ -805,6 +805,32 @@ export const SEED_TECHNIQUES: FrontierTechniqueRecord[] = [
     currentBlocker: undefined,
     paperRef: 'FiberToy repository (MIT)',
   },
+  {
+    id: 'prime-agent-provider',
+    name: 'Prime Agent — RLM Harness Provider',
+    category: 'agent',
+    problemSolved: 'A persistent, self-improving recursive-language-model harness (persistent IPython, rlm() child agents, Continual Harness /refine, persistent goals, autonomous budgets) as the Grand Architect authorial runtime',
+    observedSources: [
+      { type: 'repository', title: 'PrimeIntellect-ai/prime-agent', url: 'https://github.com/PrimeIntellect-ai/prime-agent', author: 'Prime Intellect', license: 'MIT', revision: '10fb172b9298b353b27cddf3cd44bf386c9ba5d0' },
+      { type: 'documentation', title: 'Prime Agent JSON/RPC mode docs', url: 'https://github.com/PrimeIntellect-ai/prime-agent/tree/main/packages/coding-agent/docs', author: 'Prime Intellect' },
+    ],
+    underlyingPrinciples: [
+      'RLM: prompt-as-a-variable inside a persistent REPL; recursive subagents as programmatic tool calls',
+      'Continual Harness: evidence-backed refinement with rollback (never rewrites the immutable base prompt)',
+      'JSONL RPC over stdin/stdout with strict LF framing and id-correlated responses',
+    ],
+    maturity: 'exercised',
+    licenseAssessment: { license: 'MIT', compatible: true, notes: 'MIT — fully open source; model providers are external subscriptions (separate licenses)' },
+    browserFeasibility: { browserFeasible: false, webgpuRequired: false, webgl2Fallback: 'none', notes: 'Server-side sidecar only; the browser never talks to it directly' },
+    integrationStrategy: 'isolated-native-sidecar',
+    runtimeAuthority: 'none',
+    currentBlocker: 'Prompting blocked until a model is configured in the sidecar (prime-agent /login). Windows: CLI binary not distributed via install.sh (macOS/Linux); in-process @earendil-works/pi-coding-agent is the Windows path once credentials exist.',
+    benchmarks: [],
+    visualEvidence: [],
+    decisionStatus: 'prototyping',
+    applicableSystems: ['architect', 'authorial', 'rlm'],
+    createdAt: '2026-08-07T00:00:00Z',
+  },
 ];
 
 // ============================================================================

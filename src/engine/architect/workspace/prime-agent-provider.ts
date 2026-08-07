@@ -2,20 +2,20 @@
  * Prime Agent Workspace Provider — Mock Implementation
  * =====================================================
  *
- * STATUS: Evaluation candidate. Prime Agent is a Python CLI tool that
- * communicates via JSONL RPC. This mock validates the WorkspaceAgentProvider
- * interface and provides a test bed for the development workflow.
+ * STATUS: SUPERSEDED by the real implementation. Use
+ * `src/engine/architect/providers/prime-agent/prime-agent-provider.ts`
+ * (RPC sidecar transport) for real Prime Agent integration; this mock
+ * validates the WorkspaceAgentProvider interface and provides a test bed
+ * for the development workflow.
  *
- * To use a real Prime Agent:
- *   1. Install prime-agent on a server with Python + Bash
- *   2. Start it in RPC mode: `prime-agent --rpc`
- *   3. Create an adapter that communicates via JSONL
- *   4. This mock interface stays the same — swap the implementation
+ * Prime Agent (https://github.com/PrimeIntellect-ai/prime-agent, MIT)
+ * communicates via JSONL RPC (`prime-agent --mode rpc`).
  *
- * CONSTRAINTS:
+ * CONSTRAINTS (enforced by the REAL provider):
  *   - Dev-only (never in shipped runtime)
  *   - One editing agent per worktree
- *   - Authenticated, sandboxed
+ *   - Authenticated, sandboxed (sidecar NOT a security sandbox — run in a
+ *     disposable worktree)
  *   - Cannot mutate main directly
  *   - Cannot access production secrets
  */

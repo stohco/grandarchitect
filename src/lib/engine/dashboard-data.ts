@@ -271,4 +271,5 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Cultivation', path: 'src/engine/plugins/simulation/ga-cultivation-conformance.ts', expected: 203 },
   { name: 'Combat', path: 'src/engine/plugins/simulation/ga-combat-conformance.ts', expected: 202 },
   { name: 'Quest', path: 'src/engine/plugins/simulation/ga-quest-conformance.ts', expected: 224 },
+  { name: 'Prime Agent', path: 'src/engine/architect/providers/prime-agent/conformance-test.ts', expected: 12 },
 ];

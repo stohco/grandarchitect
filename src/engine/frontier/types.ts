@@ -186,7 +186,7 @@ export interface FrontierTechniqueRecord {
   name: string;
   category: string;
   problemSolved: string;
-  observedSources: Array<{ type: string; title: string; author?: string; url?: string; license?: string }>;
+  observedSources: Array<{ type: string; title: string; author?: string; url?: string; license?: string; revision?: string }>;
   underlyingPrinciples: string[];
   maturity: string;
   licenseAssessment: { license: string; compatible: boolean; notes: string };

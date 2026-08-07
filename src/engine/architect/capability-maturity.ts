@@ -219,6 +219,18 @@ export const CURRENT_MATURITY: Record<string, ExtendedMaturity> = {
   bibleExtractor: 'HEURISTIC_CANDIDATE_EXTRACTOR',
   persistence: 'EXERCISED',
   playwright: 'EXERCISED',
+  // EXERCISED (2026-08-07): protocol-compliant JSONL RPC client for the
+  // Prime Agent sidecar — framing + command/response correlation + event
+  // stream proven against the documented protocol (12/12 conformance).
+  // PINNED: @earendil-works/pi-coding-agent@0.84.1 (npm, MIT),
+  // repo PrimeIntellect-ai/prime-agent @ 10fb172b. Prompting is BLOCKED
+  // until a model is configured in the sidecar (prime-agent /login) — and
+  // on this machine the CLI binary is not distributed for Windows
+  // (install.sh is macOS/Linux); the in-process library is the Windows
+  // integration path once credentials exist. Agent-side features (rlm()
+  // children, /refine, /autonomous, agent_message) are NOT RPC primitives
+  // and report typed NOT_SUPPORTED errors (see prime-agent-provider.ts).
+  primeAgent: 'EXERCISED',
 };
 
 export const MATURITY_DESCRIPTIONS: Record<ExtendedMaturity, string> = {
