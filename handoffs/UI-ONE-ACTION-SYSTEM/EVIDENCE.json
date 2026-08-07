@@ -1,5 +1,4 @@
 {
-  "$schema": "../../.ai/schemas/evidence.schema.json",
   "schemaVersion": "1.0.0",
   "taskId": "UI-ONE-ACTION-SYSTEM",
   "commit": "1738795088ae68426d417062dd9b75c9051a4789",
