@@ -1,12 +1,17 @@
 /**
  * POST /api/editor/step
  *
- * Advances the deterministic simulation by a number of ticks.
- * Returns the new tick and any synthetic events that fired.
+ * Advances the settlement day simulation by a number of ticks.
+ * The engine tick counter (newTick) is the UI's clock; the real
+ * simulation (settlement-day) advances in whole hours, one sim hour
+ * = HOUR_TICKS engine ticks. State is a pure function of
+ * (seed, fromHour, hours) — recomputed server-side on every request,
+ * so replays are exact and no server-side state can drift.
  *
- * Body: { granularity, count, fromTick }
+ * Body: { granularity, count, fromTick, seed }
  */
 import { NextRequest, NextResponse } from 'next/server';
+import { advanceSettlementHours, hoursFromEngineTicks } from '@/engine/simulation/settlement-day';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,23 +28,8 @@ const TICKS_PER_UNIT: Record<string, number> = {
   year: 3600 * 60 * 24 * 365,
 };
 
-// Deterministic synthetic event pool keyed by tick buckets.
-function eventsForTickBucket(tick: number): string[] {
-  const events: string[] = [];
-  // Every "hour" boundary
-  if (tick > 0 && tick % 3600 === 0) events.push(`hour.${tick / 3600}`);
-  // Daily dawn
-  if (tick > 0 && tick % (3600 * 60 * 24) === 0) events.push('dawn.bell');
-  // Seasonal solar term (every 15 days)
-  if (tick > 0 && tick % (3600 * 60 * 24 * 15) === 0) {
-    const term = ['立春', '雨水', '驚蟄', '春分', '清明', '穀雨', '立夏', '小滿'][Math.floor(tick / (3600 * 60 * 24 * 15)) % 8];
-    events.push(`solar_term.${term}`);
-  }
-  return events;
-}
-
 export async function POST(req: NextRequest) {
-  let body: { granularity?: string; count?: number; fromTick?: number };
+  let body: { granularity?: string; count?: number; fromTick?: number; seed?: string };
   try {
     body = await req.json();
   } catch {
@@ -48,6 +38,7 @@ export async function POST(req: NextRequest) {
   const granularity = body.granularity ?? 'physics_tick';
   const count = body.count ?? 1;
   const fromTick = body.fromTick ?? 0;
+  const seed = body.seed ?? 'wang-family-bend-1108';
 
   let ticksToAdvance: number;
   if (granularity === 'until_event' || granularity === 'until_breakpoint' || granularity === 'until_invariant_violation') {
@@ -57,11 +48,15 @@ export async function POST(req: NextRequest) {
   }
 
   const newTick = fromTick + ticksToAdvance;
-  const eventsFired: string[] = [];
-  for (let t = fromTick + 1; t <= newTick; t++) {
-    eventsFired.push(...eventsForTickBucket(t));
-  }
-  // Cap events returned
+  const fromHour = hoursFromEngineTicks(fromTick);
+  const toHour = hoursFromEngineTicks(newTick);
+  const hoursAdvanced = Math.max(0, toHour - fromHour);
+
+  // Real deterministic settlement simulation (pure function of seed+hours).
+  const day = advanceSettlementHours(seed, fromHour, hoursAdvanced);
+
+  // Event log strings derived from REAL sim events (no canned ticks).
+  const eventsFired = day.events.map((e) => `${e.type} @h${e.hourOfDay}: ${e.text}`);
   const capped = eventsFired.slice(0, 200);
 
   return NextResponse.json({
@@ -69,7 +64,11 @@ export async function POST(req: NextRequest) {
     completed: true,
     ticksAdvanced: ticksToAdvance,
     newTick,
+    hoursAdvanced,
+    fromHour,
+    toHour,
     eventsFired: capped,
+    day,
     stoppedBy: granularity === 'until_event' ? 'event' : undefined,
   });
 }
