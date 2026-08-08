@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import { EffectComposer } from '../../../node_modules/three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from '../../../node_modules/three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from '../../../node_modules/three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutputPass } from '../../../node_modules/three/examples/jsm/postprocessing/OutputPass.js';
 
 export interface FilmicGradeOptions {
   vignette?: number;   // 0..1
@@ -70,6 +71,10 @@ export function attachFilmicGrade(
   grade.uniforms.uSaturation.value = opts?.saturation ?? 1.05;
   grade.uniforms.uWarmth.value = opts?.warmth ?? 0.35;
   composer.addPass(grade);
+  // OutputPass is REQUIRED at the end of the chain: it applies tone mapping
+  // and sRGB conversion. Without it the whole frame renders ~4x dark
+  // (VLM kept calling every building a 'black monolith' — it was the grade).
+  composer.addPass(new OutputPass());
   return {
     composer,
     dispose: () => {

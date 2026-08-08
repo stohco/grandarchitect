@@ -57,22 +57,24 @@ export function makePalette(): SetPalette {
   const std = (color: number, roughness: number, metalness = 0) =>
     new THREE.MeshStandardMaterial({ color, roughness, metalness });
   // painterly hand-painted materials when the browser canvas is available;
-  // plain-color fallback in Node (conformance).
-  const tex = (id: Parameters<typeof painterlyMaterial>[0], color?: number, roughness = 0.85) =>
-    painterlyMaterial(id, { color, roughness });
+  // plain-color fallback in Node (conformance). repeat factors keep texture
+  // detail at surface scale (a 45 m wall must not stretch one 256 px tile —
+  // VLM: 'low resolution, blurry').
+  const tex = (id: Parameters<typeof painterlyMaterial>[0], color?: number, roughness = 0.85, repeat = 1) =>
+    painterlyMaterial(id, { color, roughness, repeat });
   return {
-    rammedEarth: tex('rammedEarth', 0xffffff),
-    timber: tex('timber', 0xffffff),
-    thatch: tex('thatch', 0xffffff),
-    plaster: tex('plaster', 0xffffff),
-    cobble: tex('cobble', 0xffffff),
-    packedEarth: tex('packedEarth', 0xffffff),
-    stone: tex('stone', 0xffffff),
+    rammedEarth: tex('rammedEarth', 0xffffff, 0.9, 6),
+    timber: tex('timber', 0xffffff, 0.8, 4),
+    thatch: tex('thatch', 0xffffff, 0.95, 3),
+    plaster: tex('plaster', 0xffffff, 0.85, 5),
+    cobble: tex('cobble', 0xffffff, 0.95, 4),
+    packedEarth: tex('packedEarth', 0xffffff, 0.95, 4),
+    stone: tex('stone', 0xffffff, 0.95, 4),
     water: new THREE.MeshStandardMaterial({ color: 0x2e5f6b, roughness: 0.1, metalness: 0.2, transparent: true, opacity: 0.85 }),
     woodTrim: std(0x7a4a24, 0.7),
-    canvas: tex('canvas', 0xffffff),
-    hemp: tex('hemp', 0xffffff),
-    foliage: tex('hemp', 0x4a7a3c),
+    canvas: tex('canvas', 0xffffff, 0.9, 3),
+    hemp: tex('hemp', 0xffffff, 0.9, 3),
+    foliage: tex('hemp', 0x4a7a3c, 0.9, 2),
     tile: std(0x5a6872, 0.7),
     lacquer: std(0x8a2a22, 0.55),
     hazyBlue: std(0x7a8fa8, 1),
@@ -1067,7 +1069,8 @@ export function buildTownScene(seed = 89274613): VillageScene {
     group.add(m);
   }
 
-  // forest band — 14 candidate trees, varied, skipping the town/river/foothills
+  // forest band — 14 candidate trees, varied, skipping the town/river/foothills.
+  // Two-tier crown (main + offset upper tier) so trees read as trees, not cones.
   for (let i = 0; i < 14; i++) {
     const ang = rng.nextRange(0, Math.PI * 2);
     const dist = rng.nextRange(290, 480);
@@ -1086,6 +1089,11 @@ export function buildTownScene(seed = 89274613): VillageScene {
     crown.position.y = th + ch / 2 - 0.6;
     crown.castShadow = true;
     t.add(crown);
+    // upper tier: smaller cone offset up + sideways — breaks the single-cone read
+    const top = new THREE.Mesh(new THREE.ConeGeometry(cr * 0.55, ch * 0.6, 6), pal.foliage);
+    top.position.set(cr * 0.35, th + ch * 0.95, cr * 0.2);
+    top.castShadow = true;
+    t.add(top);
     t.position.set(tx, 0, tz);
     group.add(t);
   }

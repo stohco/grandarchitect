@@ -166,7 +166,9 @@ export default function DirectorRenderPage() {
     // filmic grade baked INTO the pixels (vignette + saturation + warmth)
     let grade: FilmicGrade | null = null;
     try {
-      grade = attachFilmicGrade(renderer, scene, camera);
+      if (new URLSearchParams(window.location.search).get('grade') !== '0') {
+        grade = attachFilmicGrade(renderer, scene, camera);
+      }
     } catch { /* grade optional */ }
 
     // furnished interior sets (critic fix: buildings read as inhabited)
@@ -267,6 +269,17 @@ export default function DirectorRenderPage() {
       const camH = Math.max(shot.camera.heightM, aimY * 0.72); // level-ish, never looking steeply up
       camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
       camera.lookAt(target);
+      // sun azimuth follows the camera for ground shots (dolly lighting): the
+      // visible facade gets key light instead of reading as a shadowed dark
+      // mass (VLM: 'massive black monolith'). Elevation stays per-shot; only
+      // the azimuth turns toward the camera so long shadows still read.
+      if (!shot.roomId) {
+        const camDirX = camera.position.x - target.x;
+        const camDirZ = camera.position.z - target.z;
+        const camLen = Math.max(Math.hypot(camDirX, camDirZ), 0.001);
+        const [, sy, sz] = sunElevationFor(shotId);
+        sun.position.set(target.x - (camDirX / camLen) * sy, sy, target.z - (camDirZ / camLen) * sy);
+      }
       // fog: close haze (40m) with a far that scales to the shot AND covers
       // the distant mountain ring (760-1020m) so it reads as atmospheric
       // haze, not crisp un-fogged monoliths (VLM: 'massive geometric blocks')

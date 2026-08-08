@@ -200,6 +200,11 @@ function tree(pal: SetPalette, h: number, r: number): THREE.Group {
   crown.position.y = h * 0.7;
   crown.castShadow = true;
   g.add(crown);
+  // upper tier breaks the single-cone read (VLM: 'trees are simple cones')
+  const top = new THREE.Mesh(new THREE.ConeGeometry(r * 0.5, h * 0.45, 7), pal.foliage);
+  top.position.set(r * 0.3, h * 0.95, r * 0.15);
+  top.castShadow = true;
+  g.add(top);
   return g;
 }
 
