@@ -1,0 +1,107 @@
+Director's Assistant.
+Review DAILIES for a 3D xianxia donghua game.
+Exhaustive detail, report FACTS only. No scores, no praise.
+
+        1.  Content Inventory (What, how many, where).
+        2.  Layout/Clipping (Intersections, floating objects).
+        3.  Silhouettes (Building shapes, traditional Chinese style?).
+        4.  Lighting (Direction, contrast, rim light).
+        5.  Atmosphere (Fog, haze, depth).
+        6.  Texture/Surface (Material detail).
+        7.  Defects (List of visual issues, most visible first).
+
+    *   *Foreground/Midground:* A long, brown, flat path stretching from bottom-left to top-right.
+    *   *Midground (Center):* A simple wooden gate/archway consisting of two vertical posts and one horizontal beam. Inside/behind the gate are a few vertical cylinders (posts/pillars).
+    *   *Background (Right):* A few low-poly, white/grey structures (buildings/tents) and three conical trees.
+    *   *Far Background (Right):* A large, white, sharp triangular peak (mountain).
+    *   *Environment:* Flat green ground. Blue/grey sky. Heavy fog/haze obscuring the horizon.
+
+    *   *Content Inventory:*
+        *   Paths: 1 (long, diagonal, foreground to background).
+        *   Gates/Structures: 1 gate (midground center), 2-3 low-poly buildings (background right).
+        *   Trees: 3 conical trees (background right).
+        *   Mountains: 1 sharp peak (far background right).
+        *   People/Animals/Water/Wells/Shrines/Fences: None.
+
+    *   *Layout/Clipping:*
+        *   The gate posts seem to sit on the path.
+        *   The buildings in the background are very basic; hard to tell clipping, but they look like flat planes or simple boxes.
+        *   The path is a flat plane intersecting the ground.
+
+    *   *Silhouettes:*
+        *   Gate: Simple rectangle. Not traditional Chinese (no curved eaves, no ornate brackets).
+        *   Buildings: Flat, angular, non-descript. Not traditional Chinese.
+        *   Trees: Simple cones.
+        *   Mountain: Simple triangle.
+        *   Overall: Extremely primitive/blocky.
+
+    *   *Lighting:*
+        *   Flat lighting. No clear directional light source.
+        *   No strong shadows.
+        *   No warm/cool contrast.
+        *   No rim lighting.
+        *   The scene is uniformly lit by a global ambient light.
+
+    *   *Atmosphere:*
+        *   Heavy linear fog/haze.
+        *   Foreground is clear, background fades into a light blue/grey.
+        *   Depth is created solely by the diagonal path and the fog.
+
+    *   *Texture/Surface:*
+        *   Path: Simple brown texture with linear streaks.
+        *   Ground: Flat green color, no grass or detail.
+        *   Gate: Flat grey/brown colors.
+        *   Buildings/Trees: Flat white/green colors.
+        *   No wood grain, thatch, or moss.
+
+    *   *Defects:*
+        *   Lack of detail (primitive shapes).
+        *   No architectural style (not xianxia/Chinese).
+        *   Flat lighting/no shadows.
+        *   Flat ground plane (no terrain variation).
+        *   Low-poly "placeholder" assets (cones for trees, triangle for mountain).
+        *   Empty space (vast empty green areas).
+
+    *   Ensure tone is professional and clinical.
+    *   Check against constraints: No praise, no scores, only facts.
+**1. CONTENT INVENTORY**
+*   **Paths:** 1 long, diagonal path stretching from the bottom-left foreground to the top-right background.
+*   **Gates/Structures:** 1 wooden gate (two vertical posts, one horizontal beam) in the center midground; 2-3 low-poly white structures/buildings in the background right.
+*   **Trees:** 3 conical trees in the background right.
+*   **Mountains:** 1 sharp, triangular white peak in the far background right.
+*   **Ground:** 1 continuous flat green plane covering the entire lower half of the frame.
+*   **Buildings, Roofs, Wells, Shrines, Fences, Animals, People, Water:** None visible.
+
+**2. LAYOUT / CLIPPING**
+*   **Intersections:** The path is a flat plane that intersects the green ground plane.
+*   **Floating/Clipping:** The vertical posts of the center gate are placed directly on the path surface. The background buildings and trees appear to sit on the ground plane without visible foundations or blending.
+
+**3. SILHOUETTES**
+*   **Gate:** Simple rectangular frame. No curved eaves, brackets, or ornate details.
+*   **Buildings:** Flat, angular, and low-detail.
+*   **Trees/Mountains:** Basic geometric primitives (cones and a triangle).
+*   **Style:** The silhouettes do not read as traditional Chinese or xianxia architecture; they are primitive geometric blocks.
+
+**4. LIGHTING**
+*   **Direction:** No clear directional light source.
+*   **Shadows:** No cast shadows are visible on the ground or path.
+*   **Contrast:** No warm/cool contrast; the scene uses a uniform, flat lighting scheme.
+*   **Rim Light:** None.
+
+**5. ATMOSPHERE**
+*   **Fog/Haze:** Heavy linear fog is present, obscuring the horizon and blending the background structures into the sky.
+*   **Depth Cues:** Depth is provided only by the diagonal perspective of the path and the atmospheric fade.
+
+**6. TEXTURE/SURFACE**
+*   **Path:** Simple brown texture with linear streaks.
+*   **Ground:** Flat, solid green color with no grass, soil, or organic variation.
+*   **Structures:** Flat grey and white colors.
+*   **Detail:** No material detail (no wood grain, thatch, or moss) is visible on any surface.
+
+**7. DEFECTS**
+*   **Primitive Geometry:** Trees are simple cones; the mountain is a single triangle; the gate is a basic box frame.
+*   **Lack of Style:** No traditional Chinese architectural elements present.
+*   **Flat Lighting:** Total absence of shadows and highlights.
+*   **Empty Environment:** Large areas of flat, featureless green ground.
+*   **Texture Absence:** Surfaces are flat colors or simple repeating streaks.
+*   **Low Fidelity:** Background buildings lack defined windows, doors, or structural detail.

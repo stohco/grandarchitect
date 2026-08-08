@@ -1,3 +1,4 @@
+import { hashNoise3 } from '../../lib/determinism/primitives';
 /**
  * frontier/terrain-plugin.ts — Deterministic voxel terrain + tunnel pipeline.
  *
@@ -39,7 +40,7 @@
  */
 
 import type { Vec3 } from './types';
-import { LCG, fnv1aHash } from './prng';
+import { LCG, fnv1aBytes } from '../../lib/determinism/primitives';
 import { vec3, add, sub, scale, length, distance } from './vec3';
 
 // ============================================================================
@@ -181,24 +182,11 @@ export function sampleDensity(field: DensityField, p: Vec3): number {
  * Hashed value noise. Given integer (ix, iy, iz) and a seed, returns a
  * deterministic float in [-1, 1].
  *
- * Uses LCG-based mixing. No Math.random. Deterministic across all JS runtimes.
+ * Canonical implementation: src/lib/determinism/primitives.ts (hashNoise3).
  */
 function hashNoise(ix: number, iy: number, iz: number, seed: number): number {
-  // Mix the integer coords with the seed using LCG.
-  // Start with the seed, then mix each coord with the NR LCG constants.
-  let h = (seed ^ 0x12345678) >>> 0;
-  h = (Math.imul(h, 1664525) + ix + 1013904223) >>> 0;
-  h = (Math.imul(h, 1664525) + iy + 1013904223) >>> 0;
-  h = (Math.imul(h, 1664525) + iz + 1013904223) >>> 0;
-  // Additional mixing passes for better distribution.
-  h = (Math.imul(h ^ (h >>> 15), 0x85ebca6b)) >>> 0;
-  h = (Math.imul(h ^ (h >>> 13), 0xc2b2ae35)) >>> 0;
-  h = (h ^ (h >>> 16)) >>> 0;
-  // Map to [-1, 1].
-  return (h / 2147483648) - 1;
+  return hashNoise3(ix, iy, iz, seed);
 }
-
-/** Smoothly interpolate hashNoise at a continuous (x,y,z) point. */
 function valueNoise(x: number, y: number, z: number, seed: number): number {
   const ix = Math.floor(x);
   const iy = Math.floor(y);
@@ -916,7 +904,7 @@ export function generateTerrainPipeline(seed: number): TerrainPipelineResult {
  */
 export function terrainSeedFromSettlementSeed(seed: string): number {
   const bytes = new TextEncoder().encode(seed);
-  return (Number.parseInt(fnv1aHash(bytes), 16) >>> 0);
+  return (Number.parseInt(fnv1aBytes(bytes), 16) >>> 0);
 }
 
 // ============================================================================
@@ -1272,7 +1260,7 @@ export function computeHeightmap(field: DensityField, spline: TunnelSpline | nul
   }
 
   const bytes = new Uint8Array(heights.buffer, heights.byteOffset, heights.byteLength);
-  const revision = (Number.parseInt(fnv1aHash(bytes), 16) >>> 0);
+  const revision = (Number.parseInt(fnv1aBytes(bytes), 16) >>> 0);
 
   return {
     nrows,

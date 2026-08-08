@@ -17,7 +17,7 @@
 
 import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
 import { Canvas, useFrame, useThree, invalidate, type ThreeEvent } from '@react-three/fiber';
-import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, Grid, GizmoHelper, GizmoViewport, ContactShadows, Html, PerspectiveCamera, TransformControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { useEditorStore, getEffective } from '@/lib/editor/store';
 import { useRenderTracker } from '@/lib/editor/render-tracker';
@@ -143,10 +143,11 @@ function GroundPlane() {
 // Structure Mesh
 // ---------------------------------------------------------------------------
 
-function StructureMesh({ entityId, position, rotation, width, depth, kind, name, isSelected, isHovered }: {
+function StructureMesh({ entityId, position, rotation, width, depth, kind, name, isSelected, isHovered, registerGroup }: {
   entityId: number; position: { x: number; z: number }; rotation: number;
   width: number; depth: number; kind: StructureKind; name: string;
   isSelected: boolean; isHovered: boolean;
+  registerGroup?: (g: THREE.Group | null) => void;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const height = KIND_HEIGHTS[kind];
@@ -158,7 +159,7 @@ function StructureMesh({ entityId, position, rotation, width, depth, kind, name,
   const isFlat = kind === 'path' || kind === 'paddy' || kind === 'threshing_ground';
 
   return (
-    <group position={[position.x, 0, position.z]} rotation-y={rotRad}>
+    <group ref={(g) => registerGroup?.(g)} position={[position.x, 0, position.z]} rotation-y={rotRad}>
       <mesh
         ref={meshRef} castShadow={!isFlat} receiveShadow
         position-y={isFlat ? 0.01 : isWell ? 0 : isShrine ? 0 : height / 2}
@@ -220,6 +221,8 @@ function SceneContent() {
   const hoveredEntityId = useEditorStore((s) => s.hoveredEntityId);
   const showGrid = useEditorStore((s) => s.showGrid);
   const showGizmos = useEditorStore((s) => s.showGizmos);
+  const transformMode = useEditorStore((s) => s.transformMode);
+  const structureGroups = useRef<Map<number, THREE.Group>>(new Map());
   const renderMode = useEditorStore((s) => s.renderMode);
   const playtestMode = useEditorStore((s) => s.playtestMode);
   const setPerf = useEditorStore((s) => s.setPerf);
@@ -300,9 +303,35 @@ function SceneContent() {
               rotation={effective.rotation} width={effective.width} depth={effective.depth}
               kind={s.kind} name={s.name}
               isSelected={selectedEntityIds.includes(s.entityId)}
-              isHovered={hoveredEntityId === s.entityId} />
+              isHovered={hoveredEntityId === s.entityId}
+              registerGroup={(g) => {
+                if (g) structureGroups.current.set(s.entityId, g);
+                else structureGroups.current.delete(s.entityId);
+              }} />
           );
         })}
+
+      {/* per-object transform gizmo (translate/rotate/scale on the selected
+          structure), committed through the canonical edit action */}
+      {showGizmos && selectedEntityIds.length === 1 && (() => {
+        const target = structureGroups.current.get(selectedEntityIds[0]);
+        if (!target) return null;
+        return (
+          <TransformControls
+            object={target}
+            mode={transformMode}
+            size={0.9}
+            onObjectChange={() => {
+              const id = selectedEntityIds[0];
+              const p = target.position;
+              const deg = (target.rotation.y * 180) / Math.PI;
+              void dispatchAction('world.applyEntityEdit', { entityId: id, field: 'position.x', value: p.x });
+              void dispatchAction('world.applyEntityEdit', { entityId: id, field: 'position.z', value: p.z });
+              void dispatchAction('world.applyEntityEdit', { entityId: id, field: 'rotation', value: deg });
+            }}
+          />
+        );
+      })()}
 
       <mesh position={[0, -0.1, 0]} rotation-x={-Math.PI / 2} visible={false} onClick={handleBackgroundClick}>
         <planeGeometry args={[500, 500]} />

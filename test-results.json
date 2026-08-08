@@ -1,9 +1,9 @@
 {
-  "sha": "2a2447ca53a43f0b992c5f6e539f5186a1ba70bf",
-  "generatedAt": "2026-08-08T00:51:27.963Z",
-  "totalAssertions": 2006,
-  "suitesPassed": 16,
-  "suitesFailed": 0,
+  "sha": "0190716e59cc2b6788587b6aa8836ac946ad126b",
+  "generatedAt": "2026-08-08T07:32:50.106Z",
+  "totalAssertions": 2253,
+  "suitesPassed": 20,
+  "suitesFailed": 1,
   "suites": [
     {
       "name": "Kernel",
@@ -11,7 +11,7 @@
       "expected": 37,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 131
+      "durationMs": 199
     },
     {
       "name": "Architect",
@@ -19,7 +19,7 @@
       "expected": 113,
       "exitCode": 0,
       "detected": 3,
-      "durationMs": 89
+      "durationMs": 107
     },
     {
       "name": "Reference Plugins",
@@ -27,7 +27,7 @@
       "expected": 252,
       "exitCode": 0,
       "detected": 1,
-      "durationMs": 132
+      "durationMs": 137
     },
     {
       "name": "Simulation",
@@ -35,7 +35,7 @@
       "expected": 247,
       "exitCode": 0,
       "detected": 2,
-      "durationMs": 130
+      "durationMs": 134
     },
     {
       "name": "Cultivation",
@@ -43,7 +43,7 @@
       "expected": 203,
       "exitCode": 0,
       "detected": 203,
-      "durationMs": 124
+      "durationMs": 129
     },
     {
       "name": "Combat",
@@ -59,7 +59,7 @@
       "expected": 249,
       "exitCode": 0,
       "detected": 249,
-      "durationMs": 131
+      "durationMs": 130
     },
     {
       "name": "Quest",
@@ -67,15 +67,15 @@
       "expected": 224,
       "exitCode": 0,
       "detected": 5,
-      "durationMs": 84
+      "durationMs": 85
     },
     {
       "name": "Prime Agent",
       "path": "src/engine/architect/providers/prime-agent/conformance-test.ts",
       "expected": 12,
-      "exitCode": 0,
-      "detected": 12,
-      "durationMs": 2606
+      "exitCode": 1,
+      "detected": 8,
+      "durationMs": 32273
     },
     {
       "name": "UI Actions",
@@ -83,7 +83,47 @@
       "expected": 45,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 1410
+      "durationMs": 1042
+    },
+    {
+      "name": "Determinism Primitives",
+      "path": "src/lib/determinism/primitives-conformance.ts",
+      "expected": 13,
+      "exitCode": 0,
+      "detected": 13,
+      "durationMs": 83
+    },
+    {
+      "name": "Genesis Coverage",
+      "path": "src/lib/genesis/genesis-conformance.ts",
+      "expected": 104,
+      "exitCode": 0,
+      "detected": 104,
+      "durationMs": 264
+    },
+    {
+      "name": "Definition Database",
+      "path": "src/lib/engine/definitions-conformance.ts",
+      "expected": 19,
+      "exitCode": 0,
+      "detected": 19,
+      "durationMs": 99
+    },
+    {
+      "name": "World Production",
+      "path": "src/lib/worldproduction/production-conformance.ts",
+      "expected": 95,
+      "exitCode": 0,
+      "detected": 95,
+      "durationMs": 321
+    },
+    {
+      "name": "Genesis Gauntlet",
+      "path": "src/lib/genesis/gauntlet-conformance.ts",
+      "expected": 16,
+      "exitCode": 0,
+      "detected": 16,
+      "durationMs": 81
     },
     {
       "name": "Assets Pipeline",
@@ -91,7 +131,7 @@
       "expected": 68,
       "exitCode": 0,
       "detected": 0,
-      "durationMs": 399
+      "durationMs": 593
     },
     {
       "name": "Terrain Viewport",
@@ -99,7 +139,7 @@
       "expected": 56,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 2768
+      "durationMs": 3080
     },
     {
       "name": "Settlement Day",
@@ -107,7 +147,7 @@
       "expected": 42,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 133
+      "durationMs": 148
     },
     {
       "name": "Matter Conservation",
@@ -115,7 +155,7 @@
       "expected": 54,
       "exitCode": 0,
       "detected": 54,
-      "durationMs": 114
+      "durationMs": 120
     },
     {
       "name": "Law Interaction",
@@ -123,7 +163,7 @@
       "expected": 98,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 103
+      "durationMs": 119
     },
     {
       "name": "Cosmology",
@@ -131,7 +171,7 @@
       "expected": 104,
       "exitCode": 0,
       "detected": 104,
-      "durationMs": 85
+      "durationMs": 109
     }
   ]
 }

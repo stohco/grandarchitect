@@ -28,10 +28,14 @@
  *      fixtures (warns only — does not fail).
  *  15. The handoff STATE.json's currentCommit matches git HEAD (if handoff
  *      exists and is not marked complete).
+ *  16. `bun run check:genesis` passes — every canon/derived concept with a
+ *      required system must be bound to an existing consumer
+ *      (unbound canonical concept = build failure).
  */
 
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { execSync } from 'node:child_process';
 import {
   getGitState,
   readPackageJson,
@@ -312,6 +316,21 @@ function runChecks(): CheckResult[] {
       message: `${rootPngs.length} tracked PNG(s) at repository root (warn only): ${rootPngs.slice(0, 5).join(', ')}${rootPngs.length > 5 ? '…' : ''}`,
       severity: 'low',
     });
+  }
+
+  // 16. Genesis coverage gate: unbound canonical concept = build failure.
+  try {
+    const g = execSync('bun run check:genesis', { encoding: 'utf8', cwd: REPO_ROOT });
+    results.push(ok('check:genesis passes — all canonical concepts bound to consumers'));
+  } catch (e) {
+    const err = e as { stdout?: string; stderr?: string; status?: number };
+    results.push(
+      fail(
+        `check:genesis FAILED — unbound canonical concept or dead consumer (exit ${err.status ?? '?'})`,
+        'high',
+        `last line: ${(err.stdout ?? '').trim().split('\n').pop()?.slice(0, 160) ?? ''}`,
+      ),
+    );
   }
 
   return results;

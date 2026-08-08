@@ -21,7 +21,7 @@
  */
 
 import { REALM_INDEX, type Realm } from '../plugins/simulation/ga-cultivation';
-import { fnv1a, hashToNumber, lcgStep } from './cosmic-hash';
+import { fnv1a, hashToNumber, lcgStep } from '../../lib/determinism/primitives';
 
 /** Engine fixed timestep (60 Hz) × 60 s × 24 h — canonical simulation day. */
 export const TICKS_PER_DAY = 60 * 60 * 24; // 86_400

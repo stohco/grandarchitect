@@ -21,7 +21,7 @@
  * cords, same severance effect lists, same shield answers.
  */
 
-import { deterministicId } from './cosmic-hash';
+import { deterministicId } from '../../lib/determinism/primitives';
 
 export type KarmaKind = 'debt' | 'retribution' | 'fate';
 

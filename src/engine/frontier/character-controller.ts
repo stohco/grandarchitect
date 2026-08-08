@@ -37,7 +37,8 @@
 import type { Vec3, SweepHit, MeshData, CheckpointRecord, CheckpointProgress } from './types';
 import { vec3, add, sub, scale, length, normalize, dot, hasNaN, clone } from './vec3';
 import { buildBVH, queryCapsule, probeGround, intersectRay, type BVH } from './bvh';
-import { LCG, encodeFloatsForHash } from './prng';
+import { LCG } from '../../lib/determinism/primitives';
+import { encodeFloatsForHash } from '../../lib/determinism/primitives';
 import { nobleSha256 } from './hash-shim';
 
 // ============================================================================

@@ -1,0 +1,35 @@
+*   Role: Machine-vision calibration probe.
+    *   Constraint: Report ONLY the truth.
+    *   Required Output Format:
+        1.  DOMINANT COLORS: 3 dominant color families, approximate percentages, hue buckets, warm/cool dominance.
+        2.  SCENE CONTENT: Objects visible, one line.
+        3.  LIGHTING: Visible light direction (shadow sides), one line.
+        4.  ATMOSPHERE: Fog/haze visible, one line.
+    *   Negative Constraint: Do NOT judge quality.
+
+    *   *Colors:*
+        *   Large area of light tan/beige (ground/surface).
+        *   Large area of light blue (sky).
+        *   Small area of dark green (cone/tree).
+        *   Thin line of tan/brown (pole/stick).
+        *   Percentages: Tan/Beige ~60%, Blue ~35%, Green ~5%.
+        *   Hue buckets: Yellow-Orange (Tan), Blue (Sky), Green (Cone).
+        *   Warm vs Cool: Tan is warm, Blue is cool. Tan covers more area. Warm dominates.
+
+    *   *Scene Content:*
+        *   A flat tan surface, a blue sky, a green cone, and a tan cylinder/pole.
+
+    *   *Lighting:*
+        *   The pole has a darker underside. The cone has a darker side (left). The surface has a highlight in the center-top. Light seems to be coming from the top/right.
+
+    *   *Atmosphere:*
+        *   The sky is a flat color. No visible fog or haze.
+
+    *   1. DOMINANT COLORS: Yellow-Orange (60%), Blue (35%), Green (5%); Warm dominates.
+    *   2. SCENE CONTENT: Flat tan surface, blue sky, green cone, tan cylinder.
+    *   3. LIGHTING: Light direction visible; shadows on the left side of the cone and underside of the cylinder.
+    *   4. ATMOSPHERE: No fog or haze visible.
+1. DOMINANT COLORS: Yellow-Orange (60%), Blue (35%), Green (5%); Warm dominates.
+2. SCENE CONTENT: Flat tan surface, blue sky, green cone, tan cylinder.
+3. LIGHTING: Light direction visible; shadows on the left side of the cone and underside of the cylinder.
+4. ATMOSPHERE: No fog or haze visible.

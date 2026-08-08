@@ -24,10 +24,13 @@
  */
 
 import type { CanonScope, StyleScope, BibleReference } from './canon-style';
+import { deterministicId } from '../../../lib/determinism/primitives';
 
 // ---------------------------------------------------------------------------
 // Decision Ledgers
 // ---------------------------------------------------------------------------
+
+let decisionSeq = 0;
 
 export type LedgerType =
   | 'canon' | 'art-direction' | 'narrative' | 'technical' | 'exception-retcon';
@@ -252,7 +255,7 @@ class DecisionLedgerManager {
     await this.ensureLoaded();
     const full: DecisionEntry = {
       ...entry,
-      entryId: `decision-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      entryId: deterministicId('decision', 'decision-ledgers', [Date.now(), decisionSeq++]),
       timestamp: new Date().toISOString(),
     };
 

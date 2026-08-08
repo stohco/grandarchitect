@@ -17,7 +17,7 @@
 import type { Vec3, CollisionFixture, CollisionTestResult, MeshData, CollisionTestSummary } from './types';
 import type { ControllerInput } from './character-controller';
 import { CharacterController, hashString } from './character-controller';
-import { LCG } from './prng';
+import { LCG } from '../../lib/determinism/primitives';
 
 // ============================================================================
 // Mesh builder helpers

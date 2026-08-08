@@ -46,10 +46,13 @@ import {
 } from '@/lib/editor/crash-observatory';
 
 import OutlinerPanel from '@/components/editor/panels/OutlinerPanel';
+import WorldHierarchyPanel from '@/components/editor/panels/WorldHierarchyPanel';
 import InspectorPanel from '@/components/editor/panels/InspectorPanel';
 import ConsolePanel from '@/components/editor/panels/ConsolePanel';
 import ArchitectPanel from '@/components/editor/panels/ArchitectPanel';
 import AssetBrowserPanel from '@/components/editor/panels/AssetBrowserPanel';
+import DirectorPanel from '@/components/editor/panels/DirectorPanel';
+import DirectorPlayerPanel from '@/components/editor/panels/DirectorPlayerPanel';
 import SimulationPanel from '@/components/editor/panels/SimulationPanel';
 import ReasoningPanel from '@/components/editor/panels/ReasoningPanel';
 import ConstraintsPanel from '@/components/editor/panels/ConstraintsPanel';
@@ -295,6 +298,8 @@ const BOTTOM_TABS: readonly BottomTab[] = [
   { value: 'console', label: 'Console' },
   { value: 'architect', label: 'Architect' },
   { value: 'assets', label: 'Assets' },
+  { value: 'director', label: 'Director' },
+  { value: 'player', label: 'Player' },
   { value: 'simulation', label: 'Simulation' },
   { value: 'history', label: 'History' },
   { value: 'conformance', label: 'Conformance' },
@@ -310,6 +315,8 @@ const BOTTOM_TABS: readonly BottomTab[] = [
 
 /** Tabs that benefit from a slightly taller dock (dense content panels). */
 const TALL_TABS = new Set([
+  'director',
+  'player',
   'reasoning',
   'constraints',
   'complexity',
@@ -398,6 +405,8 @@ function BottomDock() {
         {activeTab === 'console' && <ConsolePanel />}
         {activeTab === 'architect' && <ArchitectPanel />}
         {activeTab === 'assets' && <AssetBrowserPanel />}
+        {activeTab === 'director' && <DirectorPanel />}
+        {activeTab === 'player' && <DirectorPlayerPanel />}
         {activeTab === 'simulation' && <SimulationPanel />}
         {activeTab === 'history' && <HistoryPanel />}
         {activeTab === 'conformance' && <ConformancePanel />}
@@ -465,7 +474,7 @@ export default function EditorLayout() {
                       <TooltipContent side="right" className="text-xs">Hide outliner (Ctrl+1)</TooltipContent>
                     </Tooltip>
                   </div>
-                  <div className="min-h-0 flex-1"><OutlinerPanel /></div>
+                  <div className="min-h-0 flex-1"><WorldHierarchyPanel /></div>
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle className="bg-[#2a2a4a]" />

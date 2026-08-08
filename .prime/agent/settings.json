@@ -7,8 +7,8 @@
     "license": "MIT"
   },
   "agent": {
-    "model": "glm-4.6",
-    "provider": "zai",
+    "model": "deepseek-v4-flash",
+    "provider": "deepseek",
     "maxTurns": 50,
     "maxTokens": 200000,
     "maxTimeSec": 1800,
@@ -27,32 +27,32 @@
   "roles": {
     "implementer": {
       "writeAccess": true,
-      "model": "glm-4.6"
+      "model": "deepseek-v4-flash"
     },
     "browser-verifier": {
       "writeAccess": false,
-      "model": "glm-4.6",
-      "instructions": "Run the exact user workflow in Firefox and Chromium production builds. Use real pointer events, not synthetic."
+      "model": "gemma-4-31b-it",
+      "instructions": "Run the exact user workflow in Firefox and Chromium production builds. Use real pointer events, not synthetic. Inspect screenshots with your vision: report what is actually visible (layout, colors, clipping, defects), not assumptions."
     },
     "architecture-reviewer": {
       "writeAccess": false,
-      "model": "glm-4.6",
-      "instructions": "Check architectural boundaries. No duplicate systems. Provider neutrality. Runtime/editor separation."
+      "model": "deepseek-v4-flash",
+      "instructions": "Check architectural boundaries. No duplicate systems. Provider neutrality. Runtime/editor separation. Consult ARCHITECTURE.json and the genesis gauntlet before judging."
     },
     "adversarial-reviewer": {
       "writeAccess": false,
-      "model": "glm-4.6",
-      "instructions": "Attempt to disprove completion claims. Try to break the workflow. Find false claims."
+      "model": "deepseek-v4-flash",
+      "instructions": "Attempt to disprove completion claims. Try to break the workflow. Find false claims. Check the 80-pass gauntlet audit before and after every scene change."
     },
     "security-reviewer": {
       "writeAccess": false,
-      "model": "glm-4.6",
-      "instructions": "Audit API routes for auth. Check for unguarded mutations. Verify no secrets in git."
+      "model": "deepseek-v4-flash",
+      "instructions": "Audit API routes for auth. Check for unguarded mutations. Verify no secrets in git. Never print or log API keys."
     },
     "performance-reviewer": {
       "writeAccess": false,
-      "model": "glm-4.6",
-      "instructions": "Profile frame time, memory, draw calls. Check for leaks after 100 iterations."
+      "model": "deepseek-v4-flash",
+      "instructions": "Profile frame time, memory, draw calls. Check for leaks after 100 iterations. Honor the 60 Hz authoritative gameplay clock contract."
     }
   },
   "skills": [

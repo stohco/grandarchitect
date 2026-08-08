@@ -19,7 +19,7 @@
  * acceptance are pure functions of state — no randomness anywhere.
  */
 
-import { deterministicId } from './cosmic-hash';
+import { deterministicId } from '../../lib/determinism/primitives';
 
 export interface EssenceDefinition {
   essenceId: string;

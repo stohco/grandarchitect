@@ -126,3 +126,15 @@ Then update the worklog (`worklog.md`) and the relevant handoff bundle.
 - `roadmap-state.json` — machine-readable phase/task roadmap.
 - `worklog.md` — historical iteration log (testimony, not proof).
 - `.ai/context-profiles.json` — load only relevant context per task.
+
+
+## Determinism unity (DET-1)
+
+- The ONLY authorized deterministic primitives are src/lib/determinism/ (rng.ts,
+  hash.ts, primitives.ts, serialize.ts, fixed-point.ts, transcendentals.ts).
+- Subsystem-local PRNG/hash implementations are FORBIDDEN. Import the
+  canonical package instead.
+- New deterministic code MUST pin its algorithm with golden vectors in a
+  conformance test — 'same seed => same result' is not enough (a corrupted
+  algorithm replays the same wrong sequence forever).
+- Run un run check:determinism to scan for violations.

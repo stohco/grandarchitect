@@ -1,0 +1,50 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic.
+3D xianxia donghua game (Zhumeng/Tencent style).
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials.
+        *   Restraint: No neon, no HUD, no western armor.
+
+    *   *Image Content:* A very basic 3D scene. Flat green ground, a blue/grey sky, some brown rectangular blocks (representing platforms/buildings), three green spheres on sticks (trees), two grey spheres (rocks), and two white cones (mountains/peaks) in the distance.
+    *   *Palette:* Flat green, flat blue-grey, flat brown. No gold, no teal, no muted naturalistic tones. It looks like default engine colors.
+    *   *Lighting:* Flat, ambient lighting. No clear key light, no cool fill, absolutely no rim separation. No shadows are visible except for some very basic occlusion/shading on the blocks.
+    *   *Atmosphere:* Zero fog. No vignette. No filmic exposure. Just a hard horizon line.
+    *   *Composition:* Centered, flat, lacks depth. No leading lines. No framing.
+    *   *Style:* This isn't a "painterly blockout"; it's a "primitive blockout." There are no painterly textures or directed lighting.
+
+    *   *Palette:* 2/10. It's default RGB. No ethereal teals or gold.
+    *   *Lighting:* 1/10. No key, no fill, no rim. It's flat.
+    *   *Atmosphere:* 1/10. No fog, no vignette.
+    *   *Composition:* 3/10. It's a basic layout, but lacks any artistic intent.
+    *   *Style:* 2/10. Doesn't read as "painterly" or "xianxia." It reads as "Unity/Unreal default scene."
+
+    *   *Overall:* (2+1+1+3+2)/5 = 1.8.
+
+    *   *Strengths:*
+        *   Basic spatial layout is established.
+        *   Scale of trees vs. platforms is roughly coherent.
+
+    *   *Defects:*
+        *   Complete absence of the lighting language (no warm key/cool fill/rim).
+        *   Palette is generic and violates the "muted naturalistic" bible.
+        *   Zero atmospheric depth or fog; horizon is a hard line.
+        *   Lack of "painterly" intent; these are raw primitives, not stylized blockouts.
+PALETTE: 2/10 Default engine greens and blues; complete violation of the muted naturalistic/ethereal teal bible.
+LIGHTING: 1/10 Flat ambient light; zero warm key, zero cool fill, zero rim separation.
+ATMOSPHERE: 1/10 No fog, no vignette, no depth; hard horizon line is unacceptable.
+COMPOSITION: 3/10 Basic spatial layout exists, but lacks framing, leading lines, or intentionality.
+STYLE: 2/10 This is a primitive blockout, not a painterly blockout; no stylistic direction present.
+OVERALL: 1.8
+STRENGTHS:
+- Basic spatial proportions are established.
+- Clear distinction between ground, foliage, and architecture.
+DEFECTS:
+- Total failure of lighting language; it looks like a default scene, not a directed frame.
+- Palette is generic RGB; missing the "ethereal

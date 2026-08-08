@@ -3,6 +3,22 @@
   "schemaVersion": "1.0.0",
   "description": "Context profiles for Grand Architect. Each profile defines a minimal set of files to load for a class of task. The goal is to reduce context, not multiply it. Never load the entire Bible or all architecture docs into a single agent startup context.",
   "profiles": {
+    "production": {
+      "description": "Full-workspace context for production passes (prime agent, director, gauntlet). Loads the workspace map, directives, and pipeline data.",
+      "includes": [
+        "ARCHITECTURE.json",
+        "worklog.md",
+        "docs/universal-genesis-gauntlet-directive.md",
+        "docs/world-fabric-asset-factory-directive.md",
+        "docs/emergence-directive.md",
+        "docs/gauntlet-audit.md",
+        "src/lib/engine/definitions/index.ts",
+        "src/lib/genesis/genesis-coverage-report.json",
+        ".prime/agent/prompts/project-context.md"
+      ],
+      "maxApproxTokens": 64000,
+      "rationale": "Prime agent and production passes need the entire workspace map, not a subset."
+    },
     "core": {
       "description": "Minimum context for any task in this repository.",
       "includes": [

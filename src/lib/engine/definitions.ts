@@ -102,8 +102,8 @@ export const PRACTICE_DEFINITIONS: Definition[] = [
 
 // LOCATIONS (2 core, to be expanded massively)
 export const LOCATION_DEFINITIONS: Definition[] = [
-  { id: "location.wang_family_bend", kind: "location", name: "Wang Family Bend", nameHanzi: "王 家彎", tags: ["village","starting","mortal","cangli_riverlands"], description: "31 households, ~180 people. The player's starting location.", source: "doc 04 §1", relations: [{ type: "PART_OF", target: "location.cangli_riverlands" }], simulationHooks: ["economy","social","ecology","aging","disease"], renderProfile: "location_village_chinese", version: "0.1.0" },
-  { id: "location.cangwu_sect", kind: "location", name: "Cangwu Sect", nameHanzi: "蒼梧派", tags: ["sect","small","qi_condensation_tier","cangwu_mountains"], description: "Small sect 100 li west. Wu Changqing (52, Qi Cond peak). 30 disciples. Green Mirror Vein (water-phase).", source: "doc 24 §4.3, doc 31 §1", relations: [{ type: "VASSAL_OF", target: "location.azure_sword_sect" }], simulationHooks: ["cultivation","economy","social","politics"], renderProfile: "location_sect_mountain", version: "0.1.0" },
+  { id: "location.wang_family_bend", kind: "location", name: "Wang Family Bend", nameHanzi: "王 家彎", tags: ["village","starting","mortal","cangli_riverlands"], description: "31 households, ~180 people. The player's starting location.", source: "doc 04 §1", relations: [{ type: "PART_OF", target: "region.cangli_riverlands" }], simulationHooks: ["economy","social","ecology","aging","disease"], renderProfile: "location_village_chinese", version: "0.1.0" },
+  { id: "location.cangwu_sect", kind: "location", name: "Cangwu Sect", nameHanzi: "蒼梧派", tags: ["sect","small","qi_condensation_tier","cangwu_mountains"], description: "Small sect 100 li west. Wu Changqing (52, Qi Cond peak). 30 disciples. Green Mirror Vein (water-phase).", source: "doc 24 §4.3, doc 31 §1", relations: [{ type: "VASSAL_OF", target: "sect.azure_sword" }], simulationHooks: ["cultivation","economy","social","politics"], renderProfile: "location_sect_mountain", version: "0.1.0" },
 ];
 
 // FULL DATABASE

@@ -1,0 +1,48 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key + Cool fill + Strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouette: Chunky, readable, 1.8m proportions, weathered ancient-sacred materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+
+        *   PALETTE: <1-10> <one line>
+        *   LIGHTING: <1-10> <one line>
+        *   ATMOSPHERE: <1-10> <one line>
+        *   COMPOSITION: <1-10> <one line>
+        *   STYLE: <1-10> <one line>
+        *   OVERALL: <mean, one decimal>
+        *   STRENGTHS: <2 short lines>
+        *   DEFECTS: <2-4 short concrete lines>
+
+    *   *Palette:* Very bland. Beige/yellow roofs, brown walls, grey ground, flat blue sky. No teals, no forest greens (the trees are just green cones), no gold accents. It feels like a default Unity/Unreal scene with basic textures.
+    *   *Lighting:* Flat. There is a basic directional light, but no "warm golden key," no "cool fill," and absolutely no "rim separation." The shadows are harsh and basic.
+    *   *Atmosphere:* Non-existent. No fog, no vignette, no filmic exposure. The sky is a flat gradient. The ground is a flat plane.
+    *   *Composition:* Very basic. A diagonal line of buildings. No clear subject, no leading lines that create a "sacred" or "ethereal" feel. It's a wide shot of some sheds.
+    *   *Style:* This doesn't look like a "painterly xianxia donghua blockout." It looks like a generic low-poly asset test. The silhouettes are basic boxes/pyramids. No "weathered ancient-sacred" feel; it looks like new plywood.
+
+    *   *Palette:* 2/10. Dominated by beige and grey; completely ignores the ethereal teal/blue/green bible.
+    *   *Lighting:* 2/10. Flat directional light; missing key/fill/rim logic entirely.
+    *   *Atmosphere:* 1/10. Zero fog, zero vignette; feels like a vacuum, not a world.
+    *   *Composition:* 3/10. Basic diagonal placement; lacks framing or intentionality.
+    *   *Style:* 2/10. Reads as generic low-poly, not painterly xianxia.
+
+    *   *Overall:* (2+2+1+3+2)/5 = 10/5 = 2.0.
+
+    *   *Strengths:*
+        *   Basic spatial layout is established.
+        *   Scale of buildings is roughly consistent.
+
+    *   *Defects:*
+        *   Complete failure of the lighting language (no rim, no cool fill).
+        *   Palette is sterile and generic; lacks the "ethereal" requirements.
+        *   Zero atmospheric depth; no fog or filmic treatment.
+        *   Materials look like raw plywood, not weathered ancient timber.
+PALETTE: 2/10 Dominated by sterile beige and flat grey; total violation of the ethereal teal/blue/green bible.
+LIGHTING: 2/10 Flat directional light; missing the warm key, cool fill, and critical rim separation.
+ATM

@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "2a2447ca53a43f0b992c5f6e539f5186a1ba70bf",
-    "commitShort": "2a2447ca53a4",
-    "branch": "HEAD",
+    "commit": "0190716e59cc2b6788587b6aa8836ac946ad126b",
+    "commitShort": "0190716e59cc",
+    "branch": "authority/convergence",
     "dirty": true,
-    "dirtyReason": "Working tree has 8 modified file(s): next-env.d.ts, package.json, src/generated/build-manifest.ts, src/lib/engine/dashboard-data.ts, src/lib/studio-ui/action-handlers.ts…",
-    "generatedAt": "2026-08-08T00:51:40.263Z",
+    "dirtyReason": "Working tree has 63 modified file(s): .ai/project.manifest.json, AGENTS.md, next-env.d.ts, next.config.ts, package.json…",
+    "generatedAt": "2026-08-08T07:09:01.924Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -191,6 +191,24 @@
       "verified": true,
       "source": "package.json scripts.test:manifest",
       "expandsTo": "bun run scripts/run-conformance.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "check:determinism": {
+      "command": "bun run check:determinism",
+      "verified": true,
+      "source": "package.json scripts.check:determinism",
+      "expandsTo": "bun run scripts/check-determinism-unity.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "check:genesis": {
+      "command": "bun run check:genesis",
+      "verified": true,
+      "source": "package.json scripts.check:genesis",
+      "expandsTo": "bun run scripts/check-genesis-coverage.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""

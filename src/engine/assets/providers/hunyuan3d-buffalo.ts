@@ -22,6 +22,7 @@
  * for a real adapter — the interface stays the same.
  */
 
+import { deterministicId } from '../../../lib/determinism/primitives';
 import type {
   Unified3DProvider,
   ProviderCapability,
@@ -138,6 +139,8 @@ export class Hunyuan3DBuffaloProvider implements Unified3DProvider {
 // Mock helpers
 // ---------------------------------------------------------------------------
 
+let candSeq = 0;
+
 function createMockCandidate(
   instruction: string,
   source: 'ai-generated' | 'ai-edited',
@@ -148,7 +151,7 @@ function createMockCandidate(
   const revision = sourceAsset ? sourceAsset.revision + 1 : 1;
 
   return {
-    candidateId: `candidate-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+    candidateId: deterministicId('candidate', 'hunyuan3d', [Date.now(), candSeq++]),
     asset: {
       assetId,
       revision,

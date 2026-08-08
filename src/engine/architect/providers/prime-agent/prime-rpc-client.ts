@@ -24,6 +24,7 @@
 
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { StringDecoder } from 'node:string_decoder';
+import { deterministicId } from '../../../../lib/determinism/primitives';
 
 // ---------------------------------------------------------------------------
 // Protocol types (mirrors the documented RPC protocol)
@@ -138,6 +139,8 @@ export interface PrimeRpcClientOptions {
 
 const PENDING_DEFAULT_TIMEOUT_MS = 60_000;
 
+let reqSeq = 0;
+
 export class PrimeRpcClient {
   readonly options: PrimeRpcClientOptions;
   private child: ChildProcessWithoutNullStreams | null = null;
@@ -163,9 +166,24 @@ export class PrimeRpcClient {
     return () => this.listeners.delete(listener);
   }
 
-  /** Spawn the sidecar (`prime-agent --mode rpc [extraArgs]`). */
+  /** Spawn the sidecar (`prime-agent --mode rpc [extraArgs]`).
+   *  Retries once on spawn/handshake starvation (loaded 8 GB machines). */
   async start(): Promise<void> {
     if (this.child) return;
+    try {
+      await this.spawnAndHandshake();
+    } catch (firstErr) {
+      this.child = null;
+      await new Promise((r) => setTimeout(r, 250));
+      try {
+        await this.spawnAndHandshake();
+      } catch {
+        throw firstErr instanceof Error ? firstErr : new Error(String(firstErr));
+      }
+    }
+  }
+
+  private async spawnAndHandshake(): Promise<void> {
     const executable = this.options.executable ?? 'prime-agent';
     const args = [...(this.options.modeArgs ?? ['--mode', 'rpc']), ...(this.options.extraArgs ?? [])];
     const child = spawn(executable, args, {
@@ -193,8 +211,11 @@ export class PrimeRpcClient {
     });
 
     // Wait for the session header line (protocol: first stdout record).
+    // Env-tunable: slow/loaded machines (8 GB dev boxes, headless rendering
+    // in parallel) can exceed the default handshake window.
+    const handshakeMs = Number(process.env.PRIME_HANDSHAKE_TIMEOUT_MS ?? 45_000);
     await new Promise<void>((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('prime-agent sidecar handshake timeout')), 15_000);
+      const timer = setTimeout(() => reject(new Error('prime-agent sidecar handshake timeout')), handshakeMs);
       const unsub = this.onEvent((e) => {
         if (e.type === 'session') {
           clearTimeout(timer);
@@ -227,7 +248,7 @@ export class PrimeRpcClient {
     if (!this.child || this.child.stdin.destroyed) {
       return Promise.reject(new Error('prime-agent sidecar is not running'));
     }
-    const id = command.id ?? `req-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    const id = command.id ?? deterministicId('req', 'prime-rpc', [Date.now(), reqSeq++]);
     const payload = { ...command, id };
 
     return new Promise((resolve, reject) => {

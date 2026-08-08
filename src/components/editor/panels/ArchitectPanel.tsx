@@ -107,25 +107,44 @@ export default function ArchitectPanel() {
           };
         }
       }
-      // Default: RCVC interpretation
+      // Default: DeepSeek-backed Grand Architect, falling back to RCVC interpretation
       else {
-        const res = await fetch('/api/architect/interpret', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ request: text }),
-        });
-        const data = await res.json();
-        const weakest = data.weakest;
-        const clarifications = data.clarifications ?? [];
-        archMsg = {
-          id: `msg-${++msgCounter}`,
-          role: 'architect',
-          kind: 'interpretation',
-          content: weakest
-            ? `${weakest.interpretation.replace(/\n/g, ' ')}\nSpecificity ${Math.round(weakest.specificityScore * 100)}% · Confidence ${Math.round(weakest.confidence * 100)}%.${clarifications.length > 0 ? `\n${clarifications.length} clarification(s) pending — I will not guess more than the evidence supports.` : ''}`
-            : 'I could not form a sufficient interpretation. Could you rephrase?\n\nI can help with: structure clipping, settlement description, lore search, sacred transformations, or interpreting your requests.',
-          meta: { hypotheses: data.count, clarifications: clarifications.length },
-        };
+        let archMsg: ChatMessage | null = null;
+        try {
+          const chatRes = await fetch('/api/architect/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ request: text }),
+          });
+          const chatData = await chatRes.json();
+          if (chatRes.ok && chatData.reply) {
+            archMsg = {
+              id: `msg-${++msgCounter}`,
+              role: 'architect',
+              kind: 'text',
+              content: chatData.reply,
+            };
+          }
+        } catch { /* fall through to RCVC */ }
+
+        if (!archMsg) {
+          const res = await fetch('/api/architect/interpret', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ request: text }),
+          });
+          const data = await res.json();
+          const weakest = data.weakest;
+          const clarifications = data.clarifications ?? [];
+          archMsg = {
+            id: `msg-${++msgCounter}`,
+            role: 'architect',
+            kind: 'interpretation',
+            content: weakest
+              ? `${weakest.interpretation.replace(/\n/g, ' ')}\nSpecificity ${Math.round(weakest.specificityScore * 100)}% · Confidence ${Math.round(weakest.confidence * 100)}%.${clarifications.length > 0 ? `\n${clarifications.length} clarification(s) pending — I will not guess more than the evidence supports.` : ''}`
+              : 'I could not form a sufficient interpretation. Could you rephrase?\n\nI can help with: structure clipping, settlement description, lore search, sacred transformations, or interpreting your requests.',
+          };
+        }
       }
       setMessages((prev) => [...prev, archMsg]);
     } catch (err) {

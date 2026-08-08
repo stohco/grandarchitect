@@ -19,6 +19,7 @@
 import { Document, WebIO } from '@gltf-transform/core';
 import { dedup, prune, resample, simplify, weld } from '@gltf-transform/functions';
 import { MeshoptSimplifier } from 'meshoptimizer';
+import { deterministicId } from '../../../lib/determinism/primitives';
 
 // ---------------------------------------------------------------------------
 // Asset Compilation Types
@@ -146,7 +147,7 @@ class AssetCompiler {
     const stats = this.getDocumentStats(doc);
 
     return {
-      assetRevisionId: `asset-rev-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      assetRevisionId: deterministicId('asset-rev', 'asset-compiler', [Date.now(), assetRevSeq++]),
       glbBuffer,
       glbSizeBytes: glbBuffer.byteLength,
       vertexCount: stats.vertexCount,
@@ -217,6 +218,7 @@ class AssetCompiler {
 }
 
 // Singleton
+let assetRevSeq = 0;
 let compilerInstance: AssetCompiler | null = null;
 
 export function getAssetCompiler(): AssetCompiler {

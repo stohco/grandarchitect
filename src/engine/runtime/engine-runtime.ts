@@ -52,6 +52,7 @@ import type {
 } from './types';
 import type { WorldCell, Principal, TerrainDestructionOperation, TerrainOperationType } from '../world/world-fabric';
 import type { ArtifactKind, Bounds3, TerrainLayer, SimulationTier } from '../world/world-fabric';
+import { deterministicId } from '../../lib/determinism/primitives';
 import { createHash } from 'crypto';
 import { getMatterSink, eventIdFromOperation } from '../world/matter/matter-sink';
 import type { MatterSink, MatterSinkResult } from '../world/matter/matter-sink';
@@ -168,6 +169,10 @@ registerHandler({
   },
 });
 
+let destSeq = 0;
+let tunnelSeq = 0;
+let auditSeq = 0;
+
 // Handler: terrain.subtract-sphere
 registerHandler({
   type: 'terrain.subtract-sphere',
@@ -189,7 +194,7 @@ registerHandler({
     if (!cell) throw new Error(`Cell not found: ${cellId}`);
 
     const op: TerrainDestructionOperation = {
-      id: `dest-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      id: deterministicId('dest', 'er-runtime', [resultRevision, destSeq++]),
       worldRevision: resultRevision,
       type: 'subtract-sphere' as TerrainOperationType,
       transform: payload.transform as TerrainDestructionOperation['transform'],
@@ -250,7 +255,7 @@ registerHandler({
     if (!cell) throw new Error(`Cell not found: ${cellId}`);
 
     const op: TerrainDestructionOperation = {
-      id: `tunnel-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      id: deterministicId('tunnel', 'er-runtime', [resultRevision, tunnelSeq++]),
       worldRevision: resultRevision,
       type: 'subtract-capsule' as TerrainOperationType,
       transform: payload.transform as TerrainDestructionOperation['transform'],
@@ -724,7 +729,7 @@ class InMemoryArchitectGateway implements ArchitectGateway {
     const authorized = session.principal.role === 'architect' || session.principal.role === 'user';
 
     const entry: AuditEntry = {
-      entryId: `audit-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      entryId: deterministicId('audit', 'er-runtime', [auditSeq++]),
       timestamp: new Date().toISOString(),
       principal: session.principal,
       command,

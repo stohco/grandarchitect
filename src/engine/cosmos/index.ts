@@ -12,7 +12,7 @@
  *                         rewind, Samsara recast
  *   - essence-registry.ts finite essence slots, predation, concept-override,
  *                         true vs false essences
- *   - cosmic-hash.ts      deterministic hashing (FNV-1a, Park-Miller LCG)
+ *   - primitives (src/lib/determinism/primitives.ts)  FNV-1a, Park-Miller LCG (canonical)
  *
  * Proof: cosmos-conformance.ts (bun-runnable).
  */
@@ -22,4 +22,4 @@ export * from './cosmology-graph';
 export * from './karma-engine';
 export * from './time-engine';
 export * from './essence-registry';
-export * from './cosmic-hash';
+export * from '../../lib/determinism/primitives';

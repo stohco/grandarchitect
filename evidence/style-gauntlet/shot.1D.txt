@@ -1,0 +1,48 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, COOL fill, strong warm RIM separation.
+        *   Palette: Muted naturalistic (teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   *Image Content:* A very basic 3D blockout. It shows a wooden pillar on the right, a dark ceiling/overhang, a brown textured wall/background, and a light grey floor.
+    *   *Palette:* Brown, dark brown/black, light grey. Very muddy. No teals, blues, or greens. No gold accents.
+    *   *Lighting:* Flat. There is no clear key light, no cool fill, and absolutely no rim separation. The shadows are just black voids.
+    *   *Atmosphere:* Zero. No fog, no vignette, no depth. It looks like a default engine render with basic textures.
+    *   *Composition:* Extremely poor. A random crop of a corner. No subject, no leading lines, no framing.
+    *   *Style:* Does not read as "painterly xianxia." It reads as "early 2000s low-poly asset test." The textures are stretched/tiled and lack the "hand-painted" feel required by the bible.
+
+    *   *PALETTE:* 2/10. Dominated by muddy browns and grey. Complete violation of the muted naturalistic palette (no teals/blues/greens).
+    *   *LIGHTING:* 1/10. Flat, dead lighting. No warm key, no cool fill, no rim.
+    *   *ATMOSPHERE:* 1/10. No fog, no vignette, no mood. Sterile.
+    *   *COMPOSITION:* 1/10. Meaningless crop. No subject or intentional framing.
+    *   *STYLE:* 2/10. Not painterly. Looks like raw procedural geometry without the "directed" part of "directed lighting/textures."
+
+    *   *Overall:* (2+1+1+1+2)/5 = 1.4.
+
+    *   *Strengths:*
+        *   Basic geometry is present.
+        *   Materials are assigned (even if poorly).
+
+    *   *Defects:*
+        *   Complete absence of the lighting language (Key/Fill/Rim).
+        *   Palette is muddy and ignores the Art Bible's color requirements.
+        *   Zero atmospheric depth or filmic treatment.
+        *   Composition is a non-starter; no readable silhouette or subject.
+PALETTE: 2/10 Muddy browns and sterile grey; total violation of the muted naturalistic teal/blue/green bible.
+LIGHTING: 1/10 Flat and dead; zero warm key, zero cool fill, and absolutely no rim separation.
+ATMOSPHERE: 1/10 Non-existent; no fog, no vignette, no depth—just a sterile void.
+COMPOSITION: 1/10 Meaningless crop; no subject, no leading lines, no intentional framing.
+STYLE: 2/10 Reads as a raw engine test, not a painterly blockout; textures are tiled/stretched, not hand-painted.
+OVERALL: 1.4
+STRENGTHS:
+- Basic geometry is placed.
+- Materials are assigned to surfaces.
+DEFECT

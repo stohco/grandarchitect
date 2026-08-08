@@ -1,0 +1,49 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR art-direction critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouette: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no wireframe HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   *Palette:* Flat blue sky, flat green ground, beige/tan wood, grey stone. It's very basic. No teals, no soft blues, no gold accents. It looks like a default Unity/Unreal starter scene.
+    *   *Lighting:* Flat, direct sunlight. No clear "warm golden key" vs "cool fill." No rim lighting. Shadows are harsh and basic.
+    *   *Atmosphere:* Zero fog. Zero vignette. No depth. The horizon is a hard line.
+    *   *Composition:* A diagonal slice of a building. No clear subject, no framing, no leading lines. It's a technical view, not a directed shot.
+    *   *Style:* This is a blockout, but it's a *primitive* blockout. It doesn't feel "painterly" or "xianxia." It feels like a generic architectural prototype. The "weathered ancient-sacred" feel is completely missing; it looks like new plywood and concrete.
+
+    *   *Palette:* 2/10. It's just primary/secondary basics. No "ethereal" quality.
+    *   *Lighting:* 2/10. No rim, no cool fill, just a standard directional light.
+    *   *Atmosphere:* 1/10. Completely void of atmospheric depth.
+    *   *Composition:* 3/10. It's a basic angle, but there's no artistic intent.
+    *   *Style:* 2/10. Doesn't read as "painterly xianxia"; reads as "generic 3D asset test."
+
+    *   *Overall:* (2+2+1+3+2)/5 = 2.0.
+
+    *   *Strengths:*
+        *   Basic geometry is clean.
+        *   Scale seems roughly consistent.
+
+    *   *Defects:*
+        *   Complete absence of the Art Bible's lighting language (no rim/fill).
+        *   Palette is generic and lacks the muted, ethereal tones required.
+        *   Zero atmospheric depth; no fog or vignette to create mood.
+        *   Materials look like raw primitives, not "weathered ancient-sacred" timber/stone.
+PALETTE: 2/10 Flat primary colors; lacks ethereal teals, soft blues, and gold accents.
+LIGHTING: 2/10 Basic directional light; no cool fill, no warm rim separation, no golden key.
+ATMOSPHERE: 1/10 Zero fog, no vignette, no depth; reads as a vacuum, not a world.
+COMPOSITION: 3/10 Static diagonal; no framing, no leading lines, no focal point.
+STYLE: 2/10 Reads as a generic architectural prototype, not a painterly xianxia blockout.
+OVERALL: 2.0
+STRENGTHS:
+- Geometry is clean and functional for a blockout.
+- Basic scale proportions appear grounded.
+DEFECTS:
+- Total disregard for the lighting language (missing the critical warm/cool contrast).
+- Palette is

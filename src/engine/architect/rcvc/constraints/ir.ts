@@ -13,6 +13,7 @@
  * No forbidden functions. No Three.js, no DOM.
  */
 
+import { deterministicId } from '../../../../lib/determinism/primitives';
 import type {
   ConstraintVar,
   Constraint,
@@ -190,6 +191,8 @@ export function softConstraints(problem: ConstraintProblem): Constraint[] {
   return problem.constraints.filter(c => !c.hard);
 }
 
+let modelSeq = 0;
+
 export function makeCandidateModel(
   assignments: Record<string, unknown>,
   candidateCount: number,
@@ -197,7 +200,7 @@ export function makeCandidateModel(
   rationale: string,
 ): CandidateModel {
   return {
-    modelId: `model-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`,
+    modelId: deterministicId('model', 'rcvc-ir', [Date.now(), modelSeq++]),
     assignments,
     candidateCount,
     validCount,

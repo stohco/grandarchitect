@@ -63,6 +63,9 @@ import { loadCompiledBible, verifySourceSpan } from './bible-compiler';
 import { durableStore, appendToJsonArray, type AuthorialStoreKey } from './durable-store';
 import { getEngineRuntime } from '@/engine/runtime/engine-runtime';
 import type { PrincipalSession, WorldCommand } from '@/engine/runtime/types';
+import { deterministicId } from '../../../lib/determinism/primitives';
+
+let critiqueSeq = 0;
 
 // ---------------------------------------------------------------------------
 // Input
@@ -300,7 +303,7 @@ class DeterministicCritic {
     }
 
     return {
-      reportId: `critique-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      reportId: deterministicId('critique', 'vertical-slice', [Date.now(), critiqueSeq++]),
       reviewerType: 'deterministic',
       verdict,
       findings,

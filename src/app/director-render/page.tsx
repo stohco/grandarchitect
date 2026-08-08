@@ -1,0 +1,203 @@
+'use client';
+
+/**
+ * Director Render Stage — renders director-script shots of the set.
+ *
+ * Builds the Wang Family Bend scene from the set factory (structures +
+ * humanoids), then exposes window.__directorShot(shotId) so the puppeteer
+ * shot renderer (scripts/render-director-shots.ts) can capture each shot
+ * with the camera specified in the director script (cut, lens, height).
+ */
+
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { buildVillageScene } from '@/lib/assets/factories/set-factory';
+import { buildHumanoid, profileForRole } from '@/lib/assets/factories/character-factory';
+import { EPISODE_1 } from '@/lib/worldproduction/director-script';
+import { WANG_FAMILY_BEND } from '@/lib/worldproduction/set-blueprint';
+import { applyZhumengStyle, zhumengCss } from '@/lib/worldproduction/zhumeng-style';
+import { attachFilmicGrade } from '@/lib/worldproduction/filmic-grade';
+import type { FilmicGrade } from '@/lib/worldproduction/filmic-grade';
+
+declare global {
+  interface Window {
+    __directorShot: (shotId: string) => string | null;
+    __directorShots: () => string[];
+  }
+}
+
+const CUT_DISTANCE: Record<string, number> = {
+  'extreme-wide': 260, wide: 46, medium: 9, close: 3.4,
+  'extreme-close': 1.6, insert: 1.1, aerial: 820, crane: 60, dolly: 7, pov: 1.9,
+};
+
+function fovForLens(lensMm: number): number {
+  return 2 * Math.atan(24 / (2 * lensMm)) * (180 / Math.PI);
+}
+
+export default function DirectorRenderPage() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    // sortObjects computes bounding spheres on every mesh (including
+    // skinned meshes, whose sphere math trips on the dual three build in
+    // this browser bundle) — we control draw order explicitly.
+    renderer.sortObjects = false;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x8fb8d8);
+    // blue haze close in: mid-ground reads cool against warm-lit subjects
+    scene.fog = new THREE.Fog(0x9ab8d0, 40, 260);
+
+    // warm painterly sun
+    const sun = new THREE.DirectionalLight(0xffe8c0, 2.2);
+    sun.position.set(120, 180, 60);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -300; sun.shadow.camera.right = 300;
+    sun.shadow.camera.top = 300; sun.shadow.camera.bottom = -300;
+    scene.add(sun);
+    const hemi = new THREE.HemisphereLight(0xcfe8ff, 0x6a5a3a, 0.75);
+    scene.add(hemi);
+
+    // Zhumeng donghua style pass: warm key, cool fill, rim separation
+    const rim = new THREE.DirectionalLight(0xffd8a8, 1.1);
+    rim.position.set(-90, 60, -120);
+    scene.add(rim);
+    const coolFill = new THREE.DirectionalLight(0x9ab8d8, 0.55);
+    coolFill.position.set(-60, 25, -80);
+    scene.add(coolFill);
+    applyZhumengStyle(renderer, sun, hemi, () => rim);
+
+    // ground variation: soft blotches so the valley floor is not one flat color
+    const blotchMat = new THREE.MeshBasicMaterial({ color: 0x2c4a2a, transparent: true, opacity: 0.35, depthWrite: false });
+    for (let i = 0; i < 8; i++) {
+      const b = new THREE.Mesh(new THREE.CircleGeometry(30 + (i % 3) * 22, 18), blotchMat);
+      b.rotation.x = -Math.PI / 2;
+      b.position.set(-160 + (i % 4) * 120, 0.01, -140 + Math.floor(i / 4) * 160);
+      scene.add(b);
+    }
+
+    // per-shot sun: dawn shots get a LOW warm sun (long shadows = form)
+    const sunElevationFor = (shotId: string): [number, number, number] => {
+      const early = /1[A-D]/.test(shotId);
+      const late = /1[L-N]/.test(shotId);
+      if (early) return [60, 22, 50];     // low dawn sun
+      if (late) return [90, 30, 40];      // golden-hour sun
+      return [120, 55, 45];               // morning sun
+    };
+
+    // the set
+    const village = buildVillageScene();
+    scene.add(village.group);
+
+    // painterly gradient sky dome (blue-teal family, warm gold only at the
+    // sun — the donghua warm/cool split: warm-lit ground vs blue sky/haze)
+    const skyGeo = new THREE.SphereGeometry(1800, 16, 12);
+    const skyPos = skyGeo.attributes.position as THREE.BufferAttribute;
+    const skyColors = new Float32Array(skyPos.count * 3);
+    for (let i = 0; i < skyPos.count; i++) {
+      const y = skyPos.getY(i) / 1800;
+      const t = Math.max(0, Math.min(1, (y + 0.12) / 1.12));
+      const c = new THREE.Color(0x2a4a6a).lerp(new THREE.Color(0xa8c8d8), t);
+      skyColors[i * 3] = c.r; skyColors[i * 3 + 1] = c.g; skyColors[i * 3 + 2] = c.b;
+    }
+    skyGeo.setAttribute('color', new THREE.BufferAttribute(skyColors, 3));
+    const sky = new THREE.Mesh(skyGeo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false }));
+    scene.add(sky);
+
+    // contact shadows: soft dark disc under every structure (grounding)
+    const contactMat = new THREE.MeshBasicMaterial({ color: 0x0a0a14, transparent: true, opacity: 0.28, depthWrite: false });
+    for (const [, sg] of village.structures) {
+      const disc = new THREE.Mesh(new THREE.CircleGeometry(1, 20), contactMat);
+      disc.rotation.x = -Math.PI / 2;
+      disc.position.set(sg.position.x, 0.02, sg.position.z);
+      const scale = Math.max(sg.userData?.w ?? 12, 10) / 2;
+      disc.scale.set(scale, scale, 1);
+      scene.add(disc);
+    }
+
+    // village life: a few humanoids
+    const life: Array<{ profile: string; x: number; z: number; clip: string }> = [
+      { profile: 'farmer', x: 130, z: 95, clip: 'idle' },
+      { profile: 'elder', x: -14, z: -33, clip: 'bow' },
+      { profile: 'elder', x: 28, z: -18, clip: 'idle' },
+      { profile: 'merchant', x: 22, z: 28, clip: 'walk' },
+    ];
+    for (const l of life) {
+      const h = buildHumanoid(profileForRole(l.profile, 7));
+      h.group.position.set(l.x, 0, l.z);
+      scene.add(h.group);
+    }
+
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 4000);
+
+    // filmic grade baked INTO the pixels (vignette + saturation + warmth)
+    let grade: FilmicGrade | null = null;
+    try {
+      grade = attachFilmicGrade(renderer, scene, camera);
+    } catch { /* grade optional */ }
+
+    const targetFor = (shotId: string): THREE.Vector3 => {
+      const shot = EPISODE_1.shots.find((s) => s.id === shotId);
+      if (!shot?.structureId) return new THREE.Vector3(0, 0, 0);
+      const g = village.structures.get(shot.structureId);
+      if (!g) return new THREE.Vector3(0, 0, 0);
+      return g.position.clone().add(new THREE.Vector3(0, 2, 0));
+    };
+
+    window.__directorShots = () => EPISODE_1.shots.map((s) => s.id);
+    window.__directorShot = (shotId: string): string | null => {
+      const shot = EPISODE_1.shots.find((s) => s.id === shotId);
+      if (!shot) return null;
+      const [sx, sy, sz] = sunElevationFor(shotId);
+      sun.position.set(sx, sy, sz);
+      const target = targetFor(shotId);
+      const dist = CUT_DISTANCE[shot.cut] ?? 20;
+      camera.fov = fovForLens(shot.camera.lensMm);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      camera.position.set(target.x + dist * 0.7, shot.camera.heightM + target.y * 0.2, target.z + dist);
+      camera.lookAt(target);
+      scene.updateMatrixWorld(true);
+      if (grade) grade.composer.render();
+      else renderer.render(scene, camera);
+      return canvas.toDataURL('image/png');
+    };
+
+    // default: first shot
+    try {
+      window.__directorShot(EPISODE_1.shots[0].id);
+    } catch (e) {
+      console.error('[director] default render failed', (e as Error).message);
+      let diag = '';
+      scene.traverse((o) => {
+        const m = o as THREE.SkinnedMesh;
+        if (m.isSkinnedMesh) {
+          diag += `mesh=${m.name} fc=${m.frustumCulled} bones=${m.skeleton?.bones?.length} attrs=${Object.keys(m.geometry.attributes).join(',')} | `;
+        }
+      });
+      console.error('[director] skinned diag: ' + diag);
+    }
+
+    return () => {
+      renderer.dispose();
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 bg-black" style={{ filter: zhumengCss() }}>
+      <canvas ref={canvasRef} className="h-full w-full" />
+      {/* filmic vignette grade */}
+      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 62%, rgba(10,6,2,0.3) 100%)' }} />
+    </div>
+  );
+}

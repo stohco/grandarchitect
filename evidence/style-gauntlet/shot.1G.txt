@@ -1,0 +1,41 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple only for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, grounded 1.8m proportions, weathered materials.
+        *   Restraint: No neon, no wireframe HUD, no western armor.
+
+        *   A very basic 3D scene.
+        *   A large, flat, beige/tan surface (looks like a floor or a table).
+        *   A thin, brown cylinder (looks like a pole or a stick) floating/resting across the frame.
+        *   A green cone (representing a tree) in the background.
+        *   A flat, light blue background (sky).
+        *   Lighting is flat, default, no rim, no clear key/fill.
+        *   Composition is a low-angle, skewed perspective of a flat plane.
+
+    *   *Palette:* Beige, brown, green, light blue. It's "naturalistic" in the sense that it's basic colors, but it lacks the "ethereal teals, soft blues, forest greens" and "gold/brass accents" specified. It's too bland/default. (Score: 3)
+    *   *Lighting:* Flat. No warm golden key. No cool fill. No rim separation. It looks like a default scene light. (Score: 1)
+    *   *Atmosphere:* Zero fog. No vignette. No filmic exposure. Just a flat blue void. (Score: 1)
+    *   *Composition:* Poor. A diagonal flat plane and a floating stick. No subject framing, no thirds, no leading lines toward a focal point. (Score: 2)
+    *   *Style:* This is a blockout, but it's a *primitive* blockout, not a *directed* blockout. It doesn't read as "painterly xianxia"; it reads as "first-day 3D student project." (Score: 2)
+
+    *   PALETTE: 3 - Basic earth tones; lacks the ethereal teals and gold accents of the bible.
+    *   LIGHTING: 1 - Flat default lighting; zero warm key, cool fill, or rim separation.
+    *   ATMOSPHERE: 1 - Vacuum; no fog, no vignette, no depth.
+    *   COMPOSITION: 2 - Uninspired; skewed plane with no focal point or intentional framing.
+    *   STYLE: 2 - Primitive geometry; lacks the "painterly" intent or xianxia identity.
+    *   OVERALL: (3+1+1+2+2)/5 = 1.8.
+
+    *   Strengths: It's a blockout (it exists). It uses basic colors. (Wait, be harsh but fair. Is there *anything* good? It's clean, I guess?)
+    *   Defects: Total failure of lighting language. No atmospheric depth. No compositional intent. No stylistic identity.
+PALETTE: 3 Basic earth tones and default blue; missing the ethereal teals, gold accents, and muted sophistication of the bible.
+LIGHTING: 1 Flat, default ambient lighting; zero warm key, zero cool fill, and absolutely no rim separation.
+ATMOSPHERE: 1 Total vacuum; no fog, no vignette, and no sense of depth or filmic exposure.
+COMPOSITION: 2 Poor; a skewed flat plane and a floating cylinder with no focal point, subject, or leading lines.
+STYLE: 2 Primitive blockout; reads as a basic 3D test,

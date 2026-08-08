@@ -1,3 +1,4 @@
+import { deterministicId } from '../../lib/determinism/primitives';
 /**
  * SceneCapsule — FiberLab Experiment Type
  * ========================================
@@ -31,6 +32,8 @@
 // ---------------------------------------------------------------------------
 // SceneCapsule
 // ---------------------------------------------------------------------------
+
+let capSeq = 0;
 
 export type CapsuleCategory =
   | 'shader'
@@ -332,7 +335,7 @@ export function createCapsule(
   createdBy: 'user' | 'architect' | 'system',
 ): SceneCapsule {
   const now = new Date().toISOString();
-  const capsuleId = `capsule-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+  const capsuleId = deterministicId('capsule', 'fiberlab', [Date.now(), capSeq++]);
 
   return {
     capsuleId,

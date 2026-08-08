@@ -1,0 +1,1941 @@
+{
+  "concepts": [
+    {
+      "id": "canon.determinism",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts",
+          "note": "combat arts core is seed-deterministic"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.time-engine",
+          "note": "time engine is seed-deterministic"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.laws",
+          "note": "law solver is seed-deterministic"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.determinism-gate",
+          "note": "check:determinism enforces the contract"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "conformance suites pin determinism"
+        }
+      ]
+    },
+    {
+      "id": "canon.realm-ladder",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "ladder pinned by cultivation conformance"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cultivation"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts"
+        }
+      ]
+    },
+    {
+      "id": "canon.qi-capacity-doubling",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cultivation",
+          "note": "capacity multiplier 2.0 per station"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "2.0 multiplier pinned by conformance"
+        }
+      ]
+    },
+    {
+      "id": "canon.visual-truth-packets",
+      "canonLevel": "canon",
+      "requires": [
+        "visual",
+        "motion",
+        "generation"
+      ],
+      "bindings": [
+        {
+          "system": "visual",
+          "consumerId": "visual.vtp-schema"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.style-grammars"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.asset-factory-directive",
+          "note": "asset factory consumes VTPs"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar"
+        },
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "generators must consume VTPs/grammars"
+        }
+      ]
+    },
+    {
+      "id": "canon.oracle-authority",
+      "canonLevel": "canon",
+      "requires": [
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "generators must not produce work the Oracle rejects"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.oracle"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "rejected work never promoted to validated"
+        }
+      ]
+    },
+    {
+      "id": "canon.truth-levels",
+      "canonLevel": "canon",
+      "requires": [
+        "validation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "validation",
+          "consumerId": "validation.ground-truth"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store",
+          "note": "truth levels persist with records"
+        }
+      ]
+    },
+    {
+      "id": "canon.supernatural-exceptions",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "motion",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.laws",
+          "note": "exceptions override laws with stated limits"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "MotionProfile + TechniquePacket carry exception fields"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.oracle"
+        }
+      ]
+    },
+    {
+      "id": "canon.si-units",
+      "canonLevel": "canon",
+      "requires": [
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.material-composition",
+          "note": "mass/composition are SI-constrained"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.measurement-spec"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner"
+        }
+      ]
+    },
+    {
+      "id": "canon.generation-pipeline",
+      "canonLevel": "canon",
+      "requires": [
+        "generation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.golden-scenes"
+        }
+      ]
+    },
+    {
+      "id": "canon.golden-scenes",
+      "canonLevel": "canon",
+      "requires": [
+        "validation",
+        "visual"
+      ],
+      "bindings": [
+        {
+          "system": "validation",
+          "consumerId": "validation.golden-scenes"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.vtp-schema"
+        }
+      ]
+    },
+    {
+      "id": "canon.power-scaling",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cultivation",
+          "note": "2x qi per realm"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar"
+        }
+      ]
+    },
+    {
+      "id": "canon.realm-perceptions",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "gameplay",
+          "consumerId": "gameplay.interaction-layer",
+          "note": "station-gated perception gates player affordances"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cultivation"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts"
+        }
+      ]
+    },
+    {
+      "id": "canon.trace-anchoring",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts",
+          "note": "divine-sense/trace perception is combat-arts-owned"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store",
+          "note": "traces persist as world records"
+        }
+      ]
+    },
+    {
+      "id": "canon.heart-demons",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "fear/anger are motion variation axes (doc 55)"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "personality-biased weighting must carry emotional state"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cultivation",
+          "note": "deviation progression"
+        }
+      ]
+    },
+    {
+      "id": "canon.root-gated-techniques",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cultivation"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar"
+        }
+      ]
+    },
+    {
+      "id": "canon.domain-sovereignty",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "domain behavior pinned by combat-arts conformance"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.realm-law-profile",
+          "note": "domains are scoped law authorship"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.laws"
+        }
+      ]
+    },
+    {
+      "id": "canon.combat-domain",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "domain modifies technique motion"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.laws",
+          "note": "local law stacks resolve domain law"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.capability-vector",
+          "note": "capability vectors change inside a domain"
+        }
+      ]
+    },
+    {
+      "id": "canon.phase-combat",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-combat",
+          "note": "phase matchup resolution"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "TechniquePacket schema"
+        }
+      ]
+    },
+    {
+      "id": "canon.spirit-veins",
+      "canonLevel": "canon",
+      "requires": [
+        "generation",
+        "simulation",
+        "visual"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.terrain",
+          "note": "ecosystem zones align with vein layout"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology",
+          "note": "qi ecology affects carrying capacity"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.vtp-schema",
+          "note": "veins have VTPs (PhysicalSpecification: spirit vein)"
+        }
+      ]
+    },
+    {
+      "id": "canon.spirit-beasts",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "motion",
+        "visual"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "creature motion profiles"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.vtp-schema"
+        }
+      ]
+    },
+    {
+      "id": "canon.cangwu-roster",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "roster feeds Cangwu range generation"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology-spec"
+        }
+      ]
+    },
+    {
+      "id": "canon.demography-aggregation",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology-spec"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.tiering-spec",
+          "note": "tier transitions preserve truth"
+        }
+      ]
+    },
+    {
+      "id": "canon.spirit-stone-economy",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-economy"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store"
+        }
+      ]
+    },
+    {
+      "id": "canon.qi-authority",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "qi-density is a generated field"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.karma",
+          "note": "conserved, spent, or wasted — never created"
+        }
+      ]
+    },
+    {
+      "id": "canon.sect-hierarchy",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "visual"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.gen-settlement"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.style-grammars",
+          "note": "ranked vestments per style grammar"
+        }
+      ]
+    },
+    {
+      "id": "canon.ancestral-lineages",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.history"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store"
+        }
+      ]
+    },
+    {
+      "id": "canon.courts-of-heaven",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "visual",
+          "consumerId": "visual.style-grammars",
+          "note": "court vestments per style grammars"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.history"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph"
+        }
+      ]
+    },
+    {
+      "id": "canon.strata-geometry",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.streaming"
+        }
+      ]
+    },
+    {
+      "id": "canon.grotto-anchors",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.streaming"
+        }
+      ]
+    },
+    {
+      "id": "canon.grotto-heaven-time",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.time-engine",
+          "note": "local time rates are a time-engine capability"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.streaming",
+          "note": "grotto anchors/domains are spatial nodes"
+        }
+      ]
+    },
+    {
+      "id": "canon.precelestial",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "stratum substrate is generation context"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.realm-law-profile",
+          "note": "substrate-law differs per stratum"
+        }
+      ]
+    },
+    {
+      "id": "canon.world-law-pressure",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.laws",
+          "note": "realm law profiles + local law stacks"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "law pressure modifies motion (movement suppression)"
+        }
+      ]
+    },
+    {
+      "id": "canon.higher-worlds",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.streaming",
+          "note": "higher worlds are spatial nodes in the hierarchy"
+        }
+      ]
+    },
+    {
+      "id": "canon.formation-barriers",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.formation-core",
+          "note": "formation domains protect volumes"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.oracle"
+        }
+      ]
+    },
+    {
+      "id": "canon.formation-topology",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "visual",
+          "consumerId": "visual.vtp-schema",
+          "note": "formation fields carry VTPs"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.formation-core"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.local-law-stack",
+          "note": "formation domains stack into local law"
+        }
+      ]
+    },
+    {
+      "id": "canon.storage-treasures",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.craft-spec"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store"
+        }
+      ]
+    },
+    {
+      "id": "canon.matter-conservation",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.matter-accounting",
+          "note": "conservation core"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.material-composition",
+          "note": "destruction yields correct composition"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store",
+          "note": "loot/accounting persisted"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "matter-conformance suite"
+        }
+      ]
+    },
+    {
+      "id": "canon.motion-synchronization",
+      "canonLevel": "canon",
+      "requires": [
+        "motion",
+        "simulation",
+        "audio"
+      ],
+      "bindings": [
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts",
+          "note": "technique timing is simulation-owned"
+        },
+        {
+          "system": "audio",
+          "consumerId": "audio.architecture",
+          "note": "audio events share the synchronized timeline"
+        }
+      ]
+    },
+    {
+      "id": "canon.physics-determinism",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.physics-spec"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.determinism-gate"
+        }
+      ]
+    },
+    {
+      "id": "canon.fidelity-tiers",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "NPC fidelity tiers"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.tiering-spec"
+        }
+      ]
+    },
+    {
+      "id": "canon.divine-sense",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts",
+          "note": "the divine-sense family is implemented in combat-arts"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "perception feeds NPC knowledge"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "combat-arts conformance pins the sense"
+        }
+      ]
+    },
+    {
+      "id": "canon.qi-sense",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.essence-registry",
+          "note": "phase-tagged perception of qi"
+        }
+      ]
+    },
+    {
+      "id": "canon.divination",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "NPC divination shapes belief"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.history",
+          "note": "temporal-scale perception over event history"
+        }
+      ]
+    },
+    {
+      "id": "derived.settlement-daily-life",
+      "canonLevel": "derived",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.settlement-day",
+          "note": "implemented deterministic day"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store"
+        }
+      ]
+    },
+    {
+      "id": "canon.heavenly-dao",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.cosmology-graph",
+          "note": "Dao as the totality of lawful pattern"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.karma",
+          "note": "karma web is the causal expression of Dao"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.ground-truth"
+        }
+      ]
+    },
+    {
+      "id": "canon.soul-anchor",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.combat-arts",
+          "note": "soul damage and anchor mechanics"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.karma",
+          "note": "karmic identity persists across bodies"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store"
+        }
+      ]
+    },
+    {
+      "id": "canon.underworld",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.karma",
+          "note": "judgment and retribution"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.history",
+          "note": "records of the dead"
+        }
+      ]
+    },
+    {
+      "id": "derived.universal-interaction-lattice",
+      "canonLevel": "design",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.capability-vector",
+          "note": "what an actor can do here"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner"
+        }
+      ]
+    },
+    {
+      "id": "derived.causal-event-fabric",
+      "canonLevel": "design",
+      "requires": [
+        "simulation",
+        "persistence"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.loot-accumulator",
+          "note": "MatterRemovedEvent -> collectible matter"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.matter-accounting",
+          "note": "conservation of removed matter"
+        },
+        {
+          "system": "persistence",
+          "consumerId": "persistence.durable-store"
+        }
+      ]
+    },
+    {
+      "id": "derived.obstacle-attack-axes",
+      "canonLevel": "design",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.local-law-stack",
+          "note": "barrier + formation + energy + owner + terrain"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.terrain-operation-clip"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.oracle"
+        }
+      ]
+    },
+    {
+      "id": "derived.wiki-definition-database",
+      "canonLevel": "design",
+      "requires": [
+        "persistence",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "persistence",
+          "consumerId": "persistence.definition-database",
+          "note": "278 authored canon entries across 22 layers"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "definition-database conformance suite"
+        }
+      ]
+    },
+    {
+      "id": "canon.mortal-realm",
+      "canonLevel": "canon",
+      "requires": [
+        "simulation",
+        "generation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology-spec",
+          "note": "ordinary + spiritual ecology overlap"
+        },
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "patchy planet, not zoned biomes"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.gauntlet-directive"
+        }
+      ]
+    },
+    {
+      "id": "derived.gameplay-clock",
+      "canonLevel": "derived",
+      "requires": [
+        "simulation",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "simulation",
+          "consumerId": "simulation.time-engine",
+          "note": "authoritative tick; render interpolates"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.gauntlet-directive"
+        }
+      ]
+    },
+    {
+      "id": "derived.planetary-cultivation-ecology",
+      "canonLevel": "derived",
+      "requires": [
+        "generation",
+        "simulation"
+      ],
+      "bindings": [
+        {
+          "system": "generation",
+          "consumerId": "generation.procedural-pipeline",
+          "note": "CultivationEcologyCell field"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ecology",
+          "note": "spirit-beast civilization ecology"
+        }
+      ]
+    },
+    {
+      "id": "derived.modular-asset-factory",
+      "canonLevel": "design",
+      "requires": [
+        "visual",
+        "generation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "visual",
+          "consumerId": "visual.asset-factory-directive"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.vtp-schema"
+        },
+        {
+          "system": "generation",
+          "consumerId": "generation.terrain",
+          "note": "smooth voxel terrain factory"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "cloth bones, hair physics, traversal speeds"
+        }
+      ]
+    },
+    {
+      "id": "derived.directed-scene-production",
+      "canonLevel": "design",
+      "requires": [
+        "visual",
+        "generation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "visual",
+          "consumerId": "visual.directed-scene-production",
+          "note": "scale registry + set blueprint + director script"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.asset-factory-directive",
+          "note": "cinematic production doctrine"
+        },
+        {
+          "system": "generation",
+          "consumerId": "generation.terrain",
+          "note": "set terrain per scale registry"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.grammar",
+          "note": "traversal speeds direct camera/dolly pacing"
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "matrix": {
+    "canon.determinism": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.realm-ladder": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.qi-capacity-doubling": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.visual-truth-packets": {
+      "generation": "bound",
+      "simulation": "not-required",
+      "motion": "bound",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.oracle-authority": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.truth-levels": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "bound"
+    },
+    "canon.supernatural-exceptions": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.si-units": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.generation-pipeline": {
+      "generation": "bound",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.golden-scenes": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.power-scaling": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.realm-perceptions": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.trace-anchoring": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.heart-demons": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.root-gated-techniques": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.domain-sovereignty": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.combat-domain": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.phase-combat": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.spirit-veins": {
+      "generation": "bound",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.spirit-beasts": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.cangwu-roster": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.demography-aggregation": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.spirit-stone-economy": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.qi-authority": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.sect-hierarchy": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.ancestral-lineages": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.courts-of-heaven": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.strata-geometry": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.grotto-anchors": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.grotto-heaven-time": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.precelestial": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.world-law-pressure": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.higher-worlds": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.formation-barriers": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.formation-topology": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.storage-treasures": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.matter-conservation": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "bound"
+    },
+    "canon.motion-synchronization": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "not-required",
+      "audio": "bound",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.physics-determinism": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.fidelity-tiers": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.divine-sense": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.qi-sense": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "canon.divination": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "derived.settlement-daily-life": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.heavenly-dao": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "canon.soul-anchor": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "canon.underworld": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "derived.universal-interaction-lattice": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "derived.causal-event-fabric": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
+    },
+    "derived.obstacle-attack-axes": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "derived.wiki-definition-database": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "bound"
+    },
+    "canon.mortal-realm": {
+      "generation": "bound",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "derived.gameplay-clock": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
+    },
+    "derived.planetary-cultivation-ecology": {
+      "generation": "bound",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "derived.modular-asset-factory": {
+      "generation": "bound",
+      "simulation": "not-required",
+      "motion": "bound",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    },
+    "derived.directed-scene-production": {
+      "generation": "bound",
+      "simulation": "not-required",
+      "motion": "bound",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
+    }
+  },
+  "fanOut": {
+    "canon.determinism": 4,
+    "canon.realm-ladder": 3,
+    "canon.qi-capacity-doubling": 3,
+    "canon.visual-truth-packets": 6,
+    "canon.oracle-authority": 3,
+    "canon.truth-levels": 4,
+    "canon.supernatural-exceptions": 6,
+    "canon.si-units": 3,
+    "canon.generation-pipeline": 4,
+    "canon.golden-scenes": 4,
+    "canon.power-scaling": 4,
+    "canon.realm-perceptions": 3,
+    "canon.trace-anchoring": 4,
+    "canon.heart-demons": 3,
+    "canon.root-gated-techniques": 4,
+    "canon.domain-sovereignty": 3,
+    "canon.combat-domain": 3,
+    "canon.phase-combat": 4,
+    "canon.spirit-veins": 6,
+    "canon.spirit-beasts": 6,
+    "canon.cangwu-roster": 3,
+    "canon.demography-aggregation": 4,
+    "canon.spirit-stone-economy": 4,
+    "canon.qi-authority": 3,
+    "canon.sect-hierarchy": 4,
+    "canon.ancestral-lineages": 4,
+    "canon.courts-of-heaven": 3,
+    "canon.strata-geometry": 4,
+    "canon.grotto-anchors": 4,
+    "canon.grotto-heaven-time": 4,
+    "canon.precelestial": 3,
+    "canon.world-law-pressure": 4,
+    "canon.higher-worlds": 3,
+    "canon.formation-barriers": 4,
+    "canon.formation-topology": 3,
+    "canon.storage-treasures": 4,
+    "canon.matter-conservation": 6,
+    "canon.motion-synchronization": 6,
+    "canon.physics-determinism": 4,
+    "canon.fidelity-tiers": 4,
+    "canon.divine-sense": 4,
+    "canon.qi-sense": 2,
+    "canon.divination": 2,
+    "derived.settlement-daily-life": 4,
+    "canon.heavenly-dao": 4,
+    "canon.soul-anchor": 4,
+    "canon.underworld": 2,
+    "derived.universal-interaction-lattice": 4,
+    "derived.causal-event-fabric": 4,
+    "derived.obstacle-attack-axes": 4,
+    "derived.wiki-definition-database": 4,
+    "canon.mortal-realm": 6,
+    "derived.gameplay-clock": 4,
+    "derived.planetary-cultivation-ecology": 4,
+    "derived.modular-asset-factory": 6,
+    "derived.directed-scene-production": 6
+  },
+  "conceptCount": 56,
+  "boundPairs": 104,
+  "requiredPairs": 104,
+  "gauntlet": [
+    {
+      "id": "gauntlet.destroy-bridge",
+      "premiseVerified": true,
+      "observedSystems": [
+        "simulation",
+        "persistence",
+        "validation",
+        "visual"
+      ],
+      "fanOut": 4,
+      "pass": true
+    },
+    {
+      "id": "gauntlet.drain-spirit-vein",
+      "premiseVerified": true,
+      "observedSystems": [
+        "generation",
+        "simulation",
+        "persistence",
+        "validation"
+      ],
+      "fanOut": 4,
+      "pass": true
+    },
+    {
+      "id": "gauntlet.kill-village-leader",
+      "premiseVerified": true,
+      "observedSystems": [
+        "simulation",
+        "persistence",
+        "validation",
+        "visual"
+      ],
+      "fanOut": 4,
+      "pass": true
+    },
+    {
+      "id": "gauntlet.tunnel-protected-cave",
+      "premiseVerified": true,
+      "observedSystems": [
+        "generation",
+        "simulation",
+        "persistence",
+        "validation"
+      ],
+      "fanOut": 4,
+      "pass": true
+    },
+    {
+      "id": "gauntlet.forest-fire",
+      "premiseVerified": true,
+      "observedSystems": [
+        "generation",
+        "simulation",
+        "visual",
+        "validation"
+      ],
+      "fanOut": 4,
+      "pass": true
+    },
+    {
+      "id": "gauntlet.matter-removal",
+      "premiseVerified": true,
+      "observedSystems": [
+        "simulation",
+        "persistence",
+        "validation",
+        "audio"
+      ],
+      "fanOut": 4,
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+Director's Assistant.
+Review DAILIES for a 3D xianxia donghua game.
+Exhaustive detail, report FACTS only. No scores, no praise.
+
+        1.  Content Inventory (What, how many, where).
+        2.  Layout/Clipping (Intersections, floating objects).
+        3.  Silhouettes (Architecture style, readability).
+        4.  Lighting (Direction, contrast, rim light).
+        5.  Atmosphere (Fog, depth cues).
+        6.  Texture/Surface (Material detail).
+        7.  Defects (List of visual errors).
+
+    *   *Top:* A light-colored, horizontally striped/textured beam or ceiling edge.
+    *   *Upper Middle:* A large, solid black rectangular void/area.
+    *   *Middle:* A dark brown, textured wall or surface. It has visible seams/panels (vertical divisions).
+    *   *Bottom:* A light grey/white flat surface (floor).
+    *   *Right:* A vertical brown pillar/beam with a diagonal wood-grain texture.
+    *   *Bottom Left:* A small brown rectangular block/stub.
+
+    *   *Content Inventory:*
+        *   Buildings/Structures: 1 pillar (right), 1 wall (center), 1 ceiling/beam (top), 1 small block (bottom left).
+        *   Roofs: None visible.
+        *   Trees: None.
+        *   Paths: None (just a flat floor).
+        *   Wells/Shrines/Fences/Animals/People/Water/Mountains: None.
+
+    *   *Layout/Clipping:*
+        *   The black void intersects the top beam and the brown wall.
+        *   The right pillar intersects the black void and the brown wall.
+        *   The brown wall meets the floor at a sharp, flat line.
+        *   The small block at the bottom left sits on the floor.
+
+    *   *Silhouettes:*
+        *   Everything is rectangular/cubic.
+        *   No traditional Chinese architectural elements (no curved eaves, no brackets, no ornate carvings).
+        *   Shapes are basic primitives.
+
+    *   *Lighting:*
+        *   No clear light source.
+        *   The black area is absolute black (no shading).
+        *   The brown wall is a flat, dark tone with no highlights or shadows indicating direction.
+        *   No rim lighting.
+        *   No warm/cool contrast.
+
+    *   *Atmosphere:*
+        *   No fog.
+        *   No haze.
+        *   No depth cues other than basic perspective.
+
+    *   *Texture/Surface:*
+        *   Pillar (right): Diagonal striped texture (simulating wood grain).
+        *   Wall (center): Grainy, mottled brown texture with visible vertical seams.
+        *   Ceiling (top): Horizontal light-colored streaks.
+        *   Floor (bottom): Flat, light grey/white.
+        *   Black area: Flat color.
+
+    *   *Defects:*
+        *   Massive black void occupying the upper center.
+        *   Lack of architectural detail (no xianxia/traditional elements).
+        *   Visible texture seams on the center wall.
+        *   Flat lighting (no depth/volume).
+        *   Low-resolution/aliased edges.
+        *   Unfinished geometry (the block at bottom left).
+
+    *   Ensure tone is professional and clinical.
+    *   Check against constraints: No praise, no scores, only facts.
+**1. CONTENT INVENTORY**
+*   **Buildings/Structures:** 
+    *   1 vertical pillar (Right, foreground).
+    *   1 wall section (Center, midground).
+    *   1 ceiling/beam section (Top, foreground).
+    *   1 small rectangular block (Bottom left, foreground).
+*   **Roofs:** None.
+*   **Trees:** None.
+*   **Paths:** 1 flat floor surface (Bottom, foreground to midground).
+*   **Wells/Shrines/Fences/Animals/People/Water/Mountains:** None.
+
+**2. LAYOUT / CLIPPING**
+*   **Intersections:** The large black void in the upper center intersects the top beam and the midground wall.
+*   **Clipping:** The right pillar intersects the black void and the midground wall.
+*   **Floating/Placement:** The small rectangular block at the bottom left is placed on the floor surface.
+
+**3. SILHOUETTES**
+*   **Shapes:** All visible structures are basic rectangular prisms.
+*   **Architecture:** There are no curved eaves, brackets, or traditional Chinese architectural elements. 
+*   **Readability:** Silhouettes are basic geometric blocks.
+
+**4. LIGHTING**
+*   **Direction:** No discernible light direction.
+*   **Faces:** The black area is a flat void with no lighting. The brown wall and pillar show no highlights or shadows to indicate a light source.
+*   **Contrast:** No warm/cool contrast.
+*   **Rim Light:** None.
+
+**5. ATMOSPHERE**
+*   **Fog/Haze:** None.
+*   **Depth Cues:** Limited to basic linear perspective of the floor and wall.
+
+**6. TEXTURE/SURFACE**
+*   **Pillar (Right):** Diagonal striped texture simulating wood grain.
+*   **Wall (Center):** Mottled brown grainy texture with visible vertical seams.
+*   **Ceiling (Top):** Horizontal light-colored streaks.
+*   **Floor (Bottom):** Flat, light grey/white surface.
+*   **Void (Upper Center):** Flat black.
+
+**7. DEFECTS**
+*   **Large black void:** A massive, untextured black rectangle occupies the upper center of the frame.
+*   **Texture Seams:** Visible vertical lines/seams on the center brown wall.
+*   **Lack of Detail:** No architectural ornaments or xianxia-specific design elements.
+*   **Flat Lighting:** Absence of ambient occlusion, shadows, or highlights.
+*   **Unfinished Geometry:** A solitary, purposeless brown block is located at the bottom left.
+*   **Low Resolution:** Aliasing/pixelation visible on the edges of the pillar and ceiling.

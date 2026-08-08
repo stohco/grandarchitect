@@ -1,0 +1,45 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic.
+3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+
+    *   *Palette:* Flat green ground, brown path, grey/brown gate, blue/grey sky. It's very basic. It's "naturalistic" in a generic sense, but lacks the "ethereal teals" or "soft blues" of the bible. It's too saturated/flat green.
+    *   *Lighting:* Flat. No clear key light, no cool fill, absolutely no rim separation. It looks like a default scene light or a very basic ambient light.
+    *   *Atmosphere:* There is a basic fog/gradient in the distance, but no vignette and no "filmic" quality. It feels like a default engine viewport.
+    *   *Composition:* A diagonal road leading to a gate. It's a basic leading line, but the framing is empty. The subject (the gate) is small and centered-ish but lacks impact.
+    *   *Style:* It's a blockout, but it's a *primitive* blockout. It doesn't feel "painterly" yet; it feels like raw polygons with flat colors. The silhouettes are basic.
+
+    *   *PALETTE:* The greens are too "default grass" and not "forest green/ethereal." The sky is a flat gradient. No gold/brass accents. Score: 3.
+    *   *LIGHTING:* Total failure. No warm key, no cool fill, no rim. It's flat. Score: 1.
+    *   *ATMOSPHERE:* Basic fog exists, but it's not "soft atmospheric depth"; it's just a distance clip plane/fog. No vignette. Score: 3.
+    *   *COMPOSITION:* The diagonal road is a good start for leading lines, but the overall frame is sterile. Score: 4.
+    *   *STYLE:* It's a blockout, but it lacks the "painterly" intent. It's just grey-boxing with colors. Score: 3.
+
+    *   *Overall Mean:* (3+1+3+4+3) / 5 = 14 / 5 = 2.8.
+
+    *   *Strengths:*
+        1. Clear leading line via the road.
+        2. Basic spatial layout is established.
+
+    *   *Defects:*
+        1. Lighting is non-existent; no warm/cool contrast or rim separation.
+        2. Palette is generic "default" colors, lacking the ethereal/muted tones of the bible.
+        3. Atmosphere is a flat fog, lacking depth and filmic quality.
+        4. Silhouettes are too primitive; no "chunky" or "weathered" character yet.
+PALETTE: 3 Flat, generic greens and browns; lacks ethereal teals and muted naturalism.
+LIGHTING: 1 Total failure; no warm key, no cool fill, and zero rim separation.
+ATMOSPHERE: 3 Basic distance fog present, but no vignette or filmic depth.
+COMPOSITION: 4 Basic leading line with the road, but the frame is sterile and empty.
+STYLE: 3 Reads as a primitive grey-box, not a "painterly" stylized blockout.
+OVERALL: 2.8
+STRENGTHS:
+- Clear leading line established by
