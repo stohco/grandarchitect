@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "64873c1394991bcb5404fbb4985a13b9776b3047",
-    "commitShort": "64873c139499",
+    "commit": "ccf61482093e7414d020a2bc97aba5b597d6cda0",
+    "commitShort": "ccf61482093e",
     "branch": "authority/convergence",
     "dirty": true,
-    "dirtyReason": "Working tree has 8 modified file(s): genesis-coverage-report.json, src/lib/engine/dashboard-data.ts, src/lib/worldproduction/coverage-systems.ts, src/lib/worldproduction/director-script.ts, src/lib/worldproduction/production-conformance.ts…",
-    "generatedAt": "2026-08-08T15:18:52.269Z",
+    "dirtyReason": "Working tree has 14 modified file(s): docs/gauntlet-audit.md, genesis-coverage-report.json, scripts/gauntlet-audit.ts, src/lib/engine/dashboard-data.ts, src/lib/genesis/concepts-registry.ts…",
+    "generatedAt": "2026-08-08T18:40:37.731Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },

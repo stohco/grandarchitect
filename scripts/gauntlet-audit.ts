@@ -60,7 +60,7 @@ const SCENE_ARTIFACTS: Record<string, string[]> = {
   'pass.77': ['src/lib/worldproduction/coverage-systems.ts'],
   'pass.78': ['src/lib/worldproduction/coverage-systems.ts'],
   'pass.79': ['src/lib/worldproduction/coverage-systems.ts'],
-  'pass.80': ['src/lib/worldproduction/director-script.ts'],
+  'pass.80': ['src/lib/worldproduction/scene-universe-slice.ts', 'src/lib/worldproduction/director-script.ts'],
 };
 
 function statusFor(passId: string, consumers: string[]): { status: string; evidence: string[] } {

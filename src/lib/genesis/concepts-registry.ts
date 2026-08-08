@@ -1045,6 +1045,25 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
       { system: 'motion', consumerId: 'motion.grammar', note: 'traversal speeds direct camera/dolly pacing' },
     ],
   },
+  {
+    id: 'derived.scene-universe-slice',
+    name: 'Scene Universe Slice',
+    canonLevel: 'design',
+    claims: [
+      {
+        text: 'Before generating a scene, retrieve only the relevant part of this enormous graph.',
+        source: 'docs/universe-genesis-compiler-directive.md',
+      },
+    ],
+    requires: ['visual', 'simulation', 'motion', 'audio', 'validation'],
+    bindings: [
+      { system: 'visual', consumerId: 'visual.scene-universe-slice', note: 'per-location slice compiler (16 sections, deterministic)' },
+      { system: 'simulation', consumerId: 'simulation.ga-npc', note: 'NPC/history + cultivation sections draw resident actors' },
+      { system: 'motion', consumerId: 'motion.corpus', note: 'MOTION section harvests corpus entries whose source shot visits the location' },
+      { system: 'audio', consumerId: 'audio.architecture', note: 'AUDIO section layers cue ids per location' },
+      { system: 'validation', consumerId: 'validation.conformance-runner', note: 'slice completeness is machine-checked' },
+    ],
+  },
 ];
 
 export const GENESIS_CONCEPT_COUNT = GENESIS_CONCEPTS.length;

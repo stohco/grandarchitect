@@ -1263,6 +1263,44 @@
           "note": "traversal speeds direct camera/dolly pacing"
         }
       ]
+    },
+    {
+      "id": "derived.scene-universe-slice",
+      "canonLevel": "design",
+      "requires": [
+        "visual",
+        "simulation",
+        "motion",
+        "audio",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "visual",
+          "consumerId": "visual.scene-universe-slice",
+          "note": "per-location slice compiler (16 sections, deterministic)"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "NPC/history + cultivation sections draw resident actors"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.corpus",
+          "note": "MOTION section harvests corpus entries whose source shot visits the location"
+        },
+        {
+          "system": "audio",
+          "consumerId": "audio.architecture",
+          "note": "AUDIO section layers cue ids per location"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "slice completeness is machine-checked"
+        }
+      ]
     }
   ],
   "failures": [],
@@ -1836,6 +1874,16 @@
       "gameplay": "not-required",
       "persistence": "not-required",
       "validation": "not-required"
+    },
+    "derived.scene-universe-slice": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "bound",
+      "visual": "bound",
+      "audio": "bound",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
     }
   },
   "fanOut": {
@@ -1895,11 +1943,12 @@
     "derived.planetary-cultivation-ecology": 4,
     "derived.xianxia-terminology": 4,
     "derived.modular-asset-factory": 6,
-    "derived.directed-scene-production": 6
+    "derived.directed-scene-production": 6,
+    "derived.scene-universe-slice": 10
   },
-  "conceptCount": 57,
-  "boundPairs": 106,
-  "requiredPairs": 106,
+  "conceptCount": 58,
+  "boundPairs": 111,
+  "requiredPairs": 111,
   "gauntlet": [
     {
       "id": "gauntlet.destroy-bridge",

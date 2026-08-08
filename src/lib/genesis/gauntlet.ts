@@ -146,7 +146,7 @@ export const GAUNTLET: GauntletPass[] = [
   P('planetary', 77, 'Spirit-Beast Civilization Ecology', 'simulation', ['simulation'], [D, 'simulation.ecology', 'simulation.ecology-spec']),
   P('planetary', 78, 'Concealment / Access / Perception', 'compiler', ['simulation'], [D, 'simulation.formation-core', 'simulation.laws'], ['director', 'executable', 'proof'], 'perceptual thresholds are simulation-owned (divine sense, mortal blindness)'),
   P('planetary', 79, 'Cultivation Political Economy & Jurisdiction', 'simulation', ['simulation'], [D, 'simulation.ga-economy', 'simulation.history']),
-  P('planetary', 80, 'Cross-Stratum Encounter Generation', 'director', ['simulation', 'visual'], [D, 'visual.directed-scene-production', 'simulation.ga-quest']),
+  P('planetary', 80, 'Cross-Stratum Encounter Generation', 'director', ['simulation', 'visual'], [D, 'visual.directed-scene-production', 'simulation.ga-quest', 'visual.scene-universe-slice'], ['director', 'executable', 'proof'], 'encounter staging must compile from the scene universe slice (doc 43)'),
 ];
 
 export const GAUNTLET_PASS_COUNT = GAUNTLET.length;

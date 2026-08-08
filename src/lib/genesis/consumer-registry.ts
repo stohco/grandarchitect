@@ -286,6 +286,13 @@ export const CONSUMERS: GenesisConsumer[] = [
     path: 'src/lib/worldproduction/motion-corpus.ts',
     description: 'Motion Corpus: harvested MotionTruth assets from directed episodes, feeding the motion coverage matrix',
   },
+  {
+    id: 'visual.scene-universe-slice',
+    system: 'visual',
+    kind: 'runtime',
+    path: 'src/lib/worldproduction/scene-universe-slice.ts',
+    description: 'Scene Universe Slice compiler: per-scene retrieval of the relevant universe graph (doc 43: cosmology, law, regional, history, architecture, formation, ecology, materials, NPC, cultivation, economy, motion, audio, gameplay, persistence, validation)',
+  },
   // ---- audio ------------------------------------------------------------
   {
     id: 'audio.architecture',

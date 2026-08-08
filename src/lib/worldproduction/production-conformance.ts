@@ -44,6 +44,7 @@ import { WANG_FAMILY_BEND as WANG_BEND } from './set-blueprint';
 import { interactionsFor } from './interactions';
 import { MOTION_COVERAGE, motionGaps, buildSceneCoverageManifest, CULTIVATION_CELLS, INSTITUTION_VISIBILITY } from './coverage-systems';
 import { MOTION_CORPUS, corpusShotIds, corpusGaps, MOTION_CORPUS_COUNT } from './motion-corpus';
+import { compileSceneSlice, allSceneSlices, SCENE_SLICE_SECTIONS } from './scene-universe-slice';
 import { ALL_DEFINITIONS } from '../engine/definitions/index';
 
 let passed = 0;
@@ -427,9 +428,23 @@ check('corpus actions all map to coverage rows', MOTION_CORPUS.every((m) =>
   ['craft.mortar', 'craft.brush', 'craft.cook', 'social.gesture', 'social.formal', 'perception.orient.sound', 'disciple.land-controlled', 'disciple.greet-elder', 'disciple.gatekeeper-inspect', 'mortal-watch-recruitment', 'mortal-line', 'gatekeeper.inspect-token', 'creature.chicken', 'creature.sparrow', 'creature.spirit-wolf', 'world.cloth', 'world.smoke', 'world.door', 'world.water'].includes(m.semanticAction)), true);
 
 // ---------------------------------------------------------------------------
-// 17. Interior volumes — buildings read as inhabited, not brown rectangles
+// 16b. Scene Universe Slice — every scene compiles the relevant universe graph
 // ---------------------------------------------------------------------------
 
+check('slice has all 16 doc-43 sections', SCENE_SLICE_SECTIONS.length >= 16, true);
+check('every structure compiles a slice with zero empty sections',
+  allSceneSlices().every((s) => s.sections.every((sec) => sec.entries.length > 0)), true);
+const cacheSlice = compileSceneSlice('structure.cache_hill');
+check('cache slice carries history (formation failed)', cacheSlice.sections.find((s) => s.name === 'FORMATION')!.entries.length >= 1, true);
+check('cache slice carries NPC (Xu Erniu trapped)', cacheSlice.sections.find((s) => s.name === 'NPC/HISTORY')!.entries.some((e) => e.includes('xu_erniu')), true);
+check('cache slice carries audio (cache hum)', cacheSlice.sections.find((s) => s.name === 'AUDIO')!.entries.some((e) => e.includes('cache_hum')), true);
+check('cache slice carries gameplay (rescue)', cacheSlice.sections.find((s) => s.name === 'GAMEPLAY')!.entries.some((e) => e.includes('rescue')), true);
+check('slice MOTION section pulls corpus harvests', allSceneSlices().some((s) =>
+  s.sections.find((x) => x.name === 'MOTION')!.entries.some((e) => e.includes('motion.'))), true);
+
+// ---------------------------------------------------------------------------
+// 17. Interior volumes — buildings read as inhabited, not brown rectangles
+// ---------------------------------------------------------------------------
 import { buildRoomSet, makePalette } from '../assets/factories/set-factory';
 
 const intPal = makePalette();
