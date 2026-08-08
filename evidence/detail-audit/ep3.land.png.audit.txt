@@ -1,0 +1,96 @@
+Director's Assistant.
+Reviewing dailies for a 3D xianxia donghua game.
+An image of a low-poly/blocky 3D environment.
+Exhaustive, factual, specific, no praise, no scores.
+
+        1.  Content Inventory (categories, counts, locations).
+        2.  Layout/Clipping (intersections, overlaps, floating).
+        3.  Silhouettes (roofs, eaves, proportions, cultural readability).
+        4.  Lighting (direction, lit/shadow faces, contrast, rim light).
+        5.  Atmosphere (fog, haze, depth).
+        6.  Texture/Surface (material detail, flatness).
+        7.  Defects (list, most visible first).
+
+    *   *Foreground:* Large dark green flat plane (ground). A brown/tan flat plane (platform/path?). A dark grey/black thin strip (edge/border?).
+    *   *Midground:* Large tan/yellowish roof structure (center/right). A dark brown platform/floor area (right). Some thin brown poles/beams.
+    *   *Background:* Several building structures with peaked roofs (left, center-left, right). A dark blue sky.
+    *   *Objects:*
+        *   Buildings/Roofs: ~3-4 distinct roof structures.
+        *   Ground/Planes: 1 large green plane, 1 large tan plane, 1 dark platform.
+        *   Poles/Beams: ~3-4 thin brown lines/poles.
+    *   *Clipping/Layout:*
+        *   The large central roof seems to be floating or intersecting with the dark platform below it.
+        *   The thin brown poles/beams are intersecting the roofs and the ground/platform in a non-structural way.
+        *   The dark grey border/edge at the bottom of the midground is a flat plane cutting through the scene.
+        *   The roof on the far left seems to be floating above its base.
+    *   *Silhouettes:* Very basic, low-poly. Triangular/pyramidal roofs. No curved eaves (typical of xianxia/Chinese architecture). Very chunky/blocky.
+    *   *Lighting:* Light source seems to be coming from the top-right/front-right. The top surfaces of the roofs are lit. The undersides and left-facing sides are in shadow. There is a slight warm tone on the lit surfaces. No obvious rim light.
+    *   *Atmosphere:* No fog, no haze. The sky is a solid dark blue. No depth cues other than scale/layering.
+    *   *Texture:* Very flat. The roofs have a slight noise/grain, but no specific material detail like wood grain or thatch. The ground is a solid color.
+    *   *Defects:*
+        *   Massive clipping between the central roof and the platform.
+        *   Floating poles/beams.
+        *   Lack of architectural detail (no eaves, no curves).
+        *   Flat, featureless ground.
+        *   Solid, untextured sky.
+        *   The "edge" plane in the midground looks like a floating thin slab.
+
+    *   *1. Content Inventory:*
+        *   Buildings/Roofs: ~4 structures (1 large central, 1 far left, 1 far right, 1 small peak in center-back).
+        *   Ground/Planes: 1 large green plane (foreground), 1 large tan plane (midground left), 1 dark brown platform (midground right).
+        *   Poles/Beams: ~4 thin brown linear objects (midground, intersecting roofs and ground).
+        *   Sky: 1 solid dark blue expanse (background).
+
+    *   *2. Layout / Clipping:*
+        *   The large central tan roof intersects the dark brown platform in the midground-right.
+        *   Thin brown poles/beams intersect the roof planes and the ground planes without structural connection.
+        *   The far-left building structure appears to be floating above the ground plane.
+        *   The dark grey/black edge strip in the midground intersects the tan and brown planes.
+
+    *   *3. Silhouettes:*
+        *   Roofs are simple triangular/pyramidal shapes.
+        *   No curved eaves or decorative elements characteristic of traditional Chinese architecture.
+        *   Silhouettes are extremely chunky and low-poly.
+
+    *   *4. Lighting:*
+        *   Light direction: Top-right/Front-right.
+        *   Lit faces: Top surfaces of all roofs and the right-facing edges of the platform.
+        *   Shadow faces: Left-facing sides of buildings and the underside of the central roof.
+        *   Contrast: Warm light on tan surfaces vs. dark shadows on the left. No rim lighting visible.
+
+    *   *5. Atmosphere:*
+        *   No fog or haze.
+        *   No depth cues present.
+
+    *   *6. Texture/Surface:*
+        *   Surfaces are largely flat.
+        *   Roofs have a slight grainy/noisy texture but lack material definition (no wood, thatch, or tile).
+        *   Ground and sky are solid, untextured colors.
+
+    *   *7. Defects:*
+        *   Severe clipping between the central roof and the midground platform.
+        *   Floating, non-anchored brown poles/beams intersecting geometry.
+        *   Lack of traditional Chinese architectural silhouettes (no eaves/curves).
+        *   Floating building structure on the far left.
+        *   Flat, featureless ground plane in the foreground.
+        *   Solid, untextured sky.
+        *   The dark grey edge strip in the midground lacks a logical connection to the environment.
+
+    *   Exhaustive? Yes.
+    *   Specific positions? Yes.
+    *   No scores/praise? Yes.
+    *   Facts only? Yes.
+**1. CONTENT INVENTORY**
+* **Buildings/Roofs:** Approximately 4 distinct roof structures. One large central roof (midground), one small peaked roof (center-background), one roof structure (far left), and one roof structure (far right).
+* **Ground/Planes:** 1 large dark green plane (foreground), 1 large tan/yellow plane (midground left), 1 dark brown platform (midground right), and 1 thin dark grey/black strip (midground center).
+* **Poles/Beams:** Approximately 4 thin brown linear objects (midground, intersecting various planes and roofs).
+* **Sky:** 1 solid dark blue expanse (background).
+
+**2. LAYOUT / CLIPPING**
+* **Intersections:** The large central tan roof intersects the dark brown platform in the midground-right. The thin brown poles/beams intersect the roof planes and the ground planes without structural connection. The dark grey/black edge strip in the midground intersects the tan and brown planes.
+* **Floating Objects:** The building structure on the far left is floating above the ground plane. The thin brown poles/beams appear to be floating/unanchored.
+
+**3. SILHOUETTES**
+* **Shapes:** Roofs are simple triangular/pyramidal shapes.
+* **Readability:** Silhouettes are extremely chunky and low-poly.
+* **Cultural

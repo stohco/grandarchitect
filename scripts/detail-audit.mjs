@@ -2,11 +2,13 @@
 /**
  * scripts/detail-audit.mjs — the vision department's dailies review.
  *
- * gemma-4-31b-it performs a DETAILED visual inspection of rendered frames —
- * not scores, but facts: content inventory, layout/clipping detection,
- * silhouette quality, light behavior per object, atmosphere layering,
- * and concrete defects. Drives the art-bible iteration with eyes, not
- * histograms.
+ * The FASTEST free vision tier available runs the exhaustive gemma-4-style
+ * inspection prompt (Gemma-4 technical-report technique): not scores, but
+ * facts — content inventory, layout/clipping detection, silhouette quality,
+ * light behavior per object, atmosphere layering, and concrete defects.
+ * Primary: gemini-3-flash-preview (free tier, ~9s/frame with the full audit
+ * prompt). Fallbacks: gemma-4-31b-it, then gemma-4-26b-a4b-it (last resort;
+ * frequently 503s on images).
  *
  * Usage: bun run scripts/detail-audit.mjs [frame.png ...]
  */
@@ -37,11 +39,16 @@ async function audit(key, b64) {
     ] }],
     generationConfig: { temperature: 0.15, maxOutputTokens: 1600 },
   };
-  for (const model of ['gemma-4-31b-it', 'gemma-4-26b-a4b-it']) {
+  // gemini-3-flash-preview first: fastest free vision tier; runs the SAME
+  // exhaustive gemma-style inspection prompt (verified to produce detailed
+  // factual audits, ~9s/frame vs gemma-4-31b-it's ~30s+). Fallbacks: gemma
+  // 4 31B dense, then gemma 4 26B A4B (503s on images — kept as last resort).
+  for (const model of ['gemini-3-flash-preview', 'gemma-4-31b-it', 'gemma-4-26b-a4b-it']) {
     try {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
       });
+      if (!r.ok) { const e = await r.json().catch(() => null); console.log(`  [${model} HTTP ${r.status}: ${e?.error?.message ?? ''}]`); continue; }
       const j = await r.json();
       const text = j?.candidates?.[0]?.content?.parts?.map((p) => p.text).join('\n');
       if (text) return { model, text };

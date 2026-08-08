@@ -1,0 +1,115 @@
+Director's Assistant.
+Review DAILIES for a 3D xianxia donghua game.
+An image (which is extremely low-detail, mostly black and brown/orange).
+
+        1.  Content Inventory (What, how many, where).
+        2.  Layout/Clipping (Intersections, floating objects).
+        3.  Silhouettes (Building shapes, traditional Chinese style).
+        4.  Lighting (Direction, contrast, rim light).
+        5.  Atmosphere (Fog, haze, depth).
+        6.  Texture/Surface (Material detail).
+        7.  Defects (List of visual errors).
+Exhaustive, specific, factual, no scores, no praise.
+
+    *   *Top half:* Pure black.
+    *   *Middle section:* A horizontal band.
+        *   Left side: Dark brown, textured/streaked horizontally.
+        *   Center: A bright orange/yellow vertical rectangle.
+        *   Right side: Dark brown, textured/streaked horizontally.
+    *   *Bottom section:* A greyish-brown, blurry, flat surface (ground).
+    *   *Overall:* Extremely low resolution, lacks any recognizable "xianxia" elements (no buildings, trees, people, etc.). It looks like a very early block-out or a corrupted render.
+
+    *   *1. Content Inventory:*
+        *   Buildings: 0.
+        *   Roofs: 0.
+        *   Trees: 0.
+        *   Paths: 1 (foreground, greyish surface).
+        *   Wells: 0.
+        *   Shrines: 0.
+        *   Fences: 0.
+        *   Animals: 0.
+        *   People: 0.
+        *   Water: 0.
+        *   Mountains: 0.
+        *   Other: 1 central orange rectangular block (midground center), 2 dark brown blocks (midground left/right).
+
+    *   *2. Layout / Clipping:*
+        *   The orange block is flush against the dark brown blocks.
+        *   The midground blocks sit on the foreground surface.
+        *   No complex intersections because there are no complex shapes.
+
+    *   *3. Silhouettes:*
+        *   Shapes are basic rectangles.
+        *   No traditional Chinese architecture present.
+        *   Silhouettes are blocky/primitive.
+
+    *   *4. Lighting:*
+        *   The orange block is self-illuminated or brightly lit.
+        *   The dark brown blocks have very little light, appearing almost flat.
+        *   No clear light direction.
+        *   No rim light.
+
+    *   *5. Atmosphere:*
+        *   No fog or haze.
+        *   No depth cues other than basic layering (foreground/midground/background).
+        *   Background is a void of pure black.
+
+    *   *6. Texture/Surface:*
+        *   Foreground: Blurry, flat grey.
+        *   Midground (brown): Horizontal streaks/noise.
+        *   Midground (orange): Flat color.
+        *   No wood grain, thatch, or moss.
+
+    *   *7. Defects:*
+        *   Complete absence of requested xianxia assets.
+        *   Pure black void in the upper 50% of the frame.
+        *   Low resolution/blurriness across the entire image.
+        *   Lack of geometric detail (primitive blocks only).
+        *   Flat, untextured surfaces.
+**1. CONTENT INVENTORY**
+*   **Buildings:** 0
+*   **Roofs:** 0
+*   **Trees:** 0
+*   **Paths/Ground:** 1 (Foreground, spanning left to right)
+*   **Wells:** 0
+*   **Shrines:** 0
+*   **Fences:** 0
+*   **Animals:** 0
+*   **People:** 0
+*   **Water:** 0
+*   **Mountains:** 0
+*   **Other:** 3 primitive rectangular blocks (Midground: one orange block center, two dark brown blocks flanking left and right).
+
+**2. LAYOUT / CLIPPING**
+*   The central orange block is flush against the two dark brown blocks.
+*   The midground blocks are positioned directly on the foreground surface.
+*   No complex intersections are present due to the lack of detailed geometry.
+
+**3. SILHOUETTES**
+*   **Shapes:** Basic rectangles/cuboids.
+*   **Traditional Architecture:** None. There are no eaves, curved roofs, or traditional proportions.
+*   **Readability:** Primitive and block-like.
+
+**4. LIGHTING**
+*   **Direction:** No clear global light direction.
+*   **Faces:** The central orange block is brightly lit/self-illuminated. The brown blocks are dark with minimal value variation.
+*   **Contrast:** High contrast between the orange center and the dark brown/black surroundings. No warm/cool color temperature contrast.
+*   **Rim Light:** None.
+
+**5. ATMOSPHERE**
+*   **Fog/Haze:** None.
+*   **Depth Cues:** Basic layering of foreground (grey), midground (blocks), and background (black void). No atmospheric perspective.
+
+**6. TEXTURE/SURFACE**
+*   **Detail:** No material detail (no thatch, wood grain, or moss).
+*   **Surfaces:** 
+    *   Foreground: Blurry, flat grey.
+    *   Midground (Brown): Horizontal streaking/noise.
+    *   Midground (Orange): Flat color.
+
+**7. DEFECTS**
+*   **Missing Assets:** Complete absence of all requested xianxia environment elements.
+*   **Void:** Upper 50% of the frame is a pure black void.
+*   **Resolution:** Severe blurriness and pixelation across the entire image.
+*   **Geometry:** Environment consists only of primitive blocks.
+*   **Texture:** Lack of any defined surface materials.

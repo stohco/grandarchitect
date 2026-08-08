@@ -41,7 +41,7 @@ DEFECTS: <2-4 short lines>`;
 
 async function gemma(key, b64, prompt) {
   const body = { contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: 'image/png', data: b64 } }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 900 } };
-  for (const model of ['gemma-4-31b-it', 'gemma-4-26b-a4b-it']) {
+  for (const model of ['gemini-3-flash-preview', 'gemma-4-31b-it', 'gemma-4-26b-a4b-it']) {
     try {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),

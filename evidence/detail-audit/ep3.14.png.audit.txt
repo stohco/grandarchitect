@@ -1,0 +1,33 @@
+**1. CONTENT INVENTORY**
+*   **Buildings/Roofs/Trees/Paths/Wells/Shrines/Fences/Animals/People/Water/Mountains:** 0.
+*   **Geometry:** One (1) irregular blue-gray polygon.
+*   **Position:** Spans center, left, and right; occupies foreground through background.
+
+**2. LAYOUT / CLIPPING**
+*   **Intersections:** None; no secondary objects present.
+*   **Clipping:** Polygon edges clip out of frame at top, left, and right.
+*   **Grounding:** Object is floating in a dark navy void; no ground plane contact.
+
+**3. SILHOUETTES**
+*   **Shape:** Irregular geometric pentagon.
+*   **Readability:** Does not read as architecture or traditional Chinese structures.
+*   **Proportions:** Flat, non-representational.
+
+**4. LIGHTING**
+*   **Direction:** None.
+*   **Shading:** Uniform flat color across the entire surface.
+*   **Contrast:** No warm/cool variance or rim lighting.
+
+**5. ATMOSPHERE**
+*   **Depth Cues:** None.
+*   **Haze/Fog:** Absent; no layering between foreground and background.
+
+**6. TEXTURE/SURFACE**
+*   **Detail:** Zero. No wood grain, thatch, or moss.
+*   **Finish:** Perfectly flat, matte solid color.
+
+**7. DEFECTS**
+*   **Missing Assets:** Total absence of environment, characters, and props.
+*   **Shader Failure:** No material properties or textures applied.
+*   **Lighting Failure:** No light source or shadow calculation.
+*   **Empty Frame:** Scene consists of a single placeholder primitive.

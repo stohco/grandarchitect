@@ -1,0 +1,30 @@
+**1. CONTENT INVENTORY**
+*   **Buildings/Roofs:** 3 total. One small (Left, background), one large (Center, midground), one medium (Right, background).
+*   **Paths:** 1 brown rectangular plane (Left, foreground).
+*   **Ground:** 1 dark green flat plane (Foreground/Midground).
+*   **Sky:** 1 dark blue gradient (Background).
+*   **Other:** 1 long, thin cylindrical beam (Floating above Center/Right roofs).
+*   **Missing:** 0 trees, wells, shrines, fences, animals, people, water, or mountains.
+
+**2. LAYOUT / CLIPPING**
+*   **Floating:** Long horizontal beam has no structural support; hovers in mid-air.
+*   **Clipping:** Center roof geometry intersects the right-side roof structure.
+*   **Grounding:** All roofs lack walls or pillars; they hover over black voids rather than meeting the ground.
+
+**3. SILHOUETTES**
+*   **Shapes:** Simple, low-poly pyramidal roofs.
+*   **Readability:** Poor. Does not read as Chinese/traditional architecture. Lacks curved eaves, decorative ridges, or standard proportions. Shapes are chunky and primitive.
+
+**4. LIGHTING**
+*   **Direction:** Top-down/Frontal.
+*   **Faces:** Top surfaces of roofs are illuminated; undersides and "interior" areas are 100% black.
+*   **Contrast:** High value contrast; zero warm/cool color variance. No rim lighting.
+
+**5. ATMOSPHERE**
+*   **Depth:** No fog, haze, or aerial perspective. Background objects are as sharp as foreground objects.
+
+**6. TEXTURE/SURFACE**
+*   **Detail:** Roofs feature basic horizontal procedural stripes.
+*   **Flatness:** Ground, sky, and path are solid colors/gradients with zero material detail (no moss, wood grain, or dirt).
+
+**7. DEFECTS

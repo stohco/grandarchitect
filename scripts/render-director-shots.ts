@@ -35,7 +35,7 @@ async function main() {
     if (msg.type() === 'error') console.log(`  [page] ${msg.text()}`);
   });
 
-  await page.goto(`${URL}?v=${Date.now()}`, { waitUntil: 'networkidle0', timeout: 120_000 });
+  await page.goto(`${URL}${URL.includes('?') ? '&' : '?'}v=${Date.now()}`, { waitUntil: 'networkidle0', timeout: 120_000 });
   await page.waitForFunction('window.__directorShots !== undefined', { timeout: 60_000 });
 
   const shots = await page.evaluate(() => window.__directorShots());
