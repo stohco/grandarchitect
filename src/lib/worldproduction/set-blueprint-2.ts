@@ -11,7 +11,10 @@
 
 import type { SetStructure, SetRoom, SetProp } from './set-blueprint';
 
-export const QINGHE_MARKET_TOWN = {
+export const QINGHE_MARKET_TOWN: {
+  id: string; name: string; nameHanzi: string; scaleId: string; w: number; d: number; population: number;
+  geography: string; qi: string; ecology: string; structures: SetStructure[];
+} = {
   id: 'settlement.qinghe_market_town',
   name: 'Qinghe Market Town',
   nameHanzi: '清河镇',
@@ -222,7 +225,7 @@ export const QINGHE_MARKET_TOWN = {
       cameraNotes: 'Drone establish + walk-through; the rumor moves visibly across the square.',
     },
   ],
-} as const;
+};
 
 export const QINGHE_STRUCTURE_COUNT = QINGHE_MARKET_TOWN.structures.length;
 export const QINGHE_ROOM_COUNT = QINGHE_MARKET_TOWN.structures.reduce((n, s) => n + s.rooms.length, 0);

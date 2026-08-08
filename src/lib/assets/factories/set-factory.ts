@@ -17,6 +17,7 @@ import * as THREE from 'three';
 import { LCG } from '../../determinism/primitives';
 import { WANG_FAMILY_BEND } from '../../worldproduction/set-blueprint';
 import type { SetStructure, SetProp } from '../../worldproduction/set-blueprint';
+import { QINGHE_MARKET_TOWN } from '../../worldproduction/set-blueprint-2';
 import { painterlyMaterial } from './textures';
 import { PROP_BUILDERS, dressStructure } from './dressing-factory';
 
@@ -179,11 +180,18 @@ function buildHouse(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
   // roof — base sits at the wall top (new buildRoof positions itself)
   g.add(buildRoof(footW, footD, wallH, pal.thatch));
 
-  // windows (lit paper at night, dark day)
+  // windows (lit paper at night, dark day) + warm glow so apertures read
   const win = (x: number, z: number, rz = 0) => {
     const w = buildBox(1.0, 0.06, 0.9, pal.plaster, wallH * 0.62);
     w.position.set(x, 0, z); w.rotation.y = rz;
     g.add(w);
+    const glow = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.86, 0.76),
+      new THREE.MeshBasicMaterial({ color: 0xd8a05a, transparent: true, opacity: 0.5, side: THREE.DoubleSide }),
+    );
+    glow.position.set(x, wallH * 0.62, z + (rz === 0 ? 0.06 : -0.06));
+    glow.rotation.y = rz;
+    g.add(glow);
   };
   win(footW * 0.25, footD / 2 + 0.01); win(-footW * 0.25, footD / 2 + 0.01);
 
@@ -508,3 +516,69 @@ export const GAME_START = {
   timeOfDay: 'dawn',
   note: 'One mortal morning in Wang Family Bend: the player wakes in the square, the well to the east, the Dao shrine west, the senior household north-east across the road.',
 };
+
+// ---------------------------------------------------------------------------
+// Qinghe Market Town (Episode 2) — the mortal/cultivator trade interface
+// ---------------------------------------------------------------------------
+
+const TOWN_PLACEMENT: Array<[string, number, number]> = [
+  ['structure.qinghe.yamen', 0, 0],
+  ['structure.qinghe.market_square', 0, 60],
+  ['structure.qinghe.tea_house', -70, 40],
+  ['structure.qinghe.medicine_shop', 70, 40],
+  ['structure.qinghe.inn', -70, -60],
+  ['structure.qinghe.salt_depot', 40, -70],
+  ['structure.qinghe.dock', -20, -120],
+  ['structure.qinghe.granary', 80, 120],
+];
+
+/** Build the market town (deterministic; same factory kits as the village). */
+export function buildTownScene(seed = 89274613): VillageScene {
+  const rng = new LCG(seed ^ 0x51ab);
+  const pal = makePalette();
+  const group = new THREE.Group();
+  const structures = new Map<string, THREE.Group>();
+  const town = QINGHE_MARKET_TOWN;
+
+  const terrain = new THREE.Mesh(new THREE.PlaneGeometry(900, 900), pal.foliage);
+  terrain.rotation.x = -Math.PI / 2;
+  terrain.position.y = -0.05;
+  terrain.receiveShadow = true;
+  group.add(terrain);
+
+  // river (east edge, reflecting the sky)
+  const river = new THREE.Mesh(new THREE.PlaneGeometry(90, 700), pal.water);
+  river.rotation.x = -Math.PI / 2;
+  river.position.set(-180, 0, 30);
+  group.add(river);
+
+  // main street + market road south
+  const street = new THREE.Mesh(new THREE.BoxGeometry(16, 0.08, 260), pal.packedEarth);
+  street.position.set(0, 0, -30);
+  street.receiveShadow = true;
+  group.add(street);
+  const roadSouth = new THREE.Mesh(new THREE.BoxGeometry(12, 0.08, 160), pal.packedEarth);
+  roadSouth.rotation.y = Math.PI / 2;
+  roadSouth.position.set(0, 0, 150);
+  roadSouth.receiveShadow = true;
+  group.add(roadSouth);
+
+  for (const [id, x, z] of TOWN_PLACEMENT) {
+    const s = town.structures.find((st) => st.id === id)!;
+    const sg = buildStructure(s, pal, rng);
+    sg.position.set(x, 0, z);
+    sg.userData = { id: s.id, name: s.name, kind: s.kind, detail: s.artDirection };
+    group.add(sg);
+    structures.set(id, sg);
+    // props within the plot
+    for (const p of s.exterior.slice(0, 3)) {
+      const pm = buildPropMesh(p, pal);
+      const rx = rng.nextRange(-Math.max(s.w / 2 - 2, 0.5), Math.max(s.w / 2 - 2, 0.5));
+      const rz = rng.nextRange(-Math.max(s.d / 2 - 2, 0.5), Math.max(s.d / 2 - 2, 0.5));
+      pm.position.set(x + rx, 0, z + rz);
+      group.add(pm);
+    }
+  }
+
+  return { group, structures, palette: pal, seed };
+}

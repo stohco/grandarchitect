@@ -1,0 +1,44 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple only for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouette: Chunky, readable, 1.8m proportions, weathered materials.
+        *   Restraint: No neon, no HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image is a single, flat, blue-ish plane in a dark void.
+    *   There are some very faint, barely visible geometric shapes (cubes/rectangles) in the center, but they are almost completely washed out by the lighting/color.
+    *   The color is a monochromatic blue/teal gradient.
+    *   There is no character, no architecture, no environment, no rim lighting, no warm key light, no fog, no vignette.
+    *   It looks like a default scene with a single plane and a few primitive cubes, possibly with a basic blue light or material.
+
+    *   *PALETTE:* It's just blue. The bible asks for muted naturalistic teals/blues, but it lacks the gold accents, forest greens, or any contrast. It's monochromatic. (Score: 2)
+    *   *LIGHTING:* No warm key. No cool fill (it's just blue). No rim separation. It's flat. (Score: 1)
+    *   *ATMOSPHERE:* No fog, no vignette. Just a void. (Score: 1)
+    *   *COMPOSITION:* A flat plane centered in a void. No leading lines, no framing, no subject. (Score: 1)
+    *   *STYLE:* Does it read as a xianxia donghua blockout? No. It reads as a "New Scene" in a 3D software package. (Score: 1)
+
+    *   *Overall:* (2+1+1+1+1)/5 = 1.2.
+
+    *   *Strengths:* It's a plane. It's blue. (Hard to find strengths here, but I'll be "fair" and say the blue is at least in the general ballpark of the "ethereal teal/blue" requirement, even if it's the *only* thing there).
+    *   *Defects:* Total lack of lighting direction. No silhouette/geometry. No atmospheric depth. Complete failure to implement the Art Bible.
+PALETTE: 2 Monochromatic blue; missing all gold accents, forest greens, and naturalistic variety.
+LIGHTING: 1 Non-existent; no warm key, no cool fill, and zero rim separation.
+ATMOSPHERE: 1 Void; no fog, no vignette, no depth, no mood.
+COMPOSITION: 1 Dead center flat plane; no subject, no framing, no leading lines.
+STYLE: 1 This is not a blockout; it is a default scene with a primitive plane.
+OVERALL: 1.2
+STRENGTHS:
+- The blue hue is vaguely in the teal/blue family.
+- The render is clean of noise.
+DEFECTS:
+- Total failure to implement any lighting language from the bible.
+- Zero readable silhouettes or architectural geometry.
+- No atmospheric depth or environmental storytelling.
+- This is a "New Project" screen, not a production stage 2 blockout.

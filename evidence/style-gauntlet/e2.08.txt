@@ -1,0 +1,47 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, COOL fill, strong warm RIM separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraints: No neon, no wireframe HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image provided is a solid dark grey/black rectangle. There is no visual content.
+
+    *   Since there is no image (it's a blank black frame), I cannot evaluate the art direction.
+    *   However, as a "harsh but fair" critic, I can't just say "there's no image." I need to respond to the *absence* of a render in the context of a production pipeline.
+    *   Wait, looking closer at the prompt: the user provided a black image. In a real-world scenario, this is a "failed render" or a "missing asset."
+    *   *Self-Correction:* If the image is truly blank, I must report it as a total failure of the blockout stage. A black screen is the ultimate "wrong-directed" blockout because it provides zero information.
+
+    *   PALETTE: 1/10 (Void/Black. Total violation of the muted naturalistic palette).
+    *   LIGHTING: 1/10 (No key, no fill, no rim. Total darkness).
+    *   ATMOSPHERE: 1/10 (No fog, no vignette, just a void).
+    *   COMPOSITION: 1/10 (No subject, no framing).
+    *   STYLE: 1/10 (Does not read as xianxia; reads as a crashed engine).
+    *   OVERALL: 1.0.
+
+    *   *Wait*, is this a trick? Did the user forget to upload the image? Or is the image actually a very dark scene? Looking at the hex/pixel data of the provided image... it is a uniform dark grey/black.
+    *   As a critic, I will treat this as a "failed submission."
+
+    *   *Wait*, let me double-check if there's any hidden detail. No, it's a flat dark grey.
+
+    *   *Alternative interpretation:* Maybe the user wants me to critique the *idea* of a black screen? No, the prompt says "this render is a stylized 3D BLOCKOUT."
+
+    *   *Decision:* I will be the harsh critic. A blank screen is an unacceptable submission for Stage 2.
+
+    *   PALETTE: 1/10 - Absolute void; zero adherence to the naturalistic palette.
+    *   LIGHTING: 1/10 - Total absence of light; no key, fill, or rim separation.
+    *   ATMOSPHERE: 1/10 - No depth, no fog, no mood; just a dead frame.
+    *   COMPOSITION: 1/10 - No subject, no leading lines, no framing.
+    *   STYLE: 1/10 - This is not a blockout; it is a technical failure.
+    *   OVERALL: 1.0
+    *   STRENGTHS: None.
+    *   DEFECTS: Render failed/Missing asset. Zero visual information. Total production stoppage.
+
+    *   *Wait*, looking at the prompt again, the user included a lot of "

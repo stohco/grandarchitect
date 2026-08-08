@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias ?? {}),
       three: resolve(process.cwd(), "node_modules/three/src/Three.js"),
+      "three/examples/jsm": resolve(process.cwd(), "node_modules/three/examples/jsm"),
     };
     return config;
   },

@@ -22,7 +22,7 @@ import { CONSUMERS } from '../src/lib/genesis/consumer-registry';
 /** Scene-relevant passes -> the artifacts that implement them. */
 const SCENE_ARTIFACTS: Record<string, string[]> = {
   'pass.01': ['src/lib/worldproduction/director-script.ts'],
-  'pass.03': ['src/lib/worldproduction/set-blueprint.ts'],
+  'pass.03': ['src/lib/worldproduction/set-blueprint.ts', 'src/lib/worldproduction/set-blueprint-2.ts'],
   'pass.04': ['src/lib/worldproduction/director-script.ts'],
   'pass.05': ['src/lib/engine/definitions/npcs.ts'],
   'pass.06': ['src/lib/genesis/xianxia-concept-review.ts'],

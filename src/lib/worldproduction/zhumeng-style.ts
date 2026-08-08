@@ -28,12 +28,12 @@ export interface ZhumengStyleSettings {
 export const ZHUMENG_STYLE: ZhumengStyleSettings = {
   keyIntensity: 2.9,
   keyWarmth: 0.9,
-  fillCoolness: 0.5,
+  fillCoolness: 0.85,
   rimIntensity: 1.3,
   rimWarmth: 0.5,
-  exposure: 1.3,
+  exposure: 1.55,
   saturation: 1.06,
-  vignette: 0.3,
+  vignette: 0.28,
   fogDensity: 0.75,
   paletteBoost: 0.15,
 };

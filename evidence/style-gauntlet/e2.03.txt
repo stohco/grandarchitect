@@ -1,0 +1,45 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge Art Direction (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim.
+        *   Palette: Muted naturalistic (teals, soft blues, forest greens), gold/brass accents, sparse deep red, purple for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   *Image Content:* A very dark, low-resolution render. It looks like a dark room or a void with a single orange/golden rectangular portal or door in the center background. The foreground is a dark, textured grey/brown plane.
+    *   *Palette:* Almost entirely dark brown/black with a single block of orange/gold.
+    *   *Lighting:* There is a light source coming from the door (warm), but there is no cool fill, no rim lighting, and no complex lighting language. It's basically a "black box" with a light.
+    *   *Atmosphere:* No fog, no vignette, no filmic quality. It's flat and oppressive.
+    *   *Composition:* Centered, static, lacks leading lines or interest.
+    *   *Style:* Does not look like a "painterly xianxia donghua blockout." It looks like a basic Unity/Unreal test scene from 2005.
+
+    *   *PALETTE:* The orange is "gold-adjacent," but the rest is just muddy brown. It lacks the teals, blues, and greens of the bible. (Score: 2)
+    *   *LIGHTING:* Warm key (the door) exists, but zero cool fill and zero rim separation. (Score: 2)
+    *   *ATMOSPHERE:* No fog, no depth, no mood other than "empty room." (Score: 1)
+    *   *COMPOSITION:* Dead center. Boring. No framing. (Score: 2)
+    *   *STYLE:* Not painterly. Not xianxia. Just a box. (Score: 1)
+
+    *   *Overall:* (2+2+1+2+1)/5 = 1.6.
+
+    *   *Strengths:* The orange color is roughly in the right ballpark for a "gold accent." It's a blockout (technically).
+    *   *Defects:* Complete lack of the "Art Bible" color language. No lighting complexity (no cool fill/rim). Zero atmospheric depth. No architectural or character silhouettes to judge.
+PALETTE: 2 Muddy browns and a single orange block; total violation of the teal/blue/green naturalistic palette.
+LIGHTING: 2 Warm key present via the portal, but zero cool fill and zero rim separation.
+ATMOSPHERE: 1 No fog, no vignette, no depth; feels like a void, not an ethereal world.
+COMPOSITION: 2 Static center-framing; no leading lines, no subject, no narrative intent.
+STYLE: 1 Reads as a basic engine test, not a painterly xianxia blockout.
+OVERALL: 1.6
+STRENGTHS:
+- The portal color is roughly in the gold/brass ballpark.
+- It is, technically, a blockout.
+DEFECTS:
+- Complete disregard for the Art Bible's color language (where are the teals and forest greens?).
+- Lighting is binary (on/off) rather than a directed cinematic language.
+- Zero atmospheric depth or "painterly" material suggestion.
+- No

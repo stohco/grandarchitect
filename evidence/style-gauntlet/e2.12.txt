@@ -1,0 +1,36 @@
+model: gemma-4-26b-a4b-it
+
+Harsh but FAIR art-direction critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge Art Direction (palette, lighting, composition, atmosphere, silhouette), NOT technical finish.
+
+        *   Painterly 3D, hand-painted materials.
+        *   Warm golden key + Cool fill + Warm rim.
+        *   Muted naturalistic palette (teals, blues, greens, gold/brass, sparse red, purple for energy).
+        *   Soft atmospheric depth (fog), vignette, filmic exposure.
+        *   Chunky silhouettes, grounded proportions, weathered materials.
+        *   Restraint: no neon, no western armor.
+A very dark, low-fidelity image. It shows a dark floor/ground and a dark wall with a single orange/amber rectangular doorway/portal in the center-top. It looks like a very early greybox/blockout.
+
+    *   *Palette:* It's almost entirely black/dark brown. The only color is the orange door. The Bible calls for "muted naturalistic palette: ethereal teals, soft blues, forest greens." This image has *none* of that. It's just dark and orange.
+    *   *Lighting:* There is no visible "warm golden key + cool fill + rim separation." It's just a dark scene with a glowing orange rectangle. It lacks the "lighting language" required.
+    *   *Atmosphere:* It's dark, but not "soft atmospheric depth (fog)." It's just underexposed/dark. No vignette or filmic quality is apparent.
+    *   *Composition:* A single door in the center. It's a basic composition, but lacks the "chunky readable silhouettes" or "leading lines" of a directed scene. It's too minimal to even judge "thirds" effectively, but it's centered.
+    *   *Style:* It doesn't look like a "painterly xianxia donghua blockout." It looks like a primitive Unity/Unreal primitive blockout.
+
+    *   *PALETTE:* 1/10. It's just black and orange. Zero adherence to the teal/blue/green/gold mandate.
+    *   *LIGHTING:* 1/10. No key/fill/rim logic present. It's just a light source inside a door.
+    *   *ATMOSPHERE:* 2/10. It's dark, but lacks the "ethereal" or "filmic" quality. It feels empty rather than atmospheric.
+    *   *COMPOSITION:* 3/10. Centered door is a start, but there's no depth or scale.
+    *   *STYLE:* 1/10. This is a primitive geometry test, not a directed art blockout.
+
+    *   *Wait, I must be FAIR.* It's a Stage 2 blockout. Is it *wrong-directed* or just *empty*?
+    *   The prompt asks if the *Art Direction* is right.
+    *   The Art Direction for a xianxia game requires a specific color language and lighting setup. This image has failed to even *attempt* that language. It's a "black box" test.
+    *   However, if this is a blockout for a *dungeon* or *interior*, the orange might be a lantern/spiritual light. But even then, the palette is wrong.
+
+    *   *PALETTE:* 1/10. Only orange/black; violates the teal/blue/green/gold mandate entirely.
+    *   *LIGHTING:* 1/10. No warm key/cool fill/rim separation; lacks any directional lighting language.
+    *   *ATMOSPHERE:* 2/10. Dark, but lacks fog, vignette, or the "ethereal" quality required.
+    *   *COMPOSITION:* 3/10. Basic central framing, but lacks scale or leading lines.
+    *   *STYLE:* 1/10. Reads as a primitive geometry test, not a directed xianxia block

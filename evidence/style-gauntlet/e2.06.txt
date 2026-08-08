@@ -1,0 +1,49 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, COOL fill, strong warm RIM separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, sparse deep red, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no wireframe HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image provided is a solid, dark brown/black rectangle. It is essentially a blank or corrupted image.
+
+    *   Since there is no visual content to critique, I cannot evaluate the palette, lighting, atmosphere, composition, or style.
+    *   However, as a "harsh but fair" critic, I cannot simply say "I can't see it." I must address the fact that the "render" is a void.
+    *   Wait, if the image is literally just a dark brown block, it fails every single metric of the Art Bible.
+    *   *Self-Correction:* Is this a test of my ability to handle a missing image or a "black screen" render? In a production pipeline, submitting a black frame is a critical failure.
+
+    *   *Palette:* 1/10. It's a single muddy brown. No teals, no gold, no variety.
+    *   *Lighting:* 1/10. No key, no fill, no rim. Total darkness/flatness.
+    *   *Atmosphere:* 1/10. No depth, no fog, just a void.
+    *   *Composition:* 1/10. No subject, no framing.
+    *   *Style:* 1/10. Does not read as xianxia; reads as a failed export.
+
+    *   *Wait*, let me double-check the image. Yes, it's a solid dark brown color.
+
+    *   *Tone:* Harsh but fair.
+    *   *Verdict:* This is an unacceptable submission.
+
+    *   PALETTE: 1 (Monochromatic muddy brown; total violation of the naturalistic/ethereal bible)
+    *   LIGHTING: 1 (Zero light data; no key, no fill, no rim separation)
+    *   ATMOSPHERE: 1 (Void; no depth, no fog, no filmic quality)
+    *   COMPOSITION: 1 (Non-existent; no subject or framing)
+    *   STYLE: 1 (Does not read as a blockout; reads as a corrupted file or a black screen)
+    *   OVERALL: 1.0
+    *   STRENGTHS: (None)
+    *   DEFECTS: (Total failure of delivery)
+
+    *   *Wait*, if I am a "Fair" critic, and the user might have uploaded the wrong image or there's a technical glitch, I should be professional. But the prompt asks me to be a "harsh but fair" critic. Submitting a black frame to an Art Director is a fireable offense in a high-pressure studio like Zhumeng/Tencent.
+
+    *   *Let's refine the "Defects" to be concrete:*
+        1. Total lack of visual data.
+        2. Failure to provide a render for review.
+        3. Complete disregard for the Art Bible.
+
+    *   *Wait, looking at the image again.* It's a very dark brown. Maybe it's a "mood" piece? No, it's a blockout

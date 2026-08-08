@@ -11,9 +11,9 @@
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { buildVillageScene } from '@/lib/assets/factories/set-factory';
+import { buildVillageScene, buildTownScene } from '@/lib/assets/factories/set-factory';
 import { buildHumanoid, profileForRole } from '@/lib/assets/factories/character-factory';
-import { EPISODE_1 } from '@/lib/worldproduction/director-script';
+import { EPISODE_1, EPISODE_2 } from '@/lib/worldproduction/director-script';
 import { WANG_FAMILY_BEND } from '@/lib/worldproduction/set-blueprint';
 import { applyZhumengStyle, zhumengCss } from '@/lib/worldproduction/zhumeng-style';
 import { attachFilmicGrade } from '@/lib/worldproduction/filmic-grade';
@@ -65,8 +65,10 @@ export default function DirectorRenderPage() {
     sun.shadow.camera.left = -300; sun.shadow.camera.right = 300;
     sun.shadow.camera.top = 300; sun.shadow.camera.bottom = -300;
     scene.add(sun);
-    const hemi = new THREE.HemisphereLight(0xcfe8ff, 0x6a5a3a, 0.75);
+    const hemi = new THREE.HemisphereLight(0xcfe8ff, 0x6a5a3a, 0.85);
     scene.add(hemi);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambient);
 
     // Zhumeng donghua style pass: warm key, cool fill, rim separation
     const rim = new THREE.DirectionalLight(0xffd8a8, 1.1);
@@ -96,7 +98,10 @@ export default function DirectorRenderPage() {
     };
 
     // the set
-    const village = buildVillageScene();
+    // episode switch: ?ep=2 renders Qinghe Market Town (Episode 2)
+    const ep2 = new URLSearchParams(window.location.search).get('ep') === '2';
+    const episode = ep2 ? EPISODE_2 : EPISODE_1;
+    const village = ep2 ? buildTownScene() : buildVillageScene();
     scene.add(village.group);
 
     // painterly gradient sky dome (blue-teal family, warm gold only at the
@@ -154,19 +159,21 @@ export default function DirectorRenderPage() {
       return g.position.clone().add(new THREE.Vector3(0, 2, 0));
     };
 
-    window.__directorShots = () => EPISODE_1.shots.map((s) => s.id);
+    window.__directorShots = () => episode.shots.map((s) => s.id);
     window.__directorShot = (shotId: string): string | null => {
-      const shot = EPISODE_1.shots.find((s) => s.id === shotId);
+      const shot = episode.shots.find((s) => s.id === shotId);
       if (!shot) return null;
       const [sx, sy, sz] = sunElevationFor(shotId);
       sun.position.set(sx, sy, sz);
-      const target = targetFor(shotId);
       const dist = CUT_DISTANCE[shot.cut] ?? 20;
+      const target = targetFor(shotId);
       camera.fov = fovForLens(shot.camera.lensMm);
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       camera.position.set(target.x + dist * 0.7, shot.camera.heightM + target.y * 0.2, target.z + dist);
       camera.lookAt(target);
+      // fog must not erase distant/aerial shots: scale with camera distance
+      scene.fog = new THREE.Fog(0x9ab8d0, 40, Math.max(260, dist * 1.6));
       scene.updateMatrixWorld(true);
       if (grade) grade.composer.render();
       else renderer.render(scene, camera);
@@ -175,7 +182,7 @@ export default function DirectorRenderPage() {
 
     // default: first shot
     try {
-      window.__directorShot(EPISODE_1.shots[0].id);
+      window.__directorShot(episode.shots[0].id);
     } catch (e) {
       console.error('[director] default render failed', (e as Error).message);
       let diag = '';

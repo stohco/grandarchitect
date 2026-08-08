@@ -1,0 +1,50 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key + Cool fill + Strong warm RIM.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouette: Chunky, readable, grounded 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+
+    *   *Image Content:* A very basic blockout of a wooden structure (likely a building or bridge) on a green plane against a dark blue background.
+    *   *Palette:* Dominated by brown/orange wood and a dark navy blue sky. The ground is a flat, dark green.
+    *   *Lighting:* Flat. There is some basic shading, but no clear "warm golden key," no "cool fill," and absolutely no "warm rim separation." It looks like a default scene light.
+    *   *Atmosphere:* Non-existent. No fog, no vignette, no filmic exposure. Just a hard horizon line.
+    *   *Composition:* Very basic. A diagonal view of a blocky structure. No clear subject framing or leading lines.
+    *   *Style:* It's a blockout, but it doesn't feel "painterly" or "xianxia." It feels like a generic 3D software default scene.
+
+    *   *Palette:* The browns are too saturated/orange. The blue is too dark/flat. Missing the teals, soft blues, and forest greens. (Score: 3)
+    *   *Lighting:* Fails almost every requirement. No rim light, no temperature contrast. (Score: 2)
+    *   *Atmosphere:* Zero effort here. No depth, no fog. (Score: 1)
+    *   *Composition:* Basic blockout framing, but lacks any artistic intent. (Score: 3)
+    *   *Style:* It's a blockout, but it's not *directed*. It's just geometry. (Score: 2)
+
+    *   *Overall:* (3+2+1+3+2)/5 = 2.2.
+
+    *   *Strengths:*
+        *   Basic geometry is present.
+        *   Scale seems roughly grounded.
+
+    *   *Defects:*
+        *   Lighting is completely wrong; no rim light or temperature contrast.
+        *   Palette is generic brown/blue; missing the ethereal xianxia mood.
+        *   Atmosphere is dead; needs fog and vignette to create depth.
+        *   Materials are flat textures, not "painterly" or "weathered."
+PALETTE: 3 Dominated by saturated orange-browns and flat navy; missing the ethereal teals and muted greens of the bible.
+LIGHTING: 2 Flat default lighting; zero warm key/cool fill contrast and absolutely no rim separation.
+ATMOSPHERE: 1 Dead; no fog, no vignette, no depth—just a hard horizon line.
+COMPOSITION: 3 Basic diagonal blockout; lacks intentional framing or leading lines to guide the eye.
+STYLE: 2 Reads as a generic 3D software default scene, not a directed xianxia painterly blockout.
+OVERALL: 2.2
+STRENGTHS:
+- Basic structural volumes are established.
+- Proportions appear grounded and readable.
+DEFECTS:
+- Lighting is non-existent; you have ignored the warm/cool temperature requirements entirely.
+- Palette is too "default"; it lacks the muted, naturalistic sophistication of the Zhumeng style.
+- Total lack of atmospheric depth; the scene feels like a vacuum, not a world

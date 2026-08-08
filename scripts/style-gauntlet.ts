@@ -86,9 +86,10 @@ async function main() {
 
   // robust page load: dev hot-reload may transiently drop the global
   const ensureStage = async () => {
+    const ep = shots.some((s) => s.startsWith('e2.')) ? '&ep=2' : '';
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
-        await page.goto(`${URL}?v=${Date.now()}-${attempt}`, { waitUntil: 'networkidle0', timeout: 120_000 });
+        await page.goto(`${URL}?v=${Date.now()}-${attempt}${ep}`, { waitUntil: 'networkidle0', timeout: 120_000 });
         await page.waitForFunction('typeof window.__directorShot === "function" && window.__directorShots !== undefined', { timeout: 60_000 });
         return;
       } catch (e) {

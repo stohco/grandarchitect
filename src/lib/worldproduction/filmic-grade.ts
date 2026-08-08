@@ -7,9 +7,11 @@
  */
 
 import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+// relative paths: the 'three' webpack alias must not interfere with the
+// examples subpath (alias prefix matching is unreliable under Next)
+import { EffectComposer } from '../../../node_modules/three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from '../../../node_modules/three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from '../../../node_modules/three/examples/jsm/postprocessing/ShaderPass.js';
 
 export interface FilmicGradeOptions {
   vignette?: number;   // 0..1

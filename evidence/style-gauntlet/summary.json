@@ -1,64 +1,213 @@
 {
   "shots": [
     {
-      "shot": "shot.1B",
-      "score": 2.8
+      "shot": "e2.03",
+      "score": 1.6
     },
     {
-      "shot": "shot.1D",
-      "score": 1.4
+      "shot": "e2.06",
+      "score": 1
     },
     {
-      "shot": "shot.1F",
+      "shot": "e2.08",
+      "score": 1
+    },
+    {
+      "shot": "e2.12",
       "score": 0
-    },
-    {
-      "shot": "shot.1G",
-      "score": 0
-    },
-    {
-      "shot": "shot.1L",
-      "score": 2
-    },
-    {
-      "shot": "shot.1N",
-      "score": 1.8
     }
   ],
-  "average": 1.3333333333333333,
+  "average": 0.9,
   "target": 7,
   "previousAverage": {
     "shots": [
       {
-        "shot": "shot.1B",
-        "score": 2.6
-      },
-      {
-        "shot": "shot.1D",
-        "score": 1.6
-      },
-      {
-        "shot": "shot.1F",
+        "shot": "e2.03",
         "score": 1.8
       },
       {
-        "shot": "shot.1G",
-        "score": 1.6
+        "shot": "e2.06",
+        "score": 0
       },
       {
-        "shot": "shot.1L",
-        "score": 2
+        "shot": "e2.08",
+        "score": 0
       },
       {
-        "shot": "shot.1N",
-        "score": 1.6
+        "shot": "e2.12",
+        "score": 1.2
       }
     ],
-    "average": 1.8666666666666665,
+    "average": 0.75,
     "target": 7,
-    "reference": "Zhumeng Animation 3D donghua + six art boards"
+    "previousAverage": {
+      "shots": [
+        {
+          "shot": "e2.01",
+          "score": 1.2
+        },
+        {
+          "shot": "e2.03",
+          "score": 1.8
+        },
+        {
+          "shot": "e2.06",
+          "score": 1
+        },
+        {
+          "shot": "e2.08",
+          "score": 0
+        },
+        {
+          "shot": "e2.10",
+          "score": 2.2
+        },
+        {
+          "shot": "e2.12",
+          "score": 1.4
+        }
+      ],
+      "average": 1.2666666666666666,
+      "target": 7,
+      "previousAverage": {
+        "shots": [
+          {
+            "shot": "e2.01",
+            "score": 1.2
+          },
+          {
+            "shot": "e2.03",
+            "score": 1.4
+          },
+          {
+            "shot": "e2.06",
+            "score": 1
+          },
+          {
+            "shot": "e2.08",
+            "score": 1
+          },
+          {
+            "shot": "e2.10",
+            "score": 1.8
+          },
+          {
+            "shot": "e2.12",
+            "score": 1.2
+          }
+        ],
+        "average": 1.2666666666666666,
+        "target": 7,
+        "previousAverage": {
+          "shots": [
+            {
+              "shot": "e2.01",
+              "score": 0
+            },
+            {
+              "shot": "e2.03",
+              "score": 0
+            },
+            {
+              "shot": "e2.06",
+              "score": 1
+            },
+            {
+              "shot": "e2.08",
+              "score": 1
+            },
+            {
+              "shot": "e2.10",
+              "score": 0
+            },
+            {
+              "shot": "e2.12",
+              "score": 2
+            }
+          ],
+          "average": 0.6666666666666666,
+          "target": 7,
+          "previousAverage": {
+            "shots": [
+              {
+                "shot": "shot.1B",
+                "score": 2.8
+              },
+              {
+                "shot": "shot.1D",
+                "score": 1.4
+              },
+              {
+                "shot": "shot.1F",
+                "score": 0
+              },
+              {
+                "shot": "shot.1G",
+                "score": 0
+              },
+              {
+                "shot": "shot.1L",
+                "score": 2
+              },
+              {
+                "shot": "shot.1N",
+                "score": 1.8
+              }
+            ],
+            "average": 1.3333333333333333,
+            "target": 7,
+            "previousAverage": {
+              "shots": [
+                {
+                  "shot": "shot.1B",
+                  "score": 2.6
+                },
+                {
+                  "shot": "shot.1D",
+                  "score": 1.6
+                },
+                {
+                  "shot": "shot.1F",
+                  "score": 1.8
+                },
+                {
+                  "shot": "shot.1G",
+                  "score": 1.6
+                },
+                {
+                  "shot": "shot.1L",
+                  "score": 2
+                },
+                {
+                  "shot": "shot.1N",
+                  "score": 1.6
+                }
+              ],
+              "average": 1.8666666666666665,
+              "target": 7,
+              "reference": "Zhumeng Animation 3D donghua + six art boards"
+            },
+            "iterations": 1,
+            "reference": "Zhumeng Animation 3D donghua + six art boards",
+            "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 0 -> 01)."
+          },
+          "iterations": 2,
+          "reference": "Zhumeng Animation 3D donghua + six art boards",
+          "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 1 -> 11)."
+        },
+        "iterations": 3,
+        "reference": "Zhumeng Animation 3D donghua + six art boards",
+        "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 2 -> 21)."
+      },
+      "iterations": 4,
+      "reference": "Zhumeng Animation 3D donghua + six art boards",
+      "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 3 -> 31)."
+    },
+    "iterations": 5,
+    "reference": "Zhumeng Animation 3D donghua + six art boards",
+    "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 4 -> 41)."
   },
-  "iterations": 1,
+  "iterations": 6,
   "reference": "Zhumeng Animation 3D donghua + six art boards",
-  "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 0 -> 01)."
+  "note": "Critic is harsh vs AAA concept art; trajectory matters (iterations: 5 -> 51)."
 }
