@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { buildVillageScene, buildTownScene } from '@/lib/assets/factories/set-factory';
 import { buildHumanoid, profileForRole } from '@/lib/assets/factories/character-factory';
-import { EPISODE_1, EPISODE_2 } from '@/lib/worldproduction/director-script';
+import { EPISODE_1, EPISODE_2, EPISODE_3 } from '@/lib/worldproduction/director-script';
 import { WANG_FAMILY_BEND } from '@/lib/worldproduction/set-blueprint';
 import { QINGHE_MARKET_TOWN } from '@/lib/worldproduction/set-blueprint-2';
 import { buildRoomSet } from '@/lib/assets/factories/set-factory';
@@ -101,9 +101,12 @@ export default function DirectorRenderPage() {
     };
 
     // the set
-    // episode switch: ?ep=2 renders Qinghe Market Town (Episode 2)
-    const ep2 = new URLSearchParams(window.location.search).get('ep') === '2';
-    const episode = ep2 ? EPISODE_2 : EPISODE_1;
+    // episode switch: ?ep=2 renders Qinghe Market Town (Episode 2),
+    // ?ep=3 renders the same town under recruitment-day light (Episode 3)
+    const ep = new URLSearchParams(window.location.search).get('ep');
+    const ep3 = ep === '3';
+    const ep2 = ep === '2' || ep3;
+    const episode = ep3 ? EPISODE_3 : ep2 ? EPISODE_2 : EPISODE_1;
     const village = ep2 ? buildTownScene() : buildVillageScene();
     scene.add(village.group);
 

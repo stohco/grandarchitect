@@ -279,6 +279,13 @@ export const CONSUMERS: GenesisConsumer[] = [
     path: 'src/lib/worldproduction/index.ts',
     description: 'Directed world production: scale registry, set blueprint, director script, world hierarchy',
   },
+  {
+    id: 'motion.corpus',
+    system: 'motion',
+    kind: 'runtime',
+    path: 'src/lib/worldproduction/motion-corpus.ts',
+    description: 'Motion Corpus: harvested MotionTruth assets from directed episodes, feeding the motion coverage matrix',
+  },
   // ---- audio ------------------------------------------------------------
   {
     id: 'audio.architecture',

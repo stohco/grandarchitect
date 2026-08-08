@@ -51,7 +51,7 @@ const SCENE_ARTIFACTS: Record<string, string[]> = {
   'pass.66': ['src/components/editor/panels/DirectorPlayerPanel.tsx'],
   'pass.67': ['scripts/style-gauntlet.ts', 'scripts/detail-audit.mjs'],
   'pass.69': ['src/lib/genesis/emergence-gauntlet.ts'],
-  'pass.71': ['src/lib/worldproduction/coverage-systems.ts'],
+  'pass.71': ['src/lib/worldproduction/motion-corpus.ts', 'src/lib/worldproduction/coverage-systems.ts'],
   'pass.72': ['src/lib/worldproduction/production-conformance.ts'],
   'pass.73': ['src/lib/worldproduction/coverage-systems.ts'],
   'pass.74': ['src/lib/worldproduction/coverage-systems.ts'],

@@ -103,6 +103,11 @@
           "consumerId": "motion.grammar"
         },
         {
+          "system": "motion",
+          "consumerId": "motion.corpus",
+          "note": "Motion Corpus harvests reusable motion from directed episodes (episode -> MotionTruth assets)"
+        },
+        {
           "system": "generation",
           "consumerId": "generation.procedural-pipeline",
           "note": "generators must consume VTPs/grammars"
@@ -1180,6 +1185,26 @@
       ]
     },
     {
+      "id": "derived.xianxia-terminology",
+      "canonLevel": "design",
+      "requires": [
+        "persistence",
+        "validation"
+      ],
+      "bindings": [
+        {
+          "system": "persistence",
+          "consumerId": "persistence.xianxia-glossary",
+          "note": "universal terms Qi Condensation → Soul Formation → Soul Transformation with hanzi"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "every realm def carries standard aliases; glossary ids resolved"
+        }
+      ]
+    },
+    {
       "id": "derived.modular-asset-factory",
       "canonLevel": "design",
       "requires": [
@@ -1782,6 +1807,16 @@
       "persistence": "not-required",
       "validation": "not-required"
     },
+    "derived.xianxia-terminology": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "bound"
+    },
     "derived.modular-asset-factory": {
       "generation": "bound",
       "simulation": "not-required",
@@ -1858,12 +1893,13 @@
     "canon.mortal-realm": 6,
     "derived.gameplay-clock": 4,
     "derived.planetary-cultivation-ecology": 4,
+    "derived.xianxia-terminology": 4,
     "derived.modular-asset-factory": 6,
     "derived.directed-scene-production": 6
   },
-  "conceptCount": 56,
-  "boundPairs": 104,
-  "requiredPairs": 104,
+  "conceptCount": 57,
+  "boundPairs": 106,
+  "requiredPairs": 106,
   "gauntlet": [
     {
       "id": "gauntlet.destroy-bridge",

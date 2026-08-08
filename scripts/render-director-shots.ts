@@ -2,14 +2,16 @@
 /**
  * scripts/render-director-shots.ts — the camera department.
  *
- * Drives the director-render stage and captures every Episode-1 shot to
+ * Drives the director-render stage and captures every shot to
  * evidence/director/<shotId>.png, using the camera spec from the director
  * script (cut, lens, height). Connects via CDP to a manually launched
  * browser (the repo's established pattern — see evidence/rapier-playtest):
  *
  *   msedge --headless=new --remote-debugging-port=9222 --use-gl=swiftshader
  *          --user-data-dir=C:\Temp\cdp-edge about:blank
- *   bun run scripts/render-director-shots.ts
+ *   bun run scripts/render-director-shots.ts            # Episode 1
+ *   EP=2 bun run scripts/render-director-shots.ts       # Episode 2 (Qinghe)
+ *   EP=3 bun run scripts/render-director-shots.ts       # Episode 3 (recruitment)
  */
 
 import puppeteer from 'puppeteer-core';
@@ -17,7 +19,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const OUT = join(process.cwd(), 'evidence', 'director');
-const URL = 'http://localhost:3000/director-render';
+const EP = process.env.EP ?? '1';
+const URL = `http://localhost:3000/director-render?ep=${EP}`;
 
 async function main() {
   mkdirSync(OUT, { recursive: true });

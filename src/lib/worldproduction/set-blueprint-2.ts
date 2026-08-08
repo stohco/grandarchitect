@@ -220,6 +220,7 @@ export const QINGHE_MARKET_TOWN: {
       rooms: [],
       exterior: [
         { id: 'prop.qinghe.stone_stalls', name: 'Stone Stalls', scaleId: 'scale.custom', w: 30, d: 8, h: 1, material: 'stone', detail: 'Permanent stall bases.' },
+        { id: 'prop.qinghe.recruitment_stall', name: 'Recruitment Stall', scaleId: 'scale.custom', w: 4, d: 3, h: 3.5, material: 'wood, canvas, red cloth', detail: 'Once a generation: the sect\'s table, ledger, and red-and-gold recruitment banner.' },
       ],
       artDirection: 'The town\'s living room: canvas, produce, salt carts, argument.',
       cameraNotes: 'Drone establish + walk-through; the rumor moves visibly across the square.',

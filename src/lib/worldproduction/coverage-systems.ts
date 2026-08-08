@@ -14,6 +14,7 @@ import { blueprintPropIds } from '../assets/factories/dressing-factory';
 import { interactionsFor, STRUCTURE_INTERACTIONS, PROP_INTERACTIONS } from './interactions';
 import { ALL_DEFINITIONS } from '../engine/definitions/index';
 import { SCALE_REGISTRY } from './scale-registry';
+import { harvestedActions } from './motion-corpus';
 
 // ---------------------------------------------------------------------------
 // Motion Coverage Matrix
@@ -44,7 +45,14 @@ export const MOTION_COVERAGE: MotionCoverageRow[] = [
 ];
 
 export function motionGaps(): string[] {
-  return MOTION_COVERAGE.filter((r) => r.validatedVariants === 0 && r.gap).map((r) => r.action);
+  const harvested = harvestedActions();
+  return MOTION_COVERAGE.filter(
+    (r) => r.validatedVariants === 0 && r.gap && (harvested[r.action] ?? 0) === 0,
+  ).map((r) => r.action);
+}
+
+export function motionHarvestSummary(): Record<string, number> {
+  return harvestedActions();
 }
 
 // ---------------------------------------------------------------------------

@@ -9,5 +9,6 @@ export * from './scale-registry';
 export * from './set-blueprint';
 export * from './director-script';
 export * from './hierarchy-tree';
+export * from './motion-corpus';
 
-export const PRODUCTION_VERSION = 'world-production-v1.0.0';
+export const PRODUCTION_VERSION = 'world-production-v1.1.0';

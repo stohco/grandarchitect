@@ -20,12 +20,12 @@ export interface BuildManifest {
 }
 
 export const BUILD_MANIFEST: BuildManifest = {
-  "commitSha": "2a2447ca53a43f0b992c5f6e539f5186a1ba70bf",
-  "commitShort": "2a2447ca53a4",
-  "branch": "HEAD",
+  "commitSha": "64873c1394991bcb5404fbb4985a13b9776b3047",
+  "commitShort": "64873c139499",
+  "branch": "authority/convergence",
   "dirty": true,
-  "buildTimestamp": "2026-08-08T00:26:53.192Z",
+  "buildTimestamp": "2026-08-08T15:22:51.370Z",
   "packageVersion": "0.3.0",
-  "sourceTreeHash": "73d667bfa977fd1f",
-  "buildId": "fbfac3b8-08ca-4035-907e-6fe641488720"
+  "sourceTreeHash": "8dba0ae7b926b3d1",
+  "buildId": "139ab807-dbce-48bc-a36e-25d380cd1794"
 };

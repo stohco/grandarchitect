@@ -89,6 +89,7 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
       { system: 'visual', consumerId: 'visual.style-grammars' },
       { system: 'visual', consumerId: 'visual.asset-factory-directive', note: 'asset factory consumes VTPs' },
       { system: 'motion', consumerId: 'motion.grammar' },
+      { system: 'motion', consumerId: 'motion.corpus', note: 'Motion Corpus harvests reusable motion from directed episodes (episode -> MotionTruth assets)' },
       { system: 'generation', consumerId: 'generation.procedural-pipeline', note: 'generators must consume VTPs/grammars' },
     ],
   },
