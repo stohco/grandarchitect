@@ -7,8 +7,8 @@
     "license": "MIT"
   },
   "agent": {
-    "model": "deepseek-v4-flash",
-    "provider": "deepseek",
+    "model": "gpt-5.6-luna",
+    "provider": "openai",
     "maxTurns": 50,
     "maxTokens": 200000,
     "maxTimeSec": 1800,
@@ -27,7 +27,7 @@
   "roles": {
     "implementer": {
       "writeAccess": true,
-      "model": "deepseek-v4-flash"
+      "model": "gpt-5.6-luna"
     },
     "browser-verifier": {
       "writeAccess": false,
@@ -36,22 +36,22 @@
     },
     "architecture-reviewer": {
       "writeAccess": false,
-      "model": "deepseek-v4-flash",
+      "model": "gpt-5.6-luna",
       "instructions": "Check architectural boundaries. No duplicate systems. Provider neutrality. Runtime/editor separation. Consult ARCHITECTURE.json and the genesis gauntlet before judging."
     },
     "adversarial-reviewer": {
       "writeAccess": false,
-      "model": "deepseek-v4-flash",
+      "model": "gpt-5.6-luna",
       "instructions": "Attempt to disprove completion claims. Try to break the workflow. Find false claims. Check the 80-pass gauntlet audit before and after every scene change."
     },
     "security-reviewer": {
       "writeAccess": false,
-      "model": "deepseek-v4-flash",
+      "model": "gpt-5.6-luna",
       "instructions": "Audit API routes for auth. Check for unguarded mutations. Verify no secrets in git. Never print or log API keys."
     },
     "performance-reviewer": {
       "writeAccess": false,
-      "model": "deepseek-v4-flash",
+      "model": "gpt-5.6-luna",
       "instructions": "Profile frame time, memory, draw calls. Check for leaks after 100 iterations. Honor the 60 Hz authoritative gameplay clock contract."
     }
   },
