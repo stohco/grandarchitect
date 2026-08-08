@@ -1342,6 +1342,42 @@
           "note": "Director Contract + shot intent are part of the input contract"
         }
       ]
+    },
+    {
+      "id": "derived.substance-preservation",
+      "canonLevel": "design",
+      "requires": [
+        "simulation",
+        "persistence",
+        "generation"
+      ],
+      "bindings": [
+        {
+          "system": "persistence",
+          "consumerId": "performance.substance-preservation",
+          "note": "SEMANTIC DELTA gate + escalation ladder + S4->S0 fidelity ladder are machine-checked"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.time-engine",
+          "note": "simulation LOD = fidelity of computation, never loss of substance"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "distant NPCs drop to S1/S0 representation, never deletion"
+        },
+        {
+          "system": "generation",
+          "consumerId": "generation.terrain",
+          "note": "HLOD/clipmap representation derives from authoritative terrain truth"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.conformance-runner",
+          "note": "every optimization PR passes the substance-preservation gate"
+        }
+      ]
     }
   ],
   "failures": [],
@@ -1935,6 +1971,16 @@
       "gameplay": "not-required",
       "persistence": "not-required",
       "validation": "bound"
+    },
+    "derived.substance-preservation": {
+      "generation": "bound",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "not-required",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "bound",
+      "validation": "not-required"
     }
   },
   "fanOut": {
@@ -1996,11 +2042,12 @@
     "derived.modular-asset-factory": 6,
     "derived.directed-scene-production": 6,
     "derived.scene-universe-slice": 10,
-    "derived.perceptual-evidence-examiner": 6
+    "derived.perceptual-evidence-examiner": 6,
+    "derived.substance-preservation": 7
   },
-  "conceptCount": 59,
-  "boundPairs": 114,
-  "requiredPairs": 114,
+  "conceptCount": 60,
+  "boundPairs": 117,
+  "requiredPairs": 117,
   "gauntlet": [
     {
       "id": "gauntlet.destroy-bridge",

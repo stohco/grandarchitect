@@ -361,6 +361,13 @@ export const CONSUMERS: GenesisConsumer[] = [
     description: 'Perceptual Evidence Examiner harness: pass-obligation manifests -> blind read + full forensic inspection of rendered frames',
   },
   {
+    id: 'performance.substance-preservation',
+    system: 'persistence',
+    kind: 'runtime',
+    path: 'src/lib/performance/substance-preservation.ts',
+    description: 'Substance Preservation constitution: SEMANTIC DELTA gate, escalation ladder, S4->S0 fidelity ladder, critical-first scheduler — optimization may reduce representation cost, never the universe',
+  },
+  {
     id: 'validation.conformance-runner',
     system: 'validation',
     kind: 'runtime',

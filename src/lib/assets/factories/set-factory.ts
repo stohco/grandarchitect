@@ -40,7 +40,18 @@ export interface SetPalette {
   canvas: THREE.MeshStandardMaterial;
   hemp: THREE.MeshStandardMaterial;
   foliage: THREE.MeshStandardMaterial;
+  /** dark blue-grey roof tiles (yamen, shops) — architectural language, not thatch. */
+  tile: THREE.MeshStandardMaterial;
+  /** painted gate posts / lacquer accents (the yamen's only painted gates). */
+  lacquer: THREE.MeshStandardMaterial;
+  /** atmospheric haze for the distant mountain ring (700-1100 m out). */
+  hazyBlue: THREE.MeshStandardMaterial;
+  /** closer blue-grey silhouette for the Cangwu foothills. */
+  hazeBlue: THREE.MeshStandardMaterial;
 }
+
+/** Dark eave underside strip (shared across every roof). */
+const EAVE_DARK = new THREE.MeshStandardMaterial({ color: 0x23272e, roughness: 1 });
 
 export function makePalette(): SetPalette {
   const std = (color: number, roughness: number, metalness = 0) =>
@@ -62,6 +73,10 @@ export function makePalette(): SetPalette {
     canvas: tex('canvas', 0xffffff),
     hemp: tex('hemp', 0xffffff),
     foliage: tex('hemp', 0x4a7a3c),
+    tile: std(0x5a6872, 0.7),
+    lacquer: std(0x8a2a22, 0.55),
+    hazyBlue: std(0x7a8fa8, 1),
+    hazeBlue: std(0x6c7f99, 1),
     spiritGlow: new THREE.MeshStandardMaterial({ color: 0x59e8c8, emissive: 0x1f9f8a, emissiveIntensity: 0.8, roughness: 0.3 }),
   };
 }
@@ -161,6 +176,19 @@ export function buildRoof(w: number, d: number, wallH: number, mat: THREE.Materi
     fascia.position.set(side * (ridgeX / 2 + 0.05), wallH + pitch / 2, 0);
     g.add(fascia);
   }
+
+  // eave boards: thin strips just OUTSIDE the gable base along both long
+  // sides + a dark underside strip — roofs read as architecture with depth,
+  // not floating triangles
+  for (const side of [-1, 1]) {
+    const board = new THREE.Mesh(new THREE.BoxGeometry(ridgeX + 0.14, 0.1, 0.34), mat);
+    board.position.set(0, wallH + 0.09, side * (eaveZ + 0.17));
+    board.castShadow = true;
+    g.add(board);
+    const underside = new THREE.Mesh(new THREE.BoxGeometry(ridgeX + 0.14, 0.05, 0.24), EAVE_DARK);
+    underside.position.set(0, wallH + 0.03, side * (eaveZ + 0.12));
+    g.add(underside);
+  }
   return g;
 }
 
@@ -185,15 +213,52 @@ function buildHouse(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
   const g = new THREE.Group();
   const footW = s.w, footD = s.d, wallH = Math.min(s.h * 0.55, 3.6);
 
+  // seeded variety — households must not read as clones
+  const doorX = rng.nextRange(-footW * 0.14, footW * 0.14);
+  const pitchScale = rng.nextRange(0.82, 1.18);
+  const doubleWindows = rng.nextFloat() < 0.45;
+  const hasLeanTo = rng.nextFloat() < 0.5;
+
   // foundation
   g.add(buildBox(footW + 1.2, footD + 1.2, 0.7, pal.cobble, 0));
 
   // floor
   g.add(buildBox(footW, footD, 0.25, pal.packedEarth, 0.7));
 
-  // walls (front has the door)
+  // walls (front has the door, offset per house)
   const wallTh = 0.35;
-  g.add(buildWall(footW, wallH, wallTh, pal.rammedEarth, { door: true })); // front (z+)
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0x4a2f18, roughness: 0.8 });
+  {
+    // front wall in segments around the (offset) door aperture
+    const segL = buildBox(doorX - 0.7 + footW / 2, wallTh, wallH, pal.rammedEarth, 0);
+    segL.position.x = (doorX - 0.7 - footW / 2) / 2;
+    g.add(segL);
+    const segR = buildBox(footW / 2 - doorX - 0.7, wallTh, wallH, pal.rammedEarth, 0);
+    segR.position.x = (doorX + 0.7 + footW / 2) / 2;
+    g.add(segR);
+    // door: dark aperture + timber posts + lintel + warm interior glow
+    const door = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.4, wallTh * 0.9), frameMat);
+    door.position.set(doorX, 1.2, 0);
+    g.add(door);
+    const postL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 2.4, 0.2), frameMat);
+    postL.position.set(doorX - 0.7, 1.2, wallTh * 0.35);
+    g.add(postL);
+    const postR = postL.clone(); postR.position.x = doorX + 0.7; g.add(postR);
+    const beamTop = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.16, 0.24), frameMat);
+    beamTop.position.set(doorX, 2.5, wallTh * 0.35);
+    g.add(beamTop);
+    const warm = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.2, 2.2),
+      new THREE.MeshBasicMaterial({ color: 0xd8a05a, transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
+    );
+    warm.position.set(doorX, 1.2, wallTh * 0.6);
+    warm.rotation.y = Math.PI;
+    g.add(warm);
+    // stone step at the door
+    const step = buildBox(1.6, 0.6, 0.18, pal.cobble, 0);
+    step.position.set(doorX, 0, footD / 2 + 0.34);
+    g.add(step);
+  }
   const back = buildWall(footW, wallH, wallTh, pal.rammedEarth); back.position.z = -footD; g.add(back);
   const left = buildWall(footD, wallH, wallTh, pal.rammedEarth); left.rotation.y = Math.PI / 2; left.position.x = -footW / 2; g.add(left);
   const right = buildWall(footD, wallH, wallTh, pal.rammedEarth); right.rotation.y = Math.PI / 2; right.position.x = footW / 2; g.add(right);
@@ -201,13 +266,15 @@ function buildHouse(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
   // timber frame
   g.add(buildTimberFrame(footW, footD, wallH, pal.timber));
 
-  // roof — base sits at the wall top (new buildRoof positions itself)
-  g.add(buildRoof(footW, footD, wallH, pal.thatch));
+  // roof — base sits at the wall top, pitch varied per house
+  const roof = buildRoof(footW, footD, wallH, pal.thatch);
+  roof.scale.set(1, pitchScale, 1);
+  g.add(roof);
 
   // windows (lit paper at night, dark day) + warm glow so apertures read
   const win = (x: number, z: number, rz = 0) => {
     const w = buildBox(1.0, 0.06, 0.9, pal.plaster, wallH * 0.62);
-    w.position.set(x, 0, z); w.rotation.y = rz;
+    w.position.set(x, wallH * 0.62, z); w.rotation.y = rz;
     g.add(w);
     const glow = new THREE.Mesh(
       new THREE.PlaneGeometry(0.86, 0.76),
@@ -218,6 +285,21 @@ function buildHouse(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
     g.add(glow);
   };
   win(footW * 0.25, footD / 2 + 0.01); win(-footW * 0.25, footD / 2 + 0.01);
+  if (doubleWindows) {
+    win(footW * 0.25, -footD / 2 - 0.01, Math.PI); win(-footW * 0.25, -footD / 2 - 0.01, Math.PI);
+  }
+
+  // occasional side lean-to storage box (farm households store grain outside)
+  if (hasLeanTo) {
+    const leanTo = buildBox(2.2, 1.6, 1.8, pal.rammedEarth, 0);
+    leanTo.position.set(-footW / 2 - 1.25, 0, -footD * 0.24);
+    leanTo.castShadow = true;
+    g.add(leanTo);
+    const leanRoof = buildBox(2.7, 2.1, 0.14, pal.thatch, 1.85);
+    leanRoof.position.set(-footW / 2 - 1.25, 0, -footD * 0.24);
+    leanRoof.castShadow = true;
+    g.add(leanRoof);
+  }
 
   // weathering: moss line along the wall base (ancient-sacred language)
   const mossMat = new THREE.MeshStandardMaterial({ color: 0x5a7a4a, roughness: 1 });
@@ -352,9 +434,274 @@ function buildFields(s: SetStructure, pal: SetPalette): THREE.Group {
   return g;
 }
 
+function buildInstitution(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
+  const g = new THREE.Group();
+  const footW = s.w, footD = s.d, wallH = Math.min(s.h * 0.55, 4.4);
+
+  // raised stone platform, wider than the walls (county offices sit above the mud)
+  g.add(buildBox(footW + 2.4, footD + 2.4, 0.9, pal.cobble, 0));
+  g.add(buildBox(footW + 1.8, footD + 1.8, 0.14, pal.stone, 0.9));
+
+  // whitewashed plaster walls on the platform
+  const wallTh = 0.4;
+  const entryW = 3.6, entryH = 3.0;
+  // front wall in two segments around the wide entry
+  const segL = buildBox((footW - entryW) / 2, wallTh, wallH, pal.plaster, 0.97);
+  segL.position.x = (-footW / 2 - entryW / 2) / 2;
+  g.add(segL);
+  const segR = buildBox((footW - entryW) / 2, wallTh, wallH, pal.plaster, 0.97);
+  segR.position.x = (entryW / 2 + footW / 2) / 2;
+  g.add(segR);
+  // back + side walls (full, no apertures)
+  const back = buildWall(footW, wallH, wallTh, pal.plaster); back.position.set(0, 0.97, -footD / 2); g.add(back);
+  const left = buildWall(footD, wallH, wallTh, pal.plaster); left.rotation.y = Math.PI / 2; left.position.set(-footW / 2, 0.97, 0); g.add(left);
+  const right = buildWall(footD, wallH, wallTh, pal.plaster); right.rotation.y = Math.PI / 2; right.position.set(footW / 2, 0.97, 0); g.add(right);
+
+  // wall articulation — the VLM flagged 45 m plaster walls as featureless
+  // monoliths (ASSET scope): a timber eave band under the roofline and rows
+  // of dark window apertures break the mass into readable architecture
+  const eaveBandMat = new THREE.MeshStandardMaterial({ color: 0x6a4a2a, roughness: 0.85 });
+  for (const [bx, bz, len, rotY] of [
+    [0, -footD / 2, footW, 0], [0, footD / 2, footW, 0],
+    [-footW / 2, 0, footD, Math.PI / 2], [footW / 2, 0, footD, Math.PI / 2],
+  ] as Array<[number, number, number, number]>) {
+    const band = new THREE.Mesh(new THREE.BoxGeometry(len, 0.5, wallTh * 0.9), eaveBandMat);
+    band.position.set(bx, 0.97 + wallH - 0.75, bz);
+    band.rotation.y = rotY;
+    g.add(band);
+  }
+  const winMat = new THREE.MeshStandardMaterial({ color: 0x1c1510, roughness: 1 });
+  const windowRow = (x0: number, z0: number, len: number, count: number, rotY: number, xAlongZ: boolean) => {
+    for (let i = 0; i < count; i++) {
+      const t = (i + 0.5) / count;
+      const w = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.4, 0.12), winMat);
+      if (xAlongZ) w.position.set(x0 + t * len - len / 2, 0.97 + wallH * 0.5, z0);
+      else w.position.set(x0, 0.97 + wallH * 0.5, z0 + t * len - len / 2);
+      w.rotation.y = rotY;
+      g.add(w);
+    }
+  };
+  windowRow(0, -footD / 2 + 0.01, footW * 0.8, 6, 0, true);     // back wall
+  windowRow(-footW / 2 + 0.01, 0, footD * 0.8, 8, Math.PI / 2, true); // left
+  windowRow(footW / 2 - 0.01, 0, footD * 0.8, 8, -Math.PI / 2, false); // right
+
+  // the wide entry: dark aperture + lintel + warm glow
+  const entry = new THREE.Mesh(new THREE.BoxGeometry(entryW, entryH, wallTh * 0.8), EAVE_DARK);
+  entry.position.set(0, 0.97 + entryH / 2, 0);
+  g.add(entry);
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(entryW + 1.2, 0.35, 0.5), pal.timber);
+  lintel.position.set(0, 0.97 + entryH + 0.15, wallTh * 0.4);
+  g.add(lintel);
+  const warm = new THREE.Mesh(
+    new THREE.PlaneGeometry(entryW * 0.9, entryH * 0.9),
+    new THREE.MeshBasicMaterial({ color: 0xd8a05a, transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
+  );
+  warm.position.set(0, 0.97 + entryH / 2, wallTh * 0.6);
+  warm.rotation.y = Math.PI;
+  g.add(warm);
+
+  // two painted gate posts (the town's only painted gates) with vermilion caps
+  for (const sx of [-1, 1]) {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.55, entryH, 0.55), pal.lacquer);
+    post.position.set(sx * (entryW / 2 + 0.4), 0.97 + entryH / 2, 0);
+    post.castShadow = true;
+    g.add(post);
+    const cap = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.18, 0.72), pal.lacquer);
+    cap.position.set(sx * (entryW / 2 + 0.4), 0.97 + entryH + 0.09, 0);
+    g.add(cap);
+  }
+
+  // stone steps at the entry, descending from the platform edge
+  for (let i = 0; i < 3; i++) {
+    const top = 0.9 - i * 0.22;
+    const step = buildBox(2.6 - i * 0.3, 0.28, top, pal.cobble, 0);
+    step.position.z = footD / 2 + 1.32 + i * 0.29;
+    g.add(step);
+  }
+
+  // large dark tiled roof with a grander pitch
+  const roof = buildRoof(footW, footD, wallH, pal.tile);
+  roof.scale.set(1, 1.35, 1);
+  roof.position.y = 0.97;
+  g.add(roof);
+
+  // eave corner brackets — small timber blocks where the eaves turn
+  const cx = footW / 2 + ROOF_OVERHANG * 0.85;
+  const cz = footD / 2 + ROOF_OVERHANG * 0.8;
+  for (const sx of [-1, 1]) {
+    for (const sz of [-1, 1]) {
+      const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.5, 0.34), pal.timber);
+      bracket.position.set(sx * cx, 0.97 + wallH + 0.14, sz * cz);
+      bracket.rotation.y = Math.PI / 4;
+      bracket.castShadow = true;
+      g.add(bracket);
+    }
+  }
+  return g;
+}
+
+function buildShop(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
+  const g = new THREE.Group();
+  const footW = s.w, footD = s.d, wallH = Math.min(s.h * 0.55, 3.8);
+
+  // foundation + floor
+  g.add(buildBox(footW + 1.2, footD + 1.2, 0.5, pal.cobble, 0));
+  g.add(buildBox(footW, footD, 0.2, pal.packedEarth, 0.5));
+
+  // storefront: open front — 2 side walls + back wall only
+  const wallTh = 0.35;
+  const back = buildWall(footW, wallH, wallTh, pal.plaster); back.position.set(0, 0.5, -footD); g.add(back);
+  const left = buildWall(footD, wallH, wallTh, pal.plaster); left.rotation.y = Math.PI / 2; left.position.set(-footW / 2, 0.5, 0); g.add(left);
+  const right = buildWall(footD, wallH, wallTh, pal.plaster); right.rotation.y = Math.PI / 2; right.position.set(footW / 2, 0.5, 0); g.add(right);
+
+  // timber frame
+  g.add(buildTimberFrame(footW, footD, wallH, pal.timber));
+
+  // display counter across the open front
+  const counter = buildBox(footW * 0.72, 0.7, 0.9, pal.timber, 0.5);
+  counter.position.z = footD / 2 - 0.55;
+  g.add(counter);
+
+  // canvas awning on two posts, sloping toward the street
+  for (const sx of [-1, 1]) {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.16, 2.7, 0.16), pal.timber);
+    post.position.set(sx * (footW / 2 - 1.4), 1.35, footD / 2 + 0.5);
+    post.castShadow = true;
+    g.add(post);
+  }
+  const awning = new THREE.Mesh(new THREE.BoxGeometry(footW + 0.4, 0.05, 2.2), pal.canvas);
+  awning.position.set(0, 2.85, footD / 2 + 1.35);
+  awning.rotation.x = -0.18;
+  g.add(awning);
+
+  // hanging sign board under the awning
+  const sign = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.7, 0.08), pal.woodTrim);
+  sign.position.set(0, 2.15, footD / 2 + 1.7);
+  g.add(sign);
+  for (const sx of [-0.6, 0.6]) {
+    const line = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.5, 0.04), pal.woodTrim);
+    line.position.set(sx, 2.5, footD / 2 + 1.7);
+    g.add(line);
+  }
+
+  // stone step across the open front
+  const step = buildBox(footW * 0.8, 0.4, 0.18, pal.cobble, 0);
+  step.position.z = footD / 2 + 0.24;
+  g.add(step);
+
+  // pitched roof with eaves
+  const roof = buildRoof(footW, footD, wallH, pal.tile);
+  roof.position.y = 0.5;
+  g.add(roof);
+  return g;
+}
+
+function buildWorkshop(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
+  const g = new THREE.Group();
+  const footW = s.w, footD = s.d, wallH = Math.min(s.h * 0.55, 3.6);
+
+  // foundation + floor
+  g.add(buildBox(footW + 1.2, footD + 1.2, 0.6, pal.cobble, 0));
+  g.add(buildBox(footW, footD, 0.2, pal.packedEarth, 0.6));
+
+  // half-open: 3 walls, open front
+  const wallTh = 0.35;
+  const back = buildWall(footW, wallH, wallTh, pal.rammedEarth); back.position.set(0, 0.6, -footD); g.add(back);
+  const left = buildWall(footD, wallH, wallTh, pal.rammedEarth); left.rotation.y = Math.PI / 2; left.position.set(-footW / 2, 0.6, 0); g.add(left);
+  const right = buildWall(footD, wallH, wallTh, pal.rammedEarth); right.rotation.y = Math.PI / 2; right.position.set(footW / 2, 0.6, 0); g.add(right);
+
+  // two big door posts flanking the open front + lintel beam across
+  for (const sx of [-1, 1]) {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.6, wallH, 0.6), pal.timber);
+    post.position.set(sx * footW * 0.22, 0.6 + wallH / 2, footD / 2);
+    post.castShadow = true;
+    g.add(post);
+  }
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(footW * 0.44 + 1.2, 0.3, 0.4), pal.timber);
+  lintel.position.set(0, 0.6 + wallH, footD / 2);
+  g.add(lintel);
+
+  // internal workbench + tool rack on the back wall
+  const bench = buildBox(2.6, 0.8, 0.95, pal.timber, 0.6);
+  bench.position.z = -footD / 2 + 1.5;
+  g.add(bench);
+  const rackMat = new THREE.MeshStandardMaterial({ color: 0x5a3a22, roughness: 0.85 });
+  for (let i = 0; i < 4; i++) {
+    const tool = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.75 + (i % 2) * 0.2, 0.06), rackMat);
+    tool.position.set(-1.2 + i * 0.8, 0.6 + 1.3, -footD / 2 + 0.28);
+    g.add(tool);
+  }
+
+  // timber ridge frame: gable-end posts rising above the ridge + cross beam
+  const pitch = wallH * 0.5;
+  const ridgeY = 0.6 + wallH + pitch + 0.1;
+  for (const sx of [-1, 1]) {
+    const rp = new THREE.Mesh(new THREE.BoxGeometry(0.26, 1.6, 0.26), pal.timber);
+    rp.position.set(sx * (footW / 2 + ROOF_OVERHANG - 0.15), ridgeY + 0.8, 0);
+    rp.castShadow = true;
+    g.add(rp);
+  }
+  const ridgeBeam = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.2, 0.2), pal.timber);
+  ridgeBeam.position.set(0, ridgeY + 1.6, 0);
+  g.add(ridgeBeam);
+
+  // stone step at the open front (the granary's loading step)
+  const step = buildBox(footW * 0.4 + 0.8, 0.5, 0.2, pal.cobble, 0);
+  step.position.z = footD / 2 + 0.26;
+  g.add(step);
+
+  // pitched roof
+  const roof = buildRoof(footW, footD, wallH, pal.thatch);
+  roof.position.y = 0.6;
+  g.add(roof);
+  return g;
+}
+
+function buildMarket(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
+  const g = new THREE.Group();
+  // an open plaza, NOT a house — flat stone floor, no walls/roof
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(s.w, 0.3, s.d), pal.stone);
+  floor.position.y = 0.15;
+  floor.receiveShadow = true;
+  g.add(floor);
+  const earth = new THREE.Mesh(new THREE.BoxGeometry(s.w * 0.98, 0.08, s.d * 0.98), pal.packedEarth);
+  earth.position.y = 0.31;
+  earth.receiveShadow = true;
+  g.add(earth);
+  // raised stone edge ring — the plaza reads as a built place, not grass
+  for (const side of [-1, 1]) {
+    const edgeNS = new THREE.Mesh(new THREE.BoxGeometry(s.w, 0.5, 0.7), pal.cobble);
+    edgeNS.position.set(0, 0.25, side * (s.d / 2 + 0.35));
+    edgeNS.receiveShadow = true;
+    g.add(edgeNS);
+    const edgeEW = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.5, s.d), pal.cobble);
+    edgeEW.position.set(side * (s.w / 2 + 0.35), 0.25, 0);
+    edgeEW.receiveShadow = true;
+    g.add(edgeEW);
+  }
+  // shade canopies on posts at fixed offsets (market days)
+  const canopy = (x: number, z: number) => {
+    for (const sx of [-1, 1]) {
+      const post = new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.6, 0.14), pal.timber);
+      post.position.set(x + sx * 2.4, 1.3, z);
+      post.castShadow = true;
+      g.add(post);
+    }
+    const shade = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.05, 3.4), pal.canvas);
+    shade.position.set(x, 2.75, z);
+    g.add(shade);
+  };
+  canopy(-16, 8);
+  canopy(14, -6);
+  canopy(20, 14);
+  return g;
+}
+
 function buildStructure(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
   const g = new THREE.Group();
-  switch (s.kind) {
+  // 'institution' is cast into the blueprint data by set-blueprint-2; widen
+  // the switch operand so that kind dispatches at runtime.
+  switch (s.kind as string) {
     case 'well': return buildWell(s, pal);
     case 'shrine': return buildShrine(s, pal);
     case 'school': return buildSchool(s, pal);
@@ -369,18 +716,10 @@ function buildStructure(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group
       g.add(water);
       return g;
     }
-    case 'market': {
-      // an open plaza, NOT a house — flat stone floor, no walls/roof
-      const floor = new THREE.Mesh(new THREE.BoxGeometry(s.w, 0.3, s.d), pal.stone);
-      floor.position.y = 0.15;
-      floor.receiveShadow = true;
-      g.add(floor);
-      const earth = new THREE.Mesh(new THREE.BoxGeometry(s.w * 0.98, 0.08, s.d * 0.98), pal.packedEarth);
-      earth.position.y = 0.31;
-      earth.receiveShadow = true;
-      g.add(earth);
-      return g;
-    }
+    case 'institution': return buildInstitution(s, pal, rng);
+    case 'shop': return buildShop(s, pal, rng);
+    case 'workshop': return buildWorkshop(s, pal, rng);
+    case 'market': return buildMarket(s, pal, rng);
     case 'dock': {
       // timber pier on pilings — a deck, not a house
       const deck = new THREE.Mesh(new THREE.BoxGeometry(s.w, 0.35, s.d), pal.timber);
@@ -508,12 +847,14 @@ export function buildVillageScene(seed = 89274613): VillageScene {
     sg.userData = { id: s.id, name: s.name, kind: s.kind, detail: s.artDirection };
     group.add(sg);
     structures.set(s.id, sg);
-    // exterior props as simple boxes (kept inside the plot)
-    for (const p of s.exterior.slice(0, 3)) {
-      const pm = buildPropMesh(p, pal);
+    // exterior props render with their real silhouettes (PROP_BUILDERS first)
+    for (const p of s.exterior) {
+      const builder = PROP_BUILDERS[p.id];
+      const pm = builder ? builder(pal) : buildPropMesh(p, pal);
       const rx = rng.nextRange(-Math.max(s.w / 2 - 2, 0.5), Math.max(s.w / 2 - 2, 0.5));
       const rz = rng.nextRange(-Math.max(s.d / 2 - 2, 0.5), Math.max(s.d / 2 - 2, 0.5));
       pm.position.set(x + rx, 0, z + rz);
+      pm.userData = { id: p.id, name: p.name, kind: 'prop', detail: p.detail };
       group.add(pm);
     }
     // the detail department: canon props + ambient dressing for every structure
@@ -678,6 +1019,120 @@ export function buildTownScene(seed = 89274613): VillageScene {
   roadSouth.receiveShadow = true;
   group.add(roadSouth);
 
+  // raised road edges: low stone curbs flanking the main street, built as
+  // 6-10 m segments with gaps so the street reads as laid stone, not a slab
+  for (const segZ of [-128, -92, -56, -20, 16, 52]) {
+    for (const side of [-1, 1]) {
+      const edge = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.45, 9), pal.cobble);
+      edge.position.set(side * 8.3, 0.225, segZ);
+      edge.receiveShadow = true;
+      group.add(edge);
+    }
+  }
+
+  // ---- phase U — the horizon. The town sits in a valley; the eye must land
+  // on mountains, foothills, forest and river, not on empty ground.
+  const nearTown = (x: number, z: number, margin = 60) =>
+    TOWN_PLACEMENT.some(([, sx, sz]) => Math.hypot(x - sx, z - sz) < margin);
+
+  // distant mountain ring (north / east / west; south kept for the foothills)
+  const ringDirs: Array<[number, number]> = [
+    [0, -1],        // north
+    [0.78, -0.62],  // north-east
+    [1, 0.12],      // east
+    [0.55, 0.83],   // east-south
+    [-0.85, -0.5],  // west-north
+    [-1, 0.15],     // west
+  ];
+  for (let i = 0; i < ringDirs.length; i++) {
+    const [dx, dz] = ringDirs[i];
+    const dist = rng.nextRange(760, 1020);
+    const r = rng.nextRange(150, 400);
+    const h = rng.nextRange(120, 350);
+    const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, 5), pal.hazyBlue);
+    m.position.set(dx * dist, h * 0.32, dz * dist);
+    m.castShadow = true;
+    group.add(m);
+  }
+
+  // Cangwu foothills silhouette — bigger, closer blue-grey cones due south
+  for (let i = 0; i < 3; i++) {
+    const dx = rng.nextRange(-160, 160);
+    const dz = rng.nextRange(520, 680);
+    const r = rng.nextRange(220, 380);
+    const h = rng.nextRange(220, 420);
+    const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, 6), pal.hazeBlue);
+    m.position.set(dx, h * 0.32, dz);
+    m.castShadow = true;
+    group.add(m);
+  }
+
+  // forest band — 14 candidate trees, varied, skipping the town/river/foothills
+  for (let i = 0; i < 14; i++) {
+    const ang = rng.nextRange(0, Math.PI * 2);
+    const dist = rng.nextRange(290, 480);
+    const tx = Math.cos(ang) * dist;
+    const tz = Math.sin(ang) * dist;
+    const inRiver = Math.abs(tx + 180) < 48 && Math.abs(tz - 30) < 340;
+    if (nearTown(tx, tz) || inRiver) continue;
+    const th = rng.nextRange(2.6, 3.8);
+    const cr = rng.nextRange(3.4, 6.2);
+    const ch = rng.nextRange(6, 11);
+    const t = new THREE.Group();
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.75, th, 6), pal.timber);
+    trunk.position.y = th / 2;
+    t.add(trunk);
+    const crown = new THREE.Mesh(new THREE.ConeGeometry(cr, ch, 6), pal.foliage);
+    crown.position.y = th + ch / 2 - 0.6;
+    crown.castShadow = true;
+    t.add(crown);
+    t.position.set(tx, 0, tz);
+    group.add(t);
+  }
+
+  // river life — two moored cargo boats and reed beds along the near bank
+  for (const bz of [-46, 96]) {
+    const bx = -183 + rng.nextRange(-4, 4);
+    const boat = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.4, 0.85), pal.timber);
+    boat.position.set(bx, 0.22, bz + rng.nextRange(-8, 8));
+    boat.castShadow = true;
+    group.add(boat);
+    const mast = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.5, 0.06), pal.timber);
+    mast.position.set(bx, 1.0, boat.position.z);
+    group.add(mast);
+  }
+  for (let i = 0; i < 4; i++) {
+    const rz = rng.nextRange(-120, 220);
+    const rx = -136 + rng.nextRange(-2, 2);
+    const count = 3 + rng.nextInt(0, 2);
+    for (let j = 0; j < count; j++) {
+      const rh = rng.nextRange(0.7, 1.3);
+      const reed = new THREE.Mesh(new THREE.BoxGeometry(0.09, rh, 0.09), pal.foliage);
+      reed.position.set(rx + j * 0.25 - count * 0.12, rh / 2, rz + j * 0.15);
+      group.add(reed);
+    }
+  }
+
+  // terrain contact — low rolling hills (wide flat cones), kept off the plots
+  let hillsPlaced = 0;
+  let tries = 0;
+  while (hillsPlaced < 4 && tries < 40) {
+    tries++;
+    const ang = rng.nextRange(0, Math.PI * 2);
+    const dist = rng.nextRange(150, 300);
+    const hx = Math.cos(ang) * dist;
+    const hz = Math.sin(ang) * dist;
+    const inRiver = Math.abs(hx + 180) < 50 && Math.abs(hz - 30) < 340;
+    if (nearTown(hx, hz) || inRiver) continue;
+    const r = rng.nextRange(60, 120);
+    const h = rng.nextRange(1.5, 3);
+    const hill = new THREE.Mesh(new THREE.ConeGeometry(r, h, 16), pal.foliage);
+    hill.position.set(hx, h / 2 - 0.2, hz);
+    hill.receiveShadow = true;
+    group.add(hill);
+    hillsPlaced++;
+  }
+
   for (const [id, x, z] of TOWN_PLACEMENT) {
     const s = town.structures.find((st) => st.id === id)!;
     const sg = buildStructure(s, pal, rng);
@@ -685,13 +1140,35 @@ export function buildTownScene(seed = 89274613): VillageScene {
     sg.userData = { id: s.id, name: s.name, kind: s.kind, detail: s.artDirection };
     group.add(sg);
     structures.set(id, sg);
-    // props within the plot
-    for (const p of s.exterior.slice(0, 3)) {
-      const pm = buildPropMesh(p, pal);
+    // ALL exterior props render with their real silhouettes (PROP_BUILDERS
+    // registry), placed deterministically inside the plot — not the old
+    // slice(0,3) plain-box path that hid the dressing department's work.
+    for (const p of s.exterior) {
+      const builder = PROP_BUILDERS[p.id];
+      const pm = builder ? builder(pal) : buildPropMesh(p, pal);
       const rx = rng.nextRange(-Math.max(s.w / 2 - 2, 0.5), Math.max(s.w / 2 - 2, 0.5));
       const rz = rng.nextRange(-Math.max(s.d / 2 - 2, 0.5), Math.max(s.d / 2 - 2, 0.5));
       pm.position.set(x + rx, 0, z + rz);
+      pm.userData = { id: p.id, name: p.name, kind: 'prop', detail: p.detail };
       group.add(pm);
+    }
+    // the detail department: canon props + ambient dressing around the architecture
+    const dressed = dressStructure(s, pal, seed + s.id.length * 101);
+    dressed.position.set(x, 0, z);
+    group.add(dressed);
+    // room fixtures built from the blueprint registry (interiors furnished)
+    for (const room of s.rooms) {
+      for (const f of room.fixtures) {
+        const builder = PROP_BUILDERS[f.id];
+        if (!builder) continue;
+        const fm = builder(pal);
+        fm.position.set(
+          x + rng.nextRange(-room.w / 3, room.w / 3),
+          0,
+          z + rng.nextRange(-room.d / 3, room.d / 3),
+        );
+        group.add(fm);
+      }
     }
   }
 

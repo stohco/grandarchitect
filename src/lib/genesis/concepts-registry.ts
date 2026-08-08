@@ -1083,6 +1083,25 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
       { system: 'visual', consumerId: 'visual.directed-scene-production', note: 'Director Contract + shot intent are part of the input contract' },
     ],
   },
+  {
+    id: 'derived.substance-preservation',
+    name: 'Substance Preservation (Performance Constitution)',
+    canonLevel: 'design',
+    claims: [
+      {
+        text: 'engineering problem — not permission to make the universe smaller.',
+        source: 'docs/performance-substance-preservation-directive.md',
+      },
+    ],
+    requires: ['simulation', 'persistence', 'generation'],
+    bindings: [
+      { system: 'persistence', consumerId: 'performance.substance-preservation', note: 'SEMANTIC DELTA gate + escalation ladder + S4->S0 fidelity ladder are machine-checked' },
+      { system: 'simulation', consumerId: 'simulation.time-engine', note: 'simulation LOD = fidelity of computation, never loss of substance' },
+      { system: 'simulation', consumerId: 'simulation.ga-npc', note: 'distant NPCs drop to S1/S0 representation, never deletion' },
+      { system: 'generation', consumerId: 'generation.terrain', note: 'HLOD/clipmap representation derives from authoritative terrain truth' },
+      { system: 'validation', consumerId: 'validation.conformance-runner', note: 'every optimization PR passes the substance-preservation gate' },
+    ],
+  },
 ];
 
 export const GENESIS_CONCEPT_COUNT = GENESIS_CONCEPTS.length;

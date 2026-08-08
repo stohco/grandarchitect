@@ -217,12 +217,15 @@ export default function DirectorRenderPage() {
     };
     // structure footprint (from the blueprint) so the camera never ends up
     // inside a large building (e.g. the 30x45 m yamen at 7 m dolly distance)
+    // AND so the whole facade fits the frame: distance scales with the longer
+    // side (~0.9x fits a 45 m facade at 50 deg fov), not just half-depth.
     const structureFootprint = (shotId: string): number => {
       const shot = episode.shots.find((s) => s.id === shotId);
       if (!shot?.structureId) return 0;
       const s = settlement.structures.find((x) => x.id === shot.structureId);
       if (!s) return 0;
-      return Math.max(s.w, s.d) / 2 + 6; // half-depth + breathing room
+      const facadeFit = Math.max(s.w, s.d) * 0.9 + 8;
+      return Math.min(Math.max(facadeFit, 12), 160);
     };
     window.__directorShot = (shotId: string): string | null => {
       const shot = episode.shots.find((s) => s.id === shotId);

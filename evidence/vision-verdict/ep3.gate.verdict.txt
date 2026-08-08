@@ -1,0 +1,231 @@
+# VISION INSPECTION — ep3.gate
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Setting:* An outdoor area with a flat, dark green ground. A blue sky.
+    *   *Objects:*
+        *   A central structure: A raised platform with a flat roof/overhang. It has two light-colored (yellowish/tan) walls.
+        *   A dark, monolithic block behind the structure.
+        *   A brown, conical object (looks like a bollard or a small lamp) on the ground.
+        *   A brown, rectangular object (looks like a table or bench) inside the structure.
+        *   A foreground element: A raised edge/curb with a brown textured surface inside.
+        *   Background: Large, flat, geometric shapes (triangles/polygons) cutting into the sky.
+    *   *Scale:* Hard to tell without a human reference, but the "table" suggests a human-scale structure.
+    *   *Density:* Extremely low. Very few objects.
+    *   *Textures:* Low resolution. The tan walls have a grainy, noisy texture. The ground is a flat color. The foreground curb has a repetitive linear texture.
+    *   *Lighting:* Flat, basic directional lighting. Harsh shadows. No ambient occlusion or complex light bounces.
+    *   *Geometry:* Primitive. Everything is a box, a plane, or a simple cone.
+
+    *   *What is it?* A very early stage of a 3D environment. It looks like a "greybox" or "blockout" but with some basic textures applied.
+    *   *Player perception:* "This is a test level" or "This is a broken/unfinished game from the late 90s."
+    *   *Art style:* Low-poly, early 3D.
+    *   *Completion level:* Definitely not finished. Not even a production candidate. It's a blockout/primitive placeholder.
+    *   *Defects:*
+        *   Floating/clipping geometry (the roof overhang).
+        *   Lack of detail.
+        *   Void-like background (the blue sky is just a flat color, the shapes are just planes).
+        *   Texture stretching/low res.
+        *   Empty space.
+    *   *Inspection limit:* The image stops rewarding inspection immediately. There is no detail to discover. Once you see the box and the cone, there is nothing else.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** An outdoor void. A flat, dark-green plane serves as the ground under a flat blue sky.
+*   **Objects:** 
+    *   A central structure consisting of a grey rectangular platform, two tan-colored vertical planes (walls), and a thin, dark grey floating slab (roof).
+    *   A large, dark grey monolithic block behind the central structure.
+    *   A single brown conical object on the ground.
+    *   A brown rectangular prism (table/bench) inside the structure.
+    *   A foreground element consisting of a grey border surrounding a brown textured area.
+    *   Large, flat, geometric polygons intersecting the sky in the background.
+*   **Scale:** Ambiguous; the presence of a table-like object suggests human scale, but the lack of reference points makes it feel abstract.
+*   **Density:** Extremely low. Minimal object count.
+
+**Player Perception**
+A player would perceive this as a technical test, a "greybox" development environment, or a broken/unfinished map from a late-1990s era software title. There is no narrative or environmental storytelling present.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive 3D.
+*   **Quality:** Very low. Textures are low-resolution and noisy (specifically the tan walls). Lighting is basic directional light with hard shadows and no ambient occlusion. Geometry consists entirely of primitive shapes (cubes, planes, cones).
+
+**Level of Completion**
+**BLOCKOUT / PRIMITIVE_PLACEHOLDER**
+
+**Defects and Distractions**
+*   **Empty Zones:** The entire environment is a void. The green ground and blue sky are featureless.
+*   **Geometry Issues:** The roof slab is a thin plane with no thickness; the background polygons are floating, disconnected shards.
+*   **Texture Quality:** The tan walls exhibit heavy pixelation/noise. The foreground curb has a repetitive, low-detail linear texture.
+*   **Composition:** The placement of objects feels arbitrary and lacks intentionality.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no fine details, hidden elements, or complex materials to analyze. Once the basic geometric shapes are identified, there is no further visual information to extract.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+Stage A (Blind Read) provided.
+Scene Universe Slice (Cangwu Sect/Yamen Hall context), Genesis Pass Manifest (P09, P10, etc.).
+Perform Phases B-X, evaluate Genesis Passes, conduct a 3x3 forensic sweep, and provide the final Vision Verdict.
+
+    *   *Visuals:* Flat green ground, blue sky, a primitive structure with tan walls and a black roof, a large black monolithic block, a brown conical prop, a brown rectangular prop, a foreground curb with brown texture.
+    *   *Context (Universe Slice):* This is supposed to be the "Yamen Hall" (County law/tax/disputes) in the "Cangwu Sect" region. Architecture should be "Timber frame, whitewashed walls, dark tiled roofs."
+    *   *Comparison:* The visual evidence is a primitive blockout. There is no timber frame, no whitewashed walls (they are tan/yellowish textures), no tiled roofs (it's a flat black slab), and no sense of a "town center" or "magistrate's seat."
+
+    *   **Phase B: Full-Frame Composition**
+        *   *Focal Hierarchy:* The central structure is the focus, but it's visually inert.
+        *   *Foreground/Mid/Back:* Foreground (curb), Mid (structure), Back (black block/sky).
+        *   *Balance:* Heavily weighted to the center/right.
+        *   *Depth:* Minimal. Flat planes.
+        *   *Camera:* Low angle, static.
+        *   *Verdict:* Composition is a basic prototype layout. No cinematic intent.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Flat textures, no detail.
+        *   Shell 2 (Interaction): A single brown block (table?).
+        *   Shell 3 (Local Scene): Empty green void.
+        *   Shell 4 (Settlement): Non-existent.
+        *   Shell 5 (Landscape): Flat green plane.
+        *   Shell 6 (Horizon): Flat blue sky.
+        *   Shell 7 (Sky): Solid blue.
+        *   *Verdict:* Total density failure. This is a "primitive placeholder map."
+
+    *   **Phase D: Content Inventory**
+        *   Structure: 1 (Primitive, not finished).
+        *   Props: 2 (Conical bollard, rectangular table).
+        *   Terrain: 1 (Flat green plane).
+        *   Sky: 1 (Flat blue).
+        *   *Verdict:* Insufficient content to establish a world.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   The structure is a box. The "roof" is a floating slab. No architectural logic.
+
+    *   P09 (Geology): **FAIL**. Flat green plane. No geology.
+    *   P10 (Topology): **FAIL**. No valley/slope. Structure sits on a flat plane.
+    *   P13 (Material Truth): **FAIL**. Textures are flat colors/noise. No weathering or material identity.
+    *   P14 (Vegetation): **FAIL**. No vegetation, just a green floor.
+    *   P36 (Physics/Structural): **FAIL**. Roof is a floating slab. No load paths.
+    *   P49 (Cinematography): **FAIL**. No framing or lens language.
+    *   P50 (Lighting): **FAIL**. Flat, generic lighting. No contrast or mood.
+    *   P51 (Shader Presentation): **FAIL**. Generic shaders.
+    *   P67 (Visual Oracle): **FAIL**. This is proxy geometry.
+    *   P72 (Completeness): **FAIL**. Not complete at any shell.
+
+    *   (1,1) Top-Left: Blue sky, sharp edge of a black block.
+    *   (1,2) Top-Center: Black monolithic block, flat roof.
+    *   (1,3) Top-Right: Blue sky, black block edge.
+    *   (2,1) Mid-Left: Tan wall, flat green ground.
+    *   (2,2) Mid-Center: Interior of structure, brown table, flat floor.
+    *   (2,3) Mid-Right: Tan wall, brown conical prop.
+    *   (3,1) Bot-Left: Brown textured foreground curb.
+    *   (3,2) Bot-Center: Grey curb edge, green ground.
+    *   (3,3) Bot-Right: Flat green ground.
+
+    *   *Vision Verdict:* Primitive Placeholder Map.
+    *   *Top Failures:* Total lack of architectural detail, zero world density, failure of all material/geological passes.
+    *   *Completeness:* 0%.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Yamen Hall / Cangwu Sect (per Universe Slice)
+**CLASSIFICATION:** Primitive Placeholder Map / Greybox
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary read is a central, primitive structure. There is no secondary or tertiary read; the eye finds nothing else of interest.
+*   **Depth Separation:** Minimal. The image consists of three flat planes: a foreground curb, a middle-ground structure, and a background monolithic block.
+*   **Frame Balance:** Heavily weighted toward the center. The negative space (blue sky and green ground) is void of any compositional intent.
+*   **Camera/Lens:** Static, low-angle perspective. No lens language or cinematic framing.
+*   **Sightlines:** There are no leading lines or architectural cues to guide the player's attention.
+*   **Verdict:** **FAILED.** The composition is a basic layout test, not a directed scene.
+
+---
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Flat, low-resolution textures. No tactile detail.
+*   **SHELL 2 (Interaction):** Two primitive props (a brown block and a brown cone). No interaction affordance.
+*   **SHELL 3 (Local Scene):** A void of flat green. No debris, no paths, no life.
+*   **SHELL 4 (Settlement):** Non-existent. The "Yamen Hall" is a single isolated box.
+*   **SHELL 5 (Landscape):** A flat plane. No topography.
+*   **SHELL 6 (Horizon):** A hard line between green and blue.
+*   **SHELL 7 (Sky):** A solid, featureless blue gradient.
+*   **Verdict:** **CRITICAL FAILURE.** Total density collapse across all shells.
+
+---
+
+### 3. PHASE D: CONTENT INVENTORY
+| Item | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Structure | Center | Mid | Yamen Hall (Proxy) | Primitive | None (does not read as architecture) |
+| Prop A | Mid-Right | Mid | Bollard/Lamp (Proxy) | Primitive | None |
+| Prop B | Center | Mid | Table/Bench (Proxy) | Primitive | None |
+| Ground | Bottom/Mid | All | Terrain (Proxy) | Primitive | None |
+| Block | Top-Right | Back | Monolith (Proxy) | Primitive | None |
+| Curb | Foreground | Fore | Edge/Border (Proxy) | Primitive | None |
+
+---
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Architectural Logic:** Non-existent. The "roof" is a floating black slab with no visible support system or connection to the walls.
+*   **Scale:** Indeterminate. Without human anchors or detailed materials, the structure could be a dollhouse or a warehouse.
+*   **Silhouette:** A collection of intersecting rectangles. No stylistic identity.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST EVALUATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | **Observed:** Flat green plane. **Missing:** Macro/meso/micro structure, soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | **Observed:** Flat plane. **Missing:** Valley/slope/cliff; clean contact points. |
+| **P13** | Material Truth | **FAIL** | **Observed:** Flat colors. **Missing:** Weathering, contact wear, material identity (timber/plaster). |
+| **P14** | Vegetation Ecology | **FAIL** | **Observed:** Green floor. **Missing:** Species variation, riparian edges, actual plants. |
+| **P36** | Structural Physics | **FAIL** | **Observed:** Floating roof. **Missing:** Load paths, support beams, structural logic. |
+| **P49** | Cinematography | **FAIL** | **Observed:** Basic camera. **Missing:** Focal hierarchy, framing, lens language. |
+| **P50** | Lighting | **FAIL** | **Observed:** Flat ambient light. **Missing:** Key/fill/rim, warm/cool contrast, mood. |
+| **P51** | Shader Presentation | **FAIL** | **Observed:** Generic shaders. **Missing:** Painterly language, edge language. |
+| **P67** | Visual Oracle | **FAIL** | **Observed:** Proxy geometry. **Missing:** Final production assets. |
+| **P72** | Completeness | **FAIL** | **Observed:** Blockout. **Missing:** Completeness at every depth shell. |
+
+---
+
+### 6. 3x3 FORENSIC SWEEP
+*   **[Top-Left]:** Featureless blue sky; sharp, aliased edge of a black primitive.
+*   **[Top-Center]:** Black monolithic block; flat, floating roof slab.
+*   **[Top-Right]:** Featureless blue sky; black primitive edge.
+*   **[Mid-Left]:** Tan-colored wall with a generic noise texture; flat green ground.
+*   **[Mid-Center]:** Interior of structure; single brown rectangular primitive; flat grey floor.
+*   **[Mid-Right]:** Tan wall; single brown conical primitive.
+*   **[Bot-Left]:** Brown textured foreground curb; low-resolution tiling.
+*   **[Bot-Center]:** Grey curb edge; flat green ground.
+*   **[Bot-Right]:** Flat green ground; zero detail.
+
+---
+
+### 7. VISION VERDICT
+
+**OVERALL STATUS: CRITICAL FAILURE**
+
+**TOP FAILURES:**
+1.  **Total Asset Absence:** The scene contains zero production assets. It is a primitive blockout.
+2.  **Architectural Void:** The "Yamen Hall" fails every requirement of the Architecture contract (no timber frame, no whitewashed walls, no tiled roofs).
+3.  **Environmental Vacuum:** The world is a flat plane with no geology, ecology, or density.
+
+**EDIT-SCOPE DIAGNOSIS:**
+*   **Environment:** Full replacement of terrain with P09/P10 compliant geology.
+*   **Architecture:** Full replacement of proxy boxes with P36/P13 compliant architectural assets.
+*   **Lighting/Shaders:** Complete overhaul to meet P50/P51 cinematic standards.
+
+**WORLD DENSITY:** 0/10 (Void)
+**TECHNICAL DEFECTS
