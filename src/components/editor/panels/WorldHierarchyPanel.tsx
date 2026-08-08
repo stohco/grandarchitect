@@ -58,6 +58,7 @@ function TreeRow({ node, depth, query, selected, onSelect }: {
       <div
         role="treeitem"
         aria-expanded={hasChildren ? open : undefined}
+        aria-selected={selected === node.id}
         onClick={(e) => {
           e.stopPropagation();
           onSelect(node.id, node.refId);
