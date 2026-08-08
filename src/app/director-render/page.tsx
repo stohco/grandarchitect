@@ -148,8 +148,16 @@ export default function DirectorRenderPage() {
       scene.add(disc);
     }
 
-    // village life: a few humanoids
-    const life: Array<{ profile: string; x: number; z: number; clip: string }> = [
+    // village life: a few humanoids (episode-aware — the E2/E3 shots are in
+    // the market square, tea house, dock; P18: NPCs must show activity)
+    const life: Array<{ profile: string; x: number; z: number; clip: string }> = ep2 ? [
+      { profile: 'merchant', x: 14, z: 58, clip: 'walk' },
+      { profile: 'farmer', x: -6, z: 64, clip: 'idle' },
+      { profile: 'elder', x: 8, z: 42, clip: 'bow' },
+      { profile: 'child', x: -12, z: 52, clip: 'idle' },
+      { profile: 'farmer', x: -70, z: 38, clip: 'walk' },
+      { profile: 'merchant', x: 42, z: -72, clip: 'walk' },
+    ] : [
       { profile: 'farmer', x: 130, z: 95, clip: 'idle' },
       { profile: 'elder', x: -14, z: -33, clip: 'bow' },
       { profile: 'elder', x: 28, z: -18, clip: 'idle' },

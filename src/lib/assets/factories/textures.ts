@@ -70,10 +70,11 @@ function paint(
           break;
         }
         case 'plaster': {
-          // soft mottling, warm wash, worn patches
-          const wash = Math.sin((x + y) * 0.07) * 6;
+          // soft mottling, warm wash, worn patches — no visible banding
+          // (VLM: 'obvious low-res horizontal stripes' at high repeat)
+          const wash = Math.sin((x + y) * 0.07) * 4;
           r += wash + jitter(6); g += wash * 0.9 + jitter(6); b += jitter(7);
-          if (rng.nextFloat() < 0.1) { r += jitter(16); g += jitter(14); b += jitter(14); } // worn patches
+          if (rng.nextFloat() < 0.1) { r += jitter(14); g += jitter(12); b += jitter(12); } // worn patches
           break;
         }
         case 'cobble':
