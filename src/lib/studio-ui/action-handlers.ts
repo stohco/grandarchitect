@@ -807,14 +807,10 @@ export const actionHandlers: Record<string, ActionHandler> = {
         return r.ok ? completedResult(`Crash reports: ${String((r.data.reports as unknown[] | undefined)?.length ?? 0)} persisted.`) : failedResult(r.message, 'API_ERROR', true);
       },
       async () => {
-        const { readdir } = await import('fs/promises');
-        const { join } = await import('path');
-        try {
-          const files = await readdir(join(process.cwd(), 'crash-reports'));
-          return completedResult(`Crash reports: ${files.filter((f) => f.endsWith('.json')).length} persisted (local).`);
-        } catch {
-          return completedResult('Crash reports: 0 persisted (local).');
-        }
+        // NOTE: this handler runs in the CLIENT bundle — Node built-ins
+        // (fs/promises) must never be imported here. The local fallback is
+        // the API path only.
+        return completedResult('Crash reports: use the dev server API (/api/editor/crash-report) for the local count.');
       },
     ),
 

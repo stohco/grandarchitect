@@ -273,6 +273,7 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Combat Arts', path: 'src/engine/plugins/simulation/ga-combat-arts-conformance.ts', expected: 249 },
   { name: 'Quest', path: 'src/engine/plugins/simulation/ga-quest-conformance.ts', expected: 224 },
   { name: 'Prime Agent', path: 'src/engine/architect/providers/prime-agent/conformance-test.ts', expected: 12 },
+  { name: 'UI Actions', path: 'src/lib/studio-ui/conformance-test.ts', expected: 45 },
   { name: 'Assets Pipeline', path: 'src/engine/assets/conformance-test.ts', expected: 68 },
   { name: 'Terrain Viewport', path: 'src/engine/frontier/terrain-conformance-test.ts', expected: 56 },
   { name: 'Settlement Day', path: 'src/engine/simulation/settlement-day-conformance.ts', expected: 42 },

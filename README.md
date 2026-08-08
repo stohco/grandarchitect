@@ -23,7 +23,7 @@ bun install
 bun run ai:doctor  # first command — prints SHA, blockers, verified commands
 bun run dev        # http://localhost:3000
 bun run lint       # ESLint
-bun run typecheck  # TypeScript --noEmit (currently exits 1; see ai:doctor)
+bun run typecheck  # TypeScript --noEmit (exit 0; verified by ai:doctor)
 bun run ai:check   # consistency gate; fails on drift
 ```
 

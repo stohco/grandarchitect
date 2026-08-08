@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "next dev -p 3000 --webpack 2>&1 | tee dev.log",
     "build": "bun run prebuild && next build && bun run scripts/copy-standalone.ts",
+    "test:conformance": "bun run scripts/run-conformance.ts --rerun",
+    "test:manifest": "bun run scripts/run-conformance.ts",
     "prebuild": "bun run scripts/generate-build-manifest.ts",
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",

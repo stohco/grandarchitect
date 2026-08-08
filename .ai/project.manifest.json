@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "4d6f0536431c16dd3deafa0a860bf04f5c96ef13",
-    "commitShort": "4d6f0536431c",
-    "branch": "slice/rapier-embodied-playtest",
+    "commit": "2a2447ca53a43f0b992c5f6e539f5186a1ba70bf",
+    "commitShort": "2a2447ca53a4",
+    "branch": "HEAD",
     "dirty": true,
-    "dirtyReason": "Working tree has 23 modified file(s): docs/FRONTIER_SELF_CRITIQUE.md, docs/FRONTIER_TECHNOLOGY_MATRIX.md, evidence/rapier-playtest/prod-chrome-01-entered.png, evidence/rapier-playtest/prod-chrome-02-walked.png, evidence/rapier-playtest/prod-chrome-03-jumped.png…",
-    "generatedAt": "2026-08-07T07:50:51.164Z",
+    "dirtyReason": "Working tree has 8 modified file(s): next-env.d.ts, package.json, src/generated/build-manifest.ts, src/lib/engine/dashboard-data.ts, src/lib/studio-ui/action-handlers.ts…",
+    "generatedAt": "2026-08-08T00:51:40.263Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -173,6 +173,24 @@
       "verified": true,
       "source": "package.json scripts.db:reset",
       "expandsTo": "prisma migrate reset",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "test:conformance": {
+      "command": "bun run test:conformance",
+      "verified": true,
+      "source": "package.json scripts.test:conformance",
+      "expandsTo": "bun run scripts/run-conformance.ts --rerun",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "test:manifest": {
+      "command": "bun run test:manifest",
+      "verified": true,
+      "source": "package.json scripts.test:manifest",
+      "expandsTo": "bun run scripts/run-conformance.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""

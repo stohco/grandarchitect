@@ -1,0 +1,137 @@
+{
+  "sha": "2a2447ca53a43f0b992c5f6e539f5186a1ba70bf",
+  "generatedAt": "2026-08-08T00:51:27.963Z",
+  "totalAssertions": 2006,
+  "suitesPassed": 16,
+  "suitesFailed": 0,
+  "suites": [
+    {
+      "name": "Kernel",
+      "path": "src/engine/conformance-test.ts",
+      "expected": 37,
+      "exitCode": 0,
+      "detected": null,
+      "durationMs": 131
+    },
+    {
+      "name": "Architect",
+      "path": "src/engine/architect/conformance-test.ts",
+      "expected": 113,
+      "exitCode": 0,
+      "detected": 3,
+      "durationMs": 89
+    },
+    {
+      "name": "Reference Plugins",
+      "path": "src/engine/plugins/reference/conformance-test.ts",
+      "expected": 252,
+      "exitCode": 0,
+      "detected": 1,
+      "durationMs": 132
+    },
+    {
+      "name": "Simulation",
+      "path": "src/engine/plugins/simulation/conformance-test.ts",
+      "expected": 247,
+      "exitCode": 0,
+      "detected": 2,
+      "durationMs": 130
+    },
+    {
+      "name": "Cultivation",
+      "path": "src/engine/plugins/simulation/ga-cultivation-conformance.ts",
+      "expected": 203,
+      "exitCode": 0,
+      "detected": 203,
+      "durationMs": 124
+    },
+    {
+      "name": "Combat",
+      "path": "src/engine/plugins/simulation/ga-combat-conformance.ts",
+      "expected": 202,
+      "exitCode": 0,
+      "detected": 202,
+      "durationMs": 89
+    },
+    {
+      "name": "Combat Arts",
+      "path": "src/engine/plugins/simulation/ga-combat-arts-conformance.ts",
+      "expected": 249,
+      "exitCode": 0,
+      "detected": 249,
+      "durationMs": 131
+    },
+    {
+      "name": "Quest",
+      "path": "src/engine/plugins/simulation/ga-quest-conformance.ts",
+      "expected": 224,
+      "exitCode": 0,
+      "detected": 5,
+      "durationMs": 84
+    },
+    {
+      "name": "Prime Agent",
+      "path": "src/engine/architect/providers/prime-agent/conformance-test.ts",
+      "expected": 12,
+      "exitCode": 0,
+      "detected": 12,
+      "durationMs": 2606
+    },
+    {
+      "name": "UI Actions",
+      "path": "src/lib/studio-ui/conformance-test.ts",
+      "expected": 45,
+      "exitCode": 0,
+      "detected": null,
+      "durationMs": 1410
+    },
+    {
+      "name": "Assets Pipeline",
+      "path": "src/engine/assets/conformance-test.ts",
+      "expected": 68,
+      "exitCode": 0,
+      "detected": 0,
+      "durationMs": 399
+    },
+    {
+      "name": "Terrain Viewport",
+      "path": "src/engine/frontier/terrain-conformance-test.ts",
+      "expected": 56,
+      "exitCode": 0,
+      "detected": null,
+      "durationMs": 2768
+    },
+    {
+      "name": "Settlement Day",
+      "path": "src/engine/simulation/settlement-day-conformance.ts",
+      "expected": 42,
+      "exitCode": 0,
+      "detected": null,
+      "durationMs": 133
+    },
+    {
+      "name": "Matter Conservation",
+      "path": "src/engine/world/matter/matter-conformance.ts",
+      "expected": 54,
+      "exitCode": 0,
+      "detected": 54,
+      "durationMs": 114
+    },
+    {
+      "name": "Law Interaction",
+      "path": "src/engine/laws/laws-conformance.ts",
+      "expected": 98,
+      "exitCode": 0,
+      "detected": null,
+      "durationMs": 103
+    },
+    {
+      "name": "Cosmology",
+      "path": "src/engine/cosmos/cosmos-conformance.ts",
+      "expected": 104,
+      "exitCode": 0,
+      "detected": 104,
+      "durationMs": 85
+    }
+  ]
+}
