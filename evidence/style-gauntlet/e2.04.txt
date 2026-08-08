@@ -1,0 +1,41 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (ethereal teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no wireframe HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image provided is almost entirely black.
+    *   There is a small, diagonal brown/tan shape in the bottom-left corner.
+    *   It looks like a void or a failed render/upload, or perhaps a very primitive blockout of a single slope/ground plane.
+
+    *   *Palette:* It's black and brown. No teals, blues, greens, or gold accents. Total violation of the "muted naturalistic palette."
+    *   *Lighting:* No key light, no cool fill, no rim separation. Just a flat brown shape against a black void.
+    *   *Atmosphere:* No fog, no vignette, no mood. Just emptiness.
+    *   *Composition:* A diagonal line in the corner. No subject, no framing, no leading lines.
+    *   *Style:* Does not read as a xianxia donghua blockout. It reads as a missing texture or a 10-second test of a plane in a vacuum.
+
+    *   Since this is a "blockout," I have to be fair, but this isn't a blockout of a *scene*; it's a blockout of... nothing.
+    *   Even for Stage 2, you need a composition and a lighting pass. This has neither.
+    *   Scores will be very low because it fails every single directive in the Art Bible.
+PALETTE: 1 Black and a single flat tan; total violation of the muted naturalistic bible.
+LIGHTING: 1 No key, no fill, no rim; zero lighting language present.
+ATMOSPHERE: 1 Absolute void; no fog, no depth, no filmic quality.
+COMPOSITION: 1 A single diagonal slope in a corner; no subject or framing.
+STYLE: 1 This is not a xianxia blockout; it is a void with a primitive.
+OVERALL: 1.0
+STRENGTHS: 
+None.
+The image is essentially empty.
+DEFECTS: 
+Complete absence of art direction.
+Zero adherence to the Art Bible.
+No scene composition or lighting pass.
+Fails to communicate any intended mood or environment.

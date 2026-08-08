@@ -1,0 +1,41 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D blockout (Stage 2 of 5).
+Judge *Art Direction* (palette, lighting, composition, atmosphere, silhouette), not final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple *only* for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image provided is a solid, flat, brownish-olive color.
+    *   There are no characters, no environment, no lighting, no composition, no silhouettes.
+    *   It is essentially a blank canvas or a failed render/placeholder.
+
+    *   *PALETTE:* It's a single muddy brown. This violates the "muted naturalistic palette" (teals, blues, greens). It's monochromatic and dull. Score: 1.
+    *   *LIGHTING:* No light sources. No key, no fill, no rim. Score: 1.
+    *   *ATMOSPHERE:* No fog, no vignette, no depth. Just a flat color. Score: 1.
+    *   *COMPOSITION:* No subject, no framing, no lines. Score: 1.
+    *   *STYLE:* Does not read as a xianxia donghua blockout; it reads as a missing texture or a solid color fill. Score: 1.
+    *   *OVERALL:* (1+1+1+1+1)/5 = 1.0.
+
+    *   *Strengths:* None. (Or perhaps "Consistent color," but that's not a strength in art direction).
+    *   *Defects:* Total absence of content. No adherence to any bible guidelines. Not a blockout, just a color swatch.
+PALETTE: 1 Monochromatic muddy brown; total violation of the naturalistic teal/blue/green bible.
+LIGHTING: 1 Non-existent; no key, no fill, no rim separation.
+ATMOSPHERE: 1 Flat void; zero depth, fog, or filmic quality.
+COMPOSITION: 1 Empty frame; no subject, no leading lines, no framing.
+STYLE: 1 This is a solid color fill, not a 3D blockout.
+OVERALL: 1.0
+STRENGTHS: 
+None.
+Consistent opacity.
+DEFECTS: 
+Complete absence of geometry and content.
+Zero adherence to the Art Bible.
+This is a placeholder color, not a production stage 2 render.
+Submit an actual render for critique.

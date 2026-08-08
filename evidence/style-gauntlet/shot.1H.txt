@@ -1,0 +1,47 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic for a 3D xianxia donghua game.
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+The provided image is a solid, flat, brownish-olive color. There is no geometry, no lighting, no character, no environment. It is a single-color rectangle.
+
+    *   The image is a flat brown color.
+    *   It contains zero elements of the Art Bible.
+    *   It is not a "blockout" in any meaningful sense; it's a blank canvas or a failed render.
+    *   Since I am a "harsh but fair" critic, I cannot give points for things that aren't there. However, the prompt says "a wrong-directed one scores 1-4." This is beyond "wrong-directed"; it's non-existent.
+
+    *   *Palette:* It's just brown. Not the muted teals/blues/greens. Violation: Total lack of palette diversity. Score: 1.
+    *   *Lighting:* No key, no fill, no rim. Just a flat color. Score: 1.
+    *   *Atmosphere:* No fog, no vignette, no depth. Score: 1.
+    *   *Composition:* No subject, no framing. Score: 1.
+    *   *Style:* Does not read as a xianxia blockout. It reads as a brown square. Score: 1.
+    *   *Overall:* (1+1+1+1+1)/5 = 1.0.
+
+    *   *Strengths:* None. (Or perhaps "Uniform color consistency," but that's sarcastic. I'll be fair: there are no strengths).
+    *   *Defects:*
+        1.  Complete absence of geometry/blockout.
+        2.  Total failure to implement any lighting language.
+        3.  Palette is a single muddy brown, ignoring the Art Bible's naturalistic requirements.
+        4.  Zero compositional intent.
+PALETTE: 1 Flat muddy brown; total violation of the muted teal/blue/green naturalistic palette.
+LIGHTING: 1 Non-existent; no key, no fill, no rim separation, zero contrast.
+ATMOSPHERE: 1 No depth, no fog, no vignette; a flat void.
+COMPOSITION: 1 No subject, no framing, no leading lines; a single solid color.
+STYLE: 1 Does not read as a blockout; reads as a failed render or a blank canvas.
+OVERALL: 1.0
+STRENGTHS:
+None.
+Absolute void of content.
+DEFECTS:
+Complete absence of geometry, characters, or environment.
+Total failure to implement any lighting language from the Art Bible.
+Palette is a single monochromatic brown, ignoring all specified color guides.
+Zero compositional intent or silhouette readability.

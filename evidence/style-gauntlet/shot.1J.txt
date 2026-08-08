@@ -1,0 +1,51 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic.
+3D xianxia donghua game (Zhumeng/Tencent style).
+Stylized 3D BLOCKOUT (Stage 2 of 5).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, COOL fill, strong warm RIM.
+        *   Palette: Muted naturalistic (teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple for spiritual energy only.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials (moss, patina, worn timber).
+        *   Restraint: No neon, no HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image is a very basic 3D blockout.
+    *   It consists of a few brown/tan geometric shapes (cubes/slabs) against a black background.
+    *   Colors: Monochromatic brown/tan.
+    *   Lighting: Flat, basic shading. No clear key/fill/rim.
+    *   Atmosphere: None. No fog, no vignette, just black void.
+    *   Composition: A diagonal block filling most of the frame. No subject, no framing, no leading lines.
+    *   Style: Extremely primitive. It doesn't even look like a "painterly" blockout; it looks like a default Maya/Blender viewport render with a basic material.
+
+    *   *PALETTE:* It's just brown. The bible asks for teals, blues, greens, and gold accents. This is a total violation. Score: 1.
+    *   *LIGHTING:* No warm key, no cool fill, no rim separation. It's flat. Score: 1.
+    *   *ATMOSPHERE:* No fog, no vignette, no mood. Just black space. Score: 1.
+    *   *COMPOSITION:* No subject, no thirds, no leading lines. It's a block. Score: 1.
+    *   *STYLE:* Does it read as a painterly xianxia donghua blockout? No. It reads as a "first-day-learning-3D" blockout. Score: 1.
+
+    *   *Overall:* (1+1+1+1+1)/5 = 1.0.
+
+    *   *Strengths:* It's... a 3D object? (Hard to find any, but I must be "fair"). Maybe the perspective is correct? No, it's just a box. Let's say "Basic geometric volume established."
+    *   *Defects:*
+        1.  Complete absence of the Art Bible's color palette.
+        2.  Zero lighting language (no key/fill/rim).
+        3.  No atmospheric depth or environmental context.
+        4.  Lack of any "painterly" intent or stylized silhouette.
+PALETTE: 1 Monochromatic brown; total violation of the muted teal/blue/green bible.
+LIGHTING: 1 Flat shading; no warm key, no cool fill, and zero rim separation.
+ATMOSPHERE: 1 Void; no fog, no vignette, no filmic exposure.
+COMPOSITION: 1 Non-existent; a single diagonal block with no subject or framing.
+STYLE: 1 Primitive geometry; reads as a default viewport render, not a painterly donghua blockout.
+OVERALL: 1.0
+STRENGTHS:
+- Basic 3D volume established.
+- Clean edges on the geometry.
+DEFECTS:
+- Complete disregard for the Art Bible's color and lighting language.
+- Zero atmospheric depth or environmental storytelling.
+- No "painterly" material intent or stylized silhouette.
+- Fails to communicate any xianxia aesthetic.

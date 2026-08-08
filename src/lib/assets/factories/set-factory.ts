@@ -18,6 +18,7 @@ import { LCG } from '../../determinism/primitives';
 import { WANG_FAMILY_BEND } from '../../worldproduction/set-blueprint';
 import type { SetStructure, SetProp } from '../../worldproduction/set-blueprint';
 import { QINGHE_MARKET_TOWN } from '../../worldproduction/set-blueprint-2';
+import type { SetRoom } from '../../worldproduction/set-blueprint';
 import { painterlyMaterial } from './textures';
 import { PROP_BUILDERS, dressStructure } from './dressing-factory';
 
@@ -506,6 +507,65 @@ function byId(id: string): SetStructure {
 /** Factory coverage for conformance: every structure kind has a builder. */
 export function structureKindsBuilt(): string[] {
   return [...new Set(WANG_FAMILY_BEND.structures.map((s) => s.kind as string))];
+}
+
+/**
+ * buildRoomSet — a furnished interior volume (the critic's fix: buildings
+ * must read as inhabited, not brown rectangles). Floor, low walls (open
+ * top so the camera can look in), a warm lamp, and every fixture from the
+ * prop registry, placed deterministically.
+ */
+export function buildRoomSet(room: SetRoom, pal: SetPalette): THREE.Group {
+  const g = new THREE.Group();
+  const rng = new LCG((room.id.length * 0x9e37) ^ 0x51ab);
+
+  // floor
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(room.w, 0.08, room.d), pal.packedEarth);
+  floor.position.y = -0.04;
+  floor.receiveShadow = true;
+  g.add(floor);
+
+  // low walls (open top), warm plaster inside
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xd8c8ae, roughness: 0.9 });
+  const wallT = 0.16;
+  const wallH = Math.min(room.h, 3.4);
+  const mkWall = (w: number, d: number, x: number, z: number) => {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(w, wallH, d), wallMat);
+    wall.position.set(x, wallH / 2, z);
+    g.add(wall);
+  };
+  mkWall(room.w, wallT, 0, room.d / 2);
+  mkWall(room.w, wallT, 0, -room.d / 2);
+  mkWall(wallT, room.d, -room.w / 2, 0);
+  mkWall(wallT, room.d, room.w / 2, 0);
+
+  // warm lamp (emissive) — the interior's light source
+  const lamp = new THREE.Mesh(
+    new THREE.BoxGeometry(0.5, 0.08, 0.5),
+    new THREE.MeshStandardMaterial({ color: 0xffd8a0, emissive: 0xffb060, emissiveIntensity: 2.5 }),
+  );
+  lamp.position.set(0, wallH - 0.3, 0);
+  g.add(lamp);
+
+  // fixtures from the prop registry, deterministic scatter near walls
+  let ix = 0;
+  for (const f of room.fixtures) {
+    const builder = PROP_BUILDERS[f.id];
+    if (!builder) continue;
+    const obj = builder(pal);
+    const side = ix % 4;
+    const t = 0.3 + (ix * 0.19) % 0.6;
+    switch (side) {
+      case 0: obj.position.set(-room.w / 2 + room.w * t, 0, -room.d / 2 + 1.2); obj.rotation.y = 0; break;
+      case 1: obj.position.set(room.w / 2 - 1.2, 0, -room.d / 2 + room.d * t); obj.rotation.y = Math.PI / 2; break;
+      case 2: obj.position.set(room.w / 2 - room.w * t, 0, room.d / 2 - 1.2); obj.rotation.y = Math.PI; break;
+      default: obj.position.set(-room.w / 2 + 1.2, 0, room.d / 2 - room.d * t); obj.rotation.y = -Math.PI / 2; break;
+    }
+    g.add(obj);
+    ix++;
+  }
+
+  return g;
 }
 
 /** The game's opening: the player begins in the village square at dawn. */

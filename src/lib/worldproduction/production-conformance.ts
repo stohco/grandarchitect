@@ -39,6 +39,7 @@ import { PROP_BUILDERS, blueprintPropIds, dressStructure, DRESSING_SETS, dressin
 import { TOUR_SHOTS, TOUR_COUNT } from './director-script';
 import { EPISODE_2, EPISODE_2_COUNT } from './director-script';
 import { QINGHE_MARKET_TOWN, QINGHE_STRUCTURE_COUNT, QINGHE_ROOM_COUNT } from './set-blueprint-2';
+import { WANG_FAMILY_BEND as WANG_BEND } from './set-blueprint';
 import { interactionsFor } from './interactions';
 import { MOTION_COVERAGE, motionGaps, buildSceneCoverageManifest, CULTIVATION_CELLS, INSTITUTION_VISIBILITY } from './coverage-systems';
 import { ALL_DEFINITIONS } from '../engine/definitions/index';
@@ -67,16 +68,16 @@ check('sword flight speed canonical', TRAVERSAL_SPEEDS.find((t) => t.id === 'mov
 // 2. Set blueprint — handcrafted detail + scale correctness
 // ---------------------------------------------------------------------------
 
-check('settlement population ~180', WANG_FAMILY_BEND.population, 180);
+check('settlement population ~180', WANG_BEND.population, 180);
 check('structures >= 12', SET_STRUCTURE_COUNT >= 12, true);
 check('rooms >= 8', SET_ROOM_COUNT >= 8, true);
 check('props >= 30', SET_PROP_COUNT >= 30, true);
-check('well/shrine/gate/creek wired', !!WANG_FAMILY_BEND.layout.well && !!WANG_FAMILY_BEND.layout.shrine && !!WANG_FAMILY_BEND.layout.gate && !!WANG_FAMILY_BEND.layout.creek, true);
+check('well/shrine/gate/creek wired', !!WANG_BEND.layout.well && !!WANG_BEND.layout.shrine && !!WANG_BEND.layout.gate && !!WANG_BEND.layout.creek, true);
 
 const badScales: string[] = [];
 const residentMissing: string[] = [];
 const defIds = new Set(ALL_DEFINITIONS.map((d) => d.id));
-for (const s of WANG_FAMILY_BEND.structures) {
+for (const s of WANG_BEND.structures) {
   /** Category-aware dimension: architecture compares footprint, terrain compares height. */
   const dominant = (entry: { category: string; min: number; max: number }, w: number, d: number, h: number): number =>
     entry.category === 'terrain' ? Math.max(h, w / 4) : Math.max(w, d);
@@ -109,9 +110,9 @@ check('every dimension within canonical scale', badScales.length, 0);
 if (badScales.length > 0) for (const b of badScales.slice(0, 10)) console.log(`      scale: ${b}`);
 check('every resident exists in definition database', residentMissing.length, 0);
 
-check('every structure has art direction', WANG_FAMILY_BEND.structures.every((s) => s.artDirection.length > 20), true);
-check('every structure has camera notes', WANG_FAMILY_BEND.structures.every((s) => s.cameraNotes.length > 10), true);
-check('every room has lighting/smell/sound/detail', WANG_FAMILY_BEND.structures.every((s) => s.rooms.every((r) => r.lighting.length > 5 && r.smell.length > 3 && r.sound.length > 3 && r.detail.length > 20)), true);
+check('every structure has art direction', WANG_BEND.structures.every((s) => s.artDirection.length > 20), true);
+check('every structure has camera notes', WANG_BEND.structures.every((s) => s.cameraNotes.length > 10), true);
+check('every room has lighting/smell/sound/detail', WANG_BEND.structures.every((s) => s.rooms.every((r) => r.lighting.length > 5 && r.smell.length > 3 && r.sound.length > 3 && r.detail.length > 20)), true);
 
 // ---------------------------------------------------------------------------
 // 3. Director script — donghua shot direction
@@ -126,8 +127,8 @@ check('shot durations 3-20s', EPISODE_1.shots.every((s) => s.durationSec >= 3 &&
 check('art boards referenced in every shot', EPISODE_1.shots.every((s) => s.artBoard.length > 10), true);
 check('audio directed in every shot', EPISODE_1.shots.every((s) => s.audio.length > 10), true);
 
-const setStructureIds = new Set(WANG_FAMILY_BEND.structures.map((s) => s.id));
-const setRoomIds = new Set(WANG_FAMILY_BEND.structures.flatMap((s) => s.rooms.map((r) => r.id)));
+const setStructureIds = new Set(WANG_BEND.structures.map((s) => s.id));
+const setRoomIds = new Set(WANG_BEND.structures.flatMap((s) => s.rooms.map((r) => r.id)));
 const badShotRefs = EPISODE_1.shots.filter((s) => (s.structureId && !setStructureIds.has(s.structureId)) || (s.roomId && !setRoomIds.has(s.roomId))).map((s) => s.id);
 check('every shot references real set locations', badShotRefs.length, 0);
 
@@ -193,18 +194,18 @@ const missingProps = blueprintIds.filter((id) => !PROP_BUILDERS[id]);
 check('every blueprint prop has a builder', missingProps.length, 0);
 if (missingProps.length > 0) for (const m of missingProps.slice(0, 15)) console.log(`      missing prop builder: ${m}`);
 
-const unkinded = WANG_FAMILY_BEND.structures.filter((s) => !DRESSING_SETS[s.kind]).map((s) => s.kind);
+const unkinded = WANG_BEND.structures.filter((s) => !DRESSING_SETS[s.kind]).map((s) => s.kind);
 check('every structure kind has a dressing set', unkinded.length, 0);
 if (unkinded.length > 0) console.log(`      undressed kinds: ${unkinded.join(', ')}`);
 
 check('every structure gets dressed with >= 8 details',
-  WANG_FAMILY_BEND.structures.every((s) => dressingDetailCount(s.kind) >= 8), true);
+  WANG_BEND.structures.every((s) => dressingDetailCount(s.kind) >= 8), true);
 check('households dressed richly', dressingDetailCount('household') >= 12, true);
 check('foothills dressed with pines/boulders', dressingDetailCount('foothill') >= 10, true);
 check('cache dressed with formation + jars', dressingDetailCount('cache') >= 5, true);
 
 const kindsBuilt = structureKindsBuilt();
-check('every structure kind has a 3D builder', WANG_FAMILY_BEND.structures.every((s) => kindsBuilt.includes(s.kind)), true);
+check('every structure kind has a 3D builder', WANG_BEND.structures.every((s) => kindsBuilt.includes(s.kind)), true);
 
 // ---------------------------------------------------------------------------
 // 8. The tour — long-form cinematic coverage ("EVERYTHING described")
@@ -219,7 +220,7 @@ check('MC monologues present', TOUR_SHOTS.some((s) => (s.mcLine ?? '').length > 
 check('every tour shot has sound cues', TOUR_SHOTS.every((s) => (s.sound ?? []).length > 0), true);
 const tourKinds = new Set(TOUR_SHOTS.map((s) => s.structureId).filter(Boolean));
 check('tour covers every structure kind',
-  WANG_FAMILY_BEND.structures.every((s) => tourKinds.has(s.id)), true);
+  WANG_BEND.structures.every((s) => tourKinds.has(s.id)), true);
 check('tour covers interiors', TOUR_SHOTS.some((s) => s.roomId), true);
 check('tour total duration >= 120s', TOUR_SHOTS.reduce((n, s) => n + s.durationSec, 0) >= 120, true);
 
@@ -229,7 +230,7 @@ check('tour total duration >= 120s', TOUR_SHOTS.reduce((n, s) => n + s.durationS
 
 const interactableProps = blueprintPropIds().filter((id) => interactionsFor(id));
 check('every blueprint prop has interactions', interactableProps.length, blueprintPropIds().length);
-check('structure interactions mapped', WANG_FAMILY_BEND.structures.every((s) => interactionsFor(s.id) !== null), true);
+check('structure interactions mapped', WANG_BEND.structures.every((s) => interactionsFor(s.id) !== null), true);
 
 // ---------------------------------------------------------------------------
 // 10. Coverage systems — motion matrix, scene manifest, planetary ecology
@@ -327,7 +328,7 @@ import { GAME_START, ROOF_OVERHANG } from '../assets/factories/set-factory';
 // no two structure footprints may overlap (with a 2 m margin), except
 // landscape kinds (fields/foothills are terrain, not buildings)
 const LANDSCAPE = new Set(['field', 'foothill', 'creek']);
-const plots = WANG_FAMILY_BEND.structures
+const plots = WANG_BEND.structures
   .filter((s) => !LANDSCAPE.has(s.kind))
   .map((s) => ({ id: s.id, x: PLOT_POS[s.id]?.x ?? 0, z: PLOT_POS[s.id]?.z ?? 0, hw: s.w / 2 + 2, hd: s.d / 2 + 2 }));
 let overlaps = 0;
@@ -395,6 +396,26 @@ check('episode 2 covers every town structure',
   [...e2StructureIds].every((id) => EPISODE_2.shots.some((s) => s.structureId === id)), true);
 check('market town residents exist in definitions', QINGHE_MARKET_TOWN.structures.flatMap((s) => s.residents).every((r) => defIds.has(r)), true);
 check('town structure count matches blueprint', QINGHE_STRUCTURE_COUNT, 8);
+
+// ---------------------------------------------------------------------------
+// 16. Interior volumes — buildings read as inhabited, not brown rectangles
+// ---------------------------------------------------------------------------
+
+import { buildRoomSet, makePalette } from '../assets/factories/set-factory';
+
+const intPal = makePalette();
+const allRooms = [
+  ...WANG_BEND.structures.flatMap((s) => s.rooms.map((r) => ({ id: r.id, room: r }))),
+  ...QINGHE_MARKET_TOWN.structures.flatMap((s) => s.rooms.map((r) => ({ id: r.id, room: r }))),
+];
+const builtRooms = allRooms.map(({ id, room }) => {
+  const rs = buildRoomSet(room, intPal);
+  return { id, children: rs.children.length, hasLamp: rs.children.some((c) => (c as THREE.Object3D).userData?.lamp === true || (c as THREE.Mesh).material && ((c as THREE.Mesh).material as THREE.MeshStandardMaterial).emissiveIntensity > 1) };
+});
+check('every room builds an interior set', builtRooms.every((b) => b.children >= 5), true);
+check('interiors are furnished (fixtures placed)', builtRooms.every((b) => b.children >= 6), true);
+check('every room has a warm lamp', builtRooms.every((b) => b.hasLamp), true);
+check('interior rooms exist in both settlements', allRooms.length >= 10, true);
 
 // ---------------------------------------------------------------------------
 

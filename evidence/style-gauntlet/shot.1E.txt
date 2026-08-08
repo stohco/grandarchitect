@@ -1,0 +1,54 @@
+model: gemma-4-31b-it
+
+Harsh but FAIR Art-Direction Critic.
+3D xianxia donghua game (Stage 2 blockout).
+Judge ART DIRECTION (palette, lighting, composition, atmosphere, silhouette), NOT final polish.
+
+        *   Painterly 3D, hand-painted materials, believable PBR.
+        *   Lighting: Warm golden key, cool fill, strong warm rim separation.
+        *   Palette: Muted naturalistic (teals, soft blues, forest greens), gold/brass accents, deep red sparingly, purple ONLY for spiritual energy.
+        *   Atmosphere: Soft fog, gentle vignette, filmic exposure.
+        *   Silhouettes: Chunky, readable, 1.8m proportions, weathered materials.
+        *   Restraint: No neon, no wireframe HUD, no western armor.
+Strict format (PALETTE, LIGHTING, ATMOSPHERE, COMPOSITION, STYLE, OVERALL, STRENGTHS, DEFECTS).
+
+    *   The image is almost entirely black.
+    *   There is a tan/brown triangular shape in the bottom left corner.
+    *   There is a small yellow/white geometric shape on the far right edge.
+    *   There is no character, no environment, no fog, no complex lighting, no composition.
+
+    *   *PALETTE:* It's black, tan, and yellow. This is not a "muted naturalistic palette" of teals, blues, and greens. It's a void. (Score: 1)
+    *   *LIGHTING:* There is no key light, no cool fill, and no rim separation. It's a black screen with a few flat-colored polygons. (Score: 1)
+    *   *ATMOSPHERE:* No fog, no vignette, no mood. Just blackness. (Score: 1)
+    *   *COMPOSITION:* There is no subject. No thirds. No leading lines. Just random shapes at the edges. (Score: 1)
+    *   *STYLE:* Does it read as a painterly xianxia donghua blockout? No. It reads as a broken render or a blank canvas. (Score: 1)
+
+    *   *Wait, is this a trick?* The user provided a prompt and an image that is essentially empty. As a "harsh but fair" critic, I cannot pretend there is art here.
+    *   *Calibration check:* "A wrong-directed one scores 1-4." This is beyond wrong-directed; it's non-existent.
+
+    *   PALETTE: 1 (Black void with random tan/yellow; total violation of the naturalistic bible)
+    *   LIGHTING: 1 (Non-existent; no key, fill, or rim separation)
+    *   ATMOSPHERE: 1 (Zero depth; no fog or filmic quality)
+    *   COMPOSITION: 1 (No subject or framing; empty space)
+    *   STYLE: 1 (Does not resemble a xianxia blockout; resembles a technical error)
+    *   OVERALL: 1.0
+
+    *   STRENGTHS:
+        *   High contrast (black vs. tan).
+        *   Minimalist (to a fault).
+    *   DEFECTS:
+        *   Complete absence of content/subject.
+        *   Total failure to implement any Art Bible guidelines.
+        *   Not a render, but a void.
+PALETTE: 1 Black void with random tan/yellow; total violation of the naturalistic bible.
+LIGHTING: 1 Non-existent; no key, fill, or rim separation.
+ATMOSPHERE: 1 Zero depth; no fog, no vignette, no mood.
+COMPOSITION: 1 No subject, no framing, no leading lines; empty space.
+STYLE: 1 Does not resemble a xianxia blockout; resembles a broken render or a blank canvas.
+OVERALL: 1.0
+STRENGTHS:
+- High contrast.
+- Absolute minimalism.
+DEFECTS:
+- Complete absence of content, characters, or environment.
+- Total failure to implement any Art Bible guidelines

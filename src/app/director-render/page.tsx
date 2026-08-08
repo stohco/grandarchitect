@@ -15,6 +15,9 @@ import { buildVillageScene, buildTownScene } from '@/lib/assets/factories/set-fa
 import { buildHumanoid, profileForRole } from '@/lib/assets/factories/character-factory';
 import { EPISODE_1, EPISODE_2 } from '@/lib/worldproduction/director-script';
 import { WANG_FAMILY_BEND } from '@/lib/worldproduction/set-blueprint';
+import { QINGHE_MARKET_TOWN } from '@/lib/worldproduction/set-blueprint-2';
+import { buildRoomSet } from '@/lib/assets/factories/set-factory';
+import type { SetRoom } from '@/lib/worldproduction/set-blueprint';
 import { applyZhumengStyle, zhumengCss } from '@/lib/worldproduction/zhumeng-style';
 import { attachFilmicGrade } from '@/lib/worldproduction/filmic-grade';
 import type { FilmicGrade } from '@/lib/worldproduction/filmic-grade';
@@ -118,6 +121,7 @@ export default function DirectorRenderPage() {
     skyGeo.setAttribute('color', new THREE.BufferAttribute(skyColors, 3));
     const sky = new THREE.Mesh(skyGeo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false }));
     scene.add(sky);
+    let skyRef: THREE.Mesh | null = sky;
 
     // contact shadows: soft dark disc under every structure (grounding)
     const contactMat = new THREE.MeshBasicMaterial({ color: 0x0a0a14, transparent: true, opacity: 0.28, depthWrite: false });
@@ -151,11 +155,37 @@ export default function DirectorRenderPage() {
       grade = attachFilmicGrade(renderer, scene, camera);
     } catch { /* grade optional */ }
 
+    // furnished interior sets (critic fix: buildings read as inhabited)
+    const roomSets = new Map<string, { group: THREE.Group; center: THREE.Vector3; d: number }>();
+    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[] }> } : WANG_FAMILY_BEND;
+    for (const s of settlement.structures) {
+      const sg = village.structures.get(s.id);
+      if (!sg) continue;
+      for (const room of s.rooms) {
+        const rs = buildRoomSet(room, village.palette);
+        rs.position.copy(sg.position);
+        scene.add(rs);
+        roomSets.set(room.id, {
+          group: rs,
+          center: sg.position.clone().add(new THREE.Vector3(0, room.h * 0.55, room.d * 0.25)),
+          d: room.d,
+        });
+      }
+    }
+    // warm interior light for room shots
+    const roomLight = new THREE.PointLight(0xffc078, 0, 10);
+    roomLight.position.set(0, -100, 0);
+    scene.add(roomLight);
+
     const targetFor = (shotId: string): THREE.Vector3 => {
-      const shot = EPISODE_1.shots.find((s) => s.id === shotId);
+      const shot = episode.shots.find((s) => s.id === shotId);
       if (!shot?.structureId) return new THREE.Vector3(0, 0, 0);
       const g = village.structures.get(shot.structureId);
       if (!g) return new THREE.Vector3(0, 0, 0);
+      if (shot.roomId) {
+        const rs = roomSets.get(shot.roomId);
+        if (rs) return rs.center.clone();
+      }
       return g.position.clone().add(new THREE.Vector3(0, 2, 0));
     };
 
@@ -167,6 +197,26 @@ export default function DirectorRenderPage() {
       sun.position.set(sx, sy, sz);
       const dist = CUT_DISTANCE[shot.cut] ?? 20;
       const target = targetFor(shotId);
+      // room shots: dedicated interior view — hide the world, show only the
+      // furnished room against a warm-dark backdrop (clean, lit, readable)
+      if (shot.roomId) {
+        const rs = roomSets.get(shot.roomId);
+        village.group.visible = false;
+        if (skyRef) skyRef.visible = false;
+        scene.background = new THREE.Color(0x1a1410);
+        roomLight.position.copy(target).add(new THREE.Vector3(0, 0.6, 0));
+        roomLight.intensity = 4.2;
+        roomLight.distance = 16;
+        ambient.intensity = 0.6;
+        const inD = Math.min(rs?.d ?? 6, 6);
+        camera.position.copy(target).add(new THREE.Vector3(0, 0.2, -inD * 0.34));
+      } else {
+        village.group.visible = true;
+        if (skyRef) skyRef.visible = true;
+        scene.background = new THREE.Color(0x8fb8d8);
+        roomLight.intensity = 0;
+        ambient.intensity = 0.3;
+      }
       camera.fov = fovForLens(shot.camera.lensMm);
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
