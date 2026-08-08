@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 /**
  * Director Render Stage — renders director-script shots of the set.
@@ -26,6 +26,7 @@ declare global {
   interface Window {
     __directorShot: (shotId: string) => string | null;
     __directorShots: () => string[];
+    __directorStats: () => string;
   }
 }
 
@@ -57,8 +58,23 @@ export default function DirectorRenderPage() {
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x8fb8d8);
+
+    // the set — episode switch: ?ep=2 renders Qinghe Market Town (Episode 2),
+    // ?ep=3 renders the same town under recruitment-day light (Episode 3)
+    const ep = new URLSearchParams(window.location.search).get('ep');
+    const noShadow = new URLSearchParams(window.location.search).get('shadow') === '0';
+    const ep3 = ep === '3';
+    const ep2 = ep === '2' || ep3;
+    const episode = ep3 ? EPISODE_3 : ep2 ? EPISODE_2 : EPISODE_1;
+    const village = ep2 ? buildTownScene() : buildVillageScene();
+
+    // debug: ?shadow=0 disables sun shadow casting (A/B shadow verification)
+    if (noShadow) renderer.shadowMap.enabled = false;
+
     // blue haze close in: mid-ground reads cool against warm-lit subjects
-    scene.fog = new THREE.Fog(0x9ab8d0, 40, 260);
+    // (town episodes get a deeper fog far so aerial/wide shots are not swallowed)
+    const fogFar = ep2 ? 1600 : 260;
+    scene.fog = new THREE.Fog(0x9ab8d0, 40, fogFar);
 
     // warm painterly sun
     const sun = new THREE.DirectionalLight(0xffe8c0, 2.2);
@@ -67,6 +83,8 @@ export default function DirectorRenderPage() {
     sun.shadow.mapSize.set(2048, 2048);
     sun.shadow.camera.left = -300; sun.shadow.camera.right = 300;
     sun.shadow.camera.top = 300; sun.shadow.camera.bottom = -300;
+    sun.shadow.camera.near = 1; sun.shadow.camera.far = 900;
+    sun.shadow.camera.updateProjectionMatrix(); // bounds set AFTER creation — required or shadows never render
     scene.add(sun);
     const hemi = new THREE.HemisphereLight(0xcfe8ff, 0x6a5a3a, 0.85);
     scene.add(hemi);
@@ -100,14 +118,7 @@ export default function DirectorRenderPage() {
       return [120, 55, 45];               // morning sun
     };
 
-    // the set
-    // episode switch: ?ep=2 renders Qinghe Market Town (Episode 2),
-    // ?ep=3 renders the same town under recruitment-day light (Episode 3)
-    const ep = new URLSearchParams(window.location.search).get('ep');
-    const ep3 = ep === '3';
-    const ep2 = ep === '2' || ep3;
-    const episode = ep3 ? EPISODE_3 : ep2 ? EPISODE_2 : EPISODE_1;
-    const village = ep2 ? buildTownScene() : buildVillageScene();
+    // the set — episode switch handled above (episode/village chosen with the scene)
     scene.add(village.group);
 
     // painterly gradient sky dome (blue-teal family, warm gold only at the
@@ -160,7 +171,7 @@ export default function DirectorRenderPage() {
 
     // furnished interior sets (critic fix: buildings read as inhabited)
     const roomSets = new Map<string, { group: THREE.Group; center: THREE.Vector3; d: number }>();
-    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[] }> } : WANG_FAMILY_BEND;
+    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[]; w: number; d: number }> } : WANG_FAMILY_BEND;
     for (const s of settlement.structures) {
       const sg = village.structures.get(s.id);
       if (!sg) continue;
@@ -193,12 +204,32 @@ export default function DirectorRenderPage() {
     };
 
     window.__directorShots = () => episode.shots.map((s) => s.id);
+    window.__directorStats = (): string => {
+      let meshes = 0, visible = 0, shadowCasters = 0;
+      village.group.traverse((o) => {
+        if ((o as THREE.Mesh).isMesh) {
+          meshes++;
+          if (o.visible) visible++;
+          if (o.castShadow) shadowCasters++;
+        }
+      });
+      return JSON.stringify({ structures: village.structures.size, meshes, visible, shadowCasters, fogFar });
+    };
+    // structure footprint (from the blueprint) so the camera never ends up
+    // inside a large building (e.g. the 30x45 m yamen at 7 m dolly distance)
+    const structureFootprint = (shotId: string): number => {
+      const shot = episode.shots.find((s) => s.id === shotId);
+      if (!shot?.structureId) return 0;
+      const s = settlement.structures.find((x) => x.id === shot.structureId);
+      if (!s) return 0;
+      return Math.max(s.w, s.d) / 2 + 6; // half-depth + breathing room
+    };
     window.__directorShot = (shotId: string): string | null => {
       const shot = episode.shots.find((s) => s.id === shotId);
       if (!shot) return null;
       const [sx, sy, sz] = sunElevationFor(shotId);
       sun.position.set(sx, sy, sz);
-      const dist = CUT_DISTANCE[shot.cut] ?? 20;
+      const dist = Math.max(CUT_DISTANCE[shot.cut] ?? 20, structureFootprint(shotId));
       const target = targetFor(shotId);
       // room shots: dedicated interior view — hide the world, show only the
       // furnished room against a warm-dark backdrop (clean, lit, readable)

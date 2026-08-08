@@ -1,35 +1,35 @@
 **1. CONTENT INVENTORY**
-*   **Buildings:** ~6 small grey geometric primitives (cubes/pyramids) located in the center midground.
-*   **Paths:** 1 thin, elongated rectangular strip in the center midground.
-*   **Ground:** 1 large, flat rectangular plane spanning foreground to midground.
-*   **Absent:** No trees, wells, shrines, fences, animals, people, water, or mountains visible.
+*   **Buildings:** ~6 low-poly greybox structures (center midground).
+*   **Paths:** 1 thin rectangular strip (center midground).
+*   **Ground:** 1 large, flat rectangular plane (center).
+*   **Absent:** No trees, water, mountains, people, animals, or shrines.
 
 **2. LAYOUT / CLIPPING**
-*   **Placement:** All structures are clustered in the center; they appear to sit on the ground plane.
-*   **Clipping:** No visible interpenetration due to extreme distance and low poly count.
-*   **Floating:** The entire ground plane is floating in a dark void.
+*   **Intersections:** Path strip intersects the ground plane.
+*   **Placement:** All assets clustered in the center; no peripheral distribution.
+*   **Floating:** Objects appear grounded, but lack contact shadows to confirm.
 
 **3. SILHOUETTES**
-*   **Shapes:** Basic primitives (boxes and pointed roofs).
-*   **Style:** Does not read as Chinese/traditional architecture; lacks eaves, brackets, or curves.
-*   **Readability:** Chunky, low-detail placeholder blocks.
+*   **Shapes:** Primitive boxes and simple wedges.
+*   **Style:** Non-traditional; lacks Chinese/xianxia architectural markers (no flared eaves or tiered roofs).
+*   **Readability:** Readable as geometric blocks only.
 
 **4. LIGHTING**
-*   **Direction:** Indeterminate; top surfaces are lighter than vertical faces.
-*   **Shadows:** No cast shadows on the ground plane.
-*   **Contrast:** No warm/cool contrast or rim lighting present.
+*   **Direction:** No clear light source or directional shadows.
+*   **Shading:** Flat ambient shading; no warm/cool contrast.
+*   **Highlights:** No rim lighting or specular highlights.
 
 **5. ATMOSPHERE**
-*   **Haze:** None.
-*   **Depth Cues:** Only the perspective of the ground plane provides depth; background is a solid dark void.
+*   **Fog:** Heavy blue-grey gradient fog obscuring the horizon.
+*   **Depth:** Minimal cues; fog provides the only sense of scale.
 
-**6. TEXTURE/SURFACE**
-*   **Detail:** None. Surfaces are flat, solid-colored shaders.
-*   **Materials:** No wood grain, thatch, or moss visible.
+**6. TEXTURE / SURFACE**
+*   **Detail:** Zero. Surfaces are flat, solid-color shaders.
+*   **Materials:** No wood, stone, or thatch visible.
 
 **7. DEFECTS**
-*   **Environment:** Complete lack of skybox, horizon, or background elements.
-*   **Geometry:** Buildings are unrefined placeholder primitives.
-*   **Lighting:** Missing global illumination and directional shadows.
-*   **Scale:** Buildings are disproportionately small relative to the ground plane.
-*   **Textures:** Total absence of texture maps or material definition.
+*   **Greyboxing:** Assets are placeholder primitives, not final models.
+*   **Environment:** Ground is a featureless flat plane; no terrain variation.
+*   **Lighting:** Total lack of shadows or depth-defining light.
+*   **Void:** Scene sits in an empty dark blue void with no skybox.
+*   **Scale:** Objects are too small/distant for detailed inspection.

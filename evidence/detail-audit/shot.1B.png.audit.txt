@@ -1,0 +1,35 @@
+**1. CONTENT INVENTORY**
+*   **Path:** 1 brown linear path; spans foreground left to midground right.
+*   **Structure:** 1 wooden training dummy; center midground.
+*   **Buildings:** ~3 rectangular blocks; right background.
+*   **Trees:** 3 conical primitives; right background.
+*   **Mountain:** 1 sharp triangular peak; far right background.
+*   **Ground:** 1 flat dark green plane; entire foreground/midground.
+
+**2. LAYOUT / CLIPPING**
+*   **Intersections:** Horizontal arms of the dummy intersect the central pillar. Base posts intersect the path.
+*   **Floating:** Central vertical pillar of the dummy floats above the ground and base supports.
+*   **Clipping:** Distant buildings partially clip into the fog layer.
+
+**3. SILHOUETTES**
+*   **Buildings:** Primitive rectangular boxes. No traditional Chinese eaves, curved roofs, or ornamentation.
+*   **Trees:** Simple geometric cones.
+*   **Readability:** Blocky and placeholder-like; does not read as traditional architecture.
+
+**4. LIGHTING**
+*   **Direction:** Indeterminate/Top-left.
+*   **Faces:** Front and left faces are lit; right faces are in shadow.
+*   **Contrast:** Low. No warm/cool variance or rim lighting.
+*   **Shadows:** Total absence of contact or drop shadows on the ground.
+
+**5. ATMOSPHERE**
+*   **Fog:** Thick blue-grey horizontal band separates midground from background.
+*   **Depth:** Established via linear perspective of the path and fog layering.
+
+**6. TEXTURE / SURFACE**
+*   **Dummy:** Low-resolution vertical wood grain.
+*   **Path:** Highly stretched brown linear texture.
+*   **Ground/Sky:** Flat, solid colors with no material detail.
+
+**7. DEFECTS**
+*   **Placeholder Assets:** All geometry consists of unrefined primitives

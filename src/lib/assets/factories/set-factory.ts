@@ -116,28 +116,51 @@ export function buildWall(w: number, h: number, d: number, mat: THREE.Material, 
 /** Roof overhang beyond the wall footprint (meters). */
 export const ROOF_OVERHANG = 0.8;
 
-/** Thatched hip roof: base sits AT the wall top, modest overhang only. */
+/** Thatched gable roof: base sits AT the wall top, ridge beam seated ON the
+ *  ridge (a 4-sided pyramid had no ridge line — the beam floated in air).
+ *  Cross-section is a true triangle so the roof reads as Chinese architecture. */
 export function buildRoof(w: number, d: number, wallH: number, mat: THREE.Material): THREE.Group {
   const g = new THREE.Group();
-  const half = Math.max(w, d) / 2 + ROOF_OVERHANG;
-  const pitch = wallH * 0.55;
-  const roof = new THREE.Mesh(new THREE.ConeGeometry(half, pitch * 2, 4), mat);
-  roof.rotation.y = Math.PI / 4;
-  roof.position.y = wallH + pitch;
+  const eaveZ = d / 2 + ROOF_OVERHANG;          // eave reach along the depth axis
+  const ridgeX = w + 2 * ROOF_OVERHANG;         // ridge length with overhang
+  const pitch = wallH * 0.5;
+
+  // gable prism: cross-section (-eaveZ,0) -> (0,pitch) -> (eaveZ,0), extruded along x
+  const shape = new THREE.Shape();
+  shape.moveTo(-eaveZ, 0);
+  shape.lineTo(0, pitch);
+  shape.lineTo(eaveZ, 0);
+  shape.closePath();
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: ridgeX, bevelEnabled: false });
+  geo.translate(0, 0, -ridgeX / 2);
+  const roof = new THREE.Mesh(geo, mat);
+  roof.rotation.x = Math.PI / 2;                // shape XY -> world ZY (roof spans x)
+  roof.position.y = wallH;                      // base exactly at wall top
   roof.castShadow = true;
   g.add(roof);
-  // eaves underside (dark, reads as depth)
-  const under = new THREE.Mesh(
-    new THREE.ConeGeometry(half, 0.25, 4),
+
+  // ceiling: closes the roof volume from below so low angles read depth,
+  // never a black void through the gable triangle
+  const ceiling = new THREE.Mesh(
+    new THREE.BoxGeometry(ridgeX, 0.12, d),
     new THREE.MeshStandardMaterial({ color: 0x2e2215, roughness: 1 }),
   );
-  under.rotation.y = Math.PI / 4;
-  under.position.y = wallH + 0.12;
-  g.add(under);
-  const ridge = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, half * 1.6, 6), mat);
-  ridge.rotation.z = Math.PI / 2;
-  ridge.position.y = wallH + pitch * 2 + 0.1;
+  ceiling.position.y = wallH - 0.06;
+  g.add(ceiling);
+
+  // ridge beam seated ON the ridge line (half-embedded, no floating)
+  const ridge = new THREE.Mesh(new THREE.BoxGeometry(ridgeX + 0.3, 0.22, 0.22), mat);
+  ridge.position.y = wallH + pitch + 0.08;
+  ridge.castShadow = true;
   g.add(ridge);
+
+  // eave fascia at both ends (clean silhouette, traditional gable read)
+  const fasciaMat = mat;
+  for (const side of [-1, 1]) {
+    const fascia = new THREE.Mesh(new THREE.BoxGeometry(0.16, pitch + 0.05, eaveZ * 2), fasciaMat);
+    fascia.position.set(side * (ridgeX / 2 + 0.05), wallH + pitch / 2, 0);
+    g.add(fascia);
+  }
   return g;
 }
 
@@ -289,9 +312,12 @@ function buildGate(s: SetStructure, pal: SetPalette): THREE.Group {
   const beam = new THREE.Mesh(new THREE.BoxGeometry(7.4, 0.55, 0.6), pal.timber);
   beam.position.y = s.h - 0.35;
   g.add(beam);
-  // hip roof over the beam: the gate reads as architecture, not a rectangle
-  const roof = buildRoof(7.6, 1.4, 1.4, pal.thatch);
-  roof.position.y = s.h + 0.55;
+  // hip roof over the beam: the gate reads as architecture, not a rectangle.
+  // New gable roof: base sits at its given wallH — place it so the base rests
+  // on the beam top (s.h - 0.35 + 0.55 = s.h + 0.2), ridge rises from there.
+  const gateRoofH = 1.4;
+  const roof = buildRoof(7.6, 1.4, gateRoofH, pal.thatch);
+  roof.position.y = s.h + 0.2;
   g.add(roof);
   // threshold stone
   const thresh = new THREE.Mesh(new THREE.BoxGeometry(4.5, 0.18, 0.9), pal.cobble);

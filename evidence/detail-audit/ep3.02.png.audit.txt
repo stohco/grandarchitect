@@ -1,118 +1,37 @@
-Director's Assistant.
-Reviewing DAILIES for a 3D xianxia donghua game.
-Exhaustive detail, report FACTS only. No scores, no praise.
-
-        1.  Content Inventory (What, how many, where).
-        2.  Layout/Clipping (Intersections, floating objects).
-        3.  Silhouettes (Roof shapes, proportions, style).
-        4.  Lighting (Direction, contrast, rim light).
-        5.  Atmosphere (Fog, haze, depth).
-        6.  Texture/Surface (Material detail).
-        7.  Defects (List of visual errors).
-
-    *   *Overall view:* It looks like a very early block-out or a broken render. It's mostly flat planes and primitive shapes.
-    *   *Foreground:* A dark green flat plane (ground). A brown flat plane (path/platform) on the left.
-    *   *Midground:* A series of brown/tan flat planes. Some look like roofs (triangular/trapezoidal), some look like walls or platforms. There are thin brown cylinders/rectangles (poles/beams) floating or intersecting.
-    *   *Background:* A solid dark blue void (sky).
-    *   *Specifics:*
-        *   Left: A small triangular peak (roof).
-        *   Center: A large, flat, tan-colored trapezoidal plane (roof).
-        *   Right: Another triangular peak (roof).
-        *   Beams: Long, thin brown lines floating above the roofs.
-        *   Clipping: The planes are intersecting haphazardly. The "roofs" are just flat polygons.
-        *   Lighting: Very basic. Some faces are lighter than others, but there's no complex shading.
-        *   Texture: None. Flat colors.
-
-    *   **1. Content Inventory:**
-        *   Buildings/Roofs: 3 primitive roof-like shapes (left, center, right midground).
-        *   Paths/Ground: 1 large dark green plane (foreground/bottom), 1 brown plane (bottom left).
-        *   Beams/Poles: ~3-4 thin brown cylinders/rectangles (floating above midground).
-        *   Trees: 0.
-        *   Wells: 0.
-        *   Shrines: 0.
-        *   Fences: 0.
-        *   Animals: 0.
-        *   People: 0.
-        *   Water: 0.
-        *   Mountains: 0.
-
-    *   **2. Layout / Clipping:**
-        *   The central tan plane intersects the brown horizontal beams.
-        *   The brown horizontal beams are floating in mid-air above the roof structures.
-        *   The brown platform (bottom left) intersects the dark green ground plane.
-        *   The roof structures are flat planes with no thickness, intersecting each other.
-
-    *   **3. Silhouettes:**
-        *   Shapes are basic triangles and trapezoids.
-        *   They do not read as traditional Chinese architecture; they are primitive geometric planes.
-        *   Proportions are flat and lack depth.
-
-    *   **4. Lighting:**
-        *   Light direction appears to be from the top/front.
-        *   Top faces of the tan planes are lit; vertical/underneath faces are in shadow.
-        *   No warm/cool contrast.
-        *   No rim lighting.
-
-    *   **5. Atmosphere:**
-        *   No fog or haze.
-        *   No depth cues other than basic perspective of the planes.
-        *   Background is a flat, solid blue color.
-
-    *   **6. Texture/Surface:**
-        *   No material detail.
-        *   Surfaces are flat, solid colors (tan, brown, dark green, dark blue).
-        *   No wood grain, thatch, or moss.
-
-    *   **7. Defects:**
-        *   Floating beams above the roof structures (center/right).
-        *   Lack of geometry/thickness on all "buildings" (they are 2D planes).
-        *   Interpenetration of the brown platform and green ground (bottom left).
-        *   Solid blue void background (no skybox/environment).
-        *   Complete absence of textures/materials.
-        *   Lack of architectural detail (no eaves, no pillars, no walls).
 **1. CONTENT INVENTORY**
-*   **Roofs/Buildings:** 3 primitive geometric shapes (1 small triangle left midground, 1 large trapezoid center midground, 1 triangle right midground).
-*   **Paths/Ground:** 1 large dark green plane (foreground/bottom), 1 brown flat plane (bottom left foreground).
-*   **Beams/Poles:** Approximately 3-4 thin brown cylinders/rectangles (floating above the midground structures).
-*   **Trees:** 0.
-*   **Wells:** 0.
-*   **Shrines:** 0.
-*   **Fences:** 0.
-*   **Animals:** 0.
-*   **People:** 0.
-*   **Water:** 0.
-*   **Mountains:** 0.
+*   **Buildings:** 3 primitive rectangular blocks. Large block (center midground), small block (far left background), medium block (right background).
+*   **Paths/Platforms:** 1 brown horizontal rectangular strip (midground).
+*   **Fences/Railings:** 1 thin brown horizontal line (midground, center to right).
+*   **Ground:** 1 flat dark green plane (foreground/midground).
+*   **Missing:** No trees, wells, shrines, animals, people, water, or mountains.
 
 **2. LAYOUT / CLIPPING**
-*   **Floating Objects:** Multiple thin brown beams are floating in mid-air above the roof planes in the center and right midground.
-*   **Intersections:** The central tan roof plane intersects directly through the horizontal brown beams.
-*   **Clipping:** The brown foreground plane (bottom left) clips into the dark green ground plane.
-*   **Geometry:** All "structures" are single-sided flat planes with no thickness, intersecting each other haphazardly.
+*   **Intersections:** The thin brown railing clips directly through the center of the main large block.
+*   **Floating:** The brown platform sits flush on the green plane but lacks any transition or depth, appearing to float.
+*   **Grounding:** All structures lack foundations or environmental blending.
 
 **3. SILHOUETTES**
-*   **Shapes:** Basic triangles and a trapezoid.
-*   **Style:** They do not read as traditional Chinese architecture; they are primitive geometric polygons.
-*   **Readability:** Blob-like/primitive. There are no eaves, brackets, or structural supports.
+*   **Shapes:** Purely cubic and rectangular.
+*   **Readability:** Does not read as Chinese/traditional architecture. No eaves, curved roofs, or proportions associated with the genre.
+*   **Quality:** Primitive and blocky; lacks any architectural detail.
 
 **4. LIGHTING**
-*   **Direction:** Light is coming from the top/front.
-*   **Faces:** Top-facing surfaces of the tan planes are lit; vertical and underside surfaces are in shadow.
-*   **Contrast:** No warm/cool contrast; monochromatic lighting.
-*   **Rim Light:** None.
+*   **Direction:** Front-left.
+*   **Shadows:** Right-facing planes are in shadow.
+*   **Contrast:** Flat. No warm/cool variation or rim lighting.
+*   **Highlights:** Minimal diffuse lighting on front-facing surfaces.
 
 **5. ATMOSPHERE**
-*   **Fog/Haze:** None.
-*   **Depth Cues:** Only basic linear perspective provided by the planes.
-*   **Background:** Solid, flat dark blue void.
+*   **Depth Cues:** None. No fog, haze, or aerial perspective.
+*   **Layering:** Foreground and background are separated only by scale and placement.
 
-**6. TEXTURE/SURFACE**
-*   **Detail:** Zero material detail. No thatch, wood grain, or moss.
-*   **Appearance:** All surfaces are flat, solid colors.
+**6. TEXTURE / SURFACE**
+*   **Detail:** Central block uses a repetitive wavy brown tiling texture.
+*   **Ground:** Flat, solid green color with no material detail.
+*   **Quality:** Surfaces appear as flat polygons with placeholder shaders. No wood grain, moss, or stone textures.
 
 **7. DEFECTS**
-*   **Floating Geometry:** Beams are not connected to any structure (center/right).
-*   **Lack of Volume:** Buildings are 2D planes rather than 3D meshes.
-*   **Environment:** Background is a solid blue fill rather than a skybox or environment.
-*   **Texture Absence:** Complete lack of materials/textures across all assets.
-*   **Clipping:** Ground planes intersecting at bottom left.
-*   **Architectural Failure:** No traditional xianxia/Chinese architectural elements present
+*   **Geometry:** All structures are unrefined primitive cubes.
+*   **Clipping:** Railing line passes through the main central block.
+*   **Asset Absence:** Total lack of environment props (foliage, rocks, decor).
+*   **Texture
