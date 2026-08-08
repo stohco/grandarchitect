@@ -369,6 +369,35 @@ function buildStructure(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group
       g.add(water);
       return g;
     }
+    case 'market': {
+      // an open plaza, NOT a house — flat stone floor, no walls/roof
+      const floor = new THREE.Mesh(new THREE.BoxGeometry(s.w, 0.3, s.d), pal.stone);
+      floor.position.y = 0.15;
+      floor.receiveShadow = true;
+      g.add(floor);
+      const earth = new THREE.Mesh(new THREE.BoxGeometry(s.w * 0.98, 0.08, s.d * 0.98), pal.packedEarth);
+      earth.position.y = 0.31;
+      earth.receiveShadow = true;
+      g.add(earth);
+      return g;
+    }
+    case 'dock': {
+      // timber pier on pilings — a deck, not a house
+      const deck = new THREE.Mesh(new THREE.BoxGeometry(s.w, 0.35, s.d), pal.timber);
+      deck.position.y = 0.75;
+      deck.receiveShadow = true;
+      g.add(deck);
+      const piling = (x: number, z: number) => {
+        const p = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.75, 0.3), pal.timber);
+        p.position.set(x, 0.375, z);
+        p.castShadow = true;
+        g.add(p);
+      };
+      for (const x of [-s.w / 2 + 1.5, 0, s.w / 2 - 1.5]) {
+        for (const z of [-s.d / 2 + 2, s.d / 2 - 2]) piling(x, z);
+      }
+      return g;
+    }
     default: return buildHouse(s, pal, rng);
   }
 }

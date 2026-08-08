@@ -49,7 +49,7 @@ const SCENE_ARTIFACTS: Record<string, string[]> = {
   'pass.57': ['src/lib/determinism/primitives.ts'],
   'pass.65': ['src/components/editor/panels/DirectorPlayerPanel.tsx'],
   'pass.66': ['src/components/editor/panels/DirectorPlayerPanel.tsx'],
-  'pass.67': ['scripts/style-gauntlet.ts', 'scripts/detail-audit.mjs'],
+  'pass.67': ['scripts/vision-inspect.ts', 'docs/vision-inspection-contract.md', 'src/lib/worldproduction/vision-contract.ts'],
   'pass.69': ['src/lib/genesis/emergence-gauntlet.ts'],
   'pass.71': ['src/lib/worldproduction/motion-corpus.ts', 'src/lib/worldproduction/coverage-systems.ts'],
   'pass.72': ['src/lib/worldproduction/production-conformance.ts'],

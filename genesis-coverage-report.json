@@ -134,6 +134,11 @@
           "system": "validation",
           "consumerId": "validation.conformance-runner",
           "note": "rejected work never promoted to validated"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.vision-inspection",
+          "note": "Perceptual Evidence Examiner supplies the visual evidence the Oracle rules on"
         }
       ]
     },
@@ -1301,6 +1306,42 @@
           "note": "slice completeness is machine-checked"
         }
       ]
+    },
+    {
+      "id": "derived.perceptual-evidence-examiner",
+      "canonLevel": "design",
+      "requires": [
+        "visual",
+        "validation",
+        "motion"
+      ],
+      "bindings": [
+        {
+          "system": "validation",
+          "consumerId": "validation.vision-inspection",
+          "note": "two-stage harness: blind read + contract inspection with pass manifests"
+        },
+        {
+          "system": "validation",
+          "consumerId": "validation.oracle",
+          "note": "vision supplies the visual evidence the Oracle rules on"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.scene-universe-slice",
+          "note": "manifest applies the relevant slice for the inspected location"
+        },
+        {
+          "system": "motion",
+          "consumerId": "motion.corpus",
+          "note": "PHASE M temporal inspection uses corpus actions as the expected-motion vocabulary"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.directed-scene-production",
+          "note": "Director Contract + shot intent are part of the input contract"
+        }
+      ]
     }
   ],
   "failures": [],
@@ -1884,6 +1925,16 @@
       "gameplay": "not-required",
       "persistence": "not-required",
       "validation": "bound"
+    },
+    "derived.perceptual-evidence-examiner": {
+      "generation": "not-required",
+      "simulation": "not-required",
+      "motion": "bound",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "bound"
     }
   },
   "fanOut": {
@@ -1944,11 +1995,12 @@
     "derived.xianxia-terminology": 4,
     "derived.modular-asset-factory": 6,
     "derived.directed-scene-production": 6,
-    "derived.scene-universe-slice": 10
+    "derived.scene-universe-slice": 10,
+    "derived.perceptual-evidence-examiner": 6
   },
-  "conceptCount": 58,
-  "boundPairs": 111,
-  "requiredPairs": 111,
+  "conceptCount": 59,
+  "boundPairs": 114,
+  "requiredPairs": 114,
   "gauntlet": [
     {
       "id": "gauntlet.destroy-bridge",

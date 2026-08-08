@@ -278,6 +278,7 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Genesis Coverage', path: 'src/lib/genesis/genesis-conformance.ts', expected: 105 },
   { name: 'Definition Database', path: 'src/lib/engine/definitions-conformance.ts', expected: 25 },
   { name: 'World Production', path: 'src/lib/worldproduction/production-conformance.ts', expected: 129 },
+{ name: 'Vision Contract', path: 'src/lib/worldproduction/vision-contract-conformance.ts', expected: 24 },
   { name: 'Genesis Gauntlet', path: 'src/lib/genesis/gauntlet-conformance.ts', expected: 16 },
   { name: 'Assets Pipeline', path: 'src/engine/assets/conformance-test.ts', expected: 68 },
   { name: 'Terrain Viewport', path: 'src/engine/frontier/terrain-conformance-test.ts', expected: 56 },

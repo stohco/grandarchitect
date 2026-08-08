@@ -108,6 +108,7 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
       { system: 'generation', consumerId: 'generation.procedural-pipeline', note: 'generators must not produce work the Oracle rejects' },
           { system: 'validation', consumerId: 'validation.oracle' },
       { system: 'validation', consumerId: 'validation.conformance-runner', note: 'rejected work never promoted to validated' },
+      { system: 'validation', consumerId: 'validation.vision-inspection', note: 'Perceptual Evidence Examiner supplies the visual evidence the Oracle rules on' },
     ],
   },
   {
@@ -1054,14 +1055,32 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
         text: 'Before generating a scene, retrieve only the relevant part of this enormous graph.',
         source: 'docs/universe-genesis-compiler-directive.md',
       },
-    ],
-    requires: ['visual', 'simulation', 'motion', 'audio', 'validation'],
+    ],    requires: ['visual', 'simulation', 'motion', 'audio', 'validation'],
     bindings: [
       { system: 'visual', consumerId: 'visual.scene-universe-slice', note: 'per-location slice compiler (16 sections, deterministic)' },
       { system: 'simulation', consumerId: 'simulation.ga-npc', note: 'NPC/history + cultivation sections draw resident actors' },
       { system: 'motion', consumerId: 'motion.corpus', note: 'MOTION section harvests corpus entries whose source shot visits the location' },
       { system: 'audio', consumerId: 'audio.architecture', note: 'AUDIO section layers cue ids per location' },
       { system: 'validation', consumerId: 'validation.conformance-runner', note: 'slice completeness is machine-checked' },
+    ],
+  },
+  {
+    id: 'derived.perceptual-evidence-examiner',
+    name: 'Perceptual Evidence Examiner (Vision Inspection Contract)',
+    canonLevel: 'design',
+    claims: [
+      {
+        text: 'Never turn absence of evidence into PASS.',
+        source: 'docs/vision-inspection-contract.md',
+      },
+    ],
+    requires: ['visual', 'validation', 'motion'],
+    bindings: [
+      { system: 'validation', consumerId: 'validation.vision-inspection', note: 'two-stage harness: blind read + contract inspection with pass manifests' },
+      { system: 'validation', consumerId: 'validation.oracle', note: 'vision supplies the visual evidence the Oracle rules on' },
+      { system: 'visual', consumerId: 'visual.scene-universe-slice', note: 'manifest applies the relevant slice for the inspected location' },
+      { system: 'motion', consumerId: 'motion.corpus', note: 'PHASE M temporal inspection uses corpus actions as the expected-motion vocabulary' },
+      { system: 'visual', consumerId: 'visual.directed-scene-production', note: 'Director Contract + shot intent are part of the input contract' },
     ],
   },
 ];

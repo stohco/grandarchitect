@@ -354,6 +354,13 @@ export const CONSUMERS: GenesisConsumer[] = [
     description: 'Visual Accuracy Oracle (reviewer roles, rejection rule)',
   },
   {
+    id: 'validation.vision-inspection',
+    system: 'validation',
+    kind: 'runtime',
+    path: 'scripts/vision-inspect.ts',
+    description: 'Perceptual Evidence Examiner harness: pass-obligation manifests -> blind read + full forensic inspection of rendered frames',
+  },
+  {
     id: 'validation.conformance-runner',
     system: 'validation',
     kind: 'runtime',
