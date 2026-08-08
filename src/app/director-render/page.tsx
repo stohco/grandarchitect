@@ -171,7 +171,7 @@ export default function DirectorRenderPage() {
 
     // furnished interior sets (critic fix: buildings read as inhabited)
     const roomSets = new Map<string, { group: THREE.Group; center: THREE.Vector3; d: number }>();
-    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[]; w: number; d: number }> } : WANG_FAMILY_BEND;
+    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[]; w: number; d: number; h: number }> } : WANG_FAMILY_BEND;
     for (const s of settlement.structures) {
       const sg = village.structures.get(s.id);
       if (!sg) continue;
@@ -200,7 +200,13 @@ export default function DirectorRenderPage() {
         const rs = roomSets.get(shot.roomId);
         if (rs) return rs.center.clone();
       }
-      return g.position.clone().add(new THREE.Vector3(0, 2, 0));
+      // aim at the structure's VISUAL CENTER, not y=2 — a 1.6 m camera
+      // looking at y=2 on an 8 m yamen reads as a steep low angle where the
+      // roof underside dominates the frame (VLM: 'roof reads as a floating
+      // slab'). Visual center = ~40% of blueprint height.
+      const bp = settlement.structures.find((x) => x.id === shot.structureId);
+      const aimY = bp ? Math.min(bp.h * 0.42, 5) : 2;
+      return g.position.clone().add(new THREE.Vector3(0, aimY, 0));
     };
 
     window.__directorShots = () => episode.shots.map((s) => s.id);
@@ -257,10 +263,14 @@ export default function DirectorRenderPage() {
       camera.fov = fovForLens(shot.camera.lensMm);
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      camera.position.set(target.x + dist * 0.7, shot.camera.heightM + target.y * 0.2, target.z + dist);
+      const aimY = target.y;
+      const camH = Math.max(shot.camera.heightM, aimY * 0.72); // level-ish, never looking steeply up
+      camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
       camera.lookAt(target);
-      // fog must not erase distant/aerial shots: scale with camera distance
-      scene.fog = new THREE.Fog(0x9ab8d0, 40, Math.max(260, dist * 1.6));
+      // fog: close haze (40m) with a far that scales to the shot AND covers
+      // the distant mountain ring (760-1020m) so it reads as atmospheric
+      // haze, not crisp un-fogged monoliths (VLM: 'massive geometric blocks')
+      scene.fog = new THREE.Fog(0x9ab8d0, 40, ep2 ? Math.max(1400, dist * 1.6) : Math.max(260, dist * 1.6));
       scene.updateMatrixWorld(true);
       if (grade) grade.composer.render();
       else renderer.render(scene, camera);

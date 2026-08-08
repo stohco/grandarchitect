@@ -14,7 +14,7 @@ export type PainterlyTextureId =
   | 'rammedEarth' | 'thatch' | 'timber' | 'plaster' | 'cobble'
   | 'stone' | 'packedEarth' | 'canvas' | 'hemp';
 
-const TEX_SIZE = 128;
+const TEX_SIZE = 256;
 
 function makeCanvas(): HTMLCanvasElement | null {
   if (typeof document === 'undefined') return null;
@@ -41,60 +41,63 @@ function paint(
     for (let x = 0; x < TEX_SIZE; x++) {
       let r = base[0], g = base[1], b = base[2];
       const jitter = (amp: number) => rng.nextRange(-amp, amp);
-      // painterly mottle: large soft patches so texture reads at distance
-      const mottle = Math.sin((x / TEX_SIZE) * 9 + Math.sin((y / TEX_SIZE) * 7) * 1.4) * 8;
-      r += mottle; g += mottle * 0.9; b += mottle * 0.8;
+      // painterly mottle: TWO soft patch scales so texture reads as painted
+      // strokes at distance, not pixel grain (VLM: 'noise, not hand-painted')
+      const mottle =
+        Math.sin((x / TEX_SIZE) * 6 + Math.sin((y / TEX_SIZE) * 4.7) * 1.2) * 10 +
+        Math.sin((x / TEX_SIZE) * 13 + (y / TEX_SIZE) * 9.3) * 4;
+      r += mottle; g += mottle * 0.92; b += mottle * 0.85;
       switch (mode) {
         case 'rammedEarth': {
           // horizontal compaction bands + grain speckle + straw bits
-          const band = Math.sin((y / TEX_SIZE) * 18) * 9;
-          r += band + jitter(16); g += band * 0.8 + jitter(16); b += jitter(12);
-          if (rng.nextFloat() < 0.3) { r += jitter(22); g += jitter(18); b += jitter(14); } // straw bits
+          const band = Math.sin((y / TEX_SIZE) * 18) * 8;
+          r += band + jitter(10); g += band * 0.8 + jitter(10); b += jitter(8);
+          if (rng.nextFloat() < 0.3) { r += jitter(14); g += jitter(12); b += jitter(10); } // straw bits
           break;
         }
         case 'thatch': {
           // straw lines running one direction with stray strands
-          const line = (Math.sin(x * 0.9 + Math.floor(y / 3) * 1.7) * 8);
-          r += line + jitter(12); g += line * 0.9 + jitter(12); b += jitter(9);
-          if (rng.nextFloat() < 0.14) { r += 26; g += 20; b += 12; } // bright straw strand
+          const line = (Math.sin(x * 0.9 + Math.floor(y / 3) * 1.7) * 7);
+          r += line + jitter(8); g += line * 0.9 + jitter(8); b += jitter(6);
+          if (rng.nextFloat() < 0.14) { r += 18; g += 14; b += 9; } // bright straw strand
           break;
         }
         case 'timber': {
           // sine grain along the length + knots
-          const grain = Math.sin((x / TEX_SIZE) * Math.PI * 9 + (y % 16)) * 10;
-          r += grain + jitter(9); g += grain * 0.85 + jitter(9); b += jitter(8);
-          if (rng.nextFloat() < 0.04) { r += 18; g += 12; b += 6; }
+          const grain = Math.sin((x / TEX_SIZE) * Math.PI * 9 + (y % 16)) * 9;
+          r += grain + jitter(6); g += grain * 0.85 + jitter(6); b += jitter(5);
+          if (rng.nextFloat() < 0.04) { r += 12; g += 8; b += 4; }
           break;
         }
         case 'plaster': {
           // soft mottling, warm wash, worn patches
-          const wash = Math.sin((x + y) * 0.07) * 7;
-          r += wash + jitter(9); g += wash * 0.9 + jitter(9); b += jitter(10);
-          if (rng.nextFloat() < 0.1) { r += jitter(24); g += jitter(20); b += jitter(20); } // worn patches
+          const wash = Math.sin((x + y) * 0.07) * 6;
+          r += wash + jitter(6); g += wash * 0.9 + jitter(6); b += jitter(7);
+          if (rng.nextFloat() < 0.1) { r += jitter(16); g += jitter(14); b += jitter(14); } // worn patches
           break;
         }
         case 'cobble':
         case 'stone': {
           // multi-scale grain: dark inclusions + light highlights
-          const cell = (Math.floor(x / 6) + Math.floor(y / 6)) % 2 === 0;
-          r += (cell ? 7 : -7) + jitter(12); g += (cell ? 7 : -7) + jitter(12); b += (cell ? 5 : -5) + jitter(12);
+          const cell = (Math.floor(x / 8) + Math.floor(y / 8)) % 2 === 0;
+          r += (cell ? 6 : -6) + jitter(8); g += (cell ? 6 : -6) + jitter(8); b += (cell ? 5 : -5) + jitter(8);
           break;
         }
         case 'packedEarth': {
           // smooth earth with scattered pebbles
-          r += jitter(12); g += jitter(12); b += jitter(10);
-          if (rng.nextFloat() < 0.08) { r += 15; g += 13; b += 10; }
+          r += jitter(8); g += jitter(8); b += jitter(7);
+          if (rng.nextFloat() < 0.08) { r += 10; g += 9; b += 7; }
           break;
         }
         case 'canvas': {
           // woven cloth: alternating thread shading
-          const weave = ((Math.floor(x / 2) + Math.floor(y / 2)) % 2) * 8 - 4;
-          r += weave + jitter(8); g += weave * 0.95 + jitter(8); b += jitter(8);
+          const weave = ((Math.floor(x / 2) + Math.floor(y / 2)) % 2) * 6 - 3;
+          r += weave + jitter(5); g += weave * 0.95 + jitter(5); b += jitter(5);
           break;
         }
         case 'hemp': {
-          const weave = ((Math.floor(x / 2) + Math.floor(y / 2)) % 2) * 7 - 3.5;
-          r += weave + jitter(9); g += weave + jitter(9); b += jitter(9);
+          const weave = ((Math.floor(x / 2) + Math.floor(y / 2)) % 2) * 5 - 2.5;
+          r += weave + jitter(6); g += weave + jitter(6); b += jitter(6);
           break;
         }
       }
