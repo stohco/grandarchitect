@@ -71,8 +71,8 @@ design direction "power is relative to the laws of the environment":
    on peer, breaches on overwhelming, restriction multipliers feed the
    solver), terrain-op clipping (half-protected blast, breached ward,
    full containment → no event, polygon domain, redirect share), and
-   determinism (identical inputs → JSON-identical results). Wired into
-   dashboard-data CONFORMANCE_FIELS as 'Law Interaction' (expected 98).
+  determinism (identical inputs → JSON-identical results). Wired into
+  dashboard-data CONFORMANCE_FILES as 'Law Interaction' (expected 98).
 
 ## Forbidden-clash rule encoding (doc 32)
 
