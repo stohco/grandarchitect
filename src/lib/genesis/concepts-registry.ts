@@ -983,6 +983,23 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
     ],
   },
 
+  {
+    id: 'derived.xianxia-terminology',
+    name: 'Xianxia Terminology (Real, Not a Cheap Copy)',
+    canonLevel: 'design',
+    claims: [
+      {
+        text: 'The cultivation ladder has exactly ten stations: Mortal → Qi Induction → Qi Condensation → Foundation Establishment →',
+        source: 'corpus-extension/03_REALM_LADDER.md',
+      },
+    ],
+    requires: ['persistence', 'validation'],
+    bindings: [
+      { system: 'persistence', consumerId: 'persistence.xianxia-glossary', note: 'universal terms Qi Condensation → Soul Formation → Soul Transformation with hanzi' },
+      { system: 'validation', consumerId: 'validation.conformance-runner', note: 'every realm def carries standard aliases; glossary ids resolved' },
+    ],
+  },
+
   // -------------------------------------------------------------------------
   // Derived: World Fabric / Asset Factory directive (docs/ — companion to the
   // six reference boards in upload/, captioned in upload/image-captions/)

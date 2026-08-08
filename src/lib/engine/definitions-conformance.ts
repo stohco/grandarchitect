@@ -14,6 +14,7 @@ import {
   DEFINITION_TOTAL,
 } from './definitions/index';
 import type { Definition } from './definitions';
+import { XIANXIA_GLOSSARY, STANDARD_LADDER, glossaryCoversLadder, danglingGlossaryIds } from './definitions/xianxia-glossary';
 
 let passed = 0;
 let failed = 0;
@@ -95,6 +96,25 @@ check('pill layer populated', (layerCounts['pill'] ?? 0) >= 5, true);
 check('talisman layer populated', (layerCounts['talisman'] ?? 0) >= 5, true);
 check('sect layer populated', (layerCounts['sect'] ?? 0) >= 5, true);
 check('place/region layer populated', ((layerCounts['place'] ?? 0) + (layerCounts['region'] ?? 0)) >= 10, true);
+
+// ---------------------------------------------------------------------------
+// 5. Xianxia terminology — the database must read as REAL xianxia
+// ---------------------------------------------------------------------------
+
+const realmDefs = ALL_DEFINITIONS.filter((d) => d.kind === 'realm');
+check('every realm has universal aliases', realmDefs.every((d) => (d.aliases ?? []).length >= 2), true);
+const realmNames = realmDefs.map((d) => d.name);
+check('standard ladder names present in realm defs',
+  STANDARD_LADDER.every((t) => realmNames.includes(t) || realmDefs.some((d) => (d.aliases ?? []).includes(t))), true);
+check('glossary covers the full standard ladder', glossaryCoversLadder(), true);
+const glossaryDangling = danglingGlossaryIds();
+check('no dangling glossary definition ids', glossaryDangling.length, 0);
+if (glossaryDangling.length > 0) for (const d of glossaryDangling.slice(0, 10)) console.log(`      glossary dangling: ${d}`);
+check('glossary covers >= 25 universal terms', XIANXIA_GLOSSARY.length >= 25, true);
+check('glossary has hanzi on ladder terms', STANDARD_LADDER.every((t) => {
+  const g = XIANXIA_GLOSSARY.find((x) => x.term === t);
+  return g !== undefined && (g.hanzi ?? '').length > 0;
+}), true);
 
 // ---------------------------------------------------------------------------
 

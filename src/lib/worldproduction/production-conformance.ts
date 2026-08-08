@@ -37,6 +37,8 @@ import { buildVillageScene, structureKindsBuilt } from '../assets/factories/set-
 import { buildHumanoid, profileForRole } from '../assets/factories/character-factory';
 import { PROP_BUILDERS, blueprintPropIds, dressStructure, DRESSING_SETS, dressingDetailCount } from '../assets/factories/dressing-factory';
 import { TOUR_SHOTS, TOUR_COUNT } from './director-script';
+import { EPISODE_2, EPISODE_2_COUNT } from './director-script';
+import { QINGHE_MARKET_TOWN, QINGHE_STRUCTURE_COUNT, QINGHE_ROOM_COUNT } from './set-blueprint-2';
 import { interactionsFor } from './interactions';
 import { MOTION_COVERAGE, motionGaps, buildSceneCoverageManifest, CULTIVATION_CELLS, INSTITUTION_VISIBILITY } from './coverage-systems';
 import { ALL_DEFINITIONS } from '../engine/definitions/index';
@@ -376,6 +378,23 @@ check('audit lists all 80 passes', (auditMd.match(/\| \d+ \|/g) ?? []).length, 8
 check('audit has the summary line', auditMd.includes('80 passes —'), true);
 check('audit before-snapshot exists', beforeMd.length > 500, true);
 check('audit records zero gaps', auditMd.includes('⬜ 0 gaps'), true);
+
+// ---------------------------------------------------------------------------
+// 15. Episode 2 — Qinghe Market Town (the multiverse grows)
+// ---------------------------------------------------------------------------
+
+check('market town has >= 7 structures', QINGHE_STRUCTURE_COUNT >= 7, true);
+check('market town has interiors', QINGHE_ROOM_COUNT >= 6, true);
+check('episode 2 has >= 12 shots', EPISODE_2_COUNT >= 12, true);
+check('episode 2 shots unique', new Set(EPISODE_2.shots.map((s) => s.id)).size === EPISODE_2_COUNT, true);
+check('episode 2 narration or MC everywhere',
+  EPISODE_2.shots.every((s) => (s.narrator ?? '').length > 10 || (s.mcLine ?? '').length > 10), true);
+check('episode 2 sound cues everywhere', EPISODE_2.shots.every((s) => (s.sound ?? []).length > 0), true);
+const e2StructureIds = new Set(QINGHE_MARKET_TOWN.structures.map((s) => s.id));
+check('episode 2 covers every town structure',
+  [...e2StructureIds].every((id) => EPISODE_2.shots.some((s) => s.structureId === id)), true);
+check('market town residents exist in definitions', QINGHE_MARKET_TOWN.structures.flatMap((s) => s.residents).every((r) => defIds.has(r)), true);
+check('town structure count matches blueprint', QINGHE_STRUCTURE_COUNT, 8);
 
 // ---------------------------------------------------------------------------
 

@@ -315,7 +315,14 @@ export const CONSUMERS: GenesisConsumer[] = [
     system: 'persistence',
     kind: 'runtime',
     path: 'src/lib/engine/definitions/index.ts',
-    description: 'Wiki-scale Definition Database (278 authored canon entries)',
+    description: 'Wiki-scale Definition Database (429 authored canon entries)',
+  },
+  {
+    id: 'persistence.xianxia-glossary',
+    system: 'persistence',
+    kind: 'runtime',
+    path: 'src/lib/engine/definitions/xianxia-glossary.ts',
+    description: 'Universal xianxia terminology registry (standard ladder + hanzi)',
   },
   {
     id: 'persistence.tiering-spec',
