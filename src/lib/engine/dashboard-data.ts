@@ -278,4 +278,5 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Settlement Day', path: 'src/engine/simulation/settlement-day-conformance.ts', expected: 42 },
   { name: 'Matter Conservation', path: 'src/engine/world/matter/matter-conformance.ts', expected: 54 },
   { name: 'Law Interaction', path: 'src/engine/laws/laws-conformance.ts', expected: 98 },
+  { name: 'Cosmology', path: 'src/engine/cosmos/cosmos-conformance.ts', expected: 104 },
 ];
