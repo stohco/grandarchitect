@@ -184,7 +184,8 @@ check('structure kinds covered by builders', structureKindsBuilt().length >= 10,
 const hero = buildHumanoid(profileForRole('cultivator', 1));
 const boneCount = Object.keys(hero.bones).length;
 check('humanoid rig has >= 20 bones', boneCount >= 20, true);
-check('humanoid has 4 animation clips', Object.keys(hero.clips).length, 4);
+check('humanoid has 5 animation clips', Object.keys(hero.clips).length, 5);
+check('meditate clip present (E4 harvest)', !!hero.clips.meditate, true);
 check('walk clip has keyframes', hero.clips.walk.tracks.length >= 4, true);
 check('cloth bones present (spring-bone analog)', !!hero.bones.clothBack && !!hero.bones.clothHem, true);
 check('elder profile shorter than cultivator', profileForRole('elder', 2).heightM < profileForRole('cultivator', 1).heightM, true);
