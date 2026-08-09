@@ -3,7 +3,7 @@
 ## STAGE A (blind)
 Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
 One rendered frame.
-No entity names, no developer context, no "intended" content.
+No entity names, no developer context, no intended content.
 
         *   What does the frame actually show? (setting, objects, scale, density)
         *   What would a player genuinely think they are looking at?
@@ -15,152 +15,148 @@ Brutally accurate, no praise, facts and defects only.
 
     *   *Setting:* An indoor room. White/off-white walls. Brownish/tan floor. Dark ceiling.
     *   *Objects:*
-        *   A brown wooden-textured block/cabinet on the far left.
-        *   A small, tan, cylindrical/truncated cone object on the floor to the right.
-    *   *Scale:* Appears to be a standard room size, but lacks reference points (no doors, windows, furniture of known size).
-    *   *Density:* Extremely low. Only two objects in a large empty space.
-    *   *Lighting:* Flat, diffuse lighting. No strong shadows. Some slight gradients on the floor.
+        *   Left edge: A brown, textured vertical block (looks like a dresser or a wall section).
+        *   Right side: A small, tan, cylindrical object (looks like a stool or a trash can).
+    *   *Scale:* Appears to be a standard room size, but lacks reference points.
+    *   *Density:* Extremely low. Almost empty.
+    *   *Lighting:* Flat, diffuse lighting. No strong shadows.
     *   *Textures:*
         *   Walls: Flat color/very subtle noise.
         *   Floor: Grainy, low-resolution texture.
-        *   Wooden object: Low-res wood grain.
         *   Cylinder: Flat color.
-    *   *Geometry:* Simple boxes and a low-poly cylinder.
+        *   Left object: Low-res wood-like texture.
+    *   *Geometry:* Very basic. Right angles. Low polygon count (the cylinder has visible facets).
 
-    *   *What is it?* A room. A very empty room.
-    *   *Player perception:* "I'm in a test room" or "The game is broken/unfinished." It looks like a basic 3D environment setup.
-    *   *Art style:* Low-fidelity 3D. Early 2000s aesthetic or a very early prototype.
-    *   *Completion level:* Definitely not finished. It's a blockout or primitive placeholder.
+    *   *What is it?* A room. A very empty, unfinished room.
+    *   *Player perception:* "I'm in a test room" or "The game is broken/unfinished."
+    *   *Art style:* Low-fidelity 3D. Looks like early 2000s graphics or a very basic Unity/Unreal project.
+    *   *Completion level:* Definitely not finished. It's a blockout or a primitive placeholder.
     *   *Defects:*
-        *   Lack of detail.
-        *   Low-resolution textures (pixelation/grain on floor).
-        *   Lack of environmental storytelling or purpose.
-        *   Harsh, unnatural lighting.
-        *   Empty zones: Almost the entire frame.
-    *   *Reward for inspection:* Zero. There is nothing to look at. Once you see the wall and the floor, there is no further detail to discover.
+        *   Low-res textures (pixelation on the floor).
+        *   Low poly count (cylinder facets).
+        *   Lack of detail (no baseboards, no ceiling fixtures, no window, no door).
+        *   Flat lighting.
+        *   Empty space.
+    *   *Reward for inspection:* Zero. There is nothing to look at.
 
-    *   *Setting/Objects:* Indoor room. Off-white walls, tan floor, dark ceiling. One wooden rectangular prism (left), one tan cylinder (right). Low density.
-    *   *Player Perception:* An empty test chamber or an unfinished level.
-    *   *Style/Quality:* Low-fidelity 3D. Poor production quality. Low-resolution textures.
+    *   *Setting/Objects:* Indoor room. White walls, brown floor, dark ceiling. One brown rectangular block (left), one tan cylinder (right). Low density.
+    *   *Player perception:* An empty, unfinished test environment or a "greybox" room.
+    *   *Style/Quality:* Low-fidelity 3D. Poor production quality.
     *   *Completion:* PRIMITIVE_PLACEHOLDER.
-    *   *Defects:* Massive empty zones. Grainy floor texture. Lack of lighting depth/shadows.
-    *   *Inspection limit:* Immediate. No detail exists beyond the basic shapes.
-**Actual Content:**
-An indoor room consisting of off-white walls, a dark brown ceiling, and a tan/brown floor. The space contains two objects: a brown wooden-textured rectangular prism on the far left and a small, tan, low-poly cylinder on the floor to the right. Density is extremely low.
+    *   *Defects:* Low-resolution textures (floor), visible polygon edges on the cylinder, total absence of architectural detail (no trim, no lighting fixtures), flat lighting.
+    *   *Inspection limit:* Immediate. There is no detail to discover.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
-**Player Perception:**
-A player would perceive this as a test room, a developer's "greybox" area, or a broken/unfinished level. There is no environmental context to suggest a narrative or purpose.
+**Actual Content**
+*   **Setting:** An indoor room consisting of off-white walls, a dark brown/black ceiling, and a tan/brown floor.
+*   **Objects:** One brown rectangular prism with a wood-like texture (far left edge) and one tan cylinder (right foreground).
+*   **Scale:** Appears to be a standard room, though the lack of reference objects makes scale ambiguous.
+*   **Density:** Extremely low. The space is nearly empty.
 
-**Art Style and Production Quality:**
-Low-fidelity 3D. Production quality is poor. Textures are low-resolution and grainy (particularly the floor). Lighting is flat and lacks meaningful shadows or highlights.
+**Player Perception**
+A player would perceive this as a "test room," a "greybox" environment, or a broken/unfinished level. There is no narrative or functional context provided by the visuals.
 
-**Level of Completion:**
+**Art Style and Production Quality**
+*   **Style:** Low-fidelity 3D.
+*   **Quality:** Poor. Lighting is flat and diffuse. Textures are low-resolution and lack detail. Geometry is basic.
+
+**Level of Completion**
 PRIMITIVE_PLACEHOLDER
 
-**Defects and Distractions:**
-- **Empty Zones:** Approximately 90% of the frame is void of detail or interest.
-- **Texture Quality:** The floor texture is noisy and pixelated.
-- **Lighting:** The transition between the walls and ceiling is a harsh, unnatural line.
-- **Geometry:** The cylinder is low-poly with visible facets.
+**Defects and Distractions**
+*   **Geometry:** The cylinder is low-poly; the flat facets are clearly visible.
+*   **Textures:** The floor texture is grainy and low-resolution. The wall-to-floor and wall-to-ceiling transitions are sharp, unrealistic lines with no molding, baseboards, or beveling.
+*   **Lighting:** Lack of ambient occlusion or directional shadows makes objects feel disconnected from the floor.
+*   **Empty Zones:** The entire center and rear of the frame are void of any visual interest or detail.
 
-**Inspection Limit:**
-The image stops rewarding inspection immediately. There are no micro-details, decals, or complex materials to discover; once the basic shapes are identified, there is nothing further to see.
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no micro-details, textures, or hidden elements to discover.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
 A single rendered frame of an indoor room.
 Stage A (Blind Read) provided.
-Scene Universe Slice (Medicine Shop, Wang Family Bend, Cangwu Sect), Genesis Pass Manifest (P09, P10, etc.).
-Perform Phases B-X, evaluate Genesis Passes, conduct a 3x3 forensic sweep, and provide the final Vision Verdict.
+Scene Universe Slice (Medicine Shop, Wang Family Bend, Cangwu Sect), Genesis Pass Manifest (P09, P10, P13, P22, P23, P33, P49, P50, P67, P72, etc.).
 
-    *   *Visuals:* A room with off-white walls, a tan/brown floor, a dark ceiling. A wooden block/cabinet on the left. A small tan cylinder/cone on the floor.
-    *   *Context (Universe Slice):* This is supposed to be the "Qinghe Medicine Shop" (room.qinghe.medicine_counter). It should have a "drawer wall of herbs, the compounding bench, a locked cabinet for spirit-touched goods."
-    *   *Comparison:* The visual evidence shows almost none of the intended content. There is one block (maybe the cabinet?) and one cylinder (maybe a mortar?). The "drawer wall" is missing. The "compounding bench" is missing. The "locked cabinet" is missing.
+    *   *Visuals:* White walls, brown floor, black ceiling. A brown block on the left, a tan cylinder on the right.
+    *   *Context (from Slice):* This is supposed to be the "room.qinghe.medicine_counter" in a medicine shop. It should have a "Drawer wall of herbs, the compounding bench, a locked cabinet for spirit-touched goods."
+    *   *Comparison:* The visual evidence shows almost nothing of the intended content. No drawers, no bench, no cabinet, no herbs. Just a block and a cylinder.
 
     *   **Phase B: Full-Frame Composition**
-        *   Focal Hierarchy: Non-existent. The eye wanders across empty walls.
-        *   Foreground/Mid/Back: Very shallow. Foreground is empty floor; midground is a cylinder; background is a blank wall.
-        *   Balance: Heavily weighted to the left (cabinet) and right (cylinder), with a massive void in the center.
-        *   Camera: Low angle, looking slightly up.
-        *   Readability: It reads as a primitive test scene.
+        *   Focal Hierarchy: Non-existent. The eye wanders between the block and the cylinder.
+        *   Foreground/Mid/Back: Very shallow.
+        *   Balance: Unbalanced.
+        *   Negative Space: Overwhelming.
+        *   Camera: Static, eye-level, wide.
 
     *   **Phase C: Multi-Scale World Density**
-        *   Shell 1 (Reach): Empty floor.
-        *   Shell 2 (Local Interaction): One cylinder, one block.
-        *   Shell 3 (Local Scene): Empty room.
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local Interaction): Empty.
+        *   Shell 3 (Local Scene): Primitive.
         *   Shell 4-9: Not applicable/not visible.
-        *   Verdict: Extreme density failure.
+        *   Verdict: Extreme void.
 
     *   **Phase D: Content Inventory**
-        *   Walls: Off-white, flat.
-        *   Floor: Tan, grainy texture.
-        *   Ceiling: Black/Dark brown, flat.
-        *   Object 1 (Left): Brown wooden block. (Intended: Locked cabinet?)
-        *   Object 2 (Right): Tan cylinder. (Intended: Mortar?)
-        *   Missing: Drawer wall, compounding bench, herbs, signage, NPCs, lighting fixtures.
+        *   Walls: White, flat.
+        *   Floor: Brown, grainy.
+        *   Ceiling: Black, flat.
+        *   Object 1 (Left): Brown block (intended as dresser/wall?).
+        *   Object 2 (Right): Tan cylinder (intended as stool/trash can?).
+        *   Missing: Everything listed in the Scene Universe Slice.
 
     *   **Phase E: Silhouette and Proportion**
-        *   The cylinder is a primitive. The block is a primitive. No organic or detailed silhouettes.
+        *   The cylinder is a primitive. The block is a primitive. No artistic silhouette.
 
-    *   *P13 (Material Truth):* FAIL. Walls are flat colors. Floor is a generic noise texture. No weathering, no contact wear.
-    *   *P51 (Material/Shader Presentation):* FAIL. No painterly language. Generic shaders.
-    *   *P36 (Physics/Structural Consequences):* PARTIAL. The walls meet the floor, but there's no architectural detail (molding, beams).
-    *   *P23 (Ordinary Work/Domestic Life):* FAIL. No evidence of a medicine shop. No tools, no herbs, no activity.
-    *   *P22 (Economy/Logistics):* FAIL. No stock, no containers, no logistics.
-    *   *P07 (Perceptual Hierarchy):* FAIL. No intended focal point.
-    *   *P50 (Lighting):* FAIL. Flat, diffuse, no key/fill/rim.
-    *   *P67 (Visual Oracle):* FAIL. This is clearly proxy/placeholder geometry.
-    *   *P72 (Release/Completeness):* FAIL. Massive visual blockers.
+    *   P09 (Geology): N/A (Indoor).
+    *   P10 (Terrain): N/A (Indoor).
+    *   P13 (Material Truth): **FAIL**. Walls are flat white; floor is a grainy blur. No "weathering, contact wear, or age."
+    *   P22 (Economy/Logistics): **FAIL**. No stock, no containers, no logistics.
+    *   P23 (Ordinary Work): **FAIL**. No tools, no activity.
+    *   P33 (Affordance): **FAIL**. Nothing looks "usable" beyond basic collision.
+    *   P49 (Cinematography): **FAIL**. No focal hierarchy or directed framing.
+    *   P50 (Lighting): **FAIL**. Flat, diffuse, no key/fill/rim.
+    *   P67 (Visual Oracle): **FAIL**. This is clearly proxy/primitive geometry.
+    *   P72 (Completeness): **FAIL**. Massive visual blockers (lack of content).
 
-    *   Top-Left: Blank wall.
-    *   Top-Center: Ceiling/Wall junction.
-    *   Top-Right: Blank wall.
-    *   Mid-Left: Wooden block (primitive).
-    *   Mid-Center: Empty floor.
-    *   Mid-Right: Blank wall.
-    *   Bottom-Left: Floor texture.
-    *   Bottom-Center: Floor texture.
-    *   Bottom-Right: Tan cylinder (primitive).
-
-    *   *Vision Verdict:* CRITICAL FAILURE.
-    *   *Top Failures:* World Density, Material Truth, Production Quality.
-    *   *Diagnosis:* This is a greybox/primitive blockout. It is not a rendered scene of a medicine shop.
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of intended content (Medicine Shop), lack of material definition, flat lighting.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat shaders, primitive geometry.
 **PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
-**INTENDED LOCATION:** `room.qinghe.medicine_counter` (Qinghe Medicine Shop)
-**UNIVERSE SLICE:** Wang Family Bend / Cangwu Sect
+**SCENE CONTEXT:** `room.qinghe.medicine_counter` (Medicine Shop, Wang Family Bend)
+**INTENDED CONTENT:** Drawer wall of herbs, compounding bench, locked cabinet for spirit-touched goods.
 
 ---
 
 ### 1. PHASE B — FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** Non-existent. There is no primary read. The eye drifts between two disconnected primitives (a block and a cylinder) across a void of negative space.
-*   **Depth Separation:** Minimal. The scene consists of a floor plane and two intersecting wall planes. There is no layering, no overlap, and no foreground interest.
-*   **Frame Balance:** Poor. The composition is an empty "L" shape. The left edge is anchored by a block; the lower right is anchored by a cylinder. The center is a dead zone.
-*   **Camera/Lens:** Low-angle perspective. The lens feels generic; there is no cinematic intent or directed sightline.
-*   **Readability:** The scene reads as a **primitive placeholder map**. It does not communicate "Medicine Shop," "Interior," or "Xianxia."
+*   **Focal Hierarchy:** Non-existent. There is no primary subject. The eye oscillates between two disconnected primitives.
+*   **Depth Separation:** Minimal. The intersection of the floor and walls provides the only sense of 3D space.
+*   **Frame Balance:** Poor. Heavy void in the center; unbalanced weight with a block on the far left and a cylinder on the right.
+*   **Negative Space:** Overwhelming. Approximately 90% of the frame is unoccupied, non-informative surface area.
+*   **Camera/Lens:** Standard wide-angle, eye-level. No cinematic intent or directed sightlines.
+*   **Compositional Read:** This is a "void room." It fails to communicate any specific function or narrative.
 
 ### 2. PHASE C — MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Empty floor.
-*   **SHELL 2 (Local Interaction):** Two primitive objects. No usable tools, no surfaces for interaction.
-*   **SHELL 3 (Local Scene):** A void. The "drawer wall of herbs" and "compounding bench" defined in the Universe Slice are entirely absent.
-*   **SHELLS 4-9:** Not applicable/Not visible.
-*   **Density Verdict:** **CRITICAL VACUUM.** The scene is devoid of the required environmental storytelling and functional density.
+*   **SHELL 1 (Reach):** Empty.
+*   **SHELL 2 (Local Interaction):** Empty.
+*   **SHELL 3 (Local Scene):** Primitive. Two objects present; zero environmental storytelling.
+*   **SHELLS 4–9:** Not applicable/Not visible.
+*   **Density Verdict:** **CRITICAL VOID.** The scene is entirely devoid of the "drawer wall," "compounding bench," and "locked cabinet" mandated by the Scene Universe Slice.
 
 ### 3. PHASE D — CONTENT INVENTORY
 | Object | Region | Depth | Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Wall (L/R) | Mid/Back | Back | Plaster/Wall | Primitive | None (Flat color) |
-| Floor | Bottom | Fore/Mid | Floor | Primitive | None (Generic noise) |
+| Wall (L/R) | Perimeter | Mid/Back | Plaster/Wall | Primitive | None (Flat color) |
+| Floor | Bottom | Fore/Mid | Floor | Primitive | None (Grainy noise) |
 | Ceiling | Top | Back | Ceiling | Primitive | None (Black void) |
-| Block | Left | Mid | [Cabinet?] | Placeholder | None (Brown cube) |
-| Cylinder | Right | Mid | [Mortar?] | Placeholder | None (Tan cylinder) |
-
-**Missing Content:** Drawer wall of herbs, compounding bench, locked cabinet, spirit-touched goods, signage, lighting fixtures, architectural supports (beams/pillars), and any evidence of human or supernatural habitation.
+| Brown Block | Left Edge | Fore | [Intended: Dresser] | **Proxy** | None |
+| Tan Cylinder | Right Mid | Mid | [Intended: Stool] | **Proxy** | None |
 
 ### 4. PHASE E — SILHOUETTE AND PROPORTION
-*   **Silhouettes:** Purely geometric. Rectangles and cylinders. No organic shapes, no intricate craftsmanship, no "painterly" edge language.
-*   **Proportions:** The scale is ambiguous. Without a `scale.cultivator` anchor, the cylinder could be a pill or a pillar.
+*   **Silhouettes:** Purely geometric. A cube/rectangular prism and a cylinder. No artistic silhouette or character.
+*   **Proportions:** The cylinder is roughly 1/4 the height of the wall, suggesting a stool-like scale, but without a reference human (`scale.cultivator`), this is an assumption.
 
 ---
 
@@ -168,54 +164,36 @@ Perform Phases B-X, evaluate Genesis Passes, conduct a 3x3 forensic sweep, and p
 
 | Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P13** | Material Truth | **FAIL** | No weathering, no contact wear. Materials are flat colors or generic noise. |
-| **P51** | Material/Shader | **FAIL** | No painterly language. Generic, non-stylized shaders. |
-| **P36** | Structural Cons. | **PARTIAL** | Walls meet floor, but no load paths or architectural logic visible. |
-| **P23** | Ordinary Work | **FAIL** | No tools, no herbs, no evidence of a functioning shop. |
-| **P22** | Economy/Logistics | **FAIL** | No stock, no containers, no trade evidence. |
-| **P07** | Perceptual Hier. | **FAIL** | No intended focal point; the scene is a void. |
-| **P50** | Lighting | **FAIL** | Flat, diffuse lighting. No key/fill/rim. No mood. |
-| **P67** | Visual Oracle | **FAIL** | Scene is composed entirely of proxy/placeholder geometry. |
-| **P72** | Completeness | **FAIL** | Massive visual blockers. Not a production candidate. |
+| **P13** | Material Truth | **FAIL** | **Missing:** Weathering, contact wear, age. **Observed:** Flat white and grainy brown. |
+| **P22** | Economy/Logistics | **FAIL** | **Missing:** All stock, containers, and goods handling. |
+| **P23** | Ordinary Work | **FAIL** | **Missing:** Tools, compounding equipment, signs of occupation. |
+| **P33** | Affordance Lattice | **FAIL** | **Missing:** Legible usable objects. Primitives do not read as "furniture." |
+| **P49** | Cinematography | **FAIL** | **Missing:** Focal hierarchy and directed framing. |
+| **P50** | Lighting | **FAIL** | **Missing:** Key/Fill/Rim relationships. **Observed:** Flat, diffuse, non-directional light. |
+| **P67** | Visual Oracle | **FAIL** | **Observed:** Visible proxy geometry. Total Art Bible violation. |
+| **P72** | Completeness | **FAIL** | **Missing:** All mandatory visual content for a "Medicine Shop." |
 
 ---
 
-### 6. 3x3 FORENSIC SWEEP
-*   **Top-Left:** Blank wall. No detail.
-*   **Top-Center:** Hard edge between wall and black ceiling. No molding/transition.
-*   **Top-Right:** Blank wall. No detail.
-*   **Mid-Left:** Brown wooden block. No drawers, no handles, no grain detail.
-*   **Mid-Center:** Empty floor. Generic noise texture.
-*   **Mid-Right:** Blank wall. No detail.
-*   **Bottom-Left:** Floor texture. No scuffs or wear.
-*   **Bottom-Center:** Empty floor.
-*   **Bottom-Right:** Tan cylinder. No detail, no base, no purpose.
+### 6. VISION VERDICT
 
----
-
-### 7. VISION VERDICT
-
-**VERDICT: CRITICAL FAILURE**
+**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER / GREYBOX**
 
 **TOP FAILURES:**
-1.  **World Density (P22, P23):** The "Medicine Shop" is a conceptual ghost. None of the required assets from the Universe Slice are present.
-2.  **Production Quality (P67, P72):** This is a greybox/blockout. It is not a rendered scene.
-3.  **Material Truth (P13, P51):** Total absence of the project's required art style.
+1.  **Total Content Absence:** The "Medicine Shop" is visually non-existent. None of the mandated assets (drawers, bench, cabinet) are present.
+2.  **Material Bankruptcy:** Surfaces are flat colors or low-res noise. No "Material Truth" (P13).
+3.  **Lighting Failure:** The scene lacks any light source logic, resulting in a flat, lifeless render (P50).
 
-**EDIT-SCOPE DIAGNOSIS:**
-*   **Asset Level:** Complete replacement of all primitives with production-ready assets (Drawer walls, benches, cabinets).
-*   **Environment Level:** Implementation of architectural detail (beams, floor trim, wall textures).
-*   **Lighting Level:** Full overhaul of the lighting rig to move from "flat diffuse" to "cinematic interior."
+**WORLD DENSITY:** **ZERO.**
+**TECHNICAL DEFECTS:** Primitive geometry; flat shaders; lack of ambient occlusion or contact shadows.
+**NOT EVALUABLE:** P09, P10, P14, P15, P18, P25, P27, P29, P43, P47, P60, P61 (No applicable evidence in frame).
 
-**WORLD DENSITY:** 0.01% (Two primitives in a void).
-**TECHNICAL DEFECTS:** Flat lighting, proxy geometry, lack of texture resolution/detail.
-**NOT EVALUABLE:** P09, P10, P14, P15, P25, P27, P29, P43, P47 (No exterior, no NPCs, no VFX, no motion).
-
-**NEXT INSPECTION:** Require a frame containing the actual `structure.qinghe.medicine_shop` blueprint implementation.
+**NEXT INSPECTION:** Require full asset integration of `structure.qinghe.medicine_shop` and implementation of the Cinematic Lighting pass.
 
 ---
 
-### 8. AAA COMPLETENESS QUESTION
-**Does this frame represent a finished, production-ready visual for Grand Architect?**
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
 
-**NO.** This is a primitive blockout. It fails every applicable production and art contract.
+**NO.** 
+This is not a rendered scene; it is a primitive block-out. It fails every applicable production gate.

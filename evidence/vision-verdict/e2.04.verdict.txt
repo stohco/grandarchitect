@@ -8,202 +8,205 @@ No entity names, no developer context, no "intended" content.
         *   What does the frame actually show? (setting, objects, scale, density)
         *   What would a player genuinely think they are looking at?
         *   Apparent art style and production quality.
-        *   Apparent level of completion (specific categories provided).
+        *   Apparent level of completion (specific categories).
         *   Obvious defects, distractions, empty zones.
         *   Where does the image stop rewarding closer inspection?
 Brutally accurate, no praise, facts and defects only.
 
-    *   *Setting:* A room. White/off-white walls. Brownish/tan floor. Dark ceiling with a single rectangular beam/light fixture.
+    *   *Setting:* A room with white/off-white walls and a brown/tan floor. The ceiling is black with a single rectangular brown beam/light fixture.
     *   *Objects:*
-        *   Left: A gold-colored L-shaped structure with a white oval plate/bowl on top.
-        *   Center-left: A tan cylinder (truncated cone).
-        *   Center: A brown cube.
-        *   Center-right: A light-tan cylinder (truncated cone).
-    *   *Scale:* Hard to tell without a human reference, but the proportions suggest a room-sized space.
-    *   *Density:* Extremely low. Four primitive objects in a large empty room.
-    *   *Art Style:* Low-poly, flat shading/basic textures. No complex lighting, no shadows (or very soft, ambiguous ones).
-    *   *Production Quality:* Very low. Looks like a basic 3D engine test or a very early prototype.
-    *   *Completion Level:* Definitely not finished. Not a production candidate. Not even a "stylized prototype" because there's no clear style. It's a blockout or primitive placeholder.
-    *   *Defects/Distractions:*
-        *   Lack of textures (flat colors).
-        *   Lack of lighting/shadows (objects feel like they are floating or pasted on).
-        *   Empty space (vast majority of the frame is blank wall/floor).
-        *   The "sink/table" object on the left is geometrically simplistic.
-    *   *Inspection Limit:* The image stops rewarding inspection immediately. There are no details to discover.
+        *   A gold-colored L-shaped structure on the left with a white oval dish/bowl attached.
+        *   A tan cylinder (stump-like).
+        *   A brown cube.
+        *   Another tan cylinder further back.
+    *   *Scale/Density:* Very low density. Large empty floor space. Scale is ambiguous but suggests a room size.
+    *   *Art Style:* Low-poly, flat shading/basic textures. No complex lighting, no shadows (ambient occlusion is missing or very minimal), no bevels.
+    *   *Production Quality:* Extremely low. Looks like a basic 3D software default scene or a very early prototype.
+    *   *Completion Level:* Definitely not finished. Not even a "stylized prototype" in a polished sense. It's a blockout or primitive placeholder.
+    *   *Defects:*
+        *   Lack of lighting/shadows (objects float on the floor).
+        *   Textureless walls.
+        *   Lack of detail on all objects.
+        *   Harsh, unnatural lighting transition on the floor.
+        *   The "ceiling" is just a black void with a floating box.
+    *   *Inspection Limit:* The image stops rewarding inspection immediately. There is no detail to discover.
 
-    *   *What does it show?* A sparse room with white walls, a tan floor, and a dark ceiling. It contains four primitive geometric shapes: a gold L-bracket with a white oval, two tan cylinders, and one brown cube.
-    *   *Player perception?* A test room, a glitchy loading area, or a very early development build.
-    *   *Style/Quality?* Low-fidelity 3D. Flat colors. No environmental storytelling or polish.
+    *   *What does it show?* A sparse room with white walls, a brown floor, and a black ceiling. Contains four primitive shapes: a gold L-bracket with a white oval, two tan cylinders, and one brown cube.
+    *   *Player perception?* A test room, a glitchy area, or a very early alpha build.
+    *   *Style/Quality?* Primitive 3D. Low production quality.
     *   *Completion?* PRIMITIVE_PLACEHOLDER.
-    *   *Defects?* Total absence of texture detail, lack of contact shadows (objects don't feel grounded), massive empty zones.
-    *   *Inspection limit?* At the first glance. There is zero micro-detail.
+    *   *Defects?* No shadows. No textures. Empty space. Floating ceiling element.
+    *   *Inspection limit?* Zero. No micro-detail exists.
 **Actual Content:**
-A sparse, rectangular room with off-white walls, a tan-colored floor, and a dark brown ceiling featuring a single rectangular protrusion. The room contains four primitive objects: a gold-colored L-shaped stand supporting a white oval disc, two tan truncated cones, and one brown cube. Density is extremely low.
+A sparse interior room consisting of off-white walls, a brown textured floor, and a black ceiling. The room contains four primitive objects: a gold-colored L-shaped bracket supporting a white oval disc, two tan cylinders, and one brown cube. A single brown rectangular prism is embedded in or floating against the black ceiling.
 
 **Player Perception:**
-A developer test room, a "greybox" environment, or a broken/unloaded game state.
+A player would perceive this as a developer test chamber, a "greybox" environment, or a broken/unloaded map. There is no narrative or environmental storytelling present.
 
 **Art Style and Production Quality:**
-Low-fidelity 3D. Flat shading with minimal lighting. No textures, no bevels, and no material definition. Production quality is negligible.
+Primitive 3D. Production quality is extremely low. There is a total absence of complex geometry, bevels, or high-resolution textures. Lighting is flat and lacks ambient occlusion or contact shadows, causing objects to appear as if they are floating on the floor.
 
 **Level of Completion:**
 PRIMITIVE_PLACEHOLDER
 
 **Defects and Distractions:**
-- **Lack of Grounding:** Objects lack contact shadows, making them appear to float on the floor surface.
-- **Empty Zones:** Approximately 90% of the frame consists of featureless planes (walls and floor).
-- **Geometric Simplicity:** Objects are basic primitives with no refined modeling.
-- **Lighting:** Flat, ambient lighting provides no depth or focal point.
+- **Lighting:** No shadows beneath objects; lighting is uniform and unnatural.
+- **Geometry:** Hard 90-degree edges on all walls and objects.
+- **Composition:** Massive empty zones of dead space.
+- **Ceiling:** The black void ceiling with a floating brown block is visually jarring and lacks structural logic.
+- **Textures:** The floor texture is a repetitive, low-detail noise pattern.
 
 **Inspection Limit:**
-The image stops rewarding inspection immediately. There are no textures, decals, or fine details to analyze; once the basic shapes are identified, there is nothing further to see.
+The image stops rewarding inspection immediately. There are no fine details, materials, or hidden elements to discover.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
-A single rendered frame showing a sparse room with primitive shapes.
-A "Scene Universe Slice" describing a "Salt Depot Counting Room" (7m x 9m) with brass scales, salt-block racks, ledger wall, and a county license frame.
-A list of Genesis Passes (P09, P10, P27, etc.) with specific visual obligations.
-Perform Phases B-X, evaluate Genesis Passes, conduct a forensic sweep, and provide a final Vision Verdict.
+A single rendered frame of a room.
+Stage A (Blind Read) provided.
+The "Grand Architect" Vision Inspection Contract (Constitution).
+A "Scene Universe Slice" (the intended content) and a "Genesis Pass Manifest" (the quality standards).
 
-    *   *Visuals:* White walls, tan floor, black ceiling with one brown beam. Four primitive objects: a gold L-shape with a white oval (likely the "brass scales"), two truncated cones (likely "salt blocks"), and one cube (likely a "ledger" or "table").
-    *   *Comparison to Slice:*
-        *   Slice says: "Brick walls, tiled roof, iron-bound doors." -> Visuals: Flat white walls, black ceiling. (FAIL)
-        *   Slice says: "Brass scales, salt-block racks, ledger wall." -> Visuals: Primitive shapes. No racks, no wall detail. (FAIL)
-        *   Slice says: "County license frame hangs behind the counter." -> Visuals: Empty wall. (FAIL)
-        *   Slice says: "7m x 9m." -> Visuals: Scale is ambiguous, but it looks like a generic box.
+    *   *Scene Universe Slice:*
+        *   Location: `room.qinghe.depot_counting` (Salt accounts at market scale).
+        *   Dimensions: 7m x 9m.
+        *   Expected Content: Brass scales, salt-block racks, ledger wall, county license frame, brick walls, tiled roof, iron-bound doors.
+        *   Materials: Brick, tile, iron, salt.
+    *   *Visual Evidence (The Image):*
+        *   Walls: Flat off-white/beige. No brick texture.
+        *   Floor: Flat brown/tan. No tile or stone.
+        *   Ceiling: Black with a brown rectangular block.
+        *   Objects:
+            *   Gold L-shape with white oval (intended as brass scales?).
+            *   Two tan cylinders (intended as salt blocks/racks?).
+            *   One brown cube (intended as a table/ledger?).
+        *   Lighting: Flat, ambient, no shadows, no directional light.
+        *   Density: Extremely low.
 
-    *   **Phase B: Full-Frame Composition**
+    *   **PHASE B: Full-Frame Composition**
         *   Focal Hierarchy: Non-existent. The eye wanders across a void.
-        *   Balance: Heavily weighted to the left. The right 60% of the frame is empty.
-        *   Depth: Minimal. Flat walls, flat floor.
+        *   Foreground/Mid/Back: Very shallow. Everything is just "in the room."
+        *   Balance: Heavily weighted to the left. The right 60% of the frame is empty wall and floor.
         *   Camera: Low angle, wide lens.
+        *   Readability: It reads as a primitive blockout.
 
-    *   **Phase C: Multi-Scale World Density**
-        *   Shell 1 (Reach): Primitive shapes. No detail.
-        *   Shell 2 (Local): Empty.
-        *   Shell 3 (Scene): Empty.
-        *   Shell 4-9: Not applicable/Empty.
-        *   Verdict: Extreme void.
+    *   **PHASE C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Primitive shapes.
+        *   Shell 2 (Local Interaction): Empty.
+        *   Shell 3 (Local Scene): Empty.
+        *   Shell 4-9: Not applicable/not visible.
+        *   Verdict: Total density failure.
 
-    *   **Phase D: Content Inventory**
-        *   Walls: Flat, white, no material.
-        *   Floor: Tan, grainy texture, no tiling.
-        *   Ceiling: Black, one brown rectangular prism.
-        *   Object 1: Gold L-shape + white oval (Scale proxy).
-        *   Object 2: Tan cylinder (Salt block proxy).
-        *   Object 3: Brown cube (Table/Ledger proxy).
-        *   Object 4: Tan cylinder (Salt block proxy).
+    *   **PHASE D: Content Inventory**
+        *   Walls: 2 visible. Flat. Not brick.
+        *   Floor: 1 visible. Flat. Not tile.
+        *   Ceiling: 1 visible. Black.
+        *   Prop 1: Gold L-shape/white oval. (Scale: Ambiguous).
+        *   Prop 2: Tan cylinder. (Scale: Ambiguous).
+        *   Prop 3: Brown cube. (Scale: Ambiguous).
+        *   Prop 4: Tan cylinder. (Scale: Ambiguous).
+        *   Missing: Ledger wall, license frame, iron-bound doors, salt-block racks (actual racks, not just cylinders).
 
-    *   **Phase E: Silhouette and Proportion**
-        *   Everything is a primitive. No artistic silhouette.
+    *   **PHASE E: Silhouette and Proportion**
+        *   The "scales" are a primitive L-shape.
+        *   The "salt" are cylinders.
+        *   Proportions are generic; no human anchor to establish scale.
 
     *   P09 (Geology): N/A (Interior).
     *   P10 (Terrain): N/A (Interior).
-    *   P13 (Material Truth): **FAIL**. Walls are flat white; floor is a generic tan grain. No brick, tile, or iron.
-    *   P22 (Economy/Logistics): **FAIL**. No visible storage, transport, or goods handling. Just four shapes.
-    *   P23 (Ordinary Work): **FAIL**. No tools at work, no causal occupation.
-    *   P33 (Affordance): **FAIL**. Nothing looks "usable" in a gameplay sense; they look like collision boxes.
-    *   P36 (Physics/Structural): **FAIL**. The ceiling beam is floating/intersecting without support logic.
-    *   P49 (Cinematography): **FAIL**. No focal hierarchy or directed framing.
-    *   P50 (Lighting): **FAIL**. Flat, ambient lighting. No key/fill/rim.
-    *   P51 (Material/Shader): **FAIL**. Generic shaders. No painterly language.
-    *   P67 (Visual Oracle): **FAIL**. This is clearly proxy/greybox geometry.
-    *   P72 (Completeness): **FAIL**. Total absence of detail.
+    *   P27 (World Laws): NOT_EVALUABLE.
+    *   P14 (Vegetation): N/A.
+    *   P15 (Animals): N/A.
+    *   P13 (Material Truth): **FAIL**. Walls are not brick; floor is not tile. No weathering.
+    *   P51 (Shader Presentation): **FAIL**. Flat colors. No painterly language.
+    *   P36 (Physics/Structure): **FAIL**. Walls are paper-thin planes. No load paths.
+    *   P29 (Formations): NOT_EVALUABLE.
+    *   P25 (Qi Ecology): NOT_EVALUABLE.
+    *   P18 (Personhood): N/A.
+    *   P23 (Domestic Life): **FAIL**. No evidence of "counting" or "work."
+    *   P22 (Economy/Logistics): **FAIL**. No storage, no transport, no goods handling.
+    *   P43/P47 (Motion): NOT_EVALUABLE (Still frame).
+    *   P33 (Affordance): **FAIL**. Objects are primitives; not clearly usable.
+    *   P07 (Perceptual Hierarchy): **FAIL**. No primary read.
+    *   P08 (Forbidden): PASS (Nothing anachronistic, just empty).
+    *   P49 (Cinematography): **FAIL**. Poor framing, empty space.
+    *   P50 (Lighting): **FAIL**. Flat, no contrast, no key/fill.
+    *   P67 (Visual Oracle): **FAIL**. This is proxy geometry.
+    *   P72 (Completeness): **FAIL**. Total failure at all depth shells.
+    *   P61 (Renderer): PASS (No z-fighting visible, just low quality).
+    *   P60 (Streaming): PASS (No pop visible).
 
-    *   Top-left: White wall.
-    *   Top-center: Floating brown beam.
-    *   Top-right: White wall.
-    *   Mid-left: Gold L-shape/white oval.
-    *   Mid-center: Empty space.
-    *   Mid-right: Empty white wall.
-    *   Bottom-left: Tan floor.
-    *   Bottom-center: Brown cube/tan cylinder.
-    *   Bottom-right: Tan floor.
+    *   *Vision Verdict:* Primitive Blockout / Greybox.
+    *   *Top Failures:* Material Truth (P13), World Density (P22/P23), Lighting (P50).
+    *   *Edit Scope:* Total asset replacement and lighting overhaul.
 
-    *   *Vision Verdict:* Primitive Placeholder / Greybox.
-    *   *Top Failures:* Material Truth (P13), World Density (Phase C), Visual Oracle (P67).
-    *   *Completeness:* 0%.
+    *   Ensure the tone is "brutally accurate."
+    *   No praise.
+    *   Strict adherence to the contract format.
 **PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
-**SCENE SLICE:** `room.qinghe.depot_counting` (Salt Depot Counting Room)
-**GENESIS PASSES:** P09 through P60 (as listed in manifest)
+**LOCATION:** `room.qinghe.depot_counting` (Salt Depot Counting Room)
+**STATUS:** CRITICAL FAILURE
 
 ---
 
 ### 1. PHASE B — FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** Non-existent. There is no primary read. The eye is drawn to the gold L-shape on the left simply because it is the only high-contrast object, but it does not command the scene.
-*   **Foreground/Middle/Background:** All elements exist on a single plane of depth. The "background" is a flat white wall.
-*   **Frame Balance:** Severely unbalanced. All "content" is clustered in the left third of the frame. The right two-thirds are a void of white and tan.
-*   **Negative Space:** Oppressive. The negative space is not used for cinematic effect; it is an absence of content.
-*   **Camera/Lens:** Low-angle, wide-field perspective. It communicates a "developer view" rather than a directed cinematic shot.
-*   **Sightlines:** None. There are no leading lines or architectural cues to guide the player's attention.
+*   **Focal Hierarchy:** Non-existent. There is no primary focal point. The eye is drawn to the gold L-shape on the left simply because it is the only high-contrast object, but it fails to anchor the scene.
+*   **Read/Depth:** 
+    *   **Foreground:** Empty floor.
+    *   **Middle ground:** Four primitive shapes clustered on the left.
+    *   **Background:** Two flat, featureless walls.
+*   **Frame Balance:** Severely unbalanced. Approximately 65% of the frame (the right side) is dead negative space consisting of a flat wall and flat floor.
+*   **Camera/Lens:** Low-angle, wide perspective. The angle suggests a player view, but the composition provides no sightlines or narrative direction.
+*   **Scale Communication:** Failed. Without a human anchor or detailed architectural markers (molding, door frames, furniture of known size), the room could be 3 meters wide or 30 meters wide.
 
 ### 2. PHASE C — MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Primitive geometry. No tactile detail, no surface wear, no micro-props.
+*   **SHELL 1 (Reach):** Primitive geometry. No tactile detail.
 *   **SHELL 2 (Local Interaction):** Empty.
-*   **SHELL 3 (Local Scene):** Extremely low. Four primitive shapes in a void.
-*   **SHELL 4-9:** Not applicable/Empty.
-*   **Density Verdict:** **VOID.** The scene fails to communicate a "room," let alone a "counting room." It is a collection of primitives in a bounding box.
+*   **SHELL 3 (Local Scene):** Extremely low density. Four objects in a 7m x 9m space.
+*   **SHELL 4-9:** Not applicable/Not visible.
+*   **Density Verdict:** **VOID.** The scene is a vacuum. There is no "dressing," no "clutter," and no evidence of habitation or utility.
 
 ### 3. PHASE D — CONTENT INVENTORY
-| Object | Region | Depth | Apparent Identity | Status | World Info Contributed |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Wall | Left/Right | BG | Flat Plane | Primitive | None. |
-| Floor | Bottom | FG/MG | Flat Plane | Primitive | None. |
-| Ceiling | Top | BG | Flat Plane | Primitive | None. |
-| Beam | Top Center | BG | Rectangular Prism | Primitive | None. |
-| L-Structure | Mid-Left | MG | Scale Proxy | Primitive | Implies a scale, but lacks "brass" material. |
-| Oval Plate | Mid-Left | MG | Scale Pan Proxy | Primitive | Implies a scale, but lacks material. |
-| Cylinder A | Mid-Left | MG | Salt Block Proxy | Primitive | Implies a volume, lacks "salt" material. |
-| Cube | Center | MG | Table/Ledger Proxy | Primitive | Implies a surface, lacks material. |
-| Cylinder B | Center-Right| MG | Salt Block Proxy | Primitive | Implies a volume, lacks material. |
+| Object | Region | Depth | Identity (Apparent) | Identity (Intended) | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Wall L | Left | Mid | Flat beige plane | Brick wall | **FAIL** | None |
+| Wall R | Right | Mid | Flat beige plane | Brick wall | **FAIL** | None |
+| Floor | Bottom | Fore | Flat brown plane | Tiled floor | **FAIL** | None |
+| Ceiling | Top | Back | Black plane | Tiled roof | **FAIL** | None |
+| Prop 1 | Left | Mid | Gold L-shape/Oval | Brass Scales | **FAIL** | Primitive proxy |
+| Prop 2 | Mid-Left | Mid | Tan cylinder | Salt block/rack | **FAIL** | Primitive proxy |
+| Prop 3 | Mid | Mid | Brown cube | Ledger/Table | **FAIL** | Primitive proxy |
+| Prop 4 | Mid-Right | Mid | Tan cylinder | Salt block/rack | **FAIL** | Primitive proxy |
+| Beam | Top | Back | Brown rectangle | Structural beam | **FAIL** | Primitive proxy |
+
+**Missing Content:** Ledger wall, county license frame, iron-bound doors, actual salt-block racks, any evidence of "counting" or "market scale" logistics.
 
 ### 4. PHASE E — SILHOUETTE AND PROPORTION
-*   **Silhouettes:** Purely geometric (Cube, Cylinder, L-shape). There is no artistic silhouette or "hand-painted" language.
-*   **Proportions:** The scale is ambiguous. Without a human reference, the objects could be miniatures or massive monoliths.
+*   **Silhouettes:** All objects are basic Euclidean primitives (cube, cylinder, L-bracket). There is no artistic silhouette or design language.
+*   **Proportions:** The "scales" are an abstract representation. The "salt blocks" are generic cylinders. Nothing communicates the specific nature of a salt depot.
 
 ---
 
-### 5. GENESIS PASS COVERAGE (VALIDATION)
+### 5. GENESIS PASS COVERAGE
 
-| Pass | Status | Observed Evidence / Missing Evidence |
-| :--- | :--- | :--- |
-| **P13 (Material Truth)** | **FAIL** | **Missing:** Brick, tile, iron, salt. **Observed:** Flat white, flat tan, flat gold. No weathering or contact wear. |
-| **P22 (Economy/Logistics)**| **FAIL** | **Missing:** Storage, transport, goods handling. **Observed:** Three shapes that vaguely suggest "items" but communicate no logistics. |
-| **P23 (Ordinary Work)** | **FAIL** | **Missing:** Tools at work, causal occupation. **Observed:** Static primitives. |
-| **P33 (Affordance)** | **FAIL** | **Missing:** Legible usability. **Observed:** Collision-box geometry. |
-| **P36 (Physics/Struct)** | **FAIL** | **Missing:** Load paths, support logic. **Observed:** A ceiling beam that appears to float or intersect without structural integration. |
-| **P49 (Cinematography)** | **FAIL** | **Missing:** Focal hierarchy, framing. **Observed:** Random wide shot of a corner. |
-| **P50 (Lighting)** | **FAIL** | **Missing:** Key/Fill/Rim, contrast. **Observed:** Flat, ambient, non-directional lighting. |
-| **P51 (Material/Shader)** | **FAIL** | **Missing:** Painterly language, edge language. **Observed:** Generic engine shaders. |
-| **P67 (Visual Oracle)** | **FAIL** | **Missing:** Final production assets. **Observed:** Explicit proxy/greybox geometry. |
-| **P72 (Completeness)** | **FAIL** | **Missing:** Everything. This is a blockout. |
-
----
-
-### 6. FORENSIC SWEEP (3x3 GRID)
-*   **Top-Left:** Flat white wall. No detail.
-*   **Top-Center:** Floating brown rectangular prism. No structural connection.
-*   **Top-Right:** Flat white wall. No detail.
-*   **Mid-Left:** Gold L-shape and white oval. Primitive geometry.
-*   **Mid-Center:** Empty void.
-*   **Mid-Right:** Flat white wall. No detail.
-*   **Bottom-Left:** Tan grainy floor. No tiling or seams.
-*   **Bottom-Center:** Brown cube and tan cylinder. Primitive geometry.
-*   **Bottom-Right:** Tan grainy floor. No detail.
+| Pass ID | Name | Result | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P13** | Material Truth | **FAIL** | **Observed:** Flat colors. **Missing:** Brick, tile, iron, salt textures; weathering; contact wear. |
+| **P51** | Shader Presentation | **FAIL** | **Observed:** Basic diffuse. **Missing:** Painterly language, edge language, value structure. |
+| **P36** | Physics/Structure | **FAIL** | **Observed:** Floating planes. **Missing:** Load paths, wall thickness, structural support. |
+| **P23** | Ordinary Work | **FAIL** | **Observed:** Empty room. **Missing:** Tools at work, causal occupation, evidence of salt accounting. |
+| **P22** | Economy/Logistics | **FAIL** | **Observed:** 4 shapes. **Missing:** Storage systems, transport, goods handling, stock. |
+| **P33** | Affordance Lattice | **FAIL** | **Observed:** Primitives. **Missing:** Legible usability (e.g., a table that looks like a table). |
+| **P07** | Perceptual Hierarchy | **FAIL** | **Observed:** Visual void. **Missing:** Intended primary read (Inhabited counting room). |
+| **P49** | Cinematography | **FAIL** | **Observed:** Dead space. **Missing:** Focal hierarchy, framing, sightlines. |
+| **P50** | Lighting | **FAIL** | **Observed:** Flat ambient. **Missing:** Light direction, contrast, key/fill/rim. |
+| **P67** | Visual Oracle | **FAIL** | **Observed:** Proxy geometry. **Missing:** Final production assets. |
+| **P72** | Completeness | **FAIL** | **Observed:** Blockout. **Missing:** Completeness at every depth shell. |
+| **P08** | Forbidden Interp. | **PASS** | No anachronisms present (due to lack of content). |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or T-junctions visible. |
+| **P60** | Streaming | **PASS** | No LOD pop visible. |
 
 ---
 
-### 7. VISION VERDICT
 
-**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER / GREYBOX**
-
-**TOP FAILURES:**
-1.  **Total Material Absence (P13/P51):** The "Brick walls, tiled roof, iron-bound doors" described in the Scene Slice are entirely absent. The scene consists of untextured or flat-colored primitives.
-2.  **Zero World Density (Phase C):** The "Salt accounts at market scale" with "brass scales, salt-block racks, ledger wall" is represented by four basic shapes. There is no "world" here, only a coordinate space.
-3.  **Production Failure (P67):** This frame is a blockout. It contains zero finished assets.
-
-**TECHNICAL DEFECTS:**
-*   **Lighting:** Flat. No shadows, no bounce, no mood.
-*   **Composition:** Dead space
