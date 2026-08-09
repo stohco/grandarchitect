@@ -424,10 +424,14 @@ function buildGate(s: SetStructure, pal: SetPalette): THREE.Group {
   beam.position.y = s.h - 0.35;
   g.add(beam);
   // hip roof over the beam: the gate reads as architecture, not a rectangle.
-  // New gable roof: base sits at its given wallH — place it so the base rests
-  // on the beam top (s.h - 0.35 + 0.55 = s.h + 0.2), ridge rises from there.
-  const gateRoofH = 1.4;
-  const roof = buildRoof(7.6, 1.4, gateRoofH, pal.thatch);
+  // The gable must READ as a roof — a wider eave reach than ridge height so
+  // the silhouette is horizontal, not a vertical column (VLM: 'giant yellow
+  // column'). buildRoof takes (w, d, wallH): w = ridge length along x,
+  // d = eave depth (cross-section), wallH = ridge height above the base.
+  const gateRoofW = 8.6;
+  const gateRoofDepth = 2.6;   // generous eave overhang both sides
+  const gateRoofH = 1.1;       // modest ridge — reads as a roof plane
+  const roof = buildRoof(gateRoofW, gateRoofDepth, gateRoofH, pal.thatch);
   roof.position.y = s.h + 0.2;
   g.add(roof);
   // threshold stone
