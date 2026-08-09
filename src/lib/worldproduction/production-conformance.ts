@@ -229,6 +229,20 @@ check('tour covers interiors', TOUR_SHOTS.some((s) => s.roomId), true);
 check('tour total duration >= 120s', TOUR_SHOTS.reduce((n, s) => n + s.durationSec, 0) >= 120, true);
 
 // ---------------------------------------------------------------------------
+// 8b. Production bible — EVERY shot carries the enormous full-context notes
+// ---------------------------------------------------------------------------
+
+const ALL_EP_SHOTS = [...TOUR_SHOTS, ...EPISODE_2.shots, ...EPISODE_3.shots, ...EPISODE_4.shots];
+check('every shot has production notes', ALL_EP_SHOTS.every((s) => s.productionNotes), true);
+check('every note has all 5 fields', ALL_EP_SHOTS.every((s) =>
+  !!s.productionNotes && !!s.productionNotes.canon && !!s.productionNotes.sensory && !!s.productionNotes.history && !!s.productionNotes.emergent && !!s.productionNotes.facts), true);
+check('every note is substantial (sensory+history >= 80 chars each)', ALL_EP_SHOTS.every((s) =>
+  (s.productionNotes?.sensory?.length ?? 0) >= 80 && (s.productionNotes?.history?.length ?? 0) >= 80), true);
+check('every note has >= 2 emergent seeds and >= 3 facts', ALL_EP_SHOTS.every((s) =>
+  (s.productionNotes?.emergent?.length ?? 0) >= 2 && (s.productionNotes?.facts?.length ?? 0) >= 3), true);
+check('every note cites canon docs', ALL_EP_SHOTS.every((s) => (s.productionNotes?.canon?.length ?? 0) >= 2), true);
+
+// ---------------------------------------------------------------------------
 // 9. Interactivity — everything has a purpose
 // ---------------------------------------------------------------------------
 

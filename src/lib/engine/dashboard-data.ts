@@ -277,7 +277,7 @@ export const CONFORMANCE_FILES: { name: string; path: string; expected: number }
   { name: 'Determinism Primitives', path: 'src/lib/determinism/primitives-conformance.ts', expected: 13 },
   { name: 'Genesis Coverage', path: 'src/lib/genesis/genesis-conformance.ts', expected: 105 },
   { name: 'Definition Database', path: 'src/lib/engine/definitions-conformance.ts', expected: 25 },
-  { name: 'World Production', path: 'src/lib/worldproduction/production-conformance.ts', expected: 137 },
+  { name: 'World Production', path: 'src/lib/worldproduction/production-conformance.ts', expected: 142 },
 { name: 'World Life', path: 'src/lib/worldproduction/world-life-conformance.ts', expected: 17 },
 { name: 'Vision Contract', path: 'src/lib/worldproduction/vision-contract-conformance.ts', expected: 24 },
 { name: 'Substance Preservation', path: 'src/lib/performance/substance-preservation-conformance.ts', expected: 29 },
