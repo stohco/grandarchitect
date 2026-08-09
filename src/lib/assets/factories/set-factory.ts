@@ -1268,6 +1268,16 @@ export function buildTownScene(seed = 89274613): VillageScene {
   sectPeak.position.set(30, 240, -900);
   sectPeak.castShadow = true;
   group.add(sectPeak);
+  // sect peak shoulder: a lower off-set cone so the sacred mountain reads
+  // as a massif with a high peak, not a single 'literal cone' (VLM)
+  const sectShoulder = new THREE.Mesh(new THREE.ConeGeometry(280, 320, 6), pal.hazeBlue);
+  sectShoulder.position.set(140, 110, -820);
+  sectShoulder.castShadow = true;
+  group.add(sectShoulder);
+  const sectFoothill2 = new THREE.Mesh(new THREE.ConeGeometry(180, 200, 6), pal.hazeBlue);
+  sectFoothill2.position.set(-120, 70, -980);
+  sectFoothill2.castShadow = true;
+  group.add(sectFoothill2);
 
   // forest band — 14 candidate trees, varied, skipping the town/river/foothills.
   // Two-tier crown (main + offset upper tier) so trees read as trees, not cones.
