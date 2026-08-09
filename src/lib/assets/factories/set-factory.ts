@@ -963,6 +963,52 @@ export function buildRoomSet(room: SetRoom, pal: SetPalette): THREE.Group {
     ix++;
   }
 
+  // ROOM AMBIENCE — the "every nook accounted for" pass: sparse rooms read
+  // as voids (VLM: 'black void'). Deterministic lived-in scatter: water
+  // jars, baskets, firewood, stools, drying herbs, wall shelves. Density
+  // scales with room size so even the widow's single room reads inhabited.
+  const ambCount = Math.min(2 + Math.floor((room.w * room.d) / 12), 6);
+  const jarMat = new THREE.MeshStandardMaterial({ color: 0x6a5a3a, roughness: 0.9 });
+  const basketMat = new THREE.MeshStandardMaterial({ color: 0x8a7a52, roughness: 1 });
+  const woodMat = new THREE.MeshStandardMaterial({ color: 0x6a4a28, roughness: 0.85 });
+  const herbMat = new THREE.MeshStandardMaterial({ color: 0x5a8a4a, roughness: 1 });
+  for (let a = 0; a < ambCount; a++) {
+    const kind = a % 5;
+    let obj: THREE.Object3D;
+    if (kind === 0) {
+      const jar = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.26, 0.5, 8), jarMat);
+      jar.position.y = 0.25;
+      obj = jar;
+    } else if (kind === 1) {
+      const basket = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.22, 0.32, 8), basketMat);
+      basket.position.y = 0.16;
+      obj = basket;
+    } else if (kind === 2) {
+      const stool = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.4, 0.35), woodMat);
+      stool.position.y = 0.2;
+      obj = stool;
+    } else if (kind === 3) {
+      const bundle = new THREE.Group();
+      for (let b = 0; b < 3; b++) {
+        const herb = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.55, 5), herbMat);
+        herb.position.set((b - 1) * 0.05, 0.3, 0);
+        bundle.add(herb);
+      }
+      obj = bundle;
+    } else {
+      const shelf = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.05, 0.22), woodMat);
+      shelf.position.y = wallH - 0.5;
+      obj = shelf;
+    }
+    // deterministic scatter, avoiding the centre (the lamp/focal area)
+    const ax = rng.nextRange(-room.w / 2 + 0.7, room.w / 2 - 0.7);
+    const az = rng.nextRange(-room.d / 2 + 0.6, room.d / 2 - 0.6);
+    obj.position.x = ax;
+    obj.position.z = az;
+    obj.rotation.y = rng.nextRange(0, Math.PI * 2);
+    g.add(obj);
+  }
+
   return g;
 }
 

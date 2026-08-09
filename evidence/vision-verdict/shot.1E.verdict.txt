@@ -1,0 +1,144 @@
+# VISION INSPECTION — shot.1E
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Background:* Solid dark brown/black void.
+    *   *Central Object:* A rectangular prism (box) of a light beige/off-white color.
+    *   *Details on Object:*
+        *   A thin brown line/edge at the bottom of the beige box.
+        *   A smaller, grey, textured (possibly noise or a low-res grid) rectangular block protruding from the bottom right side of the main box.
+    *   *Other elements:* A few tiny, scattered white/light-blue pixels/dots to the right of the main object.
+    *   *Lighting:* Flat, minimal shading. The right face of the box is slightly lighter than the left face, suggesting a basic directional light source.
+    *   *Composition:* Centered object in a void.
+
+    *   *What does it show?* A beige box with a grey block underneath it, floating in a dark void. No environment. No scale reference. Low density (one object).
+    *   *Player perception:* A glitch, a placeholder, a very early test of a 3D engine, or a broken asset.
+    *   *Art style/Production quality:* Extremely low. Flat colors, no textures (except the grey block), no environmental lighting, no post-processing.
+    *   *Completion level:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects/Distractions:* The floating nature, the random pixels to the right (artifacts), the lack of any context.
+    *   *Reward for inspection:* Stops immediately. There is nothing to see beyond the basic geometry.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+A single, light-beige rectangular prism floating in a solid dark-brown void. A smaller, grey, textured rectangular block is attached to the bottom-right underside of the main prism. A thin brown line runs along the bottom edge of the beige prism. To the right of the object, there are three isolated, single-pixel light-blue/white artifacts. There is no environment, no floor, and no scale reference.
+
+**Player Perception**
+A player would perceive this as a technical glitch, a broken asset, or a primitive engine test. There is no narrative or functional context provided by the visuals.
+
+**Art Style and Production Quality**
+Extremely low. The style is basic 3D geometry with flat shading. There are no materials, no lighting effects, and no environmental integration.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+- **Void:** Total lack of environment.
+- **Artifacts:** Random floating pixels to the right of the object.
+- **Lighting:** Flat, non-dynamic lighting that fails to define the object's volume effectively.
+- **Composition:** Centered, static, and devoid of detail.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no textures, hidden details, or complex geometries to analyze. Once the basic shapes are identified, there is zero further information to extract.
+
+## STAGE B (contract)
+# GRAND ARCHITECT — PERCEPTUAL EVIDENCE EXAMINER
+## Vision Inspection Report: [location.western_cangwu_vein / room.cache.chamber]
+
+**STAGE A (BLIND READ) SUMMARY:** A beige rectangular primitive floating in a black void with a single textured grey block attached. Zero environmental context.
+
+---
+
+### PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** A single, undetailed rectangular prism occupies the center. There is no secondary or tertiary read.
+*   **Depth Separation:** Non-existent. The object exists in a vacuum. There is no foreground, middle ground, or background.
+*   **Frame Balance:** Centered, but visually "heavy" at the bottom right due to the grey block, creating an accidental asymmetry in an otherwise empty frame.
+*   **Scale Communication:** **FAIL.** Without the [scale.cultivator] anchor or any environmental markers (shelves, dust, debris), the box could be 1cm or 100m.
+*   **Composition Verdict:** **CRITICAL FAILURE.** The intended "sealed spirit-stone cache" (6m x 8m) is not composed; only a primitive volume proxy is present.
+
+---
+
+### PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1-3 (Immediate/Local):** **EMPTY.** No dust-covered shelves, no spirit stone dust, no formation nodes.
+*   **SHELL 4-7 (Settlement/Landscape/Sky):** **EMPTY.** Total black void.
+*   **SHELL 8-9 (Subsurface/Metaphysical):** **EMPTY.** No visual evidence of the "maintenance formation" or "qi draining" described in the Slice.
+*   **Density Verdict:** 0%. The scene contains zero world-building information.
+
+---
+
+### PHASE D — CONTENT INVENTORY
+1.  **Beige Box (Center):** Proxy geometry for the chamber. Unfinished.
+2.  **Grey Block (Bottom Right):** Proxy geometry, possibly for a formation node or pillar. Unfinished.
+3.  **Stray Pixels (Right):** Technical noise or accidental artifacts. **DEFECT.**
+4.  **MISSING:** NPC Xu Erniu (P18), Rock walls (P09), Shelves (P22), Formation Glyphs (P29), Qi effects (P25).
+
+---
+
+### PHASE X — GENESIS PASS COVERAGE
+
+| ID | Pass Name | Status | Observed Evidence / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geography | **FAIL** | No rock, soil, or micro-structure. Solid void. |
+| **P10** | Terrain Geometry | **FAIL** | No cliff ledge or entrance. Floating geometry. |
+| **P13** | Material Truth | **FAIL** | Reads as flat hex-color. No stone or weathering. |
+| **P51** | Shader Presentation | **FAIL** | No painterly language; generic flat shading. |
+| **P29** | Formations | **FAIL** | No nodes, volumes, or grammar-based effects. |
+| **P18** | Individual Personhood | **FAIL** | **CRITICAL:** NPC Xu Erniu is absent. |
+| **P25** | Qi Ecology | **FAIL** | No qi phenomena or identifiable sources. |
+| **P67** | Visual Oracle | **FAIL** | Frame consists entirely of proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Mandatory visual blockers: Total absence of world. |
+
+---
+
+### 3x3 FORENSIC SWEEP
+*   **[1,1] [1,2] [1,3]:** Solid black void (#080400).
+*   **[2,1]:** Solid black void.
+*   **[2,2]:** Intersection of two flat-shaded beige planes. No texture, no edge wear.
+*   **[2,3]:** Three clusters of 1-4 light-blue pixels. Unintended artifacts.
+*   **[3,1]:** Solid black void.
+*   **[3,2]:** Grey block with vertical "noise" texture. No contact shadows with the beige box.
+*   **[3,3]:** Solid black void.
+
+---
+
+### VISION VERDICT
+**STATUS: CRITICAL FAILURE / REJECTED**
+
+The frame does not represent a "world." It is a primitive technical blockout of a volume. It fails every applicable Genesis Pass. Specifically, the absence of the primary narrative subject (Xu Erniu) and the environmental context (the cache) renders the scene unreadable as a Grand Architect location.
+
+### TOP FAILURES
+1.  **Total Absence of Entity:** NPC Xu Erniu is missing from the focal point (P18).
+2.  **Proxy Dominance:** The scene is 100% placeholder geometry (P67).
+3.  **Void Environment:** No implementation of the Western Cangwu Vein or the rock chamber (P09, P10).
+4.  **Lighting/Material Failure:** Flat, non-painterly shading with no material identity (P13, P50, P51).
+
+### TECHNICAL DEFECTS
+*   **Floating Geometry:** The box and block have no grounding.
+*   **Pixel Artifacts:** Stray blue pixels in the [2,3] quadrant.
+*   **Missing Shadows:** No ambient occlusion or contact shadows between the grey block and the beige box.
+
+### NOT EVALUABLE
+*   Animation (P43, P47), Audio, and Gameplay Systems (P33) cannot be evaluated in a static, empty frame.
+
+### NEXT INSPECTION
+**DO NOT RESUBMIT** until:
+1.  The rock chamber geometry is implemented (P09).
+2.  NPC Xu Erniu is placed and visible (P18).
+3.  The "maintenance formation" nodes are visually represented (P29).
+4.  The Style Grammar (painterly language) is applied to all surfaces (P51).
+
+---
+
+### AAA COMPLETENESS QUESTION
+**Does the frame represent a finished, high-quality, AAA-standard world?**
+**NO.** It is a primitive greybox test.

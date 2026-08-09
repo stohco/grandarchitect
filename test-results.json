@@ -1,9 +1,9 @@
 {
-  "sha": "c6558985d19a4543f015ab870f56f76c93fdacef",
-  "generatedAt": "2026-08-09T07:10:34.665Z",
+  "sha": "cd0ca4aeea93371048ab168a57c0237783dafe0b",
+  "generatedAt": "2026-08-09T07:51:21.237Z",
   "totalAssertions": 2381,
-  "suitesPassed": 23,
-  "suitesFailed": 1,
+  "suitesPassed": 24,
+  "suitesFailed": 0,
   "suites": [
     {
       "name": "Kernel",
@@ -11,7 +11,7 @@
       "expected": 37,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 907
+      "durationMs": 1283
     },
     {
       "name": "Architect",
@@ -19,7 +19,7 @@
       "expected": 113,
       "exitCode": 0,
       "detected": 3,
-      "durationMs": 381
+      "durationMs": 552
     },
     {
       "name": "Reference Plugins",
@@ -27,7 +27,7 @@
       "expected": 252,
       "exitCode": 0,
       "detected": 1,
-      "durationMs": 662
+      "durationMs": 974
     },
     {
       "name": "Simulation",
@@ -35,7 +35,7 @@
       "expected": 247,
       "exitCode": 0,
       "detected": 2,
-      "durationMs": 945
+      "durationMs": 1014
     },
     {
       "name": "Cultivation",
@@ -43,7 +43,7 @@
       "expected": 203,
       "exitCode": 0,
       "detected": 203,
-      "durationMs": 766
+      "durationMs": 657
     },
     {
       "name": "Combat",
@@ -51,7 +51,7 @@
       "expected": 202,
       "exitCode": 0,
       "detected": 202,
-      "durationMs": 1220
+      "durationMs": 582
     },
     {
       "name": "Combat Arts",
@@ -59,7 +59,7 @@
       "expected": 249,
       "exitCode": 0,
       "detected": 249,
-      "durationMs": 410
+      "durationMs": 943
     },
     {
       "name": "Quest",
@@ -67,15 +67,15 @@
       "expected": 224,
       "exitCode": 0,
       "detected": 5,
-      "durationMs": 387
+      "durationMs": 492
     },
     {
       "name": "Prime Agent",
       "path": "src/engine/architect/providers/prime-agent/conformance-test.ts",
       "expected": 12,
-      "exitCode": 1,
-      "detected": 11,
-      "durationMs": 124885
+      "exitCode": 0,
+      "detected": 12,
+      "durationMs": 18741
     },
     {
       "name": "UI Actions",
@@ -83,7 +83,7 @@
       "expected": 45,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 3224
+      "durationMs": 4240
     },
     {
       "name": "Determinism Primitives",
@@ -91,7 +91,7 @@
       "expected": 13,
       "exitCode": 0,
       "detected": 13,
-      "durationMs": 495
+      "durationMs": 790
     },
     {
       "name": "Genesis Coverage",
@@ -99,7 +99,7 @@
       "expected": 105,
       "exitCode": 0,
       "detected": 111,
-      "durationMs": 1050
+      "durationMs": 1928
     },
     {
       "name": "Definition Database",
@@ -107,7 +107,7 @@
       "expected": 25,
       "exitCode": 0,
       "detected": 25,
-      "durationMs": 577
+      "durationMs": 491
     },
     {
       "name": "World Production",
@@ -115,7 +115,7 @@
       "expected": 142,
       "exitCode": 0,
       "detected": 3,
-      "durationMs": 998
+      "durationMs": 1723
     },
     {
       "name": "World Life",
@@ -123,7 +123,7 @@
       "expected": 17,
       "exitCode": 0,
       "detected": 17,
-      "durationMs": 899
+      "durationMs": 577
     },
     {
       "name": "Vision Contract",
@@ -131,7 +131,7 @@
       "expected": 24,
       "exitCode": 0,
       "detected": 24,
-      "durationMs": 593
+      "durationMs": 691
     },
     {
       "name": "Substance Preservation",
@@ -139,7 +139,7 @@
       "expected": 29,
       "exitCode": 0,
       "detected": 29,
-      "durationMs": 536
+      "durationMs": 593
     },
     {
       "name": "Genesis Gauntlet",
@@ -147,7 +147,7 @@
       "expected": 16,
       "exitCode": 0,
       "detected": 16,
-      "durationMs": 672
+      "durationMs": 564
     },
     {
       "name": "Assets Pipeline",
@@ -155,7 +155,7 @@
       "expected": 68,
       "exitCode": 0,
       "detected": 0,
-      "durationMs": 1256
+      "durationMs": 3740
     },
     {
       "name": "Terrain Viewport",
@@ -163,7 +163,7 @@
       "expected": 56,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 7728
+      "durationMs": 7168
     },
     {
       "name": "Settlement Day",
@@ -171,7 +171,7 @@
       "expected": 42,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 794
+      "durationMs": 641
     },
     {
       "name": "Matter Conservation",
@@ -179,7 +179,7 @@
       "expected": 54,
       "exitCode": 0,
       "detected": 54,
-      "durationMs": 494
+      "durationMs": 911
     },
     {
       "name": "Law Interaction",
@@ -187,7 +187,7 @@
       "expected": 98,
       "exitCode": 0,
       "detected": null,
-      "durationMs": 703
+      "durationMs": 912
     },
     {
       "name": "Cosmology",
@@ -195,7 +195,7 @@
       "expected": 108,
       "exitCode": 0,
       "detected": 104,
-      "durationMs": 521
+      "durationMs": 466
     }
   ]
 }

@@ -1,0 +1,110 @@
+# VISION INSPECTION — shot.1G
+
+## STAGE A (blind)
+**PERCEPTUAL EVIDENCE REPORT**
+
+**1. Scene Content**
+*   **Setting:** An outdoor area featuring a long, covered rectangular pit (likely a sandbox or picnic area) surrounded by flat green space.
+*   **Objects:** A thin, flat wooden-textured roof supported by spindly brown poles. Inside the pit are several small white cylinders, a small brown cross-shaped object, and a large brown conical object. The perimeter contains low-poly coniferous trees (green cones on brown cylinders).
+*   **Scale:** Human-scale, viewed from a standing or slightly crouched eye level.
+*   **Density:** Extremely low. The scene consists of large, featureless planes and a handful of primitive geometric shapes.
+
+**2. Player Impression**
+A player would perceive this as a **playground or park** in a very early state of development. The floating brown object in the center-right would be identified immediately as a technical error or a "broken" asset.
+
+**3. Art Style and Production Quality**
+*   **Style:** Low-poly, primitive-driven aesthetic. It utilizes basic geometric primitives (cones, cylinders, boxes) with low-resolution, tiling textures.
+*   **Quality:** Low. There is no evidence of lighting passes, ambient occlusion, or shadow casting. Textures are stretched and lack material definition (no normal or specular maps).
+
+**4. Apparent Level of Completion**
+**PRIMITIVE_PLACEHOLDER.**
+The scene lacks the intentionality of a "Stylized Prototype." It functions as a basic layout test where assets have been placed without regard for physics, collision, or visual cohesion.
+
+**5. Defects and Distractions**
+*   **Floating Geometry:** The brown conical object in the foreground is hovering several inches above its base/the ground.
+*   **Clipping:** The tree on the far left is clipping directly through the roof of the structure.
+*   **Texture Stretching:** The grey "curb" in the foreground and the wooden roof show extreme horizontal texture stretching, indicating improper UV mapping.
+*   **Zero Lighting:** There are no shadows. The "god rays" in the sky do not interact with the world geometry, creating a disconnect between the skybox and the ground plane.
+*   **Empty Zones:** The green "grass" area is a total void of detail, offering no visual information or landmarks.
+
+**6. Inspection Reward Limit**
+The image stops rewarding inspection **instantly**. Beyond the initial identification of "park," there are no micro-details, environmental storytelling, or technical flourishes to discover. Closer inspection only reveals further technical flaws (UV stretching and alignment errors).
+
+## STAGE B (contract)
+**PERCEPTUAL EVIDENCE REPORT: STAGE B-X**
+**EXAMINER:** Perceptual Evidence Examiner (Full Inspection)
+**SUBJECT:** Scene Universe Slice: Western Cangwu Vein / Wang Family Bend Market
+
+---
+
+### 1. VISION VERDICT
+**CRITICAL FAILURE.**
+The visual evidence does not represent a "market town," "fabric-canopy stalls," or a "Xianxia universe." It communicates a **primitive greybox/blockout** in an early engine-test state. It fails every qualitative and material obligation of the Grand Architect Bible.
+
+---
+
+### 2. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary read is a **floating brown conical asset** in the center-right. This is a technical defect, not a narrative subject.
+*   **Primary/Secondary/Tertiary:**
+    *   *Primary:* The empty tan pit and the floating defect.
+    *   *Secondary:* The paper-thin wooden roof.
+    *   *Tertiary:* Primitive cone-trees and distant grey boxes.
+*   **Depth Separation:** Non-existent. The scene lacks atmospheric perspective, shadows, or occlusion.
+*   **Tangencies:** The tree on the far left is intersecting the roof geometry (Z-fighting/collision error).
+*   **Camera:** Eye-level, static, wide-angle. It communicates "editor viewport" rather than "cinematic intent."
+
+---
+
+### 3. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1-2 (Hand/Interaction):** **EMPTY.** No tools, produce, cloth, or salt as required by [ARCHITECTURE].
+*   **SHELL 3 (Local Scene):** **PRIMITIVE.** The "market" consists of a single flat plane with a tiling wood texture.
+*   **SHELL 4-5 (Settlement/Landscape):** **EMPTY.** The "market town" mentioned in the slice is represented by three grey boxes in the distance.
+*   **SHELL 6-7 (Horizon/Sky):** **PLACEHOLDER.** Flat blue-grey sky with white triangles representing mountains. No [COSMOLOGY] or [QI ECOLOGY] visible.
+
+---
+
+### 4. PHASE D — CONTENT INVENTORY
+*   **[Structure] Market Stalls:** **FAIL.** Represented as a single long wooden roof on spindly poles. No fabric, no bamboo, no stalls.
+*   **[Vegetation] Trees:** **FAIL.** Low-poly cones. No species variation [P14].
+*   **[NPCs] He Laosan / Residents:** **ABSENT.** Zero population. Fails [P18] and [P23].
+*   **[Props] Goods/Tools:** **FAIL.** Only white cylinders (stools?) and a brown cross (table?). No "produce, cloth, salt" [ARCHITECTURE].
+*   **[Terrain] Road/Square:** **FAIL.** Flat green and tan planes. No "real geology" [P09].
+
+---
+
+### 5. PHASE X — GENESIS PASS COVERAGE
+
+| ID | Pass Name | Status | Observed Evidence / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geography | **FAIL** | No micro/meso structure; flat heightmap prototype. |
+| **P10** | Terrain Geometry | **FAIL** | No slope transitions; structures do not contact terrain cleanly. |
+| **P13** | Material Truth | **FAIL** | Tiling wood texture on a 1D plane; no weathering or age. |
+| **P14** | Vegetation Ecology | **FAIL** | Uniform "cone-on-stick" trees; no riparian/hillside logic. |
+| **P18** | Individual Personhood | **FAIL** | Zero NPCs present. |
+| **P22** | Economy/Logistics | **FAIL** | No stock, no containers, no carts, no trade visible. |
+| **P36** | Structural Physics | **FAIL** | **CRITICAL:** Floating roof; floating center asset; paper-thin geometry. |
+| **P50** | Lighting | **FAIL** | Flat ambient light; no shadows; no key/fill/rim. |
+| **P67** | Visual Oracle | **FAIL** | Scene is entirely proxy geometry/Art Bible violation. |
+
+---
+
+### 6. TILED 3x3 FORENSIC SWEEP
+*   **[1,1][1,2][1,3] (Skyline):** Flat colors, no atmospheric scattering, primitive mountain triangles.
+*   **[2,1] (Left):** Tree trunk clipping through the roof plane.
+*   **[2,2] (Center):** **MAJOR DEFECT:** Large brown conical object floating ~0.5m above a black box.
+*   **[2,3] (Right):** Spindly poles with no base-plate or grounding logic.
+*   **[3,1][3,2][3,3] (Ground):** Featureless tan/green planes. No grass, dirt, or pathing.
+
+---
+
+### 7. TECHNICAL DEFECTS
+1.  **Floating Geometry:** Central brown cone is unanchored.
+2.  **Collision/Clipping:** Left-side tree is intersecting the roof.
+3.  **Missing Shadows:** No contact shadows (AO) or directional shadows.
+4.  **Geometry Thickness:** The roof has zero thickness (backface culling likely visible from above).
+5.  **LOD/Assets:** Use of primitive cones for trees in the immediate foreground.
+
+---
+
+### 8. NOT EVALUABLE
+*   **[P43/

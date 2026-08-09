@@ -234,6 +234,7 @@ export default function DirectorRenderPage() {
       for (const room of s.rooms) {
         const rs = buildRoomSet(room, village.palette);
         rs.position.copy(sg.position);
+        rs.userData = { roomH: room.h };
         scene.add(rs);
         roomSets.set(room.id, {
           group: rs,
@@ -282,7 +283,10 @@ export default function DirectorRenderPage() {
           if (o.castShadow) shadowCasters++;
         }
       });
-      return JSON.stringify({ structures: village.structures.size, meshes, visible, shadowCasters, fogFar });
+      const cam = camera.position;
+      const roomCount = roomSets.size;
+      const roomVisible = roomPerformerGroup.visible;
+      return JSON.stringify({ structures: village.structures.size, meshes, visible, shadowCasters, fogFar, cam: [cam.x, cam.y, cam.z].map(n => +n.toFixed(1)), roomCount, roomVisible });
     };
     // structure footprint (from the blueprint) so the camera never ends up
     // inside a large building (e.g. the 30x45 m yamen at 7 m dolly distance)
@@ -323,7 +327,13 @@ export default function DirectorRenderPage() {
         roomLight.distance = 20;
         ambient.intensity = 0.9;
         const inD = Math.min(rs?.d ?? 6, 6);
-        camera.position.copy(target).add(new THREE.Vector3(0, 0.2, -inD * 0.34));
+        // interior establishing view: 35mm wide lens, camera just above
+        // furniture height, pulled back diagonally so floor + walls +
+        // fixtures all read as one inhabited space (VLM: 'no detail')
+        const rH = Math.min(rs?.group.userData?.roomH ?? 2.6, 3);
+        camera.position.copy(target).add(new THREE.Vector3(-inD * 0.34, rH * 0.12, -inD * 0.55));
+        camera.lookAt(target.clone().add(new THREE.Vector3(0, -rH * 0.2, 0)));
+        camera.fov = 58; // wide interior lens
         // place the shot's performers inside the room
         const performers = ROOM_PERFORMERS[shotId] ?? [];
         for (const p of performers) {
@@ -345,18 +355,22 @@ export default function DirectorRenderPage() {
         roomLight.intensity = 0;
         ambient.intensity = 0.3;
       }
-      camera.fov = fovForLens(shot.camera.lensMm);
+      if (!shot.roomId) {
+        camera.fov = fovForLens(shot.camera.lensMm);
+      }
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      const aimY = target.y;
-      const camH = Math.max(shot.camera.heightM, aimY * 0.72); // level-ish, never looking steeply up
-      camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
-      camera.lookAt(target);
-      // sun azimuth follows the camera for ground shots (dolly lighting): the
-      // visible facade gets key light instead of reading as a shadowed dark
-      // mass (VLM: 'massive black monolith'). Elevation stays per-shot; only
-      // the azimuth turns toward the camera so long shadows still read.
+      // room shots keep their close interior camera (set above); only
+      // exterior shots get the cut-distance framing
       if (!shot.roomId) {
+        const aimY = target.y;
+        const camH = Math.max(shot.camera.heightM, aimY * 0.72); // level-ish, never looking steeply up
+        camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
+        camera.lookAt(target);
+        // sun azimuth follows the camera for ground shots (dolly lighting): the
+        // visible facade gets key light instead of reading as a shadowed dark
+        // mass (VLM: 'massive black monolith'). Elevation stays per-shot; only
+        // the azimuth turns toward the camera so long shadows still read.
         const camDirX = camera.position.x - target.x;
         const camDirZ = camera.position.z - target.z;
         const camLen = Math.max(Math.hypot(camDirX, camDirZ), 0.001);

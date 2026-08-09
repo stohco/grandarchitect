@@ -3,202 +3,199 @@
 ## STAGE A (blind)
 Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
 One rendered frame.
-No entity names, no developer context, no intended content.
+No entity names, no developer context, no "intended" content.
 
         *   What does the frame actually show? (setting, objects, scale, density)
         *   What would a player genuinely think they are looking at?
         *   Apparent art style and production quality.
-        *   Apparent level of completion (specific categories).
+        *   Apparent level of completion (specific categories provided).
         *   Obvious defects, distractions, empty zones.
         *   Where does the image stop rewarding closer inspection?
 Brutally accurate, no praise, facts and defects only.
 
-    *   *Foreground/Center:* A large, off-white/beige rectangular prism (cube-like). It has a thin, slightly darker tan base/trim.
-    *   *Ground:* A flat, dark green surface. There is a soft, dark shadow cast by the cube.
-    *   *Background:* A solid, dark brown/black void.
-    *   *Horizon:* A thin, light-blue/grey horizontal line cutting across the middle, separating the dark background from the dark ground/void.
-    *   *Lighting:* Flat, diffuse lighting. No complex shaders, no textures, no specular highlights.
-    *   *Geometry:* Extremely simple. Low polygon count (just a few boxes).
+    *   *Setting:* A room. White/off-white walls. Brownish/tan floor. Black ceiling with a white rectangular light source.
+    *   *Objects:* Three geometric shapes on the floor. One is a cube (brown), two are truncated cones/cylinders (tan/yellowish).
+    *   *Scale:* Hard to tell without a reference, but looks like a small room or a large void.
+    *   *Density:* Extremely low. Only three objects in a large empty space.
+    *   *Art Style:* Low-poly, flat shading/simple gradients. No textures (just solid colors/simple noise on the floor).
+    *   *Production Quality:* Very low. No bevels, no detailed lighting, no environmental storytelling.
+    *   *Completion Level:* This is a blockout or primitive placeholder.
+    *   *Defects:*
+        *   Floor texture is a blurry, inconsistent smudge.
+        *   Lighting is flat.
+        *   Walls are featureless.
+        *   Objects are basic primitives.
+        *   The ceiling transition is a sharp, unrefined black line.
+    *   *Reward for inspection:* Zero. There is nothing to discover upon closer look.
 
-    *   *Setting/Objects:* A single beige box on a green plane against a dark void.
-    *   *Scale:* Indeterminate. Could be a small box on a table or a building in a void.
-    *   *Density:* Zero. One object.
-    *   *Player Perception:* A test scene, a glitch, or a very early development stage.
-    *   *Art Style:* Minimalist/Primitive.
-    *   *Production Quality:* Extremely low. No textures, no environmental detail.
-    *   *Completion Level:* PRIMITIVE_PLACEHOLDER.
-    *   *Defects:* Total lack of detail. The horizon line is a jarring, thin strip of color. The background is a flat void.
-    *   *Inspection Limit:* Immediately. There is nothing to look at beyond the basic shapes.
+    *   *What does it show?* A sparse interior room with three primitive geometric shapes (one cube, two cylinders/cones) on a tan floor. White walls, black ceiling, single rectangular light.
+    *   *Player perception:* A test room, a glitch, or a very early development build.
+    *   *Style/Quality:* Low-poly, primitive. Production quality is minimal.
+    *   *Completion:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects:* Featureless walls, muddy/blurry floor texture, lack of detail on all assets, harsh lighting transitions.
+    *   *Inspection limit:* Immediate. There is no detail to uncover.
 **PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
 **Actual Content**
-*   **Setting:** A void. A dark green flat plane meets a dark brown/black background at a sharp, thin, light-blue horizontal line.
-*   **Objects:** A single, off-white/beige rectangular prism with a thin, tan-colored base.
-*   **Scale:** Indeterminate. No reference objects exist to establish size.
-*   **Density:** Zero. One primitive object in an empty environment.
+A sparse interior room. The environment consists of off-white walls, a black ceiling with a single white rectangular light source, and a tan/brown floor. Three low-poly geometric primitives are placed on the floor: one brown cube and two tan truncated cones/cylinders. Density is extremely low.
 
 **Player Perception**
-A player would perceive this as a technical test scene, a broken map load, or a "greybox" development environment. There is no narrative or gameplay context provided by the visuals.
+A player would perceive this as a developer test room, a "greybox" area, or a broken/unloaded level. There is no narrative or functional context provided by the visuals.
 
 **Art Style and Production Quality**
-*   **Style:** Primitive/Minimalist.
-*   **Quality:** Extremely low. No textures, no materials, no environmental assets, and flat lighting.
+Low-poly, primitive style. Production quality is minimal. There are no textures, only flat colors and a blurry, noisy gradient on the floor. Lighting is basic and lacks ambient occlusion or sophisticated bounce.
 
 **Level of Completion**
 PRIMITIVE_PLACEHOLDER
 
 **Defects and Distractions**
-*   **Empty Zones:** The entire frame is an empty zone.
-*   **Visual Jarring:** The thin, light-blue line at the horizon is a distracting artifact that does not blend with the ground or sky.
-*   **Lack of Detail:** Total absence of surface detail, bevels, or environmental storytelling.
+*   **Floor Texture:** The floor surface is a muddy, inconsistent smudge of brown tones with no defined material property.
+*   **Geometry:** Objects are raw primitives with no bevels or detail.
+*   **Environment:** Walls are entirely featureless; the ceiling is a flat black void with a sharp, unrefined edge.
+*   **Empty Zones:** The vast majority of the frame is dead space with zero visual interest.
 
 **Inspection Limit**
-The image stops rewarding inspection immediately. There are no hidden details, textures, or complexities to discover.
+The image stops rewarding inspection immediately. There are no hidden details, textures, or subtle effects to discover upon closer look.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
-A single frame showing a beige cube on a green plane against a dark background with a thin blue horizon line.
-The "Grand Architect" project (Xianxia universe).
-A detailed "Scene Universe Slice" describing a specific location (Widow Xu's house, rammed earth, thatch, garden, etc.) and a "Genesis Pass Manifest" (a list of visual obligations for a high-quality production).
+A single rendered frame showing a room with three primitive shapes (a cube and two truncated cones/cylinders) on a brown floor with white walls and a black ceiling with a light.
+A detailed "Scene Universe Slice" describing a specific location: Widow Xu's house (rammed earth, thatch, weaving room, loom, kang, garden tools, etc.) in the Cangwu Sect region.
+A comprehensive list of "Genesis Pass" obligations (P09, P10, P13, etc.) covering everything from geology to material truth to cinematic lighting.
 
-    *   *Phase A (Blind Read - already provided):* It's a primitive placeholder/greybox. A beige cube on a green floor.
-    *   *Phase B (Composition):*
-        *   Focal Hierarchy: Single object (cube) centered.
-        *   Foreground/Mid/Back: Foreground (green plane), Mid (cube), Background (black void).
-        *   Horizon: A thin, artificial line.
-        *   Balance: Symmetrical, static.
-        *   Depth: Minimal.
-    *   *Phase C (World Density):*
-        *   Shell 1 (Reach): Flat green surface.
-        *   Shell 2 (Local): A cube.
-        *   Shell 3-7: Non-existent/Void.
-        *   Verdict: Absolute zero density.
-    *   *Phase D (Content Inventory):*
-        *   1x Beige Cube (Placeholder for house?).
-        *   1x Green Plane (Placeholder for terrain?).
-        *   1x Black Void (Placeholder for sky/environment?).
-    *   *Phase E (Silhouette/Proportion):*
-        *   Cube is a cube. No character for scale.
+    *   *What is actually there?* A greybox/primitive test scene.
+    *   *What is supposed to be there?* A detailed, culturally specific xianxia interior (Widow Xu's house) with rammed earth, thatch, a loom, and specific props.
+    *   *The Gap:* Absolute. There is zero overlap between the visual evidence and the project's canonical requirements.
 
-    *   *P09 (Geology):* FAIL. Flat green plane.
-    *   *P10 (Terrain Geometry):* FAIL. No valley/slope/cliff.
-    *   *P27 (World Laws):* NOT_EVALUABLE. No supernatural effects.
-    *   *P14 (Vegetation):* FAIL. Uniform green color.
-    *   *P15 (Animals):* FAIL. None.
-    *   *P13 (Material Truth):* FAIL. Flat colors, no weathering, no texture.
-    *   *P51 (Shader Presentation):* FAIL. Generic flat shading.
-    *   *P36 (Physics/Structure):* FAIL. A cube is not a house. No load paths.
-    *   *P29 (Formations):* NOT_EVALUABLE.
-    *   *P25 (Qi Ecology):* NOT_EVALUABLE.
-    *   *P18 (Personhood):* FAIL. No NPCs.
-    *   *P23 (Domestic Life):* FAIL. No tools, no laundry, no life.
-    *   *P22 (Economy):* FAIL. No logistics.
-    *   *P43/P47 (Motion):* NOT_EVALUABLE (Still frame).
-    *   *P33 (Affordance):* FAIL. A cube is not a usable door/container.
-    *   *P78 (Concealment):* NOT_EVALUABLE.
-    *   *P07 (Perceptual Hierarchy):* FAIL. The "primary read" is a primitive, not an inhabited village.
-    *   *P08 (Forbidden Interpretations):* PASS (Technically doesn't show anything forbidden, just nothing at all).
-    *   *P49 (Cinematography):* FAIL. Static center-shot of a primitive.
-    *   *P50 (Lighting):* FAIL. Flat, diffuse, no contrast.
-    *   *P67 (Visual Oracle):* FAIL. Visible proxy geometry.
-    *   *P72 (Completeness):* FAIL. Total failure of completeness.
-    *   *P61 (Renderer):* PASS (No z-fighting visible on a cube).
-    *   *P60 (Streaming):* PASS (Nothing to stream).
+    *   **Phase B: Full-Frame Composition**
+        *   Focal hierarchy: None. The eye wanders between three primitives.
+        *   Balance: Poor. Heavy on the left/center, empty on the right.
+        *   Depth: Basic 3D perspective, but no layering or environmental storytelling.
+        *   Camera: Static, generic height.
 
-    *   *Vision Verdict:* Primitive Placeholder / Greybox.
-    *   *Top Failures:* Material Truth, World Density, Perceptual Hierarchy.
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Primitives. No detail.
+        *   Shell 2 (Local): Empty floor.
+        *   Shell 3 (Scene): Empty room.
+        *   Shell 4-9: Non-existent.
+        *   Verdict: Total void.
+
+    *   **Phase D: Content Inventory**
+        *   Walls: Flat white.
+        *   Floor: Brown noise/gradient.
+        *   Ceiling: Black plane.
+        *   Light: White rectangle.
+        *   Props: 1 Cube, 2 Truncated Cones.
+        *   Missing: Loom, kang, coat, rammed earth texture, thatch, any sign of "Widow Xu" or "Cangwu Sect."
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Primitives are generic. No character silhouettes to evaluate.
+
+    *   P09 (Geology): FAIL. No geology.
+    *   P10 (Terrain): FAIL. Flat plane.
+    *   P13 (Material Truth): FAIL. Flat colors/noise. No rammed earth or thatch.
+    *   P23 (Domestic Life): FAIL. No loom, no tools, no signs of life.
+    *   P36 (Structural Consequences): FAIL. Paper-thin walls, no load paths.
+    *   P49 (Cinematography): FAIL. No intent.
+    *   P50 (Lighting): FAIL. Flat, generic light source.
+    *   P67 (Visual Oracle): FAIL. This is proxy geometry.
+    *   P72 (Completeness): FAIL. Not a finished world.
+
+    *   *Vision Verdict:* Total failure. This is a primitive blockout/test scene.
+    *   *Top Failures:* Material Truth, World Density, Domestic Life.
     *   *World Density:* Zero.
-    *   *Technical Defects:* Flat lighting, proxy geometry.
-    *   *AAA Question:* No.
-**PERCEPTUAL EVIDENCE EXAMINER — STAGE B: FULL INSPECTION**
+    *   *Technical Defects:* Flat shading, lack of textures, proxy geometry.
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
-**SCENE CONTEXT:** Widow Xu’s House / Wang Family Bend (per Universe Slice)
+**SCENE UNIVERSE SLICE:** `structure.widow_house` / `room.xu.main`
 **STATUS:** CRITICAL FAILURE
 
 ---
 
 ### 1. PHASE B: FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** Single-point focus. The beige cube is the only subject. There is no secondary or tertiary read.
-*   **Depth Separation:** Minimal. The image is divided into three flat bands: Green (Foreground/Ground), Beige (Midground/Subject), Black (Background/Void).
-*   **Horizon/Sky:** A thin, light-blue line serves as a mathematical horizon. There is no sky, atmosphere, or celestial presence.
-*   **Frame Balance:** Centered and static. No dynamic tension or directed sightlines.
-*   **Camera/Lens:** Default perspective. No cinematic lens language, no intentional camera height or angle.
-*   **Compositional Read:** This is a technical blockout. It does not communicate a "scene," but rather the presence of a primitive in a coordinate space.
+*   **Focal Hierarchy:** Non-existent. The eye is distributed randomly between three primitive shapes. There is no primary, secondary, or tertiary read.
+*   **Foreground/Middle/Background:** 
+    *   *Foreground:* A truncated cone (bottom center).
+    *   *Middle ground:* A truncated cone and a cube.
+    *   *Background:* Flat white walls.
+*   **Frame Balance:** Poor. The right half of the frame is a void of white and brown.
+*   **Negative Space:** Oppressive. The negative space does not frame a subject; it highlights the absence of content.
+*   **Camera/Lens:** Generic perspective. No cinematic intent, no lens language, no specific height that communicates a character's POV.
+*   **Sightlines:** None. There is nothing for the player to look at or follow.
 
 ### 2. PHASE C: MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Flat, textureless green surface. Zero detail.
-*   **SHELL 2 (Local Interaction):** A single rectangular prism. No doors, no windows, no porch, no garden tools.
-*   **SHELL 3 (Local Scene):** Empty.
-*   **SHELL 4 (Settlement):** Non-existent.
-*   **SHELL 5 (Landscape):** Non-existent.
-*   **SHELL 6 (Horizon):** A 1-pixel wide line.
-*   **SHELL 7 (Sky):** Absolute black void.
-*   **SHELL 8/9 (Subsurface/Metaphysical):** No evidence.
-*   **Density Verdict:** **ZERO.** The scene is a vacuum.
+*   **SHELL 1 (Reach):** Primitive geometry. No tactile detail.
+*   **SHELL 2 (Local Interaction):** Empty floor.
+*   **SHELL 3 (Local Scene):** A void.
+*   **SHELL 4–9 (Settlement to Metaphysical):** NOT EVALUABLE. The frame is a closed box with no windows or portals to the wider world.
+*   **Density Verdict:** **ZERO.** The scene is a vacuum. There is no set dressing, no architectural detail, and no environmental storytelling.
 
 ### 3. PHASE D: CONTENT INVENTORY
-| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| Item | Region | Depth | Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Structure | Center | Mid | Proxy Cube | **Primitive** | None. Does not read as "rammed earth/thatch." |
-| Terrain | Bottom | Fore | Green Plane | **Primitive** | None. Does not read as "geology/soil." |
-| Atmosphere | Top | Back | Black Void | **Primitive** | None. |
+| Wall | Left/Right/Back | BG | Flat Plane | Primitive | None |
+| Floor | Bottom | FG/MG | Brown Plane | Primitive | None |
+| Ceiling | Top | BG | Black Plane | Primitive | None |
+| Light | Top Center | BG | White Rect | Primitive | None |
+| Shape A | Bottom Center | FG | Truncated Cone | Proxy | None |
+| Shape B | Mid Left | MG | Truncated Cone | Proxy | None |
+| Shape C | Mid Center | MG | Cube | Proxy | None |
+
+**Missing Mandatory Content (per Universe Slice):**
+*   **Architecture:** Rammed earth walls, thatch roofing.
+*   **Furniture:** Loom, Kang.
+*   **Props:** Dryland garden tools, Xu Erniu's coat on a peg.
+*   **Atmosphere:** Any indication of the "Cangwu Sect" or "Widow Xu's" presence.
 
 ### 4. PHASE E: SILHOUETTE AND PROPORTION
-*   **Subject:** The silhouette is a basic rectangle. It fails to communicate the "Small, single-room household" described in the Architecture contract. There is no architectural silhouette (roofline, eaves, foundation).
-*   **Scale:** No scale anchors (NPCs, props, vegetation) are present. The cube's size is arbitrary.
+*   **Focal Subjects:** The subjects are basic geometric primitives. They possess no silhouette value, no character, and no proportion relative to a human scale.
 
 ---
 
 ### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
 
-| Pass ID | Obligation | Result | Evidence / Missing |
+| Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | No geology; flat green plane. |
-| **P10** | Terrain Geometry | **FAIL** | No topology; no contact logic. |
-| **P13** | Material Truth | **FAIL** | Flat colors; no thatch, no rammed earth, no weathering. |
-| **P14** | Vegetation Ecology | **FAIL** | Uniform green paint; no species, no variation. |
-| **P15** | Animal Ecology | **FAIL** | Total absence of life. |
-| **P18** | Individual Personhood | **FAIL** | No NPCs present. |
-| **P23** | Domestic Life | **FAIL** | No tools, no loom, no coat, no evidence of habitation. |
-| **P33** | Universal Affordance | **FAIL** | No legible doors or usable surfaces. |
-| **P36** | Structural Physics | **FAIL** | No load paths; a floating-base cube. |
-| **P49** | Cinematography | **FAIL** | No focal hierarchy or lens language. |
-| **P50** | Lighting | **FAIL** | Flat, diffuse lighting; no key/fill/rim. |
-| **P51** | Shader Presentation | **FAIL** | Generic flat shaders; no painterly language. |
-| **P67** | Visual Oracle | **FAIL** | **Visible proxy geometry.** |
-| **P72** | Completeness Gate | **FAIL** | Total failure across all depth shells. |
-| **P07** | Perceptual Hierarchy | **FAIL** | Primary read is "test scene," not "inhabited village." |
-| **P08** | Forbidden Interpretations| **PASS** | No forbidden motifs present (due to absence of content). |
-| **P61** | Renderer/GPU | **PASS** | No z-fighting or artifacts visible on primitives. |
+| **P09** | Planetary Geology | **FAIL** | No geology present. |
+| **P10** | Terrain Geometry | **FAIL** | Flat plane; no terrain contact. |
+| **P13** | Material Truth | **FAIL** | **Missing:** Rammed earth, thatch. **Observed:** Flat colors/noise. |
+| **P23** | Domestic Life | **FAIL** | **Missing:** Loom, tools, signs of occupation. |
+| **P36** | Structural Cons. | **FAIL** | Paper-thin walls; no load paths or structural logic. |
+| **P49** | Cinematography | **FAIL** | No focal hierarchy or directed composition. |
+| **P50** | Lighting | **FAIL** | Flat, generic light source; no contrast or mood. |
+| **P67** | Visual Oracle | **FAIL** | **Direct Violation:** Visible proxy geometry in final frame. |
+| **P72** | Completeness | **FAIL** | Total absence of mandatory visual blockers. |
 
 ---
 
 ### 6. VISION VERDICT
 
-**FINAL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+**OVERALL STATUS: [BLOCKER]**
+The evidence provided is not a "scene"; it is a **primitive blockout/test environment**. There is a 0% correlation between the visual evidence and the Scene Universe Slice. The frame fails every applicable Genesis Pass.
 
 **TOP FAILURES:**
-1.  **Total Absence of Material Truth (P13/P51):** The "rammed earth and thatch" house is represented by a beige cube.
-2.  **Zero World Density (Phase C):** Every shell from 1 to 7 is empty or primitive.
-3.  **Failure of Perceptual Hierarchy (P07):** The image communicates "Engine Test," not "Xianxia Universe."
+1.  **Material Truth (P13):** The "rammed earth" and "thatch" required by the Bible are replaced by flat white and brown planes.
+2.  **World Density (P23):** The "weaving room" is an empty void. The loom and kang—central to the narrative and gameplay of this slice—are missing.
+3.  **Production Level (P67):** The image consists entirely of proxy geometry.
 
 **TECHNICAL DEFECTS:**
-*   Flat, non-directional lighting.
-*   Lack of texture/normal maps.
-*   Proxy geometry used as final representation.
+*   Flat shading.
+*   Lack of texture mapping.
+*   Absence of bevels/edge wear.
+*   Generic, non-directional lighting.
 
 **NOT EVALUABLE:**
-*   P43, P47 (Motion/Secondary Motion) — Still frame.
-*   P25, P27, P29 (Qi/Formations) — No supernatural elements rendered.
+*   P43 (Environment-Aware Motion)
+*   P47 (Secondary Motion)
+*   P78 (Concealment/Access)
 
 **NEXT INSPECTION:**
-Requires a complete asset pass. The current frame is a blockout and cannot be evaluated for art direction, cinematic quality, or world-building.
+Require a render that implements the **Material Truth (P13)** and **Domestic Life (P23)** passes. The current frame is a technical placeholder and cannot be evaluated as a production asset.
 
 ---
 
 ### 7. AAA COMPLETENESS QUESTION
-**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
+**Does this frame represent a finished, production-ready visual for the Grand Architect universe?**
 
-**NO.** 
-This is a greybox. It is a mathematical representation of volume, not a visual representation of a world.
+**NO.** This is a primitive prototype.

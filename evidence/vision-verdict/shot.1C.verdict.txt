@@ -1,0 +1,112 @@
+# VISION INSPECTION — shot.1C
+
+## STAGE A (blind)
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE A REPORT**
+
+**1. PHYSICAL DESCRIPTION**
+*   **Setting:** A flat, outdoor environment consisting of a wide, tan-colored path or road bisecting a green plane.
+*   **Objects:** 
+    *   Two large, rectangular structures on the left/center composed of primitive boxes with a horizontal wood-grain texture.
+    *   A central grey hexagonal base supporting a vertical cylinder and a floating brown wedge (resembling a primitive well or fountain).
+    *   Several identical "trees" consisting of a brown rectangular trunk and a dark green cone.
+    *   Distant white and light-blue triangles representing mountains.
+*   **Scale:** Human-eye level perspective. The structures are roughly 2–3 times the height of the camera.
+*   **Density:** Extremely low. Large expanses of the frame contain only flat, unshaded color or single-tiling textures.
+
+**2. PLAYER PERCEPTION**
+A player would perceive this as a **very early technical prototype** of a rural or "Wild West" town. The wood textures and dirt road suggest a frontier setting, but the lack of any architectural detail (windows, doors, roofs) makes the environment feel like a non-functional geometry test.
+
+**3. ART STYLE AND PRODUCTION QUALITY**
+*   **Style:** Primitive 3D / Low-Fidelity. It utilizes basic geometric primitives (cubes, cones, cylinders) with low-resolution, repeating textures.
+*   **Quality:** Extremely low. There is no evidence of a lighting engine; surfaces are flat-lit with no shadows, ambient occlusion, or highlights. Aliasing (jagged edges) is prominent on all diagonal lines.
+
+**4. LEVEL OF COMPLETION**
+**PRIMITIVE_PLACEHOLDER**
+This is below the level of a "Blockout." While a blockout focuses on spatial flow using grey boxes, this uses "final-intent" textures (wood, grass) on unedited primitive shapes, indicating a stage where basic asset placement is being tested without regard for lighting, composition, or geometry.
+
+**5. DEFECTS, DISTRACTIONS, AND EMPTY ZONES**
+*   **Zero Lighting:** The absence of shadows makes every object appear to "float" on top of the ground plane rather than sit within it.
+*   **Texture Seams:** A prominent diagonal distortion/seam is visible in the bottom-right quadrant of the road texture.
+*   **Skybox:** The sky is a flat, two-tone gradient with a sharp, unnatural transition.
+*   **Floating Geometry:** The brown element on the central "well" is not physically connected to the base.
+*   **Empty Zones:** Approximately 70% of the frame is empty space (flat ground or flat sky).
+*   **Lack of Depth:** The "mountains" are 2D-style triangles that do not convey atmospheric perspective or volume.
+
+**6. INSPECTION REWARD LIMIT**
+**Surface Level.**
+The image stops rewarding inspection almost immediately. There are no fine details, no hidden geometry, and no material properties to observe. Closer inspection only reveals the low resolution of the tiling textures and the mathematical sharpness of the un-beveled polygon edges.
+
+## STAGE B (contract)
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION REPORT**
+
+**LOCATION:** Wang Family Bend (Western Cangwu Vein)
+**SUBJECT:** Widow Xu’s House / Village Perimeter
+**EVIDENCE:** Single RGB Frame (Static)
+
+---
+
+### PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary read is a grey hexagonal primitive (intended as a well or fountain) in the center-left. The secondary read is the large tan rectangular volume on the far left. There is no tertiary read; the eye wanders into empty tan and green planes.
+*   **Depth Separation:** Extremely poor. While there is a clear foreground (road), middle ground (structures), and background (mountains), the lack of atmospheric perspective, shadows, or detail-density scaling makes the scene feel like a flat collage of shapes rather than a 3D space.
+*   **Frame Balance:** Heavily weighted to the left. The right side of the frame is an empty expanse of tan road and three identical cone-tree primitives.
+*   **Camera/Lens:** Standard wide-angle, eye-level. The perspective is functional for navigation but provides no cinematic character or "painterly" intent.
+*   **Sightlines:** The road leads the eye to a flat horizon line with no landmark or "hook" to draw the player forward.
+
+### PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 & 2 (Reach/Interaction):** **TOTAL FAILURE.** The ground is a single flat texture. There are no pebbles, grass tufts, or micro-details.
+*   **SHELL 3 (Local Scene):** **TOTAL FAILURE.** The "Widow Xu House" described in the slice (rammed earth, thatch, 10m x 12m) is represented by two featureless boxes with a tiling wood-grain texture. There is no "dryland garden," no "loom," and no "Xu Erniu’s coat."
+*   **SHELL 4 (Settlement):** **TOTAL FAILURE.** The "Wang Family Bend" consists of two boxes and a well. It does not read as a lived-in settlement.
+*   **SHELL 5 & 6 (Landscape/Horizon):** **TOTAL FAILURE.** The terrain is a flat plane. The mountains are unshaded 2D-looking triangles.
+*   **SHELL 7 (Sky):** **TOTAL FAILURE.** A flat, two-tone gradient with no clouds, sun, or celestial indicators.
+
+### PHASE D — CONTENT INVENTORY
+1.  **Structures (Mid-Left):** Two rectangular prisms. Texture: Tiling wood grain. Status: **PROXY.**
+2.  **Well (Center):** Hexagonal base, vertical cylinder, brown wedge. Texture: Grey/Brown flat. Status: **PROXY.**
+3.  **Vegetation (Mid-Right):** Four identical "trees" (cylinder + cone). Status: **PRIMITIVE PLACEHOLDER.**
+4.  **Road (Foreground/Right):** Tan flat plane. Status: **UNFINISHED.**
+5.  **Mountains (Background):** White and light-blue triangles. Status: **BLOCKOUT.**
+
+---
+
+### PHASE X — GENESIS PASS COVERAGE
+
+| ID | Pass Name | Status | Observed vs. Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geography | **FAIL** | No geology present; flat heightmap only. |
+| **P10** | Terrain Geometry | **FAIL** | No valley/slope structure; "well" appears to hover slightly on a flat plane. |
+| **P13** | Material Truth | **FAIL** | **CRITICAL MISMATCH.** Slice demands "rammed earth/thatch." Visual shows "tiling wood grain." |
+| **P14** | Vegetation Ecology | **FAIL** | Uniform cone-trees; no species variation or riparian logic. |
+| **P51** | Shader Presentation | **FAIL** | No "painterly hand-painted language." These are generic primitive shaders. |
+| **P36** | Structural Logic | **FAIL** | Boxes have no roofs, doors, or load-bearing logic. |
+| **P23** | Domestic Life | **FAIL** | No loom, no tools, no laundry, no "causal occupation." |
+| **P18** | Individual Personhood | **FAIL** | Widow Xu and Xu Erniu are absent. No NPCs visible. |
+| **P07** | Perceptual Hierarchy | **FAIL** | The "intended" read (inhabited village) is not present. |
+| **P67** | Visual Oracle | **FAIL** | Scene is 100% proxy geometry/Art Bible violations. |
+| **P61** | Renderer/GPU | **PARTIAL** | No obvious z-fighting, but no shadows or lighting to test. |
+
+---
+
+### 3x3 FORENSIC SWEEP
+*   **[TL]** Flat sky gradient; top of a featureless tan box.
+*   **[TC]** Flat sky; no atmospheric depth.
+*   **[TR]** Distant triangle mountains; no "Cangwu Sect" landmarks visible.
+*   **[ML]** Tiling wood texture on a box; no windows or doors.
+*   **[MC]** The "well" primitive. No water, no bucket, no wear.
+*   **[MR]** Repeated cone-tree assets; zero silhouette variety.
+*   **[BL]** Hard edge between green "grass" and tan "road." No transition.
+*   **[BC]** Empty tan road texture.
+*   **[BR]** Empty tan road texture.
+
+---
+
+### VISION VERDICT: CRITICAL FAILURE
+The visual evidence is a **Primitive Placeholder Map / Greybox Test**. It bears zero resemblance to the provided [SCENE UNIVERSE SLICE] or the [GENESIS PASS] obligations.
+
+**TOP FAILURES:**
+1.  **Material Contradiction:** The slice specifies "rammed earth and thatch" for a poor lineage household; the visual uses a generic "wood plank" tiling texture.
+2.  **Total Absence of Life:** Widow Xu, the loom, the garden, and the "charity cloth" are entirely missing. The scene is a ghost-town of primitives.
+3.  **Scale/Density Collapse:** The environment fails to communicate a "Xianxia" world. It reads as a generic 1990s-era technical demo.
+
+**WORLD DENSITY:** 0.5/10 (Objects exist, but they communicate no world truth).
+**TECHNICAL DEFECTS:** Tiling textures, lack of lighting/shadows, primitive geometry, no terrain blending.
+**NOT EVALUABLE:** Qi ecology (P25), Formations (P29), Secondary Motion (P47
