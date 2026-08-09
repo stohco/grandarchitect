@@ -309,7 +309,15 @@ export default function DirectorRenderPage() {
       if (!shot) return null;
       const [sx, sy, sz] = sunElevationFor(shotId);
       sun.position.set(sx, sy, sz);
-      const dist = Math.max(CUT_DISTANCE[shot.cut] ?? 20, structureFootprint(shotId));
+      // ep3 market-square shots: the subject is the recruitment stall + the
+      // crowd line (~10 m wide), NOT the 60 m plaza — clamp the distance so
+      // the people/stall fill the frame and the yamen reads secondary
+      // (P07 perceptual hierarchy; VLM: 'stalls gargantuan vs buildings').
+      const ep3MarketShot = ep3 && shot.structureId === 'structure.qinghe.market_square';
+      const dist = Math.max(
+        ep3MarketShot ? Math.min(CUT_DISTANCE[shot.cut] ?? 20, 18) : CUT_DISTANCE[shot.cut] ?? 20,
+        structureFootprint(shotId),
+      );
       const target = targetFor(shotId);
       // room shots: dedicated interior view — hide the world, show only the
       // furnished room against a warm-dark backdrop (clean, lit, readable),
