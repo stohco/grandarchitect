@@ -341,6 +341,36 @@ export const PROP_BUILDERS: Record<string, DressingBuilder> = {
   'prop.lin.shaving_pile': (pal) => boxProp(2, 0.8, 2, pal.timber),
   'prop.xu.garden': (pal) => boxProp(5, 0.1, 6, pal.packedEarth),
   'prop.school.bell': (pal) => boxProp(0.3, 0.4, 0.3, pal.woodTrim),
+  // ---- room furniture (the 'every nook accounted for' pass) --------------
+  'prop.bench': (pal) => bench(pal, 1.2),
+  'prop.rice_jar': (pal) => jar(pal.rammedEarth, 0.3, 0.55),
+  'prop.quilt_stack': (pal) => smallGroup(
+    boxProp(0.9, 0.25, 0.7, pal.hemp),
+    boxProp(0.85, 0.2, 0.65, pal.hemp).translateY(0.24),
+    boxProp(0.8, 0.18, 0.6, pal.plaster).translateY(0.44),
+  ),
+  'prop.ink_stone': (pal) => smallGroup(
+    boxProp(0.25, 0.06, 0.18, pal.stone),
+    cylProp(0.02, 0.02, 0.12, pal.woodTrim, 5).translateX(0.16),
+  ),
+  'prop.books': (pal) => smallGroup(
+    boxProp(0.3, 0.08, 0.22, pal.plaster).translateX(-0.12),
+    boxProp(0.28, 0.07, 0.2, pal.woodTrim).translateX(0.08),
+    boxProp(0.3, 0.09, 0.21, pal.hemp).translateX(0.26),
+  ),
+  'prop.sealed_jar': (pal) => {
+    const g = jar(pal.rammedEarth, 0.28, 0.6);
+    const seal = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.2, 0.08, 8), pal.plaster);
+    seal.position.y = 0.66;
+    g.add(seal);
+    return g;
+  },
+  'prop.yarn_roll': (pal) => new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), pal.hemp),
+  'prop.abacus': (pal) => smallGroup(
+    boxProp(0.5, 0.06, 0.2, pal.woodTrim),
+    boxProp(0.02, 0.12, 0.02, pal.woodTrim).translateX(-0.15).translateY(0.03),
+    boxProp(0.02, 0.12, 0.02, pal.woodTrim).translateX(0.15).translateY(0.03),
+  ),
   'prop.road.main': (pal) => boxProp(12, 0.06, 320, pal.packedEarth),
   'prop.road.well_path': (pal) => boxProp(6, 0.05, 60, pal.packedEarth),
   'prop.fields.bunds': (pal) => boxProp(0.6, 0.4, 300, pal.stone),
