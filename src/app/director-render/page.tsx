@@ -149,8 +149,23 @@ export default function DirectorRenderPage() {
     }
 
     // village life: a few humanoids (episode-aware — the E2/E3 shots are in
-    // the market square, tea house, dock; P18: NPCs must show activity)
-    const life: Array<{ profile: string; x: number; z: number; clip: string }> = ep2 ? [
+    // the market square, tea house, dock; P18: NPCs must show activity).
+    // E3 is recruitment day: a CROWD — children in line, parents watching.
+    const life: Array<{ profile: string; x: number; z: number; clip: string }> = ep3 ? [
+      // children lining up (the queue) at the square centre
+      { profile: 'child', x: -2, z: 62, clip: 'idle' },
+      { profile: 'child', x: 0, z: 60, clip: 'idle' },
+      { profile: 'child', x: 2, z: 58, clip: 'idle' },
+      { profile: 'child', x: 4, z: 60, clip: 'idle' },
+      // the recruiter at the stall (a cultivator in white robe, red lining)
+      { profile: 'cultivator', x: 8, z: 56, clip: 'bow' },
+      // parents watching from the side
+      { profile: 'farmer', x: -6, z: 66, clip: 'idle' },
+      { profile: 'farmer', x: -8, z: 64, clip: 'idle' },
+      { profile: 'elder', x: -10, z: 68, clip: 'idle' },
+      { profile: 'merchant', x: 6, z: 68, clip: 'walk' },
+      { profile: 'elder', x: 10, z: 66, clip: 'idle' },
+    ] : ep2 ? [
       { profile: 'merchant', x: 14, z: 58, clip: 'walk' },
       { profile: 'farmer', x: -6, z: 64, clip: 'idle' },
       { profile: 'elder', x: 8, z: 42, clip: 'bow' },
@@ -181,7 +196,7 @@ export default function DirectorRenderPage() {
 
     // furnished interior sets (critic fix: buildings read as inhabited)
     const roomSets = new Map<string, { group: THREE.Group; center: THREE.Vector3; d: number }>();
-    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[]; w: number; d: number; h: number }> } : WANG_FAMILY_BEND;
+    const settlement = ep2 ? QINGHE_MARKET_TOWN as unknown as { structures: Array<{ id: string; rooms: SetRoom[]; w: number; d: number; h: number; kind: string }> } : WANG_FAMILY_BEND;
     for (const s of settlement.structures) {
       const sg = village.structures.get(s.id);
       if (!sg) continue;
@@ -235,11 +250,15 @@ export default function DirectorRenderPage() {
     // inside a large building (e.g. the 30x45 m yamen at 7 m dolly distance)
     // AND so the whole facade fits the frame: distance scales with the longer
     // side (~0.9x fits a 45 m facade at 50 deg fov), not just half-depth.
+    // Open plazas (market) get NO footprint override — the director's cut
+    // distance stands, so close shots of the crowd/stall actually close in
+    // (VLM: people unreadable at 62 m in 'close' shots).
     const structureFootprint = (shotId: string): number => {
       const shot = episode.shots.find((s) => s.id === shotId);
       if (!shot?.structureId) return 0;
       const s = settlement.structures.find((x) => x.id === shot.structureId);
       if (!s) return 0;
+      if (s.kind === 'market' || s.kind === 'field' || s.kind === 'dock') return 0;
       const facadeFit = Math.max(s.w, s.d) * 0.9 + 8;
       return Math.min(Math.max(facadeFit, 12), 160);
     };
