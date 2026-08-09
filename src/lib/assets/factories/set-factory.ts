@@ -1198,6 +1198,16 @@ export function buildTownScene(seed = 89274613): VillageScene {
     m.position.set(dx * dist, h * 0.32, dz * dist);
     m.castShadow = true;
     group.add(m);
+    // secondary off-center peak: breaks the 'literal cone' read into a
+    // ridgeline silhouette (VLM: 'the mountain is a literal cone')
+    const r2 = r * rng.nextRange(0.35, 0.6);
+    const h2 = h * rng.nextRange(0.45, 0.7);
+    const m2 = new THREE.Mesh(new THREE.ConeGeometry(r2, h2, 5), pal.hazyBlue);
+    const offAng = rng.nextRange(0, Math.PI * 2);
+    const offR = r * rng.nextRange(0.7, 1.1);
+    m2.position.set(dx * dist + Math.cos(offAng) * offR, h2 * 0.3, dz * dist + Math.sin(offAng) * offR);
+    m2.castShadow = true;
+    group.add(m2);
   }
 
   // mid-distance ridge band: darker, closer silhouettes between the
