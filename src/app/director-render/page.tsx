@@ -225,6 +225,13 @@ export default function DirectorRenderPage() {
         const rs = roomSets.get(shot.roomId);
         if (rs) return rs.center.clone();
       }
+      // ep3 market-square shots aim at the recruitment-day CROWD (the queue
+      // line at the stall), not the plaza centre — the stall, recruiter and
+      // children then fill the frame (P18/P22 readable instead of a 60 m
+      // empty plaza read).
+      if (ep3 && shot.structureId === 'structure.qinghe.market_square') {
+        return new THREE.Vector3(g.position.x + 2, 1.4, g.position.z + 2);
+      }
       // aim at the structure's VISUAL CENTER, not y=2 — a 1.6 m camera
       // looking at y=2 on an 8 m yamen reads as a steep low angle where the
       // roof underside dominates the frame (VLM: 'roof reads as a floating
