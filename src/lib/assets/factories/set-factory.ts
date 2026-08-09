@@ -1226,7 +1226,9 @@ export function buildTownScene(seed = 89274613): VillageScene {
     group.add(m);
   }
 
-  // Cangwu foothills silhouette — bigger, closer blue-grey cones due south
+  // Cangwu foothills silhouette — bigger, closer blue-grey cones due south.
+  // Each gets a secondary peak so the range reads as ridgelines, not a
+  // single 'literal cone' (VLM: 'the mountain is a literal cone')
   for (let i = 0; i < 3; i++) {
     const dx = rng.nextRange(-160, 160);
     const dz = rng.nextRange(520, 680);
@@ -1236,6 +1238,14 @@ export function buildTownScene(seed = 89274613): VillageScene {
     m.position.set(dx, h * 0.32, dz);
     m.castShadow = true;
     group.add(m);
+    const r2 = r * rng.nextRange(0.4, 0.65);
+    const h2 = h * rng.nextRange(0.5, 0.75);
+    const m2 = new THREE.Mesh(new THREE.ConeGeometry(r2, h2, 6), pal.hazeBlue);
+    const offAng = rng.nextRange(0, Math.PI * 2);
+    const offR = r * rng.nextRange(0.8, 1.2);
+    m2.position.set(dx + Math.cos(offAng) * offR, h2 * 0.3, dz + Math.sin(offAng) * offR);
+    m2.castShadow = true;
+    group.add(m2);
   }
 
   // THE XIANXIA PRESENCE — the world above the mortal bend (doc 12, 25):

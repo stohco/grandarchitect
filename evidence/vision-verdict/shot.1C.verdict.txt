@@ -13,197 +13,136 @@ No entity names, no developer context, no "intended" content.
         *   Where does inspection stop rewarding?
 Brutally accurate, no praise, facts and defects only.
 
-    *   *Setting:* A flat, green plane (grass) with some tan/beige flat areas (dirt/sand). A light blue, featureless sky.
-    *   *Objects:*
-        *   Several boxy structures. They use brown/tan textures that look like wood or straw/thatch.
-        *   The structures are composed of simple rectangular prisms.
-        *   There's a grey base/foundation strip.
-        *   In the background: a white cone (mountain/pyramid) and a grey blob/sphere (rock/hill).
-        *   A tiny green object (maybe a plant or marker) on the ground.
-    *   *Scale:* Hard to tell without a human reference, but the structures look like small buildings or sheds.
-    *   *Density:* Extremely low. A few buildings in a void.
-    *   *Textures:* Low resolution, repetitive, stretched. The "straw" texture is a repeating pattern. The "wood" is a blurry gradient.
-    *   *Lighting:* Flat, basic directional light. Soft shadows on the ground.
-    *   *Geometry:* Primitive. No bevels, no complex architecture, just boxes.
+    *   *Foreground:* A flat, sandy/beige textured plane.
+    *   *Midground:* A green flat plane (grass). A structure made of brown/yellowish blocks. The structure has a grey base. It looks like a building or a set of walls. There's a small green object (looks like a pin or a tiny plant) on the ground.
+    *   *Background:* A flat blue sky. A white cone (mountain/pyramid placeholder) and a grey blob (rock/hill placeholder).
+    *   *Textures:* Low resolution, repetitive, stretched. The "wood" looks like a generic brown texture. The "straw/thatch" looks like a yellow grid.
+    *   *Lighting:* Flat, basic directional light. Hard shadows.
+    *   *Geometry:* Simple boxes, planes, and primitive shapes (cone, sphere/blob).
 
-    *   *What is it?* A very early stage of a game world. It looks like a "greybox" or "blockout" phase where textures have been slapped on to test the vibe.
-    *   *Player perception:* "This is a prototype" or "This is a very low-budget indie game from 2002."
-    *   *Art style:* Low-poly, primitive.
-    *   *Completion level:* Definitely not finished. Not a production candidate. It's a BLOCKOUT with basic textures.
+    *   *Setting/Objects:* A flat, featureless landscape with a few blocky structures. Scale is ambiguous but suggests a small village or building site. Density is extremely low.
+    *   *Player Perception:* A very early alpha build, a "greybox" phase, or a low-effort indie prototype. It looks like a "test level."
+    *   *Art Style/Quality:* Low-fidelity, primitive. Textures are blurry and lack detail. No atmospheric effects.
+    *   *Completion Level:* Definitely not finished. Not a production candidate. It's beyond a pure blockout (because it has textures), but the textures are placeholders. I'll categorize it as **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**. Actually, since there are textures, it's a "textured blockout," but the prompt's options are specific. It fits **PRIMITIVE_PLACEHOLDER** best because the environment consists of primitives (cone, blob).
     *   *Defects:*
-        *   Texture stretching/tiling.
-        *   Lack of any environmental detail (no grass blades, no pebbles, no wind).
+        *   Texture stretching/blurring.
+        *   Lack of any environmental detail (no grass blades, no debris, no variation).
         *   Floating/perfectly flat planes.
-        *   The background assets (cone and sphere) are literal primitives.
-        *   The "ground" is just a flat color/texture.
-    *   *Reward for inspection:* Zero. Once you see it's a box with a texture, there is nothing else to discover. No micro-detail.
+        *   The "mountain" is a literal cone.
+        *   The "rock" is a literal sphere/blob.
+        *   The "building" is just a collection of cubes.
+    *   *Inspection Limit:* The image stops rewarding inspection immediately. There is no micro-detail. Once you see the texture is a low-res repeat, there is nothing else to find.
 
-    *   *Setting/Objects:* Flat green/tan plane. Boxy structures with brown/yellow textures. A white cone and grey sphere in the distance.
-    *   *Player thought:* A prototype or a very early alpha build.
-    *   *Style/Quality:* Primitive 3D. Low-resolution textures. No complex geometry.
-    *   *Completion:* BLOCKOUT.
-    *   *Defects:* Texture tiling, primitive geometry (cone/sphere), featureless sky, zero environmental density.
-    *   *Inspection limit:* Immediate. No detail beyond the basic shapes.
+    *   *Setting:* Flat green and beige planes under a solid blue sky. A few brown/yellow rectangular structures.
+    *   *Player thought:* "This is a test map/prototype."
+    *   *Style:* Low-poly, low-res.
+    *   *Completion:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects:* Cone mountain, blob rock, blurry textures, zero environmental density.
 **PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
 **Actual Content**
-*   **Setting:** A flat, featureless green plane intersected by tan/beige flat polygons. The sky is a solid, gradient-free light blue.
-*   **Objects:** Several rectangular prisms arranged to suggest buildings. They are covered in low-resolution, repeating textures of brown (wood-like) and yellow (straw-like). A grey rectangular strip serves as a foundation. In the far background, there is a single white cone and a single grey sphere.
-*   **Scale:** Indeterminate due to lack of human-scale reference, though the structures suggest small sheds or huts.
-*   **Density:** Extremely low. Only a few primitive shapes in a void.
+*   **Setting:** A flat, featureless outdoor environment consisting of two intersecting planes (beige/sand and green/grass) under a solid, gradient-free blue sky.
+*   **Objects:** A series of brown and yellow rectangular prisms arranged to suggest a building. A grey rectangular base supports the structure. In the far distance, there is a white cone and a grey amorphous blob. A single, tiny green vertical object sits on the ground.
+*   **Scale:** Ambiguous. The lack of human-scale references (doors, windows, furniture) makes it impossible to determine if this is a miniature model or a large building.
+*   **Density:** Extremely low. Only four distinct structural elements and two distant primitives exist in the frame.
 
 **Player Perception**
-A player would perceive this as a very early development prototype, a "greybox" test, or a low-budget project in the earliest stages of asset placement.
+A player would perceive this as a "test level," a "greybox" phase, or a very early technical prototype. It looks like a developer's sandbox used to test basic collision or placement before any actual art assets are created.
 
 **Art Style and Production Quality**
-*   **Style:** Primitive 3D.
-*   **Quality:** Very low. Textures are blurry, stretched, and exhibit obvious tiling patterns. Geometry consists entirely of basic primitives (cubes, cones, spheres). Lighting is flat with basic soft shadows.
+*   **Style:** Primitive/Low-fidelity.
+*   **Quality:** Poor. Textures are low-resolution, blurry, and exhibit visible tiling and stretching. Lighting is flat with hard, basic shadows. There is no atmospheric perspective or environmental detail.
 
 **Completion Level**
-BLOCKOUT
+**PRIMITIVE_PLACEHOLDER**
 
 **Defects and Distractions**
-*   **Geometry:** The background "mountain" is a literal cone; the "hill" is a literal sphere.
-*   **Textures:** Obvious tiling on the yellow walls; blurry, low-res gradients on the brown walls.
-*   **Environment:** The ground is a perfectly flat plane with no variation, debris, or organic blending.
-*   **Empty Zones:** The entire periphery is a void.
-*   **Artifacts:** A single, tiny green floating object/marker is visible on the ground in the center-right.
+*   **Geometry:** The "mountain" is a literal geometric cone; the "rock" is a primitive blob.
+*   **Textures:** The yellow texture on the upper wall is a repetitive, low-res grid. The brown textures are muddy and lack definition.
+*   **Environment:** The transition between the sand and grass is a perfectly sharp, unnatural line.
+*   **Empty Zones:** The entire background and foreground are void of any detail, foliage, or variation.
 
 **Inspection Limit**
-The image stops rewarding inspection immediately. There is no micro-detail, no weathering, and no complex geometry to discover upon closer look. Once the basic shapes are identified, there is no further visual information.
+The image stops rewarding closer inspection immediately. There is no micro-detail, no material depth, and no hidden complexity. Once the low-resolution nature of the textures is identified, there is nothing further to analyze.
 
 ## STAGE B (contract)
-Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
-A single rendered frame showing primitive boxy structures on a flat green/tan plane with a blue sky and a few distant primitive shapes (cone, sphere).
+# GRAND ARCHITECT — PERCEPTUAL EVIDENCE EXAMINER
+## Vision Inspection Report: [location.wang_family_bend / structure.widow_house]
 
-        *   Stage A (Blind Read): Already provided. It identified the scene as a primitive placeholder/blockout.
-        *   Inspection Contract: The "Constitution" for how to judge the work.
-        *   Scene Universe Slice: Detailed canon for "Widow Xu's house" (rammed earth, thatch, 10m x 12m, weaving room, etc.).
-        *   Genesis Pass Manifest: A list of specific visual obligations (P09, P10, etc.) that must be met.
-
-    *   *Phase B: Full-Frame Composition*
-        *   Focal Hierarchy: The central boxy structure is the primary read.
-        *   Foreground/Mid/Back: Foreground is a tan plane. Midground is the structure. Background is a flat horizon with a cone and sphere.
-        *   Balance: Heavily weighted to the left/center. Right side is empty.
-        *   Depth: Very poor. Flat planes, no atmospheric haze, no overlapping organic elements.
-        *   Camera: Low angle, wide lens.
-
-    *   *Phase C: Multi-Scale World Density*
-        *   Shell 1 (Reach): Empty tan plane.
-        *   Shell 2 (Local Interaction): Primitive boxes. No props, no tools, no "weaving" equipment.
-        *   Shell 3 (Local Scene): A few boxes on a flat plane.
-        *   Shell 4 (Settlement): Non-existent. No other houses, no paths.
-        *   Shell 5 (Landscape): Flat green plane.
-        *   Shell 6 (Horizon): A white cone and a grey sphere.
-        *   Shell 7 (Sky): Featureless blue.
-        *   Shell 8/9: Not applicable/not visible.
-
-    *   *Phase D: Content Inventory*
-        *   Structures: Boxy, brown/tan textures. No windows, no doors, no architectural detail.
-        *   Terrain: Green plane (grass), tan plane (dirt).
-        *   Landmarks: White cone, grey sphere.
-        *   Props: One tiny green dot (marker/plant).
-        *   Missing: Everything from the Universe Slice (loom, kang, coat, garden tools, rammed earth texture, thatch detail).
-
-    *   *Phase E: Silhouette and Proportion*
-        *   Silhouette: Rectangular prisms. No organic flow or architectural character.
-        *   Proportion: The "house" is a series of stacked boxes. No human scale reference.
-
-    *   P09 (Geology): FAIL. Flat plane. No macro/meso/micro structure.
-    *   P10 (Topology): FAIL. Flat. No valley/slope.
-    *   P13 (Material Truth): FAIL. Flat textures. No weathering or contact wear.
-    *   P14 (Vegetation): FAIL. Uniform green paint.
-    *   P23 (Domestic Life): FAIL. No tools, no loom, no evidence of life.
-    *   P36 (Structural Consequences): FAIL. Boxes floating/intersecting without load paths.
-    *   P49 (Cinematography): FAIL. No intentional framing or sightlines.
-    *   P50 (Lighting): FAIL. Flat, generic lighting.
-    *   P67 (Visual Oracle): FAIL. This is clearly proxy/blockout geometry.
-    *   P72 (Completeness): FAIL. Not complete at any shell.
-
-    *   *Vision Verdict:* Primitive Blockout / Prototype.
-    *   *Top Failures:* Total absence of material truth, zero world density, failure of all architectural obligations.
-    *   *World Density:* Non-existent.
-    *   *Technical Defects:* Flat shading, primitive geometry.
-**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
-
-**FRAME ID:** [Single Rendered Frame]
-**LOCATION:** Wang Family Bend / Widow Xu’s House (per Universe Slice)
-**STATUS:** CRITICAL FAILURE
+**STAGE B — FULL INSPECTION**
 
 ---
 
-### 1. PHASE B: FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** The primary read is a cluster of brown rectangular prisms. There is no secondary or tertiary read; the eye moves from the boxes to the empty void of the right frame.
-*   **Depth Separation:** Non-existent. The scene consists of three flat layers: a tan foreground plane, a midground of primitive boxes, and a featureless blue background. There is no overlap, no atmospheric perspective, and no occlusion.
-*   **Frame Balance:** Heavily skewed to the left. The right 40% of the frame is empty green/blue space, creating a vacuum of visual interest.
-*   **Camera/Lens:** Low-angle perspective. The lens feels generic and lacks any cinematic intent or focal length characteristic.
-*   **Sightlines:** There are no leading lines. The edges of the tan planes are straight and clinical, directing the eye nowhere.
-
-### 2. PHASE C: MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Empty. Flat tan texture.
-*   **SHELL 2 (Local Interaction):** Primitive. No props, no handles, no tactile surfaces.
-*   **SHELL 3 (Local Scene):** Empty. No paths, no fences, no debris.
-*   **SHELL 4 (Settlement):** Non-existent. No indication of a "Bend" or a "Sect."
-*   **SHELL 5 (Landscape):** Primitive. A flat green plane.
-*   **SHELL 6 (Horizon):** Placeholder. A white cone and a grey sphere.
-*   **SHELL 7 (Sky):** Featureless. Flat blue fill.
-*   **SHELL 8/9 (Subsurface/Metaphysical):** NOT EVALUABLE.
-
-### 3. PHASE D: CONTENT INVENTORY
-| Content Class | Region | Depth | Identity | Status | World Info Contributed |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Structure** | Center/Left | Mid | "House" (Boxes) | **BLOCKOUT** | None. Does not read as "rammed earth/thatch." |
-| **Terrain** | Bottom/Right | Fore/Mid | Grass/Dirt | **PRIMITIVE** | None. Uniform biome paint. |
-| **Landmark** | Right | Far | Cone/Sphere | **PROXY** | None. Generic geometry. |
-| **Vegetation** | Center | Mid | Green Dot | **PLACEHOLDER** | None. Single pixel-scale object. |
-
-### 4. PHASE E: SILHOUETTE AND PROPORTION
-*   **Silhouette:** Purely Euclidean. The "architecture" is a collection of right angles and prisms. There is no architectural language, no roof pitch, and no organic silhouette.
-*   **Proportion:** No human scale anchor present. The structures are ambiguous in size—they could be dollhouses or warehouses.
+### 1. VISION VERDICT
+**STATUS: CRITICAL FAILURE / PRIMITIVE BLOCKOUT**
+The visual evidence does not represent a "finished world" or even a "stylized prototype." It is a **primitive placeholder map** using unlit/flat-lit proxy geometry. It fails every qualitative mandate of the Grand Architect Bible and the provided Genesis Pass Manifest. There is zero evidence of the "painterly hand-painted language" (P51) or "material truth" (P13).
 
 ---
 
-### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
-
-| Pass ID | Name | Result | Observed / Missing Evidence |
-| :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | **Missing:** Macro/meso/micro structure. Evidence is a flat heightmap. |
-| **P10** | Terrain Topology | **FAIL** | **Missing:** Valley/slope/cliff. Terrain is a flat plane. |
-| **P13** | Material Truth | **FAIL** | **Missing:** Weathering, contact wear. Evidence is flat procedural noise. |
-| **P14** | Plant Ecology | **FAIL** | **Missing:** Species variation, moisture logic. Evidence is uniform green paint. |
-| **P23** | Domestic Life | **FAIL** | **Missing:** Loom, kang, tools, coat. Zero evidence of habitation. |
-| **P36** | Structural Cons. | **FAIL** | **Missing:** Load paths, support. Evidence is intersecting boxes. |
-| **P49** | Cinematography | **FAIL** | **Missing:** Focal hierarchy, framing. Evidence is a raw engine snap. |
-| **P50** | Lighting | **FAIL** | **Missing:** Warm/cool contrast, rim light. Evidence is flat, ambient lighting. |
-| **P67** | Visual Oracle | **FAIL** | **Observed:** Blatant proxy geometry and Art Bible violations. |
-| **P72** | Completeness | **FAIL** | **Observed:** Total absence of finished assets at every depth shell. |
+### 2. TOP FAILURES (Edit-Scope Diagnosis)
+*   **[P67] Visual Oracle (CRITICAL):** The scene is composed entirely of proxy geometry (cones, spheres, cubes). It is a development blockout, not a production-ready frame.
+*   **[P13/P51] Material & Shader Presentation (CRITICAL):** No painterly style is present. Textures are low-resolution, repetitive tiles. "Thatch" is a yellow grid; "Wood" is a brown smear. Rammed earth (mandated by [ARCHITECTURE]) is represented by generic brown blocks.
+*   **[P23] Ordinary Work and Domestic Life (TOTAL ABSENCE):** The slice mandates a loom, a kang, garden tools, and a coat. None are visible. The house is an empty shell.
+*   **[P18] Individual Personhood (TOTAL ABSENCE):** NPC Widow Xu and NPC Xu Erniu are missing. The scene is devoid of life.
+*   **[P09/P10] Geography and Topology (FAIL):** The terrain is a perfectly flat plane. There is no "macro/meso/micro structure." The "mountain" is a literal white cone.
 
 ---
 
-### 6. VISION VERDICT
-
-**FINAL CLASSIFICATION: PRIMITIVE PLACEHOLDER MAP**
-
-**TOP FAILURES:**
-1.  **Total Material Collapse:** The "rammed earth and thatch" required by the Universe Slice is represented by generic brown textures on cubes.
-2.  **Zero World Density:** The scene is an empty void. Not a single item from the "Widow Xu" narrative (loom, coat, garden tools) is present.
-3.  **Proxy Horizon:** The use of a cone and sphere for distant landmarks is a pre-production blockout technique, not a rendered world.
-
-**TECHNICAL DEFECTS:**
-*   Flat shading.
-*   Lack of ambient occlusion at contact points (boxes floating on plane).
-*   Zero texture resolution/detail.
-
-**NOT EVALUABLE:**
-*   P43/P47 (Motion) — No temporal evidence.
-*   P29/P25 (Qi/Formations) — No visual effects present.
-
-**NEXT INSPECTION:**
-Immediate rejection. This frame does not qualify for a "Production" or "Stylized Prototype" read. It is a greybox.
+### 3. GENESIS PASS COVERAGE
+*   **P09 (Geology):** **FAIL.** Flat planes; no soil transitions or embedded rocks.
+*   **P10 (Topology):** **FAIL.** No valley/slope structure.
+*   **P13 (Material Truth):** **FAIL.** Materials do not read as thatch, earth, or wood.
+*   **P51 (Art Style):** **FAIL.** No painterly language; generic low-poly/early-prototype aesthetic.
+*   **P36 (Structural Logic):** **FAIL.** The "roof" is a vertical plane and a floating horizontal slab. No load paths.
+*   **P23 (Domestic Life):** **FAIL.** No tools, no occupation, no "causal occupation."
+*   **P07 (Perceptual Hierarchy):** **FAIL.** The white cone (background) competes with the house due to high-contrast silhouette against the sky.
+*   **P67 (Visual Oracle):** **FAIL.** Entirely proxy-based.
 
 ---
 
-### 7. AAA COMPLETENESS QUESTION
-**Does this frame represent a finished, playable, or production-ready environment?**
+### 4. WORLD DENSITY (SHELL ANALYSIS)
+*   **SHELL 1 (Reach):** **EMPTY.** No tactile detail.
+*   **SHELL 2 (Interaction):** **EMPTY.** No tools, containers, or usable objects.
+*   **SHELL 3 (Local Scene):** **PRIMITIVE.** One green pin (plant proxy) on a flat plane.
+*   **SHELL 4 (Settlement):** **INCOMPLETE.** Only one partial structure visible.
+*   **SHELL 5 (Landscape):** **NON-EXISTENT.** Flat green plane.
+*   **SHELL 6 (Horizon):** **PRIMITIVE.** White cone and grey sphere.
+*   **SHELL 7 (Sky):** **FLAT.** Uniform blue hex code; no atmosphere or celestial bodies.
 
+---
+
+### 5. TILED 3x3 FORENSIC SWEEP
+*   **[1,1] [1,2] [1,3] (Top Row):** Flat blue sky. [1,2] shows the top of a vertical "thatch" plane with extreme texture tiling. [1,3] contains a white cone (mountain proxy) with no vertex shading.
+*   **[2,1] [2,2] [2,3] (Mid Row):** [2,1] Brown box with stretched texture. [2,2] Interior of the "house"—empty, no loom, no furniture. [2,3] Grey sphere (rock proxy) intersecting the flat ground plane.
+*   **[3,1] [3,2] [3,3] (Bottom Row):** [3,1] Flat green plane with a hard-edged, non-diffuse shadow. [3,2] Sandy plane meeting green plane with a perfectly straight, non-blended seam. One green "pin" object. [3,3] Sandy plane with hard shadow.
+
+---
+
+### 6. TECHNICAL DEFECTS
+*   **Texture Mapping:** Extreme tiling on the yellow "thatch" surfaces. Stretched UVs on the brown "wood" blocks.
+*   **Lighting:** Basic directional light only. No Ambient Occlusion (AO) in corners. No Global Illumination (GI). Shadows are 1-bit hard edges.
+*   **Geometry:** Z-fighting potential at the base of the grey foundation. Intersecting primitives without contact hardening or debris.
+*   **Filtering:** Visible aliasing on the edges of the roof and the background cone.
+
+---
+
+### 7. NOT EVALUABLE
+*   **[P25] Qi Ecology:** No visual evidence of spirit veins or qi phenomena.
+*   **[P29] Formations:** No visual evidence of the "Hidden-Stone Cache Lock."
+*   **[P43/P47] Motion:** Still frame; cannot evaluate animation or cloth physics.
+
+---
+
+### 8. NEXT INSPECTION
+**DO NOT RESUBMIT** until:
+1.  Proxy geometry (cones/spheres) is replaced with Art Bible-compliant assets.
+2.  The "Painterly" shader/art style (P51) is implemented.
+3.  The interior is dressed with the mandated loom, kang, and tools (P23).
+4.  Terrain is sculpted to reflect "Wang Family Bend" geography rather than a flat plane (P09).
+
+---
+
+### 9. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, shipping-quality AAA world?**
 **NO.**
+This is a **Level 0 Blockout.** It possesses 0% of the required visual fidelity, material truth, or world density defined in the Grand Architect Contract.
