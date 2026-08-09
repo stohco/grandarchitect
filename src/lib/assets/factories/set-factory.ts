@@ -809,7 +809,8 @@ export function buildVillageScene(seed = 89274613): VillageScene {
   square.receiveShadow = true;
   group.add(square);
 
-  // road-edge trees (worldbuilding: the road is lined with alders)
+  // road-edge trees (worldbuilding: the road is lined with alders).
+  // Two-tier crown + sidewise upper tier so they read as trees, not cones.
   const treeMat = pal.foliage;
   for (let i = -6; i <= 6; i++) {
     for (const side of [-1, 1]) {
@@ -819,7 +820,14 @@ export function buildVillageScene(seed = 89274613): VillageScene {
       t.add(trunk);
       const crown = new THREE.Mesh(new THREE.ConeGeometry(1.6, 3.2, 6), treeMat);
       crown.position.y = 4.2;
+      crown.castShadow = true;
       t.add(crown);
+      const top = new THREE.Mesh(new THREE.ConeGeometry(0.9, 2.0, 6), treeMat);
+      top.position.set(0.5, 5.2, 0.3);
+      top.castShadow = true;
+      t.add(top);
+      const vary = ((i + 7) % 5) * 0.14 - 0.28; // slight per-tree height/scale variation
+      t.scale.set(1 + vary, 1 + vary * 0.6, 1 + vary);
       t.position.set(side * (9 + (Math.abs(i) % 3)), 0, -120 + i * 26);
       t.castShadow = true;
       group.add(t);
