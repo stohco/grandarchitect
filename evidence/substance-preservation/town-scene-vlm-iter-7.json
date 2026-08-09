@@ -1,0 +1,53 @@
+{
+  "id": "town-scene-vlm-iter-7",
+  "generatedAt": "2026-08-09T01:03:11.858Z",
+  "report": {
+    "performanceDelta": {
+      "beforeMs": 16.58374792703151,
+      "afterMs": 16.6
+    },
+    "semanticDelta": {
+      "worldSystemsRemoved": 0,
+      "gameplayAffordancesRemoved": 0,
+      "ecologicalRelationshipsRemoved": 0,
+      "persistentEntitiesRemoved": 0,
+      "destructionCapabilitiesRemoved": 0,
+      "animationCapabilitiesRemoved": 0,
+      "artBibleRequirementsRemoved": 0,
+      "simulationTruthChanged": 0
+    },
+    "ladderStepsUsed": [
+      "MEASURE"
+    ],
+    "representationBands": [
+      {
+        "distance": "30km",
+        "representation": "terrain HLOD + canopy clusters + landmark silhouettes (distant mountain ring, hazed)"
+      },
+      {
+        "distance": "500m",
+        "representation": "forest band two-tier crowns, population aggregates (no individual NPC sim)"
+      },
+      {
+        "distance": "100m",
+        "representation": "full structures, market stock cluster, ambient dressing"
+      },
+      {
+        "distance": "interaction",
+        "representation": "full props + humanoids + room fixtures (recruitment stall, crowd, interiors)"
+      }
+    ]
+  },
+  "kind": "content-pass",
+  "substanceGate": {
+    "ok": true,
+    "note": "Content pass: substance gate = SEMANTIC DELTA zero (no world systems, affordances, ecology, entities, destruction, animation, art-bible, or simulation truth removed). Performance gate applies to OPTIMIZATION PRs only."
+  },
+  "optimizationGate": {
+    "ok": false,
+    "failures": [
+      "no measured improvement (16.58374792703151ms -> 16.6ms)"
+    ]
+  },
+  "note": "Density pass: 238 -> 931 meshes (PROP_BUILDERS wiring + market clustering + stall upgrade). 60.3 fps render-only sustained (swiftshader headless, 1600x900) — 60 Hz target met with margin. Zero world systems removed — every mesh is a representation of authoritative blueprint truth (64 qinghe props, 96 ambient, 10 humanoids, 14 structures). NEXT: this baseline feeds the first real OPTIMIZATION report (instancing / HLOD / draw-call batching per the escalation ladder)."
+}

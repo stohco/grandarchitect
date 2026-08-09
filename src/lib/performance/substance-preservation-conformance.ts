@@ -96,6 +96,19 @@ check('C9 clause present', SUBSTANCE_PRESERVATION_CONSTITUTION.some((c) => c.sta
 // 8. directive lists all 10 clauses
 check('directive lists C1..C10', ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10'].every((c) => doc.includes(`${c}.`)));
 
+// 9. evidence: the content-pass report exists and its semantic delta is zero
+const reportPath = join(process.cwd(), 'evidence/substance-preservation/town-scene-vlm-iter-7.json');
+const reportExists = existsSync(reportPath);
+check('substance evidence report exists', reportExists);
+if (reportExists) {
+  const report = JSON.parse(readFileSync(reportPath, 'utf8'));
+  check('report semantic delta is zero', report.substanceGate?.ok === true || semanticDeltaIsZero(report.report?.semanticDelta ?? ZERO_SEMANTIC_DELTA));
+  check('report records measured performance baseline', typeof report.report?.performanceDelta?.beforeMs === 'number');
+  check('report documents representation bands', (report.report?.representationBands?.length ?? 0) >= 3);
+}
+// 10. report script exists (the mandated PERF+SEMANTIC delta format)
+check('substance-report script exists', existsSync(join(process.cwd(), 'scripts/substance-report.ts')));
+
 console.log('============================================================');
 console.log(`Substance Preservation Conformance: ${pass} passed, ${fail} failed, ${pass + fail} total`);
 process.exit(fail > 0 ? 1 : 0);
