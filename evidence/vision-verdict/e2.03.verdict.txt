@@ -5,210 +5,246 @@ Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
 One rendered frame.
 No entity names, no developer context, no "intended" content.
 
-        *   What does the frame actually show? (setting, objects, scale, density)
-        *   What would a player genuinely think they are looking at?
-        *   Apparent art style and production quality.
-        *   Apparent level of completion (specific categories provided).
-        *   Obvious defects, distractions, empty zones.
-        *   Where does the image stop rewarding closer inspection?
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
 Brutally accurate, no praise, facts and defects only.
 
-    *   *Setting:* An outdoor area with a flat, green-ish ground. A structure is present.
-    *   *Objects:* A building with a wooden porch/overhang, a white-ish wall with horizontal lines, a grey base/foundation, and a large, dark grey monolithic block behind it.
-    *   *Scale:* Human-scale building (implied by the porch height), but the background block is massive and disproportionate.
+    *   *Setting:* An outdoor area with a flat, green-ish ground. A building structure.
+    *   *Objects:*
+        *   A structure with a wooden porch/overhang supported by pillars.
+        *   A white/grey wall with horizontal lines (siding).
+        *   A grey base/foundation.
+        *   A large, dark grey/black monolithic block behind the structure.
+        *   A grey rectangular block on top of the roof.
+        *   A small white object (looks like a pebble or a glitch) on the grey base.
+        *   A light blue sky/background.
+    *   *Scale:* Hard to tell without a human reference, but the pillars suggest a small building or a shed.
     *   *Density:* Extremely low. One building, one ground plane, one background block.
-    *   *Art Style:* Low-poly, flat shading, basic textures. Looks like early 2000s 3D or a very basic game engine prototype.
-    *   *Production Quality:* Very low. Textures are blurry or repetitive. Lighting is flat. No environmental detail (no grass, no debris, no skybox detail).
-    *   *Completion Level:* Definitely not finished. It's a "Blockout" or "Primitive Placeholder." The large grey block in the back is a classic "placeholder" for a larger building or mountain.
+    *   *Art Style:* Low-poly, flat shading, basic textures. Looks like early 3D or a very basic game engine.
+    *   *Production Quality:* Very low. No lighting effects, no shadows, textures are stretched or repetitive, geometry is primitive.
+    *   *Completion Level:* Definitely not finished. It's not even a "stylized prototype" because there's no cohesive style. It looks like a "BLOCKOUT" or "PRIMITIVE_PLACEHOLDER".
     *   *Defects:*
-        *   Z-fighting or gaps between the roof and the wall.
-        *   Floating/unconnected geometry.
-        *   The large grey block is an eyesore and breaks the scene's logic.
-        *   The "ground" is a single flat color/texture.
-        *   A small white artifact/blob is visible on the grey foundation strip.
-        *   Lack of any atmospheric effects or lighting depth.
-    *   *Inspection Limit:* The image stops rewarding inspection immediately. There are no fine details to discover; the textures are low-res and the geometry is simple.
+        *   Z-fighting or gaps where the roof meets the wall.
+        *   The large black block in the back is completely featureless and jarring.
+        *   The "siding" texture is blurry/low-res.
+        *   The ground is a single flat color.
+        *   The grey block on the roof serves no apparent purpose.
+        *   The small white speck on the foundation is a visual artifact/distraction.
+    *   *Inspection Limit:* The image stops rewarding inspection almost immediately. Once you see the basic shapes, there is no detail to discover.
 
-    *   *What does it show?* A low-poly structure with a wooden awning and a white wall, sitting on a flat green plane, backed by a massive dark grey rectangular prism.
-    *   *Player perception?* A technical test or a very early alpha build of a game. It looks like a "greybox" environment.
-    *   *Style/Quality?* Primitive 3D. Low resolution. Flat lighting.
-    *   *Completion?* BLOCKOUT.
-    *   *Defects?* Massive scale discrepancy (the grey block), lack of environmental detail, texture blurring, a stray white pixel/object on the base.
-    *   *Inspection limit?* Surface level. There is nothing beneath the basic shapes.
+    *   *What does it show?* A low-poly structure with a wooden awning and white siding, sitting on a grey base over a flat green plane. A massive dark grey void/block looms behind it.
+    *   *Player perception:* A placeholder for a building in a development build.
+    *   *Style/Quality:* Primitive 3D. Low resolution. No lighting/shadows.
+    *   *Completion:* BLOCKOUT.
+    *   *Defects:* Featureless background, floating/unintegrated grey block on roof, blurry textures, lack of environmental detail, artifact on the base.
+    *   *Inspection limit:* Immediate. No micro-detail exists.
 **PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
 **Actual Content**
-The frame shows a low-poly structure consisting of a wooden porch/overhang and a white horizontally-textured wall, sitting atop a grey foundation strip. The structure is placed on a flat, featureless green plane. Directly behind the structure is a massive, dark grey rectangular monolith that dwarfs the building. The sky is a flat, light blue.
+*   **Setting:** An outdoor environment consisting of a flat, featureless olive-green ground plane under a light blue sky.
+*   **Objects:** A single low-poly structure featuring a wooden-textured porch/overhang supported by vertical pillars, a white wall with horizontal siding textures, and a grey foundation base. A massive, featureless dark-grey monolithic block occupies the background. A grey rectangular prism sits atop the roof.
+*   **Scale:** Ambiguous due to lack of reference objects, though pillar height suggests a small utility building or shed.
+*   **Density:** Extremely low. Only one primary structure and a background block.
 
 **Player Perception**
-A player would perceive this as a technical test, a "greybox" environment, or a very early alpha build. It looks like a scene where basic proportions are being tested before any actual art assets are implemented.
+A player would perceive this as a development build or a "greybox" test. It looks like a placeholder for a building in a game that has not yet entered the art production phase.
 
 **Art Style and Production Quality**
-*   **Style:** Primitive 3D / Low-Poly.
-*   **Quality:** Very low. Lighting is flat and lacks ambient occlusion or depth. Textures are low-resolution and blurry. There is no environmental storytelling or detail.
+*   **Style:** Primitive 3D / Low-poly.
+*   **Quality:** Very low. There is no global illumination, no ambient occlusion, and no dynamic shadows. Textures are low-resolution and stretched. Geometry consists of basic primitives.
 
-**Level of Completion**
-**BLOCKOUT**
+**Completion Level**
+BLOCKOUT
 
 **Defects and Distractions**
-*   **Scale Discrepancy:** The massive dark grey block in the background is visually jarring and serves no apparent aesthetic purpose.
-*   **Environmental Void:** The ground is a single, flat color/texture with no variation, debris, or blending.
-*   **Geometry Gaps:** Visible seams and imprecise intersections where the roof meets the wall and the foundation.
-*   **Artifacts:** A small, unidentified white blob/pixel is present on the grey foundation strip near the center.
-*   **Lack of Depth:** No shadows are cast by the porch onto the wall or the ground, making the structure feel "floaty."
+*   **Background:** The massive dark-grey block is a jarring visual void that provides no context and clashes with the foreground.
+*   **Geometry:** The grey block on the roof is unintegrated and appears as a floating primitive.
+*   **Textures:** The siding texture is blurry; the ground is a flat, matte color.
+*   **Artifacts:** A small, unexplained white speck/polygon is visible on the grey foundation base near the center.
+*   **Empty Zones:** The entire surrounding environment is a void of detail.
 
 **Inspection Limit**
-The image stops rewarding inspection at the surface level. There are no micro-details, material properties, or hidden elements to discover; the geometry is basic and the textures are flat.
+The image stops rewarding inspection immediately. There are no fine details, weathered surfaces, or complex geometries to analyze. Once the basic shapes are identified, there is nothing further to see.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
-A single rendered frame showing a very basic 3D scene.
+A single rendered frame showing a primitive building structure on a flat green plane against a dark grey background and light blue sky.
 Stage A (Blind Read) provided.
-Vision Inspection Contract (Constitution), Scene Universe Slice (Context), Genesis Pass Manifest (Requirements).
+Scene Universe Slice (Salt Depot, Wang Family Bend, Cangwu Sect, etc.), Genesis Pass Manifest (P09, P10, P13, etc.).
+Follow the Inspection Contract (Phases B-X), evaluate Genesis Passes, perform a forensic sweep, and provide a final Vision Verdict.
 
-    *   *Visuals:* A low-poly building with a wooden porch, white horizontal-lined walls, a grey base, and a massive dark grey block behind it. Flat green ground.
-    *   *Context (Universe Slice):* This is supposed to be the "Qinghe Salt Depot" in the "Wang Family Bend" area. It should have brick walls, tiled roofs, iron-bound doors, and be part of a larger logistics system (salt license, counting room, etc.).
-    *   *Genesis Passes:* P09 (Geology), P10 (Terrain), P13 (Material Truth), P14 (Vegetation), P22 (Economy/Logistics), P36 (Physics/Structure), P51 (Shader Presentation), P67 (Visual Oracle), etc.
+    *   *Visuals:*
+        *   Ground: Flat, featureless green/beige plane.
+        *   Building: A basic structure. Wooden pillars, a flat wooden overhang/porch, a white/grey wall with horizontal stripes (siding), a grey base.
+        *   Background: A massive, dark grey monolithic block (likely a placeholder or a very primitive wall).
+        *   Sky: Flat light blue.
+        *   Details: A small white speck on the base (glitch/pebble). A grey box on the roof.
+        *   Overall feel: Extremely primitive. This is a blockout or a very early prototype.
 
-    *   **Phase B: Full-Frame Composition**
-        *   *Focal Hierarchy:* The building is the center, but the massive dark block in the background dominates the frame's mass.
-        *   *Reads:* Primary = Building. Secondary = Giant Block. Tertiary = Flat ground.
-        *   *Balance:* Heavily weighted to the right/center.
-        *   *Depth:* Very shallow. Foreground (flat ground), Middle (building), Background (block/sky).
-        *   *Camera:* Low angle, slightly tilted.
-        *   *Verdict:* Composition is primitive. No intentional framing or sightlines.
+    *   *Phase B (Composition):*
+        *   Focal Hierarchy: The building is the only subject.
+        *   Balance: Heavily weighted to the left/center.
+        *   Depth: Very shallow. Foreground (flat plane), Middle ground (building), Background (monolith/sky).
+        *   Camera: Low angle, slightly tilted.
 
-    *   **Phase C: Multi-Scale World Density**
-        *   Shell 1 (Reach): Empty.
-        *   Shell 2 (Local Interaction): Empty.
-        *   Shell 3 (Local Scene): One building, one block.
-        *   Shell 4 (Settlement): Non-existent.
-        *   Shell 5 (Landscape): Flat plane.
-        *   Shell 6 (Horizon): Flat plane.
-        *   Shell 7 (Sky): Flat blue/grey.
-        *   Verdict: Extreme density failure.
+    *   *Phase C (World Density):*
+        *   Shell 1 (Reach): Flat plane. No debris, no texture.
+        *   Shell 2 (Local): Primitive building. No props, no life.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4-7 (Landscape/Sky): Non-existent. Just a flat plane and a grey block.
+        *   Verdict: Zero density.
 
-    *   **Phase D: Content Inventory**
-        *   Structure: One building (placeholder quality).
-        *   Terrain: One flat green plane.
-        *   Background: One monolithic grey cube.
-        *   Props: None.
-        *   Vegetation: None.
-        *   NPCs: None.
-        *   Verdict: Inventory is nearly empty.
+    *   *Phase D (Content Inventory):*
+        *   Structure: 1 (Primitive).
+        *   Terrain: 1 (Flat plane).
+        *   Sky: 1 (Flat color).
+        *   Props: 0.
+        *   NPCs: 0.
+        *   Vegetation: 0.
 
-    *   **Phase E: Silhouette and Proportion**
-        *   Building: Basic box.
-        *   Background Block: Disproportionately large, lacks purpose.
-        *   Verdict: Fails to communicate "Salt Depot" or "Xianxia Architecture."
+    *   *Phase E (Silhouette/Proportion):*
+        *   The building is a box. The proportions are generic. No architectural character.
 
-    *   P09 (Geology): **FAIL**. Flat plane. No geology.
-    *   P10 (Terrain): **FAIL**. No topology.
-    *   P13 (Material Truth): **FAIL**. Flat colors/basic textures. No weathering.
-    *   P14 (Vegetation): **FAIL**. Zero vegetation.
-    *   P22 (Economy/Logistics): **FAIL**. No salt, no carts, no stock, no logistics.
-    *   P36 (Physics/Structure): **FAIL**. Floating/intersecting edges, no load paths.
-    *   P51 (Shader Presentation): **FAIL**. Generic shaders.
-    *   P67 (Visual Oracle): **FAIL**. This is clearly proxy/blockout geometry.
-    *   P72 (Completeness): **FAIL**. Not complete at any shell.
+    *   *Genesis Pass Evaluation:*
+        *   P09 (Geology): FAIL. Flat plane.
+        *   P10 (Topology): FAIL. No valley/slope.
+        *   P13 (Material Truth): FAIL. Flat colors/simple textures. No weathering.
+        *   P14 (Vegetation): FAIL. None.
+        *   P15 (Animals): FAIL. None.
+        *   P22 (Economy/Logistics): FAIL. No salt, no scales, no crates.
+        *   P23 (Domestic Life): FAIL. No activity.
+        *   P36 (Physics/Structure): PARTIAL. It has pillars, but it's a box.
+        *   P49 (Cinematography): FAIL. No intent.
+        *   P50 (Lighting): FAIL. Flat, ambient-style lighting.
+        *   P51 (Shader Presentation): FAIL. Generic.
+        *   P67 (Visual Oracle): FAIL. This is proxy geometry.
+        *   P72 (Completeness): FAIL.
 
-    *   *Vision Verdict:* Primitive Blockout / Procedural Test Scene.
-    *   *Top Failures:* Material Truth, World Density, Architectural Fidelity.
-    *   *Technical Defects:* Z-fighting/T-junctions (likely at the base), flat lighting.
-**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+    *   *Forensic Sweep (3x3):*
+        *   Top-Left: Sky/Monolith edge.
+        *   Top-Center: Monolith.
+        *   Top-Right: Monolith.
+        *   Mid-Left: Porch/Pillars.
+        *   Mid-Center: Wall/Siding.
+        *   Mid-Right: Wall/Monolith intersection.
+        *   Bot-Left: Flat ground.
+        *   Bot-Center: Base/Glitch pebble.
+        *   Bot-Right: Flat ground.
+
+    *   *Vision Verdict:* This is a primitive blockout. It does not meet any of the production standards for a "finished" or even "strong candidate" scene.
+    *   *Top Failures:* Total lack of world density, material failure, proxy geometry.
+    *   *Completeness Question:* Is this AAA? Absolutely not.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
-**LOCATION:** Qinghe Salt Depot / Wang Family Bend (per Universe Slice)
-**STATUS:** CRITICAL FAILURE
+**SCENE CONTEXT:** Salt Depot / Wang Family Bend (per Universe Slice)
 
 ---
 
 ### 1. PHASE B: FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** The primary read is a low-poly structure. The secondary read is a massive, featureless dark grey monolith that occupies ~40% of the frame.
-*   **Depth Separation:** Extremely poor. The transition from the flat ground plane to the building is a hard line. The background block lacks atmospheric perspective or scale-defining detail, creating a "cardboard cutout" effect.
-*   **Frame Balance:** Heavily weighted to the right. The left side is an empty void of flat green and blue.
-*   **Camera/Lens:** Low-angle perspective, but lacks any cinematic intent. It reads as a default engine camera position.
-*   **Sightlines:** There are no leading lines or environmental cues to guide the player's eye toward a point of interest.
+*   **Focal Hierarchy:** The primary read is a primitive building structure. There is no secondary or tertiary read.
+*   **Depth Separation:** Extremely poor. The scene consists of a flat foreground plane, a mid-ground box, and a background monolithic block. There is no atmospheric perspective or layering.
+*   **Frame Balance:** Unbalanced. The subject is centered-left, leaving a massive, dead void of dark grey on the right.
+*   **Camera/Lens:** Low-angle shot. Perspective is linear and sterile. No cinematic lens language (no bokeh, no chromatic aberration, no intentional framing).
+*   **Sightlines:** There are no leading lines or visual anchors to guide the player's eye toward a point of interest.
+*   **Compositional Verdict:** **FAIL.** This is a technical placement check, not a composed shot.
+
+---
 
 ### 2. PHASE C: MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** EMPTY.
-*   **SHELL 2 (Local Interaction):** EMPTY.
-*   **SHELL 3 (Local Scene):** One building, one monolithic block.
-*   **SHELL 4 (Settlement):** NON-EXISTENT.
-*   **SHELL 5 (Landscape):** Flat, featureless green plane.
-*   **SHELL 6 (Horizon):** Flat plane meeting a flat sky.
-*   **SHELL 7 (Sky):** Flat blue/grey gradient.
-*   **Verdict:** Total density collapse. The scene is a vacuum.
+*   **SHELL 1 (Reach):** Empty. Flat, featureless green/beige plane. No pebbles, no dust, no soil variation.
+*   **SHELL 2 (Local Interaction):** Primitive. A building with basic pillars and a wall. No props, no doors, no handles, no salt blocks.
+*   **SHELL 3 (Local Scene):** Empty. No surrounding structures, no paths, no fences.
+*   **SHELL 4 (Settlement):** Non-existent.
+*   **SHELL 5 (Landscape):** Non-existent.
+*   **SHELL 6 (Horizon):** A flat line meeting a grey block.
+*   **SHELL 7 (Sky):** Flat light-blue fill.
+*   **Density Verdict:** **CRITICAL FAILURE.** The scene is a vacuum. It fails every shell of world density.
+
+---
 
 ### 3. PHASE D: CONTENT INVENTORY
 | Content Class | Region | Depth | Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Structure | Center | Mid | "Salt Depot" | **PROTOTYPE** | None. Does not read as a depot. |
-| Terrain | Bottom | Fore/Mid | Ground | **PLACEHOLDER** | None. |
-| Landmark | Right/Back | Back | Grey Block | **PROXY** | None. |
-| Vegetation | N/A | N/A | None | **MISSING** | Total failure of ecology. |
-| Logistics | N/A | N/A | None | **MISSING** | No salt, no carts, no license. |
+| Structure | Center | Mid | Primitive Shed | Blockout | None. |
+| Terrain | Bottom | Fore | Flat Plane | Placeholder | None. |
+| Background | Right/Top | Back | Monolithic Block | Proxy | None. |
+| Sky | Top | Far | Blue Fill | Placeholder | None. |
+| Prop | Base | Mid | White Speck | Glitch/Pebble | None. |
+
+**Inventory Verdict:** The scene contains zero materially significant content that satisfies the "Salt Depot" or "Cangwu Sect" universe slice.
+
+---
 
 ### 4. PHASE E: SILHOUETTE AND PROPORTION
-*   **Architectural Silhouette:** A basic rectangular prism with a flat overhang. It fails to communicate "Xianxia," "Cangli culture," or "Warehouse."
-*   **Proportional Logic:** The background monolith is disproportionately massive compared to the building, but because it has no detail, it fails to communicate "scale"—it only communicates "unfinished asset."
+*   **Silhouette:** A series of intersecting rectangles. No architectural character, no xianxia influence, no cultural markers.
+*   **Proportion:** The pillars are generic. The scale is ambiguous due to the lack of a human reference or known prop (e.g., a salt bag or a chair).
+*   **Verdict:** **FAIL.**
 
 ---
 
 ### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
 
-| Pass ID | Requirement | Status | Observed / Missing Evidence |
+| Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | No geology. Flat green plane. |
-| **P10** | Terrain Topology | **FAIL** | No slopes, cliffs, or clean contacts. |
-| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, no brick, no tile. |
-| **P14** | Vegetation Ecology | **FAIL** | Zero plants. |
-| **P22** | Economy/Logistics | **FAIL** | No visible salt, storage, or transport. |
-| **P36** | Structural Physics | **FAIL** | No load paths; building is a hollow shell. |
-| **P51** | Shader Presentation | **FAIL** | Generic engine shaders; no painterly language. |
-| **P67** | Visual Oracle | **FAIL** | Obvious proxy geometry. |
-| **P72** | Completeness Gate | **FAIL** | Not complete at any depth shell. |
+| **P09** | Planetary Geology | **FAIL** | Observed: Flat plane. Missing: Macro/meso/micro structure, soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Slopes, cliffs, clean structure contact. |
+| **P13** | Material Truth | **FAIL** | Observed: Flat colors. Missing: Weathering, contact wear, material identity. |
+| **P14** | Vegetation | **FAIL** | Observed: None. Missing: All plant ecology. |
+| **P15** | Animal Ecology | **FAIL** | Observed: None. Missing: All fauna. |
+| **P22** | Economy/Logistics | **FAIL** | Observed: None. Missing: Salt, scales, containers, transport. |
+| **P23** | Domestic Life | **FAIL** | Observed: None. Missing: Tools, activity, causal occupation. |
+| **P36** | Physics/Structure | **PARTIAL** | Observed: Pillars support a roof. Missing: Load paths, debris logic. |
+| **P49** | Cinematography | **FAIL** | Observed: Static shot. Missing: Focal hierarchy, lens language. |
+| **P50** | Lighting | **FAIL** | Observed: Flat ambient. Missing: Key/Fill/Rim, contrast, mood. |
+| **P51** | Shader Presentation | **FAIL** | Observed: Generic shaders. Missing: Painterly language, edge work. |
+| **P67** | Visual Oracle | **FAIL** | Observed: Proxy geometry. Missing: Final production assets. |
+| **P72** | Completeness | **FAIL** | Observed: Blockout. Missing: Everything. |
 
 ---
 
-### 6. FORENSIC SWEEP (3x3 TILED)
-*   **Top-Left:** Flat sky, empty void.
-*   **Top-Center:** Featureless dark grey wall.
-*   **Top-Right:** Featureless dark grey wall.
-*   **Mid-Left:** Low-poly porch, flat shading.
-*   **Mid-Center:** White wall with generic horizontal stripes.
-*   **Mid-Right:** Intersection of white wall and grey block (hard edge).
-*   **Bot-Left:** Flat green plane.
-*   **Bot-Center:** Grey foundation strip, one stray white pixel/artifact.
-*   **Bot-Right:** Flat green plane.
+### 6. FORENSIC SWEEP (3x3 GRID)
+*   **Top-Left:** Flat blue sky meeting a sharp, un-beveled edge of a grey block.
+*   **Top-Center:** Featureless dark grey surface.
+*   **Top-Right:** Featureless dark grey surface.
+*   **Mid-Left:** Wooden pillars with no texture variation; flat brown color.
+*   **Mid-Center:** White wall with repetitive horizontal stripes; no grime or age.
+*   **Mid-Right:** Hard intersection between the white wall and the grey background block.
+*   **Bot-Left:** Flat, low-resolution green/beige plane.
+*   **Bot-Center:** A single white pixel-cluster (glitch) on the grey base.
+*   **Bot-Right:** Flat, low-resolution green/beige plane.
 
 ---
 
 ### 7. VISION VERDICT
 
-**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+**OVERALL STATUS: [BLOCKOUT / PRIMITIVE PROTOTYPE]**
 
 **TOP FAILURES:**
-1.  **Total Absence of World Density:** The scene contains zero environmental storytelling or ecological detail.
-2.  **Material Bankruptcy:** The "Brick walls and tiled roofs" defined in the Universe Slice are entirely absent, replaced by flat white and brown polygons.
-3.  **Scale Dissonance:** The background monolith serves no narrative or visual purpose, acting as a visual distraction rather than a landmark.
+1.  **Total Absence of World Density:** The scene is a void. There is no evidence of the "Salt Depot" identity.
+2.  **Proxy Geometry:** The background is a literal grey box. The ground is a flat plane.
+3.  **Material Failure:** No textures, no weathering, no "Material Truth."
 
-**TECHNICAL DEFECTS:**
-*   Flat, non-directional lighting.
-*   Lack of ambient occlusion at contact points (building to ground).
-*   Zero texture resolution/detail.
+**EDIT-SCOPE DIAGNOSIS:**
+*   **Environment:** Complete replacement of terrain and background.
+*   **Architecture:** Full asset pass required to move from "box" to "Cangli culture warehouse."
+*   **Dressing:** Total implementation of P22 (Economy) and P23 (Domestic Life) assets.
+*   **Lighting/Cinematics:** Full lighting pass and camera composition.
 
 **NOT EVALUABLE:**
-*   P43 (Motion), P47 (Secondary Motion) — No temporal evidence.
-*   P27 (World Laws), P29 (Formations) — No supernatural visual evidence.
+*   P43 (Environment-Aware Motion) - No temporal evidence.
+*   P47 (Secondary Motion) - No temporal evidence.
 
 **NEXT INSPECTION:**
-Requires a complete rebuild of the scene from the "Greybox" stage to the "Production" stage.
+Require a frame containing actual assets, textured terrain, and lighting.
 
 ---
 
-### 8. AAA COMPLETENESS QUESTION
-**Does this frame satisfy the Grand Architect World, Art, and Gameplay contracts?**
+### 8. THE AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready AAA visual?**
 
-**NO.** 
-This is not a rendered scene; it is a primitive blockout. It fails every single applicable Genesis Pass. It communicates nothing of the project's unique identity.
+**NO
