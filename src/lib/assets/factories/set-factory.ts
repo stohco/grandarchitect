@@ -203,7 +203,34 @@ export function buildTimberFrame(w: number, d: number, h: number, mat: THREE.Mat
     g.add(p);
   };
   const hw = w / 2, hd = d / 2;
+  // corner posts
   post(-hw, -hd); post(hw, -hd); post(-hw, hd); post(hw, hd);
+  // intermediate posts on the long faces (fascia 2-3 m spacing) so the
+  // walls read as post-and-beam, not solid boxes (VLM: 'no joinery')
+  const longPosts = Math.max(1, Math.floor(w / 3) - 1);
+  for (let i = 1; i <= longPosts; i++) {
+    const x = -hw + (w * i) / (longPosts + 1);
+    post(x, -hd); post(x, hd);
+  }
+  const shortPosts = Math.max(1, Math.floor(d / 3) - 1);
+  for (let i = 1; i <= shortPosts; i++) {
+    const z = -hd + (d * i) / (shortPosts + 1);
+    post(-hw, z); post(hw, z);
+  }
+  // wall-top tie beam ring: the frame's lintel line, raised above the wall
+  // fill so it reads as structure
+  const beamMat = mat;
+  const beam = (bx: number, bz: number, len: number, rot: number) => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(len, 0.18, 0.24), beamMat);
+    b.position.set(bx, h + 0.06, bz);
+    b.rotation.y = rot;
+    b.castShadow = true;
+    g.add(b);
+  };
+  beam(0, -hd, w + 0.3, 0);
+  beam(0, hd, w + 0.3, 0);
+  beam(-hw, 0, d + 0.3, Math.PI / 2);
+  beam(hw, 0, d + 0.3, Math.PI / 2);
   return g;
 }
 

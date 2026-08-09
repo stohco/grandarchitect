@@ -1,120 +1,223 @@
 # VISION INSPECTION — shot.1B
 
 ## STAGE A (blind)
-**PERCEPTUAL EVIDENCE EXAM: STAGE A**
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+Brutally accurate, facts and defects only, no praise.
 
-**1. Frame Content (Setting, Objects, Scale, Density)**
-*   **Setting:** A featureless, flat green plane bisected by a single diagonal brown strip (presumably a road). The horizon is obscured by a thick, uniform grey-blue fog.
-*   **Objects:** A single, central vertical structure composed of primitive rectangular blocks. It features a tall tan textured slab, grey vertical pillars, and horizontal crossbars. In the far distance, faint silhouettes of blocky shapes (possibly houses or trees) are visible through the fog.
-*   **Scale:** Indeterminate. The "road" suggests a human scale, but the lack of environmental context (grass blades, debris, or recognizable architectural standards) makes the central object appear like a small toy on a tabletop or a massive monument in a void.
-*   **Density:** Extremely low. Approximately 90% of the frame consists of empty space (flat ground, flat sky, or uniform fog).
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does it stop rewarding closer inspection?
 
-**2. Player Perception**
-*   A player would perceive this as a **technical test** or a **"Hello World" environment** for a game engine. 
-*   The central object is unrecognizable; it lacks the silhouette of a functional building or a living creature. It would likely be interpreted as a "placeholder" or a "test asset" meant to be replaced by a real model.
+    *   *Foreground/Midground:* A flat, green surface (grass/ground). A long, tan-colored strip (road/path) stretching from bottom-left to top-right.
+    *   *Centerpiece:* A structure consisting of four grey vertical pillars supporting a small platform. Above that, a large, yellow, textured cylinder/column extending upwards into a massive blue ceiling/plane.
+    *   *Background:* Heavy fog/haze. Some vague shapes (buildings, trees) barely visible in the distance.
+    *   *Lighting/Atmosphere:* Flat lighting, heavy fog, no shadows visible on the ground.
+    *   *Geometry:* Very basic. Primitives (cubes, cylinders, planes). No bevels, no complex meshes.
+    *   *Textures:* Low resolution or flat colors. The yellow column has a repetitive pattern. The road is a flat color/simple gradient.
 
-**3. Art Style and Production Quality**
-*   **Art Style:** Primitive/Programmer Art. There is no cohesive aesthetic beyond the use of basic geometric primitives and low-resolution tiling textures.
-*   **Production Quality:** Minimalist/Technical. Lighting is a single-source directional light with a hard-edged shadow. There is no ambient occlusion, global illumination, or post-processing beyond a basic distance fog.
+    *   *Setting:* An outdoor, foggy void.
+    *   *Objects:* A road, a small pillar-based structure, a giant yellow column, a massive blue overhead plane.
+    *   *Scale:* Disjointed. The road suggests human scale, but the blue plane and yellow column suggest architectural or surreal scale.
+    *   *Density:* Extremely low. Almost entirely empty space.
 
-**4. Apparent Level of Completion**
-*   **PRIMITIVE_PLACEHOLDER.**
-*   This is not a world; it is a coordinate system with a few meshes dropped in to verify rendering.
+    *   A player would likely think this is a test level, a "greybox" (or "colored-box") prototype, or a very early build of an indie game. It looks like a technical test for a mechanic (e.g., "can I move along this road and interact with this pillar?").
 
-**5. Defects, Distractions, and Empty Zones**
-*   **Texture Tiling:** The "road" texture shows obvious, repetitive linear banding.
-*   **Geometry:** The central object has visible gaps between blocks and lacks any structural logic.
-*   **Empty Zones:** The green "ground" is a single hex-code color with zero texture or detail. The sky is a flat gradient.
-*   **Fog Clipping:** The distant objects are being aggressively culled by the fog, creating a "wall" effect rather than a natural atmosphere.
-*   **Shadows:** The shadow cast by the central object is a sharp, aliased black shape that does not account for the diffused light suggested by the heavy fog.
+    *   *Style:* Low-poly, primitive-based.
+    *   *Quality:* Very low. No lighting pass, no material depth, no environmental detail.
 
-**6. Reward for Closer Inspection**
-*   **Zero.** 
-*   Closer inspection only reveals the low resolution of the textures (specifically the "wicker" or "brick" pattern on the tan block) and the lack of connectivity between the primitive shapes. There are no hidden details, environmental storytelling, or micro-level polish.
+    *   *Options:* FINISHED_WORLD / PRODUCTION_CANDIDATE / STYLIZED_PROTOTYPE / BLOCKOUT / PRIMITIVE_PLACEHOLDER.
+    *   *Selection:* BLOCKOUT. It's beyond a primitive placeholder because there's a layout, but it's far from a stylized prototype because there's no cohesive art direction.
+
+    *   *Defects:*
+        *   Floating geometry (the blue plane).
+        *   Lack of shadows (objects don't feel grounded).
+        *   Extreme emptiness.
+        *   Fog is used to hide the lack of a horizon/background.
+        *   Texture stretching or repetition on the yellow column.
+    *   *Empty Zones:* Everything except the road and the central pillar.
+
+    *   The image stops rewarding inspection immediately. There is no detail to discover. Once you see the basic shapes, there is nothing else to look at.
+
+    *   Ensure tone is clinical and "brutal."
+    *   Remove any subjective "nice" words.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A flat, featureless green plane intersected by a tan-colored linear path. The scene is capped by a massive, flat blue ceiling/plane that occupies the top third of the frame.
+*   **Objects:** A central structure consisting of four grey rectangular pillars supporting a small platform. A large, yellow, textured cylinder extends vertically from this platform into the blue ceiling. In the far distance, low-contrast silhouettes of basic shapes (suggesting buildings and conical trees) are visible through heavy fog.
+*   **Scale:** Inconsistent. The road suggests human scale, while the blue overhead plane and yellow column suggest a surreal or architectural scale.
+*   **Density:** Extremely low. The environment is nearly empty.
+
+**Player Perception**
+A player would perceive this as a technical test environment, a "greybox" map, or a very early development build. It looks like a functional test for movement or a specific interaction mechanic rather than a playable game world.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive-based low-poly.
+*   **Quality:** Very low. Lighting is flat with no visible ambient occlusion or dynamic shadows. Textures are either flat colors or low-resolution repetitive patterns.
+
+**Completion Level**
+BLOCKOUT
+
+**Defects and Distractions**
+*   **Floating Geometry:** The blue ceiling is a flat plane with no structural connection to the world.
+*   **Lack of Grounding:** Objects lack contact shadows, making them appear to float on the surface.
+*   **Void Space:** The vast majority of the frame is empty green or grey-blue space.
+*   **Fog Abuse:** Heavy fog is used to mask the total absence of a horizon or background detail.
+*   **Texture Repetition:** The yellow column exhibits obvious tiling/repetition.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There are no micro-details, material properties, or hidden elements to discover. Once the basic geometric primitives are identified, there is no further visual information.
 
 ## STAGE B (contract)
-**PERCEPTUAL EVIDENCE EXAM: STAGE B — FULL INSPECTION**
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame showing a primitive scene (green ground, tan road, a basic gate structure, a yellow cylinder, and a blue ceiling/plane).
+Stage A (Blind Read) and the "Inspection Contract" (the constitution).
+Scene Universe Slice (Village Gate, Wang Family Bend, etc.) and Genesis Pass Manifest (P09, P10, etc.).
 
-**AUTHORITY:** Grand Architect Vision Inspection Contract (v. Constitution)
-**SUBJECT:** Scene Universe Slice [location.western_cangwu_vein / structure.village_gate]
-**EVIDENCE:** 1920x1080 RGB Frame
+    *   *Foreground/Midground:* Flat green plane (grass), tan strip (road).
+    *   *Centerpiece:* A "gate" consisting of four grey pillars and a crossbar. Above it, a yellow cylinder extending to a blue ceiling.
+    *   *Background:* Heavy fog, vague shapes (trees/buildings).
+    *   *Lighting:* Flat, no shadows.
+    *   *Geometry:* Primitives (cubes, cylinders, planes).
+
+    *   *Focal Hierarchy:* The yellow cylinder is the most visually dominant due to color and scale, but the "gate" is the intended subject.
+    *   *Composition:* Diagonal road creates some depth, but the blue ceiling cuts the frame harshly.
+    *   *Balance:* Centered subject, but the blue plane is an oppressive, unnatural element.
+    *   *Scale:* The yellow cylinder is massive compared to the gate. The road is wide.
+    *   *Readability:* It reads as a "blockout" or "greybox" test.
+
+    *   Shell 1 (Reach): Flat green texture. No detail.
+    *   Shell 2 (Interaction): Primitive gate. No weathering, no detail.
+    *   Shell 3 (Local Scene): Road and gate. Empty.
+    *   Shell 4 (Settlement): Vague shapes in fog. No actual settlement visible.
+    *   Shell 5 (Landscape): Flat plane.
+    *   Shell 6 (Horizon): Fog.
+    *   Shell 7 (Sky): A blue rectangular plane.
+    *   Shell 8/9: Not applicable/not visible.
+
+    *   Road: Tan strip.
+    *   Grass: Green plane.
+    *   Gate: Grey pillars, tan crossbar.
+    *   Cylinder: Yellow primitive.
+    *   Ceiling: Blue plane.
+    *   Background: Low-poly tree silhouettes.
+
+    *   P09 (Geology): FAIL. Flat plane.
+    *   P10 (Topology): FAIL. No valley/slope.
+    *   P27 (World Laws): FAIL. No supernatural communication.
+    *   P14 (Vegetation): FAIL. Flat green paint.
+    *   P15 (Animals): FAIL. None.
+    *   P13 (Material Truth): FAIL. Flat colors.
+    *   P51 (Shader Presentation): FAIL. Generic colors.
+    *   P36 (Physics/Structure): FAIL. Yellow cylinder is floating/unsupported; blue plane is a floating ceiling.
+    *   P29 (Formations): FAIL. No nodes/grammar.
+    *   P25 (Qi Ecology): FAIL. No source/reaction.
+    *   P18 (Personhood): FAIL. No NPCs.
+    *   P23 (Domestic Life): FAIL. No activity.
+    *   P22 (Economy): FAIL. No logistics.
+    *   P43/P47 (Motion): NOT_EVALUABLE (Still frame).
+    *   P33 (Affordance): FAIL. No legible usability.
+    *   P78 (Concealment): FAIL. No mist/ward logic.
+    *   P07 (Hierarchy): FAIL. Blue plane and yellow cylinder compete with the gate.
+    *   P08 (Forbidden): PASS (Nothing modern/anachronistic visible, just primitive).
+    *   P49 (Cinematography): FAIL. Poor framing, oppressive ceiling.
+    *   P50 (Lighting): FAIL. Flat lighting, no shadows.
+    *   P67 (Visual Oracle): FAIL. Proxy geometry everywhere.
+    *   P72 (Completeness): FAIL. Blockout stage.
+    *   P61 (Renderer): PASS (No z-fighting visible).
+    *   P60 (Streaming): PASS (No LOD pop visible).
+
+    *   *Vision Verdict:* Primitive Blockout / Procedural Test.
+    *   *Top Failures:* Material Truth, World Density, Structural Logic.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat lighting, floating geometry.
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**LOCATION:** Village Gate / Wang Family Bend (per Scene Universe Slice)
+**STATUS:** CRITICAL FAILURE
 
 ---
 
-### PHASE B — FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** The primary read is a central vertical cluster of primitive geometric blocks. The secondary read is a diagonal brown strip (road). The tertiary read is a set of distant, low-detail blocky silhouettes.
-*   **Depth Separation:** Extremely poor. While fog provides a rudimentary depth cue, the lack of atmospheric perspective on the ground plane and the absence of mid-ground detail make the scene feel like a small-scale diorama rather than a world.
-*   **Negative Space:** Approximately 90% of the frame is "dead" space—uniform green or uniform grey-blue.
-*   **Camera/Lens:** High-angle, slightly tilted downward. The perspective feels orthographic or long-lens, further flattening the sense of scale.
-*   **Compositional Verdict:** **FAILED.** The composition does not communicate a "village threshold" or a "wider world." It communicates a technical viewport for an untextured asset.
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The intended focal point (the gate) is visually superseded by a massive yellow cylinder and an oppressive blue ceiling plane. The primary read is "primitive test scene," not "village entrance."
+*   **Foreground/Midground/Background:** 
+    *   *Foreground:* Flat green plane.
+    *   *Midground:* A tan strip (road) and a primitive gate.
+    *   *Background:* Heavy fog obscuring low-poly silhouettes.
+*   **Frame Balance:** Heavily top-weighted by the blue plane. The diagonal of the road provides the only sense of depth.
+*   **Scale Communication:** Completely broken. The yellow cylinder is gargantuan relative to the gate, but its purpose is visually unexplained. The blue plane suggests a room or a box, contradicting the "outdoor village" setting.
+*   **Sightlines:** The road leads the eye toward the gate, but the eye is immediately pulled upward by the yellow cylinder and stopped by the blue ceiling.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Flat green texture. Zero detail.
+*   **SHELL 2 (Interaction):** Primitive grey/tan blocks. No weathering, no tactile detail.
+*   **SHELL 3 (Local Scene):** A road and a gate. No debris, no footprints, no organic integration.
+*   **SHELL 4 (Settlement):** Non-existent. Vague shapes in the fog do not constitute a settlement.
+*   **SHELL 5 (Landscape):** A flat plane. No geology.
+*   **SHELL 6 (Horizon):** Fog wall.
+*   **SHELL 7 (Sky):** Replaced by a blue rectangular primitive.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** No evidence.
+
+**Density Verdict:** VACUUM. The scene is a skeletal blockout.
+
+### 3. PHASE D: CONTENT INVENTORY
+| Item | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Green Plane | Bottom/Sides | FG/MG | Grass/Ground | Primitive | None (Flat color) |
+| Tan Strip | Bottom-L to Top-R | FG/MG | Road/Path | Primitive | Basic navigation vector |
+| Grey Pillars | Center | MG | Gate Posts | Primitive | Basic structural intent |
+| Tan Beam | Center | MG | Gate Crossbar | Primitive | Basic structural intent |
+| Yellow Cylinder | Center-Top | MG/BG | Unknown | Primitive | None (Visual noise) |
+| Blue Plane | Top | BG | Ceiling/Sky | Primitive | None (Technical proxy) |
+| Silhouettes | Right/Far | BG | Trees/Buildings | Proxy | Vague suggestion of scale |
 
 ---
 
-### PHASE C — MULTI-SCALE WORLD DENSITY
-*   **SHELL 1-2 (Reach/Interaction):** **EMPTY.** No ground detail, pebbles, grass, or tactile surfaces.
-*   **SHELL 3 (Local Scene):** **PRIMITIVE.** The "gate" is a collection of unaligned, non-functional blocks.
-*   **SHELL 4-5 (Settlement/Landscape):** **NON-EXISTENT.** The "landscape" is a mathematically flat green plane. The "settlement" is represented by three grey boxes in the fog.
-*   **SHELL 6-7 (Horizon/Sky):** **PLACEHOLDER.** A simple gradient/fog falloff.
-*   **Density Verdict:** **CRITICAL FAILURE.** Zero evidence of the "Cangli base culture" or "Western Cangwu Vein" ecology.
+### 4. PHASE X: GENESIS PASS COVERAGE
 
----
-
-### PHASE D — CONTENT INVENTORY
-1.  **Structure (Center):** Identified by metadata as `structure.village_gate`. Perceptually: A stack of grey, tan, and brown boxes. No joinery, no weathering, no architectural logic. **[FAIL]**
-2.  **Road (Diagonal):** A brown strip with a repeating linear texture. No ruts, no dust, no edge transition to the "grass." **[FAIL]**
-3.  **Terrain (Base):** A flat green shader. No geological features (P09/P10). **[FAIL]**
-4.  **Distant Objects (Right Background):** Two grey rectangles and two green triangles on sticks (primitive trees). **[FAIL]**
-
----
-
-### PHASE E — SILHOUETTE AND PROPORTION
-*   **Silhouette:** The "gate" lacks a functional silhouette. It does not look like a structure designed for passage; it looks like a vertical collision test.
-*   **Proportion:** The tan slab is disproportionately thick and tall compared to the supporting pillars. It violates P36 (Structural Consequences).
-
----
-
-### PHASE X — GENESIS PASS COVERAGE
-
-| ID | Pass Name | Status | Observed Evidence / Missing Evidence |
+| Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | **Observed:** Flat plane. **Missing:** Macro/micro soil structure, rocks. |
-| **P10** | Terrain Geometry | **FAIL** | **Observed:** Zero topology. **Missing:** Slopes, valleys, drainage. |
-| **P13** | Material Truth | **FAIL** | **Observed:** Flat colors. **Missing:** Stone grain, pine texture, weathering. |
-| **P14** | Vegetation Ecology | **FAIL** | **Observed:** Green floor. **Missing:** Species variety, riparian edges. |
-| **P36** | Structural Logic | **FAIL** | **Observed:** Floating/intersecting blocks. **Missing:** Load paths, joinery. |
-| **P51** | Shader Presentation | **FAIL** | **Observed:** Generic/Primitive. **Missing:** Painterly language, edge work. |
-| **P67** | Visual Oracle | **FAIL** | **Observed:** Proxy geometry. **Missing:** Final production assets. |
-| **P07** | Perceptual Hierarchy | **PARTIAL** | **Observed:** Gate is central. **Missing:** Environmental context. |
+| **P09** | Planetary Geology | **FAIL** | Observed: Flat plane. Missing: Macro/meso/micro structure, soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Valley/slope/cliff structure; clean contact. |
+| **P13** | Material Truth | **FAIL** | Observed: Flat RGB colors. Missing: Weathering, contact wear, material identity. |
+| **P14** | Vegetation Ecology | **FAIL** | Observed: Green paint. Missing: Species variation, moisture-based placement. |
+| **P15** | Spirit-Beast Ecology | **FAIL** | Observed: Nothing. Missing: Habitat context, creatures. |
+| **P22** | Economy/Logistics | **FAIL** | Observed: Nothing. Missing: Storage, transport, goods. |
+| **P23** | Domestic Life | **FAIL** | Observed: Nothing. Missing: Tools, crops, causal occupation. |
+| **P25** | Qi Ecology | **FAIL** | Observed: Nothing. Missing: Identifiable source, environmental reaction. |
+| **P27** | Realm/World Laws | **FAIL** | Observed: Nothing. Missing: Visual communication of supernatural laws. |
+| **P29** | Formations | **FAIL** | Observed: Nothing. Missing: Formation nodes, grammar, source effects. |
+| **P33** | Affordance Lattice | **FAIL** | Observed: Primitive blocks. Missing: Legible usability (walkable/climbable). |
+| **P36** | Structural Physics | **FAIL** | Observed: Floating cylinder/ceiling. Missing: Load paths, support logic. |
+| **P49** | Cinematography | **FAIL** | Observed: Oppressive ceiling. Missing: Focal hierarchy, lens language. |
+| **P50** | Lighting | **FAIL** | Observed: Flat ambient. Missing: Directional light, contrast, shadows. |
+| **P51** | Shader Presentation | **FAIL** | Observed: Flat colors. Missing: Painterly language, value structure. |
+| **P67** | Visual Oracle | **FAIL** | Observed: Proxy geometry. Missing: Final production assets. |
+| **P72** | Completeness | **FAIL** | Observed: Blockout. Missing: Completeness at every depth shell. |
+| **P07** | Perceptual Hierarchy | **FAIL** | Observed: Yellow cylinder dominates. Missing: Intended primary read. |
+| **P08** | Forbidden Interp. | **PASS** | No modern anachronisms detected. |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or T-junctions visible in this low-poly state. |
+| **P60** | Streaming/World | **PASS** | No LOD pop visible. |
 
 ---
 
-### 3x3 FORENSIC SWEEP
-*   **[1,1] [1,2] [1,3] (Top Row):** Featureless grey-blue sky and fog. Zero celestial or atmospheric detail.
-*   **[2,2] (Center):** The "Village Gate" proxy. Visible intersections of untextured boxes. The tan slab has a "wicker" texture that is scaled incorrectly for the object size.
-*   **[3,1] [3,2] [3,3] (Bottom Row):** Flat green plane and the start of the road. No contact shadows where the road meets the "grass."
+### 5. VISION VERDICT
 
----
+**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP / GREYBOX**
 
-### VISION VERDICT
-**STATUS: CRITICAL FAILURE / BLOCKER**
+**TOP FAILURES:**
+1.  **Material & Structural Truth (P13, P36, P51):** The scene consists of untextured primitives. The yellow cylinder and blue plane are floating proxies that violate all laws of physics and art direction.
+2.  **World Density (Shells 1-7):** Total absence of environmental storytelling, ecology, or domestic life. It is a void with a road.
+3.  **Perceptual Hierarchy (P07, P49):** The composition is dominated by technical proxies (the blue ceiling) rather than the narrative subject (the village gate).
 
-The image provided is a **Primitive Blockout / Greybox Test**. It contains zero production-ready assets and satisfies none of the visual obligations of the Grand Architect Bible. It is a "Hello World" environment that fails to communicate the xianxia setting, the specific regional identity of the Western Cangwu Vein, or the material culture of the Cangli people.
+**WORLD DENSITY:** 0% (Vacuum)
+**TECHNICAL DEFECTS:** Flat lighting, floating geometry, proxy-only assets.
+**NOT EVALUABLE:** P43 (Motion), P47 (Secondary Motion).
 
-### TOP FAILURES & DIAGNOSIS
-1.  **P67 (Visual Oracle):** The scene is entirely composed of proxy geometry. **Edit Scope:** Replace all primitives with Art-Bible-compliant models.
-2.  **P09/P10 (Geology/Terrain):** The world is a featureless void. **Edit Scope:** Implement volumetric terrain with height variation and material blending.
-3.  **P13/P51 (Material/Shader):** No material truth or painterly style. **Edit Scope:** Apply the project's custom shader pass and hand-painted textures.
-
-**WORLD DENSITY:** 0.01% (Single non-functional structure in a void).
-**TECHNICAL DEFECTS:** Floating geometry, lack of lighting/shadows, placeholder assets, missing LODs (everything is LOD 0 or proxy).
-**NOT EVALUABLE:** Qi ecology, NPC behavior, secondary motion, audio cues.
-
-**NEXT INSPECTION:**
-Do not resubmit until a **World-Building Pass** (Terrain, Vegetation, Lighting) and a **Prop-Replacement Pass** (Final Gate Model) have been completed.
-
----
-
-### AAA COMPLETENESS QUESTION
-**Does this frame represent a world that feels finished, intentional, and ready for a player to inhabit?**
-
-**NO.**
+**NEXT INSPECTION:** Requires a
