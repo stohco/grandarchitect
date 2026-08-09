@@ -1115,6 +1115,27 @@ export function buildTownScene(seed = 89274613): VillageScene {
     group.add(m);
   }
 
+  // THE XIANXIA PRESENCE — the world above the mortal bend (doc 12, 25):
+  // a spirit-vein shimmer along the foothills (the cache's vein trace) and
+  // the distant Azure Sword peak to the north, readable as a place where
+  // cultivators hold qi — never neon, a restrained warm-teal underglow.
+  const veinGlowMat = new THREE.MeshBasicMaterial({
+    color: 0x59e8c8, transparent: true, opacity: 0.16, depthWrite: false,
+  });
+  for (const [vx, vz] of [[-60, -320], [30, -340]]) {
+    const glow = new THREE.Mesh(new THREE.PlaneGeometry(160, 30), veinGlowMat);
+    glow.rotation.x = -Math.PI / 2;
+    glow.position.set(vx, 1.2, vz);
+    group.add(glow);
+  }
+  // the sect peak: a tall pale cone north (500 li = unreadable at this
+  // scale, so it reads as the highest, faintest ridge — the direction
+  // the road runs, where the recruiters come from)
+  const sectPeak = new THREE.Mesh(new THREE.ConeGeometry(420, 700, 6), pal.hazeBlue);
+  sectPeak.position.set(30, 240, -900);
+  sectPeak.castShadow = true;
+  group.add(sectPeak);
+
   // forest band — 14 candidate trees, varied, skipping the town/river/foothills.
   // Two-tier crown (main + offset upper tier) so trees read as trees, not cones.
   for (let i = 0; i < 14; i++) {
