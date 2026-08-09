@@ -1105,6 +1105,24 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
       { system: 'validation', consumerId: 'validation.conformance-runner', note: 'every optimization PR passes the substance-preservation gate' },
     ],
   },
+  {
+    id: 'derived.sect-mortal-interface',
+    name: 'Sect–Mortal Interface (Recruitment Economy)',
+    canonLevel: 'design',
+    claims: [
+      {
+        text: 'the sect takes the qi-gifted children and gives back silver, protection from beasts and bandits, and the prestige of having a cultivator in the family',
+        source: 'corpus-extension/12_SECT_INSTITUTIONS.md',
+      },
+    ],
+    requires: ['simulation', 'visual'],
+    bindings: [
+      { system: 'persistence', consumerId: 'persistence.definition-database', note: 'SECT_CANON_DEFINITIONS: recruitment drive, root testing, silver, liability, qi-access essence' },
+      { system: 'simulation', consumerId: 'simulation.ga-economy', note: 'recruitment silver + liability as economic transactions' },
+      { system: 'simulation', consumerId: 'simulation.ga-npc', note: 'children with roots, families gaining silver' },
+      { system: 'visual', consumerId: 'visual.directed-scene-production', note: 'E3 Recruitment Day dramatizes the drive; the recruiter reads roots at the stall' },
+    ],
+  },
 ];
 
 export const GENESIS_CONCEPT_COUNT = GENESIS_CONCEPTS.length;

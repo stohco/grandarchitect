@@ -1393,6 +1393,36 @@
           "note": "every optimization PR passes the substance-preservation gate"
         }
       ]
+    },
+    {
+      "id": "derived.sect-mortal-interface",
+      "canonLevel": "design",
+      "requires": [
+        "simulation",
+        "visual"
+      ],
+      "bindings": [
+        {
+          "system": "persistence",
+          "consumerId": "persistence.definition-database",
+          "note": "SECT_CANON_DEFINITIONS: recruitment drive, root testing, silver, liability, qi-access essence"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-economy",
+          "note": "recruitment silver + liability as economic transactions"
+        },
+        {
+          "system": "simulation",
+          "consumerId": "simulation.ga-npc",
+          "note": "children with roots, families gaining silver"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.directed-scene-production",
+          "note": "E3 Recruitment Day dramatizes the drive; the recruiter reads roots at the stall"
+        }
+      ]
     }
   ],
   "failures": [],
@@ -1996,6 +2026,16 @@
       "gameplay": "not-required",
       "persistence": "bound",
       "validation": "not-required"
+    },
+    "derived.sect-mortal-interface": {
+      "generation": "not-required",
+      "simulation": "bound",
+      "motion": "not-required",
+      "visual": "bound",
+      "audio": "not-required",
+      "gameplay": "not-required",
+      "persistence": "not-required",
+      "validation": "not-required"
     }
   },
   "fanOut": {
@@ -2058,11 +2098,12 @@
     "derived.directed-scene-production": 6,
     "derived.scene-universe-slice": 10,
     "derived.perceptual-evidence-examiner": 6,
-    "derived.substance-preservation": 7
+    "derived.substance-preservation": 7,
+    "derived.sect-mortal-interface": 5
   },
-  "conceptCount": 60,
-  "boundPairs": 117,
-  "requiredPairs": 117,
+  "conceptCount": 61,
+  "boundPairs": 119,
+  "requiredPairs": 119,
   "gauntlet": [
     {
       "id": "gauntlet.destroy-bridge",
