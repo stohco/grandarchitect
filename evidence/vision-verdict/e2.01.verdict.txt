@@ -1,0 +1,192 @@
+# VISION INSPECTION — e2.01
+
+## STAGE A (blind)
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**1. Visual Content Summary**
+*   **Setting:** A featureless, flat plane suspended in a monochromatic blue-grey void.
+*   **Objects:** A central cluster of approximately 10–12 tiny, untextured rectangular prisms. Scattered across the main plane are several small, low-poly conical shapes. Large, sharp-edged, flat white polygons frame the perimeter, suggesting unfinished terrain or floating shards.
+*   **Scale:** Appears to be a high-altitude or "god-view" perspective. If the central boxes are buildings, the scale is massive and the density is near zero.
+*   **Density:** Extremely low. Content is concentrated in a microscopic center point, leaving ~95% of the frame as empty, flat color.
+
+**2. Player Impression**
+A player would conclude they are looking at a **technical test** or a **broken camera state**. The visual language suggests a "Greybox" environment where the player has zoomed out far beyond the intended play area, or the world has failed to load textures and environmental assets. The cones are recognizable only as "placeholder trees," and the boxes as "placeholder buildings."
+
+**3. Art Style and Production Quality**
+*   **Style:** Primitive Low-Poly / Untextured.
+*   **Production Quality:** Non-existent. There are no materials, shaders (beyond a basic distance fog/gradient), or post-processing effects visible. The lighting is a single point source causing a flat white bloom in the center.
+
+**4. Apparent Level of Completion**
+**PRIMITIVE_PLACEHOLDER**
+This is not a "Stylized Prototype" because it lacks a cohesive aesthetic. It is a collection of default engine primitives (cubes, cones, planes) placed in a default scene.
+
+**5. Defects, Distractions, and Empty Zones**
+*   **Empty Zones:** The entire periphery is a dead zone. The blue-grey background provides no sense of atmosphere or horizon.
+*   **Geometry Defects:** The large white shapes at the edges have razor-sharp, aliased edges and no thickness, appearing as 2D planes clipping into the camera view.
+*   **Visual Noise:** The central bloom/light source is washed out, obscuring the only "content" in the image.
+*   **Lack of Context:** There is no focal point, no UI, and no indication of player presence or objective.
+
+**6. Inspection Reward Limit**
+**Immediate.**
+The image stops rewarding inspection the moment the viewer identifies the central shapes as untextured blocks. There is no hidden detail, no micro-texture, and no environmental storytelling. Closer inspection only reveals the jagged edges of the low-poly geometry.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single image showing a very primitive, greybox-style environment.
+A "Scene Universe Slice" describing a detailed dock area (Wang Family Bend, timber piers, boats, cargo, NPCs like He Laosan, etc.) and a "Genesis Pass Manifest" listing high-quality visual obligations (geology, material truth, xianxia laws, etc.).
+Perform Phases B-X of the inspection contract, evaluate Genesis Passes, conduct a forensic sweep, and provide a final Vision Verdict.
+
+    *   *Visuals:* A flat, light-blue/grey plane. A few tiny, untextured rectangular prisms in the center. A few low-poly cones. Large, flat, white polygons framing the edges. A monochromatic blue-grey background.
+    *   *Contrast with Slice:* The slice describes a "Timber pier on pilings; moored boats; cargo barrows; rope and tackle" at "Wang Family Bend." The image shows... none of that. It shows a void with primitives.
+    *   *Contrast with Manifest:* The manifest requires "real geology," "material truth," "painterly hand-painted language," and "no visible proxy geometry." The image is *entirely* proxy geometry.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: The center cluster of boxes is the only focal point, but it's so small it's barely a point.
+        *   Reads: Primary read is "empty space." Secondary read is "technical error/placeholder."
+        *   Balance: Centered, but devoid of meaning.
+        *   Negative Space: ~98% negative space.
+        *   Camera: High-angle, zoomed out.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Not evaluable (no player character/camera proximity).
+        *   Shell 2 (Local): Empty.
+        *   Shell 3 (Scene): Primitive boxes/cones.
+        *   Shell 4 (Settlement): Non-existent.
+        *   Shell 5 (Landscape): A flat plane.
+        *   Shell 6 (Horizon): A flat edge against a void.
+        *   Shell 7 (Sky): Flat blue-grey color.
+        *   Shell 8/9: Non-existent.
+
+    *   **Phase D: Content Inventory**
+        *   Rectangular Prisms: Center, mid-ground, placeholder buildings.
+        *   Cones: Scattered, mid-ground, placeholder trees.
+        *   Polygons: Perimeter, background/foreground, placeholder terrain/shards.
+        *   Plane: Base, all layers, placeholder ground.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Everything is a primitive. No silhouettes of interest.
+
+    *   *P09 (Geology):* FAIL. It's a flat plane.
+    *   *P10 (Topology):* FAIL. No valley/slope/cliff.
+    *   *P13 (Material Truth):* FAIL. Flat colors, no textures.
+    *   *P14 (Vegetation):* FAIL. Cones are not vegetation.
+    *   *P15 (Animals):* FAIL. None.
+    *   *P18 (Personhood):* FAIL. None.
+    *   *P22 (Economy/Logistics):* FAIL. No boats, barrows, or docks.
+    *   *P23 (Domestic Life):* FAIL. None.
+    *   *P36 (Physics/Structure):* FAIL. Floating polygons, no load paths.
+    *   *P49 (Cinematography):* FAIL. No intentional framing.
+    *   *P50 (Lighting):* FAIL. Flat, ambient lighting.
+    *   *P51 (Shader Presentation):* FAIL. No painterly language.
+    *   *P67 (Visual Oracle):* FAIL. Entirely proxy geometry.
+    *   *P72 (Completeness):* FAIL. Total absence of content.
+
+    *   Top-left: Flat white polygon.
+    *   Top-center: Flat white polygon.
+    *   Top-right: Flat white polygon.
+    *   Mid-left: Flat plane.
+    *   Center: Tiny grey boxes.
+    *   Mid-right: Flat plane.
+    *   Bottom-left: Flat white polygon.
+    *   Bottom-center: Flat plane.
+    *   Bottom-right: Flat plane.
+    *   *Conclusion:* Total void.
+
+    *   *Vision Verdict:* CRITICAL FAILURE.
+    *   *Diagnosis:* This is a blockout/greybox. It is not a "world."
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Proxy geometry, lack of textures, lack of assets.
+**PERCEPTUAL EVIDENCE REPORT: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Frame Provided]
+**LOCATION:** Wang Family Bend / Cangwu Sect (per Scene Universe Slice)
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The eye is drawn to a microscopic cluster of grey primitives in the center, but there is no visual weight to anchor the composition.
+*   **Primary/Secondary/Tertiary Read:** 
+    *   *Primary:* A void.
+    *   *Secondary:* A technical test scene.
+    *   *Tertiary:* Unfinished geometry.
+*   **Foreground/Middle/Background:** There is no depth separation. The "foreground" consists of flat white polygons; the "middle ground" is a flat plane with primitives; the "background" is a monochromatic void.
+*   **Frame Balance:** Centered, but devoid of intent. The negative space (~95%) overwhelms the subject matter.
+*   **Camera/Lens:** High-altitude "god-view." Perspective is generic; no cinematic lens language is applied.
+*   **Compositional Read:** The intended composition (a dock at Wang Family Bend) is **completely unreadable**.
+
+---
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** NOT EVALUABLE.
+*   **SHELL 2 (Local Interaction):** EMPTY.
+*   **SHELL 3 (Local Scene):** PRIMITIVE. A few untextured boxes and cones.
+*   **SHELL 4 (Settlement):** EMPTY. No dock, no pier, no buildings.
+*   **SHELL 5 (Landscape):** PRIMITIVE. A single flat plane.
+*   **SHELL 6 (Horizon):** EMPTY. A hard edge against a blue-grey void.
+*   **SHELL 7 (Sky/Atmosphere):** EMPTY. Flat color fill.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** EMPTY.
+
+**Density Verdict:** Total vacuum. The scene fails to communicate any level of world-building.
+
+---
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Structures** | Center | Mid | Rectangular Prisms | **PROXY** | None (Placeholder for buildings) |
+| **Vegetation** | Center/Scattered | Mid | Low-poly Cones | **PROXY** | None (Placeholder for trees) |
+| **Terrain** | Base | All | Flat Plane | **PROXY** | None (Placeholder for ground) |
+| **Environment** | Perimeter | Fore/Back | White Polygons | **PROXY** | None (Unfinished terrain shards) |
+
+---
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Focal Subjects:** The "buildings" are simple cubes. The "trees" are simple cones.
+*   **Proportion:** Scale is indeterminate. Without a `scale.cultivator` anchor (1.8m) visible in the frame, the boxes could be dice or skyscrapers.
+*   **Silhouette:** Generic geometric primitives. No character, no architectural identity.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Result | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | Observed: Flat plane. Missing: Macro/meso/micro structure, soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Valley/slope/cliff, clean structure contact. |
+| **P13** | Material Truth | **FAIL** | Observed: Flat grey/blue. Missing: Timber, rope, iron, weathering, age. |
+| **P14** | Plant Ecology | **FAIL** | Observed: Cones. Missing: Species variation, riparian edges, biological logic. |
+| **P15** | Spirit-Beast Ecology| **FAIL** | Observed: Nothing. Missing: Creatures, habitat context. |
+| **P18** | Individual Personhood| **FAIL** | Observed: Nothing. Missing: NPCs, clothing, posture. |
+| **P22** | Economy/Logistics | **FAIL** | Observed: Nothing. Missing: Boats, barrows, cargo, dock infrastructure. |
+| **P23** | Domestic Life | **FAIL** | Observed: Nothing. Missing: Tools, activity, causal occupation. |
+| **P36** | Physics/Structure | **FAIL** | Observed: Floating polygons. Missing: Load paths, support logic. |
+| **P49** | Cinematography | **FAIL** | Observed: Generic zoom. Missing: Focal hierarchy, framing, lens language. |
+| **P50** | Lighting | **FAIL** | Observed: Flat ambient. Missing: Key/fill/rim, warm/cool contrast. |
+| **P51** | Shader Presentation| **FAIL** | Observed: Flat colors. Missing: Painterly language, edge language. |
+| **P67** | Visual Oracle | **FAIL** | Observed: 100% proxy geometry. Missing: Final production assets. |
+| **P72** | Completeness Gate | **FAIL** | Observed: Greybox. Missing: All mandatory visual content. |
+
+---
+
+### 6. FORENSIC SWEEP (3x3 TILE)
+*   **Top-Left:** Flat white polygon. No detail.
+*   **Top-Center:** Flat white polygon. No detail.
+*   **Top-Right:** Flat white polygon. No detail.
+*   **Mid-Left:** Flat blue-grey plane. No detail.
+*   **Center:** Cluster of 10-12 grey cubes and 4-5 cones. No textures.
+*   **Mid-Right:** Flat blue-grey plane. No detail.
+*   **Bottom-Left:** Flat white polygon. No detail.
+*   **Bottom-Center:** Flat blue-grey plane. No detail.
+*   **Bottom-Right:** Flat blue-grey plane. No detail.
+
+---
+
+### 7. FINAL VISION VERDICT
+
+**VISION VERDICT: [CRITICAL FAILURE]**
+
+**TOP FAILURES:**
+1.  **Total Asset Absence:** The scene is a primitive blockout. None of the required assets from the Scene Universe Slice (timber piers, boats, cargo barrows, NPCs) are present.
+2.  **Material Void:** Zero adherence to the Art Bible or Material Truth (P13/P51).
+3.  **Environmental Collapse:** The "world" is a flat plane in a void, failing all geology and topology requirements (

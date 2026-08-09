@@ -1,0 +1,223 @@
+# VISION INSPECTION — ep4.01
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No context, no entity names, no developer explanations.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does it stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   The image is almost entirely a flat, light-blue/grey color.
+    *   There is a dark blue triangle in the top-left corner.
+    *   There are no textures, no lighting gradients, no 3D depth, no characters, no environment.
+
+    *   *What does it show?* A light blue field with a dark blue geometric shape in the upper left. No setting, no objects, no scale, zero density.
+    *   *Player perception?* A loading screen, a crash, a missing texture, or a very basic UI element.
+    *   *Art style/Quality?* Flat color. Zero production quality.
+    *   *Completion level?* PRIMITIVE_PLACEHOLDER.
+    *   *Defects/Empty zones?* The entire image is an empty zone.
+    *   *Reward for inspection?* Immediately. There is nothing to inspect.
+**REPORT: STAGE A — BLIND PLAYER READ**
+
+**Actual Content:**
+A flat, light-blue field occupying ~95% of the frame. A single dark-blue geometric triangle is positioned in the upper-left corner. No setting, no objects, no scale, zero density.
+
+**Player Perception:**
+A player would assume the game has crashed, a texture failed to load, or they are looking at a placeholder loading screen.
+
+**Art Style and Production Quality:**
+Flat color. Zero production quality. No lighting, no shading, no texture.
+
+**Completion Level:**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Empty Zones:**
+The entire frame is an empty zone.
+
+**Inspection Limit:**
+The image stops rewarding inspection immediately upon first glance. There is no detail to discover.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single image consisting of a light blue/grey field with a dark blue triangle in the top-left corner.
+A "Scene Universe Slice" (Village Gate, Wang Family Bend, etc.) and a "Genesis Pass Manifest" (P09, P10, P27, etc.).
+The image is a complete mismatch for the provided metadata. The metadata describes a detailed village gate, stone pillars, pine beams, vegetation, and complex xianxia elements. The image is a flat color field.
+
+    *   *Phase A (Blind Read):* Already done in the prompt, but I must integrate it into the full report.
+    *   *Phase B (Full-Frame Composition):* Analyze the composition of the *actual* image.
+    *   *Phase C (Multi-Scale World Density):* Check all shells (1-9).
+    *   *Phase D (Content Inventory):* List what is actually there.
+    *   *Phase E (Silhouette/Proportion):* N/A (no focal subject).
+    *   *Genesis Pass Coverage:* Evaluate the manifest against the image.
+    *   *Tiled 3x3 Forensic Sweep:* Check for defects in the image.
+    *   *Final Output Format:* VISION VERDICT, TOP FAILURES, GENESIS PASS COVERAGE, WORLD DENSITY, TECHNICAL DEFECTS, NOT EVALUABLE, NEXT INSPECTION, AAA COMPLETENESS QUESTION.
+
+    *   *Phase A (Blind Read):*
+        *   Immediate scene: Flat color field.
+        *   Apparent setting: None.
+        *   Apparent art style: Minimalist/Geometric/UI.
+        *   Apparent production quality: Zero.
+        *   Apparent scale: N/A.
+        *   Apparent focal subject: A dark blue triangle.
+        *   Apparent world density: Zero.
+        *   Apparent level of completion: PRIMITIVE_PLACEHOLDER.
+        *   Obvious distractions: The corner triangle.
+        *   Obvious defects: Total absence of content.
+        *   *Player perception:* A crash, a missing texture, or a loading screen.
+
+    *   *Phase B (Full-Frame Composition):*
+        *   Focal hierarchy: None.
+        *   Balance: Heavily weighted to the top-left by the triangle.
+        *   Negative space: 99% of the frame.
+        *   Depth: Zero.
+        *   Compositional readability: Unreadable as a "scene."
+
+    *   *Phase C (Multi-Scale World Density):*
+        *   Shells 1-9: All are empty. Zero density.
+
+    *   *Phase D (Content Inventory):*
+        *   No characters, no vegetation, no terrain, no structures, no VFX.
+        *   Only content: 1x geometric shape (dark blue triangle).
+
+    *   *Genesis Pass Coverage (The "Brutal" part):*
+        *   P09 (Geology): FAIL (No geology).
+        *   P10 (Terrain): FAIL (No terrain).
+        *   P27 (World Laws): FAIL (No visual evidence).
+        *   P14 (Vegetation): FAIL (No vegetation).
+        *   P15 (Animal): FAIL (No animals).
+        *   P13 (Material): FAIL (No materials).
+        *   P51 (Shader): FAIL (No shader/painterly language).
+        *   P36 (Physics): FAIL (No structures).
+        *   P29 (Formations): FAIL (No formations).
+        *   P25 (Qi): FAIL (No Qi).
+        *   P18 (Personhood): FAIL (No NPCs).
+        *   P23 (Domestic Life): FAIL (No life).
+        *   P22 (Economy): FAIL (No economy).
+        *   P43 (Motion): FAIL (No motion).
+        *   P47 (Secondary Motion): FAIL (No motion).
+        *   P33 (Affordance): FAIL (No affordance).
+        *   P78 (Concealment): FAIL (No concealment).
+        *   P07 (Hierarchy): FAIL (No hierarchy).
+        *   P08 (Forbidden): FAIL (No content to violate).
+        *   P49 (Cinematography): FAIL (No cinematography).
+        *   P50 (Lighting): FAIL (No lighting).
+        *   P67 (Visual Oracle): FAIL (No visual oracle).
+        *   P72 (Completeness): FAIL (Zero completeness).
+        *   P61 (Renderer): PASS (The renderer is correctly displaying a flat color, though there is nothing to render).
+        *   P60 (Streaming): PASS (No LOD pop because there are no LODs).
+
+    *   *Tiled 3x3 Forensic Sweep:*
+        *   All tiles: Empty/Flat color.
+
+    *   *Vision Verdict:* TOTAL SYSTEM FAILURE / NULL CONTENT.
+    *   *Top Failures:* Everything. The image does not represent the "Village Gate" described in the metadata.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Missing assets, missing geometry, missing textures, missing lighting, missing everything.
+
+    *   *Self-Correction during drafting:* I must not be "mean" for the sake of being mean, but I must be "brutally accurate." The metadata describes a rich scene; the image is a blank slate. The gap is 100%.
+
+    *   *Structure:*
+        1.  PHASE A (Blind Read)
+        2.  PHASE B (Composition)
+        3.  PHASE C (Density)
+        4.  PHASE D (Inventory)
+        5.  GENESIS PASS COVERAGE (The table/list)
+        6.  VISION VERDICT
+        7.  TOP FAILURES
+        8.  TECHNICAL DEFECTS
+        9.  NOT EVALUABLE
+        10. NEXT INSPECTION
+        11. AAA COMPLETENESS QUESTION
+
+    *   *Wait, the prompt asks for "FULL contract output format (section 6)".*
+    *   Section 6 includes: VISION VERDICT, TOP FAILURES, GENESIS PASS COVERAGE, WORLD DENSITY, TECHNICAL DEFECTS, NOT EVALUABLE, NEXT INSPECTION.
+
+    *   *Let's refine the Genesis Pass Coverage:* Since almost everything is a FAIL, I will group them to avoid a 50-line list of "FAIL".
+
+    *   *Wait, the prompt says "Run PHASES B-X from the contract on the SAME frame."*
+    *   I will follow the order: A -> B -> C -> D -> E (if applicable) -> Genesis Pass -> Tiled Sweep -> Final Verdict.
+
+    *   *Phase B:* Focal hierarchy is non-existent. Negative space is the entire frame.
+    *   *Phase C:* All shells 1-9 are empty.
+    *   *Phase D:* 1 geometric shape.
+    *   *Phase E:* N/A.
+
+    *   *Genesis Pass:*
+        *   Physical/Environmental (P09, P10, P14, P15, P13, P36): FAIL.
+        *   Xianxia/World Laws (P27, P29, P25, P78): FAIL.
+        *   Living/NPC (P18, P23, P22, P43, P47): FAIL.
+        *   Gameplay/Affordance (P33): FAIL.
+        *   Cinematic/Authorial (P07, P08, P49, P50, P51): FAIL.
+        *   Production/Engine (P67, P72, P61, P60): FAIL (except P61/P60 which are technically "not failing" but "not applicable").
+
+    *   *Tiled 3x3:* All tiles are uniform color.
+
+    *   *Final Verdict:* The visual evidence is a complete nullity. It does not represent the "Village Gate" or any part of the "Western Cangwu Vein" described in the Scene Universe Slice.
+
+    *   *Final Check:* Did I include the AAA question? Yes. Did I include the "Not Evaluable" section? Yes.
+
+    *   *One detail:* The prompt says "PHASE E — SILHOUETTE AND PROPORTION: For focal ass..." (it cuts off). I will treat it as "For focal assets." Since there are no assets, I'll skip or note N/A.
+
+    *   *Final Polish of the tone:* Cold, clinical, professional, zero praise.
+
+    *   *Wait, the prompt says "PHASE B — FULL-FRAME COMPOSITION... Determine whether the intended composition is actually readable."*
+    *   The intended composition (Village Gate) is NOT readable.
+
+    *   *Let's go.*
+### PHASE A — BLIND PLAYER READ
+*   **Immediate scene read:** A flat, two-tone geometric field.
+*   **Apparent setting:** None.
+*   **Apparent art style:** Minimalist/UI/Placeholder.
+*   **Apparent production quality:** Zero.
+*   **Apparent scale:** N/A.
+*   **Apparent focal subject:** A dark blue triangle in the upper-left corner.
+*   **Apparent world density:** Zero.
+*   **Apparent level of completion:** PRIMITIVE_PLACEHOLDER.
+*   **Obvious distractions:** The corner triangle.
+*   **Obvious defects:** Total absence of environmental or character data.
+
+**If I knew nothing about the implementation, what would I think this was?**
+A broken renderer, a missing texture error, a loading screen, or a developer's color-palette test.
+
+---
+
+### PHASE B — FULL-FRAME COMPOSITION
+*   **Focal hierarchy:** None. The eye is drawn to the top-left corner by the only contrast present, but there is no subject to resolve.
+*   **Primary/Secondary/Tertiary read:** Non-existent.
+*   **Foreground/Middle ground/Background:** No depth separation. The image is a single plane.
+*   **Horizon/Sky:** None.
+*   **Frame balance:** Extremely unbalanced; heavy weight in the top-left corner.
+*   **Negative space:** 99% of the frame.
+*   **Depth separation:** Zero.
+*   **Overlap/Tangencies:** N/A.
+*   **Camera height/angle:** N/A.
+*   **Lens/Perspective impression:** Orthographic/Flat.
+*   **Scale communication:** None.
+*   **Sightlines:** None.
+*   **Unwanted visual competition:** The corner triangle competes with the emptiness, but provides no information.
+
+**Compositional Readability:** The intended composition (Village Gate) is **NOT READABLE**.
+
+---
+
+### PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Hand/Reach):** EMPTY.
+*   **SHELL 2 (Local Interaction):** EMPTY.
+*   **SHELL 3 (Local Scene):** EMPTY.
+*   **SHELL 4 (Settlement):** EMPTY.
+*   **SHELL 5 (Landscape):** EMPTY.
+*   **SHELL 6 (Far Region):** EMPTY.
+*   **SHELL 7 (Sky/Atmosphere):** EMPTY.
+*   **SHELL 8 (Subsurface):** EMPTY.
+*   **SHELL 9 (Metaphysical):** EMPTY.
+
+---
+
+### PHASE D — CONTENT INVENTORY
+*   **

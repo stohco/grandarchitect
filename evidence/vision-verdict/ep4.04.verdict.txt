@@ -1,0 +1,220 @@
+# VISION INSPECTION — ep4.04
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Foreground/Ground:* A flat plane split into two colors (dark olive green and a light beige/tan). The transition is a sharp, straight line.
+    *   *Center Object:* A large, grey, dome-shaped object. It has a low-polygon count (visible facets). The texture is a repetitive, checkered/grid-like pattern. There is a tiny grey pebble-like object at its base.
+    *   *Background:* A light blue sky/void. To the left, a large, slanted light-blue plane. To the right, two white, sharp, triangular spikes/cones.
+    *   *Lighting:* Flat, basic lighting. No complex shadows, just a general ambient light and some basic shading on the dome.
+    *   *Composition:* Extremely sparse. Very few objects.
+
+    *   *Setting/Objects:* A void-like space with a flat ground. A large grey mound and a small grey pebble. Background consists of geometric primitives (slanted plane, cones).
+    *   *Scale:* Indeterminate. The mound could be a boulder or a mountain; the pebble could be a stone or a house. No human-scale reference.
+    *   *Density:* Extremely low.
+
+    *   *Player Perception:* A test scene, a glitch, or a very early prototype. It looks like a "greybox" or a basic 3D software default scene.
+
+    *   *Art Style/Quality:* Low-fidelity, primitive. No textures beyond basic patterns/flat colors. Low poly count.
+
+    *   *Completion Level:* PRIMITIVE_PLACEHOLDER. (It's not even a blockout of a level; it's just shapes in a void).
+
+    *   *Defects/Distractions:*
+        *   Texture tiling/grid on the main object is distracting and looks like a default developer texture.
+        *   The sharp line between the green and tan ground is unnatural.
+        *   The background elements (cones/slanted plane) look like unplaced assets or boundary markers.
+        *   Lack of any environmental detail.
+
+    *   *Inspection Limit:* The image stops rewarding inspection immediately. There is no detail to discover. Once you see the low-poly dome and the flat planes, there is nothing else to analyze.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A void-like environment with a flat, two-tone ground plane (olive green and beige) divided by a sharp, straight line.
+*   **Objects:** One large, low-polygon grey dome with a visible grid/checkered texture; one tiny grey spherical object at the base of the dome; two white conical spikes in the background; one large, slanted light-blue plane in the far left background.
+*   **Scale:** Indeterminate. There are no reference objects to establish if the central mass is a pebble or a mountain.
+*   **Density:** Extremely low. Four distinct geometric clusters in a wide open space.
+
+**Player Perception**
+A player would perceive this as a technical test scene, a broken map load, or a "greybox" development environment. It does not read as a playable game world.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive 3D.
+*   **Quality:** Extremely low. The textures are basic fills or repetitive developer grids. Lighting is flat and lacks ambient occlusion or complex shadowing. Geometry is low-poly with visible, jagged facets.
+
+**Completion Level**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Texture Artifacts:** The checkered pattern on the central dome is a distracting, non-diegetic developer texture.
+*   **Hard Edges:** The transition between the green and beige ground is a mathematically perfect line, creating an unnatural visual break.
+*   **Compositional Void:** The background elements (cones and slanted plane) appear as floating, purposeless primitives.
+*   **Empty Zones:** 90% of the frame is empty, flat color.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There is no micro-detail, no material depth, and no hidden narrative elements. Once the basic shapes are identified, there is nothing further to observe.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame showing a low-poly grey dome on a two-tone flat plane with basic geometric shapes in the background.
+A detailed "Scene Universe Slice" describing a "Cultivator's abandoned cache" (carved chamber, maintenance formation, Xu Erniu trapped inside, etc.) and a "Genesis Pass Manifest" (P09, P10, P27, etc.) which sets high standards for geology, material truth, and xianxia-specific visual cues.
+
+    *   *Foreground:* Flat plane, split diagonally between olive green and beige. No texture, no blending.
+    *   *Center:* A grey, faceted dome. Texture is a repetitive grid/checkerboard. A tiny grey sphere/pebble at the base.
+    *   *Background:* Light blue sky. A slanted blue plane on the left. Two white cones/spikes on the right.
+    *   *Lighting:* Flat, ambient. No contact shadows. No global illumination.
+    *   *Overall:* This is a primitive blockout/greybox. It bears zero resemblance to the "Scene Universe Slice" (no carved chamber, no formation, no unconscious boy, no dust, no spirit stones).
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: The dome is the center.
+        *   Reads: Primary (dome), Secondary (ground split), Tertiary (background spikes).
+        *   Balance: Centered, but sterile.
+        *   Depth: Minimal. No overlap except the dome on the ground.
+        *   Camera: Eye-level, static.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): One dome, one pebble.
+        *   Shell 3 (Scene): Primitive shapes.
+        *   Shell 4-7 (Landscape/Sky): Flat colors and basic polygons.
+        *   Verdict: Total density failure.
+
+    *   **Phase D: Content Inventory**
+        *   Dome: Center, mid-ground, placeholder geometry, repeated texture.
+        *   Pebble: Base of dome, placeholder.
+        *   Ground: Foreground, two-tone flat plane.
+        *   Spikes: Background right, primitive cones.
+        *   Plane: Background left, primitive polygon.
+        *   Sky: Background, flat color.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Dome is a generic hemisphere. No architectural detail.
+
+    *   P09 (Geology): **FAIL**. No geology. Flat planes.
+    *   P10 (Topology): **FAIL**. No valley/slope. Floating/flat contact.
+    *   P27 (World Laws): **FAIL**. No supernatural communication.
+    *   P14 (Vegetation): **FAIL**. No vegetation.
+    *   P15 (Animals): **FAIL**. No animals.
+    *   P13 (Material Truth): **FAIL**. Grid texture is not stone.
+    *   P51 (Shader Presentation): **FAIL**. Generic shaders.
+    *   P36 (Physics/Structure): **FAIL**. No load paths.
+    *   P29 (Formations): **FAIL**. No nodes or glyphs.
+    *   P25 (Qi Ecology): **FAIL**. No qi phenomena.
+    *   P18 (Personhood): **FAIL**. No NPCs (Xu Erniu is missing).
+    *   P23 (Domestic Life): **FAIL**. No tools/life.
+    *   P22 (Economy): **FAIL**. No logistics.
+    *   P43/P47 (Motion): **NOT_EVALUABLE** (Still frame).
+    *   P33 (Affordance): **FAIL**. Nothing looks usable.
+    *   P78 (Concealment): **FAIL**. No mist/wards.
+    *   P07 (Hierarchy): **FAIL**. No intended read achieved.
+    *   P08 (Forbidden): **PASS** (Nothing anachronistic, just empty).
+    *   P49 (Cinematography): **FAIL**. No lens language or framing.
+    *   P50 (Lighting): **FAIL**. Flat lighting.
+    *   P67 (Visual Oracle): **FAIL**. Pure proxy geometry.
+    *   P72 (Completeness): **FAIL**. Not complete.
+    *   P61 (Renderer): **PARTIAL** (No z-fighting visible, but low quality).
+    *   P60 (Streaming): **NOT_EVALUABLE**.
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of content from the Universe Slice. Material failure. Lighting failure.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Low poly, repetitive textures, flat lighting.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Cultivator's abandoned cache / Western Cangwu Vein (per Universe Slice)
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary read is a grey dome. There is no secondary or tertiary read of significance; the background elements are disconnected primitives.
+*   **Foreground/Middle/Background:** 
+    *   *Foreground:* A flat, two-tone plane.
+    *   *Middle ground:* A single low-poly dome and one small sphere.
+    *   *Background:* A flat blue void with three disconnected polygons (one slanted plane, two cones).
+*   **Frame Balance:** Centered, but sterile. The composition lacks any intentional framing, sightlines, or leading lines.
+*   **Depth Separation:** Minimal. Depth is communicated only by the overlap of the dome on the ground plane. There is no atmospheric perspective or layering.
+*   **Camera:** Static, eye-level, default perspective. No lens language or cinematic intent.
+*   **Composition Verdict:** **FAIL**. The composition does not communicate a "carved chamber" or a "cache." It communicates a test scene.
+
+---
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Empty.
+*   **SHELL 2 (Local Interaction):** One low-poly dome, one pebble.
+*   **SHELL 3 (Local Scene):** Total void. No shelves, no dust, no formation nodes, no unconscious NPC (Xu Erniu).
+*   **SHELL 4 (Settlement):** N/A.
+*   **SHELL 5 (Landscape):** Flat, two-tone plane.
+*   **SHELL 6 (Horizon):** Non-existent.
+*   **SHELL 7 (Sky):** Flat blue fill.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** No evidence.
+*   **Density Verdict:** **CRITICAL FAILURE**. The scene is a vacuum. There is zero world density.
+
+---
+
+### 3. PHASE D: CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Grey Dome | Center | Mid | Placeholder | Primitive | None. |
+| Grey Sphere | Base of Dome | Mid | Placeholder | Primitive | None. |
+| Ground Plane | Bottom | Fore | Placeholder | Primitive | None. |
+| Slanted Plane | Left | Back | Placeholder | Primitive | None. |
+| White Cones (2) | Right | Back | Placeholder | Primitive | None. |
+| Blue Void | Top | Back | Sky/Void | Flat Fill | None. |
+
+---
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Focal Subject:** The dome is a generic, faceted hemisphere. It possesses no architectural markers, no "carved" quality, and no scale anchors to suggest it is a "chamber" or "cache."
+*   **Proportion:** The pebble relative to the dome is arbitrary. There is no human-scale anchor (NPC) to establish the 30m x 40m footprint defined in the Universe Slice.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat planes and primitive shapes. |
+| **P10** | Terrain Topology | **FAIL** | No valley/slope. No clean contact; just intersection. |
+| **P27** | World Laws | **FAIL** | No supernatural communication. |
+| **P14** | Vegetation | **FAIL** | Total absence of flora. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of fauna. |
+| **P13** | Material Truth | **FAIL** | Grid texture is not stone; it is a developer checkerboard. |
+| **P51** | Shader Presentation | **FAIL** | Generic, flat shaders. No painterly language. |
+| **P36** | Physics/Structure | **FAIL** | No load paths. No debris. No structural logic. |
+| **P29** | Formations | **FAIL** | No nodes, no glyphs, no "dimming nodes." |
+| **P25** | Qi Ecology | **FAIL** | No qi phenomena or sources. |
+| **P18** | Personhood | **FAIL** | NPC (Xu Erniu) is entirely missing. |
+| **P23** | Domestic Life | **FAIL** | No tools, no shelves, no evidence of use. |
+| **P22** | Economy/Logistics | **FAIL** | No storage or containers. |
+| **P43** | Env-Aware Motion | **N/E** | Still frame. |
+| **P47** | Secondary Motion | **N/E** | Still frame. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing reads as usable or interactive. |
+| **P78** | Concealment | **FAIL** | No mist, wards, or folded geometry. |
+| **P07** | Perceptual Hierarchy | **FAIL** | Primary read is "test scene," not "abandoned cache." |
+| **P08** | Forbidden Interp. | **PASS** | No anachronisms present (due to lack of content). |
+| **P49** | Cinematography | **FAIL** | No framing, no lens language. |
+| **P50** | Lighting | **FAIL** | Flat ambient lighting. No key/fill/rim. |
+| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry. |
+| **P72** | Completeness | **FAIL** | Not a production candidate. |
+| **P61** | Renderer/GPU | **PARTIAL** | No z-fighting, but extremely low fidelity. |
+| **P60** | Streaming | **N/E** | Still frame. |
+
+---
+
+### 6. FINAL VISION VERDICT
+
+**VISION VERDICT: PRIMITIVE PLACEHOLDER / GREYBOX**
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** None of the required elements from the Scene Universe Slice (Xu Erniu, carved chamber, maintenance formation, spirit stone dust) are present.
+2.  **Material Failure:** The use of a repetitive grid texture on a low-poly dome fails

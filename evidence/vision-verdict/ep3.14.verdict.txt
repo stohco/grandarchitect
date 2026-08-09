@@ -1,0 +1,223 @@
+# VISION INSPECTION — ep3.14
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Overall View:* High-angle, wide shot.
+    *   *Environment:* A large, flat, pale-green/grey plane. It's surrounded by dark blue areas (likely a void or water).
+    *   *Objects:* A small cluster of grey, rectangular, blocky structures in the center. They look like simplified buildings or platforms. There are some thin lines connecting them (roads/walkways).
+    *   *Scale:* The structures are tiny compared to the vast empty plane. The plane itself is huge.
+    *   *Density:* Extremely low. Most of the frame is empty space.
+    *   *Lighting/Atmosphere:* Flat lighting, heavy fog/haze that washes out the distance.
+    *   *Geometry:* Very basic. Rectangles, planes. No organic shapes. No textures visible (just flat colors/gradients).
+    *   *Composition:* The "island" of blocks is centered but dwarfed by the surrounding void.
+
+    *   *What does it show?* A small group of grey geometric blocks on a vast, flat, pale-green surface, surrounded by a dark blue void. Scale is massive; density is near zero.
+    *   *Player perception:* A technical test, a map in the very early stages of development, or a "void" level. It looks like a layout test for a base or city.
+    *   *Art style/Quality:* Low-fidelity, untextured, flat-shaded. Production quality is minimal/non-existent.
+    *   *Completion level:* Definitely not finished. Not a production candidate. Not even a stylized prototype (no style). It's a **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**. Given the scale and lack of detail, it's a blockout.
+    *   *Defects/Distractions:* Massive empty zones. Lack of visual interest. Fog is so thick it obscures the few objects present. The transition between the green plane and blue void is a sharp, unblended edge.
+    *   *Reward for inspection:* Stops immediately. There is nothing to see upon closer inspection; the blocks are just blocks.
+
+    *   *Setting:* A vast, flat, pale-green plane floating in a dark blue void.
+    *   *Objects:* A small cluster of grey, rectangular prisms and flat strips (roads/walkways).
+    *   *Scale:* Extreme. The environment is enormous; the structures are minuscule.
+    *   *Density:* Negligible.
+    *   *Player Perception:* A development test environment or a "greybox" map.
+    *   *Style/Quality:* Primitive. Flat colors, no textures, basic geometry.
+    *   *Completion:* BLOCKOUT.
+    *   *Defects:* 95% of the frame is empty space. Harsh edges between the plane and the void. Heavy atmospheric haze that reduces visibility of the only existing assets.
+    *   *Inspection limit:* The image provides zero reward for closer inspection. The assets are simple primitives.
+**REPORT: PERCEPTUAL EVIDENCE EXAMINER (STAGE A)**
+
+**Actual Content**
+*   **Setting:** A vast, flat, pale-green/grey plane suspended within a dark blue void.
+*   **Objects:** A small, centralized cluster of grey rectangular prisms and flat strips.
+*   **Scale:** Extreme. The environment is massive; the structures are minuscule in comparison.
+*   **Density:** Negligible. The frame is almost entirely empty space.
+
+**Player Perception**
+A player would perceive this as a technical test, a "greybox" layout, or a map in the earliest stages of development. It looks like a spatial scale test for a base or city.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive/Non-existent.
+*   **Quality:** Extremely low. Flat shading, no textures, basic geometric primitives.
+
+**Completion Level**
+BLOCKOUT
+
+**Defects and Distractions**
+*   **Empty Zones:** Approximately 95% of the frame is devoid of any visual information or detail.
+*   **Lighting/Atmosphere:** Heavy, uniform haze/fog that washes out the few existing assets.
+*   **Geometry:** Harsh, unblended edges where the green plane meets the blue void.
+*   **Composition:** Lack of focal points; the central cluster is too small to anchor the image.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There are no details, textures, or complex shapes to discover; the assets are simple boxes.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame (high-angle, wide shot of a pale-green plane with a few grey blocky structures).
+Stage A (Blind Read) provided.
+Scene Universe Slice (Granary, Wang Family Bend, etc.), Genesis Pass Manifest (P09, P10, etc.).
+Run Phases B-X, evaluate Genesis Passes, perform forensic sweep, and output the full contract format.
+
+    *   *Visuals:* A vast, flat, pale-green/grey surface. A few grey rectangular blocks in the center. A blue void surrounding the plane. Heavy fog. No textures, no characters, no vegetation, no lighting detail.
+    *   *Context (Universe Slice):* This is supposed to be a "tax-grain store for the county" (granary) with "raised timber bins on stone piers, tiled roofs."
+    *   *Comparison:* The visual evidence is a primitive blockout/greybox. It bears zero resemblance to the detailed architectural and ecological requirements of the Universe Slice.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: The cluster of blocks is the only focal point, but it's tiny and lacks detail.
+        *   Balance: Centered, but overwhelmed by negative space.
+        *   Depth: Very poor. Fog is the only depth cue.
+        *   Camera: High angle, wide.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1-3 (Immediate/Local): Non-existent. Just flat planes and blocks.
+        *   Shell 4 (Settlement): Failed. No settlement, just a few blocks.
+        *   Shell 5-7 (Landscape/Sky): Failed. Flat plane, flat sky/fog.
+        *   Shell 8-9: Not evaluable.
+
+    *   **Phase D: Content Inventory**
+        *   Terrain: Flat plane (unfinished).
+        *   Structures: Grey blocks (placeholders).
+        *   Vegetation: None.
+        *   NPCs: None.
+        *   VFX/Weather: Flat fog.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   The blocks are generic rectangles. No "raised timber bins" or "tiled roofs" visible.
+
+    *   P09 (Geology): **FAIL**. Flat plane. No geology.
+    *   P10 (Topology): **FAIL**. No valley/slope/cliff.
+    *   P13 (Material Truth): **FAIL**. Flat grey/green colors. No timber, stone, or tile.
+    *   P14 (Vegetation): **FAIL**. Zero vegetation.
+    *   P15 (Animals): **FAIL**. Zero animals.
+    *   P22 (Economy/Logistics): **FAIL**. No visible storage or transport.
+    *   P23 (Domestic Life): **FAIL**. No signs of life.
+    *   P36 (Physics/Structure): **FAIL**. Blocks are floating or intersecting flatly. No load paths.
+    *   P49 (Cinematography): **FAIL**. No intentional framing; just a wide shot of a void.
+    *   P50 (Lighting): **FAIL**. Flat, ambient lighting. No key/fill/rim.
+    *   P51 (Shader Presentation): **FAIL**. Generic flat shaders.
+    *   P67 (Visual Oracle): **FAIL**. This is explicitly proxy geometry.
+    *   P72 (Completeness): **FAIL**. Not complete at any shell.
+
+    *   *Top Left:* Blue void, flat plane edge.
+    *   *Top Center:* Distant grey blocks, fog.
+    *   *Top Right:* Blue void, flat plane edge.
+    *   *Mid Left:* Flat pale-green plane.
+    *   *Mid Center:* The "granary" blockout.
+    *   *Mid Right:* Flat pale-green plane.
+    *   *Bottom Left:* Large pale-blue block (foreground proxy).
+    *   *Bottom Center:* Flat pale-green plane.
+    *   *Bottom Right:* Blue void, flat plane edge.
+
+    *   *Verdict:* Primitive Placeholder Map / Greybox.
+    *   *Failures:* Everything related to art, density, and material truth.
+    *   *Completeness:* 0%.
+**PERCEPTUAL EVIDENCE EXAMINER — STAGE B: FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**LOCATION:** [SCENE UNIVERSE SLICE: structure.qinghe.granary / Wang Family Bend]
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The eye is drawn to the center only because it is the only area containing geometry. There is no intentional lead-in or focal weight.
+*   **Foreground/Middle/Background:** 
+    *   *Foreground:* A large, featureless pale-blue block (bottom left) acting as a primitive occlusion/anchor.
+    *   *Middle ground:* A cluster of grey rectangular prisms.
+    *   *Background:* A flat, pale-green plane fading into a featureless grey/blue fog.
+*   **Frame Balance:** Poor. The composition is a centered "island" of blocks in a void.
+*   **Negative Space:** Overwhelming. Approximately 95% of the frame is empty, non-informative space.
+*   **Camera/Lens:** High-angle wide shot. Perspective is generic; no cinematic lens language applied.
+*   **Readability:** The scene reads as a **primitive placeholder map**. It does not communicate "granary," "county," or "Xianxia universe."
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** NOT EVALUABLE (No player-scale perspective).
+*   **SHELL 2 (Local Interaction):** FAIL. No props, no detail, no interaction points.
+*   **SHELL 3 (Local Scene):** FAIL. Only basic blockout geometry present.
+*   **SHELL 4 (Settlement):** FAIL. No settlement structure; only a few disconnected blocks.
+*   **SHELL 5 (Landscape):** FAIL. A flat plane. No geology, no topography.
+*   **SHELL 6 (Horizon):** FAIL. Flat horizon line obscured by uniform fog.
+*   **SHELL 7 (Sky):** FAIL. Flat color gradient.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** NOT EVALUABLE.
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Terrain | Full Frame | All | Flat Plane | **Primitive** | None. |
+| Structures | Center | Mid | Grey Blocks | **Placeholder** | None. |
+| Vegetation | N/A | N/A | None | **MISSING** | None. |
+| NPCs/Animals | N/A | N/A | None | **MISSING** | None. |
+| VFX/Weather | Full Frame | All | Flat Fog | **Generic** | None. |
+| Props/Tools | N/A | N/A | None | **MISSING** | None. |
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Focal Subject (Granary):** The "granary" consists of basic cubes and rectangles. 
+*   **Contract Violation:** The Universe Slice requires "Raised timber bins on stone piers, tiled roofs." The visual evidence shows flat-topped grey boxes. There is no silhouette of a roof, no evidence of piers, and no timber/stone distinction.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Result | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | Observed: Flat plane. Missing: Macro/meso/micro structure, soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Valley/slope/cliff; clean structure contact. |
+| **P13** | Material Truth | **FAIL** | Observed: Flat grey/green. Missing: Timber, stone, tile, weathering. |
+| **P14** | Vegetation Ecology | **FAIL** | Observed: Nothing. Missing: All plant life. |
+| **P15** | Animal Ecology | **FAIL** | Observed: Nothing. Missing: All creatures. |
+| **P22** | Economy/Logistics | **FAIL** | Observed: Blocks. Missing: Storage, transport, goods handling. |
+| **P23** | Domestic Life | **FAIL** | Observed: Nothing. Missing: Causal occupation, tools. |
+| **P36** | Structural Physics | **FAIL** | Observed: Intersecting blocks. Missing: Load paths, support logic. |
+| **P49** | Cinematography | **FAIL** | Observed: Generic wide. Missing: Focal hierarchy, lens language. |
+| **P50** | Lighting | **FAIL** | Observed: Flat ambient. Missing: Key/fill/rim, contrast. |
+| **P51** | Shader Presentation | **FAIL** | Observed: Flat colors. Missing: Painterly language, edge language. |
+| **P67** | Visual Oracle | **FAIL** | Observed: Proxy geometry. Missing: Final production assets. |
+| **P72** | Completeness | **FAIL** | Observed: Greybox. Missing: Completeness at every depth shell. |
+
+---
+
+### 6. FORENSIC SWEEP (3x3 TILED)
+*   **Top-Left:** Blue void / Plane edge. (Empty)
+*   **Top-Center:** Distant blockout / Fog. (Primitive)
+*   **Top-Right:** Blue void / Plane edge. (Empty)
+*   **Mid-Left:** Pale-green flat plane. (Empty)
+*   **Mid-Center:** Grey block cluster. (Placeholder)
+*   **Mid-Right:** Pale-green flat plane. (Empty)
+*   **Bottom-Left:** Large pale-blue proxy block. (Primitive)
+*   **Bottom-Center:** Pale-green flat plane. (Empty)
+*   **Bottom-Right:** Blue void / Plane edge. (Empty)
+
+---
+
+### 7. VISION VERDICT
+
+**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP / GREYBOX**
+
+**TOP FAILURES:**
+1.  **Total Absence of Material Truth (P13, P51):** No textures, no shaders, no materials. The scene is composed of raw RGB values.
+2.  **Zero World Density (Phase C):** Every single depth shell from 1 to 7 is either empty or contains a primitive.
+3.  **Architectural Erasure (P36):** The "Granary" is a collection of boxes. It fails to communicate any of the specific architectural requirements of the Universe Slice.
+4.  **Environmental Void (P09, P10, P14):** The world is a flat plane in a blue void. There is no geology or ecology.
+
+**TECHNICAL DEFECTS:**
+*   Flat, non-directional lighting.
+*   Lack of any asset-level detail.
+*   Extreme negative space.
+
+**NOT EVALUABLE:**
+*   P43 (Environment-Aware Motion) - No temporal evidence.
+*   P47 (Secondary Motion) - No temporal evidence.

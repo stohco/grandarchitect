@@ -1,0 +1,205 @@
+# VISION INSPECTION — e2.06
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Objects:* A flat, brown, rectangular plane (shelf/roof), two vertical brown cylinders/rectangles (posts), a horizontal brown block (base/wall), a large off-white/grey wall, a grey base trim, a green floor.
+    *   *Setting:* Indeterminate. Looks like a corner of a room or a small outdoor structure.
+    *   *Scale:* Ambiguous. Could be a dollhouse, a small shed, or a large industrial area.
+    *   *Density:* Extremely low. Only a few primitive shapes.
+    *   *Textures:* Low-resolution, stretched, blurry. The "wood" looks like a generic brown gradient or a very low-res photo. The wall is a flat, slightly mottled grey/white.
+    *   *Lighting:* Flat. No shadows, no ambient occlusion, no specular highlights.
+    *   *Geometry:* Simple boxes and planes. No bevels, no organic shapes.
+    *   *Composition:* A close-up, slightly angled shot of a corner.
+
+    *   *What is it?* A basic 3D scene. A shelf or a lean-to.
+    *   *Player perception:* "This is a placeholder" or "This is a very old game (PS1 era) or a very poor amateur project."
+    *   *Art style:* Low-poly, low-texture.
+    *   *Completion level:* Definitely not finished. It's a blockout or primitive placeholder.
+    *   *Defects:* Texture stretching, lack of lighting, floating/intersecting geometry (the top black bar), lack of detail.
+    *   *Inspection limit:* Immediately. There is nothing to discover upon closer look.
+
+    *   *Setting/Objects:* A small structure consisting of a flat brown overhang, two vertical supports, a low brown wall, and a large greyish-white back wall. The floor is a flat green plane.
+    *   *Player perception:* A rudimentary 3D model of a shelf, a stall, or a shed.
+    *   *Style/Quality:* Low-fidelity. Low-resolution textures with visible stretching. Flat lighting.
+    *   *Completion:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects:*
+        *   Texture stretching on the brown surfaces.
+        *   Lack of any lighting or shadow data.
+        *   Sharp, unrealistic 90-degree edges.
+        *   A floating black strip at the top of the frame.
+        *   Empty, featureless green floor.
+    *   *Inspection limit:* The image stops rewarding inspection at the first glance. There are no micro-details or hidden elements.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+The frame shows a small, rudimentary 3D structure. It consists of a flat brown rectangular plane (overhang), two vertical brown pillars, a low brown horizontal block, and a large, off-white textured wall. The structure sits on a flat green plane with a grey trim border. The scale is ambiguous due to a lack of reference objects. Density is extremely low.
+
+**Player Perception**
+A player would perceive this as a placeholder for a shelf, a market stall, or a basic shed. It reads as a non-interactive environmental asset in a pre-alpha state.
+
+**Art Style and Production Quality**
+Low-fidelity/Primitive. The production quality is minimal. Textures are low-resolution and exhibit significant stretching (particularly on the brown surfaces). Lighting is flat with no shadows, ambient occlusion, or specular highlights.
+
+**Completion Level**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Texture Stretching:** The brown "wood" textures are blurred and stretched across the geometry.
+*   **Lighting:** Total absence of light sources or depth-defining shadows.
+*   **Geometry:** Harsh, unrealistic 90-degree angles with no beveling or wear.
+*   **Floating Elements:** A thin black strip floats at the top of the frame, disconnected from the main structure.
+*   **Empty Zones:** The green floor and grey wall are featureless voids.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There are no fine details, material properties, or hidden elements to discover.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame showing a primitive structure (brown planes/cylinders, grey wall, green floor).
+Stage A (Blind Read) already established this as a primitive placeholder/greybox.
+Grand Architect Vision Inspection Contract.
+Scene Universe Slice (Qinghe Tea House, Wang Family Bend, etc.) and Genesis Pass Manifest (P09, P10, etc.).
+
+    *   *What is it supposed to be?* A tea house (Qinghe Tea House) in a market square edge. Open-front timber, lattice windows, tiled roof, 14m x 16m.
+    *   *What is it actually?* A few brown boxes and a grey wall on a green plane.
+    *   *Discrepancy:* Massive. The "timber" is a blurry brown texture. There are no lattice windows, no tiled roof, no tea tables, no storyteller's dais, no NPCs (Wang Lun), no market bustle.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: None. The eye just wanders over flat surfaces.
+        *   Depth: Minimal. Foreground (green floor), Middle (the structure), Background (grey void/wall).
+        *   Balance: Unbalanced, skewed angle.
+        *   Scale: Unreadable. No human anchor.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): Primitive shapes.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4-7: Non-existent.
+        *   Verdict: Total density failure.
+
+    *   **Phase D: Content Inventory**
+        *   Structure: 1 (primitive).
+        *   Props: 0.
+        *   NPCs: 0.
+        *   Vegetation: 0.
+        *   Terrain: 1 (flat green plane).
+
+    *   **Phase E: Silhouette and Proportion**
+        *   The "building" is a collection of intersecting planes. No architectural logic.
+
+    *   P09 (Geology): FAIL. Flat green plane.
+    *   P10 (Terrain Geometry): FAIL. No contact logic, just a plane.
+    *   P13 (Material Truth): FAIL. Blurry brown/grey noise.
+    *   P14 (Vegetation): FAIL. No plants.
+    *   P15 (Animals): FAIL. No animals.
+    *   P18 (Personhood): FAIL. No NPCs.
+    *   P22 (Economy/Logistics): FAIL. No stock, no carts, no market.
+    *   P23 (Domestic Life): FAIL. No tools, no activity.
+    *   P36 (Physics/Structural): FAIL. Floating/intersecting planes.
+    *   P49 (Cinematography): FAIL. Random angle, no intent.
+    *   P50 (Lighting): FAIL. Flat, no shadows, no contrast.
+    *   P51 (Shader Presentation): FAIL. Generic, low-res.
+    *   P67 (Visual Oracle): FAIL. Pure proxy geometry.
+    *   P72 (Completeness): FAIL. Not a finished asset.
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Material Truth, World Density, Structural Logic.
+    *   *Genesis Pass Coverage:* Almost entirely FAIL.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Qinghe Tea House / Wang Family Bend (Market Square Edge)
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary subject. The eye is drawn to the intersection of the brown plane and the grey wall due to a lack of competing detail.
+*   **Depth Separation:** Minimal. The image consists of three flat planes: a green floor (foreground), a primitive structure (middle ground), and a grey void/wall (background).
+*   **Frame Balance:** Poor. The composition is a skewed, unintentional angle that provides no architectural or cinematic value.
+*   **Scale Communication:** Failed. There are no anchors (NPCs, props, known measurements) to indicate if this is a dollhouse or a warehouse.
+*   **Sightlines:** None. The camera is positioned at a random height with no directed gaze.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Empty.
+*   **SHELL 2 (Local Interaction):** Primitive geometry only.
+*   **SHELL 3 (Local Scene):** Empty.
+*   **SHELL 4 (Settlement):** Non-existent.
+*   **SHELL 5-7 (Landscape/Sky):** Non-existent.
+*   **Verdict:** Total density collapse. The scene is a vacuum.
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Structure | Center | Mid | "Tea House" (Proxy) | **Primitive** | None. |
+| Terrain | Bottom | Fore | Green Plane | **Placeholder** | None. |
+| Wall | Right/Back | Back | Grey Plane | **Placeholder** | None. |
+| Props | N/A | N/A | None | **MISSING** | None. |
+| NPCs | N/A | N/A | None | **MISSING** | None. |
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Architectural Logic:** Failed. The structure consists of intersecting rectangles. There is no evidence of "Open-front timber," "lattice windows," or "tiled roofs" as required by the Scene Universe Slice.
+*   **Proportion:** Indeterminate. The relationship between the vertical posts and the horizontal planes does not suggest a functional building.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Result | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | Flat green plane; no geology, soil, or rock. |
+| **P10** | Terrain Geometry | **FAIL** | No topology; structure sits on a mathematical plane. |
+| **P13** | Material Truth | **FAIL** | Blurry brown/grey noise; no weathering, grain, or age. |
+| **P14** | Vegetation | **FAIL** | Total absence of plant life. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of fauna. |
+| **P18** | Individual Personhood| **FAIL** | No NPCs present. |
+| **P22** | Economy/Logistics | **FAIL** | No market goods, stalls, or transport. |
+| **P23** | Domestic Life | **FAIL** | No tools, tea sets, or activity. |
+| **P36** | Structural Physics | **FAIL** | Intersecting planes; no load paths or support logic. |
+| **P49** | Cinematography | **FAIL** | No focal hierarchy or lens intent. |
+| **P50** | Lighting | **FAIL** | Flat, ambient lighting; no shadows or contrast. |
+| **P51** | Shader Presentation | **FAIL** | Generic, low-resolution textures; no painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry; blatant Art Bible violation. |
+| **P72** | Completeness | **FAIL** | Not a production candidate; primitive blockout. |
+
+---
+
+### 6. FINAL VISION VERDICT
+
+**OVERALL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+
+**TOP FAILURES:**
+1.  **Total Asset Absence:** The "Qinghe Tea House" is represented by five primitive shapes. None of the required architectural elements (lattice, tile, timber) exist.
+2.  **Material Bankruptcy:** Textures are low-resolution, stretched, and lack any physical properties (P13, P51).
+3.  **Zero World Density:** The scene is devoid of all life, props, and environmental detail (Shells 1-7).
+
+**TECHNICAL DEFECTS:**
+*   **Texture Resolution:** Sub-standard; blurry.
+*   **Lighting:** Flat; no depth or mood.
+*   **Geometry:** Primitive intersections; no bevels or architectural detail.
+
+**NOT EVALUABLE:**
+*   P43 (Environment-Aware Motion)
+*   P47 (Secondary Motion)
+*   P60 (Streaming/LOD)
+
+**NEXT INSPECTION:**
+Requires a complete replacement of all proxy geometry with production-ready assets and a full population of the scene according to the Scene Universe Slice.
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
+
+**NO.** This is a greybox/blockout. It contains zero production-level evidence.

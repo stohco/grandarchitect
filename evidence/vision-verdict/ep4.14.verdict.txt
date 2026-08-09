@@ -1,0 +1,214 @@
+# VISION INSPECTION — ep4.14
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   The image is almost entirely a flat, light-blue/grey color.
+    *   There are a few dark blue polygonal shapes at the top and right edges.
+    *   No textures, no lighting gradients, no depth cues, no recognizable objects.
+    *   It looks like a zoomed-in crop of a very simple vector graphic or a primitive 3D render with flat shading.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+The frame consists of a flat, light-blue/grey field occupying approximately 95% of the image. There are three dark-blue polygonal fragments located at the top-left, top-center, and far-right edges. There are no objects, no discernible scale, and zero density.
+
+**Player Perception**
+A player would perceive this as a technical error, a failed texture load, or a camera positioned inside a primitive wall/ceiling. There is no visual information to suggest a gameplay environment.
+
+**Art Style and Production Quality**
+Flat-shaded, monochromatic polygons. Production quality is non-existent; it lacks lighting, texture, depth, or composition.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Empty Zones**
+The entire frame is an empty zone. The lack of any visual anchor or detail is a total defect.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There is no detail to discover at any zoom level.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single image consisting of a light-blue/grey field with a few dark blue polygonal fragments at the edges.
+A detailed "Scene Universe Slice" describing a "Cultivator's abandoned cache" (carved chamber, rock, spirit stone dust, Xu Erniu unconscious, maintenance formation, etc.) and a "Genesis Pass Manifest" (P09, P10, P27, etc.) detailing visual obligations for geology, materials, xianxia laws, etc.
+Perform Phases B-X, evaluate Genesis Passes, conduct a forensic sweep, and provide a final Vision Verdict.
+
+    *   *Visual Evidence:* A flat, light-blue/grey screen. Some dark blue shapes at the top and right. No textures. No characters. No environment. No lighting.
+    *   *Intended Content (Universe Slice):* A carved rock chamber, a trapped boy (Xu Erniu), spirit stone dust, formation nodes, etc.
+    *   *Discrepancy:* Total. The image contains 0% of the intended content.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal hierarchy: None.
+        *   Foreground/Middle/Background: None.
+        *   Balance: Unbalanced/Empty.
+        *   Readability: Non-existent.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): Empty.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4-9: Empty.
+        *   Verdict: Total void.
+
+    *   **Phase D: Content Inventory**
+        *   Characters: 0.
+        *   Structures: 0.
+        *   Props: 0.
+        *   VFX: 0.
+        *   Terrain: 0.
+        *   Result: Empty.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Not evaluable (no subjects).
+
+    *   **Genesis Pass Evaluation (The "Meat" of the failure):**
+        *   P09 (Geology): FAIL. No geology.
+        *   P10 (Terrain): FAIL. No terrain.
+        *   P27 (World Laws): FAIL. No supernatural results.
+        *   P14 (Vegetation): FAIL. No plants.
+        *   P15 (Animals): FAIL. No beasts.
+        *   P13 (Material Truth): FAIL. Flat color.
+        *   P51 (Shader Presentation): FAIL. Flat color.
+        *   P36 (Physics): FAIL. No structures.
+        *   P29 (Formations): FAIL. No nodes.
+        *   P25 (Qi Ecology): FAIL. No phenomena.
+        *   P18 (Personhood): FAIL. No NPCs.
+        *   P23 (Domestic Life): FAIL. No life.
+        *   P22 (Economy): FAIL. No logistics.
+        *   P43/P47 (Motion): NOT_EVALUABLE (still frame).
+        *   P33 (Affordance): FAIL. Nothing usable.
+        *   P78 (Concealment): FAIL. No mist/wards.
+        *   P07 (Hierarchy): FAIL. No primary read.
+        *   P08 (Forbidden): PASS (nothing is there to be forbidden).
+        *   P49 (Cinematography): FAIL. No composition.
+        *   P50 (Lighting): FAIL. Flat.
+        *   P67 (Visual Oracle): FAIL. Proxy/Empty.
+        *   P72 (Completeness): FAIL. Total absence.
+        *   P61 (Renderer): FAIL (or NOT_EVALUABLE, but essentially a failure of output).
+        *   P60 (Streaming): FAIL.
+
+    *   *Vision Verdict:* Total failure. The image is a blank/primitive state.
+    *   *Top Failures:* Absence of all intended assets.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Total lack of rendering/asset population.
+
+    *   Ensure the tone is "brutally accurate."
+    *   No praise.
+    *   Strict adherence to the contract format.
+**PERCEPTUAL EVIDENCE REPORT: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**INTENDED LOCATION:** Cultivator's abandoned cache (room.cache.chamber)
+**INTENDED SUBJECT:** Xu Erniu (unconscious), maintenance formation, carved rock chamber.
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary, secondary, or tertiary read.
+*   **Depth Layers:** No foreground, middle ground, or background. The image is a flat plane of color.
+*   **Frame Balance:** Void. The image is dominated by a single light-blue/grey value.
+*   **Negative Space:** 100% of the frame is negative space.
+*   **Camera/Lens:** No perspective, no lens impression, no camera height.
+*   **Readability:** The intended composition (a carved chamber with a trapped boy) is **completely unreadable**.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** EMPTY.
+*   **SHELL 2 (Local Interaction):** EMPTY.
+*   **SHELL 3 (Local Scene):** EMPTY.
+*   **SHELL 4 (Settlement):** EMPTY.
+*   **SHELL 5 (Landscape):** EMPTY.
+*   **SHELL 6 (Far Region):** EMPTY.
+*   **SHELL 7 (Sky/Atmosphere):** EMPTY.
+*   **SHELL 8 (Subsurface):** EMPTY.
+*   **SHELL 9 (Metaphysical):** EMPTY.
+*   **Density Verdict:** Total vacuum. There is zero world density.
+
+### 3. PHASE D: CONTENT INVENTORY
+*   **Characters:** 0 (Expected: Xu Erniu) — **MISSING**
+*   **Structures:** 0 (Expected: Carved chamber) — **MISSING**
+*   **Props:** 0 (Expected: Dust-covered shelves) — **MISSING**
+*   **VFX/Formations:** 0 (Expected: Maintenance formation nodes) — **MISSING**
+*   **Terrain/Materials:** 0 (Expected: Rock, spirit stone dust) — **MISSING**
+*   **Inventory Result:** The frame contains no materially significant content.
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **NOT EVALUABLE.** No entities or structures present to analyze.
+
+---
+
+### 5. GENESIS PASS COVERAGE
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology; flat color field. |
+| **P10** | Terrain Geometry | **FAIL** | No geometry; no contact points. |
+| **P27** | Realm/World Laws | **FAIL** | No supernatural results visible. |
+| **P14** | Vegetation | **FAIL** | No vegetation. |
+| **P15** | Animal Ecology | **FAIL** | No creatures. |
+| **P13** | Material Truth | **FAIL** | No materials; flat procedural color. |
+| **P51** | Shader Presentation | **FAIL** | No painterly language; flat fill. |
+| **P36** | Physics/Structure | **FAIL** | No structures; no load paths. |
+| **P29** | Formations | **FAIL** | No nodes; no grammar; no glow. |
+| **P25** | Qi Ecology | **FAIL** | No qi phenomena. |
+| **P18** | Individual Personhood | **FAIL** | No NPCs. |
+| **P23** | Domestic Life | **FAIL** | No causal occupation. |
+| **P22** | Economy/Logistics | **FAIL** | No storage or goods. |
+| **P43** | Env-Aware Motion | **N/A** | Still frame. |
+| **P47** | Secondary Motion | **N/A** | Still frame. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing is legible as usable. |
+| **P78** | Concealment | **FAIL** | No mist, wards, or folded space. |
+| **P07** | Perceptual Hierarchy | **FAIL** | No intended primary read. |
+| **P08** | Forbidden Interp. | **PASS** | No forbidden motifs present (due to absence of all motifs). |
+| **P49** | Cinematography | **FAIL** | No composition or framing. |
+| **P50** | Lighting | **FAIL** | Flat lighting; no contrast or key/fill. |
+| **P67** | Visual Oracle | **FAIL** | Frame is a primitive placeholder/void. |
+| **P72** | Completeness Gate | **FAIL** | Total absence of mandatory visual blockers. |
+| **P61** | Renderer/GPU | **FAIL** | No rendered scene to evaluate. |
+| **P60** | Streaming/Partition | **FAIL** | No geometry to stream. |
+
+---
+
+### 6. FORENSIC SWEEP (3x3 Tiled)
+*   **Top-Left:** Dark blue polygonal fragment. No texture.
+*   **Top-Center:** Dark blue polygonal fragment. No texture.
+*   **Top-Right:** Dark blue polygonal fragment. No texture.
+*   **Mid-Left:** Flat light-blue/grey.
+*   **Center:** Flat light-blue/grey.
+*   **Mid-Right:** Dark blue polygonal fragment. No texture.
+*   **Bottom-Left:** Flat light-blue/grey.
+*   **Bottom-Center:** Flat light-blue/grey.
+*   **Bottom-Right:** Flat light-blue/grey.
+
+---
+
+### 7. FINAL VISION VERDICT
+
+**VISION VERDICT: TOTAL SYSTEM FAILURE**
+
+**TOP FAILURES:**
+1.  **Absolute Content Absence:** 0% of the Scene Universe Slice is present. The "carved chamber," "Xu Erniu," and "maintenance formation" are entirely missing.
+2.  **Production State:** This is not a "stylized prototype" or "greybox"; it is a primitive color-fill or a failed render.
+3.  **Material Void:** No materials, lighting, or geometry exist to satisfy any physical or xianxia-specific Genesis Pass.
+
+**WORLD DENSITY:** 0/10 (Vacuum)
+**TECHNICAL DEFECTS:** Total failure of asset population and rendering.
+**NOT EVALUABLE:** All motion and personhood passes.
+
+**NEXT INSPECTION:** Immediate return to Genesis Pass P09 (Geology) and P10 (Terrain). The scene must be populated before any cinematic or xianxia-specific passes can be evaluated.
+
+---
+
+### 8. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready visual for Grand Architect?**
+
+**NO.**

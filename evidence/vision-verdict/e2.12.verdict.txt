@@ -1,0 +1,224 @@
+# VISION INSPECTION — e2.12
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Setting:* A flat, green plane (ground) under a light blue sky.
+    *   *Objects:*
+        *   A large, brown, textured rectangular block (tower/wall).
+        *   A smaller, wooden-textured structure attached to the base (shed/room).
+        *   A grey base/foundation strip.
+        *   Two small, light-colored rectangular objects inside the shed (lamps/blocks).
+        *   A white/grey pyramid-like shape in the far left background.
+        *   Another white/grey slope in the far right background.
+    *   *Scale:* Ambiguous. The "lamps" suggest a human scale, but the massive brown block suggests something architectural or abstract.
+    *   *Density:* Extremely low. Only a few primitive shapes in a void.
+    *   *Art Style:* Low-poly, low-resolution textures. Looks like early 2000s 3D or a basic game engine test.
+    *   *Production Quality:* Very low. Textures are stretched or tiled poorly. Lighting is basic. No anti-aliasing.
+    *   *Completion Level:* Definitely not finished. It's a collection of blocks. "BLOCKOUT" or "PRIMITIVE_PLACEHOLDER".
+    *   *Defects:*
+        *   Texture tiling/stretching on the large brown block.
+        *   Floating/clipping edges where the roof meets the wall.
+        *   Lack of environmental detail (no grass, no horizon line, just a flat plane).
+        *   Lack of depth/detail in the "interior."
+    *   *Reward for inspection:* Zero. There is no detail to discover. Once you see the block, there is nothing else to see.
+
+    *   *What does it show?* A flat green field with a large brown textured cube and a smaller wooden structure. A white pyramid is in the distance.
+    *   *Player perception?* A test level, a "greybox" (though colored), or a very early alpha of a low-budget indie game.
+    *   *Style/Quality?* Low-fidelity, primitive 3D.
+    *   *Completion?* BLOCKOUT.
+    *   *Defects?* Tiling textures, flat lighting, empty void, lack of geometry.
+    *   *Inspection limit?* Immediate. The textures are low-res; there is no micro-detail.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A flat, featureless green plane under a solid light-blue sky.
+*   **Objects:** A massive, vertically oriented rectangular prism with a brown tiled texture. Attached to its base is a smaller, open-fronted wooden structure with a flat roof and a grey foundation strip. Inside the structure are two small, pale rectangular blocks. In the far background, there are two white/grey geometric slopes (one resembling a pyramid).
+*   **Scale:** Ambiguous. The interior blocks suggest a human-scale room, but the primary brown mass is disproportionately large.
+*   **Density:** Extremely low. Only five distinct geometric clusters in a void.
+
+**Player Perception**
+A player would perceive this as a technical test scene, a "greybox" layout using basic textures, or a very early alpha build of a low-budget project. It looks like a "test map" used to check collision or basic lighting.
+
+**Art Style and Production Quality**
+*   **Style:** Low-fidelity, primitive 3D.
+*   **Quality:** Very low. Textures are low-resolution and exhibit obvious tiling patterns. There is no anti-aliasing on the edges of the geometry. Lighting is flat and basic.
+
+**Level of Completion**
+**BLOCKOUT**
+
+**Defects and Distractions**
+*   **Texture Tiling:** The large brown wall has a repetitive, distracting pattern that betrays a lack of unique mapping.
+*   **Geometry Gaps:** The roof of the wooden structure does not seamlessly integrate with the main brown mass.
+*   **Environmental Void:** The ground is a single-color plane with no variation, noise, or horizon detail.
+*   **Empty Zones:** The entire periphery of the frame is dead space.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no fine details, no weathered edges, and no complex materials. Once the basic shapes are identified, there is nothing further to observe.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame showing a primitive scene (green plane, brown blocks, blue sky).
+Stage A (Blind Read) provided.
+Scene Universe Slice (Qinghe Inn, Wang Family Bend, Cangwu Sect, etc.), Genesis Pass Manifest (P09, P10, P27, etc.).
+Perform Phases B-X, evaluate Genesis Passes, conduct a forensic sweep, and provide a final Vision Verdict.
+
+    *   *Visuals:* A flat green plane. A massive brown textured cube. A smaller wooden-textured box attached to it. A grey strip at the bottom. A few internal blocks. A white pyramid in the distance.
+    *   *Universe Slice:* This is supposed to be the "Qinghe Inn" in "Wang Family Bend." It should be a two-storey timber frame building with an overhanging upper storey, courtyard stables, and a common room with long tables and a stove.
+    *   *Comparison:* The visual evidence is a primitive blockout. There is zero evidence of "timber frame," "overhanging storeys," "stables," "long tables," or "stoves." It is a collection of cubes.
+
+    *   **Phase B: Full-Frame Composition**
+        *   *Focal Hierarchy:* The massive brown block dominates. The "inn" is a small appendage.
+        *   *Balance:* Heavily weighted to the center/right.
+        *   *Depth:* Very poor. Flat ground, a few blocks, distant pyramids. No layering.
+        *   *Camera:* Low angle, looking up at a block.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty green plane.
+        *   Shell 2 (Local): Primitive blocks.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4 (Settlement): Non-existent.
+        *   Shell 5 (Landscape): Flat plane.
+        *   Shell 6 (Horizon): Primitive pyramids.
+        *   Shell 7 (Sky): Flat blue.
+        *   *Verdict:* Total density failure.
+
+    *   **Phase D: Content Inventory**
+        *   Terrain: Flat green plane (Placeholder).
+        *   Structures: Brown block (Placeholder), Wooden box (Placeholder), Grey strip (Placeholder).
+        *   Props: Two small blocks inside (Placeholder).
+        *   Background: Two white pyramids (Placeholder).
+        *   *World Info:* Zero.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   The "building" is a rectangle. The "tower" is a rectangle. No architectural language.
+
+    *   *P09 (Geology):* FAIL. Flat green plane.
+    *   *P10 (Topology):* FAIL. No valley/slope; geometry is just sitting on a plane.
+    *   *P13 (Material Truth):* FAIL. Flat textures, no weathering, no contact wear.
+    *   *P14 (Vegetation):* FAIL. Uniform green paint.
+    *   *P23 (Domestic Life):* FAIL. No cooking, no tools, no life.
+    *   *P36 (Physics/Structure):* FAIL. No load paths; just intersecting cubes.
+    *   *P49 (Cinematography):* FAIL. No intentional framing.
+    *   *P50 (Lighting):* FAIL. Flat, generic lighting.
+    *   *P51 (Shader Presentation):* FAIL. Generic textures.
+    *   *P67 (Visual Oracle):* FAIL. This is pure proxy geometry.
+    *   *P72 (Completeness):* FAIL. Not a finished world.
+
+    *   Top-left: Blue sky, white pyramid edge.
+    *   Top-center: Massive brown texture.
+    *   Top-right: Brown texture, blue sky.
+    *   Mid-left: Wooden roof edge, green ground.
+    *   Mid-center: Interior of the "inn" (empty).
+    *   Mid-right: Wooden wall, brown block.
+    *   Bottom-left: Green ground, grey base.
+    *   Bottom-center: Grey base, green ground.
+    *   Bottom-right: Green ground, grey base.
+
+    *   *Vision Verdict:* PRIMITIVE BLOCKOUT / PROTOTYPE.
+    *   *Top Failures:* Total absence of architectural detail, zero world density, placeholder materials.
+    *   *Completeness:* 0%.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE UNIVERSE SLICE:** `structure.qinghe.inn` | `location.wang_family_bend`
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary read is a massive, featureless brown rectangular volume. The secondary read is a smaller, primitive wooden box attached to its base. There is no intentional focal point.
+*   **Depth Separation:** Non-existent. The scene consists of a flat plane (foreground/middle ground) and a few intersecting cubes. The distant pyramids provide a minimal sense of scale but no atmospheric depth.
+*   **Frame Balance:** Heavily weighted to the center-right. The left side is an empty green void.
+*   **Camera/Lens:** Static, low-angle perspective. No cinematic intent; reads as a developer's "fly-through" or "test-place" camera.
+*   **Sightlines:** There are no sightlines. The eye is drawn to the intersection of the brown block and the wooden box, which is a hard, un-beveled 90-degree angle.
+
+### 2. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Empty. Flat green texture.
+*   **SHELL 2 (Local Interaction):** Primitive. A grey strip and a wooden box. No interactive elements.
+*   **SHELL 3 (Local Scene):** Empty. No set dressing, no debris, no paths.
+*   **SHELL 4 (Settlement):** Non-existent. The "Inn" is a single box in a void.
+*   **SHELL 5 (Landscape):** Primitive. A flat plane.
+*   **SHELL 6 (Horizon):** Placeholder. Two white geometric pyramids.
+*   **SHELL 7 (Sky):** Flat blue. No clouds, no atmosphere, no celestial bodies.
+*   **DENSITY VERDICT:** **TOTAL VACUUM.** The scene fails every density shell.
+
+### 3. PHASE D — CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Terrain | Bottom/Mid | FG/MG | Green Plane | **PLACEHOLDER** | None. |
+| Structure | Center | MG | Brown Block | **PROXY** | None. |
+| Structure | Center | MG | Wooden Box | **PROXY** | None. |
+| Foundation | Bottom | FG | Grey Strip | **PROXY** | None. |
+| Props | Interior | MG | Small Cubes | **PROXY** | None. |
+| Landmarks | Far Left/Right| BG | White Pyramids| **PROXY** | None. |
+| Sky | Top | BG | Blue Fill | **PLACEHOLDER**| None. |
+
+### 4. PHASE E — SILHOUETTE AND PROPORTION
+*   **Silhouette:** The scene is a collection of rectangles. There is no architectural silhouette, no "overhanging upper storey," and no "timber frame" as required by the Universe Slice.
+*   **Proportion:** The brown block is disproportionately massive compared to the "inn" structure, creating a nonsensical scale relationship.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Result | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | Observed: Flat green plane. Missing: Macro/meso/micro structure, soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Valley/slope/cliff; clean structure contact. |
+| **P13** | Material Truth | **FAIL** | Observed: Flat tiling textures. Missing: Weathering, contact wear, age. |
+| **P14** | Vegetation Ecology | **FAIL** | Observed: Uniform green paint. Missing: Species variation, riparian edges. |
+| **P23** | Domestic Life | **FAIL** | Observed: Empty box. Missing: Cooking, laundry, tools, causal occupation. |
+| **P36** | Structural Physics | **FAIL** | Observed: Intersecting cubes. Missing: Load paths, support logic, debris. |
+| **P49** | Cinematography | **FAIL** | Observed: Default camera. Missing: Focal hierarchy, framing, lens language. |
+| **P50** | Lighting | **FAIL** | Observed: Flat, global illumination. Missing: Warm/cool contrast, key/fill/rim. |
+| **P51** | Shader Presentation| **FAIL** | Observed: Generic textures. Missing: Painterly language, edge language. |
+| **P67** | Visual Oracle | **FAIL** | Observed: Pure proxy geometry. Missing: Final production assets. |
+| **P72** | Completeness | **FAIL** | Observed: Blockout. Missing: Everything required for a "finished world." |
+
+---
+
+### 6. FORENSIC SWEEP (3x3 TILE)
+*   **Top-Left:** Flat blue sky, edge of a white primitive pyramid. **(PROXY)**
+*   **Top-Center:** Large-scale brown texture, no detail, no weathering. **(PROXY)**
+*   **Top-Right:** Flat blue sky, brown block edge. **(PROXY)**
+*   **Mid-Left:** Wooden texture roof, flat green ground. **(PROXY)**
+*   **Mid-Center:** Interior of the "inn"; two small blocks on a flat floor. **(PROXY)**
+*   **Mid-Right:** Wooden wall, brown block intersection. **(PROXY)**
+*   **Bottom-Left:** Flat green ground, grey foundation strip. **(PROXY)**
+*   **Bottom-Center:** Grey foundation strip, flat green ground. **(PROXY)**
+*   **Bottom-Right:** Flat green ground, grey foundation strip. **(PROXY)**
+
+---
+
+### 7. VISION VERDICT
+
+**CLASSIFICATION:** **PRIMITIVE BLOCKOUT / PROTOTYPE**
+
+**TOP FAILURES:**
+1.  **Total Asset Absence:** The "Qinghe Inn" (Timber frame, overhanging storey, stables) is represented by two intersecting boxes.
+2.  **Zero World Density:** The environment is a void. No vegetation, no roads, no NPCs, no life.
+3.  **Material Failure:** Textures are flat, repeating, and lack any "Material Truth" (P13).
+4.  **Geological Failure:** The world is a flat plane, violating all planetary geography requirements (P09).
+
+**TECHNICAL DEFECTS:**
+*   Hard-edge intersections (no bevels/blending).
+*   Flat, non-directional lighting.
+*   Lack of any atmospheric perspective or fog.
+
+**NOT EVALUABLE:**
+*   P43 (Environment-Aware Motion) - No actors present.
+*   P47 (Secondary Motion) - No cloth/hair present.
+
+**NEXT INSPECTION:**
+Requires a complete replacement of all proxy geometry with production

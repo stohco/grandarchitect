@@ -1,0 +1,225 @@
+# VISION INSPECTION — e2.14
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Colors:* Light blue/grey shapes on a dark blue background.
+    *   *Shapes:* Large, flat, polygonal planes. Some are rectangular/diamond-shaped, some are irregular.
+    *   *Composition:* A large central light-colored plane dominates the view. Smaller light-colored planes are scattered around the edges.
+    *   *Detail:* There is a very faint, almost invisible, cluster of small white/light-grey shapes in the center of the main plane. They look like tiny cubes or primitive blocks.
+    *   *Lighting/Shading:* Flat shading. No textures. No complex lighting. No shadows.
+    *   *Perspective:* Top-down or high-angle isometric-style view.
+
+    *   *Setting/Objects:* A collection of flat, light-blue polygons floating in a dark blue void. There is a tiny cluster of primitive blocks in the center.
+    *   *Scale:* Indeterminate. Could be microscopic or galactic.
+    *   *Density:* Extremely low. Mostly empty space.
+    *   *Player Perception:* A technical test, a broken level, or a very early prototype. It looks like a "void" map.
+    *   *Art Style:* Minimalist/Primitive. No textures, no materials.
+    *   *Production Quality:* Extremely low.
+    *   *Completion Level:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects:* Lack of visual information. The central objects are so faint they are nearly invisible against the background plane. No contrast.
+    *   *Reward for Inspection:* Stops immediately. There is nothing to discover beyond the fact that there are some tiny blocks in the middle.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+- **Setting:** A dark blue void containing several large, flat, light-blue polygonal planes.
+- **Objects:** A central large diamond-shaped plane and several peripheral irregular polygons. In the center of the main plane is a cluster of tiny, low-contrast white/light-grey primitive blocks.
+- **Scale:** Indeterminate. Lack of reference objects makes it impossible to distinguish between a microscopic view or a cosmic view.
+- **Density:** Extremely low. The frame is dominated by empty space and flat surfaces.
+
+**Player Perception**
+A player would perceive this as a technical error, a "void" map, or a developer's test scene. There is no legible environmental storytelling or gameplay affordance.
+
+**Art Style and Production Quality**
+- **Style:** Primitive/Minimalist.
+- **Quality:** Extremely low. No textures, no materials, no lighting effects, and no shadows. The rendering is flat.
+
+**Completion Level**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+- **Contrast Failure:** The central objects are nearly invisible, blending into the light-blue plane.
+- **Visual Vacuity:** Total absence of detail, grit, or variation.
+- **Empty Zones:** Approximately 95% of the frame provides zero visual information.
+
+**Inspection Limit**
+Inspection stops rewarding immediately. Once the viewer identifies the flat planes and the faint central cluster, there is no further detail to uncover.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame (light blue/grey polygonal planes on a dark blue background).
+Stage A (Blind Read) provided.
+Scene Universe Slice (Cangwu Sect, Yamen Hall, etc.), Genesis Pass Manifest (P09, P10, etc.).
+Perform Phases B-X, evaluate Genesis Passes, conduct a 3x3 forensic sweep, and provide the final Vision Verdict.
+
+    *   *Visuals:* Flat, light-blue/grey polygons. Dark blue background. A tiny cluster of white/grey blocks in the center.
+    *   *Context (Universe Slice):* This is supposed to be the "Qinghe Yamen" (County law hall) in the "Cangwu Sect" region. It should have timber frames, whitewashed walls, dark tiled roofs, and a magistrate's dais.
+    *   *Contrast:* The visual evidence is a primitive blockout/greybox. The intended content is a detailed architectural interior/exterior. There is a total disconnect.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: The central large plane is the primary read. The tiny white cluster is a secondary read (barely visible).
+        *   Foreground/Mid/Back: No depth. It's a flat arrangement of planes.
+        *   Balance: Centered, but devoid of meaning.
+        *   Camera: High-angle/top-down.
+        *   Readability: Not readable as a "Yamen Hall." Readable as a primitive test scene.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): Empty.
+        *   Shell 3 (Scene): Primitive polygons.
+        *   Shell 4-7: Non-existent.
+        *   Verdict: Total density failure.
+
+    *   **Phase D: Content Inventory**
+        *   Characters: None.
+        *   Structures: None (only primitive planes).
+        *   Vegetation: None.
+        *   Props: None.
+        *   VFX: None.
+        *   Inventory: 1 large central plane, ~5 peripheral planes, 1 cluster of tiny cubes.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   No focal assets to evaluate.
+
+    *   **Phase F: Genesis Pass Evaluation (The "Meat" of the failure)**
+        *   P09 (Geology): FAIL. No geology.
+        *   P10 (Terrain): FAIL. No terrain.
+        *   P13 (Material Truth): FAIL. Flat colors, no materials.
+        *   P14 (Vegetation): FAIL. None.
+        *   P15 (Animals): FAIL. None.
+        *   P18 (Personhood): FAIL. None.
+        *   P22 (Economy): FAIL. None.
+        *   P23 (Domestic Life): FAIL. None.
+        *   P25 (Qi Ecology): FAIL. No qi phenomena.
+        *   P27 (World Laws): FAIL. No supernatural results.
+        *   P29 (Formations): FAIL. No formation nodes.
+        *   P33 (Affordance): FAIL. Nothing usable.
+        *   P36 (Physics): FAIL. No load paths.
+        *   P43/47 (Motion): NOT_EVALUABLE (Still frame).
+        *   P49 (Cinematography): FAIL. No directed composition.
+        *   P50 (Lighting): FAIL. Flat shading.
+        *   P51 (Shader Presentation): FAIL. Generic flat colors.
+        *   P60/61 (Engine): PASS (No z-fighting visible, but trivial due to simplicity).
+        *   P67 (Visual Oracle): FAIL. Proxy geometry is the *only* geometry.
+        *   P72 (Completeness): FAIL. Total failure.
+
+    *   *Top-Left:* Light blue plane.
+    *   *Top-Center:* Dark blue void.
+    *   *Top-Right:* Light blue plane.
+    *   *Mid-Left:* Dark blue void.
+    *   *Center:* Large light blue plane with tiny white block cluster.
+    *   *Mid-Right:* Light blue plane.
+    *   *Bottom-Left:* Light blue plane.
+    *   *Bottom-Center:* Light blue plane.
+    *   *Bottom-Right:* Light blue plane.
+    *   *Observation:* No detail, no texture, no intent.
+
+    *   *Vision Verdict:* PRIMITIVE PLACEHOLDER / GREYBOX.
+    *   *Top Failures:* Total absence of architectural assets, materials, and world density.
+    *   *Completeness:* 0%.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**INTENDED LOCATION:** Qinghe Yamen (County Law Hall), Cangwu Sect.
+**INTENDED CONTENT:** Timber frames, whitewashed walls, dark tiled roofs, magistrate's dais, county seal, tax rolls.
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** 
+    *   **Primary Read:** A large, light-blue/grey diagonal plane dominating the center.
+    *   **Secondary Read:** Peripheral light-blue/grey polygonal shapes.
+    *   **Tertiary Read:** A nearly invisible cluster of white/grey primitive blocks in the center of the primary plane.
+*   **Depth Separation:** Non-existent. The image reads as a flat arrangement of overlapping 2D planes or untextured 3D primitives. There is no foreground, middle ground, or background.
+*   **Frame Balance:** Centrally weighted but devoid of compositional intent.
+*   **Camera/Lens:** High-angle/top-down perspective. No lens distortion or cinematic language present.
+*   **Readability:** The intended "Yamen Hall" is **completely unreadable**. The scene reads as a primitive engine test or a blockout of a layout.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** EMPTY.
+*   **SHELL 2 (Local Interaction):** EMPTY.
+*   **SHELL 3 (Local Scene):** PRIMITIVE. Only basic polygonal planes.
+*   **SHELL 4 (Settlement):** EMPTY.
+*   **SHELL 5 (Landscape):** EMPTY.
+*   **SHELL 6 (Horizon):** EMPTY.
+*   **SHELL 7 (Sky):** EMPTY (represented by a flat dark blue background).
+*   **SHELL 8/9 (Subsurface/Metaphysical):** EMPTY.
+*   **Density Verdict:** Total vacuum. There is zero world density.
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Structure | Center | Mid | Primitive Plane | Placeholder | None |
+| Structure | Periphery | Mid | Primitive Planes | Placeholder | None |
+| Props | Center | Mid | Tiny White Blocks | Placeholder | None |
+| Terrain | Background | Back | Flat Blue Color | Placeholder | None |
+
+**Inventory Summary:** The scene contains zero finished assets. No timber, no plaster, no tile, no lacquer, no NPCs, and no furniture.
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Focal Assets:** None.
+*   **Proportion:** The scale of the central "block" relative to the planes is indeterminate due to the lack of any human-scale anchors (doors, chairs, characters).
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST EVALUATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology; flat blue void. |
+| **P10** | Terrain Geometry | **FAIL** | No terrain; no contact between structures and ground. |
+| **P13** | Material Truth | **FAIL** | No materials; flat RGB colors only. |
+| **P14** | Vegetation | **FAIL** | Total absence of flora. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of fauna. |
+| **P18** | Individual Personhood | **FAIL** | No NPCs present. |
+| **P22** | Economy/Logistics | **FAIL** | No markets, stalls, or goods. |
+| **P23** | Domestic Life | **FAIL** | No signs of occupation or work. |
+| **P25** | Qi Ecology | **FAIL** | No qi phenomena or spirit veins. |
+| **P27** | Realm/World Laws | **FAIL** | No supernatural visual evidence. |
+| **P29** | Formations | **FAIL** | No formation nodes or glyphs. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing reads as usable or walkable. |
+| **P36** | Physics/Structure | **FAIL** | No load paths; geometry is floating/flat. |
+| **P43** | Env-Aware Motion | **N/E** | Still frame. |
+| **P47** | Secondary Motion | **N/E** | Still frame. |
+| **P49** | Cinematography | **FAIL** | No directed composition or lens language. |
+| **P50** | Lighting | **FAIL** | Flat shading; no key/fill/rim or contrast. |
+| **P51** | Shader Presentation | **FAIL** | Generic flat colors; no painterly language. |
+| **P60** | Streaming/Partition | **PASS** | No visible LOD pop (trivial). |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or moire visible (trivial). |
+| **P67** | Visual Oracle | **FAIL** | Scene is 100% proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Total failure at every depth shell. |
+
+---
+
+### 6. 3x3 FORENSIC SWEEP
+*   **Top-Left:** Flat light-blue polygon. No detail.
+*   **Top-Center:** Flat dark-blue void. No detail.
+*   **Top-Right:** Flat light-blue polygon. No detail.
+*   **Mid-Left:** Flat dark-blue void. No detail.
+*   **Center:** Large light-blue plane; tiny white primitive cluster. No detail.
+*   **Mid-Right:** Flat light-blue polygon. No detail.
+*   **Bottom-Left:** Flat light-blue polygon. No detail.
+*   **Bottom-Center:** Flat light-blue polygon. No detail.
+*   **Bottom-Right:** Flat light-blue polygon. No detail.
+
+---
+
+### 7. FINAL VISION VERDICT
+
+**VISION VERDICT: PRIMITIVE PLACEHOLDER / GREYBOX**
+
+**TOP FAILURES:**
+1.  **Total Asset Absence:** Zero implementation of the Scene Universe Slice. The "Yamen Hall" does not exist visually.
+2.  **Material Vacuum:** Complete failure of P13 and P51. No textures, shaders, or material definitions.
+3.  **Zero World Density:** Total failure of all Shells (1-9). The scene is a void containing a few polygons.
+

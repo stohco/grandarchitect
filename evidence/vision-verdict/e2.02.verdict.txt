@@ -1,0 +1,200 @@
+# VISION INSPECTION — e2.02
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories provided).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Foreground:* A wide, tan/beige flat surface (looks like a road or path). It has grey rectangular blocks (curbs/barriers) on the sides.
+    *   *Midground:* A green flat plane (grass/ground). A brown linear structure (fence or railing) running horizontally. Some scattered brown/grey shapes in the distance (possibly buildings or debris).
+    *   *Background:* A light blue sky. Two massive, low-poly white/grey triangular shapes (mountains or abstract geometry) flanking the sides.
+    *   *Lighting/Shading:* Flat lighting. No shadows. No ambient occlusion. No complex textures.
+    *   *Textures:* Very low resolution. The "road" has a blurry streak. The "curbs" have a repetitive, low-res noise pattern. The "grass" is a solid color.
+    *   *Geometry:* Extremely primitive. Cubes, planes, and simple triangles.
+
+    *   *Setting/Objects:* An open, flat outdoor area with a road, some barriers, a fence, and large triangular mountains. Density is extremely low.
+    *   *Player Perception:* A very early prototype, a "greybox" test level, or a low-effort indie project. It looks like a basic physics test or a layout draft.
+    *   *Art Style/Quality:* Low-poly, flat-shaded. Production quality is minimal/non-existent.
+    *   *Completion Level:* BLOCKOUT. (It's beyond primitive placeholders because there's a layout, but it's definitely not a prototype with a "style" yet).
+    *   *Defects/Empty Zones:* Total lack of detail. No foliage, no atmospheric effects, no lighting, no texture coherence. The "mountains" are just two triangles. The road texture is stretched/blurry.
+    *   *Reward for Inspection:* Zero. There is nothing to discover upon closer look.
+
+    *   *Constraint Check:* No praise. No "supposed to be." Just facts.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** An open, flat outdoor environment under a featureless light-blue sky.
+*   **Objects:** A wide, tan-colored flat path/road flanked by grey rectangular prisms (curbs). A brown linear rail/fence runs horizontally across the mid-ground. In the far distance, there are scattered brown and grey geometric clusters. Two massive, low-poly white triangular shapes flank the horizon.
+*   **Scale:** Large, open scale with very low object density.
+*   **Density:** Extremely sparse.
+
+**Player Perception**
+A player would perceive this as a technical test environment, a "greybox" layout, or a very early development build. There is no narrative or environmental storytelling present.
+
+**Art Style and Production Quality**
+*   **Style:** Low-poly / Primitive.
+*   **Quality:** Minimal. Textures are low-resolution and stretched (specifically the road surface). Lighting is flat with no visible shadows, ambient occlusion, or depth cues.
+
+**Level of Completion**
+**BLOCKOUT**
+
+**Defects and Distractions**
+*   **Texture Stretching:** The road texture is a blurry, linear smear.
+*   **Geometry:** The "mountains" are single, untextured triangles.
+*   **Empty Zones:** The entire frame is an empty zone; there is no visual interest or detail in the foreground, mid-ground, or background.
+*   **Lack of Lighting:** The absence of shadows makes the objects feel disconnected from the ground plane.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no fine details, hidden elements, or complex materials to analyze. Every surface is a flat color or a low-res repeat.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+Stage A (Blind Read) provided.
+Vision Inspection Contract (Constitution), Scene Universe Slice (Context), Genesis Pass Manifest (Requirements).
+
+    *   *Foreground:* A tan/beige road/path with grey rectangular curbs.
+    *   *Midground:* Green flat plane (grass), a brown linear structure (fence/railing), some scattered brown/grey shapes (buildings/debris).
+    *   *Background:* Light blue sky, two massive low-poly white/grey triangular shapes (mountains/geometry).
+    *   *Lighting:* Flat, no shadows, no AO.
+    *   *Overall:* Extremely primitive. Looks like a greybox or a very early prototype.
+
+    *   *Cosmology/Regional:* Mention of "Green Mirror Vein," "Wang Family Bend," "Cangwu Sect."
+    *   *Architecture:* "Timber pier on pilings; moored boats; cargo barrows; rope and tackle." (18m x 60m dock).
+    *   *Ecology:* "Black Creek Serpent," "Old Cypress," "Cloud-Leopard."
+    *   *Materials:* Timber, rope, iron.
+    *   *Genesis Passes:* P09 (Geology), P10 (Topology), P13 (Material Truth), P14 (Vegetation), P50 (Lighting), P67 (Visual Oracle), P72 (Completeness).
+
+    *   **PHASE B: Full-Frame Composition**
+        *   *Focal Hierarchy:* No clear focal point. The road leads the eye, but there's nothing rewarding at the end.
+        *   *Reads:* Primary (Road), Secondary (Fence), Tertiary (Triangles).
+        *   *Balance:* Symmetrical but empty.
+        *   *Depth:* Very poor. Flat planes.
+        *   *Camera:* Low angle, wide lens.
+
+    *   **PHASE C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Flat road, flat curb. Empty.
+        *   Shell 2 (Local): Flat grass. Empty.
+        *   Shell 3 (Scene): A brown line (fence). Empty.
+        *   Shell 4 (Settlement): Some brown blobs in the distance. Not readable as a settlement.
+        *   Shell 5 (Landscape): Flat green plane.
+        *   Shell 6 (Horizon): Two triangles.
+        *   Shell 7 (Sky): Flat blue.
+        *   *Verdict:* Total density failure.
+
+    *   **PHASE D: Content Inventory**
+        *   Road: Tan plane.
+        *   Curbs: Grey boxes.
+        *   Grass: Green plane.
+        *   Fence: Brown line.
+        *   Mountains: White triangles.
+        *   *Comparison to Universe Slice:* Where are the timber piers? Where are the boats? Where is the "Wang Family Bend"? Where is the "Black Creek Serpent"? None of the required content is visible.
+
+    *   **PHASE E: Silhouette and Proportion**
+        *   Triangles are massive but lack detail.
+        *   Road is wide but lacks texture.
+        *   Everything is a primitive.
+
+    *   P09 (Geology): **FAIL**. No geology, just a flat plane and two triangles.
+    *   P10 (Topology): **FAIL**. No valley/slope/cliff.
+    *   P13 (Material Truth): **FAIL**. Flat colors. No weathering.
+    *   P14 (Vegetation): **FAIL**. Uniform green paint.
+    *   P50 (Lighting): **FAIL**. Flat lighting, no shadows.
+    *   P67 (Visual Oracle): **FAIL**. This is proxy geometry.
+    *   P72 (Completeness): **FAIL**. Not complete at any shell.
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of world density, failure of all material/lighting passes, complete disconnect from the Universe Slice.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat shading, low-poly primitives.
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**UNIVERSE SLICE:** Wang Family Bend / Cangwu Sect / Green Mirror Vein
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The eye follows the tan road toward a cluster of brown primitives in the mid-distance, but there is no visual reward or "hero" object to anchor the gaze.
+*   **Reads:** 
+    *   *Primary:* A tan diagonal plane (road).
+    *   *Secondary:* Grey rectangular blocks (curbs).
+    *   *Tertiary:* A brown horizontal line (fence/railing).
+*   **Depth Separation:** Extremely poor. The scene consists of overlapping flat planes. There is no atmospheric haze, no occlusion, and no scale-shifting detail to communicate distance.
+*   **Frame Balance:** Symmetrical but vacant. The two white triangles in the background create a frame, but they are so primitive they read as "missing assets" rather than intentional composition.
+*   **Camera/Lens:** Low-angle, wide-field perspective. The perspective is mathematically correct but visually sterile.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Flat tan texture. No pebbles, no cracks, no debris. **[EMPTY]**
+*   **SHELL 2 (Local):** Flat green plane. No grass blades, no soil transitions. **[EMPTY]**
+*   **SHELL 3 (Scene):** A brown linear primitive. No joints, no weathering, no structural logic. **[EMPTY]**
+*   **SHELL 4 (Settlement):** Distant brown/grey blobs. Not readable as "timber piers" or "cargo barrows" as required by the Universe Slice. **[PRIMITIVE]**
+*   **SHELL 5 (Landscape):** A flat green plane meeting a flat blue sky. **[EMPTY]**
+*   **SHELL 6 (Horizon):** Two low-poly white triangles. No rock strata, no erosion, no scale anchors. **[PRIMITIVE]**
+*   **SHELL 7 (Sky):** Flat blue fill. No clouds, no gradient, no celestial bodies. **[EMPTY]**
+
+### 3. PHASE D: CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Road | Foreground | Shell 1 | Path | Primitive | None (Generic) |
+| Curbs | Foreground | Shell 1 | Barriers | Primitive | None (Generic) |
+| Ground | Midground | Shell 2 | Grass | Flat Plane | None (Generic) |
+| Railing | Midground | Shell 3 | Fence | Primitive | None (Generic) |
+| Structures| Midground | Shell 4 | Unknown | Blobs | None (Unreadable) |
+| Mountains | Background | Shell 6 | Geometry | Triangles | None (Abstract) |
+
+**Density Verdict:** The scene is a vacuum. None of the required elements from the Universe Slice (Timber piers, moored boats, cargo barrows, Black Creek Serpent, Old Cypress) are perceptually present.
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Scale Communication:** The only scale anchor is the implied width of the road. The background triangles are massive but lack any detail (trees, cliffs, windows) to confirm their actual size. They read as abstract shapes, not mountains.
+
+---
+
+### 5. GENESIS PASS COVERAGE
+
+| Pass ID | Name | Result | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat planes and triangles. No rock/soil structure. |
+| **P10** | Terrain Topology | **FAIL** | No valley/slope. Terrain is a flat 2D plane. |
+| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, no grain, no contact wear. |
+| **P14** | Vegetation Ecology | **FAIL** | Uniform green paint. No species variation or riparian edges. |
+| **P22** | Economy/Logistics | **FAIL** | No boats, no barrows, no stock. Total absence of logistics. |
+| **P36** | Structural Physics | **FAIL** | Railing is a floating line; no load paths or support logic. |
+| **P50** | Lighting | **FAIL** | Flat lighting. No shadows, no key/fill, no contrast. |
+| **P51** | Shader Presentation | **FAIL** | Generic flat shaders. No painterly language or edge work. |
+| **P67** | Visual Oracle | **FAIL** | Scene is composed entirely of proxy/placeholder geometry. |
+| **P72** | Completeness | **FAIL** | Zero completeness at any depth shell. |
+
+---
+
+### 6. VISION VERDICT
+
+**FINAL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** The "Universe Slice" describes a detailed dock with boats and barrows; the image shows a tan strip and a brown line.
+2.  **Material Vacuum:** Every surface is a flat color. There is zero "Material Truth" (P13).
+3.  **Lighting Collapse:** The absence of shadows or ambient occlusion removes all sense of volume and grounding.
+4.  **Geological Abstraction:** The background "mountains" are literal triangles, failing all planetary geography requirements (P09).
+
+**WORLD DENSITY:** **0%** (No unique or detailed assets present).
+**TECHNICAL DEFECTS:** Flat shading, proxy geometry, lack of textures, zero environmental dressing.
+**NOT EVALUABLE:** P43 (Motion), P47 (Secondary Motion), P27 (World Laws), P29 (Formations).
+
+**NEXT INSPECTION:** Require a build that has passed Genesis Passes P09, P10, P13, and P50.
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready visual for a high-fidelity Xianxia world?**
+
+**NO.** This is a greybox/blockout. It is not a production candidate.

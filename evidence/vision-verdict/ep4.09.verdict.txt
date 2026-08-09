@@ -1,0 +1,232 @@
+# VISION INSPECTION — ep4.09
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Background:* Solid black/dark brown void. No environment.
+    *   *Main Object:* A large, off-white/beige rectangular prism (box).
+    *   *Details on Main Object:*
+        *   Flat, untextured surfaces.
+        *   A thin, tan/brown line at the bottom edge (looks like a trim or a separate thin mesh).
+        *   A vertical seam/line where two faces meet in the center.
+    *   *Secondary Object:* A small, grey, textured (checkered/grid) cube protruding from the bottom right side of the main box.
+    *   *Lighting:* Basic directional lighting creating a slight gradient on the faces. No ambient occlusion, no complex shadows.
+    *   *Composition:* Centered, floating in a void.
+
+    *   *What does it show?* A beige box floating in a black void with a small grey cube attached to the bottom. Scale is indeterminate due to lack of reference. Density is extremely low (two primitive shapes).
+    *   *Player perception?* A placeholder asset, a bugged object, or a very early prototype of a piece of furniture (like a dresser or table) without legs.
+    *   *Art style/Production quality?* Low-fidelity 3D. No textures, no materials, basic geometry. Production quality is minimal/non-existent.
+    *   *Completion level?* PRIMITIVE_PLACEHOLDER.
+    *   *Defects/Distractions/Empty zones?* The entire background is an empty zone. The "seam" in the middle of the box is a visual artifact or a poorly joined mesh. The grey cube is a stark contrast in texture/color, looking like a debug cube.
+    *   *Reward for inspection?* Stops immediately. There is no detail to discover.
+
+    *   *Setting:* Void.
+    *   *Objects:* One beige rectangular prism, one small grey textured cube.
+    *   *Scale:* Indeterminate.
+    *   *Density:* Minimal.
+    *   *Player thought:* "This is a placeholder/debug object."
+    *   *Style:* Primitive 3D.
+    *   *Completion:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects:* Floating in void, lack of textures, mismatched textures (grey cube vs beige box), visible seam.
+    *   *Inspection limit:* Surface level.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A featureless, dark brown/black void.
+*   **Objects:** A single, large, off-white rectangular prism floating in the center. A small, grey, grid-textured cube is attached to the bottom-right underside of the prism. A thin, tan-colored strip runs along the bottom edge of the prism.
+*   **Scale:** Indeterminate; no reference objects present.
+*   **Density:** Extremely low. Two primitive geometric shapes.
+
+**Player Perception**
+A player would perceive this as a placeholder asset, a debug object, or a broken piece of geometry that has failed to load its textures and environment.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive 3D.
+*   **Quality:** Minimal. Flat shading, no material definition, no environmental lighting or shadows.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Empty Zones:** 95% of the frame is a dead void.
+*   **Visual Inconsistency:** The grey cube uses a different texture (grid/checkerboard) than the main body, suggesting a debug mesh.
+*   **Geometry Issues:** A visible vertical seam splits the front face of the main prism.
+*   **Lack of Context:** The object is floating without a floor plane or support.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately upon identifying the shapes. There are no micro-details, textures, or hidden elements to discover.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single frame showing a beige rectangular prism with a tan bottom trim and a small grey checkered cube protruding from the bottom right, set against a black/dark brown void.
+A detailed "Scene Universe Slice" describing a "Cultivator's abandoned cache" (carved chamber, maintenance formation, Xu Erniu trapped inside, 30m x 40m footprint, etc.) and a "Genesis Pass Manifest" (P09, P10, P27, etc.) detailing visual obligations for geology, materials, xianxia laws, etc.
+
+    *   *What is actually there?* A beige box and a grey cube in a void.
+    *   *What is supposed to be there?* A carved chamber, a trapped boy (Xu Erniu), spirit-stone cache, dust-covered shelves, maintenance formation nodes, rock materials, and a specific regional setting (Cangwu foothills).
+    *   *The Gap:* The gap is absolute. There is zero overlap between the visual evidence and the intended content.
+
+    *   **PHASE B: Full-Frame Composition**
+        *   Focal Hierarchy: One object (the box).
+        *   Foreground/Mid/Back: No distinction. Object is floating in a void.
+        *   Balance: Centered, static.
+        *   Scale: No anchors. No way to tell if this is a jewelry box or a building.
+        *   Verdict: Non-existent composition.
+
+    *   **PHASE C: Multi-Scale World Density**
+        *   Shell 1 (Hand): Not evaluable (no hand/player).
+        *   Shell 2 (Local): A box.
+        *   Shell 3-7 (Scene to Sky): Total void.
+        *   Verdict: Zero density.
+
+    *   **PHASE D: Content Inventory**
+        *   Object 1: Beige rectangular prism. (Placeholder/Primitive).
+        *   Object 2: Grey checkered cube. (Developer texture/Primitive).
+        *   Environment: Black void.
+        *   Missing: Everything in the Scene Universe Slice (Xu Erniu, rock, dust, formations, etc.).
+
+    *   **PHASE E: Silhouette and Proportion**
+        *   Silhouette: A rectangle.
+        *   Proportion: Generic.
+
+    *   P09 (Geology): FAIL. No geology.
+    *   P10 (Terrain): FAIL. No terrain.
+    *   P27 (World Laws): FAIL. No supernatural results.
+    *   P14 (Vegetation): FAIL. No plants.
+    *   P15 (Animals): FAIL. No animals.
+    *   P13 (Material Truth): FAIL. Flat colors, no weathering.
+    *   P51 (Shader Presentation): FAIL. Generic shaders.
+    *   P36 (Physics): FAIL. Floating object.
+    *   P29 (Formations): FAIL. No nodes/glows.
+    *   P25 (Qi Ecology): FAIL. No qi.
+    *   P18 (Personhood): FAIL. No NPCs.
+    *   P23 (Domestic Life): FAIL. No life.
+    *   P22 (Economy): FAIL. No logistics.
+    *   P43/P47 (Motion): NOT_EVALUABLE (Still frame).
+    *   P33 (Affordance): FAIL. Not legible as usable.
+    *   P78 (Concealment): FAIL. No mist/wards.
+    *   P07 (Hierarchy): FAIL. No intended read.
+    *   P08 (Forbidden): PASS (Nothing is there to be forbidden).
+    *   P49 (Cinematography): FAIL. No framing/lens language.
+    *   P50 (Lighting): FAIL. Basic directional, no contrast/mood.
+    *   P67 (Visual Oracle): FAIL. Pure proxy geometry.
+    *   P72 (Completeness): FAIL. Total failure.
+    *   P61 (Renderer): PASS (No z-fighting visible on these simple planes).
+    *   P60 (Streaming): PASS (Nothing to stream).
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of world, characters, and materials.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Floating geometry, void background.
+
+    *   Did I praise the effort? No.
+    *   Did I infer quality from the Bible? No, I used the Bible to highlight the *failure* of the visual.
+    *   Did I treat the box as a "cache" because the Bible said so? No, I treated it as a box.
+**PERCEPTUAL EVIDENCE EXAMINER — STAGE B: FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Cultivator's abandoned cache / Xu Erniu trapped (per Universe Slice)
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Single-point focus. The beige prism is the only subject.
+*   **Depth Layers:** No foreground, no middle ground, no background. The subject exists in a vacuum.
+*   **Frame Balance:** Centered, static, and sterile.
+*   **Negative Space:** 90% of the frame is a featureless dark void.
+*   **Scale Communication:** Non-existent. There are no scale anchors (no characters, no known props, no environmental markers) to determine if the object is 10 centimeters or 10 meters tall.
+*   **Sightlines:** None.
+*   **Compositional Verdict:** This is not a composition; it is a primitive asset placement in a void.
+
+### 2. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Hand/Reach):** NOT EVALUABLE.
+*   **SHELL 2 (Local Interaction):** A single beige box and one grey cube. Zero density.
+*   **SHELL 3 (Local Scene):** Empty.
+*   **SHELL 4 (Settlement):** Empty.
+*   **SHELL 5 (Landscape):** Empty.
+*   **SHELL 6 (Far Region):** Empty.
+*   **SHELL 7 (Sky/Atmosphere):** Solid black/brown void.
+*   **SHELL 8 (Subsurface):** No evidence.
+*   **SHELL 9 (Metaphysical):** No evidence.
+*   **Density Verdict:** Absolute vacuum. The "World" does not exist in this frame.
+
+### 3. PHASE D — CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Rectangular Prism | Center | Mid | Placeholder Box | Primitive | None |
+| Tan Trim Line | Bottom Edge | Mid | Mesh Edge/Trim | Primitive | None |
+| Checkered Cube | Bottom Right | Mid | Dev-Texture Cube | Primitive | None |
+| Void | All | Inf | Background | Empty | None |
+
+**Missing Content (per Universe Slice):**
+*   **NPC:** Xu Erniu (Missing)
+*   **Architecture:** Carved chamber, dust-covered shelves (Missing)
+*   **Materials:** Rock, spirit stone dust, formation residue (Missing)
+*   **Xianxia Elements:** Maintenance formation, dimming nodes, qi-drain effects (Missing)
+*   **Environment:** Cangwu foothills, crumbled stone entrance (Missing)
+
+### 4. PHASE E — SILHOUETTE AND PROPORTION
+*   **Silhouette:** A basic rectangle. No distinctive shape, no architectural language, no "carved" quality.
+*   **Proportion:** Generic geometric ratio.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology present. |
+| **P10** | Terrain Geometry | **FAIL** | No terrain; object is floating in a void. |
+| **P13** | Material Truth | **FAIL** | Flat beige/grey. No weathering, no stone, no dust. |
+| **P14** | Vegetation | **FAIL** | No vegetation. |
+| **P15** | Animal Ecology | **FAIL** | No animals. |
+| **P18** | Individual Personhood| **FAIL** | No NPCs (Xu Erniu is absent). |
+| **P22** | Economy/Logistics | **FAIL** | No storage or goods visible. |
+| **P23** | Domestic Life | **FAIL** | No signs of life or occupation. |
+| **P25** | Qi Ecology | **FAIL** | No qi phenomena. |
+| **P27** | Realm/World Laws | **FAIL** | No supernatural results visible. |
+| **P29** | Formations | **FAIL** | No formation nodes or glyphs. |
+| **P33** | Affordance Lattice | **FAIL** | Object does not read as a "cache" or "chamber." |
+| **P36** | Physics/Structural | **FAIL** | Object is floating; no load paths or support. |
+| **P49** | Cinematography | **FAIL** | No framing, lens language, or direction. |
+| **P50** | Lighting | **FAIL** | Basic directional light; no mood, contrast, or intent. |
+| **P51** | Shader Presentation | **FAIL** | Generic flat shaders; no painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Total absence of mandatory content. |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or artifacts on simple planes. |
+| **P60** | Streaming | **PASS** | No LOD pop (nothing to stream). |
+
+---
+
+### 6. FINAL VISION VERDICT
+
+**VISION VERDICT: PRIMITIVE PLACEHOLDER / GREYBOX**
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** 100% of the Scene Universe Slice (NPCs, Architecture, Environment, Formations) is missing.
+2.  **Material Bankruptcy:** No materials from the Art Bible are present; replaced by generic RGB values and a developer grid texture.
+3.  **Environmental Void:** The scene lacks a floor, sky, or horizon, violating all physical and cinematic contracts.
+
+**WORLD DENSITY:** 0/10 (Vacuum)
+**TECHNICAL DEFECTS:** Floating geometry; void background; developer-texture leakage (checkered cube).
+**NOT EVALUABLE:** Motion (P43, P47) due to still frame.
+
+**NEXT INSPECTION:**
+Immediate rejection. This frame provides zero evidence of progress toward a "finished world" or "production candidate." It is a primitive blockout.
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
+
+**NO.**

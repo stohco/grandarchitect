@@ -1,0 +1,206 @@
+# VISION INSPECTION — ep3.06
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Foreground:* White/grey blocky surfaces (possibly counters or walls). A tan conical shape (looks like a lamp shade or a pillar).
+    *   *Midground:* A brown wooden-looking beam/pole. A flat surface (table/shelf). Some brown rectangular blocks. A white cylindrical pillar.
+    *   *Background:* A large tan cube/rectangle with a textured surface. A blue sky. A flat green plane (ground). A grey strip (road/sidewalk).
+    *   *Composition:* Very sparse. Low-poly. Flat lighting.
+    *   *Textures:* Low resolution, repetitive, some look like basic noise or generic patterns.
+    *   *Geometry:* Primitive shapes (cubes, cylinders, cones). No bevels, no complex meshes.
+
+    *   *Setting/Objects:* An outdoor or semi-outdoor area. It looks like a collection of basic geometric primitives arranged to vaguely suggest a structure or a room. There are beams, a cone, and boxes.
+    *   *Scale/Density:* Scale is ambiguous due to lack of reference (no characters, no known real-world objects). Density is extremely low.
+    *   *Player Perception:* A player would think this is a very early prototype, a "greybox" (though colored), or a low-effort indie project using default engine primitives. It looks like a "test scene."
+    *   *Art Style/Quality:* Low-poly/Primitive. Production quality is minimal. Lighting is flat/ambient with no complex shadows or global illumination.
+    *   *Completion Level:* Definitely not finished. Not a production candidate. Not even a "stylized prototype" because there's no cohesive style. It's a **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**.
+    *   *Defects/Distractions:*
+        *   Z-fighting or overlapping geometry (the beams and the tan box).
+        *   Lack of texture filtering (pixelated edges).
+        *   Floating objects (the thin beam at the top).
+        *   Empty zones: The entire background is a void of flat colors.
+    *   *Inspection Limit:* The image stops rewarding inspection immediately. There is no detail to discover. Once you see it's a cone and a cube, there is nothing else to see.
+
+    *   *Drafting the "What it shows" section:* Focus on the primitives. Cone, cubes, cylinders. Flat green plane.
+    *   *Drafting the "Player thought" section:* "Test level," "Unfinished."
+    *   *Drafting the "Style" section:* Low-poly, primitive, flat lighting.
+    *   *Drafting the "Completion" section:* BLOCKOUT.
+    *   *Drafting "Defects":* Floating beams, lack of detail, flat textures.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+The frame shows a sparse collection of low-polygon geometric primitives (cones, cylinders, cubes, and rectangular prisms) arranged in a non-cohesive space. 
+- **Setting:** An ambiguous outdoor/indoor hybrid area. A flat green plane represents ground; a flat blue plane represents sky.
+- **Objects:** A large tan cone, several brown rectangular beams, a white cylinder, and a large tan textured cube in the background.
+- **Scale:** Indeterminate. There are no human-scale references (doors, chairs, characters) to establish size.
+- **Density:** Extremely low. The scene consists of a few isolated shapes with significant empty space between them.
+
+**Player Perception**
+A player would perceive this as a "test room," a "greybox" (despite the colors), or a very early development build. It looks like a scene used to test basic collision or placement of assets rather than a playable environment.
+
+**Art Style and Production Quality**
+- **Style:** Primitive/Low-Poly.
+- **Quality:** Minimal. Lighting is flat and ambient with no visible dynamic shadows, occlusion, or complex materials. Textures are low-resolution, repetitive, and lack detail.
+
+**Level of Completion**
+**BLOCKOUT / PRIMITIVE_PLACEHOLDER**
+
+**Defects and Distractions**
+- **Floating Geometry:** The thin horizontal beam at the top appears to be floating or poorly connected to supporting structures.
+- **Texture Quality:** Visible pixelation and "muddy" textures on the tan cube and grey foreground blocks.
+- **Empty Zones:** The background is a void of flat colors (green/blue) with no horizon detail, foliage, or atmospheric depth.
+- **Lack of Cohesion:** The objects do not relate to one another functionally or aesthetically.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There are no hidden details, micro-textures, or complex geometries to discover. Once the basic shapes are identified, there is no further visual information to extract.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+Stage A (Blind Read) provided. Scene Universe Slice (Market Square, Cangwu Vein, etc.) and Genesis Pass Manifest provided.
+Perform Phases B-X of the Inspection Contract, evaluate Genesis Passes, conduct a forensic sweep, and provide a final Vision Verdict.
+
+    *   *Visuals:* Low-poly, primitive shapes (cubes, cylinders, cones). Flat lighting. Low-res textures (noise/generic).
+    *   *Composition:* Sparse. Foreground has grey blocks (counters). Midground has a tan cone, some poles, and a table. Background has a large tan cube, a green plane, and a blue sky.
+    *   *Context (from Slice):* This is supposed to be a "market square" with "packed-earth square with stone stalls," "canvas," "wood," and "stone."
+    *   *Reality:* It looks like a greybox/blockout. There is zero "painterly hand-painted language" (P51). There is no "real geology" (P09). There are no "NPCs" (P18).
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: Non-existent. The eye wanders between the tan cone and the grey blocks.
+        *   Depth: Foreground (grey blocks), Midground (cone/poles), Background (tan cube/sky).
+        *   Balance: Unbalanced. Heavy grey blocks in the bottom corners, empty space in the middle.
+        *   Camera: Low angle, looking slightly up.
+        *   Readability: It reads as a technical test or a blockout, not a scene.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Grey blocks. No detail.
+        *   Shell 2 (Interaction): Tan cone, poles. No detail.
+        *   Shell 3 (Local Scene): A few primitive shapes.
+        *   Shell 4 (Settlement): A single tan cube representing a building.
+        *   Shell 5 (Landscape): A flat green plane.
+        *   Shell 6 (Horizon): A flat line.
+        *   Shell 7 (Sky): Flat blue.
+        *   *Verdict:* Extreme emptiness.
+
+    *   **Phase D: Content Inventory**
+        *   Grey blocks (Foreground/Midground) $\rightarrow$ Intended as stone stalls? (Unfinished).
+        *   Tan cone (Midground) $\rightarrow$ Intended as a pillar or lamp? (Unfinished).
+        *   Brown poles (Midground) $\rightarrow$ Intended as wood supports? (Unfinished).
+        *   Tan cube (Background) $\rightarrow$ Intended as a building? (Unfinished).
+        *   Green plane (Background) $\rightarrow$ Intended as ground? (Unfinished).
+        *   Blue plane (Background) $\rightarrow$ Sky. (Unfinished).
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Everything is a primitive. No artistic silhouette. Proportions are arbitrary.
+
+    *   P09 (Geology): **FAIL**. Flat green plane.
+    *   P10 (Topology): **FAIL**. No slopes, cliffs, or clean contacts.
+    *   P27 (World Laws): **NOT_EVALUABLE**. No supernatural effects present.
+    *   P14 (Vegetation): **FAIL**. No vegetation, just a green plane.
+    *   P15 (Animals): **FAIL**. None present.
+    *   P13 (Material Truth): **FAIL**. Flat noise/colors. No weathering or age.
+    *   P51 (Shader Presentation): **FAIL**. Generic shaders, no painterly language.
+    *   P36 (Physics/Structure): **FAIL**. Floating beams, impossible intersections.
+    *   P29 (Formations): **NOT_EVALUABLE**.
+    *   P25 (Qi Ecology): **NOT_EVALUABLE**.
+    *   P18 (Personhood): **FAIL**. No NPCs.
+    *   P23 (Domestic Life): **FAIL**. No signs of life.
+    *   P22 (Economy/Logistics): **FAIL**. No stock, no carts, no logistics.
+    *   P43/P47 (Motion): **NOT_EVALUABLE**. Still frame.
+    *   P33 (Affordance): **FAIL**. Nothing looks "usable" in a gameplay sense; it looks like a collision box.
+    *   P78 (Concealment): **NOT_EVALUABLE**.
+    *   P07 (Perceptual Hierarchy): **FAIL**. No intended read is established.
+    *   P08 (Forbidden Interpretations): **PASS** (by default, nothing is there to be anachronistic).
+    *   P49 (Cinematography): **FAIL**. No framing or lens language.
+    *   P50 (Lighting): **FAIL**. Flat, no contrast, no key/fill.
+    *   P67 (Visual Oracle): **FAIL**. Pure proxy geometry.
+    *   P72 (Completeness): **FAIL**. Total failure at every depth shell.
+    *   P61 (Renderer): **PARTIAL**. No obvious z-fighting, but extremely primitive.
+    *   P60 (Streaming): **NOT_EVALUABLE**.
+
+    *   Top-Left: Brown beam, blue sky.
+    *   Top-Mid: Brown beam, tan cube.
+    *   Top-Right: Brown beam, white wall.
+    *   Mid-Left: Blue sky, green plane, grey block.
+    *   Center: Tan cone, brown pole, tan cube.
+    *   Mid-Right: Brown pole, tan cube, white wall.
+    *   Bottom-Left: Grey block, tan floor.
+    *   Bottom-Mid: Grey block, tan floor.
+    *   Bottom-Right: Grey block, tan floor.
+    *   *Observation:* The entire frame is composed of primitive shapes and flat colors.
+
+    *   Vision Verdict: Primitive Placeholder / Greybox.
+    *   Top Failures: Material Truth, World Density, Lighting, Production Quality.
+    *   Completeness: 0%.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Market Square (Cangwu Vein / Wang Family Bend)
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The eye is caught between the oversized tan cone (mid-left) and the grey blocks (foreground), with no clear subject or narrative anchor.
+*   **Depth Separation:** Basic foreground/midground/background layering exists, but there is no atmospheric perspective or detail graduation to sell the distance.
+*   **Frame Balance:** Heavily bottom-weighted by grey blocks. The upper third is dominated by a flat brown beam that creates a claustrophobic, unintentional ceiling.
+*   **Camera/Lens:** Low-angle perspective. No lens language (no bokeh, no chromatic aberration, no focal compression). It reads as a default engine camera.
+*   **Sightlines:** There are no leading lines. The geometry is arranged in a disjointed, orthogonal fashion that does not guide the player's eye toward any point of interest.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Grey blocky surfaces. Zero tactile detail. No seams, no wear, no material transition.
+*   **SHELL 2 (Interaction):** A tan cone and brown poles. These are primitive shapes with no functional or aesthetic detail.
+*   **SHELL 3 (Local Scene):** Extremely sparse. A few floating/intersecting primitives.
+*   **SHELL 4 (Settlement):** Represented by a single tan cube in the background. No architectural language.
+*   **SHELL 5 (Landscape):** A flat green plane. No topography.
+*   **SHELL 6 (Horizon):** A hard line between green and blue.
+*   **SHELL 7 (Sky):** A flat blue fill.
+*   **DENSITY VERDICT:** **VOID.** The scene is a primitive blockout. There is no "world" here, only a collection of placeholders.
+
+### 3. PHASE D: CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Grey Blocks | Bottom/Left | FG | Intended: Stone Stalls | **PROXY** | None. Reads as collision boxes. |
+| Tan Cone | Mid-Left | MG | Intended: Pillar/Lamp | **PROXY** | None. Reads as a primitive. |
+| Brown Poles | Center/Right | MG | Intended: Wood Supports | **PROXY** | None. Reads as cylinders. |
+| Tan Cube | Center-Back | BG | Intended: Building | **PROXY** | None. Reads as a cube. |
+| Green Plane | Mid-Back | BG | Intended: Ground/Grass | **PROXY** | None. Reads as a floor plane. |
+| Blue Plane | Top | BG | Intended: Sky | **PROXY** | None. Reads as a background color. |
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Silhouette:** All objects are basic geometric primitives (cubes, cylinders, cones). There is no artistic silhouette or "painterly" shape language.
+*   **Proportion:** The scale of the tan cone relative to the "stalls" and the "building" is arbitrary and does not communicate a coherent architectural scale.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST EVALUATION)
+
+| Pass ID | Name | Result | Evidence / Missing |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | Flat green plane; no geology, no soil, no rocks. |
+| **P10** | Terrain Topology | **FAIL** | Zero slope/cliff structure; flat plane. |
+| **P13** | Material Truth | **FAIL** | Flat procedural noise/colors; no weathering or age. |
+| **P14** | Vegetation Ecology | **FAIL** | No plants; uniform green paint. |
+| **P15** | Animal Ecology | **FAIL** | No creatures present. |
+| **P18** | Individual Personhood| **FAIL** | No NPCs present. |
+| **P22** | Economy/Logistics | **FAIL** | No stock, no containers, no carts. |
+| **P23** | Domestic Life | **FAIL** | No tools, no activity, no causal occupation. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing reads as "usable"; reads as non-collidable/blockout. |
+| **P36** | Structural Physics | **FAIL** | Floating beams; impossible intersections. |
+| **P49** | Cinematography | **FAIL** | No focal hierarchy or directed framing. |
+| **P50** | Lighting | **FAIL** | Flat lighting; no key/fill/rim; no contrast. |
+| **P51** | Shader Presentation | **FAIL** | Generic shaders; no painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Total failure at every depth shell. |
+

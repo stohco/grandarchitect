@@ -1,0 +1,232 @@
+# VISION INSPECTION — ep4.03
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+Brutally accurate, facts and defects only, no praise.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+
+    *   *Foreground/Ground:* A flat plane. Left side is a dull olive green; right side is a beige/tan color. The transition is a sharp, straight line.
+    *   *Central Object:* A large, dome-shaped mass. It has a low-polygon count (visible edges). The texture is a repetitive, dark grey checkerboard/grid pattern.
+    *   *Small Object:* A tiny, grey, irregular rock-like object at the base of the large dome.
+    *   *Background:* A light blue sky/void. To the left, a slanted light-blue plane. To the right, a sharp, white triangular spike/plane.
+    *   *Lighting:* Flat, basic directional lighting. A soft shadow is cast by the dome onto the ground.
+    *   *Composition:* Centered, static.
+
+    *   *Setting/Objects:* A void-like space with a flat, two-toned floor. A large, low-poly dome with a grid texture. A small rock. Abstract geometric shapes in the background.
+    *   *Player Perception:* "This is a test scene," "This is a broken map," or "This is a very early prototype." It looks like a developer's sandbox or a glitchy load.
+    *   *Art Style/Quality:* Extremely low. Primitive geometry. Tiling textures. No blending. No environmental detail.
+    *   *Completion Level:* PRIMITIVE_PLACEHOLDER. (It's barely a blockout; it's just shapes and basic textures).
+    *   *Defects:*
+        *   Sharp, unnatural line between ground colors.
+        *   Visible polygon edges on the dome.
+        *   Repetitive, non-diegetic grid texture.
+        *   Floating/intersecting geometry in the background (the white spike and blue plane).
+        *   Complete lack of atmospheric effects or detail.
+    *   *Reward for Inspection:* Zero. There is nothing to discover upon closer look. The texture is a simple repeat; the geometry is basic.
+
+    *   *Constraint Check:* No praise. No "supposed to be." Brutally accurate.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A void-like environment with a flat, two-toned ground plane (olive green on the left, beige on the right) divided by a sharp, straight line.
+*   **Objects:** One large, low-polygon dome-shaped mass centered in the frame; one small, grey irregular pebble at the base of the dome; two abstract geometric planes in the background (a slanted blue surface on the left, a white triangular spike on the right).
+*   **Scale:** Indeterminate. The pebble suggests the dome is large, but there are no known reference points (e.g., a human character) to establish actual size.
+*   **Density:** Extremely low. Four distinct geometric entities in a void.
+
+**Player Perception**
+A player would perceive this as a developer's test scene, a broken map load, or a "grey-box" environment. It conveys zero narrative or atmospheric intent.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive 3D.
+*   **Quality:** Negligible. The image utilizes basic primitive shapes, flat lighting, and a repetitive, non-diegetic grid texture on the primary object.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Texture:** The dome uses a tiling checkerboard/grid texture that is visually jarring and lacks any material properties.
+*   **Geometry:** Visible, jagged polygon edges on the dome; unnatural, razor-sharp intersections between the ground colors and background planes.
+*   **Empty Zones:** The entire frame is an empty zone. There is no environmental storytelling, foliage, or architectural detail.
+*   **Lighting:** Flat, basic directional light with a soft, generic shadow.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no hidden details, texture variations, or complex geometries to discover. Once the basic shapes are identified, there is nothing further to analyze.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+A blind read (Stage A) was provided. It describes a flat plane (olive green/beige), a low-poly dome with a checkerboard texture, a small rock, a light blue sky, and some basic geometric planes in the background.
+A detailed "Inspection Contract" (Constitution) and a "Scene Universe Slice" (the intended content).
+The intended scene is a "Cultivator's abandoned cache" in the "Cangwu foothills," featuring a carved chamber, maintenance formations, and an unconscious boy (Xu Erniu).
+
+    *   *What is actually there:* A grey checkerboard dome on a two-tone flat plane.
+    *   *What is supposed to be there:* A carved stone chamber, spirit-stone cache, dust-covered shelves, maintenance formation nodes, and an NPC (Xu Erniu).
+    *   *The Gap:* Absolute. There is zero overlap between the visual evidence and the intended content.
+
+    *   **PHASE B: Full-Frame Composition**
+        *   Focal Hierarchy: The dome is the only focal point.
+        *   Reads: Primary (Dome), Secondary (Ground), Tertiary (Sky/Background planes).
+        *   Balance: Centered, static, boring.
+        *   Depth: Minimal. Flat plane $\rightarrow$ Dome $\rightarrow$ Background planes.
+        *   Camera: Eye-level, static.
+
+    *   **PHASE C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): One low-poly rock.
+        *   Shell 3 (Scene): One low-poly dome.
+        *   Shell 4-7 (Landscape/Sky): Flat planes and a void.
+        *   Verdict: Total vacuum of density.
+
+    *   **PHASE D: Content Inventory**
+        *   Characters: None (Xu Erniu missing).
+        *   Structures: One primitive dome (not a "carved chamber").
+        *   Terrain: Two flat planes (not "Cangwu foothills").
+        *   Props: One rock.
+        *   VFX/Formations: None.
+
+    *   **PHASE E: Silhouette and Proportion**
+        *   The dome is a generic primitive. No architectural language.
+
+    *   P09 (Geology): FAIL. Flat planes are not geology.
+    *   P10 (Topology): FAIL. No valley/slope/cliff.
+    *   P27 (World Laws): FAIL. No supernatural results visible.
+    *   P14 (Vegetation): FAIL. No plants.
+    *   P15 (Animals): FAIL. No beasts.
+    *   P13 (Material Truth): FAIL. Checkerboard texture is a developer proxy, not a material.
+    *   P51 (Shader Presentation): FAIL. Generic flat shading.
+    *   P36 (Physics/Structure): FAIL. No load paths, just a floating-looking dome.
+    *   P29 (Formations): FAIL. No nodes or glyphs.
+    *   P25 (Qi Ecology): FAIL. No qi phenomena.
+    *   P18 (Personhood): FAIL. No NPCs.
+    *   P23 (Domestic Life): FAIL. No tools/life.
+    *   P22 (Economy): FAIL. No storage/logistics.
+    *   P43/P47 (Motion): NOT_EVALUABLE (Still frame).
+    *   P33 (Affordance): FAIL. Nothing looks usable.
+    *   P78 (Concealment): FAIL. No mist/wards.
+    *   P07 (Hierarchy): FAIL. No intended read.
+    *   P08 (Forbidden): PASS (Nothing forbidden is present because nothing is present).
+    *   P49 (Cinematography): FAIL. No direction.
+    *   P50 (Lighting): FAIL. Flat, basic.
+    *   P67 (Visual Oracle): FAIL. Proxy geometry is the *only* geometry.
+    *   P72 (Completeness): FAIL. Total failure.
+    *   P61 (Renderer): PASS (No z-fighting visible, though the scene is too simple to test).
+    *   P60 (Streaming): PASS (No pop visible).
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Material Truth (P13), World Density (Shells 1-7), Personhood (P18).
+    *   *Diagnosis:* This is a technical blockout or a primitive test scene. It is not a production asset.
+**PERCEPTUAL EVIDENCE EXAMINER**
+**STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Cultivator's Abandoned Cache / Cangwu Foothills (per Universe Slice)
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Single-point focus. The central dome dominates the frame entirely. There is no secondary or tertiary read.
+*   **Foreground/Middle/Background:** 
+    *   *Foreground:* A flat, two-tone plane.
+    *   *Middle ground:* A single low-poly dome and one small rock.
+    *   *Background:* A light blue void with two intersecting primitive planes.
+*   **Frame Balance:** Centered and static. No dynamic tension or guided sightlines.
+*   **Depth Separation:** Minimal. The transition from ground to object to background is abrupt and lacks atmospheric perspective or overlapping elements.
+*   **Camera/Lens:** Standard eye-level perspective. No cinematic intent or lens language.
+*   **Compositional Read:** This is a **primitive placeholder map**. It does not communicate a "carved chamber" or a "foothill" environment.
+
+---
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** EMPTY.
+*   **SHELL 2 (Local Interaction):** EMPTY (excluding one low-poly rock).
+*   **SHELL 3 (Local Scene):** PRIMITIVE. One dome.
+*   **SHELL 4 (Settlement/Env):** EMPTY.
+*   **SHELL 5 (Landscape):** EMPTY. (Flat planes do not constitute landscape).
+*   **SHELL 6 (Horizon):** EMPTY.
+*   **SHELL 7 (Sky/Atmosphere):** PRIMITIVE. Flat blue fill.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** NOT EVALUABLE.
+*   **Density Verdict:** Total vacuum. There is zero world-dressing, zero environmental storytelling, and zero density.
+
+---
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Structure** | Center | Mid | Low-poly Dome | **PROXY** | None. Reads as a test primitive. |
+| **Terrain** | Bottom | Fore | Two-tone Plane | **PROXY** | None. Reads as a dev-grid. |
+| **Prop** | Base of Dome | Mid | Grey Rock | **PROXY** | None. |
+| **Sky** | Top/Back | Far | Blue Plane | **PROXY** | None. |
+| **NPC** | N/A | N/A | Xu Erniu | **MISSING** | Total failure of scene requirement. |
+| **Formation** | N/A | N/A | Cache Lock | **MISSING** | Total failure of scene requirement. |
+
+---
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Focal Subject:** The dome lacks any architectural silhouette. It is a generic geometric mass. It does not read as "carved," "abandoned," or "stone."
+*   **Scale:** There are no scale anchors (no NPCs, no known props). The dome's size is ambiguous.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Evidence / Missing |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat planes are not "real geology." |
+| **P10** | Terrain Topology | **FAIL** | No valley/slope/cliff. No clean contact. |
+| **P13** | Material Truth | **FAIL** | Checkerboard texture is a developer proxy, not a material. |
+| **P14** | Vegetation | **FAIL** | Total absence of flora. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of fauna. |
+| **P18** | Individual Personhood| **FAIL** | NPC (Xu Erniu) is entirely missing. |
+| **P22** | Economy/Logistics | **FAIL** | No storage, containers, or cache evidence. |
+| **P25** | Qi Ecology | **FAIL** | No qi phenomena or spirit-vein indicators. |
+| **P27** | Realm/World Laws | **FAIL** | No supernatural results visible. |
+| **P29** | Formations | **FAIL** | No nodes, glyphs, or formation volumes. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing reads as usable or interactable. |
+| **P36** | Structural Physics | **FAIL** | No load paths; object appears to float on a plane. |
+| **P49** | Cinematography | **FAIL** | No focal hierarchy or directed framing. |
+| **P50** | Lighting | **FAIL** | Flat, basic directional light. No contrast or mood. |
+| **P51** | Shader Presentation | **FAIL** | Generic proxy shader; no painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Frame consists entirely of proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Zero completion at any depth shell. |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or TAA ghosting (due to simplicity). |
+| **P60** | Streaming/Partition | **PASS** | No LOD pop visible. |
+
+---
+
+### 6. VISION VERDICT
+
+**FINAL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** The frame contains none of the required elements from the Scene Universe Slice (No Xu Erniu, no carved chamber, no formations).
+2.  **Material Proxying:** The use of a checkerboard texture and flat-colored planes confirms this is a technical blockout, not a production render.
+3.  **Zero World Density:** Every depth shell from 1 to 7 is either empty or populated by a primitive.
+
+**TECHNICAL DEFECTS:**
+*   **Texture:** Developer checkerboard (Proxy).
+*   **Geometry:** Low-poly primitive dome (Proxy).
+*   **Environment:** Flat-plane ground (Proxy).
+
+**NOT EVALUABLE:**
+*   P43 (Environment-Aware Motion)
+*   P47 (Secondary Motion)
+
+**NEXT INSPECTION:**
+Requires a complete asset pass. The current frame is a "null" state relative to the Grand Architect Bible.
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+
+**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
+
+**NO.** 

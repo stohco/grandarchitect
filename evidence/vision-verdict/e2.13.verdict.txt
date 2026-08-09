@@ -1,0 +1,219 @@
+# VISION INSPECTION — e2.13
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Visuals:* Low-poly, flat-shaded geometry.
+    *   *Colors:* Monochromatic blue/grey/white palette.
+    *   *Shapes:* Large triangles/pyramids (mountains), a large flat plane (ground/water), a flat background (sky).
+    *   *Details:* Very few. Some tiny, barely visible shapes in the center distance (possibly buildings or trees, but too small to identify).
+    *   *Composition:* A wide shot of a valley or plain surrounded by jagged peaks.
+    *   *Technical:* No textures, no complex lighting, no shadows, no atmospheric effects (fog/bloom), just flat colors and basic shading.
+
+    *   *Setting/Objects:* A landscape of jagged, triangular peaks surrounding a flat central plane. Scale is ambiguous but suggests a large outdoor area. Density is extremely low.
+    *   *Player Perception:* A very early prototype of a snowy or icy mountain region.
+    *   *Art Style/Quality:* Low-poly, flat-shaded. Production quality is minimal.
+    *   *Completion Level:* PRIMITIVE_PLACEHOLDER. (It's basically just basic shapes).
+    *   *Defects/Empty Zones:* The entire center is a void of detail. The "mountains" are simple prisms. The horizon line is a hard edge.
+    *   *Inspection Limit:* It stops rewarding immediately. There is nothing to look at beyond the basic geometry.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A wide-angle view of a low-poly landscape.
+*   **Objects:** Several large, jagged triangular prisms (mountains) surrounding a large, flat, tilted plane (ground/water). A few indistinguishable, tiny geometric clusters are located in the center distance.
+*   **Scale:** Ambiguous; suggests a large-scale outdoor environment.
+*   **Density:** Extremely low.
+
+**Player Perception**
+A player would perceive this as a very early technical test or a "greybox" of a snowy/icy mountain region.
+
+**Art Style and Production Quality**
+*   **Style:** Flat-shaded low-poly.
+*   **Quality:** Minimal. There are no textures, no complex lighting, no shadows, and no atmospheric effects.
+
+**Completion Level**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Empty Zones:** The central plane is a vast, featureless void.
+*   **Geometry:** The "mountains" are basic prisms with no organic variation.
+*   **Edges:** Hard, aliased edges where the ground plane meets the background/sky.
+*   **Lack of Detail:** The distant objects are too small and low-resolution to be identified as anything specific.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There is no micro-detail, texture work, or hidden visual information to discover.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame (low-poly, monochromatic blue/grey, jagged mountains, flat plane).
+Stage A (Blind Read) provided.
+Scene Universe Slice (mentions market square, Cangwu Sect, various veins, etc.), Genesis Pass Manifest (P09, P10, P13, etc.).
+Run Phases B-X, evaluate Genesis Passes, perform forensic sweep, and provide the final Vision Verdict.
+
+    *   *Visuals:* Extremely primitive. Low-poly triangles. Flat shading. No textures. No lighting.
+    *   *Composition:* A valley between mountains.
+    *   *Content:* Mountains, a flat ground plane, a flat sky. Some tiny, indistinguishable specks in the center.
+    *   *Context vs. Reality:* The "Scene Universe Slice" describes a market square with packed earth, stone stalls, NPCs, and complex xianxia elements. The *actual image* shows none of this. It is a primitive blockout/prototype.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: None. The eye wanders across flat planes.
+        *   Foreground/Middle/Background: Foreground (left mountains), Middle (flat plane), Background (distant mountains/sky).
+        *   Balance: Heavily weighted to the left.
+        *   Depth: Minimal. Only achieved through overlapping polygons.
+        *   Camera: High angle, wide shot.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Not present.
+        *   Shell 2 (Local): Not present.
+        *   Shell 3 (Local Scene): Not present.
+        *   Shell 4 (Settlement): Not present (despite the Universe Slice claiming a market square).
+        *   Shell 5 (Landscape): Primitive.
+        *   Shell 6 (Horizon): Primitive.
+        *   Shell 7 (Sky): Flat color.
+        *   Shell 8/9: Not present.
+        *   *Verdict:* Total density failure.
+
+    *   **Phase D: Content Inventory**
+        *   Terrain: Low-poly mountains (left, center-back, right-back).
+        *   Ground: Single flat plane.
+        *   Sky: Single flat plane.
+        *   Props/NPCs/Vegetation: None identifiable. Tiny specks in the center are too small to be "content."
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Mountains are generic triangles. No organic or architectural silhouette.
+
+    *   P09 (Geology): **FAIL**. Not real geology; it's a heightmap/primitive prototype.
+    *   P10 (Topology): **FAIL**. No clean contact; just intersecting planes.
+    *   P27 (World Laws): **NOT_EVALUABLE**. No supernatural effects visible.
+    *   P14 (Vegetation): **FAIL**. Zero vegetation.
+    *   P15 (Animals): **FAIL**. Zero animals.
+    *   P13 (Material Truth): **FAIL**. Flat colors, no materials.
+    *   P51 (Shader Presentation): **FAIL**. Generic flat shading.
+    *   P36 (Physics/Structure): **NOT_EVALUABLE**. No structures present.
+    *   P29 (Formations): **NOT_EVALUABLE**. No formations visible.
+    *   P25 (Qi Ecology): **NOT_EVALUABLE**. No Qi visible.
+    *   P18 (Personhood): **FAIL**. No NPCs.
+    *   P23 (Domestic Life): **FAIL**. No life.
+    *   P22 (Economy): **FAIL**. No market, no stalls.
+    *   P43/P47 (Motion): **NOT_EVALUABLE**. Still frame.
+    *   P33 (Affordance): **FAIL**. Nothing looks usable.
+    *   P78 (Concealment): **NOT_EVALUABLE**.
+    *   P07 (Perceptual Hierarchy): **FAIL**. No intended focal point.
+    *   P08 (Forbidden Interpretations): **PASS** (by default, nothing is there to be wrong).
+    *   P49 (Cinematography): **FAIL**. No lens language or directed framing.
+    *   P50 (Lighting): **FAIL**. Flat, no key/fill/rim.
+    *   P67 (Visual Oracle): **FAIL**. This is proxy geometry.
+    *   P72 (Completeness): **FAIL**. Total failure at every shell.
+    *   P61 (Renderer): **PARTIAL**. No z-fighting visible, but it's too simple to test.
+    *   P60 (Streaming): **NOT_EVALUABLE**.
+
+    *   Top-Left: Blue sky, white mountain edge.
+    *   Top-Center: White mountain peak.
+    *   Top-Right: White mountain peak.
+    *   Mid-Left: Grey mountain slope.
+    *   Mid-Center: Flat light-blue plane with tiny specks.
+    *   Mid-Right: Flat light-blue plane meeting dark blue background.
+    *   Bottom-Left: Grey mountain slope.
+    *   Bottom-Center: Flat light-blue plane.
+    *   Bottom-Right: Flat light-blue plane.
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of content, materials, and lighting.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat shading, lack of assets.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Market Square / Cangwu Sect (per Universe Slice)
+**ACTUAL VISUAL EVIDENCE:** Low-poly primitive landscape.
+
+---
+
+### 1. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary read. The eye is drawn to the center of the flat plane due to a few tiny, indistinguishable specks, but there is no intentional focal point.
+*   **Depth Separation:** Minimal. Depth is communicated solely through the overlap of large, flat-shaded polygons.
+*   **Foreground/Middle/Background:** 
+    *   *Foreground:* Large grey triangular slopes (left).
+    *   *Middle:* A single, vast, flat light-blue plane.
+    *   *Background:* Jagged white/blue triangular peaks and a flat blue sky.
+*   **Frame Balance:** Heavily weighted to the left. The right side is an empty void of flat color.
+*   **Camera/Lens:** High-angle wide shot. No lens distortion, no depth of field, no cinematic language.
+*   **Compositional Verdict:** **FAIL**. The composition is a default camera view of a primitive blockout.
+
+---
+
+### 2. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** NOT EVALUABLE (No foreground objects).
+*   **SHELL 2 (Local Interaction):** NOT EVALUABLE (No objects).
+*   **SHELL 3 (Local Scene):** **FAIL**. Total void.
+*   **SHELL 4 (Settlement):** **FAIL**. The Universe Slice specifies a "Packed-earth square with stone stalls." **Zero** stalls, **zero** earth, **zero** architecture are visible.
+*   **SHELL 5 (Landscape):** **FAIL**. Primitive triangles. No geology, no erosion, no variety.
+*   **SHELL 6 (Horizon):** **FAIL**. Generic jagged peaks.
+*   **SHELL 7 (Sky):** **FAIL**. Flat color fill.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** NOT EVALUABLE.
+*   **Density Verdict:** **CRITICAL FAILURE**. The scene is an empty void.
+
+---
+
+### 3. PHASE D — CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Terrain | Left/Back | Mid/Far | Low-poly Mountains | Primitive | None |
+| Ground | Center | Mid | Flat Plane | Primitive | None |
+| Sky | Top | Far | Flat Plane | Primitive | None |
+| "Specks" | Center | Mid | Unidentified | Placeholder | None |
+
+**Inventory Verdict:** The scene contains only three basic geometric classes. It fails to represent any of the required content from the Scene Universe Slice.
+
+---
+
+### 4. PHASE E — SILHOUETTE AND PROPORTION
+*   **Silhouettes:** Generic triangles. No organic or architectural silhouettes present.
+*   **Proportions:** Scale is impossible to determine as there are no scale anchors (no humans, no doors, no known objects).
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | Missing: Macro/meso/micro structure. Observed: Flat triangles. |
+| **P10** | Terrain Topology | **FAIL** | Missing: Clean contact. Observed: Intersecting primitive planes. |
+| **P13** | Material Truth | **FAIL** | Missing: Weathering, texture, age. Observed: Flat RGB colors. |
+| **P14** | Vegetation | **FAIL** | Missing: All plant life. |
+| **P15** | Animal Ecology | **FAIL** | Missing: All creatures. |
+| **P18** | Individual Personhood| **FAIL** | Missing: All NPCs. |
+| **P22** | Economy/Logistics | **FAIL** | Missing: Stalls, goods, transport. |
+| **P23** | Domestic Life | **FAIL** | Missing: All signs of habitation. |
+| **P50** | Lighting | **FAIL** | Missing: Key/Fill/Rim. Observed: Flat ambient shading. |
+| **P51** | Shader Presentation| **FAIL** | Missing: Painterly language. Observed: Generic flat shader. |
+| **P67** | Visual Oracle | **FAIL** | Observed: Pure proxy geometry. |
+| **P72** | Completeness | **FAIL** | Total absence of mandatory visual blockers. |
+| **P07** | Perceptual Hierarchy| **FAIL** | No directed read. |
+| **P49** | Cinematography | **FAIL** | No lens language or framing. |
+| **P61** | Renderer/GPU | **PARTIAL**| No z-fighting visible (due to extreme simplicity). |
+
+---
+
+### 6. FORENSIC SWEEP (3x3 TILED)
+*   **Top-Left:** Flat blue sky $\rightarrow$ White triangle edge. (Primitive)
+*   **Top-Center:** White triangle peak. (Primitive)
+*   **Top-Right:** White triangle peak $\rightarrow$ Blue sky. (Primitive)
+*   **Mid-Left:** Grey triangle slope. (Primitive)
+*   **Mid-Center:** Light blue plane $\rightarrow$ Tiny grey specks. (Placeholder)
+*   **Mid-Right:** Light blue plane $\rightarrow$ Dark blue void. (Primitive)
+*   **Bottom-Left:** Grey triangle slope. (Primitive)
+*   **Bottom-Center:** Light blue plane. (Primitive)
+*   **Bottom-Right:** Light blue plane. (Primitive)
+
+

@@ -1,0 +1,204 @@
+# VISION INSPECTION — e2.11
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Setting:* A room or enclosed space.
+    *   *Walls:* Flat, off-white/beige, no texture, no trim, no windows (except maybe a white square in the top left).
+    *   *Floor:* Tan/brownish color, grainy texture, uneven lighting/shading.
+    *   *Ceiling:* Solid dark brown/black block.
+    *   *Objects:*
+        *   One small brown cube sitting on the floor.
+        *   One tan cylinder/column partially visible at the bottom edge.
+    *   *Scale:* Hard to tell without a character, but the cube suggests a small-scale object in a medium-sized room.
+    *   *Density:* Extremely low. Almost empty.
+    *   *Lighting:* Flat, some vague gradients on the floor, no clear light source.
+    *   *Quality:* Low resolution, primitive geometry, no anti-aliasing (jagged edges on the cube), basic colors.
+
+    *   *What is it?* A room with a cube and a cylinder.
+    *   *Player perception:* "I'm in a test room" or "The game is broken/unfinished."
+    *   *Art style:* Primitive 3D.
+    *   *Completion level:* PRIMITIVE_PLACEHOLDER or BLOCKOUT.
+    *   *Defects:* Lack of detail, flat lighting, jagged edges, empty space.
+    *   *Reward for inspection:* Zero. There is nothing to look at.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** An enclosed rectangular space with off-white walls, a dark brown ceiling, and a tan, grainy floor.
+*   **Objects:** One small brown cube; one tan cylinder partially visible at the bottom edge of the frame.
+*   **Scale:** Indeterminate due to lack of reference, though the cube suggests a small-scale prop in a medium-sized room.
+*   **Density:** Extremely low. The space is nearly empty.
+
+**Player Perception**
+A player would perceive this as a technical test environment, a "greybox" area, or a broken/unloaded level. There is no narrative or environmental storytelling present.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive 3D.
+*   **Quality:** Very low. Geometry is basic; textures are either non-existent (flat colors) or low-resolution noise (floor). Lighting is flat with vague, muddy gradients. Aliasing is visible on the edges of the cube.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Empty Zones:** The entire frame is an empty zone.
+*   **Lighting:** Lack of defined light sources creates a muddy, indistinct atmosphere.
+*   **Geometry:** Hard edges and lack of bevels/trim make the environment feel artificial and sterile.
+*   **Composition:** The placement of the cube and cylinder appears random and devoid of purpose.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no details, textures, or hidden elements to discover. Once the three primary shapes (walls, cube, cylinder) are identified, there is nothing further to analyze.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame showing a very primitive room (beige walls, brown floor, dark ceiling, one cube, one cylinder).
+A detailed "Scene Universe Slice" describing a "Yamen Hall" (County law, tax, disputes) with timber frames, whitewashed walls, dark tiled roofs, magistrate's dais, county seal, tax rolls, etc.
+A comprehensive list of "Genesis Passes" (P09, P10, P13, etc.) that define the visual obligations for a finished world.
+
+    *   *Phase A (Blind Read - already provided):* Primitive room, low density, greybox/blockout quality.
+    *   *Phase B (Composition):*
+        *   Focal Hierarchy: The brown cube is the only distinct object, but it's not a "subject."
+        *   Foreground/Mid/Back: Foreground (cylinder), Mid (cube), Back (walls).
+        *   Balance: Extremely unbalanced. Massive empty void.
+        *   Camera: Low angle, looking slightly up.
+    *   *Phase C (World Density):*
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): One cube.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4-9: Non-existent.
+    *   *Phase D (Content Inventory):*
+        *   Walls: Flat planes.
+        *   Floor: Flat plane with grainy texture.
+        *   Ceiling: Flat plane.
+        *   Cube: Primitive.
+        *   Cylinder: Primitive.
+        *   *Missing:* Everything from the Scene Universe Slice (dais, seal, rolls, timber frames, lacquer, etc.).
+
+    *   P09 (Geology): NOT_EVALUABLE (Indoor scene).
+    *   P10 (Terrain): FAIL (Flat plane, no topology).
+    *   P13 (Material Truth): FAIL (Flat colors/noise, no weathering, no "timber/plaster/tile" read).
+    *   P23 (Domestic Life): FAIL (No tools, no activity, no causal occupation).
+    *   P36 (Structural Consequences): FAIL (No load paths, no supports, just floating planes).
+    *   P49 (Cinematography): FAIL (No intentional framing, just a default camera view).
+    *   P50 (Lighting): FAIL (Flat, generic, no key/fill/rim).
+    *   P51 (Shader Presentation): FAIL (Generic shaders, no painterly language).
+    *   P67 (Visual Oracle): FAIL (Pure proxy geometry).
+    *   P72 (Completeness): FAIL (Total absence of mandatory visual content).
+
+    *   *Vision Verdict:* This is a primitive blockout/greybox. It bears zero resemblance to the "Yamen Hall" described in the Universe Slice.
+    *   *Top Failures:* Total lack of asset implementation, failure of material truth, zero world density.
+    *   *World Density:* Non-existent.
+    *   *Technical Defects:* Flat lighting, primitive geometry.
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** `room.qinghe.yamen_hall` (County Law/Tax/Disputes Hall)
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The eye is drawn to a brown cube simply because it is the only distinct geometric variance in a void.
+*   **Depth Layers:** 
+    *   *Foreground:* A tan cylinder (bottom edge).
+    *   *Middle ground:* A brown cube.
+    *   *Background:* Two intersecting flat planes (walls).
+*   **Frame Balance:** Extremely poor. The image is dominated by negative space that provides no narrative or atmospheric value.
+*   **Camera/Lens:** Low-angle perspective. No intentional lens language or cinematic framing.
+*   **Sightlines:** There are no sightlines; there is nothing to look at.
+*   **Compositional Read:** This is a **primitive blockout**. It is not a composed shot.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Empty.
+*   **SHELL 2 (Local Interaction):** One primitive cube.
+*   **SHELL 3 (Local Scene):** Empty.
+*   **SHELL 4–9 (Environment to Metaphysical):** Non-existent.
+*   **Density Verdict:** **ZERO.** The scene is a vacuum. There is no evidence of a "hall," a "town," or a "universe."
+
+### 3. PHASE D: CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Wall (L) | Left/Center | Back | Flat Plane | Primitive | None |
+| Wall (R) | Right | Back | Flat Plane | Primitive | None |
+| Floor | Bottom | Mid/Fore | Flat Plane | Primitive | None |
+| Ceiling | Top | Back | Flat Plane | Primitive | None |
+| Cube | Center-Left | Mid | Placeholder | Primitive | None |
+| Cylinder | Bottom-Right | Fore | Placeholder | Primitive | None |
+
+**Missing Content (per Scene Universe Slice):**
+*   **Architecture:** No timber frames, no whitewashed texture, no dark tiled roofs, no lacquer.
+*   **Furniture/Props:** No magistrate's dais, no county seal, no tax rolls.
+*   **Details:** No doors, no windows, no structural supports.
+
+---
+
+### 4. PHASE X: GENESIS PASS COVERAGE
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P10** | Terrain Geometry | **FAIL** | No topology; flat plane. |
+| **P13** | Material Truth | **FAIL** | No timber, plaster, or tile. Only flat colors and generic noise. |
+| **P23** | Domestic Life | **FAIL** | No tools, no tax rolls, no evidence of human activity. |
+| **P36** | Structural Cons. | **FAIL** | No load paths or supports; walls are floating planes. |
+| **P49** | Cinematography | **FAIL** | No focal hierarchy or directed framing. |
+| **P50** | Lighting | **FAIL** | Flat, ambient lighting; no key/fill/rim; no contrast. |
+| **P51** | Shader Pres. | **FAIL** | Generic shaders; no painterly language or edge work. |
+| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry. Total Art Bible violation. |
+| **P72** | Completeness | **FAIL** | Total absence of mandatory visual content. |
+| **P09** | Planetary Geo | **N/E** | Indoor scene. |
+| **P27** | World Laws | **N/E** | No supernatural elements present. |
+
+---
+
+### 5. FORENSIC SWEEP (3x3 TILED)
+*   **Top-Left:** Flat white plane. No detail.
+*   **Top-Center:** Dark brown ceiling plane. No detail.
+*   **Top-Right:** Flat white plane. No detail.
+*   **Mid-Left:** Flat white plane. No detail.
+*   **Mid-Center:** Brown cube on grainy floor. No detail.
+*   **Mid-Right:** Flat white plane. No detail.
+*   **Bot-Left:** Grainy tan floor. No detail.
+*   **Bot-Center:** Grainy tan floor. No detail.
+*   **Bot-Right:** Tan cylinder edge. No detail.
+
+---
+
+### 6. VISION VERDICT
+
+**OVERALL STATUS: [CRITICAL FAILURE]**
+
+**TOP FAILURES:**
+1.  **Total Asset Absence:** The "Yamen Hall" described in the Universe Slice does not exist in this frame. There is 0% correlation between the canon description and the visual evidence.
+2.  **Primitive State:** The scene is a greybox/blockout. It is not a production candidate.
+3.  **Material Void:** No materials (timber, lacquer, plaster) are present.
+
+**WORLD DENSITY:**
+*   **Current:** Non-existent.
+*   **Required:** High (Institutional hall with specific legal/tax artifacts).
+
+**TECHNICAL DEFECTS:**
+*   Flat, non-directional lighting.
+*   Lack of any texture mapping beyond basic noise.
+*   Zero architectural detail (no trim, no joints, no depth).
+
+**NOT EVALUABLE:**
+*   P09, P14, P15, P18, P43, P47 (No environment, vegetation, or actors present).
+
+**NEXT INSPECTION:**
+*   Require a frame that contains actual geometry and materials as defined in the `structure.qinghe.yamen` blueprint.
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready environment that satisfies the Grand Architect World and Art contracts?**
+
+**NO.** This is a primitive placeholder.
