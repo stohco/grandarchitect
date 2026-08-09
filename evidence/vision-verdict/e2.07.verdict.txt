@@ -3,157 +3,175 @@
 ## STAGE A (blind)
 Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
 One rendered frame.
-No entity names, no developer context, no intended content.
+No entity names, no developer context, no "intended" content.
 
-        *   What does the frame actually show? (setting, objects, scale, density)
-        *   What would a player genuinely think they are looking at?
-        *   Apparent art style and production quality.
-        *   Apparent level of completion (specific categories provided).
-        *   Obvious defects, distractions, empty zones.
-        *   Where does the image stop rewarding closer inspection?
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
 Brutally accurate, no praise, facts and defects only.
 
-    *   *Setting:* An outdoor area with a flat green ground. A structure consisting of large, blocky, dark grey masses and some lighter-colored walls.
+    *   *Setting:* An outdoor area with a flat green ground. A structure consisting of a large dark grey blocky mass and a smaller, more detailed wooden/plaster structure attached to it.
     *   *Objects:*
-        *   A wooden overhang/roof supported by thin wooden posts.
-        *   A wooden counter or bench underneath the overhang.
-        *   A small rectangular wooden sign hanging from the overhang.
-        *   A grey concrete-like base/curb.
-        *   Large, featureless dark grey blocks forming the upper structure.
-        *   Off-white/beige walls.
-    *   *Scale:* Human-scale based on the counter and posts, but the surrounding blocks are massive and disproportionate.
-    *   *Density:* Extremely low. Very few objects. No foliage, no people, no clutter.
-    *   *Art Style:* Low-poly, flat textures, basic lighting. Looks like early 2000s 3D or a very early prototype.
-    *   *Production Quality:* Low. Textures are stretched or repetitive. Lighting is flat. No ambient occlusion or complex shaders.
-    *   *Completion Level:* This is clearly a blockout or a primitive placeholder. It's not even a stylized prototype because there's no cohesive "style" yet—just basic shapes and textures.
-    *   *Defects:*
-        *   Z-fighting or gaps between the dark grey blocks and the wooden roof.
-        *   Floating/clipping geometry (the roof doesn't seem to integrate naturally with the walls).
-        *   Texture stretching on the beige walls.
-        *   The "grass" is a single flat color/texture with no variation.
-        *   The sign is a blank brown rectangle.
-        *   The dark grey blocks are completely featureless.
-    *   *Reward for Inspection:* Zero. There is nothing to discover upon closer look. The textures are low-res and the geometry is simple.
+        *   A flat green plane (ground).
+        *   A large, dark grey, featureless geometric volume (background/main building).
+        *   A wooden awning/overhang supported by vertical posts.
+        *   A light-colored (off-white/beige) wall with horizontal banding.
+        *   A grey base/foundation strip.
+        *   A dark brown wooden counter or low wall under the awning.
+        *   A small brown rectangular sign/board hanging under the awning.
+    *   *Scale:* Human-scale based on the height of the posts and the counter, but lacks any human reference (no characters, no furniture, no props).
+    *   *Density:* Extremely low. Only one structure in a void of green and grey.
 
-    *   *What does it show?* A low-poly structure with a wooden stall/counter area set against large grey blocks on a green plane.
-    *   *Player perception?* A "greybox" or a very early alpha build of a shop or kiosk.
-    *   *Style/Quality?* Primitive 3D. Low production value.
-    *   *Completion?* BLOCKOUT.
-    *   *Defects?* Texture stretching, lack of detail, floating geometry, blank sign, featureless environment.
-    *   *Inspection limit?* Immediately. There is no detail to reward a closer look.
+    *   It looks like a shop or a stall (perhaps Japanese-inspired due to the wood/plaster look) attached to a larger, unfinished building.
+    *   It feels like a "test scene" or a "greybox" area where some assets have been swapped for final textures, but the environment is not yet built.
+
+    *   *Style:* Low-poly, flat lighting, basic textures. It looks like early 2000s 3D or a very basic indie prototype.
+    *   *Quality:* Low. Textures are blurry/low-res. Lighting is flat (no shadows, no ambient occlusion). Edges are sharp and un-beveled.
+
+    *   *Options:* FINISHED_WORLD / PRODUCTION_CANDIDATE / STYLIZED_PROTOTYPE / BLOCKOUT / PRIMITIVE_PLACEHOLDER.
+    *   *Analysis:* It's more than a blockout (it has textures), but it's far from a production candidate. It's a mix of blockout (the grey masses) and prototype assets.
+    *   *Verdict:* STYLIZED_PROTOTYPE (leaning towards BLOCKOUT for the surrounding environment).
+
+    *   *Defects:*
+        *   Floating/intersecting geometry: The grey blocks overlap the wooden structure awkwardly.
+        *   Texture stretching/blurring: The white wall and grey base have visible low-res tiling/blur.
+        *   Lack of lighting: No shadows under the awning or where the building meets the ground.
+        *   Empty zones: The entire foreground and background are featureless planes.
+        *   Z-fighting/Clipping: The grey overhang seems to clip into the dark grey wall.
+
+    *   The moment you look at the textures. The "detail" is just a flat image wrapped around a cube. There is no depth, no weathering, no micro-detail.
+
+    *   *Setting/Objects:* Flat green plane, dark grey geometric masses, a wooden stall with a beige wall and grey base.
+    *   *Player perception:* An unfinished shop in a void.
+    *   *Style/Quality:* Low-poly, flat-lit, low-resolution textures.
+    *   *Completion:* STYLIZED_PROTOTYPE.
+    *   *Defects:* No shadows, blurry textures, featureless environment, clipping geometry.
+    *   *Inspection limit:* Texture level.
 **PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
 **Actual Content**
-The frame shows a low-poly architectural assembly situated on a flat, featureless green plane. The structure consists of large, dark grey rectangular masses hovering over a combination of off-white walls and a wooden stall area. The stall includes a flat wooden roof supported by thin vertical posts, a long wooden counter/bench, and a blank rectangular wooden sign hanging from the ceiling. A grey concrete-textured plinth runs along the base of the walls.
+*   **Setting:** A featureless green plane meeting a light blue sky.
+*   **Objects:** A composite structure consisting of large, dark grey geometric blocks and a smaller attached wooden/plaster stall. The stall features a flat wooden roof supported by four vertical posts, a low dark-brown wooden partition, a beige horizontally-banded wall, and a grey concrete-like base. A single brown rectangular slab hangs under the roof.
+*   **Scale:** Human-scale implied by the height of the posts and counter, though no reference figures are present.
+*   **Density:** Extremely low. One isolated structure in an empty void.
 
 **Player Perception**
-A player would perceive this as a "greybox" or a very early development build. It looks like a placeholder for a shop, kiosk, or market stall in a town, but currently lacks any identifying markers, signage, or environmental context.
+A player would perceive this as an unfinished "test room" or a development build. It looks like a shop or vendor stall being tested for scale and placement before the rest of the environment is built.
 
 **Art Style and Production Quality**
-*   **Style:** Primitive 3D / Early Alpha.
-*   **Quality:** Low. Textures are flat and lack depth. Lighting is basic with no ambient occlusion or complex shadowing. There is no evidence of a cohesive art direction.
+*   **Style:** Low-poly, basic 3D.
+*   **Quality:** Low. Lighting is flat with no visible shadows, ambient occlusion, or global illumination. Textures are low-resolution and blurry. Geometry consists of simple primitives with sharp, un-beveled edges.
 
-**Level of Completion**
-**BLOCKOUT**
+**Completion Level**
+STYLIZED_PROTOTYPE
 
 **Defects and Distractions**
-*   **Texture Stretching:** The off-white walls exhibit visible stretching and blurring of the texture.
-*   **Geometry Gaps:** There are unnatural gaps and clipping where the wooden roof meets the dark grey upper blocks.
-*   **Void Content:** The sign is a blank brown rectangle; the dark grey blocks are entirely featureless.
-*   **Environmental Sterility:** The ground is a uniform green void with no variation, debris, or blending at the base of the structure.
-*   **Scale Disconnect:** The massive scale of the dark grey blocks feels disconnected from the human-scale proportions of the wooden stall.
+*   **Lighting:** Total absence of contact shadows where the building meets the ground and under the awning, causing the structure to "float."
+*   **Geometry:** Harsh clipping where the grey overhead blocks intersect the wooden structure.
+*   **Textures:** Visible blurring and low-fidelity tiling on the beige wall and grey base.
+*   **Empty Zones:** The entire foreground and background are void of any detail, foliage, or environmental storytelling.
 
 **Inspection Limit**
-The image stops rewarding inspection immediately. There are no fine details, hidden elements, or material complexities to discover; the resolution of the textures and the simplicity of the meshes provide no further information upon closer look.
+The image stops rewarding inspection at the texture level. Closer looks reveal only blurry pixels and flat polygons; there is no micro-detail, weathering, or material definition.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
 A single rendered frame showing a primitive structure on a green plane.
 Stage A (Blind Read) provided.
-Scene Universe Slice (Qinghe Medicine Shop, Wang Family Bend, etc.), Genesis Pass Manifest (P09, P10, etc.), and the Inspection Contract.
+Grand Architect Vision Inspection Contract.
+Scene Universe Slice (Qinghe Medicine Shop, Wang Family Bend, etc.), Genesis Pass Manifest (P09, P10, etc.).
 
-    *   *Visuals:* Flat green ground. A structure with a wooden overhang, a wooden counter, a hanging sign, a grey base, and massive dark grey blocks above.
-    *   *Context (Universe Slice):* This is supposed to be the "Qinghe Medicine Shop" in "Wang Family Bend." It should have timber and plaster, drawers wall to wall, a compounding bench, and a locked cabinet.
-    *   *Comparison:* The visual evidence shows a primitive blockout. There are no drawers, no herbs, no "painterly hand-painted language," no weathering, and no world density.
+    *   *Visuals:* A flat green ground. A large dark grey block (background). A small structure with a wooden awning, beige walls, and a grey base. A brown counter. A small brown sign.
+    *   *Context (from Slice):* This is supposed to be the "Qinghe Medicine Shop" in "Wang Family Bend." It should have timber and plaster, drawers wall to wall, a compounding bench, etc.
+    *   *Comparison:* The visual evidence is a primitive blockout. There are no drawers, no herbs, no people, no "real" geology, no painterly style. It's a greybox/prototype.
 
     *   **PHASE B: Full-Frame Composition**
-        *   *Focal Hierarchy:* The wooden counter/overhang is the primary read.
-        *   *Reads:* Primary (counter), Secondary (grey blocks), Tertiary (green ground).
-        *   *Balance:* Heavily weighted to the top and center.
-        *   *Depth:* Very shallow. Foreground (green), Middle (shop), Background (grey blocks/sky).
-        *   *Camera:* Low angle, looking slightly up.
+        *   *Focal Hierarchy:* The small structure is the focal point, but it's dwarfed by a massive, featureless grey block.
+        *   *Reads:* Primary (the shop), Secondary (the grey block), Tertiary (the green plane).
+        *   *Balance:* Heavily weighted to the left/center. The right side is empty green.
+        *   *Depth:* Very shallow. Foreground (green), Middle (shop), Background (grey block).
+        *   *Camera:* Eye-level, slightly angled.
         *   *Verdict:* Composition is a basic technical layout, not a cinematic shot.
 
     *   **PHASE C: Multi-Scale World Density**
-        *   *Shell 1 (Reach):* Empty. No props on the counter.
-        *   *Shell 2 (Local Interaction):* Primitive. A counter and a sign.
-        *   *Shell 3 (Local Scene):* Empty. No other shops, no street, no people.
-        *   *Shell 4-7 (Settlement to Sky):* Non-existent. Flat green plane and a flat blue sky.
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Interaction): Empty (no props on the counter).
+        *   Shell 3 (Local Scene): Primitive.
+        *   Shell 4 (Settlement): Non-existent.
+        *   Shell 5 (Landscape): Flat green plane.
+        *   Shell 6 (Horizon): Flat.
+        *   Shell 7 (Sky): Flat blue/grey.
         *   *Verdict:* Total density failure.
 
     *   **PHASE D: Content Inventory**
-        *   *Ground:* Green plane (repeated/uniform).
-        *   *Structure:* Wooden posts, wooden roof, wooden counter, wooden sign.
-        *   *Walls:* Beige/off-white planes.
-        *   *Upper Structure:* Dark grey blocks (primitive).
-        *   *Base:* Grey curb.
-        *   *Missing:* Herbs, drawers, cabinets, NPCs, vegetation, roads, paths, atmospheric effects.
+        *   Ground: Green plane (placeholder).
+        *   Structure: Timber posts, plaster wall (primitive), grey base.
+        *   Props: One brown counter, one brown sign.
+        *   Background: Large grey geometric volume (blockout).
+        *   *Verdict:* Minimalist. Does not match the "drawer wall to wall" description in the slice.
 
     *   **PHASE E: Silhouette and Proportion**
-        *   *Silhouette:* Blocky, rectangular.
-        *   *Proportion:* The dark grey blocks above the shop are disproportionately massive and lack structural logic.
+        *   The shop is small. The background block is unnaturally large and featureless, creating a jarring scale mismatch.
 
-    *   *P09 (Geology):* FAIL. Flat green plane.
-    *   *P10 (Terrain Geometry):* FAIL. No valley/slope; structure sits on a flat plane.
-    *   *P13 (Material Truth):* FAIL. Flat textures, no weathering, no contact wear.
-    *   *P14 (Vegetation):* FAIL. Uniform green paint.
-    *   *P22 (Economy/Logistics):* FAIL. No stock, no containers, no logistics.
-    *   *P23 (Ordinary Work):* FAIL. No tools, no activity.
-    *   *P36 (Physics/Structural):* FAIL. Massive grey blocks floating/resting without load paths.
-    *   *P49 (Cinematography):* FAIL. No intentional framing.
-    *   *P50 (Lighting):* FAIL. Flat, ambient lighting. No key/fill/rim.
-    *   *P51 (Material/Shader):* FAIL. Generic shaders, no painterly language.
-    *   *P67 (Visual Oracle):* FAIL. Obvious proxy/greybox geometry.
-    *   *P72 (Completeness):* FAIL. Primitive placeholder.
+    *   P09 (Geology): **FAIL**. Flat green plane.
+    *   P10 (Terrain Geometry): **FAIL**. No valley/slope; just a plane.
+    *   P13 (Material Truth): **FAIL**. Flat colors/simple textures. No weathering.
+    *   P14 (Vegetation): **FAIL**. Uniform green paint.
+    *   P22 (Economy/Logistics): **FAIL**. No stock, no containers, no trade evidence.
+    *   P23 (Domestic Life): **FAIL**. No activity.
+    *   P36 (Physics/Structural): **PARTIAL**. It stands, but the grey block behind it is a floating/intersecting mass.
+    *   P49 (Cinematography): **FAIL**. No intentional framing.
+    *   P50 (Lighting): **FAIL**. Flat, ambient lighting. No key/fill/rim.
+    *   P51 (Material/Shader): **FAIL**. Not painterly. Generic shaders.
+    *   P67 (Visual Oracle): **FAIL**. Visible proxy geometry (the grey block).
+    *   P72 (Completeness): **FAIL**. Primitive placeholder.
 
-    *   *Vision Verdict:* Primitive Placeholder / Greybox.
-    *   *Top Failures:* Material Truth, World Density, Structural Logic.
-    *   *Genesis Pass Coverage:* Massive failures across almost all physical and cinematic passes.
-**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+    *   *Vision Verdict:* Primitive Prototype / Greybox.
+    *   *Top Failures:* Material Truth, World Density, Visual Oracle (Proxy Geometry).
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat lighting, proxy geometry.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
-**LOCATION:** Qinghe Medicine Shop / Wang Family Bend (per Universe Slice)
-**STATUS:** CRITICAL FAILURE
+**LOCATION:** [SCENE UNIVERSE SLICE: Qinghe Medicine Shop / Wang Family Bend]
 
 ---
 
 ### 1. PHASE B: FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** The primary read is the wooden counter/overhang. The secondary read is the massive, featureless dark grey block above it. The tertiary read is the flat green ground.
-*   **Depth Separation:** Extremely poor. The image consists of three flat planes: a green floor, a mid-ground structure, and a background of grey blocks/blue sky. There is no overlap or atmospheric perspective.
-*   **Frame Balance:** Top-heavy. The dark grey masses dominate the upper 60% of the frame, crushing the intended subject (the shop).
-*   **Camera/Lens:** Low-angle static shot. Perspective is linear and sterile.
-*   **Compositional Verdict:** This is a technical layout, not a composed shot. It fails to communicate a "place" and instead communicates a "coordinate."
+*   **Focal Hierarchy:** The primary read is the small wooden/plaster structure. The secondary read is the massive, featureless dark grey volume dominating the background.
+*   **Depth Separation:** Extremely poor. The scene consists of three flat layers: a green foreground plane, a middle-ground structure, and a background block. There is no atmospheric perspective or layering.
+*   **Frame Balance:** Heavily weighted to the left and center. The right third of the frame is empty green void.
+*   **Camera/Lens:** Standard perspective, eye-level. No cinematic intent; reads as a technical viewport capture.
+*   **Sightlines:** There are no leading lines or intentional sightlines. The eye is drawn to the contrast between the beige wall and the dark grey block.
+*   **Composition Verdict:** **FAIL.** This is a technical layout, not a composed shot.
 
 ### 2. PHASE C: MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** **EMPTY.** The counter is a bare slab. No medicine, no tools, no papers.
-*   **SHELL 2 (Local Interaction):** **PRIMITIVE.** Only the counter and a sign exist. No "drawers wall to wall" or "locked cabinet" as required by the Architecture contract.
-*   **SHELL 3 (Local Scene):** **EMPTY.** No street, no neighboring buildings, no debris.
-*   **SHELL 4-7 (Settlement to Sky):** **NON-EXISTENT.** The world ends at the edge of a flat green plane. The sky is a solid color.
-*   **Density Verdict:** Total vacuum. The scene is a disconnected cinematic facade—or more accurately, a primitive blockout.
+*   **SHELL 1 (Reach):** Empty. No debris, no dust, no tactile detail.
+*   **SHELL 2 (Interaction):** Empty. The "medicine counter" is a featureless brown box. No jars, no herbs, no tools.
+*   **SHELL 3 (Local Scene):** Primitive. A single structure on a void.
+*   **SHELL 4 (Settlement):** Non-existent. No neighboring buildings, no street, no "Wang Family Bend" context.
+*   **SHELL 5 (Landscape):** Non-existent. Flat green plane.
+*   **SHELL 6 (Horizon):** Flat, featureless.
+*   **SHELL 7 (Sky):** Flat, gradient-less blue/grey.
+*   **Density Verdict:** **CRITICAL FAILURE.** The scene is a vacuum.
 
 ### 3. PHASE D: CONTENT INVENTORY
 | Content Class | Region | Depth | Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Terrain | Bottom | FG | Green Plane | **FAIL** | None (Uniform paint) |
-| Structure | Center | MG | Medicine Shop | **FAIL** | Basic footprint only |
-| Prop | Center | MG | Wooden Counter | **FAIL** | Placeholder geometry |
-| Prop | Center | MG | Hanging Sign | **FAIL** | Blank placeholder |
-| Structure | Top | BG | Grey Blocks | **FAIL** | Proxy/Greybox geometry |
-| Base | Bottom | MG | Grey Curb | **FAIL** | Primitive extrusion |
+| Terrain | Bottom/Right | FG/MG | Green Plane | **Placeholder** | None. |
+| Structure | Center | MG | Medicine Shop | **Prototype** | Basic footprint only. |
+| Wall | Center | MG | Plaster Wall | **Primitive** | Basic color/material. |
+| Roof/Awning | Top-Left | MG | Timber Overhang | **Primitive** | Basic geometry. |
+| Prop | Center | MG | Counter | **Placeholder** | Indicates "shop" function. |
+| Prop | Center | MG | Sign | **Placeholder** | Indicates "shop" function. |
+| Architecture | Background | BG | Grey Volume | **Proxy** | None (Blockout geometry). |
 
 ### 4. PHASE E: SILHOUETTE AND PROPORTION
-*   **Silhouette:** A series of intersecting rectangles. There is no organic flow or architectural character.
-*   **Proportion:** The dark grey blocks above the shop are scale-breaking. They lack any structural relationship to the wooden shop below, appearing as floating masses rather than a building.
+*   **Scale Communication:** The scale is incoherent. The small shop is dwarfed by a monolithic grey block that has no architectural purpose or identity.
+*   **Proportions:** The awning and posts are basic; they communicate "building" but lack any stylistic refinement or "Cangli" cultural markers.
 
 ---
 
@@ -161,44 +179,47 @@ Scene Universe Slice (Qinghe Medicine Shop, Wang Family Bend, etc.), Genesis Pas
 
 | Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | **Missing:** Real geology. **Observed:** Flat green heightmap. |
-| **P10** | Terrain Geometry | **FAIL** | **Missing:** Clean contact. **Observed:** Structure floating on a plane. |
-| **P13** | Material Truth | **FAIL** | **Missing:** Weathering, wear, grain. **Observed:** Flat procedural colors. |
-| **P14** | Vegetation | **FAIL** | **Missing:** Species variation. **Observed:** Uniform green paint. |
-| **P22** | Economy/Logistics | **FAIL** | **Missing:** Stock, containers, goods. **Observed:** Empty counter. |
-| **P23** | Ordinary Work | **FAIL** | **Missing:** Tools, activity. **Observed:** Sterile environment. |
-| **P36** | Structural Physics | **FAIL** | **Missing:** Load paths. **Observed:** Impossible grey block intersections. |
-| **P49** | Cinematography | **FAIL** | **Missing:** Focal hierarchy. **Observed:** Random technical angle. |
-| **P50** | Lighting | **FAIL** | **Missing:** Key/Fill/Rim. **Observed:** Flat, ambient global illumination. |
-| **P51** | Material/Shader | **FAIL** | **Missing:** Painterly language. **Observed:** Generic asset-store/engine defaults. |
-| **P67** | Visual Oracle | **FAIL** | **Missing:** Production quality. **Observed:** Obvious proxy geometry. |
-| **P72** | Completeness | **FAIL** | **Missing:** Everything. **Observed:** Primitive placeholder map. |
+| **P09** | Planetary Geology | **FAIL** | **Missing:** Real geology, soil transitions. **Observed:** Flat green plane. |
+| **P10** | Terrain Geometry | **FAIL** | **Missing:** Valley/slope structure. **Observed:** Flat plane. |
+| **P13** | Material Truth | **FAIL** | **Missing:** Weathering, contact wear, age. **Observed:** Flat, clean textures. |
+| **P14** | Vegetation Ecology | **FAIL** | **Missing:** Species variation, riparian edges. **Observed:** Uniform green paint. |
+| **P22** | Economy/Logistics | **FAIL** | **Missing:** Stock, containers, goods handling. **Observed:** Empty counter. |
+| **P23** | Domestic Life | **FAIL** | **Missing:** Tools at work, causal occupation. **Observed:** Total vacancy. |
+| **P36** | Structural Physics | **PARTIAL** | **Observed:** Posts support roof. **Missing:** Load paths, debris logic. |
+| **P49** | Cinematography | **FAIL** | **Missing:** Focal hierarchy, framing. **Observed:** Technical viewport. |
+| **P50** | Lighting | **FAIL** | **Missing:** Key/Fill/Rim, contrast. **Observed:** Flat ambient light. |
+| **P51** | Material/Shader | **FAIL** | **Missing:** Painterly language, edge language. **Observed:** Generic shaders. |
+| **P67** | Visual Oracle | **FAIL** | **Observed:** Massive proxy geometry (grey block) in final frame. |
+| **P72** | Completeness | **FAIL** | **Observed:** Primitive placeholder map. |
 
 ---
 
 ### 6. VISION VERDICT
 
-**OVERALL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER / GREYBOX**
+**OVERALL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP / GREYBOX**
 
 **TOP FAILURES:**
-1.  **Material & Shader Vacuum (P13, P51):** No textures, no weathering, no "painterly" style. It looks like a default engine scene.
-2.  **World Density Collapse (P22, P23):** The "Medicine Shop" contains zero medicine, zero tools, and zero evidence of human or cultivator habitation.
-3.  **Structural Absurdity (P36):** The massive grey blocks above the shop are visually nonsensical and break all laws of architecture and physics.
+1.  **Visual Oracle (P67):** The presence of a massive, featureless grey block in the background is a direct violation. This is proxy geometry that should not exist in a production frame.
+2.  **World Density (Shells 1-7):** Total absence of the "drawer wall to wall," "compounding bench," and "spirit-touched goods" mandated by the Scene Universe Slice.
+3.  **Material Truth (P13/P51):** The scene uses generic, flat shaders. There is zero "painterly" language or weathering.
+
+**WORLD DENSITY:** **ZERO.** The environment is a void containing a single, under-dressed asset.
 
 **TECHNICAL DEFECTS:**
-*   **Z-Fighting/Intersections:** Hard intersections between the grey blocks and the beige walls with no trim or transition.
-*   **Lighting:** Zero contrast; no shadows to define form.
+*   **Lighting:** Flat, non-directional ambient light.
+*   **Geometry:** Proxy blockout volumes visible.
+*   **Terrain:** Heightmap/Plane prototype.
 
 **NOT EVALUABLE:**
-*   P43 (Motion), P47 (Secondary Motion) — No temporal evidence provided.
-*   P27 (World Laws), P29 (Formations) — No supernatural effects present to evaluate.
+*   P18 (Personhood), P43 (Env-Aware Motion), P47 (Secondary Motion) — No entities present.
+*   P27 (World Laws), P29 (Formations), P25 (Qi Ecology) — No supernatural effects present.
 
 **NEXT INSPECTION:**
-Requires a complete overhaul of the scene. The current state is a "blockout" and cannot be evaluated against production standards.
+Requires a full pass of **P09, P13, P22, and P67**. The scene must be cleared of proxy geometry and populated with the specific assets defined in the `room.qinghe.medicine_counter` slice.
 
 ---
 
 ### 7. AAA COMPLETENESS QUESTION
-**Does this frame represent a finished, production-ready environment that satisfies the Grand Architect contracts?**
+**Does this frame represent a finished, production-ready visual for a AAA Xianxia title?**
 
-**NO.** This is a primitive prototype. It fails every single applicable physical, cinematic, and world-density pass.
+**NO.** This is a primitive blockout.
