@@ -1,0 +1,98 @@
+# VISION INSPECTION — ep4.11
+
+## STAGE A (blind)
+**REPORT: PERCEPTUAL EVIDENCE EXAM (STAGE A)**
+
+**1. Frame Content (Setting, Objects, Scale, Density)**
+*   **Setting:** A featureless, void-like environment consisting of a flat, pale-green ground plane and a uniform, light-blue sky gradient.
+*   **Objects:** Two objects are present. One is a massive, rounded, faceted grey mass occupying approximately 80% of the frame. The second is a tiny, low-poly grey rock sitting at the base of the larger mass.
+*   **Scale:** Ambiguous. If the small rock is intended to be human-scale, the larger mass is a mountain. If the small rock is a pebble, the larger mass is a boulder. The lack of environmental cues (grass, trees, structures) makes scale impossible to verify.
+*   **Density:** Extremely low. The scene contains only two meshes and two flat planes.
+
+**2. Player Perception**
+A player would perceive this as a **technical test environment** or a "greybox" level. They would identify the large object as a placeholder for a mountain or a large rock formation, and the small object as a scale reference or a prop test. There is no narrative or gameplay context visible.
+
+**3. Art Style and Production Quality**
+*   **Style:** None. This is raw engine output using diagnostic materials.
+*   **Quality:** Non-existent. The large object uses a standard grey-on-grey checkerboard UV-mapping texture, typically used to check for texture stretching or density. The lighting is flat and ambient with no directional shadows for the primary mass.
+
+**4. Apparent Level of Completion**
+*   **PRIMITIVE_PLACEHOLDER.**
+This is not a "world" or even a "blockout" of a level; it is a single-asset display in a void.
+
+**5. Defects, Distractions, and Empty Zones**
+*   **UV Checkerboard:** The most distracting element is the diagnostic texture, which signals "unfinished work" to any viewer.
+*   **Visible Faceting:** The large mass has sharp, jagged edges along its silhouette, indicating a low polygon count without smoothing groups or high-fidelity modeling.
+*   **Lack of Contact:** The large mass appears to sit on top of the ground plane with zero contact shadowing (Ambient Occlusion), making it look like it is floating or poorly composited.
+*   **Empty Zones:** 100% of the background and ground plane are empty. There is no visual interest beyond the central objects.
+
+**6. Inspection Reward Limit**
+The image stops rewarding inspection **instantly**. There are no hidden details, micro-textures, or environmental storytelling. Closer inspection only reveals the pixelation of the checkerboard texture and the mathematical straightness of the low-poly edges.
+
+## STAGE B (contract)
+**REPORT: PERCEPTUAL EVIDENCE EXAM (STAGE B-X)**
+**Location:** Western Cangwu Vein (intended) / Greybox Test Environment (actual)
+**Status:** CRITICAL FAILURE
+
+---
+
+### PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary focal point is a massive, rounded grey mass occupying the center and right of the frame. The secondary focal point is a small, low-poly rock at its base.
+*   **Read:** The composition reads as a "Scale Test." The eye is drawn to the contrast between the tiny rock and the large mass, but there is no narrative or environmental context.
+*   **Grounds:** 
+    *   **Foreground:** Flat, featureless green plane and one small rock.
+    *   **Middle Ground:** The massive grey mass.
+    *   **Background:** A featureless blue-to-white sky gradient.
+*   **Horizon:** A perfectly straight, razor-sharp line. No atmospheric perspective or terrain variation.
+*   **Scale Communication:** **FAILED.** Without a human-scale anchor (like the missing NPC Xu Erniu), the massive object could be 5 meters or 500 meters tall.
+*   **Sightlines:** None. The massive object acts as a visual dead-end.
+
+---
+
+### PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1-3 (Reach to Local Scene):** **EMPTY.** No grass, spirit stone dust, or formation residue as required by the [MATERIALS] slice.
+*   **SHELL 4-5 (Settlement/Landscape):** **PRIMITIVE.** The "Cangwu foothills" are represented by a single flat plane. The "cache hill" is a primitive mesh with a checkerboard texture.
+*   **SHELL 6-7 (Horizon/Sky):** **EMPTY.** No "North Cloud Vein" or regional landmarks visible.
+*   **SHELL 8-9 (Subsurface/Metaphysical):** **ABSENT.** No visual indication of the "Green Mirror Vein" or the "Three-Jade Heart Ward" formation.
+
+---
+
+### PHASE D — CONTENT INVENTORY
+1.  **Massive Mesh (Center/Right):** Placeholder for a hill/cache. Unfinished. Checkerboard texture (Proxy).
+2.  **Small Rock (Bottom Center):** Low-poly prop. Placement feels random/test-oriented.
+3.  **Ground Plane:** Flat green shader. No material truth (P13).
+4.  **Skybox:** Default gradient. No celestial or weather data.
+
+---
+
+### PHASE X — GENESIS PASS COVERAGE
+
+| ID | Pass Name | Status | Observed vs. Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geography | **FAIL** | No real geology; just a faceted mesh and a flat plane. |
+| **P10** | Terrain Geometry | **FAIL** | No "cliff ledge" or "foothills" structure; no terrain-structure contact. |
+| **P13** | Material Truth | **FAIL** | Checkerboard and flat colors; no "rock" or "spirit stone dust" textures. |
+| **P18** | Individual Personhood | **FAIL** | **NPC Xu Erniu is missing.** The core narrative subject is absent. |
+| **P29** | Formations | **FAIL** | No "Hidden-Stone Cache Lock" nodes or volumes visible. |
+| **P51** | Shader Presentation | **FAIL** | Raw engine output; no "painterly hand-painted language." |
+| **P67** | Visual Oracle | **FAIL** | **CRITICAL:** Proxy geometry (checkerboard) is the primary visual. |
+| **P72** | Completeness Gate | **FAIL** | Scene is a disconnected cinematic facade/test scene. |
+| **P27** | Realm/World Laws | **N/E** | No supernatural phenomena present to evaluate. |
+| **P43** | Env-Aware Motion | **N/E** | Static frame; no temporal evidence. |
+
+---
+
+### 3x3 FORENSIC SWEEP
+*   **[1,1] [1,2] [1,3] (Top Row):** Uniform sky gradient. Zero cloud density or atmospheric depth.
+*   **[2,1] [2,3] (Mid Edges):** Sharp, aliased edges of the massive mesh against the sky.
+*   **[2,2] (Center):** High-contrast checkerboard pattern. This is a "Visual Blockout" marker.
+*   **[3,2] (Bottom Center):** The small rock shows no contact shadows or "grounding" into the soil. It appears to hover slightly or sit on a perfectly mathematical plane.
+
+---
+
+### VISION VERDICT
+**VERDICT: CRITICAL FAILURE / GREYBOX ONLY**
+The image is a primitive technical test. It contains 0% of the required [ARCHITECTURE], [ECOLOGY], or [NPC] data defined in the Scene Universe Slice. It fails to communicate the "Western Cangwu Vein" or the "Cultivator's abandoned cache."
+
+**TOP FAILURES:**
+1.  **P

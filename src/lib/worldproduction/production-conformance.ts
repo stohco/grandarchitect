@@ -39,6 +39,7 @@ import { PROP_BUILDERS, blueprintPropIds, dressStructure, DRESSING_SETS, dressin
 import { TOUR_SHOTS, TOUR_COUNT } from './director-script';
 import { EPISODE_2, EPISODE_2_COUNT } from './director-script';
 import { EPISODE_3, EPISODE_3_COUNT } from './director-script';
+import { EPISODE_4, EPISODE_4_COUNT } from './director-script';
 import { QINGHE_MARKET_TOWN, QINGHE_STRUCTURE_COUNT, QINGHE_ROOM_COUNT } from './set-blueprint-2';
 import { WANG_FAMILY_BEND as WANG_BEND } from './set-blueprint';
 import { interactionsFor } from './interactions';
@@ -415,14 +416,25 @@ check('episode 3 harvest key shots exist',
 check('episode 3 total duration >= 120s', EPISODE_3.shots.reduce((n, s) => n + s.durationSec, 0) >= 120, true);
 check('episode 3 scenes in market town', EPISODE_3.shots.every((s) => s.structureId?.startsWith('structure.qinghe.') ?? true), true);
 
+check('episode 4 has >= 12 shots', EPISODE_4_COUNT >= 12, true);
+check('episode 4 shots unique', new Set(EPISODE_4.shots.map((s) => s.id)).size === EPISODE_4_COUNT, true);
+check('episode 4 narration or MC everywhere',
+  EPISODE_4.shots.every((s) => (s.narrator ?? '').length > 10 || (s.mcLine ?? '').length > 10), true);
+check('episode 4 sound cues everywhere', EPISODE_4.shots.every((s) => (s.sound ?? []).length > 0), true);
+check('episode 4 harvest key shots exist',
+  ['ep4.07', 'ep4.11', 'ep4.12'].every((id) => EPISODE_4.shots.some((s) => s.id === id)), true);
+check('episode 4 total duration >= 120s', EPISODE_4.shots.reduce((n, s) => n + s.durationSec, 0) >= 120, true);
+
 check('motion corpus has >= 25 harvested entries', MOTION_CORPUS_COUNT >= 25, true);
 check('every corpus source shot exists in an episode', corpusShotIds().every((id) =>
-  new Set([...EPISODE_1.shots, ...TOUR_SHOTS, ...EPISODE_2.shots, ...EPISODE_3.shots].map((s) => s.id)).has(id)), true);
+  new Set([...EPISODE_1.shots, ...TOUR_SHOTS, ...EPISODE_2.shots, ...EPISODE_3.shots, ...EPISODE_4.shots].map((s) => s.id)).has(id)), true);
 check('motion corpus has performance-level harvests', MOTION_CORPUS.filter((m) => m.level === 'performance').length >= 8, true);
 check('corpus closes disciple.mount-sword gap', MOTION_CORPUS.some((m) => m.semanticAction === 'disciple.mount-sword'), true);
 check('corpus closes well.draw-water gap', MOTION_CORPUS.some((m) => m.semanticAction === 'well.draw-water'), true);
+check('corpus closes cultivate.meditate gap', MOTION_CORPUS.some((m) => m.semanticAction === 'cultivate.meditate'), true);
+check('corpus closes spirit-beast.stalk gap', MOTION_CORPUS.some((m) => m.semanticAction === 'spirit-beast.stalk'), true);
 check('remaining corpus gaps are honest episode targets', corpusGaps().every((g) =>
-  ['carry.uneven-terrain', 'bow.injured', 'sword.draw.confined-space', 'cultivate.meditate', 'spirit-beast.stalk', 'cultivate.breakthrough-strain'].includes(g)), true);
+  ['carry.uneven-terrain', 'bow.injured', 'sword.draw.confined-space', 'cultivate.breakthrough-strain'].includes(g)), true);
 check('corpus actions all map to coverage rows', MOTION_CORPUS.every((m) =>
   MOTION_COVERAGE.some((r) => r.action === m.semanticAction) ||
   ['craft.mortar', 'craft.brush', 'craft.cook', 'social.gesture', 'social.formal', 'perception.orient.sound', 'disciple.land-controlled', 'disciple.greet-elder', 'disciple.gatekeeper-inspect', 'mortal-watch-recruitment', 'mortal-line', 'gatekeeper.inspect-token', 'creature.chicken', 'creature.sparrow', 'creature.spirit-wolf', 'world.cloth', 'world.smoke', 'world.door', 'world.water'].includes(m.semanticAction)), true);

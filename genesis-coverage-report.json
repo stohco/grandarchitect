@@ -499,6 +499,16 @@
         {
           "system": "simulation",
           "consumerId": "simulation.ecology-spec"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.world-life",
+          "note": "herb patches, spirit wolf, domestic animals placed deterministically in the cinematic scenes"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.directed-scene-production",
+          "note": "Episode 4 frames the treeline stalker"
         }
       ]
     },
@@ -969,6 +979,11 @@
         {
           "system": "persistence",
           "consumerId": "persistence.durable-store"
+        },
+        {
+          "system": "visual",
+          "consumerId": "visual.residents",
+          "note": "named villagers visible at their houses in the cinematic scenes"
         }
       ]
     },
@@ -2004,7 +2019,7 @@
     "canon.phase-combat": 4,
     "canon.spirit-veins": 6,
     "canon.spirit-beasts": 6,
-    "canon.cangwu-roster": 3,
+    "canon.cangwu-roster": 4,
     "canon.demography-aggregation": 4,
     "canon.spirit-stone-economy": 4,
     "canon.qi-authority": 3,
@@ -2027,7 +2042,7 @@
     "canon.divine-sense": 4,
     "canon.qi-sense": 2,
     "canon.divination": 2,
-    "derived.settlement-daily-life": 4,
+    "derived.settlement-daily-life": 5,
     "canon.heavenly-dao": 4,
     "canon.soul-anchor": 4,
     "canon.underworld": 2,

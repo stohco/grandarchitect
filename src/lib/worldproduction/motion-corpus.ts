@@ -9,7 +9,7 @@
  * variant counts and surface the remaining gaps (episode targets).
  */
 
-import { EPISODE_1, TOUR_SHOTS, EPISODE_2, EPISODE_3 } from './director-script';
+import { EPISODE_1, TOUR_SHOTS, EPISODE_2, EPISODE_3, EPISODE_4 } from './director-script';
 
 export type HarvestLevel = 'atom' | 'phrase' | 'performance';
 
@@ -32,6 +32,7 @@ const ALL_SHOTS = new Set([
   ...TOUR_SHOTS.map((s) => s.id),
   ...EPISODE_2.shots.map((s) => s.id),
   ...(EPISODE_3?.shots ?? []).map((s) => s.id),
+  ...(EPISODE_4?.shots ?? []).map((s) => s.id),
 ]);
 
 export const MOTION_CORPUS: HarvestedMotion[] = [
@@ -63,6 +64,10 @@ export const MOTION_CORPUS: HarvestedMotion[] = [
   { id: 'motion.chicken.peck', semanticAction: 'creature.chicken', level: 'atom', sourceShot: 'tour.07', performer: 'chicken', status: 'harvested', note: 'pecking between the market stalls.' },
   { id: 'motion.sparrow.takeoff', semanticAction: 'creature.sparrow', level: 'atom', sourceShot: 'tour.06', performer: 'sparrow', status: 'harvested', note: 'takeoff from the senior household eave.' },
   { id: 'motion.wolf.observe', semanticAction: 'creature.spirit-wolf', level: 'atom', sourceShot: 'tour.22', performer: 'spirit-wolf', status: 'harvested', note: 'the treeline watch; one breath, then gone.' },
+  { id: 'motion.wolf.stalk-quartering', semanticAction: 'spirit-beast.stalk', level: 'performance', sourceShot: 'ep4.11', performer: 'spirit-wolf', status: 'harvested', note: 'quartering low between treeline strips, testing the wind, never centered — closes the spirit-beast.stalk coverage gap.' },
+  { id: 'motion.wolf.mutual-recognition', semanticAction: 'perception.orient.sound', level: 'phrase', sourceShot: 'ep4.12', performer: 'spirit-wolf', status: 'harvested', note: 'head turn at mutual recognition; the pause before turning away.' },
+  { id: 'motion.wanglin.meditate', semanticAction: 'cultivate.meditate', level: 'performance', sourceShot: 'ep4.07', performer: 'mc-cultivator', status: 'harvested', note: 'stillness as readable effort; qi as a thin warm current — closes the cultivate.meditate coverage gap.' },
+  { id: 'motion.wanglin.read-formation', semanticAction: 'perception.orient.sound', level: 'phrase', sourceShot: 'ep4.08', performer: 'mc-cultivator', status: 'harvested', note: 'residue reading: slow, patient, a farmer reading fallow field.' },
   { id: 'motion.cloth.wind', semanticAction: 'world.cloth', level: 'atom', sourceShot: 'tour.02', performer: 'drying-cloth', status: 'harvested', note: 'clothesline flutter at the gate.' },
   { id: 'motion.smoke.light-wind', semanticAction: 'world.smoke', level: 'atom', sourceShot: 'tour.12', performer: 'incense-smoke', status: 'harvested', note: 'shrine incense curling in the morning light.' },
   { id: 'motion.door.swing', semanticAction: 'world.door', level: 'atom', sourceShot: 'shot.1F', performer: 'compound-gate', status: 'harvested', note: 'the senior household gate swinging at sunrise.' },
@@ -88,6 +93,6 @@ export function corpusGaps(): string[] {
   const covered = new Set(MOTION_CORPUS.map((m) => m.semanticAction));
   return [
     'carry.uneven-terrain', 'bow.injured', 'sword.draw.confined-space',
-    'cultivate.meditate', 'spirit-beast.stalk', 'cultivate.breakthrough-strain',
+    'cultivate.breakthrough-strain',
   ].filter((a) => !covered.has(a));
 }

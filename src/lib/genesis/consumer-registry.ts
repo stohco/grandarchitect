@@ -293,6 +293,20 @@ export const CONSUMERS: GenesisConsumer[] = [
     path: 'src/lib/worldproduction/scene-universe-slice.ts',
     description: 'Scene Universe Slice compiler: per-scene retrieval of the relevant universe graph (doc 43: cosmology, law, regional, history, architecture, formation, ecology, materials, NPC, cultivation, economy, motion, audio, gameplay, persistence, validation)',
   },
+  {
+    id: 'visual.world-life',
+    system: 'visual',
+    kind: 'runtime',
+    path: 'src/lib/worldproduction/wildlife.ts',
+    description: 'Wildlife placements: canonical spirit-herb patches, the Cangwu spirit wolf, domestic animals — deterministic living world for the cinematic scenes (canon.cangwu-roster projection)',
+  },
+  {
+    id: 'visual.residents',
+    system: 'visual',
+    kind: 'runtime',
+    path: 'src/lib/worldproduction/residents.ts',
+    description: 'Named residents placed at their houses (blueprint resident lists -> visible humanoids with roles/clips)',
+  },
   // ---- audio ------------------------------------------------------------
   {
     id: 'audio.architecture',

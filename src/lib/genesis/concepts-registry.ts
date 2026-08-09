@@ -390,6 +390,8 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
       { system: 'generation', consumerId: 'generation.procedural-pipeline', note: 'roster feeds Cangwu range generation' },
           { system: 'simulation', consumerId: 'simulation.ecology' },
       { system: 'simulation', consumerId: 'simulation.ecology-spec' },
+      { system: 'visual', consumerId: 'visual.world-life', note: 'herb patches, spirit wolf, domestic animals placed deterministically in the cinematic scenes' },
+      { system: 'visual', consumerId: 'visual.directed-scene-production', note: 'Episode 4 frames the treeline stalker' },
     ],
   },
   {
@@ -802,6 +804,7 @@ export const GENESIS_CONCEPTS: GenesisConcept[] = [
     bindings: [
       { system: 'simulation', consumerId: 'simulation.settlement-day', note: 'implemented deterministic day' },
       { system: 'persistence', consumerId: 'persistence.durable-store' },
+      { system: 'visual', consumerId: 'visual.residents', note: 'named villagers visible at their houses in the cinematic scenes' },
     ],
   },
 

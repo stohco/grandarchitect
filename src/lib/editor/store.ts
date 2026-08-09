@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Live Architect Studio — Editor Store (Zustand)
  *
  * Single source of truth for the editor's reactive state.
@@ -233,7 +233,7 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   // ---- ui ----
   editorMode: 'live_architect',
   transformMode: 'translate',
-  renderMode: 'shaded',
+  renderMode: 'cinematic',
   snapEnabled: true,
   showGrid: true,
   showGizmos: true,

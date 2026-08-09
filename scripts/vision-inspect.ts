@@ -18,12 +18,12 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildInspectionManifest } from '../src/lib/worldproduction/vision-contract';
 import { compileSceneSlice } from '../src/lib/worldproduction/scene-universe-slice';
-import { EPISODE_1, TOUR_SHOTS, EPISODE_2, EPISODE_3 } from '../src/lib/worldproduction/director-script';
+import { EPISODE_1, TOUR_SHOTS, EPISODE_2, EPISODE_3, EPISODE_4 } from '../src/lib/worldproduction/director-script';
 
 const OUT = join(process.cwd(), 'evidence', 'vision-verdict');
 const CONTRACT = readFileSync(join(process.cwd(), 'docs/vision-inspection-contract.md'), 'utf8');
 
-const ALL_SHOTS = [...EPISODE_1.shots, ...TOUR_SHOTS, ...EPISODE_2.shots, ...EPISODE_3.shots];
+const ALL_SHOTS = [...EPISODE_1.shots, ...TOUR_SHOTS, ...EPISODE_2.shots, ...EPISODE_3.shots, ...EPISODE_4.shots];
 const shotFor = (frame: string): { shotId?: string; locationId?: string } => {
   const stem = frame.replace(/\.png$/i, '');
   const shot = ALL_SHOTS.find((s) => s.id === stem);

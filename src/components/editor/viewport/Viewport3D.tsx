@@ -31,33 +31,8 @@ import {
 } from '@/components/ui/context-menu';
 import { PlaytestCharacter } from '@/components/editor/viewport/PlaytestCharacter';
 import { TerrainMesh } from '@/components/editor/viewport/TerrainMesh';
-import { buildVillageScene } from '@/lib/assets/factories/set-factory';
+import CinematicStage from '@/components/editor/viewport/CinematicStage';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
-
-/**
- * Cinematic Scene — the real set-factory village rendered INSIDE the studio
- * viewport when render mode is 'cinematic'. Built once (deterministic), then
- * bridged into R3F. This is what the art department's changes actually look
- * like — the abstract StructureMesh boxes are the sim-entity editor view.
- */
-function CinematicScene() {
-  const groupRef = useRef<THREE.Group | null>(null);
-  const builtRef = useRef(false);
-
-  useEffect(() => {
-    if (builtRef.current || !groupRef.current) return;
-    builtRef.current = true;
-    const village = buildVillageScene();
-    // the factories already tag structures/props with userData (id, name,
-    // kind, detail) — click-to-inspect works without extra tagging
-    groupRef.current.add(village.group);
-    return () => {
-      if (groupRef.current) groupRef.current.remove(village.group);
-    };
-  }, []);
-
-  return <group ref={groupRef} />;
-}
 
 // ---------------------------------------------------------------------------
 // Kind → Height / Color mappings
@@ -321,9 +296,6 @@ function SceneContent() {
 
       {!renderModeCinematic && <ContactShadows position={[0, 0.01, 0]} opacity={0.4} scale={100} blur={2} far={20} />}
 
-      {/* cinematic mode: the REAL set-factory scene instead of sim boxes */}
-      {renderMode === 'cinematic' && <CinematicScene />}
-
       {renderMode !== 'cinematic' && settlement && settlement.structures
         .filter((s) => !hiddenEntityIds.has(s.entityId))
         .map((s) => {
@@ -567,6 +539,8 @@ export default function Viewport3D() {
 
   const settlement = useEditorStore((s) => s.settlement);
   const playtestMode = useEditorStore((s) => s.playtestMode);
+  const renderMode = useEditorStore((s) => s.renderMode);
+  const cinematic = renderMode === 'cinematic';
   useKeyboardShortcuts();
 
   const canvas = (
@@ -578,7 +552,12 @@ export default function Viewport3D() {
 
   return (
     <div className="relative h-full w-full">
-      {!settlement ? (
+      {cinematic ? (
+        // THE ANIMATED WORLD: the director's cut drives the scene — camera,
+        // day/night, performers, world motion — with play/pause + timeline
+        // + episode controls. This is the primary studio view.
+        <CinematicStage />
+      ) : !settlement ? (
         <div className="flex h-full w-full items-center justify-center bg-[#1a1a2e]">
           <div className="flex flex-col items-center gap-3 text-[#5a5a8a]">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-[#3a3a5a]">

@@ -13,7 +13,9 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { buildVillageScene, buildTownScene } from '@/lib/assets/factories/set-factory';
 import { buildHumanoid, profileForRole } from '@/lib/assets/factories/character-factory';
-import { EPISODE_1, EPISODE_2, EPISODE_3 } from '@/lib/worldproduction/director-script';
+import { EPISODE_1, EPISODE_2, EPISODE_3, EPISODE_4 } from '@/lib/worldproduction/director-script';
+import { residentPlacements } from '@/lib/worldproduction/residents';
+import { herbPatches, animalPlacements, beastPlacements, buildHerb, buildAnimal, buildSpiritWolf } from '@/lib/worldproduction/wildlife';
 import { WANG_FAMILY_BEND } from '@/lib/worldproduction/set-blueprint';
 import { QINGHE_MARKET_TOWN } from '@/lib/worldproduction/set-blueprint-2';
 import { buildRoomSet } from '@/lib/assets/factories/set-factory';
@@ -33,6 +35,16 @@ declare global {
 const CUT_DISTANCE: Record<string, number> = {
   'extreme-wide': 260, wide: 46, medium: 9, close: 3.4,
   'extreme-close': 1.6, insert: 1.1, aerial: 820, crane: 60, dolly: 7, pov: 1.9,
+};
+
+/** Performers placed inside a room for room shots (E4: the cache chamber).
+ *  ox/oz = offset from the room centre; yaw = facing rotation. */
+const ROOM_PERFORMERS: Record<string, Array<{ profile: string; ox?: number; oz?: number; yaw?: number }>> = {
+  'ep4.05': [{ profile: 'farmer', ox: 0.3, oz: 1.1, yaw: 0.3 }],          // Xu Erniu on the stone
+  'ep4.06': [{ profile: 'cultivator', ox: -0.4, oz: 0.3, yaw: 1.2 }],     // Wang Lin sits to read
+  'ep4.07': [{ profile: 'cultivator', ox: 0, oz: 0.2, yaw: 0.8 }],        // Wang Lin meditates
+  'ep4.08': [{ profile: 'cultivator', ox: -0.5, oz: 0.6, yaw: 1.1 }],     // reading the node
+  'ep4.09': [{ profile: 'cultivator', ox: 0, oz: 0.2, yaw: 0.6 }],        // eyes open
 };
 
 function fovForLens(lensMm: number): number {
@@ -60,12 +72,14 @@ export default function DirectorRenderPage() {
     scene.background = new THREE.Color(0x8fb8d8);
 
     // the set — episode switch: ?ep=2 renders Qinghe Market Town (Episode 2),
-    // ?ep=3 renders the same town under recruitment-day light (Episode 3)
+    // ?ep=3 the same town under recruitment-day light (E3),
+    // ?ep=4 the village + Cangwu foothills / cache (E4)
     const ep = new URLSearchParams(window.location.search).get('ep');
     const noShadow = new URLSearchParams(window.location.search).get('shadow') === '0';
+    const ep4 = ep === '4';
     const ep3 = ep === '3';
     const ep2 = ep === '2' || ep3;
-    const episode = ep3 ? EPISODE_3 : ep2 ? EPISODE_2 : EPISODE_1;
+    const episode = ep4 ? EPISODE_4 : ep3 ? EPISODE_3 : ep2 ? EPISODE_2 : EPISODE_1;
     const village = ep2 ? buildTownScene() : buildVillageScene();
 
     // debug: ?shadow=0 disables sun shadow casting (A/B shadow verification)
@@ -121,6 +135,11 @@ export default function DirectorRenderPage() {
     // the set — episode switch handled above (episode/village chosen with the scene)
     scene.add(village.group);
 
+    // THE LIVING WORLD: canonical spirit herbs, the Cangwu wolf, animals.
+    for (const herb of herbPatches()) scene.add(buildHerb(herb, village.palette));
+    for (const beast of beastPlacements()) scene.add(buildSpiritWolf(beast, village.palette));
+    for (const a of animalPlacements()) scene.add(buildAnimal(a, village.palette));
+
     // painterly gradient sky dome (blue-teal family, warm gold only at the
     // sun — the donghua warm/cool split: warm-lit ground vs blue sky/haze)
     const skyGeo = new THREE.SphereGeometry(1800, 16, 12);
@@ -173,16 +192,28 @@ export default function DirectorRenderPage() {
       { profile: 'farmer', x: -70, z: 38, clip: 'walk' },
       { profile: 'merchant', x: 42, z: -72, clip: 'walk' },
     ] : [
-      { profile: 'farmer', x: 130, z: 95, clip: 'idle' },
-      { profile: 'elder', x: -14, z: -33, clip: 'bow' },
-      { profile: 'elder', x: 28, z: -18, clip: 'idle' },
-      { profile: 'merchant', x: 22, z: 28, clip: 'walk' },
+      // E1: the NAMED residents at their houses (deterministic, from the
+      // blueprint resident lists) — Wang Shouzheng's household, Widow Xu,
+      // Master Hu, the tenant family, the school teacher.
+      ...residentPlacements().map((r) => {
+        const pos = village.structures.get(r.structureId)?.position;
+        return { profile: r.role, x: (pos?.x ?? 0) + r.ox, z: (pos?.z ?? 0) + r.oz, clip: r.clip };
+      }),
     ];
+    const lifeGroup = new THREE.Group();
     for (const l of life) {
       const h = buildHumanoid(profileForRole(l.profile, 7));
       h.group.position.set(l.x, 0, l.z);
-      scene.add(h.group);
+      lifeGroup.add(h.group);
     }
+    scene.add(lifeGroup);
+
+    // room performers: figures placed INSIDE furnished interior sets for room
+    // shots (E4: Wang Lin meditating, Xu Erniu on the stone). Kept separate so
+    // room shots can show them while the outer world is hidden. The seated
+    // pose is the idle clip placed low enough to read as sitting.
+    const roomPerformerGroup = new THREE.Group();
+    scene.add(roomPerformerGroup);
 
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 4000);
 
@@ -277,20 +308,38 @@ export default function DirectorRenderPage() {
       const dist = Math.max(CUT_DISTANCE[shot.cut] ?? 20, structureFootprint(shotId));
       const target = targetFor(shotId);
       // room shots: dedicated interior view — hide the world, show only the
-      // furnished room against a warm-dark backdrop (clean, lit, readable)
+      // furnished room against a warm-dark backdrop (clean, lit, readable),
+      // plus the room's performers (E4: Wang Lin meditating, Xu Erniu).
+      // clear any prior room performers, then add this shot's
+      while (roomPerformerGroup.children.length > 0) roomPerformerGroup.remove(roomPerformerGroup.children[0]);
       if (shot.roomId) {
         const rs = roomSets.get(shot.roomId);
         village.group.visible = false;
+        lifeGroup.visible = false;
         if (skyRef) skyRef.visible = false;
         scene.background = new THREE.Color(0x1a1410);
         roomLight.position.copy(target).add(new THREE.Vector3(0, 0.6, 0));
-        roomLight.intensity = 4.2;
-        roomLight.distance = 16;
-        ambient.intensity = 0.6;
+        roomLight.intensity = 6.2;
+        roomLight.distance = 20;
+        ambient.intensity = 0.9;
         const inD = Math.min(rs?.d ?? 6, 6);
         camera.position.copy(target).add(new THREE.Vector3(0, 0.2, -inD * 0.34));
+        // place the shot's performers inside the room
+        const performers = ROOM_PERFORMERS[shotId] ?? [];
+        for (const p of performers) {
+          const h = buildHumanoid(profileForRole(p.profile, 7));
+          const hg = h.group;
+          // seat them: idle clip is standing, so drop the group so the body
+          // reads as sitting on the floor / stone at the room centre
+          hg.position.set(target.x + (p.ox ?? 0), -0.55, target.z + (p.oz ?? 0.4));
+          hg.rotation.y = p.yaw ?? 0;
+          roomPerformerGroup.add(hg);
+        }
+        roomPerformerGroup.visible = true;
       } else {
         village.group.visible = true;
+        lifeGroup.visible = true;
+        roomPerformerGroup.visible = false;
         if (skyRef) skyRef.visible = true;
         scene.background = new THREE.Color(0x8fb8d8);
         roomLight.intensity = 0;
