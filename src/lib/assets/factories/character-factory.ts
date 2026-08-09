@@ -156,6 +156,7 @@ export function buildHumanoid(profile: HumanoidProfile): Humanoid {
     walk: buildWalkClip(bones),
     bow: buildBowClip(bones),
     weave: buildWeaveClip(bones),
+    meditate: buildMeditateClip(bones),
   };
 
   return { group, bones, clips };
@@ -206,6 +207,26 @@ function buildWeaveClip(bones: Record<string, THREE.Bone>): THREE.AnimationClip 
     track(bones.elbowR, 'rotation', times, [0, -0.6, 0, -0.2, -0.6]),
     track(bones.shoulderL, 'rotation', times, [0, -0.2, 0, 0.3, -0.2]),
     track(bones.chest, 'rotation', times, [0, 0.02, 0, -0.02, 0.02]),
+  ]);
+}
+
+/** Cross-legged meditation: legs fold under, root lowers to sitting height,
+ *  chest upright, slow breath — the E4 cultivate.meditate harvest. */
+function buildMeditateClip(bones: Record<string, THREE.Bone>): THREE.AnimationClip {
+  const times = [0, 1, 2];
+  return new THREE.AnimationClip('meditate', 2, [
+    // hips fold legs under (cross-legged): hip_l/r rotate forward/down
+    track(bones.hipL, 'rotation', times, [0, 1.2, 0, 1.2, 0]),
+    track(bones.hipR, 'rotation', times, [0, -1.2, 0, -1.2, 0]),
+    // root settles to sitting height (from standing 0 to seated -0.45)
+    track(bones.root, 'position', times, [0, -0.45, 0, 0, -0.45, 0, 0, -0.45, 0]),
+    // chest upright, slow breath (subtle scale of chest position)
+    track(bones.chest, 'position', times, [0, 0.02, 0, 0, 0.03, 0, 0, 0.02, 0]),
+    // hands rest on knees: shoulders rotate inward slightly
+    track(bones.shoulderL, 'rotation', times, [0, 0.5, 0, 0.5, 0]),
+    track(bones.shoulderR, 'rotation', times, [0, -0.5, 0, -0.5, 0]),
+    track(bones.elbowL, 'rotation', times, [0, -0.4, 0, -0.4, 0]),
+    track(bones.elbowR, 'rotation', times, [0, 0.4, 0, 0.4, 0]),
   ]);
 }
 

@@ -215,6 +215,7 @@ export default function DirectorRenderPage() {
     // room shots can show them while the outer world is hidden. The seated
     // pose is the idle clip placed low enough to read as sitting.
     const roomPerformerGroup = new THREE.Group();
+const roomMixers: THREE.AnimationMixer[] = [];
     scene.add(roomPerformerGroup);
 
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 4000);
@@ -340,6 +341,7 @@ export default function DirectorRenderPage() {
       // plus the room's performers (E4: Wang Lin meditating, Xu Erniu).
       // clear any prior room performers, then add this shot's
       while (roomPerformerGroup.children.length > 0) roomPerformerGroup.remove(roomPerformerGroup.children[0]);
+      roomMixers.length = 0;
       if (shot.roomId) {
         const rs = roomSets.get(shot.roomId);
         village.group.visible = false;
@@ -355,7 +357,11 @@ export default function DirectorRenderPage() {
         // furniture height, pulled back diagonally so floor + walls +
         // fixtures all read as one inhabited space (VLM: 'no detail')
         const rH = Math.min(rs?.group.userData?.roomH ?? 2.6, 3);
-        camera.position.copy(target).add(new THREE.Vector3(-inD * 0.34, rH * 0.12, -inD * 0.55));
+        // E4 meditate/cache shots: pull in tighter so the seated figure
+        // fills more of the frame — a small performer reads as 'a cone'
+        // (VLM: focal subject unrecognizable)
+        const inset = ROOM_PERFORMERS[shotId]?.length ? 0.3 : 0.55;
+        camera.position.copy(target).add(new THREE.Vector3(-inD * 0.34 * inset, rH * 0.12, -inD * 0.55 * inset));
         camera.lookAt(target.clone().add(new THREE.Vector3(0, -rH * 0.2, 0)));
         camera.fov = 58; // wide interior lens
         // place the shot's performers inside the room
@@ -363,9 +369,26 @@ export default function DirectorRenderPage() {
         for (const p of performers) {
           const h = buildHumanoid(profileForRole(p.profile, 7));
           const hg = h.group;
-          // seat them: idle clip is standing, so drop the group so the body
-          // reads as sitting on the floor / stone at the room centre
-          hg.position.set(target.x + (p.ox ?? 0), -0.55, target.z + (p.oz ?? 0.4));
+          // seated pose applied DIRECTLY to the bones for the still frame
+          // (the AnimationMixer needs a running loop; a single-shot render
+          // won't advance it — VLM: 'a white conical object like a lamp
+          // shade' because the figure stood at full height)
+          const rootB = hg.getObjectByName('root') as THREE.Bone | null;
+          const hipL = hg.getObjectByName('hip_l') as THREE.Bone | null;
+          const hipR = hg.getObjectByName('hip_r') as THREE.Bone | null;
+          const elbowL = hg.getObjectByName('elbow_l') as THREE.Bone | null;
+          const elbowR = hg.getObjectByName('elbow_r') as THREE.Bone | null;
+          const shoulderL = hg.getObjectByName('shoulder_l') as THREE.Bone | null;
+          const shoulderR = hg.getObjectByName('shoulder_r') as THREE.Bone | null;
+          if (rootB) rootB.position.y = -0.42;          // settle to sitting
+          if (hipL) { hipL.rotation.x = 1.1; hipL.rotation.z = 0.25; } // leg folded
+          if (hipR) { hipR.rotation.x = -1.1; hipR.rotation.z = -0.25; }
+          if (shoulderL) { shoulderL.rotation.z = 0.5; shoulderL.rotation.x = -0.2; } // hands to knees
+          if (shoulderR) { shoulderR.rotation.z = -0.5; shoulderR.rotation.x = -0.2; }
+          if (elbowL) elbowL.rotation.z = -0.4;
+          if (elbowR) elbowR.rotation.z = 0.4;
+          hg.updateMatrixWorld(true);
+          hg.position.set(target.x + (p.ox ?? 0), 0, target.z + (p.oz ?? 0.4));
           hg.rotation.y = p.yaw ?? 0;
           roomPerformerGroup.add(hg);
         }
