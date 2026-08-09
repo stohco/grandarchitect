@@ -631,8 +631,19 @@ function buildShop(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Group {
   }
   const awning = new THREE.Mesh(new THREE.BoxGeometry(footW + 0.4, 0.05, 2.2), pal.canvas);
   awning.position.set(0, 2.85, footD / 2 + 1.35);
-  awning.rotation.x = -0.18;
+  awning.rotation.x = -0.35; // proper tent slope so it reads as canvas, not a flat roof
   g.add(awning);
+  // front valance fringe (the market awning's scallop language) so the
+  // canopy reads as canvas over the entrance, distinct from the tile roof
+  const valance = new THREE.Mesh(new THREE.BoxGeometry(footW + 0.5, 0.32, 0.08), pal.canvas);
+  valance.position.set(0, 2.62, footD / 2 + 2.4);
+  valance.rotation.x = -0.1;
+  g.add(valance);
+  for (const tx of [-0.4, 0, 0.4]) {
+    const tab = new THREE.Mesh(new THREE.BoxGeometry(footW * 0.12, 0.26, 0.06), pal.canvas);
+    tab.position.set(tx * (footW / 2.6), 2.44, footD / 2 + 2.4);
+    g.add(tab);
+  }
 
   // hanging sign board under the awning
   const sign = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.7, 0.08), pal.woodTrim);
