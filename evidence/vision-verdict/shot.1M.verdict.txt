@@ -1,0 +1,219 @@
+# VISION INSPECTION — shot.1M
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Foreground/Bottom:* A flat, featureless gradient of olive-green/grey. No texture, no detail.
+    *   *Middle Ground:* A sharp horizontal line separating the bottom area from the top.
+    *   *Background/Top:* Two large, flat-colored polygons. One is a muted blue-grey (left), the other is a light grey/white (right), separated by a diagonal line.
+    *   *Details:* There are two tiny, low-resolution, pixelated shapes near the center horizon line. One looks like a small, dark, vertical spike/tree; the other is a faint, light-colored vertical smudge.
+    *   *Overall:* Extremely minimal. No lighting, no shadows, no textures, no depth cues other than the horizon line.
+
+    *   *Actual Content:* A flat plane meeting a background of two large colored shapes. Two tiny, indistinct objects are placed at the intersection. Scale is impossible to determine due to lack of reference. Density is near zero.
+    *   *Player Perception:* A broken game, a loading error, or a very early technical test. It looks like a "void" or a "greybox" environment.
+    *   *Art Style/Quality:* Non-existent. Flat colors. Low-resolution assets (the tiny objects). Zero production value.
+    *   *Completion Level:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects/Empty Zones:* The entire image is an empty zone. Lack of texture, lighting, and geometry. The tiny objects look like glitches or misplaced assets.
+    *   *Inspection Limit:* Immediately. There is nothing to inspect.
+
+    *   *Setting/Objects:* Flat olive-green ground plane. Background consists of two flat-shaded polygons (blue-grey and light grey). Two tiny, low-detail vertical assets at the horizon.
+    *   *Player Thought:* "The map hasn't loaded" or "I've fallen out of the world."
+    *   *Style/Quality:* Flat shading, zero texture, zero lighting.
+    *   *Completion:* PRIMITIVE_PLACEHOLDER.
+    *   *Defects:* Total absence of environmental detail. No depth. No visual interest.
+    *   *Inspection Limit:* The moment the eye hits the flat colors.
+**Actual Content:**
+A flat, featureless olive-grey ground plane meeting a horizon line. The background consists of two large, flat-shaded polygons: a muted blue-grey area on the left and a light grey area on the right, separated by a diagonal edge. Two tiny, low-resolution vertical assets (one dark, one light) are positioned at the horizon line. Scale is indeterminate; density is near zero.
+
+**Player Perception:**
+A player would assume the environment has failed to load, they have fallen out of the map boundaries, or they are looking at a technical test for a camera/collision system.
+
+**Art Style and Production Quality:**
+Non-existent. Flat colors, no textures, no lighting, no shadows, and no atmospheric effects. Production quality is zero.
+
+**Completion Level:**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Empty Zones:**
+The entire frame is an empty zone. There is a total absence of geometry, surface detail, and visual hierarchy. The two small assets at the horizon appear as glitches or misplaced pixels rather than intentional objects.
+
+**Inspection Limit:**
+Inspection stops rewarding immediately. There is no detail to discover upon closer look.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+Stage A (Blind Read) provided. It describes a flat olive-green bottom, a sharp horizontal line, and two flat-colored polygons (blue-grey and light grey) on top, with two tiny pixelated shapes.
+Grand Architect Vision Inspection Contract.
+Scene Universe Slice (Green Mirror Vein, Cangwu Sect, Karst peaks, pine forests, etc.) and a Genesis Pass Manifest (P09, P10, P14, etc.).
+
+    *   *Visuals:* It's a primitive blockout.
+    *   *Foreground:* Flat olive-green gradient.
+    *   *Middle Ground:* A horizon line.
+    *   *Background:* Two large flat polygons.
+    *   *Details:* Two tiny, low-res vertical shapes.
+    *   *Context:* The "Scene Universe Slice" describes a lush, complex xianxia environment (Karst peaks, pine forests, mist, spirit beasts). The image shows... none of that.
+
+    *   **PHASE B: Full-Frame Composition**
+        *   Focal Hierarchy: Non-existent. The eye is drawn to the horizon line and the two tiny dots.
+        *   Foreground/Middle/Background: Technically present but devoid of detail.
+        *   Balance: Split roughly in half horizontally.
+        *   Depth: Extremely poor. No atmospheric perspective, no overlap, no scale cues.
+        *   Camera: Static, eye-level, wide.
+
+    *   **PHASE C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): Empty.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4 (Settlement): Empty.
+        *   Shell 5 (Landscape): Primitive polygons.
+        *   Shell 6 (Horizon): A line.
+        *   Shell 7 (Sky): Flat colors.
+        *   Shell 8/9: Not applicable/Empty.
+        *   *Verdict:* Total density failure.
+
+    *   **PHASE D: Content Inventory**
+        *   Terrain: Flat plane (olive).
+        *   Sky: Two polygons (blue-grey, light grey).
+        *   Vegetation: Two pixelated vertical shapes (likely placeholders for trees).
+        *   Everything else (NPCs, buildings, rocks, water, VFX): Missing.
+
+    *   **PHASE E: Silhouette and Proportion**
+        *   The "trees" are too small to judge proportion, but they lack any silhouette detail.
+
+    *   P09 (Geology): FAIL. No geology, just a flat plane.
+    *   P10 (Topology): FAIL. No valley/slope/cliff.
+    *   P27 (World Laws): NOT_EVALUABLE. No supernatural effects present.
+    *   P14 (Vegetation): FAIL. Two pixels do not constitute an ecology.
+    *   P15 (Animal Ecology): FAIL. No animals.
+    *   P13 (Material Truth): FAIL. Flat colors, no texture.
+    *   P51 (Shader Presentation): FAIL. No painterly language.
+    *   P36 (Physics/Structure): NOT_EVALUABLE. No structures.
+    *   P29 (Formations): NOT_EVALUABLE. No formations.
+    *   P25 (Qi Ecology): NOT_EVALUABLE. No Qi.
+    *   P18 (Personhood): FAIL. No NPCs.
+    *   P23 (Domestic Life): FAIL. No life.
+    *   P22 (Economy): FAIL. No logistics.
+    *   P43/P47 (Motion): NOT_EVALUABLE (Still frame).
+    *   P33 (Affordance): FAIL. Nothing looks usable.
+    *   P78 (Concealment): FAIL. No mist/wards.
+    *   P07 (Perceptual Hierarchy): FAIL. No intended focal point.
+    *   P08 (Forbidden Interpretations): PASS (Nothing is there to be anachronistic).
+    *   P49 (Cinematography): FAIL. No composition.
+    *   P50 (Lighting): FAIL. Flat, no light source, no contrast.
+    *   P67 (Visual Oracle): FAIL. This is proxy geometry.
+    *   P72 (Completeness): FAIL. Total failure.
+    *   P61 (Renderer): PASS (No z-fighting visible because there's nothing to fight).
+    *   P60 (Streaming): PASS (No pop visible).
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of world density, material truth, and environmental detail.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat lighting, lack of textures.
+
+    *   Ensure the tone is "brutally accurate."
+    *   No praise.
+    *   Strict adherence to the contract format.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Green Mirror Vein / Cangwu Sect Foothills (per Universe Slice)
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary, secondary, or tertiary read. The eye is drawn to the sharp horizontal line of the horizon and two anomalous pixel-clusters.
+*   **Foreground / Middle Ground / Background:** 
+    *   *Foreground:* A flat, featureless olive-green gradient.
+    *   *Middle Ground:* A singular, razor-sharp horizontal line.
+    *   *Background:* Two flat-colored polygons (blue-grey and light-grey) meeting at a diagonal.
+*   **Frame Balance:** Symmetrically split horizontally. The diagonal in the upper half creates a basic geometric division but no artistic balance.
+*   **Negative Space:** The entire frame is negative space.
+*   **Depth Separation:** Zero. There is no atmospheric haze, no overlap, and no perspective cues other than the horizon line.
+*   **Camera:** Static, eye-level, wide-angle. No lens language or cinematic intent.
+*   **Compositional Read:** This is a primitive blockout. It is not a composition; it is a coordinate test.
+
+---
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** EMPTY.
+*   **SHELL 2 (Local Interaction):** EMPTY.
+*   **SHELL 3 (Local Scene):** EMPTY.
+*   **SHELL 4 (Settlement):** EMPTY.
+*   **SHELL 5 (Landscape):** PRIMITIVE. Represented by a flat plane and two polygons.
+*   **SHELL 6 (Horizon):** PRIMITIVE. A single line.
+*   **SHELL 7 (Sky/Atmosphere):** PRIMITIVE. Two flat colors.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** EMPTY.
+*   **Density Verdict:** Total vacuum. The "world" consists of three planes and two pixel-clusters.
+
+---
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Terrain | Bottom Half | FG $\rightarrow$ MG | Flat Plane | Placeholder | None. |
+| Sky | Top Half | BG | Polygons | Placeholder | None. |
+| Vegetation | Center Horizon | MG | Pixel-clusters | Placeholder | Suggests "something" exists at the horizon. |
+
+---
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Focal Subjects:** The two vertical smudges at the horizon.
+*   **Silhouette:** Indistinguishable. They are low-resolution vertical artifacts.
+*   **Proportion:** Not evaluable. There are no scale anchors (no characters, no known architecture) to determine if these are pebbles or mountains.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat plane. No macro/meso/micro structure. |
+| **P10** | Terrain Topology | **FAIL** | No valley, slope, or cliff. No contact points. |
+| **P14** | Vegetation Ecology | **FAIL** | Two pixels do not constitute an ecology. No species variation. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of creatures. |
+| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, no texture, no material identity. |
+| **P51** | Shader Presentation | **FAIL** | No painterly language. Generic flat fills. |
+| **P36** | Structural Physics | **N/E** | No structures present. |
+| **P29** | Formations | **N/E** | No formations present. |
+| **P25** | Qi Ecology | **N/E** | No Qi phenomena present. |
+| **P18** | Individual Personhood| **FAIL** | No NPCs. |
+| **P23** | Domestic Life | **FAIL** | No evidence of habitation or work. |
+| **P22** | Economy/Logistics | **FAIL** | No evidence of transport or storage. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing in the frame reads as usable or interactable. |
+| **P78** | Concealment | **FAIL** | No mist, wards, or folded geometry. |
+| **P07** | Perceptual Hierarchy | **FAIL** | No intended focal point; visual noise is zero. |
+| **P08** | Forbidden Interp. | **PASS** | No anachronisms present (nothing is present). |
+| **P49** | Cinematography | **FAIL** | No framing, no lens language, no direction. |
+| **P50** | Lighting | **FAIL** | Flat lighting. No key, fill, or rim. No contrast. |
+| **P67** | Visual Oracle | **FAIL** | This is 100% proxy geometry. |
+| **P72** | Completeness | **FAIL** | Total failure at every depth shell. |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or TAA ghosting visible. |
+| **P60** | Streaming/World | **PASS** | No LOD pop visible. |
+
+---
+
+### 6. FINAL VISION VERDICT
+
+**VISION VERDICT: PRIMITIVE PLACEHOLDER / GREYBOX**
+
+**TOP FAILURES:**
+1.  **Total Density Collapse:** The scene contains zero assets from the Scene Universe Slice (no Karst peaks, no pine forests, no mist).
+2.  **Material Void:** Complete absence of shaders, textures, or material truth.
+3.  **Compositional Nullity:** No focal hierarchy or cinematic intent.
+
+**WORLD DENSITY:** 0%
+**TECHNICAL DEFECTS:** Flat lighting, lack of texture, proxy geometry.
+**NOT EVALUABLE:** P25, P27, P29, P36, P43, P47 (No applicable entities/effects).
+
+**NEXT INSPECTION

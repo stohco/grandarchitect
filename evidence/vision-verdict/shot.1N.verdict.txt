@@ -1,0 +1,213 @@
+# VISION INSPECTION — shot.1N
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories provided).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Foreground/Midground:* A flat, greenish-brown plane. A long, brown, rectangular block (looks like a log or a plank) lying horizontally. Three small, stylized trees (brown sticks with green spheres/ovals on top). A few small grey blobs (rocks). Some thin vertical lines (grass/reeds). A thin blue strip (water/river).
+    *   *Background:* A light blue sky. A large, white, sharp-edged triangular shape (mountain/pyramid).
+    *   *Lighting/Rendering:* Flat lighting. No shadows. No textures (solid colors or very simple gradients). No anti-aliasing on the mountain edge.
+    *   *Composition:* Extremely sparse. Most of the frame is empty space (sky and ground).
+
+    *   *Setting/Objects:* A flat plain with a few primitive assets (log, trees, rocks, water). A large white geometric shape in the distance.
+    *   *Scale:* Indeterminate. The "trees" are tiny compared to the "mountain."
+    *   *Density:* Extremely low.
+
+    *   *Player Perception:* A very early prototype, a "test scene," or a low-effort indie project. It looks like a basic 3D environment test.
+
+    *   *Art Style/Quality:* Low-poly/Primitive. Production quality is minimal. No material definition, no lighting depth.
+
+    *   *Completion Level:* This is clearly a **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**. It lacks any finished assets or environmental polish.
+
+    *   *Defects/Empty Zones:*
+        *   Massive empty zones (foreground and sky).
+        *   Lack of shadows makes objects feel disconnected from the ground (floating).
+        *   The "mountain" is a raw polygon with no texture or detail.
+        *   The ground is a flat plane with a simple gradient.
+        *   The "water" is a flat blue strip.
+
+    *   *Reward for Inspection:* The image stops rewarding inspection immediately. There is no detail to discover. Once you see the basic shapes, there is nothing else to look at.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A flat, featureless expanse of greenish-brown ground under a light blue sky.
+*   **Objects:** One long, brown rectangular prism (log/plank), three primitive trees (brown cylinders topped with green spheres), a few small grey spheres (rocks), thin vertical lines (grass/reeds), and a flat blue strip (water).
+*   **Scale:** Indeterminate. The distance between the foreground and the background geometric shape is vast, but the objects lack a known reference point for size.
+*   **Density:** Extremely low. The frame is dominated by empty space.
+
+**Player Perception**
+A player would perceive this as a technical test scene, a "greybox" environment, or a very early-stage prototype. It looks like a developer is testing basic asset placement or camera positioning.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive/Low-Poly.
+*   **Quality:** Minimal. There is no evidence of lighting passes, shadow mapping, texture mapping, or atmospheric effects. The rendering is flat.
+
+**Level of Completion**
+**PRIMITIVE_PLACEHOLDER**
+
+**Defects and Distractions**
+*   **Empty Zones:** The foreground and the upper two-thirds of the frame are entirely void of detail.
+*   **Lighting:** Total absence of shadows. Objects appear to float on the surface rather than be seated in the environment.
+*   **Geometry:** The background "mountain" is a raw, untextured white polygon with a sharp, aliased edge.
+*   **Ground:** The terrain is a perfectly flat plane with a basic color gradient, lacking any organic variation or noise.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no micro-details, textures, or hidden elements. Once the basic geometric shapes are identified, there is zero further visual information to extract.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+A very primitive scene with a flat ground, a brown rectangular block (log), three stylized trees (sticks with spheres), some grey blobs (rocks), a blue strip (water), and a white triangle (mountain) against a blue sky.
+Scene Universe Slice (Black Creek, Wang Family Bend, etc.), Genesis Pass Manifest (P09, P10, P27, etc.).
+
+    *   *Phase B: Full-Frame Composition*
+        *   Focal Hierarchy: The brown log is the most prominent object due to contrast and size, but it's placed awkwardly.
+        *   Reads: Primary (log/trees), Secondary (water/rocks), Tertiary (mountain).
+        *   Foreground/Midground/Background: Foreground is a massive empty plane. Midground contains the assets. Background is a flat sky and a primitive triangle.
+        *   Balance: Heavily weighted to the center-right. Left side is empty.
+        *   Negative Space: Excessive. The foreground takes up ~50% of the frame and is a flat color.
+        *   Depth: Very poor. No atmospheric haze, no overlapping elements to suggest scale, just linear perspective.
+        *   Camera: Low angle, looking slightly up.
+
+    *   *Phase C: Multi-Scale World Density*
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Interaction): The log and trees. Extremely sparse.
+        *   Shell 3 (Local Scene): A few rocks and a strip of water.
+        *   Shell 4 (Settlement): Non-existent.
+        *   Shell 5 (Landscape): A single white triangle.
+        *   Shell 6 (Horizon): Flat line.
+        *   Shell 7 (Sky): Flat blue.
+        *   Shell 8/9: No evidence.
+        *   *Verdict:* Total density failure. This is a primitive placeholder map.
+
+    *   *Phase D: Content Inventory*
+        *   Log: Midground, brown, rectangular, repeated texture/color.
+        *   Trees: Midground, 3x, brown stick + green sphere.
+        *   Rocks: Midground, 2x, grey blobs.
+        *   Water: Midground, blue strip.
+        *   Mountain: Background, white triangle.
+        *   Terrain: Foreground/Midground, greenish-brown flat plane.
+        *   Sky: Background, light blue.
+
+    *   *Phase E: Silhouette and Proportion*
+        *   The "mountain" is a perfect geometric triangle.
+        *   The "trees" are spheres on sticks.
+        *   The "log" is a box.
+        *   Proportions are arbitrary; no human scale anchor present.
+
+    *   P09 (Geology): FAIL. Flat plane. No macro/meso/micro structure.
+    *   P10 (Topology): FAIL. No valley/slope/cliff. Flat.
+    *   P27 (World Laws): NOT_EVALUABLE. No supernatural effects present.
+    *   P14 (Vegetation): FAIL. Uniform spheres. No moisture/slope logic.
+    *   P15 (Animal Ecology): NOT_EVALUABLE. No animals.
+    *   P13 (Material Truth): FAIL. Flat colors. No weathering or contact wear.
+    *   P51 (Shader Presentation): FAIL. No painterly language. Flat shading.
+    *   P36 (Physics/Structural): FAIL. Log is just sitting on a plane; no indentation or interaction.
+    *   P29 (Formations): NOT_EVALUABLE. No formations visible.
+    *   P25 (Qi Ecology): NOT_EVALUABLE. No Qi visible.
+    *   P18 (Personhood): NOT_EVALUABLE. No NPCs.
+    *   P23 (Domestic Life): FAIL. No signs of life or work.
+    *   P22 (Economy): NOT_EVALUABLE. No markets.
+    *   P43/P47 (Motion): NOT_EVALUABLE. Still frame.
+    *   P33 (Affordance): FAIL. Log looks like a box, not a usable bridge.
+    *   P78 (Concealment): NOT_EVALUABLE.
+    *   P07 (Perceptual Hierarchy): FAIL. The empty foreground is the primary read.
+    *   P08 (Forbidden Interpretations): PASS (nothing forbidden is present, just nothing is present).
+    *   P49 (Cinematography): FAIL. Poor framing, excessive negative space.
+    *   P50 (Lighting): FAIL. Flat lighting. No shadows.
+    *   P67 (Visual Oracle): FAIL. This is clearly proxy/placeholder geometry.
+    *   P72 (Completeness): FAIL. Massive blockers.
+    *   P61 (Renderer): PARTIAL. No z-fighting visible, but aliasing on the mountain edge.
+    *   P60 (Streaming): PASS (nothing to stream).
+
+    *   *Vision Verdict:* Primitive Placeholder Map.
+    *   *Top Failures:* P09 (Geology), P13 (Material Truth), P50 (Lighting), P72 (Completeness).
+    *   *World Density:* Near zero.
+    *   *Technical Defects:* Flat shading, aliasing, lack of shadows.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Black Creek / Wang Family Bend (per Universe Slice)
+
+---
+
+### 1. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The eye is drawn to the brown rectangular block (log) simply because it is the highest contrast object, but it is dwarfed by a massive, empty foreground.
+*   **Primary Read:** An empty, flat greenish-brown plane.
+*   **Secondary Read:** A collection of primitive shapes (box, spheres, triangle) in the mid-to-far distance.
+*   **Foreground / Midground / Background:** 
+    *   *Foreground:* ~50% of the frame is a flat, featureless gradient plane.
+    *   *Midground:* A thin strip containing the log, three trees, and two rocks.
+    *   *Background:* A flat blue sky and a single, sharp-edged white triangle.
+*   **Frame Balance:** Heavily weighted to the center-right. The left half of the frame is entirely void of interest.
+*   **Negative Space:** Excessive and oppressive. The foreground is not "minimalist"; it is empty.
+*   **Depth Separation:** Extremely poor. There is no atmospheric perspective, no overlapping geometry to establish scale, and no ground-plane detail to lead the eye.
+*   **Camera Height/Angle:** Low angle, looking slightly upward. This exacerbates the emptiness of the foreground.
+*   **Scale Communication:** Failed. Without a human anchor or detailed textures, the "mountain" could be a 10-meter prop or a 10,000-meter peak.
+
+### 2. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** EMPTY.
+*   **SHELL 2 (Interaction):** PRIMITIVE. A box (log) and spheres (trees).
+*   **SHELL 3 (Local Scene):** SPARSE. A blue strip (water) and two grey blobs (rocks).
+*   **SHELL 4 (Settlement):** EMPTY.
+*   **SHELL 5 (Landscape):** PRIMITIVE. One geometric triangle.
+*   **SHELL 6 (Horizon):** FLAT. A hard line separating the plane from the sky.
+*   **SHELL 7 (Sky):** FLAT. Solid color/simple gradient.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** NO EVIDENCE.
+*   **Density Verdict:** This is a **primitive placeholder map**. There is zero world density.
+
+### 3. PHASE D — CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Brown Block | Center | Mid | Log/Bridge | Placeholder | None (reads as a box) |
+| Green Spheres | Center-Right | Mid | Trees | Placeholder | None (reads as spheres) |
+| Grey Blobs | Center-Right | Mid | Rocks | Placeholder | None |
+| Blue Strip | Right | Mid | Water/Creek | Placeholder | None |
+| White Triangle | Right | Far | Mountain | Placeholder | None |
+| Green Plane | Bottom | Fore | Terrain | Placeholder | None |
+
+### 4. PHASE E — SILHOUETTE AND PROPORTION
+*   **Silhouettes:** Purely geometric. The mountain is a perfect triangle; the trees are perfect spheres on cylinders.
+*   **Proportions:** Arbitrary. There is no internal logic to the scale of the log relative to the trees or the mountain.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat plane. No soil transitions or rock structure. |
+| **P10** | Terrain Topology | **FAIL** | No valley, slope, or cliff. Flat heightmap. |
+| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, no grain, no contact wear. |
+| **P14** | Vegetation Ecology | **FAIL** | Uniform spheres. No species variation or moisture logic. |
+| **P15** | Animal Ecology | **N/E** | No animals present. |
+| **P23** | Domestic Life | **FAIL** | No signs of human or cultivator presence. |
+| **P33** | Affordance Lattice | **FAIL** | Log does not read as a bridge; it reads as a collision box. |
+| **P36** | Structural Physics | **FAIL** | Log is floating/intersecting the plane with no weight/depression. |
+| **P49** | Cinematography | **FAIL** | Poor framing; excessive dead space in foreground. |
+| **P50** | Lighting | **FAIL** | Flat lighting. No shadows. No key/fill/rim. |
+| **P51** | Shader Presentation | **FAIL** | No painterly language. Generic flat shading. |
+| **P61** | Renderer/GPU | **PARTIAL** | No z-fighting, but visible aliasing on mountain edge. |
+| **P67** | Visual Oracle | **FAIL** | Scene is entirely proxy geometry. |
+| **P72** | Completeness | **FAIL** | Total failure across all depth shells. |
+
+---
+
+### 6. VISION VERDICT
+
+**OVERALL CLASSIFICATION:** $\text{PRIMITIVE PLACEHOLDER MAP}$
+
+**TOP FAILURES:**
+1.  **P72 (Completeness):** The frame is a blockout. It contains no finished assets.
+2.  **P50 (Lighting):** The absence of shadows removes all sense of volume and grounding.
+3.  **P09/P10 (Geology/Topology):** The world is a flat plane, violating the "real geology" obligation.
+4.  **P49 (Cinematography):** The composition is an accidental snapshot of a test scene, not a directed shot

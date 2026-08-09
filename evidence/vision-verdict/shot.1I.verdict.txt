@@ -1,0 +1,195 @@
+# VISION INSPECTION — shot.1I
+
+## STAGE A (blind)
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE A REPORT**
+
+**1. FRAME CONTENT**
+*   **Setting:** A three-walled interior enclosure with a flat floor and a black void for a ceiling.
+*   **Objects:** A collection of primitive geometric shapes scattered on the floor. From left to right: a white amorphous blob; a vertical orange rectangular prism atop a larger orange cube; two small orange blocks on a flat base; a tan, slightly tapered cylinder; a single brown cube; a thin green vertical line/pole; a large, low-profile brown rectangular platform with a checkered texture; and a small grey-and-orange rectangular assembly.
+*   **Scale:** Indeterminate. The lack of recognizable real-world objects makes it impossible to tell if this is a room for a human-sized character or a tabletop for miniatures.
+*   **Density:** Extremely low. Objects are sparse and disconnected.
+
+**2. PLAYER PERCEPTION**
+A player would perceive this as a **technical test environment** or a "sandbox" used for testing basic physics or asset placement. There is no narrative or environmental storytelling present. The objects are too abstract to be identified as specific items, though a player might guess the large platform is a "bed" and the cylinder is a "trash can" or "stool" based solely on placement.
+
+**3. ART STYLE AND PRODUCTION QUALITY**
+*   **Style:** Primitive/Programmer Art.
+*   **Quality:** Minimalist to the point of being non-functional for a consumer product. 
+*   **Lighting:** Non-existent. There are no cast shadows, no ambient occlusion, and no directional light source. Objects appear to have "full bright" or flat shading, making them look like they are floating on the floor texture.
+*   **Textures:** The floor and the large platform use low-resolution, repeating tiled textures with visible seams. The walls are a single flat hex code with no material properties.
+
+**4. LEVEL OF COMPLETION**
+**PRIMITIVE_PLACEHOLDER**
+This is not a "world." It is a collection of primitive meshes in a default engine environment. It lacks the spatial logic required for a "Blockout" phase.
+
+**5. DEFECTS, DISTRACTIONS, AND EMPTY ZONES**
+*   **Lighting Defect:** The total absence of shadows makes the spatial relationship between objects and the floor impossible to gauge accurately.
+*   **The Ceiling:** The hard transition to a black void at the top of the walls suggests an unfinished skybox or a missing ceiling mesh.
+*   **The Green Pole:** This object is too thin (possibly 1-2 pixels wide), causing visual aliasing/shimmering if the camera were to move.
+*   **Empty Zones:** Approximately 80% of the frame consists of featureless wall and floor space.
+*   **The White Blob:** This object lacks enough polygonal detail to suggest a specific form, appearing as a "glitch" or an untextured rock.
+
+**6. INSPECTION LIMIT**
+The image stops rewarding inspection **immediately**. There are no hidden details, no micro-textures, and no environmental cues. Zooming in only reveals pixelated texture filtering and aliased edges on the primitive geometry.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single RGB frame showing a sparse, primitive 3D environment.
+Stage A report (Blind Read), Vision Inspection Contract, Scene Universe Slice (detailing a salt merchant's house in a xianxia world), and a Genesis Pass Manifest (list of visual obligations).
+
+    *   *Visuals:* A beige/white room with a brown floor. A few primitive shapes: a white blob, orange blocks, a tan cylinder, a green line, a brown checkered platform, a small grey/orange block, and a brown cube in the foreground.
+    *   *Context (Universe Slice):* This is supposed to be `room.hu.counting` (Salt accounts, license documents) in the `structure.salt_merchant_house`. It should have salt sacks, scales, account books, a desk, brick walls, and tiled roofs.
+    *   *Contrast:* The visual evidence is a primitive blockout/test scene. The Universe Slice describes a detailed, culturally specific interior.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: None. The eye wanders across scattered primitives.
+        *   Reads: Primary read is "empty room with blocks."
+        *   Foreground/Mid/Back: Foreground (brown cube), Mid (the rest of the blocks), Back (blank walls).
+        *   Balance: Poor. Heavy on the bottom, void on top.
+        *   Camera: High angle, looking down.
+        *   Conclusion: Not a composition; it's a layout of assets.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Primitive blocks.
+        *   Shell 2 (Local Interaction): Empty space.
+        *   Shell 3 (Local Scene): Three blank walls.
+        *   Shell 4-7: Non-existent.
+        *   Conclusion: Zero density. This is a void.
+
+    *   **Phase D: Content Inventory**
+        *   White blob (Left, Mid) - Identity: Unknown/Primitive.
+        *   Orange blocks (Left-Mid, Mid) - Identity: Unknown/Primitive.
+        *   Tan cylinder (Center, Mid) - Identity: Unknown/Primitive.
+        *   Green line (Center, Mid) - Identity: Unknown/Primitive.
+        *   Brown checkered platform (Right, Mid) - Identity: Unknown/Primitive.
+        *   Grey/Orange block (Right, Mid) - Identity: Unknown/Primitive.
+        *   Brown cube (Bottom, Foreground) - Identity: Unknown/Primitive.
+        *   Walls/Floor - Identity: Primitive planes.
+        *   Conclusion: No "materially significant" content from the Universe Slice is present.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   Not applicable. No characters or complex assets.
+
+    *   *P09 (Geology):* NOT_EVALUABLE (Interior scene).
+    *   *P10 (Terrain):* FAIL. No terrain, just a flat plane.
+    *   *P27 (World Laws):* NOT_EVALUABLE.
+    *   *P14 (Vegetation):* NOT_EVALUABLE.
+    *   *P15 (Animals):* NOT_EVALUABLE.
+    *   *P13 (Material Truth):* FAIL. Materials are flat colors or low-res noise. No weathering, no "brick, tile, iron, pine."
+    *   *P51 (Shader Presentation):* FAIL. Generic shaders. No painterly language.
+    *   *P36 (Physics/Structure):* FAIL. Walls are floating planes; no load paths.
+    *   *P29 (Formations):* NOT_EVALUABLE.
+    *   *P25 (Qi Ecology):* NOT_EVALUABLE.
+    *   *P18 (Personhood):* NOT_EVALUABLE (No NPCs).
+    *   *P23 (Domestic Life):* FAIL. No evidence of salt counting, books, or domesticity.
+    *   *P22 (Economy/Logistics):* FAIL. No salt sacks, scales, or logistics.
+    *   *P43/P47 (Motion):* NOT_EVALUABLE (Still frame).
+    *   *P33 (Affordance):* FAIL. Primitives do not read as usable objects.
+    *   *P78 (Concealment):* NOT_EVALUABLE.
+    *   *P07 (Perceptual Hierarchy):* FAIL. No intended read.
+    *   *P08 (Forbidden Interpretations):* PASS (Nothing forbidden is present, but nothing required is either).
+    *   *P49 (Cinematography):* FAIL. No framing or lens language.
+    *   *P50 (Lighting):* FAIL. Flat, generic lighting.
+    *   *P67 (Visual Oracle):* FAIL. This is pure proxy geometry.
+    *   *P72 (Completeness):* FAIL. Total failure of completeness.
+    *   *P61 (Renderer):* PASS (No obvious z-fighting, but that's because there's nothing to fight).
+    *   *P60 (Streaming):* PASS (No LOD pop visible).
+
+    *   *Vision Verdict:* CRITICAL FAILURE.
+    *   *Top Failures:*
+        1.  Total absence of Universe Slice content (Salt merchant's room).
+        2.  Use of primitive proxy geometry instead of production assets.
+        3.  Zero world density.
+    *   *World Density:* Non-existent.
+    *   *Technical Defects:* Proxy geometry, flat lighting.
+    *   *Not Evaluable:* All motion, ecology, and external terrain passes.
+
+    *   Did I reward effort? No.
+    *   Did I infer quality from the Universe Slice? No, I used the Slice as the *standard* to prove the visual *failed*.
+    *   Did I turn absence of evidence into a pass? No.
+    *   Did I use outside xianxia tropes? No.
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B REPORT**
+
+**FRAME ID:** [Internal Reference: Salt_Merchant_Counting_Room_Proxy]
+**UNIVERSE SLICE:** `room.hu.counting` (Salt accounts, license documents)
+**GENESIS STATUS:** Pre-Production / Blockout
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary focal point; the eye drifts across a scattered array of primitives.
+*   **Reads:** 
+    *   *Primary:* A technical test scene.
+    *   *Secondary:* A collection of unassigned primitive shapes.
+*   **Foreground/Middle/Background:** 
+    *   *Foreground:* A single brown cube.
+    *   *Middle Ground:* A sparse collection of geometric primitives.
+    *   *Background:* Three flat, featureless beige planes meeting at a corner.
+*   **Frame Balance:** Heavily bottom-weighted. The upper 60% of the frame is a void of empty wall and a black ceiling.
+*   **Camera/Lens:** High-angle static shot. Perspective is generic linear; no cinematic lens language or intentional framing.
+*   **Compositional Verdict:** **FAIL.** This is not a composed shot; it is a viewport capture of a layout.
+
+---
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Primitive blocks. No tactile detail.
+*   **SHELL 2 (Local Interaction):** Empty space.
+*   **SHELL 3 (Local Scene):** Three blank walls. No architectural detail (no brick, no tile, no iron hinges).
+*   **SHELL 4–7 (Environment/Sky):** Non-existent.
+*   **SHELL 8–9 (Subsurface/Metaphysical):** Non-existent.
+*   **Density Verdict:** **CRITICAL FAILURE.** The scene is a vacuum. There is zero world density.
+
+---
+
+### 3. PHASE D: CONTENT INVENTORY
+| Object | Region | Depth | Apparent Identity | Finished? | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| White Blob | Left | Mid | Primitive Proxy | No | None |
+| Orange Prism/Cube | Left-Mid | Mid | Primitive Proxy | No | None |
+| Small Orange Blocks | Mid-Left | Mid | Primitive Proxy | No | None |
+| Tan Cylinder | Center | Mid | Primitive Proxy | No | None |
+| Green Line | Center | Mid | Primitive Proxy | No | None |
+| Brown Platform | Right | Mid | Primitive Proxy | No | None |
+| Grey/Orange Block | Right | Mid | Primitive Proxy | No | None |
+| Brown Cube | Bottom | Fore | Primitive Proxy | No | None |
+| Walls/Floor | Perimeter | All | Primitive Planes | No | None |
+
+**Inventory Verdict:** Total disconnect from Universe Slice. None of the required elements (`salt sacks`, `scales`, `account books`, `desk`, `brick walls`) are present.
+
+---
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+**NOT EVALUABLE.** No characters, creatures, or complex assets present to evaluate.
+
+---
+
+### 5. GENESIS PASS COVERAGE
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **N/E** | Interior scene. |
+| **P10** | Terrain Geometry | **FAIL** | No terrain; flat plane. |
+| **P13** | Material Truth | **FAIL** | No brick, tile, iron, or pine. Flat colors/noise only. |
+| **P51** | Shader Presentation | **FAIL** | Generic shaders; no painterly language. |
+| **P36** | Physics/Structure | **FAIL** | No load paths; walls are floating planes. |
+| **P23** | Domestic Life | **FAIL** | No evidence of salt counting or domesticity. |
+| **P22** | Economy/Logistics | **FAIL** | No salt sacks, scales, or logistics visible. |
+| **P33** | Affordance Lattice | **FAIL** | Primitives do not read as usable objects. |
+| **P07** | Perceptual Hierarchy | **FAIL** | No intended read; visual noise. |
+| **P08** | Forbidden Interp. | **PASS** | No forbidden anachronisms present. |
+| **P49** | Cinematography | **FAIL** | No framing, sightlines, or lens language. |
+| **P50** | Lighting | **FAIL** | Flat, generic lighting; no key/fill/rim. |
+| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry. |
+| **P72** | Completeness | **FAIL** | Total absence of production assets. |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or TAA ghosting detected. |
+| **P60** | Streaming/World | **PASS** | No LOD pop visible. |
+
+---
+
+### 6. FINAL VISION VERDICT
+
+**VISION VERDICT: CRITICAL FAILURE**
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** The frame contains 0% of the required elements defined in the Universe Slice for `room.hu.counting`.
+2.  **Proxy Dependency:** The scene consists

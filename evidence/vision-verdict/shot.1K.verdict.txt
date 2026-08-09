@@ -1,0 +1,207 @@
+# VISION INSPECTION — shot.1K
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer explanation, no "intended" content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Visuals:* A collection of flat-shaded polygons.
+    *   *Colors:* Shades of blue and light grey/blue.
+    *   *Shapes:* Jagged, angular peaks. A large light-colored mass in the foreground/center. A darker blue background.
+    *   *Detail:* Zero texture. Zero lighting effects (other than flat shading/gradients). No edges, no bevels, no particles, no UI.
+    *   *Composition:* A low-poly landscape or object.
+
+    *   *What does it show?* A low-poly, flat-shaded geometric arrangement. It looks like a mountain range or a jagged rock formation against a sky. Scale is indeterminate because there are no reference objects (no characters, no trees, no buildings). Density is extremely low; it's just a few large planes.
+    *   *Player perception:* "I'm looking at a very early prototype of a mountain" or "This is a low-poly art style."
+    *   *Art style/Production quality:* Low-poly / Flat-shaded. Production quality is minimal. It looks like a basic 3D render from a beginner's tutorial or a very early block-out.
+    *   *Completion level:* PRIMITIVE_PLACEHOLDER. It's just shapes.
+    *   *Defects/Distractions:* Total lack of detail. No texture. No atmospheric perspective. No focal point.
+    *   *Reward for inspection:* It stops rewarding inspection immediately. There is nothing to see upon zooming in other than flat color gradients and hard edges.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+The frame shows a collection of flat-shaded, low-polygon geometric shapes. There is a large, light-blue/grey angular mass in the foreground and midground, featuring two sharp peaks. This is set against a darker blue background. There are no textures, no organic curves, no lighting effects, and no reference objects to establish scale or density.
+
+**Player Perception**
+A player would perceive this as a very early-stage 3D model of a mountain or a jagged rock formation. Due to the lack of scale references, it could also be interpreted as a macro shot of a crystal or a stylized abstract environment.
+
+**Art Style and Production Quality**
+*   **Style:** Low-poly / Flat-shaded.
+*   **Quality:** Minimal. The render lacks ambient occlusion, specular highlights, textures, or any post-processing. It is a raw geometric output.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Empty Zones**
+*   **Defects:** Total absence of surface detail. Hard, aliased edges.
+*   **Empty Zones:** The entire frame is an empty zone. There is no focal point, no environmental storytelling, and no visual complexity.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There is no hidden detail, no texture work, and no nuance to discover upon zooming. It is a set of flat color planes.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single image consisting of flat-shaded, low-poly blue/grey polygons.
+A "Scene Universe Slice" describing a complex xianxia environment (Green Mirror Vein, Wang Family Bend, paddy fields, river, stone bunds, specific NPCs, formations, etc.) and a "Genesis Pass Manifest" (P09, P10, P13, etc.) detailing visual obligations for geology, vegetation, materials, etc.
+Perform Phases B-X of the Inspection Contract, evaluate Genesis Passes, conduct a forensic sweep, and provide a final Vision Verdict.
+
+    *   *Visuals:* Flat blue/grey polygons. No textures. No lighting. No detail.
+    *   *Composition:* A jagged shape (mountain-like) against a flat background.
+    *   *Context:* The "Universe Slice" describes a lush, detailed agricultural and spiritual landscape. The image shows... nothing of that.
+
+    *   **Phase B: Full-Frame Composition**
+        *   Focal Hierarchy: None. The entire image is a single mass of flat color.
+        *   Foreground/Middle/Background: Indistinguishable. There is a "light shape" and a "dark background," but no depth cues.
+        *   Balance: Asymmetrical, but devoid of intent.
+        *   Camera: Indeterminate.
+
+    *   **Phase C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Empty.
+        *   Shell 2 (Local): Empty.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4 (Settlement): Empty.
+        *   Shell 5 (Landscape): Primitive polygon.
+        *   Shell 6 (Horizon): Flat color.
+        *   Shell 7 (Sky): Flat color.
+        *   Shell 8/9: Non-existent.
+        *   *Verdict:* Absolute void of density.
+
+    *   **Phase D: Content Inventory**
+        *   Characters: 0.
+        *   Vegetation: 0.
+        *   Terrain: 1 (primitive polygon).
+        *   Structures: 0.
+        *   VFX: 0.
+        *   *Verdict:* Total failure of content.
+
+    *   **Phase E: Silhouette and Proportion**
+        *   The silhouette is a jagged peak. It does not communicate "paddy fields," "river," or "village."
+
+    *   **Genesis Pass Evaluation (The "Meat" of the failure):**
+        *   P09 (Geology): FAIL. Not real geology; it's a heightmap prototype/primitive.
+        *   P10 (Topology): FAIL. No valley/slope/cliff structure; just a polygon.
+        *   P13 (Material Truth): FAIL. Flat blue. Not stone, soil, or water.
+        *   P14 (Vegetation): FAIL. Zero vegetation.
+        *   P15 (Animals): FAIL. Zero animals.
+        *   P23 (Domestic Life): FAIL. Zero evidence of life.
+        *   P50 (Lighting): FAIL. Flat shading. No key/fill/rim.
+        *   P51 (Shader Presentation): FAIL. Generic flat shader.
+        *   P67 (Visual Oracle): FAIL. This is proxy geometry.
+        *   P72 (Completeness): FAIL. Total absence of mandatory visual blockers.
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Total absence of all mandated content from the Universe Slice.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat shading, lack of textures, lack of lighting.
+
+    *   *Anti-self-deception:* Do not say "it's a start." Do not say "the colors are calming." Say "it is a blue polygon."
+    *   *Contract adherence:* Use the specific terminology (Shells, Genesis Passes, etc.).
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**UNIVERSE SLICE:** Green Mirror Vein / Wang Family Bend / Tenant Fields
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary, secondary, or tertiary read. The eye is met with a single, undifferentiated mass of flat-shaded geometry.
+*   **Depth Separation:** Zero. There is a light-blue foreground/middle-ground mass and a darker-blue background. There is no overlap, no atmospheric perspective, and no legible depth.
+*   **Frame Balance:** Unbalanced. A jagged mass occupies the right and center; the left is a void of flat color.
+*   **Camera/Lens:** Indeterminate. No perspective cues exist to establish focal length or camera height.
+*   **Compositional Read:** The image reads as a **primitive placeholder/greybox**. It does not communicate a "scene," but rather a geometric test.
+
+### 2. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** EMPTY.
+*   **SHELL 2 (Local Interaction):** EMPTY.
+*   **SHELL 3 (Local Scene):** EMPTY.
+*   **SHELL 4 (Settlement):** EMPTY.
+*   **SHELL 5 (Landscape):** PRIMITIVE. A single low-poly jagged form.
+*   **SHELL 6 (Horizon):** EMPTY.
+*   **SHELL 7 (Sky/Atmosphere):** EMPTY. Flat color fill.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** EMPTY.
+*   **Density Verdict:** Absolute void. There is zero world density. The "Tenant Fields" described in the Universe Slice are entirely absent.
+
+### 3. PHASE D — CONTENT INVENTORY
+| Content Class | Screen Region | Depth Layer | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Terrain | Center/Right | Mid | Low-poly mass | UNFINISHED | None. |
+| Sky | Background | Far | Flat blue | UNFINISHED | None. |
+| Vegetation | N/A | N/A | None | MISSING | None. |
+| Structures | N/A | N/A | None | MISSING | None. |
+| NPCs/Animals | N/A | N/A | None | MISSING | None. |
+| Water/River | N/A | N/A | None | MISSING | None. |
+
+### 4. PHASE E — SILHOUETTE AND PROPORTION
+*   **Focal Subject:** The jagged blue mass.
+*   **Proportion:** Scale is indeterminate. Without a scale anchor (e.g., a cultivator, a tool, a blade of grass), the object could be a pebble or a mountain. It fails to communicate any specific scale.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Verdict | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. This is a primitive polygon, not a geological structure. |
+| **P10** | Terrain Topology | **FAIL** | No valley, slope, or cliff structure. No contact with other geometry. |
+| **P13** | Material Truth | **FAIL** | No materials. Flat blue shading. No soil, stone, or water. |
+| **P14** | Vegetation Ecology | **FAIL** | Total absence of all plant life. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of all fauna. |
+| **P23** | Domestic Life | **FAIL** | No evidence of farming, tools, or human presence. |
+| **P50** | Lighting | **FAIL** | Flat shading. No light direction, no contrast, no rim/fill. |
+| **P51** | Shader Presentation | **FAIL** | Generic flat shader. No painterly language or edge work. |
+| **P67** | Visual Oracle | **FAIL** | This is explicit proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Total failure at every depth shell. |
+
+---
+
+### 6. FORENSIC SWEEP (3x3 TILED)
+*   **Top-Left:** Flat blue. No detail.
+*   **Top-Center:** Flat blue. No detail.
+*   **Top-Right:** Jagged polygon edge. No texture.
+*   **Mid-Left:** Flat light-blue. No detail.
+*   **Mid-Center:** Flat light-blue. No detail.
+*   **Mid-Right:** Jagged polygon edge. No texture.
+*   **Bot-Left:** Flat light-blue. No detail.
+*   **Bot-Center:** Flat light-blue. No detail.
+*   **Bot-Right:** Flat dark-blue. No detail.
+
+---
+
+### 7. VISION VERDICT
+
+**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER / GREYBOX**
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** The frame contains 0% of the mandated content from the Scene Universe Slice (no fields, no river, no village, no sect).
+2.  **Material Void:** Failure of P13 and P51. The image uses flat colors instead of materials.
+3.  **Zero Density:** Failure of all Shells (1-9). The world is empty.
+
+**TECHNICAL DEFECTS:**
+*   Flat shading.
+*   Lack of textures/normals.
+*   Lack of lighting.
+*   Lack of atmospheric depth.
+
+**NOT EVALUABLE:**
+*   P43 (Motion), P47 (Secondary Motion) — No temporal evidence provided.
+*   P18 (Personhood) — No NPCs present.
+
+**NEXT INSPECTION:**
+Immediate return to Genesis Pass P09 (Geology) and P13 (Material Truth). The scene cannot be inspected for "Art Direction" until it exists as a "World."
+
+---
+
+### 8. AAA COMPLETENESS QUESTION
+**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
+
+**NO.** 
+This is not a rendered scene; it is a geometric primitive. It fails every applicable visual obligation in the manifest.

@@ -1,187 +1,204 @@
 # VISION INSPECTION — shot.1H
 
 ## STAGE A (blind)
-**PERCEPTUAL EVIDENCE REPORT**
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
 
-**1. Frame Content**
-*   **Setting:** An enclosed interior corner consisting of two white walls, a dark ceiling, and a tan/brown floor.
-*   **Objects:** Two low-poly octagonal cylinders (stools), one rectangular orange/peach block (bench/platform), a single cluster of thin green vertical polygons (grass/plant), and one brown rectangular beam protruding from the ceiling.
-*   **Scale:** Human-scale room, though proportions are abstract.
-*   **Density:** Extremely low. The scene is approximately 95% empty space.
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
 
-**2. Player Perception**
-A player would perceive this as a "test room" or a "void" environment. It resembles a primitive representation of a room—perhaps a house or a shop—but lacks any functional or narrative signifiers. The objects appear to be floating or loosely placed rather than integrated into a lived-in space.
+    *   *Setting:* An indoor room. White/off-white walls, brown/tan floor, dark brown ceiling.
+    *   *Objects:*
+        *   Two low-poly cylindrical/conical shapes (tan/beige).
+        *   Two rectangular blocks (orange-brown).
+        *   One thin green vertical strip/rectangle.
+        *   A small grey/white rectangular object on the far right.
+        *   A brown beam/strip on the ceiling.
+    *   *Scale:* Hard to tell without a character, but the proportions suggest a room.
+    *   *Density:* Extremely low. Mostly empty space.
+    *   *Art Style:* Low-poly, flat shading/basic textures, primitive geometry.
+    *   *Production Quality:* Very low. No lighting effects (shadows are basic/absent), no textures (just flat colors or noise), no detail.
+    *   *Completion Level:* Definitely not finished. It's a blockout or primitive placeholder.
 
-**3. Art Style and Production Quality**
-*   **Style:** Primitive Low-Poly / Grey-box.
-*   **Quality:** Minimal. There is no evidence of advanced lighting (global illumination, ambient occlusion), complex shaders, or high-resolution texturing. The geometry is basic and the color palette is flat.
+    *   *What does it show?* A sparse interior room with primitive geometric shapes.
+    *   *Player perception:* "This is a test level" or "The game is broken/unfinished."
+    *   *Art style:* Low-fidelity, primitive 3D.
+    *   *Completion:* BLOCKOUT / PRIMITIVE_PLACEHOLDER.
+    *   *Defects:* Total lack of detail, floating/unanchored look, flat lighting, empty void of a room.
+    *   *Reward for inspection:* Zero. There is nothing to see upon closer look.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
-**4. Apparent Level of Completion**
-**PRIMITIVE_PLACEHOLDER**
-This is below the level of a "Blockout," as it lacks the structural intentionality of a level design layout. It appears to be a technical test for asset placement or basic engine rendering.
+**Actual Content**
+*   **Setting:** A sparse, enclosed interior room.
+*   **Objects:** Two low-poly tan cylinders/cones, two orange-brown rectangular prisms, one thin green vertical sliver, and one small grey rectangular object on the far right. A brown strip is attached to the ceiling.
+*   **Scale:** Indeterminate due to lack of reference entities, though proportions suggest a room-sized environment.
+*   **Density:** Extremely low. The vast majority of the frame is empty wall or floor space.
 
-**5. Defects, Distractions, and Empty Zones**
-*   **Lighting/Texture Errors:** The floor features a harsh diagonal seam or lighting gradient that does not align with the geometry or any visible light source.
-*   **Clipping:** The green plant-like object is clipping directly through the floor plane with no base, pot, or transition.
-*   **Lack of Contact:** Objects (stools, bench) have no contact shadows or ambient occlusion, making them appear to "float" on the floor surface.
-*   **Geometry:** The ceiling beam terminates abruptly into the wall without any structural support or trim.
-*   **Empty Zones:** The walls and ceiling are completely featureless, providing no visual information.
+**Player Perception**
+A player would perceive this as a technical test environment, a "greybox" level, or a broken asset load. There is no narrative or functional context provided by the visuals.
 
-**6. Inspection Reward Limit**
-Inspection stops rewarding the viewer almost instantly. There are no micro-details, hidden textures, or subtle environmental storytelling elements. Closer inspection only reveals the aliasing on the polygon edges and the low-resolution "muddy" quality of the floor texture.
+**Art Style and Production Quality**
+*   **Style:** Primitive 3D.
+*   **Quality:** Negligible. Flat colors, basic low-poly geometry, and a lack of sophisticated lighting, shadows, or material definition.
+
+**Level of Completion**
+PRIMITIVE_PLACEHOLDER
+
+**Defects and Distractions**
+*   **Empty Zones:** The entire upper two-thirds of the frame is a featureless white void.
+*   **Lighting:** Flat, non-directional lighting creates a sterile, unnatural atmosphere.
+*   **Composition:** Objects are scattered without apparent logic or alignment.
+*   **Texture:** The floor has a grainy noise pattern that contrasts poorly with the flat-shaded walls.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately. There are no hidden details, textures, or complex geometries to discover; the visual information is exhausted within seconds of the first glance.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
-A single RGB frame showing a primitive, low-poly room.
-Stage A (Blind Read) provided.
-Grand Architect Vision Inspection Contract.
-Scene Universe Slice (Wang Family Bend, school hall, teacher Wang Lun, etc.) and Genesis Pass Manifest (P09, P10, etc.).
+A single rendered frame of an indoor room.
+Stage A (Blind Read) provided. Scene Universe Slice (Wang Lun's school hall) provided. Genesis Pass Manifest provided.
 
-    *   *Setting:* A room with white walls, a dark ceiling, and a tan floor.
-    *   *Objects:* Two octagonal cylinders (stools), one orange block (bench), a green sliver (grass), a brown beam (ceiling).
-    *   *Style:* Grey-box/Primitive Low-Poly.
-    *   *Context (from Slice):* This is supposed to be a "school hall" (12m x 8m) with pupil desks, ink stones, a teacher's dais, and a hexagram table.
+        *   *Setting:* Indoor room.
+        *   *Objects:* Two tan cylinders/cones, two orange-brown blocks, one green strip, one grey/white block, one brown ceiling beam.
+        *   *Style:* Low-poly, flat shading, primitive geometry.
+        *   *Classification:* Primitive placeholder map / Greybox.
 
-    *   **PHASE B: Full-Frame Composition**
-        *   *Focal Hierarchy:* No clear focal point. The eye wanders across empty white walls.
-        *   *Reads:* Primary read is "empty room." Secondary read is "random shapes."
-        *   *Foreground/Mid/Back:* Foreground (stools), Mid (grass/floor), Back (white walls).
-        *   *Balance:* Heavily weighted to the bottom left; the right 60% of the frame is a void of white and tan.
-        *   *Negative Space:* Excessive. 95% of the frame is non-informative.
-        *   *Camera:* Low angle, wide perspective.
-        *   *Verdict:* Composition is non-existent. It is a technical view of a blockout.
+        *   *Location:* Wang Lun's school hall (12m x 8m).
+        *   *Expected Content:* Pupil desks, ink stones, teacher's dais, hexagram table, worn classics.
+        *   *Materials:* Timber, plaster, thatch.
+        *   *Context:* Teaching village children, divination.
 
-    *   **PHASE C: Multi-Scale World Density**
-        *   *Shell 1 (Reach):* Two primitive cylinders. No detail.
-        *   *Shell 2 (Local Interaction):* An orange block. No detail.
-        *   *Shell 3 (Local Scene):* A single green polygon.
-        *   *Shell 4-7 (Settlement to Sky):* Not visible/Not present.
-        *   *Shell 8-9 (Subsurface/Metaphysical):* Not present.
-        *   *Verdict:* Total density failure. The "school hall" is a void.
+    *   **Phase B: Full-Frame Composition**
+        *   *Focal Hierarchy:* None. The eye wanders across empty space.
+        *   *Reads:* Primary read is "empty room." Secondary read is "random blocks."
+        *   *Foreground/Mid/Back:* Foreground has a block and a cylinder. Midground has a green strip. Background is a flat white wall.
+        *   *Balance:* Heavily weighted to the right (large orange block) and left (small orange block). Center is a void.
+        *   *Camera:* Low angle, wide lens.
+        *   *Verdict:* Composition is non-existent. It is a spatial blockout.
 
-    *   **PHASE D: Content Inventory**
-        *   *Walls:* White, flat, no texture. (Background)
-        *   *Floor:* Tan, flat, no texture. (Mid/Foreground)
-        *   *Ceiling:* Black, flat. (Background)
-        *   *Stools:* 2x Octagonal cylinders. (Foreground) - *Not finished.*
-        *   *Bench:* 1x Orange block. (Foreground) - *Not finished.*
-        *   *Plant:* 1x Green sliver. (Midground) - *Not finished.*
-        *   *Beam:* 1x Brown block. (Background/Ceiling) - *Not finished.*
-        *   *Missing:* Pupil desks, ink stones, teacher's dais, hexagram table, classics, timber/plaster/thatch materials.
+    *   **Phase C: Multi-Scale World Density**
+        *   *Shell 1 (Reach):* Primitive blocks. No detail.
+        *   *Shell 2 (Local Interaction):* Empty.
+        *   *Shell 3 (Local Scene):* Extremely low density.
+        *   *Shell 4-9:* Not applicable/not visible.
+        *   *Verdict:* Total failure of density.
 
-    *   **PHASE E: Silhouette and Proportion**
-        *   *Stools:* Basic cylinders.
-        *   *Bench:* Basic cube.
-        *   *Proportions:* Roughly human-scale, but lack of detail makes them read as placeholders.
+    *   **Phase D: Content Inventory**
+        *   *Orange Blocks:* Likely intended as desks or the dais. (Unfinished).
+        *   *Tan Cylinders:* Likely intended as stools or pillars. (Unfinished).
+        *   *Green Strip:* Unknown. Perhaps a plant or a divider? (Unfinished).
+        *   *Grey Block:* Unknown. (Unfinished).
+        *   *Ceiling Beam:* Single primitive. (Unfinished).
+        *   *Verdict:* No believable world density.
 
-    *   *P09 (Geology):* NOT_EVALUABLE (Interior).
-    *   *P10 (Terrain/Topology):* FAIL. Floating/primitive geometry. No clean contact.
-    *   *P27 (World Laws):* NOT_EVALUABLE.
-    *   *P14 (Vegetation):* FAIL. A single green polygon does not constitute "ecology."
-    *   *P15 (Animals):* NOT_EVALUABLE.
-    *   *P13 (Material Truth):* FAIL. Flat colors. No thatch, timber, or plaster.
-    *   *P51 (Shader Presentation):* FAIL. Generic flat shaders. No painterly language.
-    *   *P36 (Physics/Structure):* FAIL. Walls are paper-thin planes; beam is a floating block.
-    *   *P29 (Formations):* NOT_EVALUABLE.
-    *   *P25 (Qi Ecology):* NOT_EVALUABLE.
-    *   *P18 (Personhood):* NOT_EVALUABLE (No NPCs).
-    *   *P23 (Domestic Life):* FAIL. No evidence of school activity or domesticity.
-    *   *P22 (Economy/Logistics):* FAIL. No storage, tools, or goods.
-    *   *P43/P47 (Motion):* NOT_EVALUABLE (Still frame).
-    *   *P33 (Affordance):* FAIL. Objects are blocks; no legible "usability" beyond basic collision.
-    *   *P78 (Concealment):* NOT_EVALUABLE.
-    *   *P07 (Perceptual Hierarchy):* FAIL. No intended focal point.
-    *   *P08 (Forbidden Interpretations):* PASS (Nothing forbidden is present, simply nothing is present).
-    *   *P49 (Cinematography):* FAIL. No framing or lens language.
-    *   *P50 (Lighting):* FAIL. Flat, ambient lighting. No key/fill/rim.
-    *   *P67 (Visual Oracle):* FAIL. This is pure proxy geometry.
-    *   *P72 (Completeness):* FAIL. Total failure of completeness.
-    *   *P61 (Renderer):* PASS (No z-fighting visible, though too simple to test).
-    *   *P60 (Streaming):* PASS (Too small to pop).
+    *   **Phase E: Silhouette and Proportion**
+        *   *Proportions:* The orange blocks are massive compared to the cylinders. If the cylinders are stools, the blocks are monolithic slabs.
+        *   *Silhouette:* Purely geometric. No organic or architectural character.
 
-    *   *Vision Verdict:* CRITICAL FAILURE.
-    *   *Top Failures:* Material Truth (P13), Completeness (P72), Visual Oracle (P67).
+    *   *P09 (Geology):* N/A (Indoor).
+    *   *P10 (Terrain):* N/A (Indoor).
+    *   *P13 (Material Truth):* **FAIL**. Flat colors. No timber, plaster, or thatch texture.
+    *   *P36 (Physics/Structural):* **FAIL**. Floating/intersecting primitives. No load paths.
+    *   *P51 (Shader Presentation):* **FAIL**. Generic flat shading. No painterly language.
+    *   *P07 (Perceptual Hierarchy):* **FAIL**. No intended focal point.
+    *   *P67 (Visual Oracle):* **FAIL**. This is pure proxy geometry.
+    *   *P72 (Completeness):* **FAIL**. Not a production candidate.
+    *   *P61 (Renderer):* **PASS** (Technically, no z-fighting visible, but trivial).
+
+    *   *Vision Verdict:* Primitive Placeholder / Greybox.
+    *   *Top Failures:* Material Truth, World Density, Production Level.
     *   *World Density:* Zero.
-    *   *Technical Defects:* Flat shading, proxy geometry.
-    *   *AAA Question:* No.
-**PERCEPTUAL EVIDENCE EXAMINATION REPORT**
-**STAGE B — FULL INSPECTION**
+    *   *Technical Defects:* Lack of textures, lack of assets.
 
-**FRAME ID:** [Single RGB Frame]
-**LOCATION:** room.school.hall (Wang Family Bend)
-**STATUS:** CRITICAL FAILURE
+    *   *Self-Correction during drafting:* I must not say "it's a good start." I must say "it is a primitive placeholder."
+    *   *Check against Universe Slice:* The slice asks for "pupil desks, ink stones, hexagram table." None of these are perceptually present. They are represented by blocks. Therefore, they are *not* present in the final visual evidence.
+**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**LOCATION:** room.school.hall (Wang Lun’s School)
+**STATUS:** PROXY / GREYBOX
 
 ---
 
 ### 1. PHASE B: FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** Non-existent. There is no primary focal point. The eye is drawn to the high-contrast intersection of the white wall and black ceiling, then wanders aimlessly across the empty floor.
+*   **Focal Hierarchy:** Non-existent. There is no primary focal point. The eye is distributed across a void of off-white and tan.
 *   **Reads:** 
-    *   *Primary:* Empty void.
-    *   *Secondary:* Primitive blockout.
-*   **Foreground/Middle/Background:** 
-    *   *Foreground:* Two octagonal cylinders and an orange block.
-    *   *Middle:* A single green polygon.
-    *   *Background:* Flat white planes and a black ceiling.
-*   **Frame Balance:** Severely unbalanced. All "content" is clustered in the lower-left quadrant; the right 60% of the frame is a vacuum of information.
-*   **Negative Space:** Oppressive. The negative space is not used for composition but represents a total absence of art direction.
-*   **Camera/Lens:** Low-angle, wide-field perspective. No cinematic intent detected; reads as a default engine camera.
-*   **Verdict:** The composition is not "readable" because there is nothing to read. It is a technical view of a primitive scene.
+    *   *Primary:* An empty, untextured room.
+    *   *Secondary:* Randomly placed geometric primitives.
+*   **Depth Separation:** Minimal. The lack of lighting contrast and texture makes the distance between the foreground blocks and the back wall feel flat.
+*   **Frame Balance:** Unbalanced. Heavy orange masses on the far left and right edges create a "bracket" effect that leaves the center of the frame as a dead zone.
+*   **Camera/Lens:** Low-angle perspective, wide field of view. The angle suggests a player-height view, but the lack of scale anchors makes the room feel ambiguously sized.
+*   **Compositional Verdict:** **FAIL**. This is a spatial blockout, not a composed shot.
 
 ---
 
 ### 2. PHASE C: MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Primitive octagonal cylinders. No surface detail, no wear, no material identity.
-*   **SHELL 2 (Local Interaction):** A single orange rectangular prism. No functional detail.
-*   **SHELL 3 (Local Scene):** A single green vertical sliver. No ecological context.
-*   **SHELL 4–7 (Settlement to Sky):** NOT EVALUABLE (Enclosed interior).
-*   **SHELL 8–9 (Subsurface/Metaphysical):** NOT EVALUABLE.
-*   **Density Verdict:** Total Density Collapse. The "School Hall" described in the Universe Slice (pupil desks, ink stones, teacher's dais, hexagram table) is entirely absent.
+*   **SHELL 1 (Reach):** Primitive blocks. No tactile detail, no surface wear, no interaction affordance.
+*   **SHELL 2 (Local Interaction):** Empty.
+*   **SHELL 3 (Local Scene):** Extremely low density. The room is a vacuum.
+*   **SHELLS 4–9:** Not applicable/Not visible.
+*   **Density Verdict:** **FAIL**. The scene is devoid of the "pupil desks, ink stones, and hexagram table" required by the Scene Universe Slice.
 
 ---
 
 ### 3. PHASE D: CONTENT INVENTORY
-| Object | Region | Depth | Identity | Status | World Info Contributed |
+| Object | Region | Depth | Apparent Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| White Planes | Perimeter | Back | Walls | Proxy | None. |
-| Tan Plane | Bottom | Mid/Fore | Floor | Proxy | None. |
-| Black Plane | Top | Back | Ceiling | Proxy | None. |
-| Octagonal Cylinders (2) | Lower Left | Fore | Stools | Proxy | Basic scale anchor only. |
-| Orange Block | Left | Fore | Bench | Proxy | Basic scale anchor only. |
-| Green Polygon | Center | Mid | Grass/Plant | Proxy | None. |
-| Brown Block | Top Right | Back | Beam | Proxy | None. |
-
-**Inventory Verdict:** The scene contains zero "finished" assets. It consists entirely of primitive geometry.
+| Orange Block (L) | Left | Mid | Proxy Desk/Dais | **UNFINISHED** | None |
+| Orange Block (R) | Right | Mid | Proxy Desk/Dais | **UNFINISHED** | None |
+| Tan Cylinder (1) | Center-Left | Fore | Proxy Stool/Post | **UNFINISHED** | None |
+| Tan Cylinder (2) | Center-Left | Mid | Proxy Stool/Post | **UNFINISHED** | None |
+| Green Strip | Center | Mid | Unknown Proxy | **UNFINISHED** | None |
+| Grey Block | Far Right | Mid | Unknown Proxy | **UNFINISHED** | None |
+| Brown Beam | Top | Back | Proxy Ceiling Support | **UNFINISHED** | None |
 
 ---
 
 ### 4. PHASE E: SILHOUETTE AND PROPORTION
-*   **Silhouettes:** Basic geometric primitives (cylinder, cube, plane). No artistic silhouette or character.
-*   **Proportions:** Roughly human-scale, but without detail, they read as "placeholder blocks" rather than furniture.
+*   **Proportions:** The orange blocks are monolithic and oversized relative to the tan cylinders. If the cylinders are stools, the blocks are unnaturally thick slabs.
+*   **Silhouette:** Purely Euclidean. No architectural character, no "Cangli" cultural markers, no organic variation.
 
 ---
 
 ### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
 
-| Pass ID | Name | Result | Evidence / Missing |
+| Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P10** | Terrain Geometry | **FAIL** | Floating/primitive geometry; no clean contact. |
-| **P14** | Vegetation Ecology | **FAIL** | A single green polygon is not ecology. |
-| **P13** | Material Truth | **FAIL** | Flat colors. No timber, plaster, or thatch. |
-| **P51** | Shader Presentation | **FAIL** | Generic flat shaders; no painterly language. |
-| **P36** | Physics/Structure | **FAIL** | Paper-thin walls; floating ceiling beam. |
-| **P23** | Domestic Life | **FAIL** | No evidence of school, teaching, or habitation. |
-| **P22** | Economy/Logistics | **FAIL** | No tools, ink stones, or books. |
-| **P33** | Affordance Lattice | **FAIL** | Objects are blocks; no legible usability. |
-| **P07** | Perceptual Hierarchy | **FAIL** | No intended focal point or director's intent. |
-| **P08** | Forbidden Interp. | **PASS** | No forbidden motifs present. |
-| **P49** | Cinematography | **FAIL** | No framing, sightlines, or lens language. |
-| **P50** | Lighting | **FAIL** | Flat ambient light; no key/fill/rim. |
-| **P67** | Visual Oracle | **FAIL** | Pure proxy geometry. |
-| **P72** | Completeness | **FAIL** | Total failure of completeness. |
-| **P61** | Renderer/GPU | **PASS** | No z-fighting or TAA ghosting visible. |
+| **P13** | Material Truth | **FAIL** | **Missing:** Timber, plaster, thatch. **Observed:** Flat RGB colors. |
+| **P36** | Physics/Structural | **FAIL** | **Missing:** Load paths, support logic. **Observed:** Floating/intersecting primitives. |
+| **P51** | Shader Presentation | **FAIL** | **Missing:** Painterly language, edge language. **Observed:** Generic flat shading. |
+| **P07** | Perceptual Hierarchy | **FAIL** | **Missing:** Directed focal point. **Observed:** Visual void. |
+| **P23** | Ordinary Work/Life | **FAIL** | **Missing:** Tools, ink stones, books, signs of teaching. |
+| **P67** | Visual Oracle | **FAIL** | **Observed:** Pure proxy geometry. Violation of production level. |
+| **P72** | Completeness Gate | **FAIL** | **Observed:** Mandatory visual blockers at every depth shell. |
+| **P61** | Renderer/GPU | **PASS** | No z-fighting or TAA ghosting detected (trivial due to simplicity). |
 
 ---
 
 ### 6. VISION VERDICT
 
-**OVERALL
+**OVERALL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+
+**TOP FAILURES:**
+1.  **Total Absence of Materiality:** The scene fails every material obligation (P13, P51). There is no evidence of the "timber, plaster, thatch" specified in the Architecture contract.
+2.  **Zero World Density:** The "School Hall" is a vacuum. None of the required narrative assets (hexagram table, classics, desks) are perceptually present; they are merely represented by blocks.
+3.  **Production Level Collapse:** This is a greybox. It does not meet the minimum requirements for a "stylized prototype," let alone a production candidate.
+
+**WORLD DENSITY:** $\approx 0\%$ (Proxy only)
+**TECHNICAL DEFECTS:** Flat lighting, lack of textures, lack of asset variety, non-functional composition.
+**NOT EVALUABLE:** P09, P10, P14, P15, P25, P29, P43, P47 (No outdoor terrain, no NPCs, no motion).
+
+**NEXT INSPECTION:** Requires a full asset pass (P13, P51) and a density pass (P23) before it can be evaluated as a "scene."
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready visual for a AAA Xianxia title?**
+
+**NO.**

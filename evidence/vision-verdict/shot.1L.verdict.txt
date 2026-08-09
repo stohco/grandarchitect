@@ -1,0 +1,216 @@
+# VISION INSPECTION — shot.1L
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended purpose.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Setting:* An outdoor area. Flat ground.
+    *   *Objects:*
+        *   A long, flat brown roof supported by thin brown pillars.
+        *   A raised platform/border made of a grey, metallic-looking textured material.
+        *   Conical green shapes on brown cylinders (trees).
+        *   Large, beige/grey rectangular blocks in the background (buildings/walls).
+        *   A few small, indistinct objects on the platform (cubes, a dark cylinder).
+        *   A large, light-blue/white triangular shape in the far background (mountain?).
+    *   *Scale:* The pillars suggest a human-scale structure, but the lack of a character or familiar reference makes it feel ambiguous. The "trees" are very simple.
+    *   *Density:* Extremely low. Vast empty spaces.
+    *   *Art Style:* Low-poly, primitive. Flat colors or very simple repeating textures. No lighting effects (no shadows, no ambient occlusion, flat global illumination).
+    *   *Production Quality:* Very low. Looks like a basic 3D engine test or a very early prototype.
+    *   *Completion Level:* Definitely not finished. Not a production candidate. It's beyond a primitive placeholder (since there's a layout), but it's essentially a blockout or a very crude stylized prototype. Given the lack of any detail, "BLOCKOUT" is the most accurate.
+
+    *   *What does it show?* A flat, open outdoor environment featuring a long, covered walkway or platform. The area contains several conical trees, large rectangular blocks acting as background structures, and a raised grey perimeter.
+    *   *Player perception:* A "greybox" or "whitebox" level. A test environment for movement or scale. A very early alpha build of a low-budget indie game.
+    *   *Art style/Quality:* Primitive low-poly. Textures are stretched or tiled without filtering. Lighting is flat. No shadows.
+    *   *Completion level:* BLOCKOUT.
+    *   *Defects/Distractions:*
+        *   Lack of shadows makes objects feel disconnected from the ground (floating).
+        *   Texture stretching on the grey perimeter.
+        *   Extreme lack of detail/props.
+        *   The "trees" are simple cones.
+        *   The background "mountain" is a single flat polygon.
+        *   Empty zones: The entire mid-ground and background are void of meaningful detail.
+    *   *Inspection limit:* The image stops rewarding inspection immediately. There are no hidden details, no complex geometry, and no narrative clues. Once the basic shapes are identified, there is nothing more to see.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** An outdoor, flat environment under a featureless light-blue sky.
+*   **Objects:** A long, linear brown canopy supported by thin vertical pillars. This canopy covers a raised platform bordered by a grey, textured perimeter. The landscape contains several conical green shapes on brown cylinders (trees) and large, beige/grey rectangular prisms in the background. A single large, light-colored triangular plane exists in the far distance.
+*   **Scale:** Ambiguous. Based on the pillars, it suggests a human-scale walkway, but the lack of a reference character or detailed props makes the scale feel inconsistent.
+*   **Density:** Extremely low. The scene is mostly empty space.
+
+**Player Perception**
+A player would perceive this as a "greybox" or "whitebox" test level. It looks like a functional layout used to test movement, collision, or basic spatial flow before any actual art assets are implemented.
+
+**Art Style and Production Quality**
+*   **Style:** Primitive low-poly.
+*   **Quality:** Very low. There is no dynamic lighting, no shadows, and no ambient occlusion, causing objects to appear as if they are floating rather than grounded. Textures are basic, repeating, or stretched (notably on the grey perimeter).
+
+**Completion Level**
+BLOCKOUT
+
+**Defects and Distractions**
+*   **Lighting:** Total absence of shadows creates a disjointed, "flat" visual experience.
+*   **Geometry:** The "trees" are simple cones; the "mountain" is a single flat polygon.
+*   **Textures:** Visible tiling and stretching on the grey border.
+*   **Empty Zones:** The entire mid-ground and background are void of detail, providing no visual interest or environmental storytelling.
+*   **Composition:** The long, horizontal line of the canopy bisects the frame in a way that emphasizes the emptiness of the surrounding space.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There are no fine details, complex textures, or hidden elements. Once the basic geometric shapes are identified, there is no further information to extract.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame showing a primitive 3D scene.
+Stage A (Blind Read) provided.
+Grand Architect Vision Inspection Contract (Constitution).
+Scene Universe Slice (Cangwu Sect, Wang Family Bend, Dao Shrine, etc.) and Genesis Pass Manifest (P09, P10, etc.).
+
+    *   *Visuals:* Low-poly, primitive shapes. Cones for trees, boxes for buildings, a flat plane for the roof, a grey textured box for the platform.
+    *   *Colors:* Flat greens, browns, greys, light blue sky.
+    *   *Composition:* A long, thin structure dominates the foreground/midground. Background consists of blocky shapes and a large white triangle (mountain).
+    *   *Quality:* Extremely low. Looks like a blockout or a very early prototype. No lighting, no shaders, no detail.
+
+    *   **PHASE B: Full-Frame Composition**
+        *   *Focal Hierarchy:* The long roof is the primary read. There is no clear focal point or "hero" object.
+        *   *Depth:* Foreground (grey platform), Middle ground (roof/trees), Background (blocks/mountain).
+        *   *Balance:* Heavily weighted to the left/center by the roof.
+        *   *Camera:* Eye-level, wide angle.
+        *   *Verdict:* Composition is a basic layout; it does not communicate a directed cinematic or gameplay intent.
+
+    *   **PHASE C: Multi-Scale World Density**
+        *   *Shell 1 (Reach):* Empty. A few cubes on the platform.
+        *   *Shell 2 (Local Interaction):* Primitive.
+        *   *Shell 3 (Local Scene):* Sparse.
+        *   *Shell 4 (Settlement):* Blocky placeholders.
+        *   *Shell 5 (Landscape):* Flat green plane.
+        *   *Shell 6 (Horizon):* A single white triangle.
+        *   *Shell 7 (Sky):* Flat blue.
+        *   *Verdict:* Total failure of density. This is a primitive placeholder map.
+
+    *   **PHASE D: Content Inventory**
+        *   *Structures:* One long roof (brown), one grey platform (metallic texture), blocky background buildings.
+        *   *Vegetation:* Conical trees (green/brown).
+        *   *Terrain:* Flat green ground, beige platform surface.
+        *   *Props:* Small cubes/cylinders on the platform.
+        *   *Sky:* Flat blue with a white triangle.
+        *   *Verdict:* Content is purely geometric primitives. No "world information" contributed.
+
+    *   **PHASE E: Silhouette and Proportion**
+        *   *Roof:* Impossibly thin.
+        *   *Trees:* Generic cones.
+        *   *Buildings:* Rectangular prisms.
+        *   *Verdict:* No artistic silhouette or proportion work.
+
+    *   *P09 (Geography):* FAIL. Flat plane. Not real geology.
+    *   *P10 (Topology):* FAIL. No valley/slope. Floating/intersecting geometry (roof/pillars).
+    *   *P13 (Material Truth):* FAIL. Flat colors and generic textures. No weathering.
+    *   *P14 (Vegetation):* FAIL. Uniform cones. No ecology.
+    *   *P36 (Physics/Structural):* FAIL. Roof is a thin sheet; pillars are needles. No load paths.
+    *   *P49 (Cinematography):* FAIL. No focal hierarchy.
+    *   *P50 (Lighting):* FAIL. Flat, ambient lighting. No shadows.
+    *   *P51 (Shader Presentation):* FAIL. No painterly language.
+    *   *P67 (Visual Oracle):* FAIL. Pure proxy geometry.
+    *   *P72 (Completeness):* FAIL. Primitive placeholder.
+
+    *   *Vision Verdict:* Primitive Placeholder Map.
+    *   *Top Failures:* Material Truth, World Density, Structural Logic.
+    *   *Genesis Pass Coverage:* Massive failures across all physical and cinematic rings.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE SLICE:** Cangwu Sect / Wang Family Bend / Dao Shrine
+**STATUS:** CRITICAL FAILURE
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. The primary read is a long, thin brown rectangle (roof) that bisects the frame horizontally. There is no "hero" object or intended point of interest.
+*   **Depth Separation:** 
+    *   *Foreground:* Grey textured platform.
+    *   *Middle ground:* Roof, pillars, conical trees.
+    *   *Background:* Beige blocks and a white triangle.
+    *   *Separation:* Achieved only through basic Z-depth; no atmospheric haze or value shifting to create scale.
+*   **Frame Balance:** Heavily weighted toward the left and center. The right side is an empty void of green and blue.
+*   **Camera/Lens:** Static, eye-level, wide-angle. No cinematic intent.
+*   **Sightlines:** The roof creates a hard horizontal barrier that blocks the view of the background, creating a "sandwich" effect rather than a guided path.
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Empty. A few primitive cubes and a cylinder on a flat plane.
+*   **SHELL 2 (Local Interaction):** Primitive. No interactive affordances.
+*   **SHELL 3 (Local Scene):** Sparse. A few repeated conical trees.
+*   **SHELL 4 (Settlement):** Placeholder. Background buildings are untextured rectangular prisms.
+*   **SHELL 5 (Landscape):** Non-existent. A flat green plane.
+*   **SHELL 6 (Horizon):** Primitive. A single white triangle representing a mountain.
+*   **SHELL 7 (Sky):** Flat blue fill.
+*   **Verdict:** This is a **Primitive Placeholder Map**. There is zero world density.
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Structure | Center | Mid | Roof/Pillars | Primitive | None (Scale ambiguous) |
+| Structure | Bottom | Fore | Platform | Primitive | None (Generic texture) |
+| Structure | Left/Center | Back | Buildings | Proxy | None (Blockout) |
+| Vegetation | Scattered | Mid | Trees | Primitive | None (Generic cones) |
+| Terrain | Bottom | Fore | Ground | Primitive | None (Flat plane) |
+| Landmark | Right | Far | Mountain | Proxy | None (Triangle) |
+| Props | Left-Mid | Fore | Cubes/Cyl | Primitive | None |
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Structural Logic:** The roof is a zero-thickness plane. The pillars are needle-thin cylinders. There is no communication of weight, load, or architectural purpose.
+*   **Proportions:** The scale is incoherent. The "trees" are the same height as the "buildings" in the background, and the roof spans a distance that suggests a massive structure but possesses the visual weight of a piece of cardboard.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geography | **FAIL** | Observed: Flat plane. Missing: Geology, soil transitions, macro-structure. |
+| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Slopes, cliffs, clean structure contact. |
+| **P13** | Material Truth | **FAIL** | Observed: Flat colors/generic noise. Missing: Weathering, wear, material identity. |
+| **P14** | Vegetation Ecology | **FAIL** | Observed: Uniform cones. Missing: Species variation, moisture-based placement. |
+| **P36** | Structural Physics | **FAIL** | Observed: Floating/thin planes. Missing: Load paths, support logic, thickness. |
+| **P49** | Cinematography | **FAIL** | Observed: Basic snapshot. Missing: Focal hierarchy, framing, lens language. |
+| **P50** | Lighting | **FAIL** | Observed: Flat ambient light. Missing: Key/Fill/Rim, shadows, contrast. |
+| **P51** | Shader Presentation | **FAIL** | Observed: Generic shaders. Missing: Painterly language, edge work. |
+| **P67** | Visual Oracle | **FAIL** | Observed: Pure proxy geometry. Missing: Final production assets. |
+| **P72** | Completeness | **FAIL** | Observed: Blockout. Missing: Every mandatory visual blocker. |
+
+---
+
+### 6. VISION VERDICT
+
+**OVERALL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+
+**TOP FAILURES:**
+1.  **Total Absence of Material Truth (P13/P51):** The scene consists of raw engine primitives and generic textures. It does not resemble the "Grand Architect" art direction in any capacity.
+2.  **Zero World Density (Phase C):** The environment is a void. There is no evidence of the "Cangwu Sect" or "Wang Family Bend" beyond the metadata.
+3.  **Structural Impossibility (P36):** The architecture is non-physical (zero-thickness planes).
+
+**TECHNICAL DEFECTS:**
+*   **Geometry:** Zero-thickness planes used for roofing.
+*   **Lighting:** No light source or shadow casting; flat global illumination.
+*   **Assets:** 100% proxy/placeholder usage.
+
+**NOT EVALUABLE:**
+*   **P43/P47 (Motion):** No temporal evidence provided.
+*   **P27/P29 (Xianxia Laws/Formations):** No visual markers of Qi or Formations present.
+
+**NEXT INSPECTION:**
+Do not proceed to cinematic or animation inspection. The scene must first pass a **P09-P14 Physical Ring** overhaul to establish a baseline of reality before any "Grand Architect" specific layers can be evaluated.
+
+---
+
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready visual for a AAA title?**
+
+**NO.** This is a pre-alpha blockout.
