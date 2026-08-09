@@ -843,6 +843,26 @@ export function buildVillageScene(seed = 89274613): VillageScene {
   terrain.receiveShadow = true;
   group.add(terrain);
 
+  // field patches at the MACRO scale: alternating green/earth rectangles so
+  // the aerial reads as farmland, not a featureless void (VLM: 'flat teal
+  // void'). Deterministic, laid on the valley floor east and west of the
+  // village, mirroring the paddy/dryland in the blueprint.
+  const fieldMatA = new THREE.MeshStandardMaterial({ color: 0x4a7a3c, roughness: 1 });
+  const fieldMatB = new THREE.MeshStandardMaterial({ color: 0x6a8a48, roughness: 1 });
+  const fieldMatC = new THREE.MeshStandardMaterial({ color: 0x7a6a46, roughness: 1 }); // dry
+  for (let i = 0; i < 24; i++) {
+    const fw = rng.nextRange(70, 120);
+    const fd = rng.nextRange(70, 120);
+    const fx = (i % 2 === 0 ? 1 : -1) * rng.nextRange(160, 420);
+    const fz = rng.nextRange(-360, 360);
+    const mat = i % 4 === 3 ? fieldMatC : i % 2 === 0 ? fieldMatA : fieldMatB;
+    const f = new THREE.Mesh(new THREE.BoxGeometry(fw, 0.06, fd), mat);
+    f.position.set(fx, 0.02, fz);
+    f.rotation.y = (i * 37) % 180 * 0.017; // deterministic varied orientation
+    f.receiveShadow = true;
+    group.add(f);
+  }
+
   // ---- the village plan (worldbuilt): main road N-S, square at the
   // center, households on plots east/west with setbacks, fields east,
   // creek west, gate north, cache + foothills south. Every plot is
@@ -1165,6 +1185,22 @@ export function buildTownScene(seed = 89274613): VillageScene {
     const h = rng.nextRange(120, 350);
     const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, 5), pal.hazyBlue);
     m.position.set(dx * dist, h * 0.32, dz * dist);
+    m.castShadow = true;
+    group.add(m);
+  }
+
+  // mid-distance ridge band: darker, closer silhouettes between the
+  // foreground hills and the far ring — atmospheric depth layers so the
+  // landscape reads as layered range, not a single flat triangle (VLM:
+  // aerials read as '2D vector illustration / flat polygons')
+  const midMat = new THREE.MeshStandardMaterial({ color: 0x5d7390, roughness: 1 });
+  for (let i = 0; i < ringDirs.length; i++) {
+    const [dx, dz] = ringDirs[i];
+    const dist = rng.nextRange(420, 620);
+    const r = rng.nextRange(80, 200);
+    const h = rng.nextRange(70, 190);
+    const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, 6), midMat);
+    m.position.set(dx * dist, h * 0.3, dz * dist);
     m.castShadow = true;
     group.add(m);
   }

@@ -373,8 +373,16 @@ export default function DirectorRenderPage() {
       if (!shot.roomId) {
         const aimY = target.y;
         const camH = Math.max(shot.camera.heightM, aimY * 0.72); // level-ish, never looking steeply up
-        camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
-        camera.lookAt(target);
+        if (shot.cut === 'aerial' || shot.cut === 'extreme-wide') {
+          // establishing aerials: look DOWN at the land so the river bend,
+          // village, and fields fill the frame — a horizontal aerial at
+          // height+dist points at the sky (VLM: 'void, flat polygons')
+          camera.position.set(target.x + dist * 0.18, camH, target.z + dist * 0.18);
+          camera.lookAt(target.clone().add(new THREE.Vector3(0, -camH * 0.6, 0)));
+        } else {
+          camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
+          camera.lookAt(target);
+        }
         // sun azimuth follows the camera for ground shots (dolly lighting): the
         // visible facade gets key light instead of reading as a shadowed dark
         // mass (VLM: 'massive black monolith'). Elevation stays per-shot; only

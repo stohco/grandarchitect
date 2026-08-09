@@ -91,8 +91,8 @@ export const EPISODE_1: DirectorEpisode = {
     {
       id: 'shot.1A', number: '1A', cut: 'aerial', durationSec: 12,
       subject: 'The river bend, the village, the Cangwu foothills behind.',
-      location: 'Aerial over the Cangli riverlands', structureId: 'structure.foothills',
-      camera: { lensMm: 35, heightM: 800, movement: 'crane-down', cutTo: '1B' },
+      location: 'Aerial over the Cangli riverlands', structureId: 'structure.village_gate',
+      camera: { lensMm: 35, heightM: 450, movement: 'crane-down', cutTo: '1B' },
       lighting: 'Pre-dawn blue; first warm seam on the eastern ridge.',
       composition: 'Rule-of-thirds: the bend frames the village; foothills rise screen-right; the river reflects the sky.',
       audio: 'Wind, distant rooster, water; one low drone (the cache hum, not yet placed).',
@@ -268,8 +268,8 @@ const B = ART_BOARDS;
 
 export const TOUR_SHOTS: Shot[] = [
   // ---- cosmology opening -------------------------------------------------
-  { id: 'tour.01', number: 'T01', cut: 'aerial', durationSec: 14, subject: 'The Cangli riverlands bend at dawn; the three strata reading in the sky.', location: 'Aerial — Cangwu World', structureId: 'structure.foothills',
-    camera: { lensMm: 24, heightM: 1200, movement: 'crane-down', cutTo: 'T02' },
+  { id: 'tour.01', number: 'T01', cut: 'aerial', durationSec: 14, subject: 'The Cangli riverlands bend at dawn; the three strata reading in the sky.', location: 'Aerial — Cangwu World', structureId: 'structure.village_gate',
+    camera: { lensMm: 24, heightM: 450, movement: 'crane-down', cutTo: 'T02' },
     lighting: 'Pre-dawn: the Mortal Stratum lit, the Acquired above it faint with law-lines, the Precelestial a band of slow light.',
     composition: 'The bend as a comma on the land; the strata stacked vertically; the village a cluster of embers.',
     audio: 'High wind; the world breathing.',

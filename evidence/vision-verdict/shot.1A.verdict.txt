@@ -1,114 +1,223 @@
 # VISION INSPECTION — shot.1A
 
 ## STAGE A (blind)
-**PERCEPTUAL EVIDENCE EXAMINER: STAGE A REPORT**
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame. No context provided.
+Brutally accurate, no praise, facts and defects only.
 
-**1. Frame Content (Setting, Objects, Scale, Density)**
-*   **Setting:** Indeterminate. A flat, two-tone environment consisting of a dark blue-grey background and a light blue-grey foreground silhouette.
-*   **Objects:** A single, jagged, polygonal mass with sharp peaks and flat edges.
-*   **Scale:** Unreadable. The lack of recognizable reference objects (trees, figures, structures) makes it impossible to tell if this is a mountain range, a shard of glass, or a microscopic crystal.
-*   **Density:** Extremely low. The image consists of two flat color fills and a single geometric silhouette.
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories provided).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
 
-**2. Player Perception**
-A player would likely perceive this as a "broken" state, a missing texture, or a very early "greybox" blockout of a mountain range. Without animation or depth cues, it resembles a 2D vector illustration rather than a 3D space.
+    *   *Composition:* A large, tilted, geometric structure dominates the right foreground. It has a repetitive, tiled/checkered texture.
+    *   *Background:* A vast, hazy, desaturated teal/grey expanse.
+    *   *Objects:*
+        *   Foreground: A large, angled, rectangular/polygonal block with a light-colored, repeating pattern.
+        *   Midground/Background: A small, distant structure/building (looks like a small house or outpost) floating or sitting in the haze.
+        *   Far Background: Faint, geometric shapes (triangles/planes) appearing to float or be part of a larger, broken structure.
+    *   *Visual Artifacts:* Significant "stair-stepping" or aliasing on diagonal edges (especially the large foreground block and the distant shapes). The textures look low-resolution or poorly filtered. The lighting is flat and washed out.
+    *   *Scale:* The scale feels ambiguous but suggests a massive, empty void. The distance between the foreground block and the distant building is vast.
+    *   *Density:* Extremely low. Most of the frame is empty, hazy space.
 
-**3. Art Style and Production Quality**
-*   **Style:** Ultra-minimalist, unshaded, flat-lit polygonal.
-*   **Quality:** Non-existent in a traditional production sense. There is no evidence of materials, lighting, or post-processing. It appears to be a raw mesh silhouette.
+    *   *Setting:* A void, a foggy expanse, or a low-fidelity digital space. It feels like a "liminal space" or a broken simulation.
+    *   *Objects:* Large geometric primitives, a distant small building, floating planes.
+    *   *Scale:* Massive/Infinite.
+    *   *Density:* Near zero.
 
-**4. Apparent Level of Completion**
-*   **PRIMITIVE_PLACEHOLDER.** This is the earliest possible stage of environmental representation.
+    *   A player would think they are looking at a broken game engine, a very early prototype, or a "dreamscape" made of low-poly assets. It lacks any sense of "place" or "grounding."
 
-**5. Obvious Defects, Distractions, and Empty Zones**
-*   **Lack of Depth:** There is no atmospheric perspective, shading, or overlap to indicate distance. The entire light-colored mass exists on a single visual plane.
-*   **Artifacting/Noise:** In the bottom-left corner, there is a faint, low-contrast cluster of geometric lines and rectangles. It is unclear if this is a UI element, a distant wireframe, or a rendering error.
-*   **Stray Pixel:** There is a single white dot/pixel in the upper-center "sky" area that looks like a stray vertex or a dead pixel.
-*   **Aliasing:** The diagonal edges of the geometry show visible "stair-stepping" (aliasing), indicating a lack of anti-aliasing or high-resolution rendering.
-*   **Empty Zones:** 100% of the image is an empty zone. There is no surface detail to occupy the eye.
+    *   *Style:* Low-poly, minimalist, highly desaturated, "glitchy" or unrefined.
+    *   *Quality:* Low. High aliasing, lack of texture detail, lack of lighting depth.
 
-**6. Reward for Closer Inspection**
-The image stops rewarding inspection immediately. There is no micro-detail, no hidden information in the silhouettes, and no texture. The only "detail" is the faint cluster in the bottom-left, which is too low-contrast to be legible, serving only as a distraction rather than a discovery.
+    *   *Options:* FINISHED_WORLD / PRODUCTION_CANDIDATE / STYLIZED_PROTOTYPE / BLOCKOUT / PRIMITIVE_PLACEHOLDER.
+    *   *Selection:* **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**. Given the presence of a slightly more detailed building in the distance, it's more than just primitives, but the foreground is clearly a block. I'll go with **BLOCKOUT**.
+
+    *   *Defects:* Severe aliasing (jagged edges) on all diagonal lines. Heavy fog/haze that obscures everything. Flat lighting. Repetitive, low-res texture on the foreground block.
+    *   *Empty Zones:* The entire left two-thirds of the frame is empty haze.
+    *   *Reward for inspection:* There is zero reward for closer inspection. The textures are flat, the edges are jagged, and the "fog" provides no depth cues or interesting details.
+
+    *   *Check against constraints:* No praise? Yes. Brutally accurate? Yes. No names/context? Yes.
+
+    *(Self-Correction during drafting)*: I should mention the "stair-stepping" specifically as it's the most prominent technical defect. The scale feels "off" because there's no horizon line or ground plane.
+**What the frame shows:**
+A vast, desaturated teal/grey void. The composition is dominated by a large, tilted, geometric mass in the right foreground featuring a repetitive, low-resolution checkered texture. In the distant background, a small, isolated structure (resembling a small building or outpost) sits amidst heavy atmospheric haze. Faint, disconnected geometric planes float in the upper left. The scale feels massive but ungrounded due to the lack of a horizon or floor. Density is extremely low.
+
+**Player perception:**
+A player would likely assume they are looking at a broken game engine, a technical test, or a highly unfinished "liminal space" environment. It lacks any sense of physical presence or environmental logic.
+
+**Art style and production quality:**
+Low-poly, minimalist, and highly desaturated. Production quality is low; there is a significant lack of lighting depth, shadow, or material variety.
+
+**Apparent level of completion:**
+BLOCKOUT
+
+**Obvious defects, distractions, empty zones:**
+* **Severe Aliasing:** Extreme "stair-stepping" on all diagonal edges, particularly on the foreground block and distant geometric shapes.
+* **Empty Zones:** The entire left two-thirds of the frame is an empty, featureless haze.
+* **Texture Quality:** The foreground texture is repetitive and lacks any micro-detail or surface variation.
+* **Atmospheric Obscuration:** The fog is so thick and uniform that it provides no sense of depth or scale, acting more as a visual shroud than an environmental effect.
+
+**Where the image stops rewarding closer inspection:**
+Immediately. There is no detail to be found in the textures, no complexity in the geometry, and no environmental storytelling in the haze. Any attempt to look "closer" at the foreground or background results in seeing only jagged edges and flat colors.
 
 ## STAGE B (contract)
-**PERCEPTUAL EVIDENCE EXAMINER: STAGE B — FULL INSPECTION**
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+A large, tilted, checkered geometric block in the foreground; a hazy teal/grey background; a small distant structure; some floating geometric shards.
+A "Scene Universe Slice" describing a village gate (stone pillars, pine beam, 6m x 1m), a specific location (Wang Family Bend), and various xianxia elements (Qi, formations, spirit beasts).
+A list of "Genesis Passes" (P09, P10, etc.) with specific visual obligations.
 
-**LOCATION:** Western Cangwu Vein / Foothills (per metadata)
-**VISUAL STATE:** Primitive Blockout / Unlit Proxy
+    *   *Foreground:* A massive, tilted, light-colored block with a repeating checkered/tiled texture. It looks like a primitive or a placeholder.
+    *   *Midground/Background:* A flat, desaturated teal void.
+    *   *Distant Objects:* A small, low-poly structure (looks like a house/outpost) and some floating, jagged, semi-transparent or flat-shaded geometric planes.
+    *   *Technical Issues:* Severe z-fighting/aliasing (the "striations" or lines on the floating planes and the edges of the block). The lighting is flat. There is no ground plane, no vegetation, no characters.
+    *   *Comparison to Universe Slice:* The slice describes a "village gate" with "stone pillar posts" and "pine beam." The image shows *none* of this. It shows a giant checkered cube and a void.
+
+    *   **PHASE B: Full-Frame Composition**
+        *   Focal Hierarchy: The giant block is the primary read. The distant house is secondary.
+        *   Balance: Heavily weighted to the right.
+        *   Depth: There is a sense of depth, but it's "empty depth."
+        *   Camera: High angle, tilted.
+
+    *   **PHASE C: Multi-Scale World Density**
+        *   Shell 1 (Reach): Checkered surface. (Primitive)
+        *   Shell 2 (Local): Empty.
+        *   Shell 3 (Scene): Empty.
+        *   Shell 4 (Settlement): A single, tiny, low-poly house. (Placeholder)
+        *   Shell 5 (Landscape): Non-existent.
+        *   Shell 6 (Horizon): Non-existent.
+        *   Shell 7 (Sky): Flat teal haze.
+        *   Shell 8/9: Not applicable.
+
+    *   **PHASE D: Content Inventory**
+        *   Structure 1: Large checkered block (Foreground, Right). Identity: Placeholder/Primitive.
+        *   Structure 2: Small house (Background, Top Right). Identity: Low-poly proxy.
+        *   Geometry: Floating shards (Background, Left/Center). Identity: Glitched/Primitive geometry.
+        *   Environment: Teal void. Identity: Clear-color/Fog.
+
+    *   **PHASE E: Silhouette and Proportion**
+        *   The block is an oversized primitive. No human scale anchors present.
+
+    *   P09 (Geology): **FAIL**. No geology.
+    *   P10 (Terrain): **FAIL**. No terrain.
+    *   P27 (World Laws): **NOT_EVALUABLE**.
+    *   P14 (Vegetation): **FAIL**. No vegetation.
+    *   P15 (Animals): **FAIL**. No animals.
+    *   P13 (Material Truth): **FAIL**. Checkered texture is a developer grid, not a material.
+    *   P51 (Shader Presentation): **FAIL**. Flat, generic, non-painterly.
+    *   P36 (Physics/Structure): **FAIL**. Floating geometry, no load paths.
+    *   P29 (Formations): **NOT_EVALUABLE**.
+    *   P25 (Qi Ecology): **NOT_EVALUABLE**.
+    *   P18 (Personhood): **FAIL**. No NPCs.
+    *   P23 (Domestic Life): **FAIL**. No life.
+    *   P22 (Economy): **FAIL**. No economy.
+    *   P43/P47 (Motion): **NOT_EVALUABLE** (Still frame).
+    *   P33 (Affordance): **FAIL**. Nothing looks usable.
+    *   P78 (Concealment): **NOT_EVALUABLE**.
+    *   P07 (Perceptual Hierarchy): **FAIL**. The primary read is a placeholder block.
+    *   P08 (Forbidden Interpretations): **FAIL**. Reads as a "broken game engine test," which is a forbidden production state.
+    *   P49 (Cinematography): **FAIL**. No intentional framing.
+    *   P50 (Lighting): **FAIL**. Flat, no contrast.
+    *   P67 (Visual Oracle): **FAIL**. Massive proxy geometry.
+    *   P72 (Completeness): **FAIL**. Total failure of completeness.
+    *   P61 (Renderer): **FAIL**. Severe z-fighting/aliasing on the floating planes.
+    *   P60 (Streaming): **NOT_EVALUABLE**.
+
+    *   *Vision Verdict:* Total failure. This is a primitive test scene/greybox.
+    *   *Top Failures:* Absence of all world content; presence of developer placeholders; technical rendering artifacts.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Z-fighting, flat lighting, placeholder textures.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Village Gate / Wang Family Bend (per Universe Slice)
+**STATUS:** CRITICAL FAILURE
 
 ---
 
-### PHASE B — FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** Non-existent. The eye finds no resting point. The frame is dominated by a single, unshaded light-grey silhouette against a dark-grey background.
-*   **Depth Separation:** Zero. There is no atmospheric haze, no value stepping, and no overlap between distinct landmasses to communicate distance. The "peaks" in the center-midground appear to be on the same 2D plane as the larger masses.
-*   **Scale Communication:** Failed. Without a scale anchor (human figure, tree, or architectural detail), the central jagged mass could be 10 centimeters or 10 kilometers tall.
-*   **Camera/Lens:** High-angle, possibly orthographic or long-telephoto, looking down at a tilt. The perspective is flattened.
+### 1. PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** 
+    *   **Primary Read:** A massive, tilted, light-grey checkered block dominating the right foreground.
+    *   **Secondary Read:** A tiny, low-poly structure in the upper-right distance.
+    *   **Tertiary Read:** Floating, jagged geometric shards in the upper-left and center.
+*   **Balance:** Heavily right-weighted. The left 60% of the frame is a featureless teal void.
+*   **Depth Separation:** Extreme, but empty. There is a foreground, a distant midground, and a background, but they are connected by nothing.
+*   **Camera:** High-angle, tilted perspective. No clear intentionality; reads as a "fly-through" or "debug camera" position.
+*   **Scale Communication:** Non-existent. There are no human-scale anchors (no characters, no known architectural dimensions) to establish if the foreground block is a brick or a mountain.
 
-### PHASE C — MULTI-SCALE WORLD DENSITY
-*   **SHELL 1–4 (Immediate to Settlement):** **TOTAL VACUUM.** No ground plane texture, no props, no evidence of the "Wang Family Bend" or "charcoal-burners" mentioned in the slice.
-*   **SHELL 5 (Landscape):** **PRIMITIVE.** Represented by a single, unshaded geometric mesh.
-*   **SHELL 6–7 (Horizon/Sky):** **FLAT FILL.** No clouds, no celestial bodies, no "North Cloud Vein" indicators.
-*   **SHELL 9 (Metaphysical):** **ABSENT.** No visual evidence of Qi, Yin/Yang, or the "Green Mirror Vein."
+### 2. PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** A repeating checkered developer texture. **[PRIMITIVE]**
+*   **SHELL 2 (Local Interaction):** Empty.
+*   **SHELL 3 (Local Scene):** Empty.
+*   **SHELL 4 (Settlement):** A single, low-poly proxy building. **[PLACEHOLDER]**
+*   **SHELL 5 (Landscape):** Non-existent.
+*   **SHELL 6 (Horizon):** Non-existent.
+*   **SHELL 7 (Sky/Atmosphere):** Flat, desaturated teal haze/clear-color. **[UNFINISHED]**
+*   **SHELL 8/9 (Metaphysical):** Not present.
 
-### PHASE D — CONTENT INVENTORY
-*   **Terrain:** [Screen Center/Bottom] Single polygonal mass. Identity: Proxy mountain. Status: Unfinished/Greybox.
-*   **Structures:** [Bottom Left] Faint, low-contrast geometric wireframe/ghosting. Identity: Likely the "Cangwu Sect" or "Village" blockout. Status: Non-rendered/Proxy.
-*   **Vegetation/Ecology:** [None] No "Old Cypress," "Pine," or "Three-Vein Ginseng" visible.
-*   **NPCs/Creatures:** [None] No "Wu Daniu" or "Cloud-Leopard" visible.
+**Density Verdict:** Total Vacuum. The scene contains zero world-density.
 
-### PHASE E — SILHOUETTE AND PROPORTION
-*   **Focal Subject (Mountain):** The silhouette is aggressively jagged. While the metadata specifies "Karst peaks," the visual evidence lacks the characteristic rounded tops or vertical fluting of karst topography. It reads as generic low-poly "sharp mountains."
+### 3. PHASE D — CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Checkered Block | Right | Foreground | Dev Primitive | Placeholder | None. |
+| Small House | Top Right | Far | Proxy Building | Placeholder | Implies a point of interest, but lacks detail. |
+| Geometric Shards | Left/Center | Mid/Far | Glitched Mesh | Defect | None. |
+| Teal Expanse | Full | All | Background Fog | Unfinished | None. |
+
+### 4. PHASE E — SILHOUETTE AND PROPORTION
+*   **Focal Subject:** The foreground block is a simple cube/rectangular prism. It possesses no architectural silhouette, no detail, and no proportion relative to the "Village Gate" described in the Universe Slice.
 
 ---
 
-### PHASE X — GENESIS PASS COVERAGE
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
 
-| ID | Pass Name | Status | Observed Evidence / Missing Evidence |
+| Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geography | **FAIL** | No geological structure; flat color fill only. |
-| **P10** | Terrain Geometry | **PARTIAL** | Basic topology exists as a proxy, but no clean contacts or meso-detail. |
-| **P27** | Realm/World Laws | **FAIL** | No supernatural communication. |
-| **P14** | Vegetation Ecology | **FAIL** | Zero plants visible despite "Pine Forest" metadata. |
-| **P15** | Animal Ecology | **FAIL** | Zero creatures visible. |
-| **P13** | Material Truth | **FAIL** | No materials; unshaded grey. |
-| **P51** | Shader Presentation | **FAIL** | No painterly language; raw engine default/unlit. |
-| **P33** | Affordance Lattice | **FAIL** | No walkable or interactable surfaces are legible. |
-| **P50** | Lighting | **FAIL** | Flat lighting; no direction, no rim, no shadows. |
-| **P67** | Visual Oracle | **FAIL** | Frame consists entirely of proxy geometry. |
-| **P61** | Renderer/GPU | **FAIL** | Visible aliasing on jagged edges; ghosting/artifacts in bottom-left. |
+| **P09** | Planetary Geology | **FAIL** | No geology present. Only a void. |
+| **P10** | Terrain Geometry | **FAIL** | No terrain. Floating geometry. |
+| **P13** | Material Truth | **FAIL** | Checkered dev-texture is not a material. |
+| **P14** | Vegetation | **FAIL** | Zero vegetation. |
+| **P15** | Animal Ecology | **FAIL** | Zero animals. |
+| **P18** | Personhood | **FAIL** | Zero NPCs. |
+| **P22** | Economy/Logistics | **FAIL** | Zero evidence of life/trade. |
+| **P23** | Domestic Life | **FAIL** | Zero evidence of habitation. |
+| **P33** | Affordance Lattice | **FAIL** | Nothing is legible as "usable." |
+| **P36** | Physics/Structure | **FAIL** | Floating geometry; no load paths. |
+| **P49** | Cinematography | **FAIL** | No intentional framing or lens language. |
+| **P50** | Lighting | **FAIL** | Flat, ambient lighting; no key/fill/rim. |
+| **P51** | Shader Presentation | **FAIL** | Generic shaders; no painterly language. |
+| **P61** | Renderer/GPU | **FAIL** | **Severe z-fighting/aliasing** on floating planes. |
+| **P67** | Visual Oracle | **FAIL** | Massive proxy geometry visible. |
+| **P72** | Completeness | **FAIL** | Total failure of all depth shells. |
+
+**NOT EVALUABLE:** P25, P27, P29, P43, P47, P60, P78.
 
 ---
 
-### 3X3 FORENSIC SWEEP
-*   **[1,1] [1,2] [1,3] (Top Row):** Uniform dark blue-grey fill. No sky detail.
-*   **[2,1] [2,3] (Mid Edges):** Hard-edged polygonal intersections with the frame boundary.
-*   **[2,2] (Center):** Cluster of sharp, unshaded peaks. No depth cues.
-*   **[3,1] (Bottom Left):** **CRITICAL DEFECT.** Faint, semi-transparent geometric outlines (rectangles/lines) suggesting a hidden or unrendered layout of a settlement.
-*   **[3,2] [3,3] (Bottom Right):** Uniform light blue-grey fill.
+### 6. VISION VERDICT
+
+**OVERALL STATUS: [CRITICAL FAILURE]**
+**CLASSIFICATION:** Primitive Placeholder / Engine Test Scene.
+
+**TOP FAILURES:**
+1.  **Total Content Absence:** The "Village Gate" (stone pillars, pine beam) described in the Universe Slice is entirely absent.
+2.  **Developer Artifacts:** The presence of a checkered dev-grid texture and floating primitive shards indicates a non-production state.
+3.  **Technical Instability:** Visible z-fighting/striations on the background geometry indicate rendering or precision errors.
+4.  **Zero Density:** The frame fails every single world-density shell.
+
+**WORLD DENSITY:** 0%
+**TECHNICAL DEFECTS:** Z-fighting, flat lighting, placeholder textures, floating geometry.
+**NOT EVALUABLE:** All animation and metaphysical passes.
+
+**NEXT INSPECTION:** This frame should not be inspected again until the scene has passed a basic "Greybox-to-Art" transition.
 
 ---
 
-### VISION VERDICT: CRITICAL FAILURE
-**The player sees a broken, unrendered, or extremely early greybox state.**
-The image fails to communicate any of the specific Xianxia world-building contained in the Scene Universe Slice. There is no "Karst," no "Pine," no "Qi," and no "Sect." It is a 2D-looking silhouette of a 3D blockout.
+### 7. AAA COMPLETENESS QUESTION
+**Does this frame represent a finished, production-ready visual for a AAA Xianxia title?**
 
-### TOP FAILURES & DIAGNOSIS
-1.  **Total Material/Shader Absence (P13, P51):** The scene is unlit and untextured. *Diagnosis: Renderer state error or early blockout phase.*
-2.  **Density Vacuum (Shells 1-4):** The foreground and middle-ground are entirely empty. *Diagnosis: Environment dressing has not commenced.*
-3.  **Scale/Depth Collapse (Phase B):** The lack of atmospheric perspective or scale anchors makes the world unreadable. *Diagnosis: Missing fog/lighting/post-processing passes.*
-
-### TECHNICAL DEFECTS
-*   **Proxy Ghosting:** Bottom-left quadrant contains unrendered layout artifacts.
-*   **Aliasing:** Severe stair-stepping on all diagonal polygonal edges.
-
-### NOT EVALUABLE
-*   **Animation/Motion:** No temporal data provided.
-*   **Performance:** Cannot evaluate FPS from a static blockout.
-
-### NEXT INSPECTION
-*   **Requirement:** Enable basic lighting (Directional + Ambient), apply placeholder materials with value-stepping for depth, and place a Scale Anchor (1.8m Cultivator) in the foreground.
-
----
-
-### AAA COMPLETENESS QUESTION
-**Does this frame represent a world that feels "finished," "authored," and "solid"?**
-**
+**NO.** This is a primitive engine test.
