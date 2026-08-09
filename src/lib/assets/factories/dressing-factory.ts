@@ -216,6 +216,18 @@ function awning(pal: SetPalette, w = 4, d = 2.6): THREE.Group {
   cloth.rotation.x = 0.1;
   cloth.castShadow = true;
   g.add(cloth);
+  // valance fringe: a slightly-larger canvas strip hung at the front edge,
+  // reading as a scalloped awning rather than a flat slab (VLM: 'flat
+  // canopy'). Three hanging tabs imply the scallop.
+  const valance = new THREE.Mesh(new THREE.BoxGeometry(w * 1.04, 0.34, 0.08), pal.canvas);
+  valance.position.set(0, 2.28, d / 2 - 0.02);
+  valance.castShadow = true;
+  g.add(valance);
+  for (const tx of [-0.4, 0, 0.4]) {
+    const tab = new THREE.Mesh(new THREE.BoxGeometry(w * 0.1, 0.28, 0.06), pal.canvas);
+    tab.position.set(tx * (w / 2.6), 2.1, d / 2 - 0.02);
+    g.add(tab);
+  }
   for (const s of [-1, 1]) {
     const post = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 2.5, 6), pal.timber);
     post.position.set(s * (w / 2 - 0.3), 1.25, 0);
