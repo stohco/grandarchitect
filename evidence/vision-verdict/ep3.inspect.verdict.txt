@@ -8,118 +8,134 @@ No entity names, no developer context, no intended content.
         *   What does the frame actually show? (setting, objects, scale, density)
         *   What would a player genuinely think they are looking at?
         *   Apparent art style and production quality.
-        *   Apparent level of completion (specific categories provided).
+        *   Apparent level of completion (specific categories).
         *   Obvious defects, distractions, empty zones.
         *   Where does the image stop rewarding closer inspection?
 Brutally accurate, no praise, facts and defects only.
 
-    *   *Foreground:* Sandy/beige ground. A large, smooth, white/beige rock on the left. A brown vertical wooden post.
-    *   *Midground:* A grey, flat, textured surface (road or path). A series of wooden structures: horizontal beams, vertical posts, some flat roof-like sections. Several conical/cylindrical beige pillars. A bright red rectangular banner/flag on the right. A small, bright cyan cube.
-    *   *Background:* Green conical trees (low poly). A beige building/structure. A light blue sky. A pale blue/grey mountain silhouette in the far distance.
-    *   *Geometry:* Very basic. Cubes, cylinders, cones. No bevels, no complex meshes.
-    *   *Textures:* Flat colors or very simple, repetitive tiling. No PBR (Physically Based Rendering) materials. No normal maps, no roughness maps.
-    *   *Lighting:* Flat, ambient lighting. No strong shadows, no global illumination.
-    *   *Composition:* A wide shot of an outdoor area.
+    *   *Foreground:* Grey, blocky, textured walls/platforms. Some tan, cylindrical/conical stacked shapes. A blueish flat surface.
+    *   *Midground:* A long, flat, brown/tan roof supported by thin brown poles. Several tan conical pillars. A building in the back with a tan facade and some dark rectangular windows/doors.
+    *   *Background:* A light blue sky. A large, pale, triangular shape (pyramid-like) on the left. A flat green strip (grass/water?). A large grey vertical block on the far right.
+    *   *Textures:* Low resolution. Repetitive. Flat lighting. No shadows (or very basic ambient occlusion/flat shading).
+    *   *Geometry:* Primitive shapes (cubes, cones, planes). No bevels, no organic curves.
+    *   *Composition:* Sparse. Lots of empty space.
 
-    *   *Setting/Objects:* An outdoor area with wooden structures, a path, some foliage, and a banner. Scale is ambiguous but suggests a human-sized environment. Density is very low; objects are spaced far apart with large empty gaps.
-    *   *Player Perception:* A very early prototype of a game, possibly a "low-poly" indie project or a test scene in a game engine. It looks like a "village" or "outpost" but lacks any detail to make it feel lived-in.
-    *   *Art Style/Quality:* Low-poly, flat-shaded. Production quality is extremely low. It looks like default engine primitives.
-    *   *Completion Level:* This is not a finished world. It's not even a production candidate. It's beyond a blockout because there are some "final" colors (red banner, green trees), but it's essentially a **STYLIZED_PROTOTYPE** or **BLOCKOUT**. Given the lack of any detail, "BLOCKOUT" is more accurate, but the colors suggest a "STYLIZED_PROTOTYPE" attempt. Let's go with STYLIZED_PROTOTYPE because it's trying to establish a color palette.
+    *   *Setting/Objects:* An outdoor area with primitive architectural structures. It looks like a desert or sandy environment given the tan colors. There are walls, a roof, pillars, and a distant pyramid.
+    *   *Scale:* Hard to tell without a character, but the roof height suggests human scale.
+    *   *Density:* Very low. Sparse placement of objects.
+
+    *   *Player Perception:* "A very early prototype of a game set in Egypt" or "A low-poly indie game with minimal assets."
+
+    *   *Art Style/Quality:* Low-poly, primitive. Textures are blurry and stretched. Lighting is flat. Production quality is extremely low.
+
+    *   *Completion Level:* This is clearly not finished. It's not even a "stylized prototype" because there's no cohesive style. It's a **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**.
+
     *   *Defects/Distractions:*
-        *   The cyan cube is a glaring "developer asset" or "debug object" that doesn't fit.
-        *   Floating/intersecting geometry (the beams and posts).
-        *   Lack of grounding (objects just sit on the plane without blending).
-        *   The "road" is a flat grey strip with no edge definition.
-        *   The "rock" is a smooth, featureless blob.
-        *   The trees are simple cones.
-    *   *Inspection Limit:* The image stops rewarding inspection immediately. There are no micro-details, no textures to examine, and no complex shapes. Once you see the basic geometry, there is nothing else to discover.
+        *   Texture stretching on the grey walls.
+        *   Lack of shadows/depth.
+        *   Floating/perfectly aligned edges with no weathering or detail.
+        *   The grey block on the right looks like a world-boundary or an untextured mesh.
+        *   The "pyramid" in the back is a flat-shaded primitive.
+        *   Empty zones: The entire mid-ground is a void of activity.
 
-    *   *Constraint Check:* No praise? Check. Facts only? Check. Brutally accurate? Check.
+    *   *Reward for Inspection:* It stops rewarding inspection immediately. There are no hidden details, no intricate textures, no storytelling through environment. Once you see the blocky nature, there is nothing else to discover.
 **PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
 **Actual Content**
-*   **Setting:** An outdoor environment consisting of a beige sandy foreground, a grey flat path/road, and a background with low-poly conical trees and a pale mountain silhouette.
-*   **Objects:** Brown wooden posts and horizontal beams forming a skeletal structure; several featureless beige conical pillars; one large smooth beige rock; a single flat red rectangular banner; one bright cyan cube.
-*   **Scale:** Ambiguous, but suggests a human-scale village or outpost.
-*   **Density:** Extremely low. Large expanses of empty ground and sky with sparse, disconnected assets.
+*   **Setting:** An outdoor, sandy-colored environment under a flat blue sky.
+*   **Objects:** Low-polygon primitive shapes. Includes grey rectangular blocks (walls/platforms), tan conical pillars, a long flat brown plane supported by thin cylinders (roof/canopy), and a large pale triangular prism in the distance.
+*   **Scale:** Ambiguous due to lack of reference entities, but architectural proportions suggest a human-scale walkway or plaza.
+*   **Density:** Extremely low. Sparse placement of geometric primitives with significant empty floor space.
 
 **Player Perception**
-A player would perceive this as a very early-stage development build or a "low-poly" indie project in its infancy. The presence of the cyan cube suggests a debug object or a placeholder. It feels like a test scene rather than a playable space.
+A player would perceive this as a very early-stage technical test or a "greybox" layout for a level set in an Egyptian-themed environment.
 
 **Art Style and Production Quality**
-*   **Style:** Low-poly / Flat-shaded.
-*   **Quality:** Extremely low. There is no evidence of PBR materials, normal maps, or complex geometry. Lighting is flat and ambient with no meaningful shadows or depth. Textures are either solid colors or simple, low-resolution tiling.
+*   **Style:** Primitive/Low-Poly.
+*   **Quality:** Extremely low. Textures are low-resolution, blurry, and exhibit visible tiling and stretching (particularly on the grey foreground walls). Lighting is flat with no dynamic shadows, ambient occlusion, or depth cues.
 
-**Apparent Level of Completion**
-**STYLIZED_PROTOTYPE** (bordering on BLOCKOUT). While colors have been assigned, the assets are primitive shapes.
+**Level of Completion**
+**BLOCKOUT**
 
 **Defects and Distractions**
-*   **Out-of-Place Assets:** The bright cyan cube is a jarring visual anomaly that breaks any attempt at a cohesive theme.
-*   **Geometry Issues:** Beams and posts intersect crudely; there is no architectural logic to the wooden supports.
-*   **Lack of Grounding:** Objects sit perfectly flat on the planes with no blending, dirt, or environmental integration.
-*   **Empty Zones:** The grey path is a featureless void; the background is a sterile gradient.
-*   **Asset Quality:** The "rock" is a featureless blob; the "trees" are simple cones.
+*   **Texture Artifacts:** Severe blurring and stretching on the grey horizontal surfaces.
+*   **Lighting:** Total absence of shadow casting, making objects feel disconnected from the ground.
+*   **Geometry:** Hard edges with zero beveling or organic variation; objects intersect or meet with mathematical perfection, lacking any realism or intentional stylization.
+*   **Empty Zones:** The mid-ground is a void of visual interest.
+*   **Technical Leak:** The large grey vertical slab on the far right appears to be an untextured boundary wall or a missing asset.
 
 **Inspection Limit**
-The image stops rewarding closer inspection immediately. There are no fine details, no texture work, and no complex silhouettes to discover. Once the basic primitive shapes are identified, there is zero additional visual information.
+The image stops rewarding closer inspection immediately. There are no micro-details, no material definition, and no environmental storytelling. Once the primitive nature of the shapes is identified, there is no further information to extract.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
 A single rendered frame.
-Stage A (Blind Read) provided.
-Vision Inspection Contract (Constitution), Scene Universe Slice (Context), Genesis Pass Manifest (Requirements).
+Stage A (Blind Read) provided. Scene Universe Slice (Market Square/Wang Family Bend), Genesis Pass Manifest (P09, P10, etc.).
 
-    *   *Foreground:* Sandy ground, a white rock, a brown wooden post.
-    *   *Midground:* Grey road/path, wooden beams/posts (market-like structure), beige conical pillars, a red banner, a cyan cube.
-    *   *Background:* Low-poly green conical trees, a beige building, light blue sky, pale blue mountain silhouette.
-    *   *Overall Impression:* Extremely primitive. Low-poly, flat textures, basic shapes. Looks like a blockout or a very early prototype.
+        *   Phase B: Full-Frame Composition.
+        *   Phase C: Multi-Scale World Density.
+        *   Phase D: Content Inventory.
+        *   Phase E: Silhouette and Proportion (though the prompt cuts off, I must complete the logic).
+        *   Phase X: Genesis Pass Validation.
+        *   3x3 Forensic Sweep.
+        *   Final Vision Verdict (Contract Format).
 
-    *   *Scene Universe Slice:* Market square, packed earth, stone stalls, canvas, 60m x 40m, "market days three times a week."
-    *   *Genesis Passes:*
-        *   P09 (Geology): Needs real geology, not heightmap prototype. $\rightarrow$ *Fail.*
-        *   P10 (Terrain Geometry): Needs clean contact, no floating. $\rightarrow$ *Partial/Fail (looks like flat planes).*
-        *   P13 (Material Truth): Needs weathering, age, not flat noise. $\rightarrow$ *Fail.*
-        *   P14 (Vegetation): Needs species/age variation, not uniform paint. $\rightarrow$ *Fail (identical cones).*
-        *   P22 (Economy/Logistics): Needs stalls with stock, containers, carts. $\rightarrow$ *Fail (empty beams).*
-        *   P23 (Domestic Life): Needs causal occupation. $\rightarrow$ *Fail (empty).*
-        *   P51 (Material/Shader): Needs painterly language, not generic shaders. $\rightarrow$ *Fail.*
-        *   P67 (Visual Oracle): No proxy geometry. $\rightarrow$ *Fail (everything is proxy).*
-        *   P72 (Completeness): Completeness at every depth shell. $\rightarrow$ *Fail.*
+    *   *Foreground:* Grey blocky walls, tan cylindrical shapes (stacked), blue flat surface.
+    *   *Midground:* Long brown roof, thin poles, tan conical pillars, a building with a tan facade and dark windows.
+    *   *Background:* Light blue sky, large pale triangle (pyramid), green strip, grey vertical block.
+    *   *Overall:* Extremely primitive. Low-res textures. No shadows. No lighting depth. Looks like a blockout or a very early prototype.
 
-    *   *Phase B (Composition):*
-        *   Focal hierarchy: Non-existent. The eye wanders between the red banner and the cyan cube.
-        *   Balance: Heavy on the right (banner/trees), empty on the left.
-        *   Depth: Basic layering (FG/MG/BG), but no atmospheric perspective or detail transition.
-        *   Camera: Low angle, static.
+    *   *Focal Hierarchy:* There is no focal point. The eye wanders across flat planes.
+    *   *Reads:* Primary read is "empty space." Secondary read is "primitive shapes."
+    *   *Balance:* Heavily weighted by the long horizontal roof.
+    *   *Depth:* Very poor. Overlap exists, but lack of lighting/shadows makes it feel like a 2D collage of 3D shapes.
+    *   *Camera:* Low angle, wide lens.
+    *   *Verdict:* Composition is non-existent; it is a layout of assets, not a composed shot.
 
-    *   *Phase C (World Density):*
-        *   Shell 1 (Reach): Sandy texture, one rock. Empty.
-        *   Shell 2 (Interaction): Wooden posts. No interactive objects.
-        *   Shell 3 (Local Scene): A "market" that is just a few beams.
-        *   Shell 4 (Settlement): One beige box in the back.
-        *   Shell 5 (Landscape): Flat green plane.
-        *   Shell 6 (Horizon): Silhouette mountain.
-        *   Shell 7 (Sky): Flat blue.
+    *   Shell 1 (Reach): Grey blocks, tan cylinders. Primitive.
+    *   Shell 2 (Interaction): Empty floor, basic walls.
+    *   Shell 3 (Local Scene): A roof and some pillars.
+    *   Shell 4 (Settlement): A single building in the back.
+    *   Shell 5 (Landscape): A green strip and a pyramid.
+    *   Shell 6 (Horizon): Flat blue.
+    *   Shell 7 (Sky): Flat blue.
+    *   *Verdict:* Extreme emptiness. No density. No "life."
 
-    *   *Phase D (Content Inventory):*
-        *   Terrain: Sand (flat), Road (flat grey).
-        *   Structures: Wooden beams (primitive), Beige pillars (primitive), Beige building (box).
-        *   Vegetation: Conical trees (repeated).
-        *   Props: Red banner (rectangle), Cyan cube (placeholder).
-        *   Rocks: One smooth white blob.
+    *   Structures: Roof (repeated poles), Pillars (repeated cones), Walls (grey blocks), Building (tan box).
+    *   Props: Tan cylinders (repeated).
+    *   Terrain: Flat tan ground, green strip.
+    *   Sky: Blue.
+    *   *Verdict:* All items are primitives. No unique assets. No "world information" contributed.
 
-    *   *Phase E (Silhouette/Proportion):*
-        *   Everything is a primitive. No organic silhouettes.
+    *   P09 (Geology): FAIL. Flat tan plane. No geology.
+    *   P10 (Topology): FAIL. Flat. No slopes/cliffs.
+    *   P13 (Material Truth): FAIL. Flat textures. No weathering.
+    *   P14 (Vegetation): FAIL. A green strip. No species/age.
+    *   P15 (Animals): FAIL. None visible.
+    *   P18 (Personhood): FAIL. No NPCs.
+    *   P22 (Economy/Logistics): FAIL. No stalls, no goods, no carts.
+    *   P23 (Domestic Life): FAIL. No tools, no activity.
+    *   P36 (Physics): FAIL. Roof is a flat plane on sticks. No load paths.
+    *   P49 (Cinematography): FAIL. No focal hierarchy.
+    *   P50 (Lighting): FAIL. Flat lighting. No shadows.
+    *   P51 (Shader Presentation): FAIL. Generic textures.
+    *   P67 (Visual Oracle): FAIL. This is proxy geometry.
+    *   P72 (Completeness): FAIL. Not complete at any shell.
 
-    *   *Vision Verdict:* Primitive Placeholder / Blockout.
-    *   *Top Failures:* Material Truth (P13), World Density (P22/P23), Visual Oracle (P67).
-    *   *Genesis Pass Coverage:* Mostly FAIL.
-    *   *World Density:* Near zero.
-    *   *Technical Defects:* Flat lighting, placeholder assets (cyan cube).
+    *   Top-Left: Pale triangle (pyramid). Low res.
+    *   Top-Center: Flat blue sky.
+    *   Top-Right: Grey block/wall.
+    *   Mid-Left: Roof edge, pillar.
+    *   Mid-Center: Building facade, roof.
+    *   Mid-Right: Pillar, roof edge.
+    *   Bottom-Left: Grey block, tan cylinders, blue plane.
+    *   Bottom-Center: Grey wall, tan ground.
+    *   Bottom-Right: Grey wall, tan ground.
 
-    *   *Self-Correction during drafting:* I must not say "it's a good start." I must say "it fails the contract."
-    *   *Check:* Did I use the Scene Universe Slice? Yes, the slice says "market square" and "packed earth." The image shows a grey road and sandy ground with no stalls or stock. This is a direct failure of P22.
-**PERCEPTUAL EVIDENCE EXAMINER — STAGE B: FULL INSPECTION**
+    *   *Vision Verdict:* Primitive Blockout / Prototype.
+    *   *Top Failures:* Material Truth, World Density, Lighting.
+    *   *Completeness Question:* No.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
 **SCENE CONTEXT:** Market Square / Wang Family Bend (per Universe Slice)
@@ -127,87 +143,109 @@ Vision Inspection Contract (Constitution), Scene Universe Slice (Context), Genes
 
 ---
 
-### 1. PHASE B: FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** Non-existent. The eye is pulled randomly between the high-contrast red banner (right) and the anomalous cyan cube (mid-right). There is no intentional lead-in or focal subject.
-*   **Primary/Secondary/Tertiary Read:** 
-    *   *Primary:* A collection of brown and beige primitives.
-    *   *Secondary:* A flat grey strip (road).
-    *   *Tertiary:* Low-poly green cones (trees).
-*   **Frame Balance:** Heavily weighted to the right. The left side is an empty void of sand and a single rock.
-*   **Depth Separation:** Basic layering exists (Foreground sand $\rightarrow$ Midground road/beams $\rightarrow$ Background trees/mountain), but there is no atmospheric perspective or detail degradation to sell the distance.
-*   **Camera/Lens:** Low-angle, wide-field perspective. No cinematic intent detected; reads as a default engine camera.
-*   **Sightlines:** No guided paths. The "road" is a flat plane that leads to a generic horizon.
+### PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** Non-existent. There is no primary subject. The eye is led by the dominant horizontal line of the roof, but finds no destination.
+*   **Reads:** 
+    *   *Primary:* Empty architectural blockout.
+    *   *Secondary:* Primitive geometric shapes.
+    *   *Tertiary:* Flat color planes.
+*   **Foreground/Midground/Background:** Separation is achieved only through basic overlap. There is no atmospheric perspective or lighting-based depth.
+*   **Frame Balance:** Heavily weighted by a singular, oppressive horizontal roofline that bisects the frame.
+*   **Negative Space:** Excessive. The ground plane and sky are void of detail, creating a vacuum effect.
+*   **Camera/Lens:** Low-angle wide shot. Perspective is linear and sterile.
+*   **Compositional Verdict:** **UNREADABLE.** This is a layout of assets, not a composed scene.
 
-### 2. PHASE C: MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Sandy texture, one smooth white rock. **[EMPTY]**
-*   **SHELL 2 (Interaction):** Vertical wooden posts. No handles, no textures, no interactive elements. **[EMPTY]**
-*   **SHELL 3 (Local Scene):** A "market" consisting of floating/intersecting beams and conical pillars. No stalls, no goods, no people. **[PRIMITIVE]**
-*   **SHELL 4 (Settlement):** A single beige rectangular volume in the background. **[FACADE/BLOCKOUT]**
-*   **SHELL 5 (Landscape):** A flat green plane with repeated conical trees. **[PROTOTYPE]**
-*   **SHELL 6 (Horizon):** A pale blue silhouette of a mountain. **[PLACEHOLDER]**
-*   **SHELL 7 (Sky):** Flat, gradient-less light blue. **[PRIMITIVE]**
+---
 
-### 3. PHASE D: CONTENT INVENTORY
-| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+### PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Grey blocky walls, tan cylinders. Primitive. No tactile detail.
+*   **SHELL 2 (Interaction):** Flat tan ground. No debris, no footprints, no interaction points.
+*   **SHELL 3 (Local Scene):** A roof supported by poles and conical pillars. Repetitive and sterile.
+*   **SHELL 4 (Settlement):** A single tan box representing a building. No architectural nuance.
+*   **SHELL 5 (Landscape):** A flat green strip and a pale triangle. No geological logic.
+*   **SHELL 6 (Horizon):** A hard line between tan/green and blue.
+*   **SHELL 7 (Sky):** Flat blue. No clouds, no gradient, no celestial bodies.
+*   **Density Verdict:** **VOID.** The scene is a "disconnected cinematic facade" in its most primitive form.
+
+---
+
+### PHASE D — CONTENT INVENTORY
+| Item | Region | Depth | Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Terrain | Bottom/Mid | FG/MG | Sand/Grey Road | Primitive | None (Flat planes) |
-| Structure | Mid/Top | MG | Wooden Beams | Blockout | Implies a roof/stall |
-| Structure | Mid | MG | Beige Pillars | Primitive | No architectural purpose |
-| Vegetation | Right/BG | MG/BG | Conical Trees | Repeated | Generic "forest" marker |
-| Prop | Right | MG | Red Banner | Primitive | Generic "marker" |
-| Prop | Mid-Right | MG | Cyan Cube | **PROXY** | **Technical Placeholder** |
-| Rock | Left | FG | White Blob | Primitive | No geological truth |
-| Building | Center-BG | BG | Beige Box | Blockout | Generic "structure" |
-
-### 4. PHASE E: SILHOUETTE AND PROPORTION
-*   **Silhouettes:** Entirely geometric. No organic variation. The trees are identical cones; the pillars are identical truncated cones.
-*   **Proportions:** The scale of the wooden beams relative to the "road" is ambiguous. The cyan cube provides no scale anchor.
+| Grey Blocks | Foreground | Shell 1 | Walls/Platforms | Primitive | None |
+| Tan Cylinders | Foreground | Shell 1 | Unidentified Props | Primitive | None |
+| Blue Plane | Foreground | Shell 1 | Unidentified Surface | Primitive | None |
+| Brown Roof | Midground | Shell 3 | Market Cover | Primitive | Basic function only |
+| Conical Pillars | Midground | Shell 3 | Supports | Primitive | None |
+| Tan Building | Midground | Shell 4 | Market Structure | Primitive | Basic volume only |
+| Green Strip | Background | Shell 5 | Vegetation/Water | Primitive | None |
+| Pale Triangle | Background | Shell 5 | Mountain/Pyramid | Primitive | None |
+| Grey Block | Background | Shell 6 | Distant Structure | Primitive | None |
 
 ---
 
-### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+### PHASE X — GENESIS PASS VALIDATION
 
-| Pass ID | Name | Result | Evidence / Missing Evidence |
+| Pass ID | Name | Result | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | Flat planes; no macro/meso/micro structure. |
-| **P10** | Terrain Geometry | **FAIL** | Terrain is a flat plane; no slope or organic contact. |
-| **P13** | Material Truth | **FAIL** | Flat colors; no weathering, wear, or material identity. |
-| **P14** | Vegetation Ecology | **FAIL** | Uniform conical trees; no species or age variation. |
-| **P22** | Economy/Logistics | **FAIL** | Market is empty; no stock, no containers, no carts. |
-| **P23** | Domestic Life | **FAIL** | Zero evidence of occupation or daily life. |
-| **P36** | Structural Physics | **FAIL** | Beams appear to float or intersect without load logic. |
-| **P51** | Material/Shader | **FAIL** | Generic engine shaders; no painterly language. |
-| **P67** | Visual Oracle | **FAIL** | **Visible proxy geometry (Cyan Cube).** |
-| **P72** | Completeness | **FAIL** | Blockout stage; no depth shell is finished. |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat tan plane. No soil transitions. |
+| **P10** | Terrain Topology | **FAIL** | Zero topology. No slopes, cliffs, or clean contacts. |
+| **P13** | Material Truth | **FAIL** | Flat procedural noise. No weathering, wear, or age. |
+| **P14** | Vegetation Ecology | **FAIL** | A single green strip. No species, no variation. |
+| **P15** | Animal Ecology | **FAIL** | Total absence of fauna. |
+| **P18** | Individual Personhood| **FAIL** | Total absence of NPCs. |
+| **P22** | Economy/Logistics | **FAIL** | No stalls, no stock, no carts, no logistics. |
+| **P23** | Domestic Life | **FAIL** | No tools, no activity, no causal occupation. |
+| **P36** | Physics/Structural | **FAIL** | Roof is a flat plane on sticks. No load paths. |
+| **P49** | Cinematography | **FAIL** | No focal hierarchy or directed sightlines. |
+| **P50** | Lighting | **FAIL** | Flat lighting. No shadows. No key/fill/rim. |
+| **P51** | Shader Presentation | **FAIL** | Generic shaders. No painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Scene is composed entirely of proxy geometry. |
+| **P72** | Completeness Gate | **FAIL** | Not complete at any depth shell. |
 
 ---
 
-### 6. VISION VERDICT
+### 3x3 FORENSIC SWEEP
+*   **Top-Left:** Low-res pale triangle. No texture.
+*   **Top-Center:** Flat blue sky. No atmosphere.
+*   **Top-Right:** Grey vertical block. No detail.
+*   **Mid-Left:** Roof edge. Hard, aliased edge.
+*   **Mid-Center:** Building facade. Flat tan. Dark rectangles for windows.
+*   **Mid-Right:** Conical pillar. Flat shading.
+*   **Bottom-Left:** Stacked tan cylinders. No contact shadows.
+*   **Bottom-Center:** Grey wall. Repetitive texture.
+*   **Bottom-Right:** Flat tan ground. No surface variation.
 
-**OVERALL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP / GREYBOX**
+---
+
+### VISION VERDICT
+
+**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP / GREYBOX**
 
 **TOP FAILURES:**
-1.  **P67 (Visual Oracle):** The presence of a bright cyan cube is a definitive marker of a non-production frame.
-2.  **P22/P23 (World Density):** The "Market Square" defined in the Universe Slice is entirely absent. There are no stalls, no goods, and no people. It is a skeletal frame of a location, not a location.
-3.  **P13/P51 (Material Truth):** The scene uses flat, untextured colors. There is no "Material Truth" (rammed earth, stone, canvas) as required by the contract.
+1.  **Total Absence of Material Truth (P13/P51):** Everything reads as a generic 3D primitive.
+2.  **Zero World Density (Phase C):** The "Market Square" contains no market, no people, and no life.
+3.  **Lighting Collapse (P50):** The lack of shadows removes all sense of volume and grounding.
+
+**GENESIS PASS COVERAGE:** 0% PASS.
+
+**WORLD DENSITY:** NULL.
 
 **TECHNICAL DEFECTS:**
-*   **Proxy Geometry:** Cyan cube.
-*   **Repetition:** Identical tree assets.
-*   **Lighting:** Flat, ambient lighting with no key/fill/rim relationship.
-*   **Geometry:** T-junctions and primitive intersections.
+*   Flat lighting (no AO, no shadows).
+*   Low-resolution, repetitive textures.
+*   Hard-edge geometry with no bevels or weathering.
+*   Lack of any atmospheric effects.
 
 **NOT EVALUABLE:**
-*   P43, P47 (Motion/Secondary Motion) — No temporal evidence.
-*   P27, P29, P25 (Xianxia Laws/Formations) — No supernatural effects present.
+*   P43 (Environment-Aware Motion) - No actors present.
+*   P47 (Secondary Motion) - No cloth/hair present.
 
-**NEXT INSPECTION:**
-Requires a full asset pass (P13, P51) and a density pass (P22, P23) before it can be evaluated as a "Production Candidate."
+**NEXT INSPECTION:** Requires a complete asset replacement pass and a lighting overhaul before a production-level read is possible.
 
 ---
 
-### 7. AAA COMPLETENESS QUESTION
+### AAA COMPLETENESS QUESTION
 **Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
 
-**NO.** 
-This is a primitive blockout. It fails every applicable physical and cinematic pass. It communicates nothing of the "Cangli base culture" or the "Market Square" beyond the most basic spatial arrangement of primitives.
+**NO.** This is a blockout. It
