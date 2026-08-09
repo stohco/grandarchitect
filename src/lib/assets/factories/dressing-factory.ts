@@ -847,12 +847,37 @@ export const PROP_BUILDERS: Record<string, DressingBuilder> = {
       leg.position.set(s * 1.1, 0.425, 0.4);
       g.add(leg);
     }
-    const banner = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.4, 0.9), RED_CLOTH);
-    banner.position.set(1.5, 1.9, 0.2);
+    // the recruitment banner: a tall red pole banner with a gold-trimmed
+    // pendant — the episode's most iconic object (children stare at it)
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.06, 3.4, 6), pal.timber);
+    pole.position.set(1.5, 1.7, 0.2);
+    g.add(pole);
+    const banner = new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.6, 0.06), RED_CLOTH);
+    banner.position.set(1.95, 2.1, 0.2);
     g.add(banner);
+    const goldTrim = new THREE.Mesh(new THREE.BoxGeometry(1.04, 0.1, 0.07), BRASS);
+    goldTrim.position.set(1.95, 2.9, 0.2);
+    g.add(goldTrim);
+    // spirit-stone lamp on the table (canonical recruiter tool: reads roots
+    // by lamp-light at the stall — warm emissive so it draws the eye)
+    const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.28, 0.22), pal.spiritGlow);
+    lamp.position.set(0.6, 1.05, 0.4);
+    g.add(lamp);
     const ledger = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.06, 0.35), pal.plaster);
     ledger.position.set(0, 0.93, 0.4);
     g.add(ledger);
+    const ink = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.14, 6), pal.woodTrim);
+    ink.position.set(0.35, 1.0, 0.5);
+    g.add(ink);
+    // queue rail: children line up along a low timber rail before the stall
+    for (const s of [-1, 1]) {
+      const railPost = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.0, 0.12), pal.timber);
+      railPost.position.set(s * 1.8, 0.5, -1.2);
+      g.add(railPost);
+    }
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.08, 0.08), pal.timber);
+    rail.position.set(0, 1.0, -1.2);
+    g.add(rail);
     return g;
   },
   'prop.qinghe.stall_stock': (pal) => smallGroup(
