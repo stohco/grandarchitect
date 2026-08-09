@@ -103,14 +103,16 @@ export function buildHumanoid(profile: HumanoidProfile): Humanoid {
     return mesh;
   };
 
-  const headMesh = skinned(geo(0.22, 0.24, 0.22), skinMat, 'head');
+  const headMesh = skinned(geo(0.3, 0.3, 0.3), skinMat, 'head');
   headMesh.position.y = 1.62 * scale;
-  const hairMesh = skinned(geo(0.24, 0.16, 0.24), hairMat, 'head');
+  const hairMesh = skinned(geo(0.32, 0.18, 0.32), hairMat, 'head');
   hairMesh.position.y = 1.76 * scale;
-  const bunMesh = skinned(geo(0.08, 0.08, 0.08), hairMat, 'head');
+  const bunMesh = skinned(geo(0.1, 0.1, 0.1), hairMat, 'head');
   bunMesh.position.y = 1.86 * scale;
-  // flared robe silhouette (hero target: flowing robe, readable silhouette)
-  const robeGeo = new THREE.CylinderGeometry(0.17, 0.3, 1.05, 8, 1, true);
+  // torso robe: a shoulder break (top radius < mid) + flared hem so the
+  // silhouette reads as a person's robe, not a cone (VLM: 'a tan cone'
+  // when the full flared cylinder dominated at close range)
+  const robeGeo = new THREE.CylinderGeometry(0.2, 0.32, 1.05, 8, 1, true);
   robeGeo.translate(0, 0, 0);
   const robeMesh = new THREE.SkinnedMesh(robeGeo, robMat);
   robeMesh.position.y = 0.98 * scale;
