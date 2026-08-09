@@ -315,9 +315,13 @@ export default function DirectorRenderPage() {
       // crowd line (~10 m wide), NOT the 60 m plaza — clamp the distance so
       // the people/stall fill the frame and the yamen reads secondary
       // (P07 perceptual hierarchy; VLM: 'stalls gargantuan vs buildings').
+      // The dock's subject is the moored boats + cargo at the waterline
+      // (~20 m band), not the 60 m deck — clamp it too so boats/barrows
+      // read (VLM: 'the dock is a brown line, no boats').
       const ep3MarketShot = ep3 && shot.structureId === 'structure.qinghe.market_square';
+      const dockShot = shot.structureId === 'structure.qinghe.dock';
       const dist = Math.max(
-        ep3MarketShot ? Math.min(CUT_DISTANCE[shot.cut] ?? 20, 18) : CUT_DISTANCE[shot.cut] ?? 20,
+        (ep3MarketShot || dockShot) ? Math.min(CUT_DISTANCE[shot.cut] ?? 20, 22) : CUT_DISTANCE[shot.cut] ?? 20,
         structureFootprint(shotId),
       );
       const target = targetFor(shotId);
