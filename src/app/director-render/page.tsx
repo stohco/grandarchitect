@@ -320,8 +320,18 @@ export default function DirectorRenderPage() {
       // read (VLM: 'the dock is a brown line, no boats').
       const ep3MarketShot = ep3 && shot.structureId === 'structure.qinghe.market_square';
       const dockShot = shot.structureId === 'structure.qinghe.dock';
+      // subjects that are PEOPLE-sized (households, shrines, the gate) frame
+      // closer so residents/figures read — a 46 m wide shot of a family
+      // courtyard leaves the villagers sub-pixel (VLM: 'no humans')
+      const residentShot = !ep2 && (
+        ['household', 'workshop', 'school', 'shrine', 'well', 'gate'].includes(
+          settlement.structures.find((x) => x.id === shot.structureId)?.kind ?? '') ||
+        ['structure.tenant_household', 'structure.widow_house', 'structure.salt_merchant_house', 'structure.carpenter_house'].includes(shot.structureId ?? '')
+      );
       const dist = Math.max(
-        (ep3MarketShot || dockShot) ? Math.min(CUT_DISTANCE[shot.cut] ?? 20, 22) : CUT_DISTANCE[shot.cut] ?? 20,
+        (ep3MarketShot || dockShot) ? Math.min(CUT_DISTANCE[shot.cut] ?? 20, 22)
+          : residentShot ? Math.min(CUT_DISTANCE[shot.cut] ?? 20, 26)
+          : CUT_DISTANCE[shot.cut] ?? 20,
         structureFootprint(shotId),
       );
       const target = targetFor(shotId);
