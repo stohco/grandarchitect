@@ -66,7 +66,7 @@ export function makePalette(): SetPalette {
     rammedEarth: tex('rammedEarth', 0xffffff, 0.9, 6),
     timber: tex('timber', 0xffffff, 0.8, 4),
     thatch: tex('thatch', 0xffffff, 0.95, 3),
-    plaster: tex('plaster', 0xffffff, 0.85, 2),
+    plaster: tex('plaster', 0xffffff, 0.85, 5),
     cobble: tex('cobble', 0xffffff, 0.95, 4),
     packedEarth: tex('packedEarth', 0xffffff, 0.95, 4),
     stone: tex('stone', 0xffffff, 0.95, 4),
