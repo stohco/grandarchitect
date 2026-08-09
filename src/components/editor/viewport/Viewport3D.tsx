@@ -31,7 +31,33 @@ import {
 } from '@/components/ui/context-menu';
 import { PlaytestCharacter } from '@/components/editor/viewport/PlaytestCharacter';
 import { TerrainMesh } from '@/components/editor/viewport/TerrainMesh';
+import { buildVillageScene } from '@/lib/assets/factories/set-factory';
 import type { StructureKind, CameraPreset, RenderMode } from '@/lib/editor/types';
+
+/**
+ * Cinematic Scene — the real set-factory village rendered INSIDE the studio
+ * viewport when render mode is 'cinematic'. Built once (deterministic), then
+ * bridged into R3F. This is what the art department's changes actually look
+ * like — the abstract StructureMesh boxes are the sim-entity editor view.
+ */
+function CinematicScene() {
+  const groupRef = useRef<THREE.Group | null>(null);
+  const builtRef = useRef(false);
+
+  useEffect(() => {
+    if (builtRef.current || !groupRef.current) return;
+    builtRef.current = true;
+    const village = buildVillageScene();
+    // the factories already tag structures/props with userData (id, name,
+    // kind, detail) — click-to-inspect works without extra tagging
+    groupRef.current.add(village.group);
+    return () => {
+      if (groupRef.current) groupRef.current.remove(village.group);
+    };
+  }, []);
+
+  return <group ref={groupRef} />;
+}
 
 // ---------------------------------------------------------------------------
 // Kind → Height / Color mappings
@@ -224,6 +250,7 @@ function SceneContent() {
   const transformMode = useEditorStore((s) => s.transformMode);
   const structureGroups = useRef<Map<number, THREE.Group>>(new Map());
   const renderMode = useEditorStore((s) => s.renderMode);
+  const renderModeCinematic = renderMode === 'cinematic';
   const playtestMode = useEditorStore((s) => s.playtestMode);
   const setPerf = useEditorStore((s) => s.setPerf);
   const pushFps = useEditorStore((s) => s.pushFps);
@@ -268,32 +295,36 @@ function SceneContent() {
 
   return (
     <>
-      <ambientLight intensity={renderMode === 'solid' ? 1.2 : 0.4} />
-      <directionalLight position={[30, 40, 20]} intensity={renderMode === 'solid' ? 0 : 1.2} castShadow
+      <ambientLight intensity={renderMode === 'solid' ? 1.2 : renderMode === 'cinematic' ? 0.5 : 0.4} />
+      <directionalLight position={[30, 40, 20]} intensity={renderMode === 'solid' ? 0 : renderMode === 'cinematic' ? 2.2 : 1.2} castShadow
         shadow-mapSize-width={2048} shadow-mapSize-height={2048}
         shadow-camera-near={0.5} shadow-camera-far={150}
         shadow-camera-left={-60} shadow-camera-right={60}
         shadow-camera-top={60} shadow-camera-bottom={-60} />
-      <directionalLight position={[-20, 20, -10]} intensity={renderMode === 'solid' ? 0 : 0.3} />
-      <hemisphereLight args={['#87CEEB', '#3B2F1E', renderMode === 'solid' ? 0 : 0.3]} />
-      <fog attach="fog" args={['#1a1a2e', 60, 150]} />
-      <color attach="background" args={['#1a1a2e']} />
+      <directionalLight position={[-20, 20, -10]} intensity={renderMode === 'solid' ? 0 : renderMode === 'cinematic' ? 0.6 : 0.3} />
+      <hemisphereLight args={['#87CEEB', '#3B2F1E', renderMode === 'solid' ? 0 : renderMode === 'cinematic' ? 0.8 : 0.3]} />
+      <fog attach="fog" args={[renderMode === 'cinematic' ? '#9ab8d0' : '#1a1a2e', renderMode === 'cinematic' ? 40 : 60, renderMode === 'cinematic' ? 400 : 150]} />
+      {renderMode === 'cinematic' ? <color attach="background" args={['#8fb8d8']} /> : <color attach="background" args={['#1a1a2e']} />}
 
-      <GroundPlane />
+      {!renderModeCinematic && <GroundPlane />}
 
       {/* Frontier terrain (density field + mountain + tunnel). Additive —
           shares the settlement seed with playtest collision, so what the
-          player walks on is exactly what renders. */}
-      <TerrainMesh seed={settlement?.seed ?? null} />
+          player walks on is exactly what renders. Hidden in cinematic mode
+          (the set scene brings its own valley floor + mountain ring). */}
+      {!renderModeCinematic && <TerrainMesh seed={settlement?.seed ?? null} />}
 
-      {showGrid && (
+      {showGrid && !renderModeCinematic && (
         <Grid position-y={0.01} args={[100, 100]} cellSize={2} cellThickness={0.5} cellColor="#2a2a4a"
           sectionSize={10} sectionThickness={1} sectionColor="#3a3a5a" fadeDistance={80} fadeStrength={1} infiniteGrid />
       )}
 
-      <ContactShadows position={[0, 0.01, 0]} opacity={0.4} scale={100} blur={2} far={20} />
+      {!renderModeCinematic && <ContactShadows position={[0, 0.01, 0]} opacity={0.4} scale={100} blur={2} far={20} />}
 
-      {settlement && settlement.structures
+      {/* cinematic mode: the REAL set-factory scene instead of sim boxes */}
+      {renderMode === 'cinematic' && <CinematicScene />}
+
+      {renderMode !== 'cinematic' && settlement && settlement.structures
         .filter((s) => !hiddenEntityIds.has(s.entityId))
         .map((s) => {
           const effective = getEffective(settlement, edits, s.entityId);

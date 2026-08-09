@@ -1,0 +1,207 @@
+# VISION INSPECTION — shot.1B
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no "intended" content.
+
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Setting:* A flat, green plane. A long, straight, brown/tan path or road stretching into the distance. Heavy fog/haze obscuring the background.
+    *   *Objects:* A central structure consisting of a tall, yellow/tan rectangular pillar, supported by a grey frame with some brown accents. There are horizontal beams crossing the pillar. In the far distance, some vague white shapes (buildings?) and cone-like shapes (trees?).
+    *   *Scale:* The road suggests a human-scale environment, but the lack of reference points (characters, vehicles) makes it ambiguous. The structure is the focal point.
+    *   *Density:* Extremely low. One main object, one road, a flat plane.
+    *   *Art Style:* Low-poly, flat shading, basic textures (some noise/grain on the yellow pillar).
+    *   *Production Quality:* Very low. No lighting effects, no shadows, no environmental detail.
+    *   *Completion Level:* This looks like a blockout or a primitive placeholder. It's definitely not a finished world.
+
+    *   *What is it?* A road in a void/field with a weird tower thing.
+    *   *Player perception:* "Is this a glitch? Is this a very early alpha? Is this a surrealist indie game?" Most likely: "This is a test level."
+    *   *Defects:*
+        *   Lack of shadows (objects float).
+        *   Flat, featureless ground.
+        *   Extreme fog used to hide the lack of a horizon/background.
+        *   Texture resolution is inconsistent (pillar has a grainy texture, road is a flat gradient/color).
+        *   Lack of any organic detail.
+    *   *Inspection limit:* The image stops rewarding inspection almost immediately. Once you see the pillar and the road, there is nothing else to discover. The fog hides everything else.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** A flat, featureless green plane bisected by a straight, tan-colored path/road extending toward a foggy horizon.
+*   **Objects:** A single central structure consisting of a tall, yellow-textured rectangular prism supported by a grey frame with brown capping. In the far distance, obscured by fog, are several white geometric blocks and three conical shapes.
+*   **Scale:** Ambiguous. The road suggests a human-scale environment, but the lack of reference entities (characters, vehicles, foliage) makes the actual size of the central structure impossible to determine.
+*   **Density:** Extremely low. One primary asset in a void.
+
+**Player Perception**
+A player would perceive this as a technical test environment, a "greybox" level, or a very early alpha build. There is no narrative or environmental storytelling present; it reads as a functional test of a specific asset or a pathing route.
+
+**Art Style and Production Quality**
+*   **Style:** Low-poly / Primitive.
+*   **Quality:** Very low. There is a total absence of dynamic lighting, ambient occlusion, or cast shadows, causing objects to appear as if they are floating on the surface. Textures are basic; the yellow pillar has a grainy noise pattern, while the road and ground are flat colors/gradients.
+
+**Completion Level**
+**BLOCKOUT**
+
+**Defects and Distractions**
+*   **Lighting:** No shadows. The lack of contact shadows between the structure and the ground destroys the sense of weight and placement.
+*   **Environment:** The ground is a perfectly flat, textureless plane.
+*   **Atmospherics:** Heavy fog is being used as a "curtain" to hide the lack of a horizon or background assets.
+*   **Geometry:** The distant "trees" and "buildings" are primitive cones and cubes.
+
+**Inspection Limit**
+The image stops rewarding inspection immediately upon identifying the central structure. There are no micro-details, hidden elements, or material complexities to investigate. Once the basic geometry is noted, there is no further visual information to extract.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+A flat green plane, a brown road, a central structure (pillar/gate), heavy fog, some distant vague shapes.
+A "Village Gate" (structure.village_gate) at the North end of the main road, toward the market town. Materials: stone, pine.
+A comprehensive list of Genesis Passes (P09, P10, P27, etc.) covering geology, terrain, materials, xianxia laws, etc.
+
+    *   *Phase B (Composition):*
+        *   Focal Hierarchy: The central structure is the only focal point.
+        *   Reads: Primary = Structure. Secondary = Road. Tertiary = Fog/Horizon.
+        *   Balance: Centered, but the road creates a strong diagonal.
+        *   Depth: Foreground (green plane), Middle ground (structure), Background (fog/vague shapes).
+        *   Camera: Eye-level or slightly elevated, wide angle.
+        *   Negative Space: Massive. The green plane and sky/fog dominate.
+
+    *   *Phase C (Multi-Scale World Density):*
+        *   Shell 1 (Reach): Flat green texture. No detail.
+        *   Shell 2 (Local Interaction): The structure. Primitive geometry.
+        *   Shell 3 (Local Scene): The road. Flat texture.
+        *   Shell 4 (Settlement): Non-existent.
+        *   Shell 5 (Landscape): Flat plane.
+        *   Shell 6 (Horizon): Fog and low-poly white blocks.
+        *   Shell 7 (Sky): Flat blue/grey gradient.
+        *   Shell 8/9: No evidence.
+
+    *   *Phase D (Content Inventory):*
+        *   Road: Brown, diagonal, flat.
+        *   Structure: Yellow pillar, grey supports, brown crossbeams.
+        *   Terrain: Green flat plane.
+        *   Background: White blocks (buildings?), cone shapes (trees?).
+        *   Atmosphere: Heavy fog.
+
+    *   *Phase E (Silhouette/Proportion):*
+        *   The "gate" doesn't look like a gate; it looks like a construction site or a primitive blockout. The proportions are awkward.
+
+    *   P09 (Geology): FAIL. Flat plane. No geology.
+    *   P10 (Terrain Geometry): FAIL. Flat plane. No topology.
+    *   P27 (World Laws): NOT_EVALUABLE. No supernatural effects visible.
+    *   P14 (Vegetation): FAIL. Flat green paint. No species, no variation.
+    *   P15 (Animal Ecology): NOT_EVALUABLE. No animals.
+    *   P13 (Material Truth): FAIL. Flat colors. No weathering, no texture.
+    *   P51 (Shader Presentation): FAIL. Generic flat shaders. No painterly language.
+    *   P36 (Physics/Structural): FAIL. The pillar is floating/poorly connected. No load paths.
+    *   P29 (Formations): NOT_EVALUABLE. No formations visible.
+    *   P25 (Qi Ecology): NOT_EVALUABLE. No Qi visible.
+    *   P18 (Personhood): NOT_EVALUABLE. No NPCs.
+    *   P23 (Domestic Life): FAIL. No signs of life.
+    *   P22 (Economy/Logistics): FAIL. No markets/carts.
+    *   P43/P47 (Motion): NOT_EVALUABLE. Still frame.
+    *   P33 (Affordance): FAIL. Road is a texture; gate is a blockout.
+    *   P78 (Concealment): NOT_EVALUABLE.
+    *   P07 (Perceptual Hierarchy): PARTIAL. The structure is the focus, but the environment is too empty to support a hierarchy.
+    *   P08 (Forbidden Interpretations): PASS (nothing anachronistic, just empty).
+    *   P49 (Cinematography): FAIL. Boring, centered, no intent.
+    *   P50 (Lighting): FAIL. Flat, ambient lighting. No key/fill/rim.
+    *   P67 (Visual Oracle): FAIL. This is clearly proxy/blockout geometry.
+    *   P72 (Completeness): FAIL. Total failure of completeness.
+    *   P61 (Renderer): PASS (no z-fighting visible, just low quality).
+    *   P60 (Streaming): PASS (no pop-in visible).
+
+    *   *Vision Verdict:* Primitive Placeholder Map.
+    *   *Top Failures:* Material Truth, World Density, Terrain Geometry.
+    *   *World Density:* Zero.
+    *   *Technical Defects:* Flat shaders, proxy geometry.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE SLICE:** North end of main road / Village Gate (structure.village_gate)
+
+---
+
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** 
+    *   **Primary Read:** The central yellow/tan pillar structure.
+    *   **Secondary Read:** The brown diagonal road.
+    *   **Tertiary Read:** The fog-obscured horizon.
+*   **Compositional Balance:** Centered and static. The road provides the only directional vector, but it is undermined by the absolute void of the surrounding environment.
+*   **Depth Separation:** Minimal. The transition from the flat green foreground to the structure is abrupt. The background is a wall of fog containing low-fidelity white silhouettes.
+*   **Camera/Lens:** Eye-level, wide-angle. No cinematic intent; reads as a default engine camera position.
+*   **Negative Space:** Excessive. Approximately 80% of the frame is "dead" space (flat green plane and flat sky/fog).
+*   **Readability:** The "intended" composition (a gate on a road) is technically readable but lacks any environmental context to make it a "place."
+
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** **VOID.** Flat green texture. No pebbles, no grass blades, no soil variation.
+*   **SHELL 2 (Local Interaction):** **PRIMITIVE.** The gate consists of basic geometric primitives. No detail, no wear, no tactile quality.
+*   **SHELL 3 (Local Scene):** **EMPTY.** The road is a flat ribbon. No ditches, no road-side debris, no footprints.
+*   **SHELL 4 (Settlement):** **ABSENT.** No village visible.
+*   **SHELL 5 (Landscape):** **VOID.** A mathematically flat plane.
+*   **SHELL 6 (Horizon):** **PROXY.** Vague white blocks and cones.
+*   **SHELL 7 (Sky/Atmosphere):** **PRIMITIVE.** Flat gradient with uniform fog.
+*   **SHELL 8/9 (Subsurface/Metaphysical):** **NOT EVALUABLE.**
+
+### 3. PHASE D: CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Road** | Lower-Left to Mid-Right | Fore $\rightarrow$ Mid | Main Road | Placeholder | Linear path exists. |
+| **Structure** | Center | Middle | Village Gate | Blockout | A threshold exists. |
+| **Terrain** | Entire Lower Half | Fore $\rightarrow$ Mid | Grassland | Primitive | The world is flat. |
+| **Buildings** | Far Right/Center | Background | Market Town? | Proxy | Distant destination exists. |
+| **Trees** | Far Right | Background | Vegetation | Proxy | Generic nature exists. |
+| **Atmosphere** | Upper Half | Background | Fog | Default | Visibility is limited. |
+
+### 4. PHASE E: SILHOUETTE AND PROPORTION
+*   **Structure Silhouette:** The "gate" does not read as a functional architectural entrance. The central yellow pillar is disproportionately large and lacks a logical structural relationship to the grey supports. It reads as a "marker" rather than a "gate."
+*   **Scale Communication:** Failed. Without a human anchor (scale.cultivator), the structure could be 3 meters tall or 30 meters tall.
+
+---
+
+### 5. GENESIS PASS COVERAGE (MANIFEST VALIDATION)
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat plane. |
+| **P10** | Terrain Geometry | **FAIL** | No topology. No contact logic. |
+| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, no grain, no stone/pine texture. |
+| **P14** | Vegetation Ecology | **FAIL** | Uniform green paint. No species variation. |
+| **P15** | Animal Ecology | **N/E** | No creatures present. |
+| **P22** | Economy/Logistics | **FAIL** | No carts, no stock, no signs of trade. |
+| **P23** | Domestic Life | **FAIL** | No tools, no crops, no human presence. |
+| **P33** | Affordance Lattice | **FAIL** | Road and gate read as non-interactive geometry. |
+| **P36** | Structural Physics | **FAIL** | Pillar lacks load-bearing logic; looks "stuck" to supports. |
+| **P49** | Cinematography | **FAIL** | No framing, no lens language, no intent. |
+| **P50** | Lighting | **FAIL** | Flat ambient light. No shadows, no contrast. |
+| **P51** | Shader Presentation | **FAIL** | Generic engine shaders. No painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Clear proxy/blockout geometry. |
+| **P72** | Completeness | **FAIL** | Total failure of world-dressing and asset finalization. |
+| **P07** | Perceptual Hierarchy | **PARTIAL** | Focal point is clear, but environment is a void. |
+| **P08** | Forbidden Interp. | **PASS** | No anachronisms detected. |
+| **P60/61**| Engine/Renderer | **PASS** | No z-fighting or TAA ghosting visible. |
+
+---
+
+### 6. VISION VERDICT
+
+**CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP**
+
+**TOP FAILURES:**
+1.  **World Density (Shells 1-6):** The scene is a vacuum. There is zero environmental storytelling or ecological presence.
+2.  **Material Truth (P13/P51):** Assets are flat-shaded primitives. There is no distinction between "stone" and "pine" other than color.
+3.  **Structural Logic (P36):** The village gate is a collection of boxes, not an architectural entity.
+
+**TECHNICAL DEFECTS:**
+*   **Flat-shading:** Total lack of light/shadow interaction.
+*   **Proxy Geometry:** Background elements are untextured white blocks.
+*   **Terrain Void:** The "ground" is a single-color plane.
+
+**NOT EVALUABLE:**
+*   All Motion (P43, P47), Personhood (P1

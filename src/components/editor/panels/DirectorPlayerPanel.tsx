@@ -14,13 +14,15 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Play, Pause, MessageSquare, Volume2, VolumeX, MousePointerClick } from 'lucide-react';
-import { buildVillageScene } from '@/lib/assets/factories/set-factory';
+import { buildVillageScene, buildTownScene } from '@/lib/assets/factories/set-factory';
 import { buildHumanoid, profileForRole } from '@/lib/assets/factories/character-factory';
 import { SoundDesigner } from '@/lib/assets/sound/sound-designer';
-import { TOUR_SHOTS } from '@/lib/worldproduction/director-script';
+import { TOUR_SHOTS, EPISODE_2, EPISODE_3 } from '@/lib/worldproduction/director-script';
 import type { Shot } from '@/lib/worldproduction/director-script';
 import { buildTourAnimation } from '@/lib/worldproduction/animation-controller';
+import { attachFilmicGrade } from '@/lib/worldproduction/filmic-grade';
 import { WANG_FAMILY_BEND } from '@/lib/worldproduction/set-blueprint';
+import { QINGHE_MARKET_TOWN } from '@/lib/worldproduction/set-blueprint-2';
 import { interactionsFor } from '@/lib/worldproduction/interactions';
 import type { InteractionHint } from '@/lib/worldproduction/interactions';
 
@@ -75,27 +77,45 @@ export default function DirectorPlayerPanel() {
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x8fb8d8);
-    scene.fog = new THREE.Fog(0x8fb8d8, 120, 900);
+    // town episodes (E2/E3) need a deeper fog far or aerials are swallowed
+    const ep = new URLSearchParams(window.location.search).get('ep');
+    const ep3 = ep === '3';
+    const ep2 = ep === '2' || ep3;
+    scene.fog = new THREE.Fog(0x8fb8d8, 40, ep2 ? 1600 : 260);
     sceneRef.current = scene;
 
     const sun = new THREE.DirectionalLight(0xffe8c0, 2.2);
     sun.position.set(120, 180, 60);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(1024, 1024);
+    sun.shadow.mapSize.set(2048, 2048);
     sun.shadow.camera.left = -300; sun.shadow.camera.right = 300;
     sun.shadow.camera.top = 300; sun.shadow.camera.bottom = -300;
+    sun.shadow.camera.near = 1; sun.shadow.camera.far = 900;
+    sun.shadow.camera.updateProjectionMatrix(); // bounds set AFTER creation — required or shadows never render
     scene.add(sun);
     scene.add(new THREE.HemisphereLight(0xcfe8ff, 0x6a5a3a, 0.75));
 
-    const village = buildVillageScene();
+    const village = ep2 ? buildTownScene() : buildVillageScene();
     scene.add(village.group);
+    // episode-aware life: E3 = recruitment-day crowd; E2 = market bustle;
+    // E1 = village tour cast (P18: NPCs must show activity)
+    const life: Array<{ profile: string; x: number; z: number }> = ep3 ? [
+      { profile: 'child', x: -2, z: 62 }, { profile: 'child', x: 0, z: 60 },
+      { profile: 'child', x: 2, z: 58 }, { profile: 'child', x: 4, z: 60 },
+      { profile: 'cultivator', x: 8, z: 56 },
+      { profile: 'farmer', x: -6, z: 66 }, { profile: 'farmer', x: -8, z: 64 },
+      { profile: 'elder', x: -10, z: 68 }, { profile: 'merchant', x: 6, z: 68 },
+      { profile: 'elder', x: 10, z: 66 },
+    ] : ep2 ? [
+      { profile: 'merchant', x: 14, z: 58 }, { profile: 'farmer', x: -6, z: 64 },
+      { profile: 'elder', x: 8, z: 42 }, { profile: 'child', x: -12, z: 52 },
+      { profile: 'farmer', x: -70, z: 38 }, { profile: 'merchant', x: 42, z: -72 },
+    ] : [
+      { profile: 'farmer', x: 130, z: 95 }, { profile: 'elder', x: -14, z: -33 },
+      { profile: 'elder', x: 28, z: -18 }, { profile: 'merchant', x: 22, z: 28 },
+    ];
     const humanoids: Array<{ group: THREE.Group; clips: Record<string, THREE.AnimationClip>; role: string; x: number; z: number }> = [];
-    for (const l of [
-      { profile: 'farmer', x: 130, z: 95 },
-      { profile: 'elder', x: -14, z: -33 },
-      { profile: 'elder', x: 28, z: -18 },
-      { profile: 'merchant', x: 22, z: 28 },
-    ]) {
+    for (const l of life) {
       const h = buildHumanoid(profileForRole(l.profile, 7));
       h.group.position.set(l.x, 0, l.z);
       scene.add(h.group);
@@ -104,6 +124,14 @@ export default function DirectorPlayerPanel() {
 
     const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 4000);
     cameraRef.current = camera;
+
+    // filmic grade baked into the pixels (OutputPass applies tone mapping +
+    // sRGB — without it the whole frame renders ~4x dark; the studio player
+    // had the same bug the render page had)
+    let grade: ReturnType<typeof attachFilmicGrade> | null = null;
+    try {
+      grade = attachFilmicGrade(renderer, scene, camera);
+    } catch { /* grade optional */ }
 
     // the animation controller: continuous camera, performers, day/night, world motion
     const controller = buildTourAnimation(scene, village.structures, humanoids, camera, { sun, hemi: scene.children.find((o) => (o as THREE.HemisphereLight).isHemisphereLight) as THREE.HemisphereLight | undefined });
@@ -129,7 +157,8 @@ export default function DirectorPlayerPanel() {
         currentShotRef.current = shot;
         soundRef.current?.playShot(shot.sound);
       }
-      renderer.render(scene, camera);
+      if (grade) grade.composer.render();
+      else renderer.render(scene, camera);
     };
     loop();
 
@@ -145,7 +174,9 @@ export default function DirectorPlayerPanel() {
       const hits = ray.intersectObjects(scene.children, true).filter((h) => h.object.userData?.id);
       if (hits.length === 0) { setInfo(null); return; }
       const ud = hits[0].object.userData as { id: string; name: string; kind: string; detail?: string };
-      const structure = WANG_FAMILY_BEND.structures.find((x) => x.id === ud.id);
+      const structure =
+        WANG_FAMILY_BEND.structures.find((x) => x.id === ud.id) ??
+        QINGHE_MARKET_TOWN.structures.find((x) => x.id === ud.id);
       setInfo({
         id: ud.id,
         name: ud.name ?? structure?.name ?? ud.id,
@@ -162,6 +193,7 @@ export default function DirectorPlayerPanel() {
       cancelAnimationFrame(raf);
       canvas.removeEventListener('click', onClick);
       soundRef.current?.dispose();
+      grade?.dispose();
       renderer.dispose();
       rendererRef.current = null;
       sceneRef.current = null;

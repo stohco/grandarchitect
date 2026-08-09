@@ -7,7 +7,7 @@
  */
 
 export type TransformMode = 'translate' | 'rotate' | 'scale';
-export type RenderMode = 'shaded' | 'wireframe' | 'solid' | 'lit';
+export type RenderMode = 'shaded' | 'wireframe' | 'solid' | 'lit' | 'cinematic';
 export type CameraPreset = 'perspective' | 'top' | 'front' | 'side';
 export type EditorMode = 'play' | 'live_architect' | 'isolated_preview';
 export type WorldExecutionState =

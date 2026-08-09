@@ -68,8 +68,9 @@ const EDITOR_MODES: { value: EditorMode; label: string }[] = [
 ];
 
 const RENDER_MODES: { value: RenderMode; label: string }[] = [
-  { value: 'shaded', label: 'Shaded' },
-  { value: 'wireframe', label: 'Wireframe' },
+{ value: 'shaded', label: 'Shaded' },
+{ value: 'wireframe', label: 'Wireframe' },
+{ value: 'cinematic', label: 'Cinematic' },
   { value: 'solid', label: 'Solid' },
   { value: 'lit', label: 'Lit' },
 ];
