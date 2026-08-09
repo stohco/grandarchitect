@@ -335,6 +335,11 @@ const roomMixers: THREE.AnimationMixer[] = [];
           : CUT_DISTANCE[shot.cut] ?? 20,
         structureFootprint(shotId),
       );
+      // ep3 crowd shots: the subject is PEOPLE at the line — frame close
+      // enough that a 1.7 m figure fills a good fraction (a 9 m medium
+      // shot leaves them ~40 px, read as 'cones'; 6 m reads the figures)
+      const ep3CrowdShot = ep3MarketShot && ['close', 'medium', 'dolly', 'wide'].includes(shot.cut);
+      const finalDist = ep3CrowdShot ? Math.min(dist, 6) : dist;
       const target = targetFor(shotId);
       // room shots: dedicated interior view — hide the world, show only the
       // furnished room against a warm-dark backdrop (clean, lit, readable),
@@ -419,7 +424,8 @@ const roomMixers: THREE.AnimationMixer[] = [];
           camera.position.set(target.x + dist * 0.18, camH, target.z + dist * 0.18);
           camera.lookAt(target.clone().add(new THREE.Vector3(0, -camH * 0.6, 0)));
         } else {
-          camera.position.set(target.x + dist * 0.7, camH, target.z + dist);
+          // use finalDist (ep3 crowd shots frame at 6 m so figures read)
+          camera.position.set(target.x + finalDist * 0.7, camH, target.z + finalDist);
           camera.lookAt(target);
         }
         // sun azimuth follows the camera for ground shots (dolly lighting): the
