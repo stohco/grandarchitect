@@ -490,6 +490,20 @@ function buildInstitution(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Gro
   const left = buildWall(footD, wallH, wallTh, pal.plaster); left.rotation.y = Math.PI / 2; left.position.set(-footW / 2, 0.97, 0); g.add(left);
   const right = buildWall(footD, wallH, wallTh, pal.plaster); right.rotation.y = Math.PI / 2; right.position.set(footW / 2, 0.97, 0); g.add(right);
 
+  // stone base course: a darker plinth along every wall base — the first
+  // thing that breaks a 45 m plaster mass at distance (VLM: 'featureless
+  // monolith')
+  const plinthMat = new THREE.MeshStandardMaterial({ color: 0x8a8178, roughness: 0.95 });
+  for (const [bx, bz, len, rotY] of [
+    [0, -footD / 2, footW, 0], [0, footD / 2, footW, 0],
+    [-footW / 2, 0, footD, Math.PI / 2], [footW / 2, 0, footD, Math.PI / 2],
+  ] as Array<[number, number, number, number]>) {
+    const plinth = new THREE.Mesh(new THREE.BoxGeometry(len, 0.7, wallTh + 0.08), plinthMat);
+    plinth.position.set(bx, 0.97 + 0.35, bz);
+    plinth.rotation.y = rotY;
+    g.add(plinth);
+  }
+
   // wall articulation — the VLM flagged 45 m plaster walls as featureless
   // monoliths (ASSET scope): a timber eave band under the roofline and rows
   // of dark window apertures break the mass into readable architecture
@@ -504,19 +518,32 @@ function buildInstitution(s: SetStructure, pal: SetPalette, rng: LCG): THREE.Gro
     g.add(band);
   }
   const winMat = new THREE.MeshStandardMaterial({ color: 0x1c1510, roughness: 1 });
+  const frameMatY = new THREE.MeshStandardMaterial({ color: 0x5a3a20, roughness: 0.85 });
   const windowRow = (x0: number, z0: number, len: number, count: number, rotY: number, xAlongZ: boolean) => {
     for (let i = 0; i < count; i++) {
       const t = (i + 0.5) / count;
-      const w = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.4, 0.12), winMat);
+      const w = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.4, 0.14), winMat);
       if (xAlongZ) w.position.set(x0 + t * len - len / 2, 0.97 + wallH * 0.5, z0);
       else w.position.set(x0, 0.97 + wallH * 0.5, z0 + t * len - len / 2);
       w.rotation.y = rotY;
       g.add(w);
+      // wood window frame + sill: the fenestration reads as architecture,
+      // not dark holes in a featureless wall (VLM: 'grey blocks featureless')
+      const frame = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.62, 0.12), frameMatY);
+      if (xAlongZ) frame.position.set(x0 + t * len - len / 2, 0.97 + wallH * 0.5, z0 + 0.02);
+      else frame.position.set(x0 + 0.02, 0.97 + wallH * 0.5, z0 + t * len - len / 2);
+      frame.rotation.y = rotY;
+      g.add(frame);
+      const sill = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.14, 0.26), frameMatY);
+      if (xAlongZ) sill.position.set(x0 + t * len - len / 2, 0.97 + wallH * 0.5 - 1.2, z0 + 0.06);
+      else sill.position.set(x0 + 0.06, 0.97 + wallH * 0.5 - 1.2, z0 + t * len - len / 2);
+      sill.rotation.y = rotY;
+      g.add(sill);
     }
   };
-  windowRow(0, -footD / 2 + 0.01, footW * 0.8, 6, 0, true);     // back wall
-  windowRow(-footW / 2 + 0.01, 0, footD * 0.8, 8, Math.PI / 2, true); // left
-  windowRow(footW / 2 - 0.01, 0, footD * 0.8, 8, -Math.PI / 2, false); // right
+  windowRow(0, -footD / 2 + 0.01, footW * 0.85, 8, 0, true);     // back wall
+  windowRow(-footW / 2 + 0.01, 0, footD * 0.85, 10, Math.PI / 2, true); // left
+  windowRow(footW / 2 - 0.01, 0, footD * 0.85, 10, -Math.PI / 2, false); // right
 
   // the wide entry: dark aperture + lintel + warm glow
   const entry = new THREE.Mesh(new THREE.BoxGeometry(entryW, entryH, wallTh * 0.8), EAVE_DARK);

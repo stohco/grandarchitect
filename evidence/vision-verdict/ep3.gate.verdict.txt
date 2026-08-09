@@ -4,210 +4,206 @@
 Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
 One rendered frame.
 No entity names, no developer context, no "intended" content.
-Brutally accurate, facts and defects only, no praise.
 
-        *   What does the frame actually show? (setting, objects, scale, density)
-        *   What would a player genuinely think they are looking at?
-        *   Apparent art style and production quality.
-        *   Apparent level of completion (from a specific list).
-        *   Obvious defects, distractions, empty zones.
-        *   Where does the image stop rewarding closer inspection?
+        *   What does it actually show? (setting, objects, scale, density)
+        *   What would a player think they are looking at?
+        *   Art style and production quality.
+        *   Completion level (from a specific list).
+        *   Defects, distractions, empty zones.
+        *   Where does inspection stop rewarding?
+Brutally accurate, no praise, facts and defects only.
 
-    *   *Setting:* A flat, green plane (grass). A light blue sky.
-    *   *Objects:*
-        *   A central structure: A flat roof (dark brown/black), two light-colored walls (beige/grey), a grey base/platform.
-        *   Inside the structure: A single brown chair.
-        *   Background: A massive, dark grey rectangular block (monolith/wall). A white pyramid-like shape to the left.
-        *   Foreground: A tan/sand-colored rectangular area with a grey border.
-    *   *Scale:* The chair provides the only human-scale reference. The structure is small (like a kiosk or a small room), but the background block is gargantuan.
-    *   *Density:* Extremely low. Very few objects. Lots of empty green space.
-    *   *Art Style:* Low-poly, flat shading, basic textures. Looks like early 2000s 3D or a very basic game engine prototype.
-    *   *Production Quality:* Very low. Textures are stretched or repetitive. Lighting is flat. No ambient occlusion, no complex shadows.
-    *   *Completion Level:* Definitely not finished. It's a "Blockout" or "Primitive Placeholder."
-    *   *Defects:*
-        *   Floating/clipping: The roof doesn't seem to have structural support other than a tiny sliver of a post.
-        *   Textures: The walls have a blurry, stretched gradient. The ground is a single flat color.
-        *   Composition: The massive dark block in the back is visually oppressive and lacks detail.
-        *   Empty zones: The entire green field is void of detail.
-    *   *Inspection Limit:* The image stops rewarding inspection immediately. There are no fine details to discover. Once you see the chair and the walls, there is nothing else to analyze.
+    *   *Foreground:* A flat, sandy/beige surface bordered by a grey, ribbed/textured concrete-like edge.
+    *   *Midground:* A green flat plane (grass). A structure consisting of a grey base, white/beige walls, a dark brown flat roof, and a small brown object (looks like a table or bench) inside.
+    *   *Background:* A massive, dark grey/black monolithic wall/block. A white pyramid-shaped object to the left. A light blue, featureless sky.
+    *   *Details:* Some small white dots on the grass (possibly pebbles or low-res assets). The textures are very basic (flat colors or simple repeats). Lighting is flat/ambient with minimal shadowing.
 
-    *   *What does it show?* A small, open-sided structure with a chair inside, sitting on a green plane. A massive dark wall and a white pyramid are in the background. A sandy patch is in the foreground.
-    *   *Player perception?* A test level, a "greybox" environment, or a very early alpha build of a surrealist game.
-    *   *Style/Quality?* Low-fidelity, primitive 3D. Low production quality.
-    *   *Completion?* BLOCKOUT.
-    *   *Defects?* Flat lighting, stretched textures, lack of environmental detail, jarring scale difference between the chair and the background monolith.
-    *   *Inspection limit?* At the surface level. No micro-detail exists.
+    *   *Setting/Objects:* A sparse outdoor area with a small open-sided building, a large wall, and a pyramid. Scale is ambiguous but suggests a human-sized building against an oversized background. Density is extremely low.
+    *   *Player Perception:* A test level, a "greybox" environment, or a very early alpha build of a game. It looks like a sandbox or a technical demo.
+    *   *Art Style/Quality:* Low-fidelity, primitive 3D. Flat shading, low-resolution textures, lack of environmental detail (no foliage, no weathering, no atmospheric effects).
+    *   *Completion Level:* This is clearly a **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**. It's not even a stylized prototype because there's no cohesive "style" yet—just basic shapes.
+    *   *Defects/Distractions:*
+        *   Floating/intersecting geometry (the roof edges).
+        *   Lack of texture blending.
+        *   The massive black wall is a jarring visual void.
+        *   The "grass" is a single flat color.
+        *   The white pyramid is a basic primitive.
+        *   The small white dots on the grass are visually noisy but lack detail.
+    *   *Inspection Limit:* The image stops rewarding inspection immediately. There are no micro-details, no storytelling through assets, and no complex materials. Once you see the basic shapes, there is nothing else to discover.
 **PERCEPTUAL EVIDENCE REPORT: STAGE A**
 
 **Actual Content**
-*   **Setting:** A flat, featureless green plane under a solid light-blue sky.
-*   **Objects:** A small, open-sided structure consisting of a dark flat roof, two beige walls, and a grey base. A single brown chair is positioned inside. In the background is a massive, dark-grey rectangular monolith and a white geometric pyramid. In the foreground is a tan rectangular patch with a grey border.
-*   **Scale:** The chair establishes a human scale, making the central structure a small kiosk/room and the background monolith gargantuan.
-*   **Density:** Extremely low. Minimal object count with vast amounts of empty space.
+*   **Setting:** An outdoor, flat environment consisting of a green plane and beige flat surfaces.
+*   **Objects:** A small, open-sided structure with a grey base, white walls, and a dark brown flat roof. A single brown rectangular object (table/bench) is inside. In the background, there is a massive, featureless dark grey monolithic block and a white pyramid.
+*   **Scale:** Ambiguous. The structure suggests human scale, but the background monolith is disproportionately large, creating a disjointed sense of space.
+*   **Density:** Extremely low. Only four primary architectural elements exist in the frame.
 
 **Player Perception**
-A player would perceive this as a developer's test map, a "greybox" environment, or a very early alpha build. The lack of context or environmental storytelling suggests a functional test of assets rather than a playable space.
+A player would perceive this as a technical test level, a "greybox" environment, or a very early development build. It lacks any narrative or environmental context.
 
 **Art Style and Production Quality**
-*   **Style:** Primitive 3D / Low-fidelity.
-*   **Quality:** Very low. Lighting is flat with no ambient occlusion or complex shadowing. Textures are basic, blurry, or stretched (specifically on the beige walls).
+*   **Style:** Primitive 3D.
+*   **Quality:** Low. Textures are flat or low-resolution repeats. Lighting is ambient and flat with minimal occlusion or depth. There is no atmospheric perspective or environmental detail (no foliage, no weathering, no grit).
 
-**Level of Completion**
+**Completion Level**
 **BLOCKOUT**
 
 **Defects and Distractions**
-*   **Texture Issues:** The beige walls exhibit visible stretching and low-resolution gradients.
-*   **Structural Logic:** The roof is supported by a nearly invisible sliver of a post; it appears to be floating or improperly attached.
-*   **Empty Zones:** The green ground plane is a void of detail, providing no visual interest or grounding.
-*   **Compositional Jarring:** The scale jump from the chair to the background monolith is abrupt and lacks transitional elements.
+*   **Visual Voids:** The massive dark grey block in the background is a dead zone that consumes a third of the frame.
+*   **Texture Failures:** The "grass" is a single, flat green hex code. The beige surfaces lack material definition.
+*   **Geometry:** The roof is a simple flat plane with no thickness or structural support.
+*   **Noise:** Small, unidentified white pixels/objects on the green plane appear as visual artifacts rather than intentional assets.
+*   **Composition:** The placement of the pyramid and the monolith feels arbitrary and disconnected.
 
 **Inspection Limit**
-The image stops rewarding closer inspection immediately. There are no high-frequency details, micro-textures, or hidden elements. Once the basic geometry is identified, there is nothing further to observe.
+The image stops rewarding inspection immediately. There are no fine details, material transitions, or hidden elements to discover. Once the basic geometric shapes are identified, there is zero further visual information to extract.
 
 ## STAGE B (contract)
 Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
-A single rendered frame.
-A blind read (Stage A) was provided. It describes a flat green plane, a light blue sky, a central structure (roof, walls, base, chair), a massive dark grey block, a white pyramid, and a tan foreground area.
-The "Grand Architect" Vision Inspection Contract.
-A "Scene Universe Slice" (describing a town center, magistrate's seat, timber frames, whitewashed walls, dark tiled roofs, etc.) and a "Genesis Pass Manifest" (a list of visual obligations).
+A single rendered frame showing a primitive scene with a structure, a green plane, a large black block, and a white pyramid.
+Stage A (Blind Read) provided.
+Scene Universe Slice (Qinghe Yamen/County Law), Genesis Pass Manifest (P09, P10, P27, etc.).
+Execute Phases B-X, evaluate Genesis Passes, perform a forensic sweep, and provide the final Vision Verdict.
 
-    *   *Visuals:* Extremely primitive. Flat colors, basic cubes/planes, no textures (only simple fills), no lighting nuance, no environmental detail.
-    *   *Composition:* A central structure, a huge block behind it, a pyramid to the left. Very sparse.
-    *   *Comparison to Universe Slice:* The slice describes "Timber frame, whitewashed walls, dark tiled roofs," "magistrate's dais," "county seal," "tax rolls." The image shows a brown flat plane for a roof, beige boxes for walls, and a single brown chair. It is a *blockout* or *primitive prototype*.
-    *   *Comparison to Genesis Passes:*
-        *   P09 (Geology): FAIL. Flat green plane.
-        *   P10 (Topology): FAIL. No valley/slope/cliff.
-        *   P13 (Material Truth): FAIL. Flat colors, no weathering.
-        *   P14 (Vegetation): FAIL. Uniform green paint.
-        *   P36 (Physics/Structure): FAIL. Floating roof/thin walls.
-        *   P51 (Shader Presentation): FAIL. Generic shaders.
-        *   P67 (Visual Oracle): FAIL. Proxy geometry is all that exists.
+    *   *Focal Hierarchy:* The structure in the center is the primary read. The massive black block is a secondary (distracting) read. The foreground sand/concrete is tertiary.
+    *   *Composition:* Very flat. Camera is at a standard eye-level height. No intentional framing or cinematic lens language.
+    *   *Depth:* Foreground (sand/concrete), Midground (structure/grass), Background (black block/pyramid/sky).
+    *   *Balance:* Heavily weighted to the center and right (black block).
+    *   *Scale:* The structure looks like a small building, but the black block is monolithic and lacks scale anchors, making the whole scene feel like a test level.
 
-    *   **Phase B: Full-Frame Composition**
-        *   Focal Hierarchy: The central structure is the focus, but it's visually uninteresting.
-        *   Foreground/Mid/Back: Foreground (tan plane), Mid (structure), Back (giant block/pyramid).
-        *   Balance: Heavily weighted to the center/right by the giant block.
-        *   Scale: The chair suggests a human scale, making the background block look like a monolithic wall or a massive error.
+    *   *Shell 1 (Reach):* Foreground sand/concrete. Texture is a flat repeat. No detail.
+    *   *Shell 2 (Interaction):* The structure. Basic shapes. No handles, no wear, no detail.
+    *   *Shell 3 (Local Scene):* Green plane. Flat color. A few white dots.
+    *   *Shell 4 (Settlement):* Non-existent. Only one structure.
+    *   *Shell 5 (Landscape):* Non-existent. Flat plane.
+    *   *Shell 6 (Horizon):* A black block and a white pyramid.
+    *   *Shell 7 (Sky):* Flat light blue.
+    *   *Shell 8/9:* Not applicable/not visible.
 
-    *   **Phase C: Multi-Scale World Density**
-        *   Shell 1 (Reach): Empty except for a chair.
-        *   Shell 2 (Local): Empty.
-        *   Shell 3 (Scene): Primitive.
-        *   Shell 4 (Settlement): Non-existent.
-        *   Shell 5 (Landscape): Flat plane.
-        *   Shell 6 (Horizon): Flat line.
-        *   Shell 7 (Sky): Flat blue.
+    *   *Structure:* Grey base, white walls, brown roof. (Intended: Qinghe Yamen).
+    *   *Props:* One brown table/bench inside.
+    *   *Terrain:* Green grass, beige sand.
+    *   *Background:* Black monolith, white pyramid.
+    *   *VFX/Weather:* None.
 
-    *   **Phase D: Content Inventory**
-        *   Structure: 1 (Primitive).
-        *   Furniture: 1 chair (Primitive).
-        *   Terrain: 1 green plane, 1 tan plane.
-        *   Background: 1 grey block, 1 white pyramid.
+    *   *P09 (Geology):* FAIL. Flat green plane and beige sand. No geology.
+    *   *P10 (Topology):* FAIL. Flat plane. No valley/slope.
+    *   *P13 (Material Truth):* FAIL. Flat colors. No weathering, no grain, no "truth."
+    *   *P14 (Vegetation):* FAIL. Uniform green paint.
+    *   *P36 (Physics/Structure):* FAIL. Roof is a flat plane floating/intersecting poorly. Walls are simple boxes.
+    *   *P50 (Lighting):* FAIL. Flat ambient light. No key/fill/rim.
+    *   *P51 (Shader Presentation):* FAIL. Generic shaders.
+    *   *P67 (Visual Oracle):* FAIL. This is clearly proxy/greybox geometry.
+    *   *P72 (Completeness):* FAIL. Primitive placeholder map.
 
-    *   **Phase E: Silhouette and Proportion**
-        *   The structure is a box with a lid. No architectural character.
-
-    *   **Phase X: Genesis Pass Evaluation** (Mapping the manifest to the image).
-
-    *   *Vision Verdict:* Primitive Placeholder Map / Greybox.
-    *   *Top Failures:* Material Truth, World Density, Architecture.
-    *   *Genesis Pass Coverage:* Almost entirely FAIL or NOT_EVALUABLE.
-
-    *   *Self-Correction during drafting:* I must not say "it's a good start" or "it's a prototype." I must say "it reads as a primitive placeholder map." I must not assume the giant block is a "mountain" unless it looks like one; it looks like a cube.
-**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+    *   *Top Left:* White pyramid (primitive).
+    *   *Top Center:* Massive black block (primitive).
+    *   *Top Right:* Sky/Black block edge.
+    *   *Mid Left:* Structure wall (flat texture).
+    *   *Mid Center:* Structure interior/table (primitive).
+    *   *Mid Right:* Grass plane (flat color).
+    *   *Bottom Left:* Sand/Concrete edge (flat repeat).
+    *   *Bottom Center:* Grass/Sand transition (hard line).
+    *   *Bottom Right:* Grass plane (flat color).
+**PERCEPTUAL EVIDENCE EXAMINER — STAGE B: FULL INSPECTION**
 
 **FRAME ID:** [Single Rendered Frame]
-**UNIVERSE SLICE:** [COSMOLOGY] Green Mirror/Biluo/North Cloud/Iron Root | [REGIONAL] Town center, magistrate's seat | [ARCHITECTURE] Timber frame, whitewashed walls, dark tiled roofs.
+**SCENE CONTEXT:** Qinghe Yamen / County Law (per Universe Slice)
+**STATUS:** CRITICAL FAILURE
 
 ---
 
-### 1. PHASE B — FULL-FRAME COMPOSITION
-*   **Focal Hierarchy:** The primary read is a central, primitive structure. The secondary read is a massive, featureless dark grey monolith in the background. The tertiary read is a white pyramid to the left.
-*   **Foreground / Middle Ground / Background:** 
-    *   *Foreground:* A tan rectangular plane with a grey border.
-    *   *Middle Ground:* The central structure and a flat green plane.
-    *   *Background:* A giant grey block and a white pyramid against a flat blue sky.
-*   **Frame Balance:** Heavily unbalanced. The right side is dominated by a massive, opaque dark block that creates a visual "wall," crushing the depth of the scene.
-*   **Negative Space:** Excessive. The green plane and blue sky are void of any detail, creating a vacuum around the focal subject.
-*   **Depth Separation:** Minimal. Separation is achieved only through basic overlapping of primitive shapes. There is no atmospheric haze or perspective shift to communicate distance.
-*   **Camera Height/Angle:** Eye-level, static.
-*   **Scale Communication:** The single brown chair provides the only human-scale anchor. Relative to the chair, the background block is an impossibly large, featureless wall, and the structure is a small, open-air kiosk.
-*   **Compositional Read:** The composition reads as a **primitive placeholder map**. It lacks any cinematic intent or architectural logic.
+### 1. PHASE B: FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** 
+    *   *Primary Read:* The central structure (intended Yamen).
+    *   *Secondary Read:* The massive black monolithic block in the background.
+    *   *Tertiary Read:* The foreground sandy/concrete platform.
+*   **Compositional Analysis:** The frame is unbalanced and lacks intentionality. The massive black block in the background creates an overwhelming visual weight that competes with and diminishes the primary subject.
+*   **Depth Separation:** Basic foreground/midground/background layering exists, but there is no atmospheric perspective or lens language to define the distance.
+*   **Camera/Lens:** Standard eye-level perspective. No cinematic framing, no depth-of-field, no intentional sightlines.
+*   **Readability:** The scene reads as a **primitive placeholder map/test scene**. It does not read as a "place."
 
----
+### 2. PHASE C: MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Flat, repeating beige texture and grey ribbed concrete. Zero micro-detail.
+*   **SHELL 2 (Interaction):** The structure consists of basic geometric primitives. No handles, no thresholds, no architectural detail.
+*   **SHELL 3 (Local Scene):** A flat green plane. Three white dots (pebbles/artifacts) provide the only "detail."
+*   **SHELL 4 (Settlement):** Non-existent. A single isolated structure in a void.
+*   **SHELL 5 (Landscape):** Non-existent. Flat plane.
+*   **SHELL 6 (Horizon):** A black cube and a white pyramid. These are primitive placeholders.
+*   **SHELL 7 (Sky):** Featureless light-blue fill.
+*   **Density Verdict:** **VOID.** There is no world density. This is a collection of assets in a vacuum.
 
-### 2. PHASE C — MULTI-SCALE WORLD DENSITY
-*   **SHELL 1 (Reach):** Empty. Only a single chair. No floor texture, no dust, no debris.
-*   **SHELL 2 (Local Interaction):** Empty. The "room" is a void.
-*   **SHELL 3 (Local Scene):** Primitive. A few boxes and planes.
-*   **SHELL 4 (Settlement):** Non-existent. No other buildings, roads, or signs of habitation.
-*   **SHELL 5 (Landscape):** Non-existent. A flat, uniform green plane.
-*   **SHELL 6 (Horizon):** A hard line between green and blue.
-*   **SHELL 7 (Sky):** A flat, single-value blue fill.
-*   **SHELL 8/9 (Subsurface/Metaphysical):** No evidence.
-
-**Density Verdict:** Absolute vacuum. The scene is devoid of world-building.
-
----
-
-### 3. PHASE D — CONTENT INVENTORY
-| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+### 3. PHASE D: CONTENT INVENTORY
+| Object | Region | Depth | Identity | Status | World Info Contributed |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Structure | Center | Mid | Primitive Kiosk | **UNFINISHED** | None. Does not match "Timber frame/whitewashed" spec. |
-| Furniture | Center | Mid | Brown Chair | **UNFINISHED** | Scale anchor only. |
-| Terrain | Bottom/Mid | Fore/Mid | Green/Tan Planes | **UNFINISHED** | None. Flat color fills. |
-| Landmark | Right | Back | Grey Block | **UNFINISHED** | None. Reads as a debug cube. |
-| Landmark | Left | Back | White Pyramid | **UNFINISHED** | None. Reads as a primitive. |
-| Sky | Top | Far | Blue Plane | **UNFINISHED** | None. |
+| Structure | Center | Mid | Qinghe Yamen | **Primitive** | None. Reads as a box with a lid. |
+| Table/Bench | Center | Mid | Prop | **Primitive** | None. |
+| Green Plane | Lower/Mid | Mid | Grass | **Placeholder** | None. |
+| Beige Plane | Bottom L | Fore | Sand/Dirt | **Placeholder** | None. |
+| Black Block | Top/Right | Back | Unknown | **Proxy** | None. |
+| White Pyramid | Top L | Back | Unknown | **Proxy** | None. |
+| Grey Edge | Bottom | Fore | Concrete | **Placeholder** | None. |
 
 ---
 
-### 4. PHASE E — SILHOUETTE AND PROPORTION
-*   **Structure:** A flat rectangle (roof) hovering over two beige rectangles (walls). No load-bearing logic, no eaves, no architectural detail.
-*   **Proportions:** The background block is disproportionately large compared to the focal structure, creating a jarring sense of scale that feels accidental rather than intentional.
-
----
-
-### 5. PHASE X — GENESIS PASS COVERAGE
+### 4. PHASE X: GENESIS PASS COVERAGE
 
 | Pass ID | Name | Status | Observed / Missing Evidence |
 | :--- | :--- | :--- | :--- |
-| **P09** | Planetary Geology | **FAIL** | Observed: Flat green plane. Missing: Macro/meso/micro structure, soil transitions. |
-| **P10** | Terrain Topology | **FAIL** | Observed: Flat plane. Missing: Valley/slope/cliff; clean structure contact. |
-| **P13** | Material Truth | **FAIL** | Observed: Flat colors. Missing: Weathering, contact wear, material identity (timber/plaster). |
-| **P14** | Vegetation Ecology | **FAIL** | Observed: Uniform green paint. Missing: Species variation, moisture/slope logic. |
-| **P36** | Structural Physics | **FAIL** | Observed: Floating roof. Missing: Load paths, support logic, thickness. |
-| **P51** | Shader Presentation | **FAIL** | Observed: Generic flat shaders. Missing: Painterly language, value structure. |
-| **P07** | Perceptual Hierarchy | **FAIL** | Observed: Giant grey block competes with and overwhelms the focal structure. |
-| **P08** | Forbidden Interp. | **PASS** | No modern anachronisms detected (due to lack of content). |
-| **P49** | Cinematography | **FAIL** | Observed: Static, centered, unbalanced. Missing: Focal hierarchy, lens language. |
-| **P50** | Lighting | **FAIL** | Observed: Flat, ambient-only lighting. Missing: Key/fill/rim, contrast, shadows. |
-| **P67** | Visual Oracle | **FAIL** | Observed: Entire frame is proxy geometry. |
-| **P72** | Completeness Gate | **FAIL** | Total failure across all depth shells. |
-| **P61** | Renderer/GPU | **PASS** | No z-fighting or TAA ghosting visible in still. |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat planes only. |
+| **P10** | Terrain Topology | **FAIL** | No slopes, valleys, or organic contact. |
+| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, grain, or material identity. |
+| **P14** | Vegetation Ecology | **FAIL** | Uniform green paint. No species or variation. |
+| **P36** | Structural Physics | **FAIL** | Roof is a floating plane; walls are thin boxes. No load paths. |
+| **P50** | Lighting | **FAIL** | Flat ambient light. No key, fill, or rim. No shadows. |
+| **P51** | Shader Presentation | **FAIL** | Generic engine shaders. No painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Scene is composed entirely of proxy/greybox geometry. |
+| **P72** | Completeness Gate | **FAIL** | Total absence of production-ready assets. |
+
+---
+
+### 5. Tiled 3x3 Forensic Sweep
+*   **[Top-Left]:** White pyramid. Primitive geometry. No texture.
+*   **[Top-Center]:** Black monolith. Flat color. No detail.
+*   **[Top-Right]:** Featureless sky.
+*   **[Mid-Left]:** Structure wall. Flat, low-res gradient.
+*   **[Mid-Center]:** Structure interior. Primitive brown box (table).
+*   **[Mid-Right]:** Flat green plane.
+*   **[Bottom-Left]:** Repeating sand texture. Hard edge.
+*   **[Bottom-Center]:** Hard intersection between sand and grass.
+*   **[Bottom-Right]:** Flat green plane.
 
 ---
 
 ### 6. VISION VERDICT
 
-**FINAL CLASSIFICATION:** **PRIMITIVE PLACEHOLDER MAP / GREYBOX**
+**OVERALL STATUS: CRITICAL FAILURE**
 
 **TOP FAILURES:**
-1.  **Total Absence of Material Truth (P13/P51):** The scene consists of flat-shaded primitives. There is zero evidence of the "Timber frame, whitewashed walls, dark tiled roofs" specified in the Universe Slice.
-2.  **World Density Vacuum (Phase C):** Every single depth shell from 1 to 7 is empty or primitive.
-3.  **Structural Impossibility (P36):** The roof is a floating plane with no visible support or connection to the walls.
-4.  **Compositional Collapse (P07/P49):** The massive grey block in the background destroys the scene's readability and scale.
+1.  **Production Level:** The scene is a **primitive placeholder map**. It is not a production candidate.
+2.  **Materiality:** Total absence of "Material Truth" (P13). Everything reads as plastic or digital fill.
+3.  **World Density:** Zero density across all shells. The "Yamen" is an isolated box in a void.
+4.  **Lighting/Atmosphere:** Flat, non-directional lighting destroys all form and depth.
 
-**WORLD DENSITY:** 0.1% (One chair in a void).
-**TECHNICAL DEFECTS:** Floating geometry, flat lighting, lack of textures, scale incongruity.
-**NOT EVALUABLE:** P27 (World Laws), P15 (Spirit Beasts), P18 (Personhood), P23 (Domestic Life), P43/P47 (Motion).
+**GENESIS PASS COVERAGE:** 0% PASS / 100% FAIL (of applicable passes).
 
-**NEXT INSPECTION:** Requires a complete transition from Greybox to Production Assets.
+**WORLD DENSITY:** **NON-EXISTENT.**
+
+**TECHNICAL DEFECTS:**
+*   Hard-edge intersections between terrain types.
+*   Floating/intersecting roof geometry.
+*   Low-resolution repeating textures in foreground.
+
+**NOT EVALUABLE:**
+*   P43, P47 (No temporal evidence/motion).
+*   P18, P23 (No NPCs/Living actors present).
+
+**NEXT INSPECTION:**
+Do not inspect again until the scene has passed a **Greybox-to-Production** transition. Current evidence is purely functional/spatial and contains zero art-direction value.
 
 ---
 
 ### 7. AAA COMPLETENESS QUESTION
-**Does this frame satisfy the Grand Architect World, Art, Cinematic, Animation, and Gameplay contracts?**
+**Does this frame represent a finished, production-ready visual for a AAA Xianxia title?**
 
-**NO.** 
-This is not a rendered scene; it is a primitive blockout. It fails every visual obligation in the Genesis Manifest except for the absence of technical GPU artifacts. It bears no resemblance to the provided Universe Slice.
+**NO.** This is a primitive blockout.
