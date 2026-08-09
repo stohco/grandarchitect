@@ -1090,12 +1090,31 @@ export const PROP_BUILDERS: Record<string, DressingBuilder> = {
   },
   'prop.qinghe.locked_cabinet': (pal) => {
     const g = new THREE.Group();
-    const cabinet = new THREE.Mesh(new THREE.BoxGeometry(1, 1.8, 0.6), pal.timber);
-    cabinet.position.y = 0.9;
-    g.add(cabinet);
-    const lock = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.06), IRON);
-    lock.position.set(0, 0.95, 0.32);
-    g.add(lock);
+    // two-door wooden cabinet on feet: base, body, two door panels with
+    // centre crack, iron lock, and a top cornice — reads as furniture,
+    // not 'a box with a cylinder' (VLM e2.08)
+    const bodyMat = pal.timber;
+    const feet = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.12, 0.5), bodyMat);
+    feet.position.y = 0.06;
+    g.add(feet);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.7, 0.55), bodyMat);
+    body.position.y = 0.97;
+    g.add(body);
+    const doorL = new THREE.Mesh(new THREE.BoxGeometry(0.47, 1.5, 0.04), pal.woodTrim);
+    doorL.position.set(-0.25, 0.95, 0.28);
+    g.add(doorL);
+    const doorR = new THREE.Mesh(new THREE.BoxGeometry(0.47, 1.5, 0.04), pal.woodTrim);
+    doorR.position.set(0.25, 0.95, 0.28);
+    g.add(doorR);
+    const crack = new THREE.Mesh(new THREE.BoxGeometry(0.015, 1.5, 0.05), new THREE.MeshStandardMaterial({ color: 0x1a1208, roughness: 1 }));
+    crack.position.set(0, 0.95, 0.3);
+    g.add(crack);
+    const lockPlate = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.18, 0.04), IRON);
+    lockPlate.position.set(0, 0.72, 0.31);
+    g.add(lockPlate);
+    const cornice = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.08, 0.62), bodyMat);
+    cornice.position.y = 1.86;
+    g.add(cornice);
     return g;
   },
 };
