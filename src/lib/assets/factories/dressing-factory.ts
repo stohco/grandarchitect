@@ -1071,6 +1071,19 @@ const AMBIENT_BUILDERS: Record<string, (pal: SetPalette) => THREE.Object3D> = {
   firewood: (pal) => smallGroup(boxProp(0.5, 0.4, 0.5, pal.timber), boxProp(0.4, 0.35, 0.4, pal.timber).translateX(0.45)),
   water_jar: (pal) => new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.34, 0.6, 8), pal.rammedEarth),
   basket: (pal) => new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.3, 0.4, 8), pal.hemp),
+  scales: (pal) => {
+    const g = new THREE.Group();
+    g.add(cylProp(0.03, 0.04, 0.5, BRASS, 6));
+    const beam = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.03, 0.03), BRASS);
+    beam.position.y = 0.55;
+    g.add(beam);
+    for (const s of [-1, 1]) {
+      const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.09, 0.03, 8), BRASS);
+      pan.position.set(s * 0.2, 0.42, 0);
+      g.add(pan);
+    }
+    return g;
+  },
   chicken: (pal) => {
     const body = new THREE.Mesh(new THREE.SphereGeometry(0.12, 6, 4), pal.plaster);
     body.scale.set(1, 0.8, 1);
@@ -1187,7 +1200,7 @@ export const DRESSING_SETS: Record<string, DressingSpec> = {
   },
   market: {
     props: ['prop.market.canopy'],
-    ambient: [['crate', 3], ['fabric_roll', 3], ['basket', 2], ['grain_sack', 2]],
+    ambient: [['crate', 4], ['fabric_roll', 4], ['basket', 3], ['grain_sack', 4], ['salt_block', 3], ['water_jar', 2], ['scales', 1], ['chicken', 3]],
   },
   gate: {
     props: ['prop.gate.pillar_l', 'prop.gate.pillar_r'],
@@ -1229,6 +1242,11 @@ export function dressStructure(s: SetStructure, pal: SetPalette, seed: number): 
   const rng = new LCG(seed ^ 0xd135);
   const spec = DRESSING_SETS[s.kind];
   if (!spec) return g;
+  // open plazas (market) cluster dressing around the centre where the stall
+  // and crowd line is — uniform scatter over a 60x40 m square would hide
+  // every ambient prop from the shots (VLM: 'no stock, no trade evidence').
+  const cluster = s.kind === 'market';
+  const range = (half: number) => (cluster ? half * 0.28 : half * 0.8);
 
   // canonical props from the registry
   for (const propId of spec.props) {
@@ -1236,7 +1254,7 @@ export function dressStructure(s: SetStructure, pal: SetPalette, seed: number): 
     if (!builder) continue;
     const obj = builder(pal);
     obj.userData = { id: propId, name: propId.replace('prop.', ''), kind: 'prop' };
-    obj.position.set(rng.nextRange(-s.w / 2, s.w / 2) * 0.8, 0, rng.nextRange(-s.d / 2, s.d / 2) * 0.8);
+    obj.position.set(rng.nextRange(-s.w / 2, s.w / 2) * (cluster ? 0.28 : 0.8), 0, rng.nextRange(-s.d / 2, s.d / 2) * (cluster ? 0.28 : 0.8));
     g.add(obj);
   }
 
@@ -1247,7 +1265,7 @@ export function dressStructure(s: SetStructure, pal: SetPalette, seed: number): 
     for (let i = 0; i < count; i++) {
       const obj = builder(pal);
       obj.userData = { id: `${s.id}.${name}`, name, kind: 'ambient' };
-      obj.position.set(rng.nextRange(-s.w / 2, s.w / 2) * 0.85, 0, rng.nextRange(-s.d / 2, s.d / 2) * 0.85);
+      obj.position.set(rng.nextRange(-s.w / 2, s.w / 2) * (cluster ? 0.28 : 0.85), 0, rng.nextRange(-s.d / 2, s.d / 2) * (cluster ? 0.28 : 0.85));
       obj.rotation.y = rng.nextRange(0, Math.PI * 2);
       g.add(obj);
     }

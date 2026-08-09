@@ -1,0 +1,232 @@
+# VISION INSPECTION — ep3.05
+
+## STAGE A (blind)
+Perceptual Evidence Examiner, Stage A — BLIND PLAYER READ.
+One rendered frame.
+No entity names, no developer context, no intended content.
+
+        *   What does the frame actually show? (setting, objects, scale, density)
+        *   What would a player genuinely think they are looking at?
+        *   Apparent art style and production quality.
+        *   Apparent level of completion (specific categories provided).
+        *   Obvious defects, distractions, empty zones.
+        *   Where does the image stop rewarding closer inspection?
+Brutally accurate, no praise, facts and defects only.
+
+    *   *Foreground:* A large brown truncated cone (frustum) sitting on a small black/white base. Around it are several smaller, stacked brown cylindrical/conical shapes. There are also white, rounded, blob-like shapes (rocks/mounds). The ground is a sandy/beige texture.
+    *   *Midground:* A grey paved area (road/path). A smaller version of the brown cone. A thin brown pole with a flat top. A long, flat brown roof/canopy supported by thin poles. A building with light-colored walls and a flat roof.
+    *   *Background:* A light blue sky. A large, pale blue/white geometric shape (mountain or pyramid). A large, green, low-poly conical tree.
+    *   *Lighting/Rendering:* Flat lighting, very basic shading. No complex textures (mostly solid colors or simple noise/grain). Hard edges.
+    *   *Composition:* Centered on the brown cone. Very sparse.
+
+    *   *Setting/Objects:* An outdoor area with sandy ground and a paved road. Objects include geometric primitives (cones, cylinders, boxes) and a very basic tree. Scale is ambiguous but suggests a human-sized environment based on the building and road. Density is very low.
+    *   *Player Perception:* A "dev room," a test level, or a very early prototype of a low-poly game. It looks like a collection of placeholder assets.
+    *   *Art Style/Quality:* Low-poly, flat-shaded. Production quality is extremely low. Textures are minimal or non-existent.
+    *   *Completion Level:* This is clearly a **BLOCKOUT** or **PRIMITIVE_PLACEHOLDER**. It lacks any finished assets, lighting, or environmental detail.
+    *   *Defects/Distractions:*
+        *   Floating/clipping objects (the base of the central cone looks disconnected or poorly seated).
+        *   Lack of any organic detail.
+        *   Flat, featureless sky.
+        *   Repetitive use of the same primitive shapes.
+        *   The "tree" is just a few stacked cones.
+        *   The "mountain" is a single flat-colored polygon.
+    *   *Reward for Inspection:* The image stops rewarding inspection immediately. There is no detail to discover; every surface is a flat color or a simple repeating texture.
+
+    *   *Constraint Check:* No praise? Check. Facts only? Check. Brutally accurate? Check.
+**PERCEPTUAL EVIDENCE REPORT: STAGE A**
+
+**Actual Content**
+*   **Setting:** An outdoor environment consisting of a sandy foreground, a grey paved midground, and a light blue background.
+*   **Objects:** 
+    *   Foreground: One large brown truncated cone on a small black/white base, surrounded by several smaller stacked brown cylinders and white rounded mounds.
+    *   Midground: A grey road/path, a smaller brown truncated cone, a thin brown pole with a flat top, and a long, flat brown canopy supported by thin poles. A simple rectangular building with light-colored walls is visible.
+    *   Background: A large, pale-blue geometric pyramid/mountain and a low-poly green tree composed of stacked cones.
+*   **Scale:** Ambiguous, but the presence of a road and building suggests a human-scale environment.
+*   **Density:** Extremely low. Sparse placement of primitive shapes.
+
+**Player Perception**
+A player would perceive this as a developer's test level, a "greybox" environment, or a very early prototype. It looks like a collection of placeholder assets used to test scale and positioning rather than a playable game world.
+
+**Art Style and Production Quality**
+*   **Style:** Low-poly / Primitive.
+*   **Quality:** Extremely low. Lighting is flat; textures are either solid colors or low-resolution noise. There is no evidence of advanced shading, anti-aliasing, or environmental storytelling.
+
+**Level of Completion**
+**PRIMITIVE_PLACEHOLDER**
+
+**Defects and Distractions**
+*   **Geometry:** The central brown cone appears to be floating or poorly seated on its base.
+*   **Assets:** The "tree" and "mountain" are basic geometric primitives with no organic variation.
+*   **Environment:** The sky is a flat, featureless gradient. The ground textures are repetitive and lack blending.
+*   **Empty Zones:** The entire frame is an empty zone; there is no cohesive composition or detail.
+
+**Inspection Limit**
+The image stops rewarding closer inspection immediately. There are no micro-details, textures, or hidden elements to discover. Every surface is a flat plane or a simple primitive.
+
+## STAGE B (contract)
+Perceptual Evidence Examiner, Stage B — FULL INSPECTION.
+A single rendered frame.
+Stage A (Blind Read) provided. Scene Universe Slice (Cangwu Vein, Market Square, etc.) provided. Genesis Pass Manifest provided.
+
+        *   Phase B: Full-Frame Composition.
+        *   Phase C: Multi-Scale World Density.
+        *   Phase D: Content Inventory.
+        *   Phase E: Silhouette and Proportion (though the prompt cuts off, I must follow the contract's logic).
+        *   Genesis Pass Evaluation (Pass/Partial/Fail/Not Evaluable).
+        *   3x3 Forensic Sweep.
+        *   Final Verdict (Vision Verdict, Top Failures, Genesis Coverage, World Density, Technical Defects, Not Evaluable, Next Inspection).
+        *   AAA Completeness Question.
+
+    *   *Foreground:* Large brown frustum (cone), smaller stacked brown cylinders, white rounded blobs (rocks), sandy ground.
+    *   *Midground:* Grey road, another brown cone, a thin pole, a long flat brown canopy, a simple building.
+    *   *Background:* Light blue sky, a massive pale blue/white geometric pyramid/mountain.
+    *   *Right side:* Large green conical shapes (trees).
+    *   *Overall feel:* Extremely primitive. Low-poly. Flat colors. No textures (just basic fills/gradients). No lighting detail. No inhabitants.
+
+    *   *Focal Hierarchy:* The large brown cone is the center, but it has no semantic meaning.
+    *   *Reads:* Primary (brown cone), Secondary (canopy/building), Tertiary (background mountain).
+    *   *Balance:* Heavy on the right (green trees), center-weighted (cone).
+    *   *Depth:* Clear foreground/mid/back, but the transition is abrupt.
+    *   *Camera:* Eye-level, static.
+    *   *Scale:* Confusing. The "trees" are just cones. The "mountain" is a giant triangle.
+
+    *   Shell 1 (Reach): Primitive shapes (cones, blobs).
+    *   Shell 2 (Interaction): Empty.
+    *   Shell 3 (Local Scene): A few scattered primitives.
+    *   Shell 4 (Settlement): A single flat roof and a box building.
+    *   Shell 5 (Landscape): Flat plane.
+    *   Shell 6 (Horizon): A single giant triangle.
+    *   Shell 7 (Sky): Flat blue.
+    *   *Verdict:* Extremely low density. This is a blockout/prototype.
+
+    *   Characters: None.
+    *   Vegetation: Green cones (trees).
+    *   Terrain: Sandy plane, grey road.
+    *   Structures: Flat canopy, box building.
+    *   Props: Brown cones, white blobs.
+    *   Sky: Flat blue.
+    *   *World Info:* None. It does not communicate "Market Square" or "Xianxia."
+
+    *   P09 (Geology): FAIL. Flat plane, no macro/meso/micro structure.
+    *   P10 (Topology): FAIL. Flat.
+    *   P13 (Material Truth): FAIL. Flat colors. No weathering.
+    *   P14 (Vegetation): FAIL. Cones are not ecology.
+    *   P15 (Animals): NOT_EVALUABLE. None present.
+    *   P18 (Personhood): NOT_EVALUABLE. None present.
+    *   P22 (Economy/Logistics): FAIL. No stalls, no goods, no transport.
+    *   P23 (Domestic Life): FAIL. No activity.
+    *   P36 (Physics/Structural): FAIL. Canopy is a floating slab on sticks.
+    *   P49 (Cinematography): FAIL. No intentional framing.
+    *   P50 (Lighting): FAIL. Flat, ambient-only feel.
+    *   P51 (Shader Presentation): FAIL. Not painterly. Generic.
+    *   P67 (Visual Oracle): FAIL. This is proxy geometry.
+    *   P72 (Completeness): FAIL. Blockout stage.
+
+    *   Top-Left: Pale blue triangle (mountain).
+    *   Top-Center: Flat blue sky.
+    *   Top-Right: Green cone (tree).
+    *   Mid-Left: Flat canopy, grey road.
+    *   Mid-Center: Large brown cone (focal point).
+    *   Mid-Right: Green cone (tree).
+    *   Bottom-Left: Sandy texture, white blob.
+    *   Bottom-Center: Stacked brown cylinders.
+    *   Bottom-Right: Sandy texture, white blob.
+
+    *   *Vision Verdict:* Primitive Blockout.
+    *   *Top Failures:* Material Truth, World Density, Art Direction.
+    *   *Genesis Coverage:* Almost total failure across all physical and cinematic passes.
+**PERCEPTUAL EVIDENCE EXAMINER, STAGE B — FULL INSPECTION**
+
+**FRAME ID:** [Single Rendered Frame]
+**SCENE CONTEXT:** Market Square / Wang Family Bend (per Universe Slice)
+
+---
+
+### PHASE B — FULL-FRAME COMPOSITION
+*   **Focal Hierarchy:** The primary read is a large, brown truncated cone in the center-foreground. There is no semantic reason for this to be the focal point; it is a geometric dominant, not a narrative one.
+*   **Reads:** 
+    *   *Primary:* Brown cone (Foreground).
+    *   *Secondary:* Flat brown canopy and box-building (Midground).
+    *   *Tertiary:* Pale blue geometric mountain (Background).
+*   **Frame Balance:** Heavily weighted to the right by oversized green conical "trees." The left side is an empty void of sandy texture and a thin canopy.
+*   **Depth Separation:** Basic layering exists (FG/MG/BG), but there is no atmospheric perspective or overlapping complexity to create a sense of real space.
+*   **Camera/Lens:** Standard eye-level perspective. No intentional cinematic language.
+*   **Scale Communication:** Failed. The relationship between the "trees" (cones), the "mountain" (triangle), and the "buildings" (boxes) provides no human-centric scale anchor.
+
+### PHASE C — MULTI-SCALE WORLD DENSITY
+*   **SHELL 1 (Reach):** Primitive geometry. Brown cones and white rounded blobs. No tactile detail.
+*   **SHELL 2 (Interaction):** Empty. No interactable objects, handles, or legible tools.
+*   **SHELL 3 (Local Scene):** Extremely sparse. A few scattered primitives on a flat plane.
+*   **SHELL 4 (Settlement):** A single flat-roofed structure and a canopy. Does not read as a "Market Square."
+*   **SHELL 5 (Landscape):** A flat, featureless beige plane.
+*   **SHELL 6 (Horizon):** A single, low-poly pale blue triangle.
+*   **SHELL 7 (Sky):** Flat, gradient-less blue.
+*   **Verdict:** This is a **Primitive Placeholder Map**. There is zero world density.
+
+### PHASE D — CONTENT INVENTORY
+| Content Class | Region | Depth | Identity | Status | World Info Contributed |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Structures** | Midground | MG | Canopy/Building | Prototype | None. Reads as "box." |
+| **Vegetation** | Right | FG/MG | Green Cones | Placeholder | None. Reads as "cone." |
+| **Terrain** | Bottom | FG/MG | Sandy Plane | Prototype | None. Flat texture. |
+| **Rocks** | Foreground | FG | White Blobs | Placeholder | None. |
+| **Props** | Center | FG | Brown Cones | Placeholder | None. |
+| **Landmarks** | Background | BG | Blue Triangle | Placeholder | None. |
+
+### PHASE E — SILHOUETTE AND PROPORTION
+*   **Focal Subject:** The central brown cone has a generic, non-descript silhouette.
+*   **Environmental Silhouettes:** The "trees" and "mountain" are basic Euclidean primitives. There is no organic variation or "Xianxia" aesthetic present in the silhouettes.
+
+---
+
+### PHASE X — GENESIS PASS EVALUATION
+
+| Pass ID | Name | Status | Observed / Missing Evidence |
+| :--- | :--- | :--- | :--- |
+| **P09** | Planetary Geology | **FAIL** | No geology. Flat plane with a basic texture. |
+| **P10** | Terrain Topology | **FAIL** | No slopes, cliffs, or clean contacts. Flat. |
+| **P13** | Material Truth | **FAIL** | Flat colors. No weathering, no grain, no "rammed earth." |
+| **P14** | Vegetation Ecology | **FAIL** | Green cones are not plants; they are primitives. |
+| **P22** | Economy/Logistics | **FAIL** | No stalls, no goods, no transport, no market activity. |
+| **P23** | Domestic Life | **FAIL** | No tools, no laundry, no causal occupation. |
+| **P36** | Structural Physics | **FAIL** | Canopy is a floating slab on thin poles; no load paths. |
+| **P49** | Cinematography | **FAIL** | No intentional framing or focal hierarchy. |
+| **P50** | Lighting | **FAIL** | Flat, ambient lighting. No key/fill/rim. |
+| **P51** | Shader Presentation | **FAIL** | Generic shaders. No painterly language. |
+| **P67** | Visual Oracle | **FAIL** | Entire frame is proxy geometry. |
+| **P72** | Completeness | **FAIL** | Blockout stage. Not a production candidate. |
+
+---
+
+### 3x3 FORENSIC SWEEP
+*   **Top-Left:** Pale blue triangle. No detail.
+*   **Top-Center:** Flat blue sky. No clouds/atmosphere.
+*   **Top-Right:** Green cone. No foliage detail.
+*   **Mid-Left:** Flat canopy. No material definition.
+*   **Mid-Center:** Brown cone. No texture/purpose.
+*   **Mid-Right:** Green cone. Repetitive geometry.
+*   **Bottom-Left:** Sandy plane. Flat texture.
+*   **Bottom-Center:** Stacked cylinders. No logic.
+*   **Bottom-Right:** White blob. No rock detail.
+
+---
+
+### VISION VERDICT: PRIMITIVE BLOCKOUT
+
+**TOP FAILURES:**
+1.  **Total Absence of Art Direction:** The scene consists entirely of primitive shapes (cones, cubes, triangles). It does not adhere to the "Painterly" or "Xianxia" requirements of the Art Bible.
+2.  **Zero World Density:** The "Market Square" is a void. There are no NPCs, no stalls, no goods, and no life.
+3.  **Material Failure:** Every surface is a flat color or a basic repeating texture. There is no "Material Truth."
+
+**GENESIS PASS COVERAGE:**
+*   **Physical Ring:** 0% (All FAIL)
+*   **Xianxia Ring:** 0% (All FAIL/NOT_EVALUABLE)
+*   **Living Ring:** 0% (All FAIL/NOT_EVALUABLE)
+*   **Cinematic Ring:** 0% (All FAIL)
+*   **Production Ring:** 0% (All FAIL)
+
+**WORLD DENSITY:**
+*   **Status:** Non-existent.
+*   **Read:** A procedural test scene or a very early greybox.
+
+**

@@ -1151,11 +1151,16 @@ export function buildTownScene(seed = 89274613): VillageScene {
     // ALL exterior props render with their real silhouettes (PROP_BUILDERS
     // registry), placed deterministically inside the plot — not the old
     // slice(0,3) plain-box path that hid the dressing department's work.
+    // MARKET SQUARE props CLUSTER around the stall/crowd line (a 60x40 m
+    // plaza scattered uniformly would put stock 25 m from the stall —
+    // VLM: 'no stock, no carts'). Other plots scatter across their bounds.
+    const isMarket = s.id === 'structure.qinghe.market_square';
     for (const p of s.exterior) {
       const builder = PROP_BUILDERS[p.id];
       const pm = builder ? builder(pal) : buildPropMesh(p, pal);
-      const rx = rng.nextRange(-Math.max(s.w / 2 - 2, 0.5), Math.max(s.w / 2 - 2, 0.5));
-      const rz = rng.nextRange(-Math.max(s.d / 2 - 2, 0.5), Math.max(s.d / 2 - 2, 0.5));
+      const spread = isMarket ? 7 : Math.max(s.w / 2 - 2, 0.5);
+      const rx = rng.nextRange(-spread, spread);
+      const rz = rng.nextRange(-spread, spread);
       pm.position.set(x + rx, 0, z + rz);
       pm.userData = { id: p.id, name: p.name, kind: 'prop', detail: p.detail };
       group.add(pm);
