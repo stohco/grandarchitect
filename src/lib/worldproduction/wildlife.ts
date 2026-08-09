@@ -195,10 +195,11 @@ export interface BeastSpec {
 }
 
 /** The spirit wolf of the Cangwu treeline (Episode 4 canon: quartering,
- *  watching, never charging). Positioned at the foothills edge so the
- *  village shots may glimpse it and the E4 shots frame it. */
+ *  watching, never charging). Positioned at the foothills edge near the
+ *  cache trail so the E4 treeline shots frame it (was 130m off-camera —
+ *  the examiner read ep4.11 as 'light blue sky/void', no wolf). */
 export function beastPlacements(): BeastSpec[] {
-  return [{ kind: 'spirit-wolf', x: -140, z: -290 }];
+  return [{ kind: 'spirit-wolf', x: -70, z: -285 }];
 }
 
 /** Build the spirit wolf: lean grey body, pale eyes, a presence not a prop. */

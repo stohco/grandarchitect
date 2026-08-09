@@ -1320,7 +1320,7 @@ export const EPISODE_4: DirectorEpisode = {
         emergent: ['The moving shape at the treeline is two — a wolf and something smaller, learning at its shoulder', 'A lantern comes up the trail from the village — the boy\'s mother has found the path at last'],
         facts: ['35 mm pan at 1.6 m', 'Three days of stillness in one place', 'Treeline ~40 m below the ledge', 'Dusk blue; one warm rock'],
       } },
-    { id: 'ep4.11', number: 'F11', cut: 'medium', durationSec: 10, subject: 'SPIRIT-BEAST.STALK — the wolf in the treeline: low, quartering, testing the wind, never fully shown.', location: 'Cangwu foothills — the treeline', structureId: 'structure.cache_hill',
+    { id: 'ep4.11', number: 'F11', cut: 'wide', durationSec: 10, subject: 'SPIRIT-BEAST.STALK — the wolf in the treeline: low, quartering, testing the wind, never fully shown.', location: 'Cangwu foothills — the treeline', structureId: 'structure.cache_hill',
       camera: { lensMm: 85, heightM: 0.6, movement: 'track', cutTo: 'F12' },
       lighting: 'Dusk; the wolf a shape among shapes; eyes catching.',
       composition: 'The treeline in strips; the wolf moving between them, rarely centered.',
