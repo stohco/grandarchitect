@@ -379,8 +379,11 @@ export default function DirectorRenderPage() {
       }
       // fog: close haze (40m) with a far that scales to the shot AND covers
       // the distant mountain ring (760-1020m) so it reads as atmospheric
-      // haze, not crisp un-fogged monoliths (VLM: 'massive geometric blocks')
-      scene.fog = new THREE.Fog(0x9ab8d0, 40, ep2 ? Math.max(1400, dist * 1.6) : Math.max(260, dist * 1.6));
+      // haze, not crisp un-fogged monoliths (VLM: 'massive geometric blocks').
+      // Village episodes get far >= 600 so the far buildings (gate at z=160,
+      // cache at z=-235, village spans ~400 m) are not fogged into 'vague
+      // white shapes' (VLM: distant structures invisible).
+      scene.fog = new THREE.Fog(0x9ab8d0, 40, ep2 ? Math.max(1400, dist * 1.6) : Math.max(600, dist * 1.6));
       scene.updateMatrixWorld(true);
       if (grade) grade.composer.render();
       else renderer.render(scene, camera);
