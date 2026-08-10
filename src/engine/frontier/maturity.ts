@@ -291,6 +291,70 @@ export const FRONTIER_SUBSYSTEMS: FrontierSubsystem[] = [
     frontierEligible: false,
   },
   {
+    id: 'npc-planner',
+    name: 'NPC hierarchical planner (HTN/GOAP, directive §14 layer 3)',
+    stage: 'PROTOTYPED',
+    evidence: [
+      E('src/engine/frontier/hierarchical-planner.ts', 'compound tasks with methods + preconditions; goal-directed chaining; replan on blocked predicate (pill stolen → re-obtain via mission/borrow/hunt); deterministic; 13/13 conformance'),
+    ],
+    nextSteps: [
+      'Connect to npc-cognition BDI: desires → planner goals',
+      'Route method choice by personality (borrow vs rob vs give-up temporarily)',
+    ],
+    fixtureClass: 'NONE',
+    provenCapabilities: ['Intention decomposes into a plan; plan replans on theft/impossibility; personality context routes alternatives'],
+    candidates: [],
+    frontierEligible: false,
+  },
+  {
+    id: 'social-practices',
+    name: 'Social-practice engine (Versu/CiF, directive §14 layer 5)',
+    stage: 'PROTOTYPED',
+    evidence: [
+      E('src/engine/frontier/social-practices.ts', 'authored reusable situations (trespass/toast) over the xianxia ledger; overlapping practices; debt/audience/seniority drive action selection; ledger effects (face/debt/grudge); 8/8 conformance'),
+    ],
+    nextSteps: [
+      'Author the full practice corpus (bargaining, disciplining, debt invocation, Dao debate, auction bidding...) via the compiler',
+      'Wire practice resolution → dialogue-act renderer in npc-cognition',
+    ],
+    fixtureClass: 'NONE',
+    provenCapabilities: ['Reusable situations supply actions; same situation + different ledger → different resolution; determinism'],
+    candidates: [],
+    frontierEligible: false,
+  },
+  {
+    id: 'sparse-volume',
+    name: 'Sparse volume field (world fabric, directive §11)',
+    stage: 'PROTOTYPED',
+    evidence: [
+      E('src/engine/frontier/sparse-volume.ts', 'sparse page table → active 8³ bricks with SDF/material/dirty channels; surface manifold as free baseline; carve allocates only affected bricks (0.8% of dense 64³); queryBox finds topology deltas; dirty brick list; 14/14 conformance'),
+    ],
+    nextSteps: [
+      'Bake off vs dense 64³ baseline on the real terrain slice (directive §5)',
+      'Promote cave/tunnel abode topology into bricks; connect to the terrain mesh bundle',
+    ],
+    fixtureClass: 'NONE',
+    provenCapabilities: ['Sparse topology storage: caves/tunnels/destruction without dense allocation; material-preserving cut faces'],
+    candidates: ['uniform chunked voxels', 'surface + sparse SDF bricks (this)', 'GPU sparse SDF experiment'],
+    frontierEligible: false,
+  },
+  {
+    id: 'workload-budgets',
+    name: 'Workload-derived budgets (directive §18)',
+    stage: 'PROTOTYPED',
+    evidence: [
+      E('src/engine/frontier/workload-budgets.ts', 'budget = frame budget / measured per-entity cost × component mix; idle vs fighting NPCs differ at same headcount; cheaper cost raises affordable population (no hard cap); levers never suggest demote/suspend; 8/8 conformance'),
+    ],
+    nextSteps: [
+      'Feed measured per-entity costs from the real slice (currently doc-39 estimates)',
+      'Replace the 200/500/2000 headcount table in doc 39 with this derivation',
+    ],
+    fixtureClass: 'NONE',
+    provenCapabilities: ['Budgets derive from measured workload, not hard headcounts; optimizations raise capacity'],
+    candidates: [],
+    frontierEligible: false,
+  },
+  {
     id: 'animation',
     name: 'Animation (clips/blend trees/IK)',
     stage: 'RESEARCHED',

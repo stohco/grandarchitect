@@ -1,5 +1,18 @@
 # Grand Architect Worklog
 
+## DIRECTIVE IMPLEMENTATION — 2026-08-10 (Frontier Maturity Directive, part 4)
+
+Completed the cognition-fabric layers and the world-fabric terrain prototype:
+
+| New module | Directive | Status |
+|---|---|---|
+| `src/engine/frontier/hierarchical-planner.ts` | §14 layer 3 (HTN/GOAP) | **13/13 PASS** — breakthrough decomposition; pill stolen → replan via mission/borrow/hunt; impossible → honest null; deterministic |
+| `src/engine/frontier/social-practices.ts` | §14 layer 5 (Versu/CiF) | **8/8 PASS** — authored situations over xianxia ledger; debt/audience/seniority drive action; overlapping practices |
+| `src/engine/frontier/sparse-volume.ts` | §11 world-fabric | **14/14 PASS** — sparse page table → active 8³ bricks; carve allocates only affected bricks (**0.8% of dense 64³**); divine-sense topology deltas; dirty brick list |
+| `src/engine/frontier/workload-budgets.ts` | §18 | **8/8 PASS** — budget = frame budget ÷ measured cost × component mix; idle ≠ fighting at same headcount; data-layout win raises capacity; levers never demote/suspend |
+
+Gates (all green): check:frontier-maturity **144/144**, tsc 0, lint 0.
+
 ## DIRECTIVE IMPLEMENTATION — 2026-08-10 (Frontier Maturity Directive, part 3)
 
 Completed the remaining machine-audited machinery:

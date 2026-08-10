@@ -93,10 +93,10 @@ function run() {
   }
 
   // 5b. the directive's implementations exist and are registered
-  for (const id of ['terrain-density-field', 'bvh', 'character-controller', 'collision-fixtures', 'reference-plugins', 'terrain-navigation', 'simulation-tiering', 'npc-cognition', 'substance-regression', 'genesis-dag', 'bakeoff-harness', 'streaming-planner', 'animation', 'rendering']) {
+  for (const id of ['terrain-density-field', 'bvh', 'character-controller', 'collision-fixtures', 'reference-plugins', 'terrain-navigation', 'simulation-tiering', 'npc-cognition', 'npc-planner', 'social-practices', 'sparse-volume', 'workload-budgets', 'substance-regression', 'genesis-dag', 'bakeoff-harness', 'streaming-planner', 'animation', 'rendering']) {
     assert(subsystemById(id) !== undefined, `registry has subsystem ${id}`);
   }
-  for (const f of ['src/engine/frontier/npc-cognition.ts', 'src/engine/frontier/substance-regression.ts', 'src/engine/frontier/genesis-dag.ts', 'src/engine/frontier/bakeoff.ts', 'src/engine/frontier/streaming.ts', 'src/engine/frontier/maturity.ts']) {
+  for (const f of ['src/engine/frontier/npc-cognition.ts', 'src/engine/frontier/hierarchical-planner.ts', 'src/engine/frontier/social-practices.ts', 'src/engine/frontier/sparse-volume.ts', 'src/engine/frontier/workload-budgets.ts', 'src/engine/frontier/substance-regression.ts', 'src/engine/frontier/genesis-dag.ts', 'src/engine/frontier/bakeoff.ts', 'src/engine/frontier/streaming.ts', 'src/engine/frontier/maturity.ts']) {
     assert(existsSync(f), `implementation exists: ${f}`);
   }
 
