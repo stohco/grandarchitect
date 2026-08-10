@@ -23,7 +23,7 @@ The frame budget is divided among the major phases. The default allocation for d
 
 ```typescript
 interface FrameBudget {
-  total: number;                 // 16.67ms for 60fps, 33.33ms for 30fps
+  total: number;                 // 16.67ms — 60fps is the target on all tiers (directive §7); 30fps is never a designed target
   allocation: {
     input: number;               // 1.0ms — input collection, deterministic timestamping
     sim: number;                 // 5.0ms — NPC, ecology, economy, qi systems
@@ -97,7 +97,7 @@ The 200/500/5000 numbers are calibrated against the prototype's measurements:
 - An S3 NPC costs ~5µs per tick (reduced frequency, simpler state). 500 × 5µs = 2.5ms.
 - An S2 entity is aggregate (e.g., "the 50 farmers in Village X collectively produce Y rice"). 5000 aggregates cost ~0.5ms total.
 
-The budget enforcer (§5) prevents promotion above these limits. If the player walks into a village with 250 NPCs, 50 of them demote to S3 immediately (the tier transition is deterministic, per doc 17 §6.2 — the demotion order is decided by a hashable priority).
+The entity numbers above are **workload-derived estimates, not caps** (directive §18): an NPC meditating alone is not the same cost as an NPC fighting inside a destructible formation. If the player walks into a village with 250 NPCs, they are simulated at the resolution their relevance warrants — the engine makes the *representation* cheaper (cluster LOD, pose caches, batched presentation), never deletes their simulation.
 
 ### 1.4 Asset streaming budgets
 
@@ -163,12 +163,12 @@ const budgets: Record<HardwareTier, Partial<TieredBudget>> = {
     renderPreset: 'ultra',
   },
   'desktop-low': {
-    frame: { total: 33.33, /* 30fps */ },
+    frame: { total: 16.67, /* 60fps target — see §1.7 doctrine */ },
     entities: { s4: 100, s3: 250, s2: 2000, /* ... */ },
     renderPreset: 'medium',
   },
   'mobile': {
-    frame: { total: 33.33, /* 30fps */ },
+    frame: { total: 16.67, /* 60fps target — see §1.7 doctrine */ },
     entities: { s4: 50, s3: 150, s2: 1000, /* ... */ },
     renderPreset: 'low',
   },
@@ -181,33 +181,48 @@ const budgets: Record<HardwareTier, Partial<TieredBudget>> = {
 };
 ```
 
-The tier is detected at startup (CPU core count, GPU adapter info, device memory). The user can override the tier in the settings (lower it to save battery, raise it on a capable machine that was misdetectected). The tier is part of the save's metadata — a save made on `desktop-high` loads on `desktop-low` but the engine may demote entities to fit the budget.
+The tier is detected at startup (CPU core count, GPU adapter info, device memory). The user can override the tier in the settings (lower it to save battery, raise it on a capable machine that was misdetectected). The tier is part of the save's metadata — a save made on `desktop-high` loads on `desktop-low` and the engine lowers presentation quality (render preset, shadow resolution, LOD) to fit the budget; simulation semantics are unaffected (directive §7).
 
-### 1.7 How are budgets enforced (soft warning vs hard failure)?
+### 1.7 How are budgets enforced (soft warning vs hard failure)? — Frontier Maturity Directive §7
 
-Every budget has two thresholds:
+**Doctrine (per the Frontier Maturity Directive): semantic fidelity is protected; presentation, representation, scheduling, and simulation resolution are elastic.** Degradation must never "stop NPCs from living": no demoting S4 entities to buy frame time, no refusing S4 promotions, no refusing spawns, no pausing non-critical systems as a normal degradation path. A low-spec player receives fewer shadow samples — never a less causally rich universe.
+
+The degradation ladder (in order of preference, cheapest-first):
+
+1. **Remove redundant work** (dead queries, duplicated updates, wasted allocations).
+2. **Data layout / cache** (SoA, compact bitsets, hot/cold separation).
+3. **Instance / batch** (InstancedMesh/BatchedMesh before culling individuals).
+4. **Cull** (frustum, horizon, HZB occlusion — GPU-side where possible).
+5. **LOD** (presentation LOD only; cluster/meshlet LOD, impostors at distance).
+6. **Stream** (screen-space-error-driven residency; bandwidth/VRAM planner).
+7. **Incrementalize / parallelize** (dirty-region processing, workers, GPU compute).
+8. **Temporal reuse** (cache stable results; event-driven, not per-frame recompute).
+9. **Cheaper presentation** (shadow resolution, render preset, post-processing) — the LAST step, and the only one that touches pixels before touching semantics.
+
+Every optimization must pass the **substance regression** check (directive §6): if the optimized version changes world entities, ecological state, NPC causal history, interactions, terrain capability, formation behavior, animation possibilities, material conservation, AI choices, or persistent history — it is a **semantic regression** and is rejected.
 
 ```typescript
 interface BudgetEnforcement {
   // The soft threshold: when exceeded, the engine logs a warning and starts
-  // shedding load (demote entities, drop render quality, evict assets).
+  // the degradation ladder ABOVE (presentation-elastic, semantic-protected).
   soft: number;                  // 0.85 × budget
   // The hard threshold: when exceeded, the engine refuses the operation
-  // that would push it over.
+  // that would push it over (memory hard limits only — never spawn refusal
+  // as a frame-time fix).
   hard: number;                  // 1.00 × budget
 }
 ```
 
-| Budget | Soft action | Hard action |
+| Budget | Soft action (semantic-protected ladder) | Hard action |
 |---|---|---|
-| Frame time (p95) | Drop render preset (ultra → high), demote S4→S3 | Drop to 30fps; if still over, pause non-critical systems |
-| Memory (canonical) | Demote entities (S4→S3→S2), shed presentation cache | Refuse new entity spawns; if still over, refuse new saves |
-| Memory (GPU) | Drop texture mip levels, reduce render target resolution | Refuse new texture uploads; evict LRU aggressively |
-| Entity (S4) | Demote lowest-priority S4 to S3 | Refuse new S4 promotions |
+| Frame time (p95) | Redundant-work sweep → cull/LOD → stream → cheaper presentation (shadow res, preset). NO entity demotion, NO system pausing | Refuse the one operation that would blow the budget (never a blanket demotion); if still over after the full ladder, lower presentation further (render scale) before touching semantics |
+| Memory (canonical) | Compress/evict presentation caches, stream cold regions, compact state (SoA) | Refuse new saves only; canonical truth is never shed to fit RAM |
+| Memory (GPU) | Drop texture mip levels, reduce render target resolution | Refuse new texture uploads; evict LRU presentation data |
+| Entity (S4) | None — S4 counts are workload-derived (see §3.4); no hard headcount caps | No hard refusal; instead make representation cheaper (GPU scene database, cluster LOD) |
 | Streaming (in-flight) | Queue, do not fetch immediately | Refuse new fetches until in-flight drops |
-| Worker (time-slice) | Preempt and resume next frame | (no hard limit — preemption is the limit) |
+| Worker (time-slice) | Cooperative chunkable jobs with deadlines (yield, don't preempt) | (no hard limit — jobs are designed to yield) |
 
-The soft threshold is the engine's auto-degradation. The hard threshold is the engine's refusal — it is better to refuse a spawn than to crash the tab.
+The soft threshold is the engine's presentation-elastic ladder. The hard threshold refuses a single operation — it is better to refuse one texture upload than to crash the tab, but it is never acceptable to refuse an NPC's existence to save a frame.
 
 ### 1.8 What does the budget enforcer look like?
 
@@ -237,18 +252,20 @@ type DegradeReason =
 
 The enforcer is the bridge between the metrics collector (doc 37 §1.2) and the engine's auto-degradation. It runs every frame, checks the rolling p95, and triggers degradation if the soft threshold is exceeded for N consecutive frames (default N=30, i.e., half a second).
 
-### 1.9 How does the entity tier demotion work?
+### 1.9 Why entity tier demotion is NOT a frame-time tool (directive §7)
 
-When the S4 budget is exceeded, the enforcer picks the lowest-priority S4 entities and demotes them to S3. The priority is deterministic (per doc 17 §6.2): it is a hash of the entity ID + the current tick, so the demotion order is reproducible. The demotion is logged (the designer can see which entities demoted and why, in the profiler).
+Under the Frontier Maturity Directive, demoting S4 entities to S3 is **not** a frame-time degradation mechanism. Tier assignment is driven by relevance (player proximity, interaction), not by frame budget. The frame budget never "purchases" fidelity by demoting entities — that is forbidden status degradation.
 
-Promotion (S3→S4) is the reverse: when an S3 entity becomes player-adjacent (within the S4 radius), it promotes. The enforcer checks the budget before promoting; if the budget is full, the entity stays at S3 (the player sees reduced simulation fidelity, not a frame drop).
+If the S4 population is large, the engine first makes representation cheaper: GPU scene database, cluster LOD, pose caches, batched presentation (directive §12, §13). Simulation resolution may be *abstracted* (S4 → S3 state machine at lower rate for offscreen-but-loaded entities), but never *suspended*, and never as a frame-time reflex.
 
-### 1.10 How does the render preset auto-degrade?
+Promotion (S3→S4) is relevance-driven: when an S3 entity becomes player-adjacent (within the S4 radius), it promotes. The enforcer does not block promotion for frame time; it ensures the presentation cost of the newly promoted entity is cheap enough (LOD, batched materials) to absorb it.
 
-The render preset degrades in stages:
+### 1.10 How does the render preset auto-degrade? (presentation-elastic)
+
+The render preset degrades in stages — presentation only, never semantics:
 
 ```
-ultra → high → medium → low → (pause non-critical systems)
+ultra → high → medium → low → (render scale 0.75 → 0.5)
 ```
 
 Each stage sheds a specific cost:
@@ -256,15 +273,15 @@ Each stage sheds a specific cost:
 - `ultra → high`: drop SSAO, reduce shadow map resolution from 4K to 2K.
 - `high → medium`: drop bloom, reduce shadow map to 1K, halve post-processing resolution.
 - `medium → low`: drop shadows entirely for distant lights, reduce render target to 0.75× resolution.
-- `low → pause`: drop to 30fps, then pause non-critical systems (ecology, economy aggregate updates).
+- `low → minimal`: render scale 0.75× then 0.5×. NPCs keep living; pixels get cheaper.
 
-Each stage is reversible: when the frame budget recovers, the enforcer upgrades the preset one stage at a time, with a hysteresis (must be under budget for 5 seconds before upgrading).
+Each stage is reversible: when the frame budget recovers, the enforcer upgrades the preset one stage at a time, with a hysteresis (must be under budget for 5 seconds before upgrading). The full ladder (§1.7) is exhausted before any presentation downgrade; semantic systems are never paused.
 
 ### 1.11 How does the canonical memory budget interact with the save system?
 
 The save system serializes the canonical state (CBOR) and hashes it (SHA-256) on every checkpoint. If the canonical state is at 768 MiB, the serialize+hash takes ~150ms (measured), which is a noticeable hitch. The checkpoint interval (default 1000 ticks = ~16 seconds) is calibrated so the hitch happens during a non-critical moment.
 
-If the canonical state exceeds the soft threshold (653 MiB), the enforcer demotes entities to bring it back under. If it exceeds the hard threshold (768 MiB), the save system refuses to checkpoint and surfaces a warning: "Save size exceeded. The engine will not checkpoint until entities are demoted."
+If the canonical state exceeds the soft threshold (653 MiB), the enforcer compacts and streams: cold regions move to compressed/offloaded representation, presentation caches are shed, state is compacted (SoA, sparse structures). Canonical truth is never deleted to fit RAM (directive §7). If it exceeds the hard threshold (768 MiB), the save system refuses to checkpoint and surfaces a warning: "Save size exceeded. The engine will not checkpoint until representation is compacted."
 
 ### 1.12 How do the worker budgets interact with the determinism verification?
 
@@ -308,16 +325,16 @@ interface ModBudgetReservation {
 }
 ```
 
-The enforcer reserves the declared amount at mod load. If the reservation cannot be met (the budget is already full), the mod refuses to load with a clear error: "Mod X requires 20 S4 entity slots; only 12 available."
+The enforcer reserves the declared amount at mod load. If the reservation cannot be met (the budget is already full), the mod refuses to load with a clear error: "Mod X declares 20 S4 entities at full resolution; the current workload-derived budget cannot guarantee 60fps presentation for them. Free some budget by lowering the render preset, or reduce the mod's declared load."
 
 ### 1.15 What happens when the hard threshold is hit?
 
 The hard threshold is the engine's refusal point. When hit:
 
-1. The operation that would push over the budget is refused (spawn, texture upload, fetch).
+1. The operation that would push over the budget is refused (texture upload, fetch, checkpoint).
 2. A non-blocking warning is surfaced to the user.
-3. The enforcer triggers aggressive degradation (drop render preset, demote entities).
-4. If degradation does not bring the budget back under hard within 5 seconds, the engine pauses the simulation and surfaces a modal: "The engine is out of memory. Save and restart, or disable some mods."
+3. The enforcer continues the presentation-elastic ladder (§1.7): redundant work sweep, cull, LOD, stream, cheaper presentation. Entity existence and causal simulation are never traded for budget.
+4. If the budget is still over hard after the full ladder within 5 seconds, the engine surfaces a modal: "The engine is out of memory. Save and restart, or disable some mods." (Memory exhaustion is the only pause-worthy condition — and even then, the canonical state is preserved for restart.)
 
 The hard threshold is never a silent crash. The user is told what happened and given options.
 
@@ -350,18 +367,18 @@ The budget numbers themselves are tested by the conformance suite: a plugin that
               ┌──────────────┼──────────────┐
               │              │              │
        p95 < soft      soft ≤ p95 < hard    p95 ≥ hard
-              │              │              │
-              ▼              ▼              ▼
-       (no action)    degrade(reason)   refuse + degrade +
-                       drop render       modal warning
-                       preset, demote
-                       entities, evict
-              │              │              │
-              └──────────────┴──────────────┘
-                             │
-                  ┌──────────▼───────────┐
-                  │  Next frame          │
-                  └──────────────────────┘
+               │              │              │
+               ▼              ▼              ▼
+        (no action)    degrade(reason)   refuse + degrade +
+                       presentation      modal warning
+                       ladder (§1.7)     (single op refusal;
+                       cull/LOD/stream   never entity demotion)
+               │              │              │
+               └──────────────┴──────────────┘
+                              │
+                   ┌──────────▼───────────┐
+                   │  Next frame          │
+                   └──────────────────────┘
 ```
 
 ---
@@ -370,14 +387,14 @@ The budget numbers themselves are tested by the conformance suite: a plugin that
 
 | Failure | Detection | Recovery | User sees |
 |---|---|---|---|
-| Frame p95 exceeds soft threshold | Metrics p95 calc | Degrade render preset, demote entities | Brief quality drop; profiler warning |
-| Frame p95 exceeds hard threshold | Metrics p95 calc | Drop to 30fps; pause non-critical systems | "Engine degraded to 30fps to stay on budget." |
-| Canonical memory exceeds soft | Memory sampling | Demote entities (S4→S3→S2) | Brief simulation fidelity drop |
-| Canonical memory exceeds hard | Memory sampling | Refuse new spawns; refuse checkpoint | "Cannot checkpoint: state too large." |
+| Frame p95 exceeds soft threshold | Metrics p95 calc | Redundant-work sweep → cull → LOD → stream → cheaper presentation (§1.7); NO entity demotion | Brief quality drop; profiler warning |
+| Frame p95 exceeds hard threshold | Metrics p95 calc | Continue presentation ladder (render scale 0.75 → 0.5); refuse single over-budget op | "Presentation scaled down to stay on budget." (semantic systems unaffected) |
+| Canonical memory exceeds soft | Memory sampling | Compact/stream cold regions; shed presentation caches; canonical truth never deleted | Brief texture pop-in; no fidelity loss |
+| Canonical memory exceeds hard | Memory sampling | Refuse checkpoint; offload cold regions | "Cannot checkpoint: state too large." |
 | GPU memory exceeds soft | GPU memory estimate | Drop texture mips, reduce RT resolution | Texture pop-in |
-| GPU memory exceeds hard | WebGPU allocation failure | Refuse new uploads; evict LRU | Missing textures (purple/black) |
-| S4 entity budget exceeded | Spawn check | Demote lowest-priority S4 to S3 | Distant NPCs simplify |
-| S4 entity budget hard-capped | Spawn check | Refuse spawn | "Cannot spawn: S4 budget full." |
+| GPU memory exceeds hard | WebGPU allocation failure | Refuse new uploads; evict LRU presentation data | Missing textures (purple/black) |
+| S4 population large | Metrics | Cheaper representation: cluster LOD, pose caches, batched presentation, GPU scene database | Distant NPCs render cheaper, still live |
+| Worker time-slice exceeded | Scheduler | Cooperative job yields at deadline; chunkable work | Nothing (jobs designed to yield) |
 | Streaming in-flight exceeded | Fetch check | Queue fetch | Asset pop-in (brief) |
 | Streaming resident exceeded | LRU check | Evict LRU outside prefetch radius | Re-fetch on re-entry (brief) |
 | Worker time-slice exceeded | Worker wall-clock | Preempt, resume next frame | (invisible — the design) |

@@ -33,7 +33,7 @@ Five tiers. The numbers are deliberately small and ordered: higher number = high
 
 ```typescript
 const TIER_NAMES: Record<SimulationTier, string> = {
-  0: 'frozen',
+  0: 'historical',
   1: 'demographic',
   2: 'aggregate',
   3: 'interactive',
@@ -54,7 +54,7 @@ interface SimulationProfile {
   demotionEligibleAt: number;             // tick when next eligible for demotion
   lastFullSimTick: number;                // last S4 tick
   scheduledEvents: ScheduledEvent[];      // events that must fire even at low tiers
-  canonicalSnapshot: CanonicalSnapshot;   // frozen state at S0
+  canonicalSnapshot: CanonicalSnapshot;   // historical state checkpoint at S0
 }
 
 interface TierTransition {
@@ -74,7 +74,7 @@ interface TierTransition {
 | **S3** | Interactive | Full state machine, reduced physics, keyframe animation, reduced qi-state | Every 4th tick (15 Hz) | NPCs within 200 m of the player, visible but distant |
 | **S2** | Aggregate | Aggregate state (position region, activity category), no individual AI | Every 16th tick (3.75 Hz) | NPCs in the same settlement as the player but offscreen |
 | **S1** | Demographic | Demographic state (population count, birth/death rates), no individuals | Every 256th tick (0.23 Hz, ~4 sec) | Settlements in the same region but distant |
-| **S0** | Frozen | Frozen state; no simulation | Never (until promoted) | Settlements the player has never visited |
+| **S0** | Historical | Large-step/event-driven evolution (households, economy, ecology, institutions; time advances) | Event-driven (calendar/season steps) | Settlements the player has never visited |
 
 ---
 
@@ -119,15 +119,27 @@ Even more abstract. The settlement is a population number with birth/death/migra
 
 S1 settlements still consume/produce economic goods (per the economy system, doc 18) — the aggregate economy is part of the canonical state. But individual transactions are not simulated.
 
-### 2.5 S0 (Frozen)
+### 2.5 S0 (Historical) — per the Frontier Maturity Directive §8
 
-No simulation. The entity's `canonicalSnapshot` is the state. Time does not pass for S0 entities. A settlement at S0 has the same population, same economy, same NPCs in the same positions (per the snapshot) when the player arrives as when the player left — even if 10 years of Mortal time passed in between.
+S0 advances time at the largest step: event-driven, calendar/season-driven evolution of households, economy, ecology, and institutions. Time **passes** for S0 entities — a settlement unvisited for ten years will have aged: crops rotated, children born, the old merchant emigrated, wolf pressure increased. It must NOT be unchanged.
 
-S0 is the **unvisited** tier. The player has never been here; the engine has no reason to simulate. When the player approaches (within 1 km, per doc 23 §5.1), the settlement is promoted to S1, then S2, then S3, then S4 as the player gets closer.
+**Abstraction of mechanics, never suspension of causality.** The difference from S4 is resolution, not existence:
+
+- **S4 (Embodied)** — 60 Hz relevant physical/AI interaction.
+- **S3 (Local)** — lower-rate action/schedule state.
+- **S2 (Individual Strategic)** — event-driven individuals/households.
+- **S1 (Regional)** — cohorts, economy, ecology, institutions.
+- **S0 (Historical)** — large-step/event-driven evolution.
+
+A distant village at S0 does not simulate a farmer's left foot stepping 0.73 m; it simulates "household cultivated 2.7 ha this season; harvest affected by rainfall; child born; merchant emigrated; wolf pressure increased." When the player arrives, embodied detail is reconstructed from history that already occurred. The S0 tier simulates **cohorts and institutions**, not individuals: population counts, birth/death/migration rates, household genealogies, economic stock-flows, and ecological state all advance on event-driven steps.
+
+Promotion then expands the **existing history** (the farmer's state is derived from what already happened during the unobserved period) rather than fabricating it. This is the frontier solution to a huge living world: representation and computation are elastic; **causality is never suspended**.
+
+S0 is the **unvisited** tier. The player has never been here; the engine simulates it at the coarsest honest resolution. When the player approaches (within 1 km, per doc 23 §5.1), the settlement is promoted to S1, then S2, then S3, then S4 as the player gets closer.
 
 ### 2.6 The tier-fidelity failure case
 
-**Failure case (tier fidelity):** A cultivator at S3 is mid-breakthrough when the player walks away. The player returns 10 minutes later; the cultivator is now at S4. Did the breakthrough succeed? The fix: breakthrough is a **scheduled event**. When the breakthrough began (at S4), it was scheduled as a `ScheduledEvent` with a deterministic outcome and tick. The schedule survives tier transitions: at S3, the breakthrough is not re-rolled; it is recorded as "scheduled for tick T." At S0, the schedule is frozen. When the cultivator is promoted back to S4 (or even S2), the scheduled event fires at tick T and the breakthrough resolves — the outcome was determined when the breakthrough began, not when the player next observed it.
+**Failure case (tier fidelity):** A cultivator at S3 is mid-breakthrough when the player walks away. The player returns 10 minutes later; the cultivator is now at S4. Did the breakthrough succeed? The fix: breakthrough is a **scheduled event**. When the breakthrough began (at S4), it was scheduled as a `ScheduledEvent` with a deterministic outcome and tick. The schedule survives tier transitions: at S3, the breakthrough is not re-rolled; it is recorded as "scheduled for tick T." At S0, the schedule advances on event-driven steps. When the cultivator is promoted back to S4 (or even S2), the scheduled event fires at tick T and the breakthrough resolves — the outcome was determined when the breakthrough began, not when the player next observed it.
 
 This is the **scheduled-event invariant** (§4.2): outcomes are determined when they are scheduled, not when they are observed. The tier system cannot defer outcomes to the moment of observation.
 
@@ -147,11 +159,11 @@ Promotion moves an entity from a lower tier to a higher tier. The relevance laye
 
 ### 3.2 The promotion-favorable-facts failure case
 
-**Failure case (promotion favorable facts):** A Qi Condensation bandit is promoted from S0 to S4. During the unobserved period (years of Mortal time), did they break through to Foundation Establishment? Per the conserved invariant (§4.1): **no.** Breakthroughs require practice, which requires simulation; S0 does not simulate practice; therefore the bandit is still Qi Condensation when promoted. The fix: the S0 → S4 promotion restores the bandit's state as it was when they were demoted (or generated). Time did not pass for them.
+**Failure case (promotion favorable facts):** A Qi Condensation bandit is promoted from S0 to S4. During the unobserved period (years of Mortal time), did they break through to Foundation Establishment? Per the conserved invariant (§4.1): **no.** Breakthroughs require practice, which requires S4-scale simulation; S0's historical tier advances the bandit's household, economy, and ecology — not individual cultivation practice. The bandit is still Qi Condensation when promoted. The fix: the S0 → S4 promotion expands the bandit's state from the history that already occurred: their household's events, their own cohort-level life events (marriage, injury, debt) — but not simulated cultivation gains.
 
 But what if the bandit's `ScheduledEvent` log includes a scheduled breakthrough? Then the breakthrough fires at its scheduled tick (per §2.6). The breakthrough was scheduled when the bandit was at S4 (before demotion); the schedule survives demotion; the breakthrough resolves on promotion. This is the only way a breakthrough can occur during an unobserved period: it must have been scheduled at S4 first.
 
-Rejected alternative: roll breakthroughs probabilistically at S0. Rejected because (a) it would create favorable facts out of nothing — the bandit "got lucky" while the player wasn't looking; (b) it violates the genre's commitment model (doc 13 §3: breakthroughs are committed actions, not random events); (c) it breaks determinism (the probability roll would have to happen at a specific tick, but the S0 entity has no tick).
+Rejected alternative: roll breakthroughs probabilistically at S0. Rejected because (a) it would create favorable facts out of nothing — the bandit "got lucky" while the player wasn't looking; (b) it violates the genre's commitment model (doc 13 §3: breakthroughs are committed actions, not random events); (c) it breaks determinism (the probability roll would have to happen at a specific tick, but the S0 entity advances on event-driven steps, not ticks). Note: the bandit's *household* may have deterministic cohort-level life events at S0 (a child born, a debt incurred) — those are the historical tier's own causal evolution, not fabricated favorable facts.
 
 ### 3.3 Demotion
 
@@ -261,50 +273,44 @@ This means: **the global event log advances at full speed regardless of tier.** 
 
 ## 6. The relevance layer
 
-### 6.1 The relevance layer's job
+### 6.1 The relevance layer's job — dirty propagation, never O(N) scans (directive §9)
 
-The relevance layer is a system (registered with `host.registerSystem`) that runs once per tick and assigns a tier to every entity. The assignment is a pure function:
+**Forbidden:** iterating every entity every tick (`for (const entity of worldState.entities) { assignment[entity.id] = computeTier(...) }`). At planetary scale (millions of persistent individuals), that is impossible. Work must be proportional to **what changed**, not what exists.
+
+**The relevance layer is event/spatial-driven:**
 
 ```typescript
-function assignTiers(worldState: WorldState, tick: number): TierAssignment {
-  const assignment: TierAssignment = {};
-  for (const entity of worldState.entities) {
-    assignment[entity.id] = computeTier(entity, worldState, tick);
-  }
-  return assignment;
+interface RelevanceDirty {
+  /** Entity ids whose tier may have changed this tick. */
+  dirtyEntities: Set<EntityId>;
+  /** Why each was dirtied (for audit). */
+  reasons: Map<EntityId, RelevanceDirtyReason>;
 }
 
+type RelevanceDirtyReason =
+  | 'player_moved_interest_cell'
+  | 'entity_moved_interest_cell'
+  | 'quest_event'
+  | 'combat_event'
+  | 'cultivation_event'
+  | 'scheduled_event_wake'
+  | 'subscription_fire';
+```
+
+Dirty sources:
+
+1. **Spatial index change detection.** Entities and the player live in a hierarchical spatial index. When the player crosses an interest-cell boundary, only entities whose tier could change (entering/leaving the S4/S3/S2 radii, crossing settlement/region boundaries) are added to `dirtyEntities` — computed from the index, not from a scan.
+2. **Event subscriptions.** Quest/cultivation/combat/trade events publish a `relevance:changed` signal; only subscribed entities are reconsidered.
+3. **Calendar wakes.** A scheduled event approaching (within its wake window) wakes its owning entity from the calendar queue and re-evaluates it. The calendar queue is the only thing polled per tick — O(events due), not O(entities).
+
+```typescript
 function computeTier(entity: Entity, worldState: WorldState, tick: number): SimulationTier {
-  // 1. Check tier locks (combat, cultivation, quest, perception)
-  for (const lock of entity.tierLocks) {
-    if (lock.expiresAtTick === 0 || lock.expiresAtTick > tick) {
-      return Math.max(3, baseTier);  // never below S3 while locked
-    }
-  }
+  // (unchanged per-entity logic: tier locks, proximity, quest boost, scheduled
+  //  events, hysteresis — but only ever called for dirtyEntities)
+}
+```
 
-  // 2. Compute base tier from player proximity
-  const distance = det_distance(entity.position, worldState.player.position);
-  let baseTier: SimulationTier;
-  if (distance <= 50) baseTier = 4;
-  else if (distance <= 200) baseTier = 3;
-  else if (sameSettlement(entity, worldState.player)) baseTier = 2;
-  else if (sameRegion(entity, worldState.player)) baseTier = 1;
-  else baseTier = 0;
-
-  // 3. Quest relevance boosts (never demotes below S2)
-  if (isQuestRelevant(entity, worldState)) {
-    baseTier = Math.max(2, baseTier);
-  }
-
-  // 4. Scheduled events boost (never demotes below the tier needed to fire the event)
-  if (hasScheduledEventSoon(entity, tick, 600)) {  // within 10 seconds
-    baseTier = Math.max(3, baseTier);
-  }
-
-  // 5. Hysteresis: don't demote/promote too often
-  baseTier = applyHysteresis(entity, baseTier, tick);
-
-  return baseTier;
+Per-tick work = O(|dirtyEntities| + |due calendar events|), bounded by the player's interest frontier and active event load — **not** the total population. This pattern pervades the engine: dirty propagation instead of global recomputation.
 }
 ```
 

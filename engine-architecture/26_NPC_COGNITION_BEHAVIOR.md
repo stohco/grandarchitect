@@ -510,4 +510,37 @@ The `rng` is consumed exactly once per decision-interval (for the epsilon-pick i
 - **Design for joy first:** the cognition produces NPCs that *feel* like characters — they want things, fear things, hold grudges, betray, reconcile. The first hour's joy is meeting Wang Shouzheng and recognizing that he has plans the player can perceive and frustrate.
 - **Authorize the smallest end-to-end thing:** this document specifies enough to implement the Wang Family Bend NPC cognition (180 NPCs at S4 in the player's vicinity, S2 elsewhere) as the first prototype. Upper-tier behaviors (sect-level politics, Mahayana law-conflict cognition) are deferred until the village cognition is proven.
 
-This document is the NPC cognition bible. It is the engine the prior corpus was missing.
+---
+
+## 22. Frontier Maturity Directive §14 — the symbolic cognitive fabric (forward architecture)
+
+The trait-vector + want-vector + fixed-verb policy model in this document (§1–§16) is a **useful L1 deterministic prototype**, but per the Frontier Maturity Directive §14 it still resembles a finite action-policy game AI. The directive's target — which replaces LLM-as-runtime entirely — is a **symbolic cognitive civilization simulator**:
+
+```
+Perception → Belief Graph → Memory → Emotional Appraisal → BDI → Theory of Mind
+→ Social Practice → HTN/GOAP → Utility Arbitration → Semantic Action/Dialogue
+→ Xianxia Surface Realizer → Embodied Performance
+```
+
+The 14 layers (directive §14):
+
+1. **Belief-state world model** — NPCs never query omniscient game state. `believes(A,B)`, `heard(A,event)`, `saw(A,event)`, `suspects(A,proposition)`, `confidence(A,proposition)`. Beliefs can be wrong; two elders can genuinely disagree; framing works.
+2. **BDI cognition** — competing desires (immortality, protect daughter, avenge master, acquire a pill, avoid ancestor's displeasure, hide demonic cultivation) become active intentions.
+3. **Hierarchical planning** — HTN/GOAP: `breakthrough_to_core_formation` decomposes into obtain method → spirit stones → cave abode → pills → bottleneck → seclusion → attempt. Replans on theft/impossibility.
+4. **Utility moment-to-moment choice** — scoring against hunger, danger, face, loyalty, greed, fear, sect duty, cultivation progress, curiosity, arrogance, urgency + hundreds of contextual modifiers. Personality changes the **weights**, not just the lines.
+5. **Social-practice simulation** (Versu/CiF) — authored reusable situations: greeting a senior, disciplining a junior, bargaining, challenging, giving/losing face, refusing a toast, sect recruitment, auction bidding, courting, debt acknowledgement, blood feud, Dao debate, gossiping, deception. Multiple practices can overlap.
+6. **Xianxia social physics as first-class values** — face, seniority, realm_difference, sect_rank, master_lineage, bloodline, karma, debt, enmity, favor, dao_disagreement, fear, reputation, righteousness, filial_duty, sect_loyalty, oath, guest_status, ownership, inheritance_claim, territorial_claim, taboo, killing_intent, perceived_backing. NPCs reason in these terms — they behave like people who grew up in this cosmology.
+7. **Persistent episodic memory** — tiny semantic events (`{actor, action:spared, target:LiWei, witnesses, location, time, stakes:high}`), not prose. Salience, decay, rehearsal, association. Costs bytes, not tokens.
+8. **Gossip and information propagation** — events spread and **mutate** ("defeated 3 disciples" → "crippled 5 inner disciples" → "murdered them"). Reputation is an emergent information network, not a global number.
+9. **Theory of Mind** (PsychSim-style) — "I know Meng knows about the treasure", "I don't think Meng knows that I know". Enables manipulation, bluffing, alliances, secrets, spying, betrayal — no LLM.
+10. **Emotional appraisal from beliefs+goals** (FAtiMA) — same event (disciple killed) appraised differently: loved him / considered him useless / ordered him into danger / believe you intended it / fear you / owe you a debt / know he betrayed me.
+11. **Dialogue-act reasoning** — cognition never chooses strings; it chooses semantic acts: greet, warn, probe, lie, accuse, threaten, boast, deflect, teach, comfort, bargain, request, command, challenge, flatter, mock, confess, withhold_information, change_subject, invoke_debt, give_face, save_face, offer_trade, offer_alliance.
+12. **Compositional language generation** — thousands of reusable speech atoms, grammatical constructions, rhetorical moves, titles, idioms, cultivation metaphors, sentence openings, responses, interruptions, emotional modifiers. One semantic statement → dozens of realizations. No 500,000 authored lines.
+13. **Storylets instead of quests** — small authored narrative situations trigger on conditions (jealous disciple sees your promotion; merchant recognizes an artifact; someone you spared reappears). Simulation chooses the cast.
+14. **Embodied performance** — gaze, hesitation, turning away, bow depth, weapon readiness, distance, posture, pacing, interrupt timing, facial state — from the same state as the cognition.
+
+**The compiler-not-runtime rule (directive §14):** development agents manufacture and validate the corpus (10,000 social rules, 5,000 storylets, 20,000 dialogue constructions, 8,000 rhetorical variants, 3,000 idioms, 1,000 practices, hundreds of personality modifiers, sect/family/regional customs, auction etiquette, Dao debate structures, master-disciple interactions). Grand Architect validates, canonicalizes, finds contradictions, fuzz-tests, and compiles them into compact runtime data. **The shipped game makes zero LLM calls.** Player free-text maps to semantic intents via a command grammar (or an optional tiny local intent/entity model — no API, no tokens).
+
+This fabric is compatible with the tier system in this document: S4 = full cognition + social practices + speech + animation; S3 = goals + planning + relationships + event processing; S2 = strategic simulation; S1/S0 = cohort/life-event simulation — all over the same canonical state representation. When you encounter a distant cultivator, their expanded history is real: they did join the Azure Sword Sect eleven years ago; they did lose their brother; they really do hate the Blood Moon Clan.
+
+**Maturity status (honest):** RESEARCHED (directive §14 specified; no runtime implementation yet). Prototype order: belief graph + episodic memory → social practices with xianxia values → HTN/GOAP + utility → compositional language renderer → storylets → embodied performance.

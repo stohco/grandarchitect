@@ -1,5 +1,60 @@
 # Grand Architect Worklog
 
+## DIRECTIVE IMPLEMENTATION — 2026-08-10 (Frontier Maturity Directive, part 3)
+
+Completed the remaining machine-audited machinery:
+
+| New module | Directive | Status |
+|---|---|---|
+| `src/engine/frontier/bakeoff.ts` | §5 beat-the-baseline | **19/19 PASS** — baseline vs candidates, adoptable-only-with-evidence gate, winsAgainst scoring |
+| `src/engine/frontier/streaming.ts` | §5 streaming row | **6/6 PASS** — SSE-driven refinement (not distance), horizon culling, memory/bandwidth/frame budgets |
+
+Gates (all green): check:frontier-maturity **120/120**, terrain-conformance 56/56, substance 9/9, cognition 18/18, genesis-dag 19/19, bakeoff 19/19, streaming 6/6, tsc 0, lint 0.
+
+## DIRECTIVE IMPLEMENTATION — 2026-08-10 (Frontier Maturity Directive, part 2)
+
+Implemented the machine-audited machinery the directive demands (all gates green):
+
+| New module | Directive | Status |
+|---|---|---|
+| `src/engine/frontier/maturity.ts` | §3 maturity ladder + §4 reclassification | 12 subsystems registered, honest stages |
+| `src/engine/frontier/maturity-conformance.ts` | §3 audit | **108/108 PASS** (`check:frontier-maturity`) |
+| `src/engine/frontier/substance-regression.ts` | §6 substance regression | **9/9 PASS** — detects deleted NPCs, frozen ecology, dropped history, matter removal |
+| `src/engine/frontier/npc-cognition.ts` | §14 symbolic cognitive fabric | **18/18 PASS** — belief graph, episodic memory (salience decay), BDI, theory of mind, dialogue acts, xianxia social ledger, compositional realizer; the Elder Han worked example: same knowledge + different personality → warn/threaten/deflect |
+| `src/engine/frontier/genesis-dag.ts` | §15 passes → dependency DAG | **19/19 PASS** — topological execution, applicability closure, content-hash cache, dirty propagation (roof change reruns ONLY dressing→director→vision; ecology change reruns ecology+economy+director+vision; identical request = 10/10 cache hits) |
+
+Doc corrections landed (audited by maturity-conformance): doc 25 S0 frozen→historical + O(N) relevance scan→dirty propagation; doc 39 30fps demote policy→presentation-elastic + substance regression; doc 12 f32 precision law; doc 22 flight 2-200m voxel A*→4-level flight route hierarchy; doc 17 full bone-pose SAB upload→semantic canonical animation state; doc 26 + §22 symbolic cognitive fabric.
+
+Gates: check:frontier-maturity 108/108, terrain-conformance 56/56, substance 9/9, cognition 18/18, genesis-dag 19/19, tsc 0, lint 0.
+
+## RECLASSIFICATION — 2026-08-10 (Frontier Maturity Directive)
+
+**This entry is authoritative over all earlier "frontier" claims.** Per `docs/frontier-maturity-directive.md`, the term "frontier" was previously applied to deterministic prototype machinery. That was terminology inflation. The following reclassification is machine-audited by `src/engine/frontier/maturity-conformance.ts` (run: `bun run src/engine/frontier/maturity-conformance.ts`).
+
+### What the frontier engine actually is (honest classification)
+
+| Module | Was claimed as | Now classified as |
+|---|---|---|
+| `frontier/terrain-plugin.ts` (64³ field, FBM, tunnel) | frontier terrain | **L1 deterministic engine fixture** — basic SDF-ish terrain generation |
+| `frontier/bvh.ts` (median-split binary BVH) | frontier acceleration | **L1 deterministic fixture** — basic geometric queries |
+| `frontier/character-controller.ts` (discrete substep capsule) | frontier physics | **L1 fixture** — basic capsule response; must bake off vs Rapier KCC / Jolt CharacterVirtual |
+| `frontier/collision-fixtures.ts` | frontier collision | **L0 mathematical fixture** — reference tests |
+| reference plugins with headless stubs | "phase complete" | **interface-conformance stubs** — implementation maturity ≠ runtime evidence |
+
+These fixtures prove: basic deterministic geometry queries work, basic capsule response can be tested, basic terrain can be generated. **Nothing more.** They are useful L0/L1 reference tests; they are not frontier terrain/physics/world technology.
+
+### The frontier standard (adopted)
+
+A subsystem earns "frontier" ONLY after: comparison against the strongest applicable contemporary alternatives, implementation at representative scale, measurement in the real browser runtime, proof of semantic-substance preservation, and demonstrated material improvement in quality/capability/scale/performance. Maturity ladder: RESEARCHED → FEASIBILITY_CONFIRMED → PROTOTYPED → REPRESENTATIVE_BENCHMARKED → PIPELINE_CONNECTED → REAL_WORLD_SLICE_PROVEN → CROSS_BROWSER_PROVEN → TARGET_HARDWARE_PROVEN → ADVERSARIALLY_REVIEWED → VALIDATED.
+
+### Architectural corrections adopted (docs updated)
+
+- **Doc 25** (simulation tiering): S0 is no longer "frozen" — it is HISTORICAL (event-driven evolution; every tier advances time; abstraction of mechanics, never suspension of causality). Relevance must be dirty-propagation based, never O(N)-per-tick scans.
+- **Doc 39** (performance): no 30fps demote-entities degradation policy. Semantic fidelity is protected; presentation/representation/scheduling are elastic. Every optimization requires a substance-regression check.
+- **Doc 12** (coordinates): f32 does NOT give ~1 mm precision at continent scale (near 10^7 m it is ~1 m). Canonical = hierarchical integer address (PlanetId + CellId + local); render is normative ±10 km floating origin.
+- **Terrain target**: WORLD FABRIC (surface manifold + sparse volume field with active bricks), not dense 64³ voxels everywhere.
+- **NPC cognition**: symbolic cognitive fabric (beliefs → BDI → ToM → social practices → HTN/GOAP → utility → semantic acts → surface realizer); LLMs are the compiler, never the runtime.
+
 ## Project Status (as of 2026-08-04)
 
 ### What exists

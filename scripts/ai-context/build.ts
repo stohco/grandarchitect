@@ -133,6 +133,8 @@ function refreshCommands(
         'src/engine/conformance-test.ts',
         'src/engine/kernel/conformance-test.ts',
         'src/engine/architect/conformance-test.ts',
+        'src/engine/frontier/maturity-conformance.ts',
+        'src/engine/frontier/terrain-conformance-test.ts',
         'src/engine/plugins/reference/conformance-test.ts',
         'src/engine/plugins/simulation/conformance-test.ts',
       ],

@@ -5,6 +5,15 @@
 > **Date:** 2026-08-06
 > **Source:** Independent review of durable execution, symbolic planning, constraint solving, versioned knowledge, sandboxed plugins, simulation, planetary rendering, volumetric terrain, asset processing, animation, and verification repositories
 
+> **AMENDED 2026-08-10:** The *classification* standard in this matrix is superseded by
+> `docs/frontier-maturity-directive.md`. "Frontier" is now a measured status, not a
+> folder name: RESEARCHED → FEASIBILITY_CONFIRMED → PROTOTYPED →
+> REPRESENTATIVE_BENCHMARKED → PIPELINE_CONNECTED → REAL_WORLD_SLICE_PROVEN →
+> CROSS_BROWSER_PROVEN → TARGET_HARDWARE_PROVEN → ADVERSARIALLY_REVIEWED → VALIDATED.
+> Techniques listed here are CANDIDATES for bake-off (directive §5), not validated
+> choices. Machine-audited statuses live in `src/engine/frontier/maturity.ts`
+> (audited by `src/engine/frontier/maturity-conformance.ts`).
+
 ---
 
 ## Architectural Principle

@@ -626,7 +626,24 @@ Entity spawn: `AnimationController` created, state graph loaded, mixer bound to 
 The animation state, the parameters, and the procedural overlay state are all part of the deterministic simulation. The clip sampling is deterministic (same clip + same time = same pose). Two runs with the same seed produce the same poses at the same tick. The visual result (interpolation, GPU skinning) may differ by GPU, but the pose data is canonical.
 
 **Q10. What is the threading/concurrency model?**
-The `AnimationController` runs on the simulation thread (deterministic). The `AnimationMixer` and `SkinnedMesh` live on the renderer worker. Per frame, the controller uploads the pose (a `Float32Array` of bone transforms) to the renderer via SharedArrayBuffer. GPU skinning happens on the renderer.
+The `AnimationController` runs on the simulation thread (deterministic). The `AnimationMixer` and `SkinnedMesh` live on the renderer worker.
+
+**Canonical state is semantic, not bone poses (directive §13).** The controller does NOT upload a full `Float32Array` of bone transforms as the canonical contract. Canonical state is small:
+
+```typescript
+interface CanonicalAnimationState {
+  semanticActionId: string;   // 'sword.heaven-split'
+  phase: number;              // 0.412 — position within the action
+  rootTrajectory: { x: number; y: number; z: number; orientation: number };
+  contacts: { rightFoot: 'planted' | 'moving' | 'air'; leftFoot: ... };
+  interactionTarget: EntityId | null;
+  weaponEvent: 'inactive' | 'hit-window-opens' | 'impact';
+  hitInterval: { opensAt: number; closesAt: number };
+  cultivationActionState: 'idle' | 'channeling' | 'releasing';
+}
+```
+
+Full bone poses (137 bone matrices, robe folds, hair strands, sleeve response, finger curl, facial tension) are **derived presentation** — computed on the renderer worker from the semantic state + pose cache, synced via a small SharedArrayBuffer (the semantic state above, not bone matrices). This keeps gameplay truth orders of magnitude smaller than renderer pose truth (directive §13), which is what makes hundreds of characters feasible.
 
 **Q11. How is it serialized?**
 - State graph: part of the entity definition (a string ID referencing a graph asset, loaded by hash from the asset system).

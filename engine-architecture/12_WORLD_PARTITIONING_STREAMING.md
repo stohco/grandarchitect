@@ -246,9 +246,12 @@ The sim uses Q32.32 fixed-point (doc `07_PROCEDURAL_GENERATION_IMPLICATIONS §6.
 
 | Layer | Coordinate type | Range | Precision | Why |
 |---|---|---|---|---|
-| Sim (canonical) | Q32.32 fixed-point (BigInt) | ±2^31 km ≈ ±2 billion km | ~0.2 nm | Determinism requires exact arithmetic; BigInt is slow but correct |
-| Render (derived) | f32 (GPU) | ±10 km from origin | ~0.5 mm | GPU is fast, f32 is universal, precision is sufficient with floating origin |
+| Sim (canonical) | hierarchical integer address + locally quantized state (exact arithmetic only where determinism requires it) | planet/cosmos scale | exact where required | Determinism is a domain contract, not a BigInt-everywhere mandate (directive §10) |
+| Nearby sim frame | f64 (JS number) | hundreds/thousands of meters | ~µm | Sim coordinates in a local frame; f64 is exact enough for gameplay |
+| Render (derived) | f32 (GPU) | ±10 km from floating origin | ~1 mm at the 10 km edge | GPU is fast, f32 is universal; the ±10 km render-local strategy is NORMATIVE (directive §10) — beyond that, render must rebase |
 | Worker transfer | f64 (JS number) | ±2^31 km | ~0.1 mm | Workers receive sim coordinates as f64 for transfer, convert to local f32 on arrival |
+
+**Precision law (corrected per directive §10):** f32 does NOT give ~1 mm precision at continent scale. Near 10^7 m (a ~10,000 km continent), f32 spacing is on the order of **one meter**. Therefore: canonical addresses are hierarchical integers (PlanetId + Geodesic/CubeSphere CellId + local coordinate); the nearby simulation frame stays within hundreds/thousands of meters; rendering operates within ±10 km of a camera-near floating origin; celestial-scale rendering uses high/low split representation. The ±10 km render-local strategy is the enforced concept — never render at continent-scale coordinates in f32.
 
 ### 5.2 The sim-to-render conversion
 
@@ -490,7 +493,7 @@ If the verification fails, the engine halts with a `ConservationViolation` error
 
 ### 10.1 Conservation-rule enforcement
 
-Promote a node from S0 to S4. Verify every named entity's identity, relationships, and memories match the frozen state. Inject a "favorable fact" (e.g., add gold to an entity's inventory while frozen). Assert the promotion throws `ConservationViolation`.
+Promote a node from S0 to S4. Verify every named entity's identity, relationships, and memories match the historical state. Inject a "favorable fact" (e.g., add gold to an entity's inventory while at S0). Assert the promotion throws `ConservationViolation`.
 
 ### 10.2 Tier-transition determinism
 
@@ -498,7 +501,9 @@ Run a 1000-tick sim with a fixed player movement pattern. Capture the sequence o
 
 ### 10.3 Floating-origin precision
 
-Place the player at the edge of a continent (10,000 km from the locality's center). Walk forward 1 mm. Assert the renderer's position changes by exactly 1 mm (no jitter from f32 precision loss). Walk back. Assert no accumulation error.
+Place the player 9 km from the render origin (within the ±10 km render-local envelope). Walk forward 1 cm. Assert the renderer's position changes with no jitter beyond f32 tolerance at that distance (~1 mm at the envelope edge, per §5.1). Walk back. Assert no accumulation error.
+
+**Counter-test (directive §10):** place the player 10,000 km from the locality center WITHOUT a floating-origin rebase, in the old design, and walk forward 1 mm — the old design's claim of ~1 mm f32 precision at continent scale is mathematically false (f32 spacing near 10^7 m is ~1 m). The engine must therefore rebase the render origin within ±10 km (normative) and never render at continent-scale coordinates in f32.
 
 ### 10.4 Streaming under memory pressure
 
@@ -506,7 +511,7 @@ Fill the engine's memory to 90% of the deterministic budget. Continue playing. A
 
 ### 10.5 Cross-node entity references
 
-An NPC in node A holds a memory referencing an NPC in node B. Demote node B to S0. Assert the NPC in node A can still query the NPC in node B (the reference resolves; the entity exists). Assert the NPC in node B's state is the frozen state at the time of demotion.
+An NPC in node A holds a memory referencing an NPC in node B. Demote node B to S0. Assert the NPC in node A can still query the NPC in node B (the reference resolves; the entity exists). Assert the NPC in node B's state reflects the historical evolution recorded at S0 (its household/cohort events), expanded consistently on promotion.
 
 ### 10.6 Pocket-node determinism
 

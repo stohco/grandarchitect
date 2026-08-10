@@ -304,37 +304,43 @@ function setMotionType(handle: PhysicsBodyHandle, type: 'kinematic' | 'dynamic')
 
 A Foundation Establishment cultivator can fly (doc 32 §1.2: "canFly: true"). Flight is not "walking with gravity off" — flight is 3D movement above and around terrain, with its own constraints (qi cost, no-fly zones near spirit veins, terrain obstacles above the cultivator). 2D navmesh with a fly flag is wrong: it cannot express "fly over the mountain, then descend into the valley on the other side."
 
-### 7.2 The flight navmesh
+### 7.2 Flight navigation hierarchy — replaced per Frontier Maturity Directive §13
 
-The navigation plugin maintains a **separate navmesh for flight**, generated alongside the walking navmesh:
+**Rejected baseline:** a dense 3D voxel grid (2 m cells) covering only 2–200 m altitude searched with uniform A*. It cannot represent high-speed xianxia flight, planetary travel, mountain-scale movement, or space — it caps the world at 200 m and treats every meter of air identically.
+
+**Adopted: a four-level flight route hierarchy.** Same system, different planning resolution per cultivator capability:
+
+```
+PLANETARY / COSMIC ROUTE
+  geodesic regions · atmospheric layers · spatial portals ·
+  law domains · forbidden territories
+        ↓
+REGIONAL FLIGHT ROUTE
+  ridge systems · valleys · major formation boundaries ·
+  weather · spirit-beast territories · air corridors
+        ↓
+LOCAL 3D CORRIDOR
+  sparse obstacles: buildings · cliffs · trees · other flyers
+        ↓
+CONTINUOUS TRAJECTORY
+  position · velocity · acceleration · turn rate ·
+  capability envelope · world-law constraints
+```
 
 ```typescript
-interface FlightNavMesh {
-  // A 3D voxel grid (32 m × 32 m × 8 m tiles) marking navigable air volume
-  tiles: Map<TileId, FlightNavTile>;
-  // Tiles cover the air column from 2 m above terrain to 200 m above terrain
-}
-
-interface FlightNavTile {
-  id: TileId;
-  voxelGrid: Uint8Array;        // 0 = blocked (inside terrain, inside building, no-fly zone), 1 = free
-  blockSize: number;            // 2 m default; cultivators don't need finer
-  terrainHeightField: Float32Array;  // for ground-avoidance during descent
-  noFlyZones: AABB[];           // spirit-vein proximity, sect treasuries, courts of heaven
+interface FlightRouteHierarchy {
+  cosmic: CosmicRouteGraph;      // geodesic regions + portals + law-domain boundaries
+  regional: RegionalFlightGraph; // ridge lines, valleys, air corridors, territory edges
+  local: SparseAirspace;         // sparse 3D obstacle volumes (NOT a dense voxel grid)
+  trajectory: ContinuousPlanner; // velocity/acceleration/turn-rate/capability envelope
 }
 ```
 
-### 7.3 3D pathfinding
+- **An early cultivator** (Foundation Establishment, 25 m/s) plans locally: sparse obstacles around them + terrain-clearance corridors, with a continuous local trajectory planner. The dense-voxel approach is replaced by **sparse local 3D obstacle representation** (AABBs/ellipsoids of buildings, cliffs, trees, other flyers) + corridor following — O(obstacles nearby), not O(air volume).
+- **A vastly stronger cultivator** may effectively treat a whole mountain chain as a local obstacle; the same system plans at regional resolution (ridge corridors, valley routes, formation boundaries).
+- **Planetary/cosmic movement** (travel between regions, atmospheric layers, spatial portals, law domains) runs on the cosmic route graph — no altitude cap, no dense grid.
 
-The flight navmesh is searched with A* on the 3D voxel graph. The cost function:
-
-```
-cost(step) = distance(step) × terrainProximityPenalty(step) × qiCostPenalty(step)
-```
-
-Where:
-- `terrainProximityPenalty` is high within 5 m of terrain (encourages altitude), low at 20+ m.
-- `qiCostPenalty` is proportional to altitude (climbing costs qi per doc 32 §1.2: Foundation Establishment sustains 30 qwu/min; flight at 25 m/s costs ~10 qwu/min, so a 100 km flight costs ~30 qwu — a meaningful chunk of the 600–1500 qwu reservoir).
+The flight movement model, qi commitment, and failure cases (§7.4–7.5 below) are unchanged; only the planning representation above them changes.
 
 ### 7.4 The flight movement model
 
