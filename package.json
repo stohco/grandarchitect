@@ -19,7 +19,8 @@
                     "ai:check":  "bun run scripts/ai-context/check.ts",
                     "ai:build":  "bun run scripts/ai-context/build.ts",
                     "game:conformance":  "bun run src/engine/game/conformance/game-conformance.ts",
-                    "game:dev":  "bun run scripts/game-dev.ts"
+                    "game:dev":  "bun run scripts/game-dev.ts",
+                    "game:village-conformance":  "bun run src/engine/game/conformance/village-conformance.ts"
                 },
     "dependencies":  {
                          "3d-tiles-renderer":  "^0.5.0",

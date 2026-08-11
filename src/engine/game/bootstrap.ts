@@ -13,6 +13,7 @@ import { PlanetMount, villageSpawn } from './planet/planet-mount';
 import { GamePlayer, GameInput } from './player-mount';
 import { runWorldQualityGate } from './world-quality-gate';
 import { mergeChunkMeshes } from './planet/merge-meshes';
+import { mountVillage } from './village/village-mount';
 
 export const GAME_SEED = 89274613;
 
@@ -23,6 +24,7 @@ export interface GameHandle {
   player: GamePlayer;
   input: GameInput;
   planet: PlanetMount;
+  village: ReturnType<typeof mountVillage>;
   gate: ReturnType<typeof runWorldQualityGate>;
   dispose: () => void;
 }
@@ -56,11 +58,11 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const sun = new THREE.DirectionalLight(0xffe4c0, 2.6);
   sun.position.set(40, 60, 30);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
-  sun.shadow.camera.left = -160;
-  sun.shadow.camera.right = 160;
-  sun.shadow.camera.top = 160;
-  sun.shadow.camera.bottom = -160;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.camera.left = -90;
+  sun.shadow.camera.right = 90;
+  sun.shadow.camera.top = 90;
+  sun.shadow.camera.bottom = -90;
   sun.shadow.bias = -0.0005;      // kills heightfield self-shadow acne
   sun.shadow.normalBias = 0.03;   // softens the acne further on slopes
   scene.add(sun);
@@ -79,6 +81,9 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const collisionMesh = mergeChunkMeshes(planet.chunks, planet);
   const player = new GamePlayer(collisionMesh, { x: spawn.x, y: spawnY, z: spawn.z });
   scene.add(player.body);
+
+  // 5b. The village — the mundane world on the valley floor.
+  const village = mountVillage(planet, scene);
 
   // 6. Input + loop.
   const input = new GameInput(window);
@@ -126,6 +131,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     player,
     input,
     planet,
+    village,
     gate,
     dispose: () => {
       disposed = true;

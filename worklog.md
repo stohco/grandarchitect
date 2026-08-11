@@ -1724,3 +1724,28 @@ Gates after each round: tsc 0, lint 0, game:conformance 19/19, maturity
 Remaining VLM reads are content density (vegetation, structures, materials)
 — that is Phase 2, not geometry defects.
 
+
+## 2026-08-11 — Phase 2a: the authored village, gated (constitution 1 + 45)
+
+- village/village-authoring.ts — 12 named houses (roles, scales, WQC causes),
+  well/shrine/gate features, painted ground strips (square, cart road, east
+  and west fields, graveyard), and the 3-favor economy. The stream runs
+  diagonally through the east ring — the conformance's grounding test caught
+  TWO houses standing in the stream bed (smith at dx 25, old_wang at 19,19);
+  both moved clear of the polyline with the fields resized.
+- village/house-kit.ts — the art-bible house: stucco + post-and-lintel
+  timber, slate roof with upturned eaves, stone plinth, door, windows with
+  night-glow panes, red lantern; grounded at footprint max (foundation
+  covers the valley's 1.3 deg slope; threshold 0.35 m).
+- village/village-mount.ts — houses + well + shrine + gate + terrain-
+  following painted ground mounted into the planet.
+- world-quality-gate: constitution categories fixed to real ids (1, 5, 9,
+  10, 37, 45); justified absences re-phased.
+- village-conformance 49/49 (determinism, grounding, no-overlap incl.
+  feature clearance, painted-ground following, favor sanity).
+- VLM round: STYLIZED_PROTOTYPE — houses/well/shrine/gate PASS; fixed the
+  160-165 m annular ring gap (hole -> 175 m) and raised contact shadow
+  quality (2048 map, +-90 m).
+- evidence/village-*.png (4 fixed views).
+Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49.
+

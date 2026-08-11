@@ -19,33 +19,41 @@ import { REGIONS, PEAKS, VALLEYS, RIVERS, LOCALITIES } from './planet/world-auth
 /** The game world's honest constitution model (justified absences stated). */
 export function buildPlanetModel(seed: number): PlanetModel {
   const categories = new Set<number>([
-    0,  // mundane world / terrain
-    5,  // spiritual geography (peaks as spiritual nodes)
-    7,  // geology (fold ranges, volcanic province, basins — authored causes)
-    8,  // oceans (four seas)
-    9,  // natural hazards (the restriction wastes)
+    1,  // the mundane world — the village, fields, graveyard, gate
+    5,  // cultivator families — the Wang family and its history
+    9,  // spiritual geography — peaks as spiritual nodes
+    10, // cultivation resource ecology — herbs, ore, beast materials
+    37, // planetary law — the seal caps the mortal world at Nascent Soul
+    45, // unimportant things — quiet dead-ends, genuine farmer lives
   ]);
   const answers: Record<string, boolean | string> = {
     'terrain.exists': true,
     'terrain.has_cause': true,        // every region/peak/valley/river is authored with a cause
     'terrain.persistent': true,       // deterministic field — same seed, same world
     'geology.has_rock': true,         // the eastern mountains, sacred peak
-    'geology.has_underground': false, // cave networks are a later phase
     'geography.has_regions': true,    // 11 regions incl. 4 seas
     'geography.has_peaks': true,      // Qing Hill, Sacred Peak, Wolf Ridge
     'geography.has_valleys': true,    // Wang Family Valley
     'geography.has_rivers': true,     // Village Stream, Blood River
     'oceans.have_basins': true,       // south/east/west/north seas
     'spawn.has_solid_floor': true,    // the village locality on the valley floor
+    'mundane.villages': true,         // Wang Family Village: 12 houses, well, shrine, gate
+    'mundane.farmers': true,          // farm plots east and west of the stream
+    'mundane.roads': true,            // the cart road south to the Teng road
+    'mundane.markets': true,          // the beaten-earth square
+    'mundane.graveyards': true,       // the family graves
+    'mundane.fortifications': true,   // the south gate
+    'unimportant.farmer_lives': true, // the village works for a living
     'locality.village': true,         // Wang Family Village
     'locality.sect': true,            // Heng Yue Sect (peak gate in a later phase)
     // justified absences — honest, stated, gated per phase
-    'absence:1': 'Phase 2: cultivation-country hierarchy (Zhao Country as a governed polity).',
-    'absence:2': 'Phase 2: sect anatomy (Heng Yue buildings, terraces, gates).',
-    'absence:3': 'Phase 3: cultivation cities (Teng City).',
-    'absence:4': 'Phase 3: layered economies (market content gate).',
-    'absence:6': 'Phase 3: secret realms (spirit spring, tribulation crater caches).',
-    'absence:10': 'Phase 4: planetary core (the Restriction Star site is lore-gated).',
+    'absence:2': 'Phase 3: mortal political geography (Zhao Country as a governed polity).',
+    'absence:3': 'Phase 3: cultivation-country hierarchy (ranked powers, tribute).',
+    'absence:4': 'Phase 3: sect anatomy (Heng Yue buildings, terraces, gates).',
+    'absence:7': 'Phase 3: cultivation cities (Teng City).',
+    'absence:8': 'Phase 3: layered economies (spirit-stone market content gate).',
+    'absence:24': 'Phase 4: secret realms (spirit spring, tribulation crater caches).',
+    'absence:38': 'Phase 4: planetary core systems (the Restriction Star site is lore-gated).',
   };
   return { categories, answers };
 }
