@@ -1749,3 +1749,30 @@ Remaining VLM reads are content density (vegetation, structures, materials)
 - evidence/village-*.png (4 fixed views).
 Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49.
 
+
+## 2026-08-11 — Phase 2b: the village's people, on the frontier cognition
+
+- game/game-clock.ts — deterministic 600 s day; sun rise 0.25/peak 0.5/set
+  0.75; night >= 0.72 || < 0.24; phases sleep/gather/work/rest.
+- game/inventory.ts — item ids + counts (6 items: fangs, moonflower, ore,
+  two pills, iron sword); deterministic serialize.
+- village/villagers.ts — 12 villagers (one per house, role personalities),
+  each carrying the CANONICAL frontier NPC brain: BeliefGraph (wolves_at_fence,
+  player_helped), EpisodicMemory (favor episodes with appraisal + decay),
+  createPersonality per role. Deterministic schedules by phase (farmers to
+  the fields, smith to the anvil, others to the square; sleep at home).
+  Belief-aware dialogue; E-interaction: favor ask then fulfill (goods in,
+  reward out, relationship + belief + episode).
+- bootstrap: clock + inventory + villagers wired; nightfall raid broadcasts
+  the wolves_at_fence belief to all 12 (once per night).
+- villagers-conformance 22/22: determinism (300-tick double run, bit-identical
+  to 6 decimals), field-height grounding, favor flow (refuse/consume/reward/
+  belief/episode), raid belief propagation (0 -> 12), belief-aware dialogue,
+  clock phases, item registry. (Test-order bug in the determinism assertion
+  fixed — posA was captured before the updates.)
+- VLM round: structural loop converged; remaining reads demand Phase 3
+  content (textures, ecology, props). Pixel evidence stable: 18k stucco px,
+  12 villagers walking at gather phase (probe).
+Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49,
+villagers 22/22.
+
