@@ -1,0 +1,277 @@
+project:
+  id: XIANXIA_OPEN_WORLD_RPG
+  style_profile: XIANXIA_TRIPLE_LAYER_V1
+  authoritative_units: meters
+  visual_layers:
+    - stylized_mid_poly_forms
+    - hand_painted_controlled_pbr_materials
+    - modern_cinematic_rendering
+  rejected_targets:
+    - n64_retro
+    - ocarina_of_time_visual_fidelity
+    - cel_shaded_anime
+    - photoreal_scan
+    - generic_eastern_fantasy_pack
+  reference_priority:
+    - beautiful_in_game_render
+    - written_numeric_specification
+    - orthographic_reference_sheets
+
+character_factory:
+  base_models:
+    male:
+      id: CHR_PLAYER_BASE_M_01
+      height_m: 1.82
+      proportions_heads: 7.75
+    female:
+      id: CHR_PLAYER_BASE_F_01
+      height_m: 1.72
+      proportions_heads: 7.5
+  presentation: modest_underwear
+  modular: true
+  skeleton: SKEL_HUMANOID_XIANXIA_V1
+  equipment_slots:
+    - BODY_BASE
+    - INNER_TORSO
+    - INNER_LEGS
+    - FEET_INNER
+    - HANDS_INNER
+    - TORSO_ARMOR
+    - LEGS_ARMOR
+    - BOOTS
+    - GLOVES
+    - OUTER_ROBE
+    - WAIST
+    - SHOULDERS
+    - CAPE_BACK
+    - HEADGEAR
+    - HAIR
+    - FACE
+    - ACCESSORY_01
+    - ACCESSORY_02
+    - ACCESSORY_03
+    - ACCESSORY_04
+    - ACCESSORY_05
+    - ACCESSORY_06
+    - ACCESSORY_07
+    - ACCESSORY_08
+    - WEAPON_MAIN
+    - WEAPON_OFF
+    - WEAPON_BACK_01
+    - WEAPON_BACK_02
+    - WEAPON_BACK_03
+    - WEAPON_BACK_04
+  body_hide_zones:
+    - HEAD_SCALP
+    - NECK
+    - CHEST_UPPER
+    - CHEST_LOWER
+    - BACK_UPPER
+    - BACK_LOWER
+    - SHOULDER_L
+    - SHOULDER_R
+    - UPPER_ARM_L
+    - UPPER_ARM_R
+    - FOREARM_L
+    - FOREARM_R
+    - HAND_L
+    - HAND_R
+    - PELVIS
+    - GLUTE
+    - THIGH_L
+    - THIGH_R
+    - CALF_L
+    - CALF_R
+    - FOOT_L
+    - FOOT_R
+
+render_budget:
+  full_player_triangles:
+    lod0: [60000, 100000]
+    lod1: [30000, 55000]
+    lod2: [12000, 25000]
+    lod3: [4000, 8000]
+  named_npc_triangles:
+    lod0: [35000, 75000]
+  generic_npc_triangles:
+    lod0: [20000, 45000]
+  normal_creature_triangles:
+    lod0: [18000, 55000]
+  boss_triangles:
+    lod0: [60000, 180000]
+  hero_weapon_triangles:
+    lod0: [6000, 18000]
+
+materials:
+  channels:
+    - BaseColor
+    - Normal
+    - ORM
+    - Emissive
+    - DyeMask
+  optional_channels:
+    - DetailMask
+    - SubsurfaceMask
+    - DamageMask
+  hero_texel_density_px_per_m: [512, 768]
+  npc_texel_density_px_per_m: [256, 512]
+  environment_texel_density_px_per_m: [128, 256]
+
+terrain:
+  scale_layers:
+    macro_m: [256, 8000]
+    meso_m: [8, 256]
+    micro_m: [0.01, 8]
+  destructible:
+    authoritative_representation: density_or_sparse_voxel_field
+    visible_representation: smooth_derived_mesh
+    near_cell_size_m: [0.25, 0.5]
+    requirements:
+      - watertight_surface
+      - atomic_visual_and_collision_activation
+      - affected_cell_only_invalidation
+      - correct_new_cut_material
+      - material_specific_debris
+      - cultivation_strength_thresholds
+  biome_examples:
+    - mortal_river_valley
+    - cloud_immortal_peak
+    - ancient_sword_scar
+    - alchemy_volcanic_basin
+    - ghost_marsh
+    - star_desert
+    - spirit_ocean_archipelago
+    - frozen_tribulation_plateau
+
+architecture:
+  snap_grid_m: 0.5
+  sub_grid_m: 0.1
+  required_modules:
+    - foundation
+    - floor
+    - column
+    - beam
+    - bracket
+    - wall
+    - door
+    - window
+    - roof_corner
+    - roof_edge
+    - roof_ridge
+    - stair
+    - railing
+    - balcony
+    - trim
+    - interior_partition
+    - destruction_pieces
+    - collision_proxy
+    - lods
+  required_kits:
+    - mortal_cottage_farm
+    - teahouse_inn
+    - apothecary
+    - blacksmith_artifact_workshop
+    - market_auction_house
+    - village_shrine
+    - town_wall_gate_bridge
+    - sect_mountain_gate
+    - disciple_dormitories
+    - scripture_library
+    - alchemy_hall
+    - artifact_refining_hall
+    - formation_tower
+    - beast_pen_spirit_garden
+    - elder_residence
+    - ancestor_sanctuary
+    - cliff_cave_abode
+    - secret_realm_ruin
+    - immortal_palace
+    - floating_island_complex
+    - ocean_sect_harbor
+    - underwater_ruin
+    - star_travel_platform
+
+ui:
+  philosophy: clean_modern_cultivation_survival
+  direct_copy_of_other_game: false
+  base_resolution: [1920, 1080]
+  safe_area_px: 24
+  scale_range_percent: [80, 150]
+  dom:
+    HUD_PLAYER_STATUS:
+      anchor: top_left
+      size_px: [360, 132]
+    HUD_QUEST_TRACKER:
+      anchor: left
+      size_px: [380, 220]
+    HUD_COMPASS:
+      anchor: top_center
+      size_px: [620, 46]
+    HUD_MINIMAP:
+      anchor: top_right
+      size_px: [236, 236]
+    HUD_TARGET_STATUS:
+      anchor: top_center
+      size_px: [420, 76]
+    HUD_TECHNIQUE_QUICKBAR:
+      anchor: bottom_center
+      size_px: [620, 104]
+    HUD_CONTEXT_ACTIONS:
+      anchor: bottom_right
+      size_px: [300, 150]
+    HUD_CROSSHAIR:
+      anchor: center
+      size_px: [48, 48]
+  technique_wheel_categories:
+    - cultivator_attack
+    - cultivator_defense
+    - body_arts
+    - movement
+    - divine_sense
+    - sword_arts
+    - flying_swords
+    - artifacts
+    - formations
+    - talismans
+    - alchemy_utilities
+    - summons_beasts
+
+reference_sheets:
+  resolution: [3840, 2160]
+  min_heading_px: 52
+  min_body_label_px: 28
+  max_major_panels: 12
+  required:
+    - SHEET_01_CHARACTER_FACTORY
+    - SHEET_02_TERRAIN_NATURE_FACTORY
+    - SHEET_03_STRUCTURE_PROP_FACTORY
+    - SHEET_04_GAMEPLAY_UI_RENDER
+    - SHEET_05_CREATURE_EFFECT_FACTORY
+    - SHEET_06_ANIMATION_FACTORY
+    - SHEET_07_LIGHTING_WEATHER
+    - SHEET_08_UI_DOM_MAP
+
+pipeline_gates:
+  - brief
+  - silhouette
+  - blockout_scale
+  - topology
+  - uv
+  - texturing
+  - rigging
+  - animation
+  - lod_impostor
+  - collision_navigation
+  - integration
+  - qa
+
+acceptance:
+  - vlm_can_identify_every_panel_and_asset_id
+  - text_only_glm_can_reconstruct_requirements
+  - base_underwear_model_is_complete_and_rigged
+  - equipment_is_independently_swappable
+  - body_hide_zones_are_reversible
+  - shared_art_direction_across_all_asset_categories
+  - high_quality_painterly_render_not_retro
+  - clean_readable_hud
+  - every_asset_has_lod_collision_scale_naming_and_qa

@@ -130,3 +130,6 @@ handoffs/*/artifacts/
 /evidence/traces/
 /evidence/video/
 /artifacts/
+
+# game build output (bun bundler)
+.game-dist/

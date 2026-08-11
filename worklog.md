@@ -1639,3 +1639,29 @@ PlaytestController. Key fixes discovered via browser evidence:
   clipping + computedSlopeAngle; terrain heightfield collider waits for a
   heightmap source; ACCEPTANCE_PASSED pending the formal failure-injection
   suite.
+
+## 2026-08-11 — game layer re-anchored to the frontier engine (Phase 0)
+
+Drift correction: the game had been developed in a separate directory (suzaku-frontier)
+with hand-rolled terrain/controller and zero imports from the engine. Per decision
+(REBUILD INSIDE GRANDARCHITECT), the game is now a pure three.js layer consuming the
+frontier engine:
+
+- src/engine/game/terrain-mount.ts — canonical terrain pipeline (generateTerrainPipeline
+  + extractSurfaceMesh + computeHeightmap) bridged into THREE geometry. Render and
+  collision derive from the SAME density field (maxDiff 0, mirrored from
+  terrain-conformance-test §4).
+- src/engine/game/player-mount.ts — deterministic CharacterController (mesh BVH) mounted
+  with keyboard input; no Math.random anywhere.
+- src/engine/game/world-quality-gate.ts — the World Quality Compiler + Planet
+  Constitution are the GATES on game content (Phase 0 world: disposition APPROVE,
+  justified absences only).
+- src/engine/game/bootstrap.ts + index.ts + index.html — the playable page.
+- scripts/game-dev.ts — bun-only build+serve (bun run game:dev → :5174).
+- conformance/game-conformance.ts — bun run game:conformance → 10/10.
+- Bibles moved from suzaku-frontier/references → docs/game-art-bibles/.
+
+Gates: tsc 0, lint 0, ai:check 18/18, check:frontier-maturity 156/156,
+game:conformance 10/10. Browser evidence: evidence/game-boot.png + game-boot-probe.mjs
+(gate APPROVE, player grounded).
+
