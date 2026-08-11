@@ -1,16 +1,18 @@
 /**
  * game/bootstrap.ts — the game: frontier engine + three.js, nothing else.
  *
- * This is the whole game loop in one place: terrain from the canonical
- * pipeline, player from the canonical controller, world gated by the WQC +
- * Planet Constitution before a single frame is shown. The studio is dead —
- * this is the product.
+ * This is the whole game loop in one place: the planet streams in from the
+ * authored world (semantic landforms, deterministic field, watertight
+ * chunks), the player is the canonical controller over the SAME resident
+ * meshes, and the world is gated by the WQC + Planet Constitution before a
+ * single frame shows. The studio is dead — this is the product.
  */
 
 import * as THREE from 'three';
-import { buildWorldTerrain } from './terrain-mount';
+import { PlanetMount, villageSpawn } from './planet/planet-mount';
 import { GamePlayer, GameInput } from './player-mount';
 import { runWorldQualityGate } from './world-quality-gate';
+import { mergeChunkMeshes } from './planet/merge-meshes';
 
 export const GAME_SEED = 89274613;
 
@@ -20,7 +22,7 @@ export interface GameHandle {
   renderer: THREE.WebGLRenderer;
   player: GamePlayer;
   input: GameInput;
-  terrain: ReturnType<typeof buildWorldTerrain>;
+  planet: PlanetMount;
   gate: ReturnType<typeof runWorldQualityGate>;
   dispose: () => void;
 }
@@ -34,10 +36,11 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     return null;
   }
 
-  // 2. Canonical terrain → three.js.
-  const terrain = buildWorldTerrain(GAME_SEED);
+  // 2. The planet.
+  const scene = new THREE.Scene();
+  const planet = new PlanetMount(scene, { seed: GAME_SEED });
 
-  // 3. Renderer + scene.
+  // 3. Renderer + camera.
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -47,15 +50,9 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   renderer.toneMappingExposure = 1.1;
   container.appendChild(renderer.domElement);
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(62, container.clientWidth / container.clientHeight, 0.1, 400);
+  const camera = new THREE.PerspectiveCamera(62, container.clientWidth / container.clientHeight, 0.1, 6000);
 
-  const terrainMesh = new THREE.Mesh(terrain.geometry, terrain.material);
-  terrainMesh.castShadow = true;
-  terrainMesh.receiveShadow = true;
-  scene.add(terrainMesh);
-
-  // 4. Light (deterministic; no atmosphere pass yet — Phase 1).
+  // 4. Light.
   const sun = new THREE.DirectionalLight(0xffe4c0, 2.6);
   sun.position.set(40, 60, 30);
   sun.castShadow = true;
@@ -64,14 +61,21 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x3a2a1a, 1.1));
   scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 
-  // 5. Player on the SAME mesh the renderer draws.
-  const player = new GamePlayer(terrain.meshData, terrain.result.spawn);
+  // 5. Player at the village, on the resident chunk meshes. The residency
+  // must run FIRST so the spawn chunk exists before the controller's BVH.
+  const spawn = villageSpawn();
+  planet.update(spawn.x, spawn.z);
+  const spawnY = planet.heightAt(spawn.x, spawn.z) + 1.4;
+  const collisionMesh = mergeChunkMeshes(planet.chunks, planet);
+  const player = new GamePlayer(collisionMesh, { x: spawn.x, y: spawnY, z: spawn.z });
   scene.add(player.body);
 
   // 6. Input + loop.
   const input = new GameInput(window);
   const clock = new THREE.Clock();
   let disposed = false;
+  let lastChunk = planet.playerChunk(spawn.x, spawn.z);
+  let rebuildTimer = 0;
 
   const loop = () => {
     if (disposed) return;
@@ -79,8 +83,24 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     const dt = Math.min(0.05, clock.getDelta());
     player.update(dt, input.read(dt, 4.5, 6.5));
 
-    // over-the-shoulder camera, deterministic
+    // streaming: update residency, rebuild the controller's BVH when the
+    // resident set changes (throttled — the BVH rebuild is bounded work)
     const p = player.controller.position;
+    const chunk = planet.playerChunk(p.x, p.z);
+    if (chunk !== lastChunk) {
+      lastChunk = chunk;
+      rebuildTimer = 0.5;
+    }
+    const streamResult = planet.update(p.x, p.z);
+    if (rebuildTimer > 0) {
+      rebuildTimer -= dt;
+      if (rebuildTimer <= 0) {
+        const merged = mergeChunkMeshes(planet.chunks, planet);
+        if (merged.positions.length > 0) player.rebuild(merged);
+      }
+    }
+
+    // over-the-shoulder camera
     camera.position.set(p.x - 3.2, p.y + 2.0, p.z - 3.2);
     camera.lookAt(player.lookTarget);
     renderer.render(scene, camera);
@@ -93,7 +113,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     renderer,
     player,
     input,
-    terrain,
+    planet,
     gate,
     dispose: () => {
       disposed = true;

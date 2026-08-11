@@ -1665,3 +1665,34 @@ Gates: tsc 0, lint 0, ai:check 18/18, check:frontier-maturity 156/156,
 game:conformance 10/10. Browser evidence: evidence/game-boot.png + game-boot-probe.mjs
 (gate APPROVE, player grounded).
 
+
+## 2026-08-11 — planet-scale terrain (Phase 1): the authored world, gated
+
+Following the Terrain Graph Directive (docs/game-art-bibles/) + specs 12/21/23,
+the game now streams a full authored planet instead of the 64 m demo:
+
+- src/engine/game/planet/world-authoring.ts — 11 regions (4 seas), 3 peaks
+  (Qing Hill, Sacred Peak, Wolf Ridge), the Wang Family Valley, 2 rivers,
+  2 localities. Every landform carries a WQC cause.
+- height-field.ts — deterministic semantic field (regions -> peaks -> valleys
+  -> rivers -> micro detail via frontier prng; noise NEVER shapes).
+  FIXED a real content bug found by conformance: the Wolf Ridge overlapped
+  the village stream and lifted its bed above sea level (stream ran dry).
+- chunk-mesh.ts — 8 m watertight chunks (1 m cells), slope-robust UP winding,
+  same-source collision heights, per-vertex biome palette.
+- streaming.ts — spec 12 locality tiers: S4 ring (88 m) + S1 keep-alive
+  (160 m); residency is a pure function of position (deterministic).
+- planet-mount.ts — three.js mount with floating origin, far LOD 1 m below
+  the fine chunks, gradient sky dome.
+- merge-meshes.ts + player.rebuild — the CharacterController walks the BVH
+  of the SAME resident meshes the renderer draws; rebuild preserves position.
+- bootstrap now boots the planet (residency runs BEFORE the player spawns —
+  a boot-order bug where the player fell through the empty BVH, found by
+  the browser probe).
+
+Gates: tsc 0, lint 0, ai:check 18/18, maturity 156/156, game:conformance
+19/19 (incl. watertight seams bit-exact, render==collision agreement,
+trajectory determinism, stream-bed-below-sea-level regression).
+Browser evidence: evidence/game-boot-planet.png — gate APPROVE, 416 resident
+chunks, player grounded at the village (256, -128).
+

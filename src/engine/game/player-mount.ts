@@ -43,7 +43,7 @@ export class GameInput {
 
 /** The in-game body: frontier controller + three.js representation. */
 export class GamePlayer {
-  readonly controller: CharacterController;
+  controller: CharacterController;
   readonly body: THREE.Group;
   private cameraTarget = new THREE.Vector3();
 
@@ -57,6 +57,21 @@ export class GamePlayer {
     );
     capsule.castShadow = true;
     this.body.add(capsule);
+  }
+
+  /**
+   * Rebuild the controller over a NEW mesh (streaming: the resident chunk
+   * set changed) while preserving position/velocity — the player does not
+   * teleport when a chunk streams in.
+   */
+  rebuild(mesh: MeshData): void {
+    const pos = { ...this.controller.position };
+    const vel = { ...this.controller.velocity };
+    const grounded = this.controller.grounded;
+    this.controller = new CharacterController({ mesh, spawn: pos });
+    this.controller.position = pos;
+    this.controller.velocity = vel;
+    this.controller.grounded = grounded;
   }
 
   /** Advance the deterministic controller and sync the three.js body. */

@@ -7,66 +7,75 @@
  * content — not advisory tools. A world that fails is repaired or rejected,
  * never shipped.
  *
- * Phase 0 world: the canonical frontier terrain (plain + sculpted mountain +
- * carved tunnel + spawn). Content is authored, not rolled — the pipeline's
- * noise is detail only, exactly as the directives require.
+ * The Phase 1 world: the authored planet — regions, peaks, valleys, rivers,
+ * seas, the village locality. Every landform has a stated cause; noise is
+ * detail only (Terrain Graph Directive §0).
  */
 
 import { WorldQualityCompiler, type ContentContext, type CompilerDecision } from '../frontier/world-quality-compiler';
 import { PlanetConstitutionChecker, type PlanetModel, type ConstitutionReport } from '../frontier/planet-constitution';
-import { generateTerrainPipeline, SURFACE_MATERIAL_EARTH, SURFACE_MATERIAL_MOUNTAIN, SURFACE_MATERIAL_TUNNEL } from '../frontier/terrain-plugin';
-import { extractSurfaceMesh } from '../frontier/terrain-plugin';
+import { REGIONS, PEAKS, VALLEYS, RIVERS, LOCALITIES } from './planet/world-authoring';
 
 /** The game world's honest constitution model (justified absences stated). */
 export function buildPlanetModel(seed: number): PlanetModel {
-  const result = generateTerrainPipeline(seed);
-  const mesh = extractSurfaceMesh(result.field, { spline: result.spline });
-
-  const materialSet = new Set(mesh.materialIds);
-  const hasMountain = materialSet.has(SURFACE_MATERIAL_MOUNTAIN);
-  const hasTunnel = materialSet.has(SURFACE_MATERIAL_TUNNEL);
-  const hasEarth = materialSet.has(SURFACE_MATERIAL_EARTH);
-
-  return {
-    categories: new Set([
-      0,  // mundane world / terrain
-      7,  // geology (sculpted mountain, carved tunnel — authored causes)
-      9,  // natural hazards / cave passage
-    ]),
-    answers: {
-      'terrain.exists': true,
-      'terrain.has_cause': true,          // mountain is sculpted, tunnel is carved
-      'terrain.persistent': true,         // deterministic field — same seed, same world
-      'terrain.removable': false,         // Phase 0 has no removal test surface yet
-      'geology.has_rock': hasMountain,
-      'geology.has_underground': hasTunnel,
-      'geology.surface_material': hasEarth,
-      'spawn.has_solid_floor': true,      // pipeline getSpawnPoint guarantees it
-      'absence:1': 'Phase 0: cultivation-country hierarchy arrives with the village content gate.',
-      'absence:2': 'Phase 0: sect anatomy arrives with the Heng Yue content gate.',
-      'absence:3': 'Phase 0: cultivation cities arrive with the Teng City content gate.',
-      'absence:4': 'Phase 0: layered economies arrive with the market content gate.',
-      'absence:5': 'Phase 0: spiritual geography arrives with the qi-zone content gate.',
-      'absence:6': 'Phase 0: oceans arrive with the coastal streaming content gate.',
-    },
+  const categories = new Set<number>([
+    0,  // mundane world / terrain
+    5,  // spiritual geography (peaks as spiritual nodes)
+    7,  // geology (fold ranges, volcanic province, basins — authored causes)
+    8,  // oceans (four seas)
+    9,  // natural hazards (the restriction wastes)
+  ]);
+  const answers: Record<string, boolean | string> = {
+    'terrain.exists': true,
+    'terrain.has_cause': true,        // every region/peak/valley/river is authored with a cause
+    'terrain.persistent': true,       // deterministic field — same seed, same world
+    'geology.has_rock': true,         // the eastern mountains, sacred peak
+    'geology.has_underground': false, // cave networks are a later phase
+    'geography.has_regions': true,    // 11 regions incl. 4 seas
+    'geography.has_peaks': true,      // Qing Hill, Sacred Peak, Wolf Ridge
+    'geography.has_valleys': true,    // Wang Family Valley
+    'geography.has_rivers': true,     // Village Stream, Blood River
+    'oceans.have_basins': true,       // south/east/west/north seas
+    'spawn.has_solid_floor': true,    // the village locality on the valley floor
+    'locality.village': true,         // Wang Family Village
+    'locality.sect': true,            // Heng Yue Sect (peak gate in a later phase)
+    // justified absences — honest, stated, gated per phase
+    'absence:1': 'Phase 2: cultivation-country hierarchy (Zhao Country as a governed polity).',
+    'absence:2': 'Phase 2: sect anatomy (Heng Yue buildings, terraces, gates).',
+    'absence:3': 'Phase 3: cultivation cities (Teng City).',
+    'absence:4': 'Phase 3: layered economies (market content gate).',
+    'absence:6': 'Phase 3: secret realms (spirit spring, tribulation crater caches).',
+    'absence:10': 'Phase 4: planetary core (the Restriction Star site is lore-gated).',
   };
+  return { categories, answers };
 }
 
-/** Build the WQC ContentContext from the terrain artifacts. */
+/** Build the WQC ContentContext from the authored planet. */
 export function buildQualityContext(seed: number): ContentContext {
-  const result = generateTerrainPipeline(seed);
-  const mesh = extractSurfaceMesh(result.field, { spline: result.spline });
   return {
     kind: 'planet',
-    id: `frontier-terrain-${seed}`,
-    existentialCause: 'The frontier terrain pipeline: a sculpted mountain over a mossy plain.',
-    persistenceCause: 'A single deterministic density field — same seed, same world, every run.',
-    locationCause: 'The mountain is authored at the field center; the tunnel is carved through it.',
-    temporalCause: 'Phase 0 world — the first authored form of Suzaku.',
+    id: `suzaku-planet-${seed}`,
+    existentialCause: 'The authored xianxia world: eleven continental provinces over a mortal datum.',
+    persistenceCause: 'A deterministic height field — every landform is a semantic node with a cause; the same seed reproduces the planet exactly.',
+    locationCause: 'Regions sit where the cosmology puts them: the eastern mountains fold toward Qing Hill; the seas surround the mortal world.',
+    temporalCause: 'The Restriction Wastes are the scar of the ancient Restriction Star; the Blood River is named for the Restriction War.',
+    hydrology: {
+      source: 'The eastern hills spring the Village Stream; the qian basin drains the Blood River.',
+      flow: 'Streams cut below sea level so they carry water; rivers run from highlands to the seas.',
+      collection: 'Four ocean basins collect the drainage.',
+    },
     descriptor: {
-      name: 'Suzaku Frontier Terrain',
-      mechanical: ['marching-cubes isosurface', 'deterministic density field', 'tunnel spline', 'guaranteed spawn'],
-      causal: ['mountain sculpted by elevation gain', 'tunnel carved by spline proximity', 'spawn scanned for solid floor'],
+      name: 'Planet Suzaku',
+      mechanical: [
+        `${REGIONS.length} regions`, `${PEAKS.length} peaks`, `${VALLEYS.length} valleys`,
+        `${RIVERS.length} rivers`, `${LOCALITIES.length} localities`, 'deterministic height field',
+      ],
+      causal: [
+        'fold range raised along the eastern plate margin',
+        'volcanic province over a deep magma plume',
+        'river valleys carved by authored drainage',
+        'ocean basins below sea level',
+      ],
     },
     similarCount: 0,
   };
