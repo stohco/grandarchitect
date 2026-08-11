@@ -226,6 +226,43 @@ export const FRONTIER_SUBSYSTEMS: FrontierSubsystem[] = [
     frontierEligible: false,
   },
   {
+    id: 'world-quality-compiler',
+    name: 'World Quality Compiler (adversarial content gauntlet)',
+    stage: 'PROTOTYPED',
+    evidence: [
+      E('src/engine/frontier/world-quality-compiler.ts', 'validation domain registry (7 built-in: existential cause, persistence cause, hydrology, carrying capacity, loot provenance, history evidence, removal test, repetition risk), quality vector (13 axes), hard constraints (contradictions→REJECT, causality→REPAIR, repetition→MUTATE, cost→OPTIMIZE-REPRESENTATION), counterfactual tests (apex predator removal), bullshit detector (name vs causal variation), targeted repair (diagnosis→repair, never random regen), removal test, topological signatures; 18/18 conformance'),
+      E('docs/world-quality-compiler-source.txt', 'the full World Quality Compiler source: ~150 validation domains, 18 critics, adversarial gauntlets, bullshit detector, generator-fingerprint detection, density profiles, quietness validation, megalophobia validator, boss gauntlet, loot 4-question gauntlet, contradiction testing, evidence audit, quality vector, targeted repair'),
+    ],
+    nextSteps: [
+      'Expand the domain registry toward the full ~150 invariants from the source',
+      'Add the 18 specialized critics as rule/test suites',
+      'Add counterfactual perturbations for settlements/ecosystems/roads/sects/mines/artifacts/monsters/ruins/terrain',
+      'Wire into generation: every generated POI passes the gauntlet before canon',
+    ],
+    fixtureClass: 'NONE',
+    provenCapabilities: ['Rejects filler (removal test), detects name-vs-causal variation, routes failures to REJECT/REPAIR/MUTATE/OPTIMIZE, produces targeted repair plans'],
+    candidates: [],
+    frontierEligible: false,
+  },
+  {
+    id: 'planet-constitution',
+    name: 'Planet Constitution (Er-Gen-style starting planet completeness)',
+    stage: 'PROTOTYPED',
+    evidence: [
+      E('src/engine/frontier/planet-constitution.ts', '45 constitutional categories (mundane world → planetary core → unimportant things) + 52-question Planet Completeness Gauntlet; checks coverage + justified absences; 12/12 conformance'),
+      E('docs/world-quality-compiler-source.txt', 'the Planet Constitution section: full Er-Gen-style world ontology (country hierarchy, sect anatomy, clans, cultivation cities, layered economies, spiritual geography, alchemy/artifact/formation civilizations, oceans, wilderness/beast hierarchies, secret realms, era stacks, planetary secrets)'),
+    ],
+    nextSteps: [
+      'Implement a causal world generator that fills the 45 categories',
+      'Run the 100,000-year history simulation',
+      'Chain: Constitution → Completeness → Content Quality → Contradiction → Visual → Performance gauntlets',
+    ],
+    fixtureClass: 'NONE',
+    provenCapabilities: ['Scores a planet against the full ontology, diagnoses missing categories, allows justified absences'],
+    candidates: [],
+    frontierEligible: false,
+  },
+  {
     id: 'substance-regression',
     name: 'Substance regression harness (directive §6)',
     stage: 'PROTOTYPED',
