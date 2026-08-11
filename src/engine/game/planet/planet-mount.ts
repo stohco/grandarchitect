@@ -1,4 +1,4 @@
-/**
+﻿/**
  * game/planet/planet-mount.ts — the planet in three.js.
  *
  * Consumes: frontier prng (determinism), the authored world, the height
@@ -41,7 +41,7 @@ export class PlanetMount {
     this.group = new THREE.Group();
     scene.add(this.group);
     this.buildSky(scene);
-    this.buildFarLod();
+    this.rebuildFarLod(0, 0);
   }
 
   /** The current player chunk key (for residency planning). */
@@ -51,6 +51,7 @@ export class PlanetMount {
 
   /** Update residency for a player position; returns chunks added/removed. */
   update(px: number, pz: number): { added: string[]; removed: string[] } {
+    this.rebuildFarLod(px, pz);
     const plan: ResidencySet = planResidency(px, pz, this.resident);
     if (!residencyChanged(this.resident, plan.resident)) return { added: [], removed: [] };
 
@@ -91,39 +92,84 @@ export class PlanetMount {
     geo.setIndex(new THREE.BufferAttribute(cm.indices, 1));
     geo.computeVertexNormals();
     geo.computeBoundingSphere();
-    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0.02, flatShading: true });
+    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0.02 });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(cm.originX, 0, cm.originZ);
-    mesh.castShadow = mesh.receiveShadow = true;
+    // receive shadows from structures; a heightfield must NOT cast shadows
+    // on itself (self-shadow acne without a depth-biased shadow map)
+    mesh.receiveShadow = true;
     this.group.add(mesh);
     return mesh;
   }
 
-  /** A coarse far LOD so the world does not visibly end at the stream edge. */
-  private buildFarLod(): void {
-    const span = KEEP_RADIUS * 2 + 256;
-    const cell = 32;
-    const n = Math.floor(span / cell);
-    const pos = new Float32Array((n + 1) * (n + 1) * 3);
-    const col = new Float32Array((n + 1) * (n + 1) * 3);
-    const idx: number[] = [];
+  /** Far LOD rings so the world does not visibly end at the stream edge.
+   * Two tiers, both meeting the fine-chunk coverage EXACTLY at the hole
+   * (radius 165 m — always covered by the keep-alive ring) at the SAME
+   * field height (offset 0 — a -1 m step showed as a jagged cliff ring):
+   *   inner ring: 12 m cells, 165–900 m  (rebuilds as the player walks)
+   *   outer ring: 48 m cells, 900–2400 m (rebuilds per 2.4 km cell)
+   * The outer edge sits beyond the fog far plane, so the boundary is
+   * invisible. A full grid would bridge the stream channel — hence rings. */
+  private farLodCell = '';
+  private farLodInnerKey = '';
+  private farLodOuter: THREE.Mesh | null = null;
+  private rebuildFarLod(px: number, pz: number): void {
+    const cellM = 2400;
+    const cx = Math.floor(px / cellM) * cellM;
+    const cz = Math.floor(pz / cellM) * cellM;
+    const key = cx + ',' + cz;
+    const innerKey = `${Math.floor(px / 12)},${Math.floor(pz / 12)}`;
+    const outerChanged = this.farLodCell !== key;
+    const innerChanged = this.farLodInnerKey !== innerKey;
+    if (!outerChanged && !innerChanged && this.farLod && this.farLodOuter) return;
+    this.farLodCell = key;
+    this.farLodInnerKey = innerKey;
+
+    if (innerChanged || !this.farLod) {
+      this.farLod = this.buildRing(cx, cz, px, pz, 2400, 12, 165, 900);
+    }
+    if (outerChanged || !this.farLodOuter) {
+      if (this.farLodOuter) {
+        this.group.remove(this.farLodOuter);
+        this.farLodOuter.geometry.dispose();
+      }
+      this.farLodOuter = this.buildRing(cx, cz, px, pz, 2400, 48, 900, 2400);
+    }
+  }
+
+  /** Build one ring tier: annulus between holeR and edgeR at `cell` m cells. */
+  private buildRing(
+    cx: number, cz: number, px: number, pz: number,
+    radius: number, cell: number, holeR: number, edgeR: number,
+  ): THREE.Mesh {
+    const n = Math.floor((radius * 2) / cell);
+    const count = (n + 1) * (n + 1);
+    const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
+    const valid = new Uint8Array(count);
     for (let iz = 0; iz <= n; iz++) {
       for (let ix = 0; ix <= n; ix++) {
-        const wx = ix * cell - span / 2;
-        const wz = iz * cell - span / 2;
-        const s = this.field.evaluate(wx, wz);
+        const lx = ix * cell - radius;
+        const lz = iz * cell - radius;
         const i = iz * (n + 1) + ix;
-        pos[i * 3] = wx;
+        // hole follows the PLAYER; the ring covers the fine-chunk edge exactly
+        const d = Math.hypot(cx + lx - px, cz + lz - pz);
+        if (d < holeR || d > edgeR) { valid[i] = 0; continue; }
+        const s = this.field.evaluate(cx + lx, cz + lz);
+        pos[i * 3] = lx;
         pos[i * 3 + 1] = s.height;
-        pos[i * 3 + 2] = wz;
+        pos[i * 3 + 2] = lz;
         const c = this.farColor(s.material);
         col[i * 3] = c[0]; col[i * 3 + 1] = c[1]; col[i * 3 + 2] = c[2];
+        valid[i] = 1;
       }
     }
+    const idx: number[] = [];
     for (let iz = 0; iz < n; iz++) {
       for (let ix = 0; ix < n; ix++) {
         const a = iz * (n + 1) + ix, b = a + 1;
         const c = (iz + 1) * (n + 1) + ix, d = c + 1;
+        if (!valid[a] || !valid[b] || !valid[c] || !valid[d]) continue;
         const ay = pos[a * 3 + 1], by = pos[b * 3 + 1], cy = pos[c * 3 + 1], dy = pos[d * 3 + 1];
         const n1y = (cy - ay) * cell - cell * (by - ay);
         const n2y = (dy - cy) * cell - cell * (by - cy);
@@ -136,12 +182,13 @@ export class PlanetMount {
     geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
     geo.setIndex(idx);
     geo.computeVertexNormals();
-    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, metalness: 0, flatShading: true });
-    this.farLod = new THREE.Mesh(geo, mat);
-    this.farLod.position.set(0, -1, 0); // 1 m below the fine chunks — no z-fight
-    this.farLod.frustumCulled = false;
-    this.farLod.renderOrder = -2;
-    this.group.add(this.farLod);
+    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, metalness: 0 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(cx, 0, cz); // same field height as the fine chunks — no step
+    mesh.frustumCulled = false;
+    mesh.renderOrder = -2;
+    this.group.add(mesh);
+    return mesh;
   }
 
   private farColor(material: number): [number, number, number] {
@@ -162,7 +209,7 @@ export class PlanetMount {
       },
       vertexShader: `varying vec3 vDir; void main() { vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
       fragmentShader: `uniform vec3 top; uniform vec3 hor; varying vec3 vDir;
-        void main() { float h = clamp(vDir.y * 0.5 + 0.5, 0.0, 1.0); gl_FragColor = vec4(mix(hor, top, pow(h, 1.4)), 1.0); }`,
+        void main() { float h = clamp(vDir.y * 0.5 + 0.5, 0.0, 1.0); gl_FragColor = vec4(mix(hor, top, pow(h, 3.0)), 1.0); }`,
     });
     this.sky = new THREE.Mesh(geo, mat);
     this.sky.frustumCulled = false;

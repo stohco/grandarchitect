@@ -57,9 +57,19 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   sun.position.set(40, 60, 30);
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.camera.left = -160;
+  sun.shadow.camera.right = 160;
+  sun.shadow.camera.top = 160;
+  sun.shadow.camera.bottom = -160;
+  sun.shadow.bias = -0.0005;      // kills heightfield self-shadow acne
+  sun.shadow.normalBias = 0.03;   // softens the acne further on slopes
   scene.add(sun);
   scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x3a2a1a, 1.1));
   scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  // atmospheric distance blending (spec 14 placeholder until the aerial
+  // perspective pass): the fog far plane sits INSIDE the far-LOD ring
+  // radius, so the world's edge is fully fogged into the horizon sky
+  scene.fog = new THREE.Fog(0xdde5eb, 600, 2000);
 
   // 5. Player at the village, on the resident chunk meshes. The residency
   // must run FIRST so the spawn chunk exists before the controller's BVH.
@@ -100,9 +110,11 @@ export function bootGame(container: HTMLElement): GameHandle | null {
       }
     }
 
-    // over-the-shoulder camera
-    camera.position.set(p.x - 3.2, p.y + 2.0, p.z - 3.2);
-    camera.lookAt(player.lookTarget);
+    // over-the-shoulder camera (skip when an evidence harness holds the camera)
+    if (!(window as unknown as { __FREE_CAMERA?: boolean }).__FREE_CAMERA) {
+      camera.position.set(p.x - 3.2, p.y + 2.0, p.z - 3.2);
+      camera.lookAt(player.lookTarget);
+    }
     renderer.render(scene, camera);
   };
   loop();

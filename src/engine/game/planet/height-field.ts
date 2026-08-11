@@ -144,16 +144,35 @@ export class PlanetHeightField {
     return { height: Math.max(2, h), biome, material };
   }
 
-  /** Deterministic positional micro-roughness: ±0.1 m. */
+  /** Micro detail — smooth, CORRELATED swells at ~6 m wavelength, ±0.06 m.
+   * Per-meter uncorrelated dice tilts every 1 m cell a different way and
+   * shows a checkerboard under the sun; a real surface rolls in swells. */
   private microRough(wx: number, wz: number): number {
+    const L = 6; // swell wavelength (m)
+    const gx = Math.floor(wx / L);
+    const gz = Math.floor(wz / L);
+    const fx = wx / L - gx;
+    const fz = wz / L - gz;
+    const sx = fx * fx * (3 - 2 * fx);
+    const sz = fz * fz * (3 - 2 * fz);
+    const n00 = this.hashUnit(gx, gz);
+    const n10 = this.hashUnit(gx + 1, gz);
+    const n01 = this.hashUnit(gx, gz + 1);
+    const n11 = this.hashUnit(gx + 1, gz + 1);
+    const a = n00 + (n10 - n00) * sx;
+    const b = n01 + (n11 - n01) * sx;
+    return (a + (b - a) * sz - 0.5) * 0.12;
+  }
+
+  /** Deterministic unit hash of a lattice cell (0..1). */
+  private hashUnit(ix: number, iz: number): number {
     const bytes = new Uint8Array(12);
     const dv = new DataView(bytes.buffer);
-    dv.setFloat32(0, wx * 0.37, true);
-    dv.setFloat32(4, wz * 0.91, true);
-    dv.setFloat32(8, this.seed, true);
+    dv.setInt32(0, ix, true);
+    dv.setInt32(4, iz, true);
+    dv.setInt32(8, this.seed, true);
     const hash = fnv1aHash(bytes);
-    const u = (parseInt(hash.slice(0, 8), 16) % 100000) / 100000; // 0..1
-    return (u - 0.5) * 0.2;
+    return (parseInt(hash.slice(0, 8), 16) % 100000) / 100000;
   }
 
   /** Water surface height for rivers (they are cut below sea level). */

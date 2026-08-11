@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "8152d25fa435e4ea83db5896b81d41edf2efc590",
-    "commitShort": "8152d25fa435",
+    "commit": "cb5b15b05d77595090a459298ba9f1ad6ed60db4",
+    "commitShort": "cb5b15b05d77",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 10 modified file(s): .ai/project.manifest.json, eslint.config.mjs, evidence/game-boot-probe.mjs, src/engine/game/bootstrap.ts, src/engine/game/conformance/game-conformance.ts…",
-    "generatedAt": "2026-08-11T22:43:48.034Z",
+    "dirtyReason": "Working tree has 11 modified file(s): src/engine/game/bootstrap.ts, src/engine/game/planet/height-field.ts, src/engine/game/planet/planet-mount.ts, src/engine/game/player-mount.ts, tsconfig.tsbuildinfo…",
+    "generatedAt": "2026-08-11T23:19:28.183Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },

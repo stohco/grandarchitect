@@ -50,11 +50,14 @@ export class GamePlayer {
   constructor(mesh: MeshData, spawn: Vec3) {
     this.controller = new CharacterController({ mesh, spawn });
     this.body = new THREE.Group();
-    // a simple capsule body so the player is visible in the world
+    // a simple capsule body so the player is visible in the world. The
+    // controller rests the capsule up to a probe-depth above the surface,
+    // so the mesh sits 0.5 m lower to read as grounded.
     const capsule = new THREE.Mesh(
       new THREE.CapsuleGeometry(0.35, 0.7, 4, 8),
       new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.75 }),
     );
+    capsule.position.y = -0.65;
     capsule.castShadow = true;
     this.body.add(capsule);
   }

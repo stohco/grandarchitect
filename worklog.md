@@ -1696,3 +1696,31 @@ trajectory determinism, stream-bed-below-sea-level regression).
 Browser evidence: evidence/game-boot-planet.png — gate APPROVE, 416 resident
 chunks, player grounded at the village (256, -128).
 
+
+## 2026-08-11 — VLM-driven terrain hardening (Phase 1.5), 7 inspection rounds
+
+Used the vision agent (VLM) on fixed camera views (evidence/planet-views.mjs,
+free-camera hook added to bootstrap) to drive the terrain to a readable state.
+Real bugs found and fixed per round:
+
+- R1: all views identical — the RAF loop overwrote the camera; added
+  window.__FREE_CAMERA hook for evidence harnesses.
+- R2: 1 m checkerboard — per-meter uncorrelated micro-noise tilted every
+  cell differently under the sun; replaced with correlated 6 m swells
+  (smoothstep value noise, +-0.06 m) — noise is detail, never shape.
+- R3: hard horizon + stream bridging — the static far LOD (48 m cells, world
+  origin, 1 m below) bridged the stream V-cut (triangles spanned the channel
+  10 m above the bed = the 'z-fighting') and its edge sat inside the fog
+  range. Rebuilt as a rebased TWO-TIER RING: inner 12 m cells 165-900 m,
+  outer 48 m 900-2400 m, hole follows the player, SAME field height as the
+  fine chunks (no -1 m step ring), fog far (2000 m) inside the ring radius.
+- R4: sky horizon band now matches the fog color (pow blend 3.0).
+- R5: shadow acne investigation — heightfield self-shadowing; terrain now
+  receives but does not cast; sun shadow bias/normalBias set. Pixel evidence
+  showed the remaining brightness gradient is natural slope lighting.
+
+Gates after each round: tsc 0, lint 0, game:conformance 19/19, maturity
+156/156, ai:check 18/18. Evidence: evidence/planet-*.png (4 fixed views).
+Remaining VLM reads are content density (vegetation, structures, materials)
+— that is Phase 2, not geometry defects.
+
