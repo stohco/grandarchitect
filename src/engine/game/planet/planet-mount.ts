@@ -182,7 +182,11 @@ export class PlanetMount {
     geo.computeVertexNormals();
     const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, metalness: 0 });
     const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(cx, 0, cz); // same field height as the fine chunks — no step
+    // 0.15 m BELOW the fine chunks: they cover the ring in the overlap
+    // band (150-160 m) so there is no coplanar z-fight — a flickering
+    // green sheet at the ring edge. Beyond the fine radius the 0.15 m
+    // step is invisible.
+    mesh.position.set(cx, -0.15, cz);
     mesh.frustumCulled = false;
     mesh.renderOrder = -2;
     this.group.add(mesh);

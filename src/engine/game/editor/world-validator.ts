@@ -110,6 +110,30 @@ export class WorldValidator {
       } else if (gap < -1.5) {
         grounded.push({ id: c.id, label: c.label, kind: 'clipping', gapMeters: gap, diagnosis: `${c.label} is buried ${(-gap).toFixed(2)} m below the surface — if that is emergence, record it in the burial ledger.` });
       }
+      // FOOTPRINT SLOPE: a structure must not straddle more than a
+      // foundation's depth of slope — a house half on the bank is
+      // world-design nonsense, whatever its grounding. The law measures
+      // the FOUNDATION footprint (7.4 x 6.4 m x scale), not the roof's
+      // eave overhang.
+      if (c.type === 'house' || c.type === 'gate' || c.type === 'shrine' || c.type === 'well') {
+        const scale = Math.max(c.root.scale.x, c.root.scale.y, c.root.scale.z) || 1;
+        const fw = 7.4 * scale, fd = 6.4 * scale;
+        const sample = 4;
+        let minT = Infinity, maxT = -Infinity;
+        for (let s = 0; s < sample; s++) {
+          for (let t = 0; t < sample; t++) {
+            const hx = center.x - fw / 2 + fw * (s / (sample - 1));
+            const hz = center.z - fd / 2 + fd * (t / (sample - 1));
+            const h = this.heightAt(hx, hz);
+            minT = Math.min(minT, h);
+            maxT = Math.max(maxT, h);
+          }
+        }
+        const slope = maxT - minT;
+        if (slope > 0.6) {
+          grounded.push({ id: c.id, label: c.label, kind: 'clipping', gapMeters: slope, diagnosis: `${c.label} straddles a ${slope.toFixed(2)} m slope across its foundation — a house on a bank is world-design nonsense; move it to level ground.` });
+        }
+      }
     }
 
     // ---- 2. Water in its channels ----

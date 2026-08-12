@@ -135,12 +135,14 @@ export class PlanetHeightField {
     }
 
     /* ---- 5. Meso relief — the ONLY detail, and it never shapes ----
-       Two gentle swell octaves (6 m at ±0.2 m, 20 m at ±0.3 m): rolling
-       ground that reads as terrain from every distance, still walkable,
-       still deterministic. A flat floor is a tarp; a floor with a 1-2 deg
-       roll is ground. */
-    h += this.microRough(wx, wz, 6, 0.2);
-    h += this.microRough(wx, wz, 20, 0.3);
+       Two gentle swell octaves (6 m at ±0.12, 20 m at ±0.18). The
+       amplitudes obey a LAW: any 7 m structure must fit on the ground
+       with its 0.6 m foundation — the combined swell relief across a
+       footprint stays under ~0.3 m, and the floodplain grade adds at
+       most another ~0.25 m. Ground that rolls, but never breaks a
+       house's footing. */
+    h += this.microRough(wx, wz, 6, 0.12);
+    h += this.microRough(wx, wz, 20, 0.18);
 
     /* ---- biome fallback by elevation ---- */
     if (biome === 'plains') {

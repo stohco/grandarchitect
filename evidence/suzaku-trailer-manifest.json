@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "title": "Planet Suzaku — the draft panoramic",
+    "fps": 10,
+    "shots": [
+      {
+        "id": "dawn_village",
+        "name": "Dawn — Wang Family Village",
+        "duration": 2,
+        "timeOfDay": 0.255,
+        "action": "none"
+      },
+      {
+        "id": "noon_stream",
+        "name": "Noon — the Village Stream",
+        "duration": 1.8,
+        "timeOfDay": 0.5,
+        "action": "none"
+      },
+      {
+        "id": "dusk_square",
+        "name": "Dusk — the Square",
+        "duration": 1.6,
+        "timeOfDay": 0.755,
+        "action": "none"
+      }
+    ]
+  },
+  "notes": [
+    {
+      "shotId": "dawn_village",
+      "verdict": "note",
+      "notes": [
+        "Dawn — Wang Family Village: the village shot has no structures in frame — check the camera path."
+      ]
+    },
+    {
+      "shotId": "noon_stream",
+      "verdict": "pass",
+      "notes": []
+    },
+    {
+      "shotId": "dusk_square",
+      "verdict": "pass",
+      "notes": []
+    },
+    {
+      "shotId": "night_raid",
+      "verdict": "note",
+      "notes": [
+        "no dailies recorded for Night — Wolves at the Fence"
+      ]
+    },
+    {
+      "shotId": "god_eye",
+      "verdict": "note",
+      "notes": [
+        "no dailies recorded for Dawn — the God's Eye"
+      ]
+    },
+    {
+      "shotId": "qing_hill",
+      "verdict": "note",
+      "notes": [
+        "no dailies recorded for Heng Yue — Qing Hill"
+      ]
+    },
+    {
+      "shotId": "south_sea",
+      "verdict": "note",
+      "notes": [
+        "no dailies recorded for The South Sea"
+      ]
+    },
+    {
+      "shotId": "terminator",
+      "verdict": "note",
+      "notes": [
+        "no dailies recorded for The Terminator — 200 km East"
+      ]
+    }
+  ]
+}

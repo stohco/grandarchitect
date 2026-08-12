@@ -1906,3 +1906,35 @@ buried through emergence.'
   2 water), lawsPass TRUE with 0 violations across all four categories.
 Gates: all 7 conformance suites + tsc + lint + ai:check + maturity 156.
 
+
+## 2026-08-11 — the studio director + the draft film pipeline
+
+User: 'use the code to create the skeleton, pass the draft through a video
+model to make it feel real… an introduction panoramic, like a game trailer'
+and 'we can have our own higgsfield that acts like a studio director.'
+
+- cinematic/cinematic.ts — the shot rig: keyframed camera paths, per-shot
+  planet clock + player teleport (the world streams to the shot), actions.
+- cinematic/director.ts — THE DIRECTOR: film grammar (compose/move/reveal/
+  action/physics/close), stage sets (village, stream, square, fence, Qing
+  Hill, the South Sea), the panoramic beats (dawn village, noon stream,
+  dusk square, night raid, god's eye, Heng Yue, the sea, and the
+  TERMINATOR: 200 km east — crossing longitudes shifts local time
+  0.301 -> 0.800, the terminator on film). The REVIEW PASS watches the
+  dailies and writes director's notes (sky matches the time, water in
+  stream shots, structures in village shots, black frames flagged).
+- cinematic/recording.ts — canvas.captureStream + MediaRecorder -> WebM
+  + the manifest; frame sampling (every 3rd frame) as the dailies.
+- bootstrap: F7 records the trailer; F8 the director's cut (compose ->
+  record -> review -> notes downloaded with the WebM); editor.cinematic /
+  director / startDirectorCut exposed (the evidence harness drives it).
+- FIXED: the loop updated the wrong cinematic (the cut never advanced);
+  the canvas captured BLACK frames in headless swiftshader — fixed with
+  renderer preserveDrawingBuffer; review requires >= 2 dailies per beat.
+- EVIDENCE: evidence/suzaku-trailer.webm (1.5 MB, 3 local shots) +
+  manifest + director's notes: noon_stream PASS, dusk_square PASS,
+  dawn_village noted (camera opens too far — the director caught it).
+- director-conformance 10/10 (grammar, determinism, the terminator's
+  local-time shift, review catches bright night/waterless stream/black
+  frames). All 8 conformance suites + tsc/lint/ai:check/maturity green.
+

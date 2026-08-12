@@ -24,8 +24,13 @@ import { registerVillageComponents, registerVillagerComponents } from './editor/
 import { SelectionManager } from './editor/selection';
 import { TerrainEditStore } from './editor/terrain-edit';
 import { EditorPanel } from './editor/panel';
+import { FlyCamera } from './editor/fly-camera';
 import { WorldValidator, BurialLedger } from './editor/world-validator';
 import { exportWorld, downloadWorld } from './editor/world-export';
+import { Cinematic } from './cinematic/cinematic';
+import { TRAILER_SHOTS } from './cinematic/trailer';
+import { Director } from './cinematic/director';
+import { recordTrailer, downloadTrailer } from './cinematic/recording';
 
 export const GAME_SEED = 89274613;
 
@@ -63,7 +68,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const planet = new PlanetMount(scene, { seed: GAME_SEED });
 
   // 3. Renderer + camera.
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
@@ -152,6 +157,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     return downloadWorld(json);
   };
   editorPanel.setValidator(validator, burialLedger);
+
   // rebuild the player's collision after a terrain edit
   const rebuildCollision = () => {
     const merged = mergeChunkMeshes(planet.chunks, planet);
@@ -160,30 +166,34 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   selection.onDragging = (d) => { editor.dragging = d; };
   selection.onChanged = () => { if (editor.dragging) rebuildCollision(); };
   let lastPaint = 0;
-  // minimal orbit camera for edit mode (middle-drag orbits, wheel zooms)
-  const orbit = { yaw: 0, pitch: -0.3, dist: 18, pivot: new THREE.Vector3(spawn.x, spawnY, spawn.z), lastX: 0, lastY: 0, active: false };
-  const applyOrbit = () => {
-    camera.position.set(
-      orbit.pivot.x + Math.sin(orbit.yaw) * Math.cos(orbit.pitch) * orbit.dist,
-      orbit.pivot.y + Math.sin(orbit.pitch) * orbit.dist,
-      orbit.pivot.z + Math.cos(orbit.yaw) * Math.cos(orbit.pitch) * orbit.dist,
-    );
-    camera.lookAt(orbit.pivot);
+  // the god's-eye flight camera (edit mode): WASD fly, left-drag look,
+  // Q/E up/down, Shift sprint, wheel speed. Replaces the old orbit pivot.
+  const flyCamera = new FlyCamera(camera, renderer.domElement);
+  (editor as unknown as { fly: FlyCamera }).fly = flyCamera;
+  (editor as unknown as { fly: FlyCamera; flyTo: (x: number, y: number, z: number, lx: number, ly: number, lz: number) => void }).flyTo = (x, y, z, lx, ly, lz) => {
+    flyCamera.flyTo(x, y, z, lx, ly, lz);
   };
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Tab') {
       e.preventDefault();
       editor.on = !editor.on;
       selection.setEnabled(editor.on);
+      flyCamera.setEnabled(editor.on);
       editorPanel.setEditMode(editor.on);
-      if (editor.on) applyOrbit();
+      if (editor.on) {
+        // rise into the god's eye above the selection or the village
+        const pivot = selection.selected[0]
+          ? selection.selected[0].bounds.getCenter(new THREE.Vector3())
+          : new THREE.Vector3(spawn.x, spawnY, spawn.z);
+        flyCamera.flyTo(pivot.x, pivot.y + 26, pivot.z - 14, pivot.x, pivot.y, pivot.z + 4);
+      }
     }
     if (!editor.on) return;
     if (e.code === 'KeyW') selection.setMode('translate');
     if (e.code === 'KeyE') selection.setMode('rotate');
     if (e.code === 'KeyR') selection.setMode('scale');
     if (e.code === 'KeyU') { terrainStore.undo(); rebuildCollision(); }
-    if (e.code === 'F5') {
+    if (e.code === 'F6') {
       e.preventDefault();
       const report = validator.validate();
       lastValidation = report;
@@ -207,24 +217,14 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   });
   renderer.domElement.addEventListener('mousedown', (e) => {
     if (!editor.on) return;
-    if (e.button === 1) { orbit.active = true; orbit.lastX = e.clientX; orbit.lastY = e.clientY; return; }
     if (e.button === 2) { selection.startMarquee(e.clientX, e.clientY); return; }
     if (e.button === 0) {
       const c = selection.click((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
-      if (c && !c.type.startsWith('terrain')) {
-        orbit.pivot.copy(c.bounds.getCenter(new THREE.Vector3()));
-      }
+      if (!c) { /* empty ground: fly-look drag handles it */ }
     }
   });
   window.addEventListener('mousemove', (e) => {
     if (!editor.on) return;
-    if (orbit.active) {
-      orbit.yaw -= (e.clientX - orbit.lastX) * 0.008;
-      orbit.pitch = Math.max(-1.4, Math.min(-0.05, orbit.pitch + (e.clientY - orbit.lastY) * 0.005));
-      orbit.lastX = e.clientX; orbit.lastY = e.clientY;
-      applyOrbit();
-      return;
-    }
     if (e.buttons & 2) { selection.updateMarquee(e.clientX, e.clientY); return; }
     if (editor.dragging) return;
     if ((e.buttons & 1) === 0) return;
@@ -237,14 +237,12 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     }
   });
   window.addEventListener('mouseup', (e) => {
-    if (e.button === 1) orbit.active = false;
     if (!editor.on) return;
     if (e.button === 2) selection.endMarquee(e.clientX, e.clientY);
   });
   window.addEventListener('wheel', (e) => {
     if (!editor.on) return;
-    orbit.dist = Math.max(3, Math.min(400, orbit.dist * (e.deltaY > 0 ? 1.1 : 0.9)));
-    applyOrbit();
+    flyCamera.wheel(e.deltaY);
   }, { passive: true });
 
   // 6. Input + loop.
@@ -328,10 +326,14 @@ export function bootGame(container: HTMLElement): GameHandle | null {
       camera.position.set(p.x - 3.2, p.y + 2.0, p.z - 3.2);
       camera.lookAt(player.lookTarget);
     }
+    if (editor.on) flyCamera.update(dt);
+    if (activeCinematic && activeCinematic.active) {
+      activeCinematic.update(dt);
+      // the cinematic owns the camera and the shot clock
+    }
     renderer.render(scene, camera);
   };
-  loop();
-  return {
+  const handle: GameHandle = {
     scene,
     camera,
     renderer,
@@ -353,4 +355,79 @@ export function bootGame(container: HTMLElement): GameHandle | null {
       if (renderer.domElement.parentElement === container) container.removeChild(renderer.domElement);
     },
   };
+  // 5f. THE TRAILER — the draft film for the video model. F7 records the
+  // panoramic to a WebM download; F8 is the DIRECTOR'S CUT: compose ->
+  // record -> review -> director's notes (the video model's briefing).
+  let activeCinematic: Cinematic | null = null;
+  const director = new Director();
+  const cinematic = new Cinematic(director.compose());
+  (editor as unknown as { cinematic: Cinematic; director: Director; play: (c: Cinematic) => void }).cinematic = cinematic;
+  (editor as unknown as { cinematic: Cinematic; director: Director; play: (c: Cinematic) => void }).director = director;
+  (editor as unknown as { cinematic: Cinematic; director: Director; play: (c: Cinematic) => void }).play = (c) => { activeCinematic = c; };
+  // recordDirectorCut: compose -> record -> review, returns the draft for
+  // the video model (used by F8 and by the evidence harness). Fire-and-
+  // forget: startDirectorCut sets editor.cutDone when finished.
+  const cutState: { active: boolean; done: { blob: Blob; blobBase64: string; manifest: unknown; notes: unknown; samples: number } | null } = { active: false, done: null };
+  (editor as unknown as { cutState: typeof cutState }).cutState = cutState;
+  (editor as unknown as { startDirectorCut: (scale?: number, maxShots?: number) => void }).startDirectorCut = (scale = 0.3, maxShots = Infinity) => {
+    if (cutState.active) return;
+    cutState.active = true;
+    cutState.done = null;
+    editor.on = false;
+    selection.setEnabled(false);
+    flyCamera.setEnabled(false);
+    editorPanel.setEditMode(false);
+    const shots = director.compose(scale).slice(0, maxShots);
+    const cutCinematic = new Cinematic(shots);
+    activeCinematic = cutCinematic;
+    recordTrailer(handle, cutCinematic, 10).then(async ({ blob, manifest, samples }) => {
+      const notes = director.review(samples);
+      const buf = await blob.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      let bin = '';
+      for (let i = 0; i < bytes.length; i += 8192) {
+        bin += String.fromCharCode(...bytes.subarray(i, i + 8192));
+      }
+      cutState.done = { blob, blobBase64: btoa(bin), manifest, notes, samples: samples.length };
+      cutState.active = false;
+    }).catch((err) => { console.error('[director]', err); cutState.active = false; });
+  };
+  let recording = false;
+  window.addEventListener('keydown', (e) => {
+    if (recording) return;
+    if (e.code === 'F7') {
+      e.preventDefault();
+      recording = true;
+      editor.on = false;
+      selection.setEnabled(false);
+      flyCamera.setEnabled(false);
+      editorPanel.setEditMode(false);
+      recordTrailer(handle, cinematic, 30).then(({ blob, manifest }) => {
+        downloadTrailer(blob, manifest);
+        recording = false;
+      }).catch((err) => { console.error('[trailer]', err); recording = false; });
+    }
+    if (e.code === 'F8') {
+      e.preventDefault();
+      recording = true;
+      editor.on = false;
+      selection.setEnabled(false);
+      flyCamera.setEnabled(false);
+      editorPanel.setEditMode(false);
+      const cutCinematic = new Cinematic(director.compose());
+      recordTrailer(handle, cutCinematic, 30).then(({ blob, manifest, samples }) => {
+        const notes = director.review(samples);
+        downloadTrailer(blob, manifest, notes);
+        const passCount = notes.filter((n) => n.verdict === 'pass').length;
+        const issues = notes.filter((n) => n.verdict === 'note').length;
+        console.log(`[director] cut recorded: ${passCount}/${notes.length} beats pass, ${issues} with notes.`);
+        for (const n of notes) {
+          if (n.notes.length) console.log(`[director] ${n.shotId}: ${n.notes.join(' | ')}`);
+        }
+        recording = false;
+      }).catch((err) => { console.error('[director]', err); recording = false; });
+    }
+  });
+  loop();
+  return handle;
 }
