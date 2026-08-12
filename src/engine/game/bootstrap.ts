@@ -15,6 +15,8 @@ import { runWorldQualityGate } from './world-quality-gate';
 import { mergeChunkMeshes } from './planet/merge-meshes';
 import { mountVillage } from './village/village-mount';
 import { buildVillagers, nearestVillager, broadcastRaid } from './village/villagers';
+import { RaidVisuals } from './village/raid-visuals';
+import { SkyDome } from './sky';
 import { PlanetTimeSystem } from './time/planet-time';
 import { Inventory, ITEMS } from './inventory';
 
@@ -31,6 +33,8 @@ export interface GameHandle {
   villagers: ReturnType<typeof buildVillagers>;
   time: PlanetTimeSystem;
   inventory: Inventory;
+  sky: SkyDome;
+  raidVisuals: RaidVisuals;
   gate: ReturnType<typeof runWorldQualityGate>;
   /** Last interaction line (HUD). */
   lastLine: string;
@@ -62,7 +66,10 @@ export function bootGame(container: HTMLElement): GameHandle | null {
 
   const camera = new THREE.PerspectiveCamera(62, container.clientWidth / container.clientHeight, 0.1, 6000);
 
-  // 4. Light.
+  // 3b. The living sky, driven by LOCAL solar time.
+  const sky = new SkyDome(scene);
+
+  // 4. Light (the sun follows the local sky each frame).
   const sun = new THREE.DirectionalLight(0xffe4c0, 2.6);
   sun.position.set(40, 60, 30);
   sun.castShadow = true;
@@ -78,7 +85,8 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   scene.add(new THREE.AmbientLight(0xffffff, 0.7));
   // atmospheric distance blending (spec 14 placeholder until the aerial
   // perspective pass): the fog far plane sits INSIDE the far-LOD ring
-  // radius, so the world's edge is fully fogged into the horizon sky
+  // radius, so the world's edge is fully fogged into the horizon sky.
+  // The fog color follows the sky's horizon band (day/dusk/night).
   scene.fog = new THREE.Fog(0xdde5eb, 600, 2000);
 
   // 5. Player at the village, on the resident chunk meshes. The residency
@@ -100,6 +108,10 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const villagers = buildVillagers(planet.field, scene);
   // the player begins with the seed of a good deed
   inventory.add('wolf_fang', 3);
+
+  // 5d. The wolves at the fence — visible when the raid fires.
+  const raidVisuals = new RaidVisuals(scene, planet.field);
+  let raidActive = false;
 
   // 6. Input + loop.
   const input = new GameInput(window);
@@ -144,10 +156,24 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     sun.position.set(p.x + localDir.x * 300, Math.max(localDir.y, 0.05) * 300 + 40, p.z + localDir.z * 300);
     sun.intensity = 0.15 + Math.max(0, localElev) * 3.0;
     sun.color.setRGB(1.0, Math.max(0.4, 0.62 * Math.max(0.2, localElev)), Math.max(0.2, 0.25 * Math.max(0.2, localElev)));
+    // the sky + fog follow the local sky; night brings the stars, the moon,
+    // and lantern-warm windows
+    const localTime = time.localTimeAt(p.x, p.z);
+    sky.update(localTime, localDir);
+    scene.fog!.color.copy(sky.fogColor(localTime, localElev));
+    const nightFactor = 1 - THREE.MathUtils.smoothstep(localElev, -0.04, 0.18);
+    village.materials.window.emissiveIntensity = nightFactor * 0.9;
     // nightfall: the wolves test the fence (once per night, local)
     if (time.isNightAt(p.x, p.z) && tick % 600 === 0) {
       broadcastRaid(villagers, tick);
+      raidVisuals.trigger();
+      raidActive = true;
     }
+    if (raidActive && !time.isNightAt(p.x, p.z)) {
+      raidVisuals.end();
+      raidActive = false;
+    }
+    raidVisuals.update(dt);
 
     const chunk = planet.playerChunk(p.x, p.z);
     if (chunk !== lastChunk) {
@@ -183,6 +209,8 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     villagers,
     time,
     inventory,
+    sky,
+    raidVisuals,
     gate,
     lastLine,
     dispose: () => {

@@ -82,10 +82,12 @@ export function mountVillage(planet: PlanetMount, scene: THREE.Scene): VillageMo
   gate.position.set(center.x + fGate.dx, planet.field.evaluate(center.x + fGate.dx, center.z + fGate.dz).height, center.z + fGate.dz);
   group.add(gate);
 
-  // painted ground: terrain-following strips (never a floating slab)
+  // painted ground: terrain-following strips (1 m cells — a coarse plane
+  // BRIDGES the stream channel and reads as a slab over the valley; fine
+  // cells follow the V-cut and the swells like real ground)
   const grounds: THREE.Mesh[] = [];
   for (const strip of GROUND_STRIPS) {
-    const sub = 7;
+    const sub = Math.max(1, Math.round(Math.max(strip.w, strip.d)));
     const geo = new THREE.PlaneGeometry(strip.w, strip.d, sub, sub);
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {

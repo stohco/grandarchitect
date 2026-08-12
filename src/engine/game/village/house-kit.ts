@@ -98,6 +98,10 @@ export function buildHouse(
     mk(new THREE.BoxGeometry(1.24 * s, 0.08 * s, 0.08 * s), opts.materials.timber, wx * s, 2.8 * s, -2.99 * s, 'windowFrame');
   }
   // ---- pitched slate roof with upturned eaves ----
+  // The two slopes face OPPOSITE ways; the second slope's winding must be
+  // REVERSED or its triangles point inward and the renderer culls them —
+  // a half-missing roof. (Verified by village-conformance: both slopes
+  // produce upward-facing normals from the outside.)
   const roofW = 8.2 * s, roofD = 6.6 * s, ridgeY = 4.9 * s, eaveY = 3.55 * s;
   const rp: number[] = [];
   const pushSlope = (zSign: number) => {
@@ -107,29 +111,36 @@ export function buildHouse(
   pushSlope(1); pushSlope(-1);
   const roofGeo = new THREE.BufferGeometry();
   roofGeo.setAttribute('position', new THREE.Float32BufferAttribute(rp, 3));
-  roofGeo.setIndex([0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7]);
+  // slope 1 (eave +z): CCW from above; slope 2 (eave -z): REVERSED winding
+  roofGeo.setIndex([0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6]);
   roofGeo.computeVertexNormals();
   const roof = new THREE.Mesh(roofGeo, opts.materials.slate);
   roof.name = 'roof';
   roof.castShadow = roof.receiveShadow = true;
   group.add(roof);
   for (const [cx2, cz2] of [[-roofW / 2, roofD / 2], [roofW / 2, roofD / 2], [-roofW / 2, -roofD / 2], [roofW / 2, -roofD / 2]] as const) {
-    const cap = mk(new THREE.BoxGeometry(0.44 * s, 0.14 * s, 0.44 * s), opts.materials.slate, cx2, eaveY + 0.14 * s, cz2, 'eaveCap');
+    const cap = mk(new THREE.BoxGeometry(0.44 * s, 0.14 * s, 0.44 * s), opts.materials.slate, cx2, eaveY + 0.06 * s, cz2, 'eaveCap');
     cap.rotation.z = (cx2 < 0 ? 1 : -1) * 0.5;
     cap.rotation.x = (cz2 < 0 ? 1 : -1) * 0.35;
   }
-  mk(new THREE.BoxGeometry(roofW + 0.3 * s, 0.22 * s, 0.4 * s), opts.materials.timber, 0, ridgeY + 0.1 * s, 0, 'ridge');
+  // ridge beam EMBEDDED into the roof (half-buried — reads as construction,
+  // never as a floating timber above the skyline)
+  mk(new THREE.BoxGeometry(roofW + 0.3 * s, 0.16 * s, 0.4 * s), opts.materials.timber, 0, ridgeY + 0.02 * s, 0, 'ridge');
   mk(new THREE.SphereGeometry(0.14 * s, 6, 5), opts.materials.lantern, -0.9 * s, 1.9 * s, -3.0 * s, 'lantern');
 
-  // ---- ground at the MAX terrain under the footprint ----
+  // ---- ground at the MINIMUM terrain under the footprint ----
+  // The 0.6 m stone foundation must STRADDLE the ground: at the min, the
+  // low side is flush (nothing floats) and the high side buries up to the
+  // valley's gentle slope INTO the foundation (stone in dirt reads natural).
   const x = centerX + house.dx;
   const z = centerZ + house.dz;
-  let gy = opts.field.evaluate(x, z).height;
+  let gy = Infinity;
   for (let sx = -3.6 * s; sx <= 3.6 * s; sx += 1.8 * s) {
     for (let sz = -3.2 * s; sz <= 3.2 * s; sz += 1.6 * s) {
-      gy = Math.max(gy, opts.field.evaluate(x + sx, z + sz).height);
+      gy = Math.min(gy, opts.field.evaluate(x + sx, z + sz).height);
     }
   }
+  if (!Number.isFinite(gy)) gy = opts.field.evaluate(x, z).height;
   group.position.set(x, gy, z);
   group.rotation.y = house.facing;
   return group;

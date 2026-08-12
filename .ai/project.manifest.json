@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "f6d22b99ead73367ebe52ac3295063637b05b5e8",
-    "commitShort": "f6d22b99ead7",
+    "commit": "cfa012b41ab1b65f90d15b6eda891fa584d9bd2e",
+    "commitShort": "cfa012b41ab1",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 8 modified file(s): package.json, src/engine/game/bootstrap.ts, src/engine/game/conformance/villagers-conformance.ts, src/engine/game/game-clock.ts, src/engine/game/village/villagers.ts…",
-    "generatedAt": "2026-08-12T00:04:18.830Z",
+    "dirtyReason": "Working tree has 42 modified file(s): .ai/project.manifest.json, package.json, src/engine/game/bootstrap.ts, src/engine/game/conformance/village-conformance.ts, src/engine/game/planet/planet-mount.ts…",
+    "generatedAt": "2026-08-12T00:58:27.769Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -227,6 +227,15 @@
       "verified": true,
       "source": "package.json scripts.game:time-conformance",
       "expandsTo": "bun run src/engine/game/conformance/time-conformance.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "game:sky-conformance": {
+      "command": "bun run game:sky-conformance",
+      "verified": true,
+      "source": "package.json scripts.game:sky-conformance",
+      "expandsTo": "bun run src/engine/game/conformance/sky-conformance.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""

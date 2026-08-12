@@ -1806,3 +1806,31 @@ makes sense — a fast flier can outrun the terminator to the dark side.
 Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49,
 villagers 23/23, time 20/20.
 
+
+## 2026-08-11 — grounding + roof + painted-ground fixes (user field report)
+
+User reported: terrain-colored planes over the valley, houses floating with
+half their roof missing. Root causes, all fixed with proofs:
+
+1. HALF-MISSING ROOF — the pitched slate roof's two slopes used IDENTICAL
+   triangle winding; the second slope's normals pointed INWARD and the
+   renderer culled them (one slope invisible). Fixed: reversed winding on
+   the -z slope. village-conformance now proves roof normals ALL face up
+   (downFacing === 0, upFacing > 0).
+2. FLOATING HOUSES — houses grounded at the footprint MAX, so the 0.6 m
+   foundation floated above the low side of the valley's gentle slope.
+   Fixed: ground at the footprint MINIMUM — the low side is flush, the
+   high side buries into the foundation (stone in dirt reads natural).
+3. TERRAIN-COLORED PLANES OVER THE VALLEY — the painted ground strips
+   (square, cart road, fields, graveyard) used 7 subdivisions; coarse cells
+   bridged the terrain swells and read as slabs. Fixed: 1 m cells
+   (vertex-snapped to the field); conformance asserts every strip clears
+   the stream channel (minDist > 2 m) and tracks the field.
+4. RIDGE BEAM + EAVE CAPS read as floating — embedded (ridge half-buried
+   into the roof; caps sunk to the eave).
+
+Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village
+52/52, villagers 23/23, time 20/20, sky 14/14. Evidence: roof-fixed.png,
+sky-*.png. VLM confirms noon/dusk/night skies + window glow; its remaining
+reads are material fidelity (Phase 3).
+

@@ -32,7 +32,6 @@ export class PlanetMount {
   readonly chunks = new Map<string, THREE.Mesh>();
   private resident = new Set<string>();
   private farLod: THREE.Mesh | null = null;
-  private sky: THREE.Mesh | null = null;
   private maxChunks: number;
 
   constructor(scene: THREE.Scene, opts: PlanetMountOptions) {
@@ -40,7 +39,6 @@ export class PlanetMount {
     this.maxChunks = opts.maxChunks ?? 900;
     this.group = new THREE.Group();
     scene.add(this.group);
-    this.buildSky(scene);
     this.rebuildFarLod(0, 0);
   }
 
@@ -195,25 +193,6 @@ export class PlanetMount {
     // distant haze-tinted palette (matching the fine chunk colors)
     const base = MATERIAL_COLORS_FAR[material] ?? [0.2, 0.24, 0.2];
     return base;
-  }
-
-  /** A simple gradient sky dome (Phase 1: no atmosphere pass yet). */
-  private buildSky(scene: THREE.Scene): void {
-    const geo = new THREE.SphereGeometry(4000, 32, 16);
-    const mat = new THREE.ShaderMaterial({
-      side: THREE.BackSide,
-      depthWrite: false,
-      uniforms: {
-        top: { value: new THREE.Color(0x8fbfe8) },
-        hor: { value: new THREE.Color(0xdde5eb) },
-      },
-      vertexShader: `varying vec3 vDir; void main() { vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
-      fragmentShader: `uniform vec3 top; uniform vec3 hor; varying vec3 vDir;
-        void main() { float h = clamp(vDir.y * 0.5 + 0.5, 0.0, 1.0); gl_FragColor = vec4(mix(hor, top, pow(h, 3.0)), 1.0); }`,
-    });
-    this.sky = new THREE.Mesh(geo, mat);
-    this.sky.frustumCulled = false;
-    scene.add(this.sky);
   }
 
   /** Ground height at a world point (for spawning/grounding). */

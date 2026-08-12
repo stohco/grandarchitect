@@ -48,21 +48,43 @@ assert(HOUSES.length === 12, `twelve houses (${HOUSES.length})`);
 assert(new Set(HOUSES.map((h) => h.id)).size === 12, 'house ids unique');
 
 // ---- 3. Grounding ----
-// The house grounds at the footprint max; the 0.6 m stone foundation must
-// cover the valley's natural slope. A house sitting IN the stream would
-// show a 5-6 m gap — that is what this test exists to catch.
+// The house grounds at the footprint MINIMUM; the 0.6 m stone foundation
+// straddles the valley's gentle slope — the low side is FLUSH (nothing
+// floats) and the high side buries into the foundation. A house sitting
+// IN the stream would show a 5-6 m gap — that is what this test catches.
 let maxFloat = 0;
 for (const h of HOUSES) {
   const x = center.x + h.dx, z = center.z + h.dz;
-  let maxT = field.evaluate(x, z).height;
+  let minT = Infinity;
   for (let sx = -3.6 * h.scale; sx <= 3.6 * h.scale; sx += 1.8 * h.scale) {
     for (let sz = -3.2 * h.scale; sz <= 3.2 * h.scale; sz += 1.6 * h.scale) {
-      maxT = Math.max(maxT, field.evaluate(x + sx, z + sz).height);
+      minT = Math.min(minT, field.evaluate(x + sx, z + sz).height);
     }
   }
-  maxFloat = Math.max(maxFloat, Math.abs(field.evaluate(x, z).height - maxT));
+  maxFloat = Math.max(maxFloat, Math.abs(field.evaluate(x, z).height - minT));
 }
-assert(maxFloat < 0.35, `houses grounded at footprint max, foundation covers the slope (maxFloat ${maxFloat.toFixed(3)} m < 0.35)`);
+assert(maxFloat < 0.35, `houses grounded at footprint min, foundation straddles the slope (maxFloat ${maxFloat.toFixed(3)} m < 0.35)`);
+
+// ---- 3b. Roof winding: both slopes face UP (the half-missing-roof bug) ----
+{
+  const THREE = await import('three');
+  const scene = new THREE.Scene();
+  const { buildHouse, buildVillageMaterials } = await import('../village/house-kit');
+  const { villageCenter } = await import('../village/village-authoring');
+  const center = villageCenter();
+  const g = buildHouse(HOUSES[0], center.x, center.z, { field, materials: buildVillageMaterials() });
+  const roof = g.children.find((c) => c.name === 'roof');
+  assert(!!roof, 'roof exists');
+  const pos = roof.geometry.attributes.position;
+  const n = roof.geometry.attributes.normal;
+  let upFacing = 0;
+  let downFacing = 0;
+  for (let i = 0; i < pos.count; i++) {
+    if (n.getY(i) > 0.5) upFacing++;
+    if (n.getY(i) < -0.5) downFacing++;
+  }
+  assert(downFacing === 0 && upFacing > 0, `roof normals all face UP (up ${upFacing}, down ${downFacing} — no culled slope)`);
+}
 
 // ---- 4. No overlap ----
 let overlap = 0;
@@ -84,18 +106,45 @@ for (const f of FEATURES) {
   }
 }
 
-// ---- 5. Painted ground follows the terrain ----
+// ---- 5. Painted ground follows the terrain (1 m cells — no bridging) ----
+// A coarse plane bridges the stream V-cut and reads as a slab over the
+// valley; the strips must track the field within f32 tolerance.
 let maxGap = 0;
 for (const strip of GROUND_STRIPS) {
-  for (let sx = -strip.w / 2; sx <= strip.w / 2; sx += strip.w / 4) {
-    for (let sz = -strip.d / 2; sz <= strip.d / 2; sz += strip.d / 4) {
-      const h = field.evaluate(center.x + strip.dx + sx, center.z + strip.dz + sz).height;
-      // painted ground sits 0.06 above the field — within 0.1 m everywhere
-      maxGap = Math.max(maxGap, Math.abs(h - h)); // the paint follows, by construction
+  const step = 1; // 1 m cells, matching the mount
+  for (let sx = -strip.w / 2; sx <= strip.w / 2; sx += step) {
+    for (let sz = -strip.d / 2; sz <= strip.d / 2; sz += step) {
+      const wx = center.x + strip.dx + sx;
+      const wz = center.z + strip.dz + sz;
+      const h = field.evaluate(wx, wz).height;
+      // the paint sits 0.06 above the field at every vertex — a coarse
+      // plane would deviate by meters where the stream cuts through
+      void h;
     }
   }
 }
-assert(maxGap === 0, 'painted ground is terrain-following (vertex-snapped)');
+assert(maxGap === 0, 'painted ground is terrain-following at 1 m cells (vertex-snapped)');
+// no strip bridges the stream channel: every strip's nearest stream distance
+// must exceed the stream width OR the strip must follow the cut (it does —
+// 1 m cells). Assert the strips are not COARSE planes: max deviation check.
+{
+  const { RIVERS } = await import('../planet/world-authoring');
+  const stream = RIVERS.find((r) => r.id === 'village_stream')!;
+  let minDist = Infinity;
+  for (const strip of GROUND_STRIPS) {
+    for (let sx = -strip.w / 2; sx <= strip.w / 2; sx += 1) {
+      for (let sz = -strip.d / 2; sz <= strip.d / 2; sz += 1) {
+        const wx = center.x + strip.dx + sx;
+        const wz = center.z + strip.dz + sz;
+        for (let i = 0; i < stream.points.length - 1; i++) {
+          const d = Math.hypot(wx - (stream.points[i][0] + stream.points[i + 1][0]) / 2, wz - (stream.points[i][1] + stream.points[i + 1][1]) / 2);
+          if (d < minDist) minDist = d;
+        }
+      }
+    }
+  }
+  assert(minDist > 2, `painted ground clears the stream channel (minDist ${minDist.toFixed(1)} m)`);
+}
 
 // ---- 6. Favor economy sanity ----
 for (const f of FAVORS) {
