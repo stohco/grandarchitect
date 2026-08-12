@@ -37,6 +37,7 @@ PALETTE = {
     'skin': (0.62, 0.45, 0.36),          # #d6a87a weathered farmer skin
     'hair': (0.11, 0.09, 0.085),         # #2a2622 ink-black hair
     'straw': (0.46, 0.37, 0.24),         # #a8885a straw sandals
+    'linen': (0.36, 0.32, 0.26),         # #8a7a64 unbleached linen undergarments
 }
 
 
@@ -413,6 +414,280 @@ def build_villager(seed):
     return joined
 
 
+# ---------------------------------------------------------------------------
+# The character BASE BODY (bible §4) — nothing equipped
+# ---------------------------------------------------------------------------
+# Per the style bible §4: a complete, modestly-clad base body so every
+# equipment slot can be equipped/removed/hidden later. Proportions §3:
+# 1.82 m male, 7.75 heads, shoulders 0.46, hips 0.34, hand 0.19, foot
+# 0.27, eye line ~1.70, root origin at the ground center between feet.
+# Healthy, elegant, capable — never exaggerated.
+#
+# The body is NOT joined: every part is a NAMED node = a body-hide zone
+# (the bible's exact zone IDs), so equipment can hide/show by name. The
+# scalp cap is the HEAD_SCALP zone (hair is a wearable); the briefs and
+# chest band are the modest undergarments.
+
+ZONE = {
+    'scalp': 'zone_HEAD_SCALP',
+    'neck': 'zone_NECK',
+    'chest_up': 'zone_CHEST_UPPER',
+    'chest_lo': 'zone_CHEST_LOWER',
+    'back_up': 'zone_BACK_UPPER',
+    'back_lo': 'zone_BACK_LOWER',
+    'shl': 'zone_SHOULDER_L',
+    'shr': 'zone_SHOULDER_R',
+    'armu_l': 'zone_UPPER_ARM_L',
+    'armu_r': 'zone_UPPER_ARM_R',
+    'armf_l': 'zone_FOREARM_L',
+    'armf_r': 'zone_FOREARM_R',
+    'hand_l': 'zone_HAND_L',
+    'hand_r': 'zone_HAND_R',
+    'pelvis': 'zone_PELVIS',
+    'glute': 'zone_GLUTE',
+    'thigh_l': 'zone_THIGH_L',
+    'thigh_r': 'zone_THIGH_R',
+    'calf_l': 'zone_CALF_L',
+    'calf_r': 'zone_CALF_R',
+    'foot_l': 'zone_FOOT_L',
+    'foot_r': 'zone_FOOT_R',
+}
+
+
+def build_character_base(seed):
+    rng = Seeded(seed)
+    skin = make_material('char_skin', PALETTE['skin'], roughness=0.78)
+    hair = make_material('char_hair', PALETTE['hair'], roughness=0.9)
+    eye = make_material('char_eye', (0.015, 0.015, 0.015), roughness=0.2)
+    brow = make_material('char_brow', (0.06, 0.05, 0.045), roughness=0.9)
+    linen = make_material('char_linen', PALETTE['linen'], roughness=0.95)
+
+    objects = []
+
+    def spawn(mesh_op, name, mat):
+        mesh_op()
+        obj = bpy.context.object
+        obj.name = name
+        if mat:
+            assign(obj, mat)
+        objects.append(obj)
+        return obj
+
+    def bake(obj, location=True, rotation=True, scale=True):
+        bpy.ops.object.select_all(action='DESELECT')
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.transform_apply(location=location, rotation=rotation, scale=scale)
+
+    def sph(name, mat, radius, loc, verts=12, rings=9, squash=None, zone=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, segments=verts, ring_count=rings,
+                                                                 location=loc), zone or name, mat)
+        if squash:
+            obj.scale = squash
+        obj.data.polygons[0].use_smooth = True
+        bake(obj)
+        return obj
+
+    def cyl(name, mat, radius, depth, loc, verts=10, rot=None, zone=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts,
+                                                                location=loc), zone or name, mat)
+        if rot:
+            obj.rotation_euler = rot
+        obj.data.polygons[0].use_smooth = True
+        bake(obj)
+        return obj
+
+    def cube(name, mat, loc, scale, zone=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cube_add(size=1, location=loc), zone or name, mat)
+        obj.scale = scale
+        bake(obj)
+        return obj
+
+    def box(name, mat, w, h, d, loc, zone=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cube_add(size=1, location=loc), zone or name, mat)
+        obj.scale = (w, d, h)
+        bake(obj)
+        return obj
+
+    # ---- pelvis + glute (hip width 0.34) ----
+    sph('pelvis', skin, 0.17, (0, 0, 1.00), verts=14, rings=10, squash=(1.0, 0.82, 0.86), zone=ZONE['pelvis'])
+    sph('glute_l', skin, 0.105, (-0.115, -0.06, 0.99), verts=10, rings=7, squash=(1.0, 0.8, 0.9), zone=ZONE['glute'])
+    sph('glute_r', skin, 0.105, (0.115, -0.06, 0.99), verts=10, rings=7, squash=(1.0, 0.8, 0.9), zone=ZONE['glute'])
+
+    # ---- torso: gentle taper so the silhouette reads smooth, not blocky ----
+    cyl('waist', skin, 0.155, 0.30, (0, 0, 1.15), verts=12, zone=ZONE['chest_lo'])
+    cyl('chest', skin, 0.175, 0.34, (0, 0, 1.42), verts=12, zone=ZONE['chest_up'])
+    cyl('back_lo', skin, 0.16, 0.26, (0, -0.02, 1.13), verts=12, rot=(math.pi / 2, 0, 0), zone=ZONE['back_lo'])
+    cyl('back_up', skin, 0.18, 0.30, (0, -0.02, 1.40), verts=12, rot=(math.pi / 2, 0, 0), zone=ZONE['back_up'])
+
+    # ---- shoulders (acromion-acromion 0.46) ----
+    sph('shoulder_l', skin, 0.075, (-0.23, 0.02, 1.52), verts=10, rings=7, zone=ZONE['shl'])
+    sph('shoulder_r', skin, 0.075, (0.23, 0.02, 1.52), verts=10, rings=7, zone=ZONE['shr'])
+
+    # ---- arms: upper + forearm with a knee-style elbow bulge, hands ----
+    cyl('upper_arm_l', skin, 0.052, 0.30, (-0.24, 0.03, 1.36), verts=8, zone=ZONE['armu_l'])
+    cyl('upper_arm_r', skin, 0.052, 0.30, (0.24, 0.03, 1.36), verts=8, zone=ZONE['armu_r'])
+    cyl('forearm_l', skin, 0.042, 0.28, (-0.245, 0.05, 1.10), verts=8, zone=ZONE['armf_l'])
+    cyl('forearm_r', skin, 0.042, 0.28, (0.245, 0.05, 1.10), verts=8, zone=ZONE['armf_r'])
+
+    # hands: palm + 4 fingers + thumb (hand length 0.19)
+    box('hand_l', skin, 0.075, 0.05, 0.11, (-0.25, 0.05, 0.965), zone=ZONE['hand_l'])
+    box('hand_r', skin, 0.075, 0.05, 0.11, (0.25, 0.05, 0.965), zone=ZONE['hand_r'])
+    for f, zbase, side in [(0, -0.265, -1), (1, -0.265, 1)]:
+        pass
+    for k, dx in enumerate([-0.028, -0.009, 0.009, 0.028]):
+        box(f'finger_l_{k}', skin, 0.016, 0.05, 0.05, (dx - 0.25, 0.04, 0.925), zone=ZONE['hand_l'])
+        box(f'finger_r_{k}', skin, 0.016, 0.05, 0.05, (dx + 0.25, 0.04, 0.925), zone=ZONE['hand_r'])
+    box('thumb_l', skin, 0.017, 0.045, 0.045, (-0.30, 0.0, 0.95), zone=ZONE['hand_l'])
+    box('thumb_r', skin, 0.017, 0.045, 0.045, (0.30, 0.0, 0.95), zone=ZONE['hand_r'])
+
+    # ---- legs: thigh + knee + calf (feet on the ground) ----
+    cyl('thigh_l', skin, 0.082, 0.40, (-0.095, 0.0, 0.74), verts=10, zone=ZONE['thigh_l'])
+    cyl('thigh_r', skin, 0.082, 0.40, (0.095, 0.0, 0.74), verts=10, zone=ZONE['thigh_r'])
+    sph('knee_l', skin, 0.055, (-0.10, 0.02, 0.52), verts=8, rings=6, squash=(1.0, 1.15, 0.8), zone=ZONE['thigh_l'])
+    sph('knee_r', skin, 0.055, (0.10, 0.02, 0.52), verts=8, rings=6, squash=(1.0, 1.15, 0.8), zone=ZONE['thigh_r'])
+    cyl('calf_l', skin, 0.06, 0.42, (-0.095, 0.0, 0.28), verts=10, zone=ZONE['calf_l'])
+    cyl('calf_r', skin, 0.06, 0.42, (0.095, 0.0, 0.28), verts=10, zone=ZONE['calf_r'])
+    sph('ankle_l', skin, 0.042, (-0.095, 0.02, 0.075), verts=8, rings=6, zone=ZONE['calf_l'])
+    sph('ankle_r', skin, 0.042, (0.095, 0.02, 0.075), verts=8, rings=6, zone=ZONE['calf_r'])
+
+    # ---- feet: 0.27 long wedges with a toe hint, ground at y=0 ----
+    box('foot_l', skin, 0.09, 0.07, 0.27, (-0.095, 0.0, 0.075), zone=ZONE['foot_l'])
+    box('foot_r', skin, 0.09, 0.07, 0.27, (0.095, 0.0, 0.075), zone=ZONE['foot_r'])
+    box('toe_l', skin, 0.075, 0.03, 0.05, (-0.095, 0.0, 0.205), zone=ZONE['foot_l'])
+    box('toe_r', skin, 0.075, 0.03, 0.05, (0.095, 0.0, 0.205), zone=ZONE['foot_r'])
+
+    # ---- neck + head (0.235, eye line 1.70) ----
+    cyl('neck', skin, 0.052, 0.10, (0, 0, 1.585), verts=10, zone=ZONE['neck'])
+    sph('head', skin, 0.1175, (0, 0, 1.715), verts=16, rings=12, squash=(0.94, 0.92, 1.0), zone='char_head')
+    sph('ear_l', skin, 0.022, (-0.115, 0.01, 1.70), verts=8, rings=5, zone='char_head')
+    sph('ear_r', skin, 0.022, (0.115, 0.01, 1.70), verts=8, rings=5, zone='char_head')
+    # jaw + chin hint
+    sph('chin', skin, 0.05, (0, 0.085, 1.635), verts=8, rings=6, squash=(1.0, 0.7, 0.8), zone='char_head')
+
+    # eyes: dark almonds + brows + nose + mouth (stylized — features must
+    # READ at gameplay distance, so they are larger than real anatomy)
+    sph('eye_l', eye, 0.019, (-0.04, 0.104, 1.71), verts=8, rings=5, squash=(0.75, 1.0, 0.65), zone='char_face')
+    sph('eye_r', eye, 0.019, (0.04, 0.104, 1.71), verts=8, rings=5, squash=(0.75, 1.0, 0.65), zone='char_face')
+    box('brow_l', brow, 0.038, 0.009, 0.009, (-0.04, 0.117, 1.716), zone='char_face')
+    box('brow_r', brow, 0.038, 0.009, 0.009, (0.04, 0.117, 1.716), zone='char_face')
+    box('nose', skin, 0.026, 0.03, 0.018, (0, 0.105, 1.678), zone='char_face')
+    box('mouth', brow, 0.032, 0.008, 0.008, (0, 0.088, 1.665), zone='char_face')
+
+    # the scalp cap: the HEAD_SCALP zone (hair itself is a wearable) —
+    # a standardized hairline ring + the cap
+    sph('scalp', hair, 0.118, (0, 0, 1.745), verts=14, rings=8, squash=(1.0, 0.98, 0.72), zone=ZONE['scalp'])
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.105, minor_radius=0.012, major_segments=14,
+                                     minor_segments=5, location=(0, 0.075, 1.70))
+    hairline = bpy.context.object
+    hairline.name = ZONE['scalp']
+    hairline.rotation_euler.x = math.pi / 2 + 0.35
+    assign(hairline, brow)
+    objects.append(hairline)
+    bake(hairline)
+
+    # ---- the modest undergarments (no genitals, no nipples) ----
+    # briefs: a short tapered shell over the pelvis/glute
+    bpy.ops.mesh.primitive_cone_add(vertices=12, radius1=0.175, radius2=0.165, depth=0.20,
+                                    location=(0, 0, 0.99))
+    briefs = bpy.context.object
+    briefs.name = 'underwear_briefs'
+    briefs.scale = (1.0, 0.85, 1.0)
+    briefs.data.polygons[0].use_smooth = True
+    assign(briefs, linen)
+    objects.append(briefs)
+    bake(briefs)
+    # chest band (binding cloth) — INNER_TORSO layer, modest
+    bpy.ops.mesh.primitive_cylinder_add(radius=0.178, depth=0.14, vertices=12, location=(0, 0, 1.37))
+    band = bpy.context.object
+    band.name = 'underwear_chest_band'
+    band.data.polygons[0].use_smooth = True
+    assign(band, linen)
+    objects.append(band)
+    bake(band)
+
+    # group the exports
+    return objects
+
+
+# ---------------------------------------------------------------------------
+# The robe — a WEARABLE (slot OUTER_ROBE), built separately so equipment
+# can be swapped on and off the base body
+# ---------------------------------------------------------------------------
+
+def build_robe(seed):
+    rng = Seeded(seed)
+    indigo = make_material('robe_indigo', PALETTE['indigo'], roughness=0.9)
+    straw = make_material('robe_straw', PALETTE['straw'], roughness=0.95)
+    dark = make_material('robe_dark', (0.02, 0.02, 0.02), roughness=0.3)
+
+    parts = []
+
+    def spawn(mesh_op, name, mat):
+        mesh_op()
+        obj = bpy.context.object
+        obj.name = name
+        if mat:
+            assign(obj, mat)
+        parts.append(obj)
+        return obj
+
+    def bake(obj):
+        bpy.ops.object.select_all(action='DESELECT')
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+
+    # the robe: tapered from the shoulders to the hem, hem at the ankles
+    bpy.ops.mesh.primitive_cone_add(vertices=10, radius1=0.26, radius2=0.30, depth=1.22,
+                                    location=(0, 0, 0.97))
+    robe = bpy.context.object
+    robe.name = 'robe_hem'
+    robe.scale = (1.0, 0.78, 1.0)
+    robe.data.polygons[0].use_smooth = True
+    assign(robe, indigo)
+    parts.append(robe)
+    bake(robe)
+
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.155, minor_radius=0.018, major_segments=12,
+                                     minor_segments=6, location=(0, 0, 0.82))
+    sash = bpy.context.object
+    sash.name = 'robe_sash'
+    sash.rotation_euler.x = math.pi / 2
+    assign(sash, straw)
+    parts.append(sash)
+    bake(sash)
+
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.13, minor_radius=0.02, major_segments=10,
+                                     minor_segments=5, location=(0, 0, 1.52))
+    collar = bpy.context.object
+    collar.name = 'robe_collar'
+    collar.rotation_euler.x = math.pi / 2
+    assign(collar, dark)
+    parts.append(collar)
+    bake(collar)
+
+    # sleeves hanging from the shoulders (the arms' zone, hidden by the robe)
+    for side, sx in [('l', -0.24), ('r', 0.24)]:
+        bpy.ops.mesh.primitive_cylinder_add(radius=0.042, depth=0.55, vertices=8,
+                                            location=(sx, 0.06, 1.42))
+        sleeve = bpy.context.object
+        sleeve.name = f'robe_sleeve_{side}'
+        sleeve.rotation_euler = (0, 0.35 if side == 'l' else -0.35, 0)
+        sleeve.data.polygons[0].use_smooth = True
+        assign(sleeve, indigo)
+        parts.append(sleeve)
+        bake(sleeve)
+
+    for obj in parts:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = parts[0]
+    bpy.ops.object.join()
+    joined = bpy.context.object
+    joined.name = 'robe'
+    return joined
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--asset', required=True)
@@ -432,6 +707,14 @@ def main():
         bpy.context.view_layer.objects.active = root
     elif args.asset == 'villager':
         root = build_villager(args.seed)
+        root.select_set(True)
+        bpy.context.view_layer.objects.active = root
+    elif args.asset == 'character_base':
+        roots = build_character_base(args.seed)
+        for root in roots:
+            root.select_set(True)
+    elif args.asset == 'robe':
+        root = build_robe(args.seed)
         root.select_set(True)
         bpy.context.view_layer.objects.active = root
     else:

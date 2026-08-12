@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const __ignore = { ignores: ['.game-dist/**', 'dist/**', '.next/**', 'evidence/**/*.cjs', 'tools/blender/**'] };
+const __ignore = { ignores: ['.game-dist/**', '.gym-dist/**', 'dist/**', '.next/**', 'evidence/**/*.cjs', 'tools/blender/**'] };
 const eslintConfig = [__ignore, ...nextCoreWebVitals, ...nextTypescript, {
   rules: {
     // TypeScript rules

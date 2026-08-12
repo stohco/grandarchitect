@@ -2041,3 +2041,35 @@ character per the art bible + images (the reference PNG is NOT in the repo
    look at it (the 'understand the world' ask).
 - Gates: 9 suites + tsc + lint + ai:check + maturity 156, all green.
 
+
+## 2026-08-12 — THE CHARACTER GYM + the unclothed base body
+
+User: 'you should be having little test gyms — smaller scene, tighter
+causal loop, faster convergence' + 'the character right now with nothing
+equipped; modular equipment once it's perfected'.
+
+1. THE GYM (bun run game:gym → http://localhost:5175): a tiny isolated
+   studio — one model, dark disc ground, deterministic key/rim/fill
+   lights, and a free camera ALWAYS unlocked (drag orbit, wheel dolly,
+   presets 1-6: front/back/left/right/3-4/face close-up, T turntable,
+   W walk, R robe, Z zone-cycle, Q/E height). window.__gym for harnesses.
+2. THE BASE BODY (character_base.glb, bible §4): nothing equipped —
+   complete male base 1.82 m / 7.79 heads, modest linen briefs + chest
+   band, scalp cap (HEAD_SCALP zone), stylized face (eyes, brows, nose,
+   mouth — sized to READ at distance), 22 named body-hide zones (the
+   bible's exact IDs) so equipment hides by name. Verified with the
+   CROQUIS METHOD (researched first — the fashion-croquis head-unit grid
+   is the standard way to check proportions): projected landmarks land
+   on canon lines (eye 7.28 heads, navel 4.77, crotch 4.0, knee 2.21,
+   ankle 0.38) and the rendered head top matches the projected line
+   exactly (y 72 vs 73.6).
+3. THE ROBE (robe.glb) as a WEARABLE (slot OUTER_ROBE): toggled with R
+   in the gym; when on it hides the covered zones (chest/back/arms/
+   pelvis/thighs/calves) — the modular system proven.
+4. The main game: the PLAYER now wears the base body (nothing equipped)
+   per the staging; the villagers keep the clothed villager (NPCs).
+5. Method notes: the VLM still cannot read these frames (featureless
+   face claims while 51k dark feature pixels render; it missed the
+   bright croquis dashes entirely) — the croquis + pixel + projection
+   evidence is the record. Lint now ignores .gym-dist.
+
