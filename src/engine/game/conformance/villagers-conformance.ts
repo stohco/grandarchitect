@@ -15,7 +15,7 @@
 
 import { PlanetHeightField } from '../planet/height-field';
 import { buildVillagers, nearestVillager, broadcastRaid } from '../village/villagers';
-import { GameClock, DAY_LENGTH_SECONDS } from '../game-clock';
+import { PlanetTimeSystem, DAY_LENGTH_SECONDS } from '../time/planet-time';
 import { Inventory, ITEMS } from '../inventory';
 import { believe, recall } from '../../frontier/npc-cognition';
 import { GAME_SEED } from '../bootstrap';
@@ -36,17 +36,17 @@ const villagers = buildVillagers(field, scene);
 // ---- 1. Determinism ----
 assert(villagers.length === 12, `twelve villagers (${villagers.length})`);
 assert(new Set(villagers.map((v) => v.name)).size === 12, 'villager names unique');
-const clock = new GameClock();
+const time = new PlanetTimeSystem();
 for (let i = 0; i < 300; i++) {
-  const phase = clock.phase;
-  for (const v of villagers) v.update(1 / 60, phase, i);
+  time.update(1 / 60);
+  for (const v of villagers) v.update(1 / 60, time);
 }
 const posA = villagers.map((v) => `${v.position.x.toFixed(6)},${v.position.z.toFixed(6)}`);
-const clock2 = new GameClock();
+const time2 = new PlanetTimeSystem();
 const v2 = buildVillagers(field, new (await import('three')).Scene());
 for (let i = 0; i < 300; i++) {
-  const phase = clock2.phase;
-  for (const v of v2) v.update(1 / 60, phase, i);
+  time2.update(1 / 60);
+  for (const v of v2) v.update(1 / 60, time2);
 }
 const posB = v2.map((v) => `${v.position.x.toFixed(6)},${v.position.z.toFixed(6)}`);
 assert(posA.every((p, i) => p === posB[i]), 'villager schedules deterministic (300 ticks, two runs identical)');
@@ -85,16 +85,20 @@ assert(before === 0 && after === 12, `raid belief propagates to all (${before} â
 const elder = villagers.find((v) => v.role === 'elder')!;
 assert(elder.talk().includes('wolves'), 'belief-aware dialogue: the elder speaks of the wolves');
 
-// ---- 5. Clock ----
-assert(DAY_LENGTH_SECONDS === 600, 'day length 600 s');
-const c3 = new GameClock();
-c3.timeOfDay = 0.8;
-assert(c3.isNight, 't=0.8 is night');
-c3.timeOfDay = 0.1;
-assert(c3.isNight, 't=0.1 is night');
-c3.timeOfDay = 0.4;
-assert(!c3.isNight, 't=0.4 is day');
-assert(c3.phase === 'work', 't=0.4 is work phase');
+// ---- 5. Planet time ----
+assert(DAY_LENGTH_SECONDS === 3600, 'day length 3600 s (1 hour of play)');
+const t2 = new PlanetTimeSystem();
+t2.time = 0.8;
+assert(t2.isNightAt(0, 0), 't=0.8 is night at the origin');
+t2.time = 0.1;
+assert(t2.isNightAt(0, 0), 't=0.1 is night at the origin');
+t2.time = 0.4;
+assert(!t2.isNightAt(0, 0), 't=0.4 is day at the origin');
+assert(t2.phaseAt(0, 0) === 'work', 't=0.4 is work phase at the origin');
+// local time: villagers on the dark side sleep while the light side works
+t2.time = 0.25;
+const darkX = 400_000 * 0.6;
+assert(t2.isNightAt(darkX, 0) && t2.phaseAt(darkX, 0) === 'sleep', 'the dark side sleeps while the origin works');
 
 // ---- 6. Items registry ----
 assert(Object.keys(ITEMS).length === 6, `six items (${Object.keys(ITEMS).length})`);

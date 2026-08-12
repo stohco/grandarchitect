@@ -15,7 +15,7 @@ import { runWorldQualityGate } from './world-quality-gate';
 import { mergeChunkMeshes } from './planet/merge-meshes';
 import { mountVillage } from './village/village-mount';
 import { buildVillagers, nearestVillager, broadcastRaid } from './village/villagers';
-import { GameClock } from './game-clock';
+import { PlanetTimeSystem } from './time/planet-time';
 import { Inventory, ITEMS } from './inventory';
 
 export const GAME_SEED = 89274613;
@@ -29,7 +29,7 @@ export interface GameHandle {
   planet: PlanetMount;
   village: ReturnType<typeof mountVillage>;
   villagers: ReturnType<typeof buildVillagers>;
-  clock: GameClock;
+  time: PlanetTimeSystem;
   inventory: Inventory;
   gate: ReturnType<typeof runWorldQualityGate>;
   /** Last interaction line (HUD). */
@@ -93,8 +93,9 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   // 5b. The village — the mundane world on the valley floor.
   const village = mountVillage(planet, scene);
 
-  // 5c. The village's people — on the frontier cognition.
-  const engineClock = new GameClock();
+  // 5c. The village's people — on the frontier cognition. The planet's time
+  // is LOCAL: villagers live by the time at their own longitude.
+  const time = new PlanetTimeSystem();
   const inventory = new Inventory();
   const villagers = buildVillagers(planet.field, scene);
   // the player begins with the seed of a good deed
@@ -130,18 +131,24 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     tick++;
     player.update(dt, input.read(dt, 4.5, 6.5));
 
-    // the day advances; the village lives it
-    const tod = engineClock.update(dt);
-    const phase = engineClock.phase;
-    for (const v of villagers) v.update(dt, phase, tick);
-    // nightfall: the wolves test the fence (once per night)
-    if (engineClock.isNight && tick % 600 === 0) {
-      broadcastRaid(villagers, tick);
-    }
-
+    // the planet turns; the village lives by its local sky
+    const tod = time.update(dt);
+    for (const v of villagers) v.update(dt, time);
     // streaming: update residency, rebuild the controller's BVH when the
     // resident set changes (throttled — the BVH rebuild is bounded work)
     const p = player.controller.position;
+    // the sun follows the player's LOCAL solar time (physics: the sun is
+    // fixed; the planet turns under it — longitude shifts the local day)
+    const localDir = time.sunDirectionAt(p.x, p.z);
+    const localElev = time.sunElevationAt(p.x, p.z);
+    sun.position.set(p.x + localDir.x * 300, Math.max(localDir.y, 0.05) * 300 + 40, p.z + localDir.z * 300);
+    sun.intensity = 0.15 + Math.max(0, localElev) * 3.0;
+    sun.color.setRGB(1.0, Math.max(0.4, 0.62 * Math.max(0.2, localElev)), Math.max(0.2, 0.25 * Math.max(0.2, localElev)));
+    // nightfall: the wolves test the fence (once per night, local)
+    if (time.isNightAt(p.x, p.z) && tick % 600 === 0) {
+      broadcastRaid(villagers, tick);
+    }
+
     const chunk = planet.playerChunk(p.x, p.z);
     if (chunk !== lastChunk) {
       lastChunk = chunk;
@@ -174,7 +181,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     planet,
     village,
     villagers,
-    clock: engineClock,
+    time,
     inventory,
     gate,
     lastLine,

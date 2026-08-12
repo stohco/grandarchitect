@@ -3,12 +3,10 @@
  *
  * Every villager carries the canonical NPC brain (frontier/npc-cognition):
  * a BeliefGraph (what they know), an EpisodicMemory (what they remember),
- * and a Personality (who they are). Their schedules are deterministic
- * functions of the day clock; their dialogue is personality + belief aware;
- * their favors are the mundane economy (constitution category 1).
- *
- * Movement is simple and deterministic: each phase has a target; villagers
- * walk the field height, never the void.
+ * and a Personality (who they are). Their movements come from the
+ * POPULATION SCHEDULER (game/time/scheduler.ts), driven by the LOCAL time
+ * at their own position — the planet turns under them; schedules, seeded
+ * variation, and event overrides are all deterministic.
  */
 
 import * as THREE from 'three';
@@ -19,6 +17,8 @@ import {
 } from '../../frontier/npc-cognition';
 import type { PlanetHeightField } from '../planet/height-field';
 import { villageCenter, HOUSES, FAVORS } from './village-authoring';
+import { scheduleIntent, type WorldEvent } from '../time/scheduler';
+import type { PlanetTimeSystem } from '../time/planet-time';
 import type { Inventory } from '../inventory';
 
 /** Art-bible role robe colors (sRGB hex). */
@@ -59,7 +59,11 @@ export interface VillagerHandle {
   favor: (typeof FAVORS)[number] | null;
   relationship: number; // 0..1 — how much they trust the player
   body: THREE.Group;
-  update: (dt: number, phase: string, tick: number) => void;
+  /** Day index (for schedule variation) — advanced by the day rollover. */
+  day: number;
+  /** Current world event override (raid/festival/none). */
+  event: WorldEvent;
+  update: (dt: number, time: PlanetTimeSystem) => void;
   talk: () => string;
   fulfill: (inv: Inventory) => { ok: boolean; line: string };
 }
@@ -68,7 +72,6 @@ export interface VillagerHandle {
 export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): VillagerHandle[] {
   const center = villageCenter();
   const villagers: VillagerHandle[] = [];
-  // deterministic favor assignment: one farmer, one healer, one smith
   const favorByRole = new Map<string, (typeof FAVORS)[number]>();
   for (const f of FAVORS) favorByRole.set(f.role, f);
 
@@ -82,7 +85,6 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
     const homeZ = center.z + house.dz;
     const favor = favorByRole.get(role) ?? null;
 
-    // the body: a robe-colored capsule with a head — the village's people
     const body = new THREE.Group();
     const robe = new THREE.Mesh(
       new THREE.CapsuleGeometry(0.24, 0.7, 4, 8),
@@ -101,24 +103,9 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
     const state = {
       x: homeX,
       z: homeZ,
-      phase: '',
-      target: { x: homeX, z: homeZ },
-      idle: 0,
       tick: 0,
-    };
-
-    // deterministic schedule targets per phase
-    const spotFor = (phase: string): { x: number; z: number } => {
-      const r = (n: number) => ((n * 2654435761) % 1000) / 1000; // hashish — deterministic
-      if (phase === 'sleep') return { x: homeX, z: homeZ };
-      if (phase === 'gather') return { x: center.x + 2 + r(1) * 3, z: center.z + 2 + r(2) * 3 };
-      if (phase === 'work') {
-        // farmers to the fields, smith to the anvil, others to the square
-        if (role === 'farmer') return { x: center.x + 44 + r(3) * 8, z: center.z - 10 + r(4) * 12 };
-        if (role === 'smith') return { x: center.x + 33, z: center.z + 1 };
-        return { x: center.x - 2 + r(5) * 4, z: center.z - 2 + r(6) * 4 };
-      }
-      return { x: center.x - 1 + r(7) * 2, z: center.z - 1 + r(8) * 2 };
+      spotX: homeX,
+      spotZ: homeZ,
     };
 
     const handle: VillagerHandle = {
@@ -133,23 +120,31 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
       favor,
       relationship: 0.15,
       body,
-      update(dt, phase, tick) {
+      day: 0,
+      event: 'none',
+      update(dt, time) {
         state.tick++;
-        if (state.phase !== phase) {
-          state.phase = phase;
-          state.target = spotFor(phase);
-          state.idle = 0.3;
-        }
-        state.idle -= dt;
-        // deterministic walk toward the target at a fixed speed
-        const dx = state.target.x - state.x;
-        const dz = state.target.z - state.z;
+        // the villager lives by the LOCAL time at their own position
+        const local = time.localTimeAt(state.x, state.z);
+        const day = Math.floor(time.time * 10000);
+        if (day !== handle.day) { handle.day = day; }
+        const intent = scheduleIntent(
+          house.id,
+          { centerX: center.x, centerZ: center.z, homeX, homeZ, role },
+          local,
+          handle.day,
+          handle.event,
+        );
+        state.spotX = intent.spotX;
+        state.spotZ = intent.spotZ;
+        // deterministic walk toward the spot
+        const dx = state.spotX - state.x;
+        const dz = state.spotZ - state.z;
         const d = Math.hypot(dx, dz);
-        if (d > 0.5 && phase !== 'sleep') {
-          const speed = 1.4;
-          state.x += (dx / d) * speed * dt;
-          state.z += (dz / d) * speed * dt;
-          if (d < speed * dt) { state.x = state.target.x; state.z = state.target.z; }
+        if (d > 0.05) {
+          const step = Math.min(d, 1.4 * dt);
+          state.x += (dx / d) * step;
+          state.z += (dz / d) * step;
         }
         const gy = field.evaluate(state.x, state.z).height;
         body.position.set(state.x, gy, state.z);
@@ -157,7 +152,6 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
         decayMemory(memory, 1);
       },
       talk() {
-        // belief-aware: the wolves at the fence color every conversation
         if (believe(beliefs, 'wolves_at_fence')) {
           return 'The wolves took another lamb last night. Someone should deal with the ridge.';
         }
@@ -202,13 +196,30 @@ export function nearestVillager(villagers: VillagerHandle[], x: number, z: numbe
   return best;
 }
 
-/** A wolf raid: the fence line is hit — the village knows. */
+/** A wolf raid: the fence line is hit — the village knows, and scatters. */
 export function broadcastRaid(villagers: VillagerHandle[], tick: number): void {
   for (const v of villagers) {
+    v.event = 'raid';
     assertBelief(v.beliefs, { proposition: 'wolves_at_fence', confidence: 0.9, source: 'perceived', tick });
     recordEpisode(v.memory, {
       actor: 'wolves', action: 'raid_fence', witnesses: [v.name],
       location: 'east_fence', tick, stakes: 'high', appraisal: { fear: 0.9 },
     });
   }
+}
+
+/** A festival: everyone gathers at the square. */
+export function broadcastFestival(villagers: VillagerHandle[], tick: number): void {
+  for (const v of villagers) {
+    v.event = 'festival';
+    recordEpisode(v.memory, {
+      actor: 'village', action: 'festival', witnesses: [v.name],
+      location: 'square', tick, stakes: 'low', appraisal: { joy: 0.7 },
+    });
+  }
+}
+
+/** Recall the most salient favor memories (for evidence). */
+export function favorRecall(villagers: VillagerHandle[], limit = 8) {
+  return villagers.flatMap((v) => recall(v.memory, (e) => e.action === 'fulfilled_favor', limit));
 }

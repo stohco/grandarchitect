@@ -1776,3 +1776,33 @@ Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49.
 Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49,
 villagers 22/22.
 
+
+## 2026-08-11 — the planet time system + population scheduler
+
+Design (user rule): every planet has a time system; hundreds/thousands of
+NPCs abide by schedules; emergence exists; day length is tunable; PHYSICS
+makes sense — a fast flier can outrun the terminator to the dark side.
+
+- time/planet-time.ts — PlanetTimeSystem: one planet clock; LOCAL time is
+  the clock shifted by longitude (the sun is fixed, the planet turns).
+  terminatorSpeed = CIRCUMFERENCE / DAY_LENGTH = 400000/3600 = 111.1 m/s.
+  DAY_LENGTH_SECONDS = 3600 (1 hour: dawn 15m, noon 30m, dusk 45m — tuned
+  for gameplay; the constant is the tunable). isDayAt/isNightAt/phaseAt/
+  sunElevationAt/sunDirectionAt (east rise, west set, every longitude).
+- time/scheduler.ts — the population scheduler: scheduleIntent(npcId,
+  opts, localTime, dayIndex, events) is PURE — seeded per-NPC variation
+  (two farmers never share a spot; the same farmer varies day to day),
+  event overrides (raid scatters home, festival gathers at the square),
+  O(1) per NPC; advancePopulation is a flat pass.
+- villagers.ts refactored onto the scheduler + LOCAL time at their own
+  position (a villager on the dark side sleeps while the origin works).
+- bootstrap: sun direction/intensity/color follow the player's LOCAL solar
+  time; the old GameClock is gone.
+- time-conformance 20/20: the physics contract (terminator = C/D; dark side
+  exists; east advances local time; sun rises east at every longitude),
+  5000 NPCs in one pass twice bit-identical, emergence (variation + event
+  overrides + determinism), phases. Browser probe: village day 0.2511 vs
+  dark side night 0.8504 at the same instant, terminator 111.1 m/s.
+Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village 49/49,
+villagers 23/23, time 20/20.
+

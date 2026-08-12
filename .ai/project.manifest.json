@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "6d1c76cd69cbf35bfee2316023691f29bad3523c",
-    "commitShort": "6d1c76cd69cb",
+    "commit": "f6d22b99ead73367ebe52ac3295063637b05b5e8",
+    "commitShort": "f6d22b99ead7",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 8 modified file(s): package.json, src/engine/game/bootstrap.ts, tsconfig.tsbuildinfo, evidence/village-people.png, src/engine/game/conformance/villagers-conformance.ts…",
-    "generatedAt": "2026-08-11T23:52:18.761Z",
+    "dirtyReason": "Working tree has 8 modified file(s): package.json, src/engine/game/bootstrap.ts, src/engine/game/conformance/villagers-conformance.ts, src/engine/game/game-clock.ts, src/engine/game/village/villagers.ts…",
+    "generatedAt": "2026-08-12T00:04:18.830Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -218,6 +218,15 @@
       "verified": true,
       "source": "package.json scripts.game:villagers-conformance",
       "expandsTo": "bun run src/engine/game/conformance/villagers-conformance.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "game:time-conformance": {
+      "command": "bun run game:time-conformance",
+      "verified": true,
+      "source": "package.json scripts.game:time-conformance",
+      "expandsTo": "bun run src/engine/game/conformance/time-conformance.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""
