@@ -93,7 +93,7 @@ export function mountVillage(planet: PlanetMount, scene: THREE.Scene): VillageMo
   }
 
   // the stream's water — the channel must read as water, not green floor
-  const water = buildRiverWater(scene);
+  const water = buildRiverWater(scene, planet.field);
 
   return { group, houses, materials, grounds, water };
 }

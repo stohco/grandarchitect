@@ -116,9 +116,9 @@ export const VALLEYS: ValleyNode[] = [
 ];
 
 export const RIVERS: RiverNode[] = [
-  { id: 'village_stream', name: 'Village Stream', hanzi: '溪', width: 5, depth: 11,
+  { id: 'village_stream', name: 'Village Stream', hanzi: '溪', width: 7, depth: 2.8,
     points: [[900, -340], [600, -280], [380, -220], [282, -140], [268, -60], [270, 60], [290, 200], [360, 360], [430, 520]],
-    cause: 'Springs at the eastern hills and runs past the village, cut below sea level so it carries water.' },
+    cause: 'Springs at the eastern hills and runs past the village — a small stream you can see across and wade, cut shallow so its water is near the bank tops.' },
   { id: 'blood_river', name: 'Blood River', hanzi: '血河', width: 46, depth: 18,
     points: [[-9000, 15000], [-14000, 18000], [-20000, 20000], [-26000, 21500], [-32000, 24500], [-38000, 28000]],
     cause: "The iron-red river that drains the whole basin — cut deep below sea level, a true river in a gorge. Named for the Restriction War." },

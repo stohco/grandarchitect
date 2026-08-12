@@ -9,6 +9,7 @@
  */
 
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { PlanetMount, villageSpawn } from './planet/planet-mount';
 import { GamePlayer, GameInput } from './player-mount';
 import { runWorldQualityGate } from './world-quality-gate';
@@ -133,6 +134,15 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   // terrain has a brush with replayable deltas; gizmos move things.
   const editorRegistry = new EditorRegistry();
   registerVillageComponents(editorRegistry, village, { x: spawn.x, z: spawn.z });
+  // the villager's authored body (GATE 3): the player swaps off the
+  // placeholder capsule and every villager wears the same model with
+  // their role's robe tint
+  const villagerLoader = new GLTFLoader();
+  villagerLoader.load('/src/engine/game/assets/models/villager.glb', (gltf) => {
+    player.heightAt = (x, z) => planet.heightAt(x, z);
+    player.setModel(gltf.scene);
+    for (const v of villagers) v.wearModel(gltf.scene);
+  }, undefined, (err) => console.error('[villager]', err));
   registerVillagerComponents(editorRegistry, villagers);
   // GATE 5: the Blender-built assets enter the world (sacred pine at the
   // shrine's spirit node), animated by the wind + the dusk glow
@@ -190,7 +200,31 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   (editor as unknown as { fly: FlyCamera; flyTo: (x: number, y: number, z: number, lx: number, ly: number, lz: number) => void }).flyTo = (x, y, z, lx, ly, lz) => {
     flyCamera.flyTo(x, y, z, lx, ly, lz);
   };
+  // the free camera: press V anywhere to unlock the camera and fly (WASD
+  // move, left-drag look, Q/E down/up, Shift sprint, wheel speed; V or ESC
+  // returns to the over-the-shoulder camera). The god's eye is how we
+  // look at the world from every angle — for edits and for inspections.
+  let freeCameraActive = false;
+  const freeHint = document.createElement('div');
+  freeHint.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:99;font:12px/1.6 ui-monospace,monospace;color:#ffd9a0;background:#1a1612e0;padding:6px 10px;border-radius:6px;pointer-events:none;display:none;';
+  freeHint.textContent = 'FREE CAMERA — WASD move · drag look · Q/E down/up · Shift sprint · wheel speed · V/ESC to return';
+  document.body.appendChild(freeHint);
   window.addEventListener('keydown', (e) => {
+    if (e.code === 'KeyV' && !editor.on) {
+      freeCameraActive = !freeCameraActive;
+      flyCamera.setEnabled(freeCameraActive);
+      freeHint.style.display = freeCameraActive ? 'block' : 'none';
+      if (freeCameraActive) flyCamera.flyTo(
+        camera.position.x, camera.position.y, camera.position.z,
+        player.lookTarget.x, player.lookTarget.y, player.lookTarget.z,
+      );
+    }
+    if (e.code === 'Escape' && freeCameraActive) {
+      freeCameraActive = false;
+      flyCamera.setEnabled(false);
+      freeHint.style.display = 'none';
+    }
+    if (freeCameraActive) return; // while flying, the editor keys stand down
     if (e.code === 'Tab') {
       e.preventDefault();
       editor.on = !editor.on;
@@ -258,7 +292,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     if (e.button === 2) selection.endMarquee(e.clientX, e.clientY);
   });
   window.addEventListener('wheel', (e) => {
-    if (!editor.on) return;
+    if (!editor.on && !freeCameraActive) return;
     flyCamera.wheel(e.deltaY);
   }, { passive: true });
 
@@ -290,7 +324,23 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     requestAnimationFrame(loop);
     const dt = Math.min(0.05, clock.getDelta());
     tick++;
-    player.update(dt, input.read(dt, 4.5, 6.5));
+    // camera-relative movement: W always walks away from the camera, D
+    // strafes to the camera's right — the controls follow your eyes
+    const raw = input.read(dt, 4.5, 6.5);
+    if (freeCameraActive) {
+      player.update(dt, { ...raw, moveSpeed: 0, moveX: 0, moveZ: 0 }); // the fly cam owns the keys
+    } else {
+      const fwd = new THREE.Vector3();
+      camera.getWorldDirection(fwd);
+      fwd.y = 0;
+      fwd.normalize();
+      const rx = -fwd.z, rz = fwd.x;
+      player.update(dt, {
+        ...raw,
+        moveX: rx * raw.moveX - fwd.x * raw.moveZ,
+        moveZ: rz * raw.moveX - fwd.z * raw.moveZ,
+      });
+    }
 
     // the planet turns; the village lives by its local sky
     const tod = time.update(dt);
@@ -338,12 +388,21 @@ export function bootGame(container: HTMLElement): GameHandle | null {
       }
     }
 
-    // over-the-shoulder camera (skip when an evidence harness holds the camera)
-    if (!(window as unknown as { __FREE_CAMERA?: boolean }).__FREE_CAMERA && !editor.on) {
+    // over-the-shoulder camera (skip when a harness or the free camera holds it)
+    if (!(window as unknown as { __FREE_CAMERA?: boolean }).__FREE_CAMERA && !editor.on && !freeCameraActive) {
       camera.position.set(p.x - 3.2, p.y + 2.0, p.z - 3.2);
+      // ground clamp: the chase cam never dives under the terrain on a
+      // slope or bank — it rides just above the ground beneath it
+      const camGround = planet.heightAt(camera.position.x, camera.position.z) + 0.5;
+      if (camera.position.y < camGround) camera.position.y = camGround;
       camera.lookAt(player.lookTarget);
     }
-    if (editor.on) flyCamera.update(dt);
+    if (editor.on || freeCameraActive) {
+      flyCamera.setEnabled(true);
+      flyCamera.update(dt);
+    } else {
+      flyCamera.setEnabled(false);
+    }
     // the placed assets live: wind + the dusk glow
     if (assetAnimation) {
       const elev = Math.max(0, time.sunElevationAt(p.x, p.z));

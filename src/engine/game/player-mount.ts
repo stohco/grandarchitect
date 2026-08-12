@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import { CharacterController, type ControllerInput } from '../frontier/character-controller';
 import { BVH } from '../frontier/bvh';
 import type { MeshData, Vec3 } from '../frontier/types';
+import { CharacterRig } from './characters/character-rig';
 
 /** Deterministic keyboard → ControllerInput (no Math.random anywhere). */
 export class GameInput {
@@ -45,14 +46,18 @@ export class GameInput {
 export class GamePlayer {
   controller: CharacterController;
   readonly body: THREE.Group;
+  rig: CharacterRig | null = null;
   private cameraTarget = new THREE.Vector3();
+  private lastHeading = 0;
+  /** Terrain height lookup (the rig anchors its feet to the ground). */
+  heightAt: (x: number, z: number) => number = () => 0;
 
   constructor(mesh: MeshData, spawn: Vec3) {
     this.controller = new CharacterController({ mesh, spawn });
     this.body = new THREE.Group();
-    // a simple capsule body so the player is visible in the world. The
-    // controller rests the capsule up to a probe-depth above the surface,
-    // so the mesh sits 0.5 m lower to read as grounded.
+    // the capsule is the placeholder until the Blender-built villager
+    // (character-rig) arrives — the controller rests the capsule up to a
+    // probe-depth above the surface, so the body sits 0.5 m low
     const capsule = new THREE.Mesh(
       new THREE.CapsuleGeometry(0.35, 0.7, 4, 8),
       new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.75 }),
@@ -60,6 +65,13 @@ export class GamePlayer {
     capsule.position.y = -0.65;
     capsule.castShadow = true;
     this.body.add(capsule);
+  }
+
+  /** Swap the placeholder capsule for the authored villager model. */
+  setModel(model: THREE.Object3D): void {
+    this.body.clear();
+    this.rig = new CharacterRig(model);
+    this.body.add(this.rig.root);
   }
 
   /**
@@ -83,6 +95,18 @@ export class GamePlayer {
     const p = this.controller.position;
     this.body.position.set(p.x, p.y, p.z);
     this.cameraTarget.set(p.x, p.y + 1.6, p.z);
+    if (this.rig) {
+      // the walk faces the movement (smoothly); the rig's feet anchor to
+      // the terrain — the controller rests its capsule ~1.2 m high by
+      // design, so the authored model rides the GROUND, not the capsule
+      const ground = this.heightAt(p.x, p.z);
+      this.rig.root.position.y = ground - p.y + 0.05;
+      const vx = this.controller.velocity.x;
+      const vz = this.controller.velocity.z;
+      const speed = Math.hypot(vx, vz);
+      if (speed > 0.5) this.lastHeading = Math.atan2(vx, vz);
+      this.rig.update(dt, speed, this.lastHeading);
+    }
   }
 
   /** Where the over-the-shoulder camera should look. */

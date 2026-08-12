@@ -19,6 +19,7 @@ import type { PlanetHeightField } from '../planet/height-field';
 import { villageCenter, HOUSES, FAVORS } from './village-authoring';
 import { scheduleIntent, type WorldEvent } from '../time/scheduler';
 import type { PlanetTimeSystem } from '../time/planet-time';
+import { CharacterRig } from '../characters/character-rig';
 import type { Inventory } from '../inventory';
 
 /** Art-bible role robe colors (sRGB hex). */
@@ -66,10 +67,17 @@ export interface VillagerHandle {
   update: (dt: number, time: PlanetTimeSystem) => void;
   talk: () => string;
   fulfill: (inv: Inventory) => { ok: boolean; line: string };
+  /** Swap the placeholder figure for the authored villager (GATE 3). */
+  wearModel: (model: THREE.Object3D) => void;
 }
 
-/** Build the village's people. */
-export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): VillagerHandle[] {
+/**
+ * Build the village's people. When `modelRoot` is given (the Blender-built
+ * villager, GATE 3), each villager wears the authored body with their
+ * role's robe tint and a procedural walk; otherwise the placeholder
+ * capsule+head figure is used.
+ */
+export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene, modelRoot?: THREE.Object3D): VillagerHandle[] {
   const center = villageCenter();
   const villagers: VillagerHandle[] = [];
   const favorByRole = new Map<string, (typeof FAVORS)[number]>();
@@ -86,23 +94,49 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
     const favor = favorByRole.get(role) ?? null;
 
     const body = new THREE.Group();
-    const robe = new THREE.Mesh(
-      new THREE.CapsuleGeometry(0.24, 0.7, 4, 8),
-      new THREE.MeshStandardMaterial({ color: ROBE_COLORS[role] ?? ROBE_COLORS.elder, roughness: 0.85 }),
-    );
-    robe.castShadow = true;
-    body.add(robe);
-    const head = new THREE.Mesh(
-      new THREE.SphereGeometry(0.13, 8, 6),
-      new THREE.MeshStandardMaterial({ color: 0xe6c2a8, roughness: 0.8 }),
-    );
-    head.position.y = 0.62;
-    body.add(head);
+    let rig: CharacterRig | null = null;
+    if (modelRoot) {
+      wearModel(modelRoot);
+    } else {
+      const robe = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.24, 0.7, 4, 8),
+        new THREE.MeshStandardMaterial({ color: ROBE_COLORS[role] ?? ROBE_COLORS.elder, roughness: 0.85 }),
+      );
+      robe.castShadow = true;
+      body.add(robe);
+      const head = new THREE.Mesh(
+        new THREE.SphereGeometry(0.13, 8, 6),
+        new THREE.MeshStandardMaterial({ color: 0xe6c2a8, roughness: 0.8 }),
+      );
+      head.position.y = 0.62;
+      body.add(head);
+    }
     // position the body NOW — a body left at the origin until the first
     // update frame renders a villager flash at (0,0,0) and breaks the
     // law-checker (everything at the origin reads as buried)
     body.position.set(homeX, field.evaluate(homeX, homeZ).height, homeZ);
     scene.add(body);
+
+    /** Swap the placeholder figure for the authored villager (GATE 3). */
+    function wearModel(model: THREE.Object3D): void {
+      body.clear();
+      // each villager wears their own instance with their role's robe
+      const instance = model.clone(true);
+      instance.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        if (mesh.isMesh) {
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          const m = mesh.material as THREE.MeshStandardMaterial;
+          if (m && m.isMeshStandardMaterial && m.name && m.name.startsWith('villager_robe')) {
+            mesh.material = m.clone();
+            (mesh.material as THREE.MeshStandardMaterial).color.set(ROBE_COLORS[role] ?? ROBE_COLORS.elder);
+          }
+        }
+      });
+      rig = new CharacterRig(instance);
+      body.add(rig.root);
+    }
 
     const state = {
       x: homeX,
@@ -126,6 +160,7 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
       body,
       day: 0,
       event: 'none',
+      wearModel,
       update(dt, time) {
         state.tick++;
         // the villager lives by the LOCAL time at their own position
@@ -152,7 +187,9 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
         }
         const gy = field.evaluate(state.x, state.z).height;
         body.position.set(state.x, gy, state.z);
-        if (d > 0.1) body.rotation.y = Math.atan2(dx, dz);
+        const heading = d > 0.1 ? Math.atan2(dx, dz) : body.rotation.y;
+        body.rotation.y = heading;
+        if (rig) rig.update(dt, d > 0.05 ? 1.4 : 0, heading);
         decayMemory(memory, 1);
       },
       talk() {

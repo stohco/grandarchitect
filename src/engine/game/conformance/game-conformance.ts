@@ -64,7 +64,8 @@ const village = f1.evaluate(256, -128);
 assert(Math.abs(village.height - 64) < 12, `village on the valley floor (${village.height.toFixed(1)} m)`);
 assert(village.biome === 'plains', `village biome ${village.biome}`);
 const streamBed = f1.evaluate(275, -100); // on the village stream centerline
-assert(streamBed.height < 50, `stream cut below sea level (${streamBed.height.toFixed(1)} m)`);
+const streamBank = f1.evaluate(285, -100); // just off the centerline
+assert(streamBed.height < streamBank.height - 1, `stream cut below its banks (bed ${streamBed.height.toFixed(1)} m, bank ${streamBank.height.toFixed(1)} m)`);
 
 // ---- 4. Watertight seams ----
 const a = buildChunkMesh(f1, '32,-16')!;      // village chunk

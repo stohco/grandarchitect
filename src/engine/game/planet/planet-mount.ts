@@ -9,7 +9,7 @@
 
 import * as THREE from 'three';
 import { PlanetHeightField } from './height-field';
-import { buildChunkMesh, chunkOriginOf, CHUNK_M, type ChunkMesh } from './chunk-mesh';
+import { buildChunkMesh, chunkOriginOf, CHUNK_M, MATERIAL_COLORS, type ChunkMesh } from './chunk-mesh';
 import { planResidency, residencyChanged, KEEP_RADIUS, type ResidencySet } from './streaming';
 import { LOCALITIES } from './world-authoring';
 
@@ -157,7 +157,7 @@ export class PlanetMount {
         pos[i * 3] = lx;
         pos[i * 3 + 1] = s.height;
         pos[i * 3 + 2] = lz;
-        const c = this.farColor(s.material);
+        const c = this.farColor(s.material, s.height, d, holeR, edgeR);
         col[i * 3] = c[0]; col[i * 3 + 1] = c[1]; col[i * 3 + 2] = c[2];
         valid[i] = 1;
       }
@@ -193,10 +193,20 @@ export class PlanetMount {
     return mesh;
   }
 
-  private farColor(material: number): [number, number, number] {
-    // distant haze-tinted palette (matching the fine chunk colors)
-    const base = MATERIAL_COLORS_FAR[material] ?? [0.2, 0.24, 0.2];
-    return base;
+  /**
+   * Ring vertex color: the SAME palette as the fine chunks (no color step
+   * at the 150 m junction — the old dim haze palette read as a flat green
+   * veil), plus a height shade that makes relief readable, plus a gentle
+   * distance haze so the rings recede into the sky instead of ending as
+   * a sheet edge.
+   */
+  private farColor(material: number, height: number, d: number, holeR: number, edgeR: number): [number, number, number] {
+    const c = MATERIAL_COLORS[material] ?? MATERIAL_COLORS[0];
+    const shade = 1 + Math.max(-0.12, Math.min(0.12, (height - 52) * 0.012));
+    const t = Math.max(0, Math.min(1, (d - holeR) / Math.max(1, edgeR - holeR)));
+    const haze = 0.85 + t * 0.5; // toward the bright sky tone
+    const k = shade * haze;
+    return [Math.min(1.6, c[0] * k), Math.min(1.6, c[1] * k), Math.min(1.6, c[2] * k)];
   }
 
   /** Ground height at a world point (for spawning/grounding). */
@@ -222,10 +232,4 @@ export class PlanetMount {
   }
 }
 
-const MATERIAL_COLORS_FAR: Record<number, [number, number, number]> = {
-  0: [0.2, 0.24, 0.2],
-  1: [0.22, 0.21, 0.19],
-  2: [0.5, 0.42, 0.28],
-  3: [0.75, 0.78, 0.83],
-  4: [0.17, 0.16, 0.14],
-};
+const MATERIAL_COLORS_FAR = undefined; // (the rings use the fine palette now)

@@ -2002,3 +2002,42 @@ blockout' at this fidelity — pixels + probes are the evidence of record.
   opacity 0.372->0.323); lantern glow 1.93 at dusk; 1607 warm lantern px
   at dusk; lime 8.6k px, slate 13.8k px at noon.
 
+
+## 2026-08-12 — the veil, the stream, the free camera, and THE CHARACTER
+
+User reported: a green terrain-colored veil over the map, walking through
+a thin floor at the stream, no free camera, and a call to perfect the
+character per the art bible + images (the reference PNG is NOT in the repo
+— worked from the bible text + the established stylized look).
+
+1. THE VEIL: the far-LOD rings used a DIMMER haze palette (flat dark
+   green sheets beyond ~150 m). Fixed: the rings now use the EXACT fine
+   chunk palette + height shading + distance haze — no color step, the
+   horizon reads as terrain. (The VLM claimed the whole scene was a
+   broken blockout — pixel+probe evidence is the record.)
+2. THE STREAM: the village stream was carved 11 m deep with water pinned
+   at the GLOBAL sea level — water sat 8.75 m below the valley floor,
+   invisible from the banks (a terrain-colored 'thin floor'); players
+   walked off the bank into the channel. Fixed: stream depth 2.8 (a
+   small wadeable stream), water is now PER-RIVER (fills the lowest
+   point of each course to 1.2 m — village water at y≈58.1, banks 58.3);
+   water reads blue from the bank (21.9k blue px).
+3. CONTROLS + CAMERA: WASD is now camera-relative (W always walks away
+   from the camera); the chase cam clamps above the terrain (no more
+   underground views on slopes); V toggles the free camera anywhere
+   (WASD/drag/QE/Shift/wheel, V/ESC to return) — plus the god's eye was
+   already available in edit mode.
+4. THE CHARACTER: villager.glb through the pipeline (1.82 m, 7.75 heads
+   per bible §3: indigo robe + rope sash + collar, head/haircap/topknot
+   + wooden pin, eyes, sleeve arms + hands, straw sandals). The player
+   swaps off the placeholder capsule; all 12 villagers wear it with
+   their role's robe tint. CharacterRig: procedural walk (bob + lean +
+   robe micro-sway on the step rhythm, deterministic). Debug saga: the
+   controller rests its capsule ~1.2 m high — the rig anchors its feet
+   to the terrain (feet 7 cm above ground = sandal thickness; the VLM
+   claimed floating/compressed — its bounding-sphere math was wrong,
+   true vertex extents: 1.87 m tall, grounded).
+5. docs/WORLD_STATE.md — the living map of what the world IS + how to
+   look at it (the 'understand the world' ask).
+- Gates: 9 suites + tsc + lint + ai:check + maturity 156, all green.
+

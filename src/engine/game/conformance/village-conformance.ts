@@ -76,12 +76,12 @@ assert(maxFloat < 0.6, `houses grounded at footprint min, foundation (0.6 m) str
   }
   assert(maxH - minH > 0.25, `valley floor has meso relief (${(maxH - minH).toFixed(2)} m over 100 m — not a tarp)`);
   // the floodplain descends toward the stream (the stream is at x≈281 at
-  // this latitude; x=276 is 5.7 m out, x=298 is 16 m out)
-  const nearBank = field.evaluate(center.x + 20, center.z - 10).height;
-  const farBank = field.evaluate(center.x + 42, center.z - 10).height;
+  // this latitude; x=271 is 10 m out, x=293 is 12 m further out)
+  const nearBank = field.evaluate(center.x + 15, center.z - 10).height;
+  const farBank = field.evaluate(center.x + 37, center.z - 10).height;
   assert(nearBank < farBank, `ground descends toward the stream (${nearBank.toFixed(2)} → ${farBank.toFixed(2)} m)`);
   // the bank zone is mud (the stream reads as a wet bank, not green floor)
-  const bankMat = field.evaluate(center.x + 32, center.z - 10).material; // 6 m out from the channel edge
+  const bankMat = field.evaluate(center.x + 13, center.z - 10).material; // just past the carve edge
   assert(bankMat === 2, `stream bank is mud (material ${bankMat})`);
 }
 
@@ -89,19 +89,25 @@ assert(maxFloat < 0.6, `houses grounded at footprint min, foundation (0.6 m) str
 {
   const THREE = await import('three');
   const scene = new THREE.Scene();
-  const { buildRiverWater, WATER_Y } = await import('../village/stream-water');
-  const water = buildRiverWater(scene);
+  const { buildRiverWater, waterLevelFor } = await import('../village/stream-water');
+  const water = buildRiverWater(scene, field);
   assert(water.length === 2, `two river ribbons (${water.length})`);
   const stream = water[0];
   const pos = stream.geometry.attributes.position;
-  let atLevel = true;
-  for (let i = 0; i < pos.count; i++) {
-    if (Math.abs(pos.getY(i) - WATER_Y) > 1e-4) atLevel = false; // f32 storage
-  }
-  assert(atLevel, 'water sits exactly at the water level');
-  // the water floats in the carved channel (below the surrounding floor)
-  const waterX = 275, waterZ = -100;
-  assert(field.evaluate(waterX, waterZ).height < WATER_Y, `water in the carved channel (floor ${field.evaluate(waterX, waterZ).height.toFixed(1)} < ${WATER_Y})`);
+  const atLevel = (() => {
+    const y = pos.getY(0);
+    for (let i = 1; i < pos.count; i++) if (Math.abs(pos.getY(i) - y) > 1e-4) return false;
+    return true;
+  })();
+  assert(atLevel, 'water sits flat at the river water level');
+  // the water floats in the carved channel (below the surrounding floor),
+  // and the village stream's water sits NEAR the bank tops — a small
+  // stream you can see across, not a canyon trench
+  const streamY = waterLevelFor(field, { id: 'village_stream', points: [[900, -340], [600, -280], [380, -220], [282, -140], [268, -60], [270, 60], [290, 200], [360, 360], [430, 520]], depth: 2.8 });
+  const floor = field.evaluate(275, -100).height;
+  assert(floor < streamY, `water in the carved channel (floor ${floor.toFixed(1)} < water ${streamY.toFixed(1)})`);
+  const bank = field.evaluate(285, -128).height;
+  assert(bank - streamY < 3.5, `banks are LOW — a small stream (bank ${bank.toFixed(1)} is ${(bank - streamY).toFixed(1)} m above the water, < 3.5)`);
 }
 
 // ---- 3b. Roof winding: both slopes face UP (the half-missing-roof bug) ----

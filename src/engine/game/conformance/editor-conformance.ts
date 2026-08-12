@@ -39,7 +39,7 @@ const scene = new THREE_NS.Scene();
 
 // ---- 1. Registry completeness ----
 const registry = new EditorRegistry();
-const water = buildRiverWater(scene);
+const water = buildRiverWater(scene, field);
 for (const mesh of water) {
   registry.register({
     id: `water_${mesh.name.replace('water_', '')}`, type: 'water', label: mesh.name,

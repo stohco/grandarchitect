@@ -33,6 +33,10 @@ PALETTE = {
     'lantern': (0.95, 0.45, 0.10),       # #ff8a26 warm spirit lantern (emissive)
     'bronze': (0.28, 0.20, 0.10),        # #5e4b2a bronze incense tripod
     'smoke': (0.75, 0.74, 0.72),         # pale incense smoke ribbon
+    'indigo': (0.13, 0.175, 0.26),      # #4a6a94 hemp robe, indigo-dyed (reads at distance)
+    'skin': (0.62, 0.45, 0.36),          # #d6a87a weathered farmer skin
+    'hair': (0.11, 0.09, 0.085),         # #2a2622 ink-black hair
+    'straw': (0.46, 0.37, 0.24),         # #a8885a straw sandals
 }
 
 
@@ -289,6 +293,126 @@ def build_family_shrine(seed):
     return joined
 
 
+# ---------------------------------------------------------------------------
+# The villager (the third asset through the pipeline) — the player's body
+# ---------------------------------------------------------------------------
+# Per the style bible §3: standing height 1.82 m, 7.75 heads, healthy and
+# elegant, never exaggerated. A mortal villager of the Wang valley: an
+# indigo hemp robe with a rope sash, a topknot pinned with a wooden pin,
+# straw sandals. Silhouette-first — the robe is the shape; the head reads
+# the bun; the feet peek.
+
+def build_villager(seed):
+    rng = Seeded(seed)
+    indigo = make_material('villager_robe', PALETTE['indigo'], roughness=0.9)
+    skin = make_material('villager_skin', PALETTE['skin'], roughness=0.8)
+    hair = make_material('villager_hair', PALETTE['hair'], roughness=0.95)
+    straw = make_material('villager_straw', PALETTE['straw'], roughness=0.95)
+    dark = make_material('villager_eye', (0.02, 0.02, 0.02), roughness=0.3)
+
+    parts = []
+
+    def spawn(mesh_op, name, mat):
+        mesh_op()
+        obj = bpy.context.object
+        obj.name = name
+        if mat:
+            assign(obj, mat)
+        parts.append(obj)
+        return obj
+
+    def bake(obj, location=True, rotation=True, scale=True):
+        bpy.ops.object.select_all(action='DESELECT')
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.transform_apply(location=location, rotation=rotation, scale=scale)
+
+    def sph(name, mat, radius, loc, verts=12, rings=10, squash=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, segments=verts, ring_count=rings,
+                                                                 location=loc), name, mat)
+        if squash:
+            obj.scale = squash
+        obj.data.polygons[0].use_smooth = True
+        bake(obj)
+        return obj
+
+    def cyl(name, mat, radius, depth, loc, verts=10, rot=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts,
+                                                                location=loc), name, mat)
+        if rot:
+            obj.rotation_euler = rot
+        obj.data.polygons[0].use_smooth = True
+        bake(obj)
+        return obj
+
+    def cube(name, mat, loc, scale):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cube_add(size=1, location=loc), name, mat)
+        obj.scale = scale
+        bake(obj)
+        return obj
+
+    # ---- the robe: the silhouette. A tapered torso from the shoulders
+    # (0.44 wide) flaring to the hem (0.58) at the ankles, a rope sash at
+    # the waist, a dark collar at the neckline. The hem sits ~0.2 above
+    # the ground so the sandals peek.
+    bpy.ops.mesh.primitive_cone_add(vertices=10, radius1=0.26, radius2=0.30, depth=1.22,
+                                    location=(0, 0, 0.97))
+    robe = bpy.context.object
+    robe.name = 'villager_robe'
+    robe.scale = (1.0, 0.78, 1.0)
+    robe.data.polygons[0].use_smooth = True
+    assign(robe, indigo)
+    parts.append(robe)
+    bake(robe)
+
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.155, minor_radius=0.018, major_segments=12,
+                                     minor_segments=6, location=(0, 0, 0.82))
+    sash = bpy.context.object
+    sash.name = 'villager_sash'
+    sash.rotation_euler.x = math.pi / 2
+    assign(sash, straw)
+    parts.append(sash)
+    bake(sash)
+
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.13, minor_radius=0.02, major_segments=10,
+                                     minor_segments=5, location=(0, 0, 1.52))
+    collar = bpy.context.object
+    collar.name = 'villager_collar'
+    collar.rotation_euler.x = math.pi / 2
+    assign(collar, dark)
+    parts.append(collar)
+    bake(collar)
+
+    # ---- the head: ~0.235 m (7.75 heads in 1.82 m). A stylized
+    # weathered face: squashed sphere, hair cap, topknot bun + pin, and
+    # two dark eye inlays on the front (+Y).
+    sph('villager_head', skin, 0.118, (0, 0, 1.665), verts=14, rings=11, squash=(0.95, 0.88, 1.0))
+    sph('villager_haircap', hair, 0.121, (0, 0, 1.685), verts=14, rings=8, squash=(1.0, 1.0, 0.8))
+    sph('villager_bun', hair, 0.055, (0, 0, 1.82), verts=10, rings=7)
+    cyl('villager_pin', straw, 0.008, 0.16, (0.06, 0.0, 1.82), verts=6, rot=(0, 0, math.pi / 4))
+    sph('villager_eye_l', dark, 0.011, (-0.035, 0.105, 1.68), verts=6, rings=4)
+    sph('villager_eye_r', dark, 0.011, (0.035, 0.105, 1.68), verts=6, rings=4)
+
+    # ---- the arms: sleeves hanging from the shoulders, hands peeking ----
+    cyl('villager_arm_l', indigo, 0.042, 0.55, (-0.24, 0.06, 1.42), verts=8, rot=(0, 0.35, 0))
+    cyl('villager_arm_r', indigo, 0.042, 0.55, (0.24, 0.06, 1.42), verts=8, rot=(0, -0.35, 0))
+    sph('villager_hand_l', skin, 0.033, (-0.27, 0.14, 1.14), verts=8, rings=6)
+    sph('villager_hand_r', skin, 0.033, (0.27, 0.14, 1.14), verts=8, rings=6)
+
+    # ---- the straw sandals: flattened wedges ----
+    cube('villager_sandal_l', straw, (-0.11, 0.0, 0.05), (0.09, 0.16, 0.045))
+    cube('villager_sandal_r', straw, (0.11, 0.0, 0.05), (0.09, 0.16, 0.045))
+
+    # ---- join every part into one villager mesh ----
+    for obj in parts:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = parts[0]
+    bpy.ops.object.join()
+    joined = bpy.context.object
+    joined.name = 'villager'
+    return joined
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--asset', required=True)
@@ -304,6 +428,10 @@ def main():
         bpy.context.view_layer.objects.active = root
     elif args.asset == 'family_shrine':
         root = build_family_shrine(args.seed)
+        root.select_set(True)
+        bpy.context.view_layer.objects.active = root
+    elif args.asset == 'villager':
+        root = build_villager(args.seed)
         root.select_set(True)
         bpy.context.view_layer.objects.active = root
     else:

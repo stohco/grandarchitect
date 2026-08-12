@@ -43,7 +43,7 @@ const planetStub = {
 } as never;
 
 const registry = new EditorRegistry();
-const water = buildRiverWater(scene);
+const water = buildRiverWater(scene, field);
 for (const mesh of water) {
   registry.register({
     id: `water_${mesh.name.replace('water_', '')}`, type: 'water', label: mesh.name,
