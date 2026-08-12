@@ -13,6 +13,13 @@
  */
 
 import * as THREE from 'three';
+import { SCALE_RULES } from '../scale-rules';
+
+/** The authored door height (2.3 m) floored at the poster minimum so
+ * scaled-down houses keep a ≥2.2 m WORLD-space door. */
+export function doorWorldHeight(houseScale: number): number {
+  return Math.max(2.3 * houseScale, SCALE_RULES.doorMinHeight);
+}
 import type { PlanetHeightField } from '../planet/height-field';
 import type { HouseNode } from './village-authoring';
 
@@ -85,10 +92,15 @@ export function buildHouse(
     );
   }
   // ---- door frame + double door ----
-  mk(new THREE.BoxGeometry(0.22 * s, 2.6 * s, 0.3 * s), opts.materials.timber, 0, 1.3 * s, -2.95 * s, 'frame');
-  mk(new THREE.BoxGeometry(0.9 * s, 2.3 * s, 0.1 * s), opts.materials.timber, -0.5 * s, 1.15 * s, -2.98 * s, 'door');
-  mk(new THREE.BoxGeometry(0.9 * s, 2.3 * s, 0.1 * s), opts.materials.timber, 0.5 * s, 1.15 * s, -2.98 * s, 'door');
-  mk(new THREE.BoxGeometry(1.6 * s, 0.16 * s, 0.34 * s), opts.materials.timber, 0, 2.6 * s, -2.95 * s, 'lintel');
+  // The poster rule (IMAGE_DIRECTIVES §4): doors ≥2.2 m in WORLD space —
+  // small houses (scale down to 0.8) floor the door/frame heights so a
+  // villager never stoops through a hut door.
+  const doorH = doorWorldHeight(s);
+  const frameH = doorH + 0.25;
+  mk(new THREE.BoxGeometry(0.22 * s, frameH, 0.3 * s), opts.materials.timber, 0, frameH / 2, -2.95 * s, 'frame');
+  mk(new THREE.BoxGeometry(0.9 * s, doorH, 0.1 * s), opts.materials.timber, -0.5 * s, doorH / 2, -2.98 * s, 'door');
+  mk(new THREE.BoxGeometry(0.9 * s, doorH, 0.1 * s), opts.materials.timber, 0.5 * s, doorH / 2, -2.98 * s, 'door');
+  mk(new THREE.BoxGeometry(1.6 * s, 0.16 * s, 0.34 * s), opts.materials.timber, 0, frameH, -2.95 * s, 'lintel');
   // ---- windows flanking the door ----
   for (const wx of [-2.6, 1.4] as const) {
     mk(new THREE.BoxGeometry(1.1 * s, 1.35 * s, 0.06 * s), opts.materials.window, wx * s, 2.15 * s, -2.99 * s, 'windowPane');

@@ -200,6 +200,16 @@ export class PlanetHeightField {
   /** Water surface height for rivers (they are cut below sea level). */
   get waterLevel(): number { return SEA_LEVEL + 0.1; }
 
+  /** Slope at a world point in degrees, from the central-difference
+   *  gradient. Image Directives §3: 0-35° walkable, 35-50° steep caution,
+   *  50+° non-walkable. NOT used inside evaluate() — the streaming rings
+   *  call evaluate ~17k times per frame and must never pay for it. */
+  slopeAt(wx: number, wz: number, step = 1.0): number {
+    const hx = (this.evaluate(wx + step, wz).height - this.evaluate(wx - step, wz).height) / (2 * step);
+    const hz = (this.evaluate(wx, wz + step).height - this.evaluate(wx, wz - step).height) / (2 * step);
+    return Math.atan(Math.hypot(hx, hz)) * 180 / Math.PI;
+  }
+
   /** Skip unused warnings on the warm-up rng (determinism anchor only). */
   get rngState(): number { return this.rng.nextUint32(); }
 }

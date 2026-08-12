@@ -11,6 +11,7 @@
 import * as THREE from 'three';
 import type { PlanetHeightField } from '../planet/height-field';
 import type { PlanetMount } from '../planet/planet-mount';
+import { hardnessFactor } from '../planet/material-families';
 
 export type BrushMode = 'raise' | 'lower' | 'flatten' | 'smooth';
 
@@ -50,9 +51,17 @@ export class TerrainEditStore {
     return h;
   }
 
-  /** Apply a brush stroke and rebuild the affected chunks. */
+  /** Apply a brush stroke and rebuild the affected chunks. Raise/lower
+   *  RESPECT material hardness (Image Directives §3): the effective
+   *  strength is the request times hardnessFactor at the stroke center,
+   *  and the delta stores that pre-multiplied strength — replay, undo and
+   *  save/load stay pure data and deterministic. Flatten/smooth unchanged. */
   stroke(x: number, z: number, radius: number, strength: number, mode: BrushMode): void {
-    const d: TerrainDelta = { id: this.nextId++, x, z, radius, strength, mode };
+    let effective = strength;
+    if (mode === 'raise' || mode === 'lower') {
+      effective = strength * hardnessFactor(this.field.evaluate(x, z).material);
+    }
+    const d: TerrainDelta = { id: this.nextId++, x, z, radius, strength: effective, mode };
     this.deltas.push(d);
     this.rebuildAffected(x, z, radius);
   }

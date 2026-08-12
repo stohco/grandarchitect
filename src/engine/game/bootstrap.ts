@@ -309,6 +309,9 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   let rebuildTimer = 0;
   let lastLine = '';
   let tick = 0;
+  // the poster's render budget counter (IMAGE_DIRECTIVES §5: <1500 draw
+  // calls, <5M tris) — absent in pages without the HUD (the gym)
+  const perfEl = document.getElementById('perf');
 
   // E: talk to the nearest villager (favor first, then plain talk)
   window.addEventListener('keydown', (e) => {
@@ -420,6 +423,10 @@ export function bootGame(container: HTMLElement): GameHandle | null {
       // the cinematic owns the camera and the shot clock
     }
     renderer.render(scene, camera);
+    // poster budget readout (IMAGE_DIRECTIVES §5) — every 30 ticks
+    if (perfEl && tick % 30 === 0) {
+      perfEl.textContent = `draws ${renderer.info.render.calls} · tris ${renderer.info.render.triangles}`;
+    }
   };
   const handle: GameHandle = {
     scene,

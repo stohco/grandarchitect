@@ -19,6 +19,7 @@ import { PlanetHeightField } from '../planet/height-field';
 import { villageCenter, HOUSES, FEATURES, GROUND_STRIPS, FAVORS } from '../village/village-authoring';
 import { runWorldQualityGate } from '../world-quality-gate';
 import { GAME_SEED } from '../bootstrap';
+import { SCALE_RULES } from '../scale-rules';
 
 let passed = 0;
 let failed = 0;
@@ -196,6 +197,20 @@ for (const f of FAVORS) {
   assert(f.count > 0 && f.reward && f.want, `favor ${f.id} well-formed`);
 }
 assert(FAVORS.length === 3, `three favors (${FAVORS.length})`);
+
+// ---- 7. Poster human-scale (IMAGE_DIRECTIVES §4: doors ≥2.2 m, paths ≥2 m) ----
+{
+  const square = GROUND_STRIPS.find((s) => s.id === 'square')!;
+  assert(square.w >= 14 && square.d >= 14, `village square ≥14 m wide (${square.w}×${square.d} m)`);
+  const road = GROUND_STRIPS.find((s) => s.id === 'cart_road')!;
+  assert(road.w >= SCALE_RULES.pathMinWidth, `cart road width ${road.w} m ≥ ${SCALE_RULES.pathMinWidth} m`);
+  // the kit floors the door at the poster minimum across every house
+  // scale (the smallest houses used to put a ~1.84 m door in-world)
+  const { doorWorldHeight } = await import('../village/house-kit');
+  const worst = HOUSES.reduce((m, h) => Math.min(m, doorWorldHeight(h.scale)), Infinity);
+  assert(worst >= SCALE_RULES.doorMinHeight,
+    `every house door ≥ ${SCALE_RULES.doorMinHeight} m in world space (worst ${worst.toFixed(2)} m)`);
+}
 
 console.log(`\n${'='.repeat(40)}`);
 console.log(`Results: ${passed}/${passed + failed} passed`);

@@ -9,7 +9,8 @@
  *
  * Gates (in order):
  *   lint, typecheck, check:frontier-maturity, game:conformance,
- *   game:village-conformance, game:villagers-conformance,
+ *   game:terrain-law-conformance, game:village-conformance,
+ *   game:villagers-conformance,
  *   game:time-conformance, game:sky-conformance, game:editor-conformance,
  *   game:validator-conformance, game:director-conformance,
  *   game:assets-conformance, ai:build, ai:check
@@ -22,6 +23,7 @@ const GATES: Array<{ name: string; script: string }> = [
   { name: "typecheck", script: "typecheck" },
   { name: "check:frontier-maturity", script: "check:frontier-maturity" },
   { name: "game:conformance", script: "game:conformance" },
+  { name: "game:terrain-law-conformance", script: "game:terrain-law-conformance" },
   { name: "game:village-conformance", script: "game:village-conformance" },
   { name: "game:villagers-conformance", script: "game:villagers-conformance" },
   { name: "game:time-conformance", script: "game:time-conformance" },

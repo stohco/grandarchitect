@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "3c238653da817090e3194602765c344f256dd294",
-    "commitShort": "3c238653da81",
+    "commit": "cd88d1028385ff9a523bffe926885f11b83d0595",
+    "commitShort": "cd88d1028385",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 17 modified file(s): .ai/project.manifest.json, package.json, src/engine/game/assets/asset-animation.ts, src/engine/game/assets/gltf-assets.ts, src/engine/game/assets/models/family_shrine.glb -> src/engine/game/assets/models/BLD_Shrine_Family_A01.glb…",
-    "generatedAt": "2026-08-12T22:20:58.923Z",
+    "dirtyReason": "Working tree has 16 modified file(s): .ai/project.manifest.json, package.json, scripts/gates.ts, src/engine/game/bootstrap.ts, src/engine/game/conformance/village-conformance.ts…",
+    "generatedAt": "2026-08-12T22:49:08.068Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -290,6 +290,15 @@
       "verified": true,
       "source": "package.json scripts.gates",
       "expandsTo": "bun run scripts/gates.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "game:terrain-law-conformance": {
+      "command": "bun run game:terrain-law-conformance",
+      "verified": true,
+      "source": "package.json scripts.game:terrain-law-conformance",
+      "expandsTo": "bun run src/engine/game/conformance/terrain-law-conformance.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""

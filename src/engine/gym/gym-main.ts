@@ -19,6 +19,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CharacterRig } from '../game/characters/character-rig';
+import { SLOT_MASKS } from '../game/characters/slots';
 
 const container = document.getElementById('hud')!;
 
@@ -79,12 +80,8 @@ let walking = false;
 let turntable = false;
 let zoneCycle = 0;
 
-/** The zones the robe covers (body-hide zones, bible §4 IDs). */
-const ROBE_HIDES = [
-  'zone_CHEST_UPPER', 'zone_CHEST_LOWER', 'zone_BACK_UPPER', 'zone_BACK_LOWER',
-  'zone_UPPER_ARM_L', 'zone_UPPER_ARM_R', 'zone_FOREARM_L', 'zone_FOREARM_R',
-  'zone_PELVIS', 'zone_GLUTE', 'zone_THIGH_L', 'zone_THIGH_R', 'zone_CALF_L', 'zone_CALF_R',
-];
+/** The zones the robe covers (the poster's OUTER_ROBE slot mask — §2). */
+const ROBE_HIDES = SLOT_MASKS.OUTER_ROBE ?? [];
 /** Every zone, for the Z-cycle demo. */
 const ALL_ZONES = [
   'zone_HEAD_SCALP', 'zone_NECK', 'zone_CHEST_UPPER', 'zone_CHEST_LOWER',

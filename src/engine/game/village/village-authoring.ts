@@ -36,7 +36,7 @@ export const HOUSES: HouseNode[] = [
   { id: 'house_wang_tie', name: 'Wang Tie', role: 'elder', dx: -13, dz: 11, facing: 2.5, scale: 0.92, cause: 'The second elder keeps the family register here.' },
   { id: 'house_zhang_yong', name: 'Zhang Yong', role: 'farmer', dx: 5, dz: 11, facing: -2.5, scale: 0.92, cause: 'A farmer\'s house — scythes hang by the door.' },
   { id: 'house_wang_ergou', name: 'Wang Ergou', role: 'farmer', dx: -25, dz: -6, facing: 1.5, scale: 1.04, cause: 'The Wangs who work the near fields — on level ground west of the stream.' },
-  { id: 'house_blacksmith_zhang', name: 'Blacksmith Zhang', role: 'smith', dx: 8, dz: 28, facing: -1.5, scale: 1.04, cause: 'The smith\'s house and forge — the forge stands where the north wind clears the smoke, on level ground clear of the stream.' },
+  { id: 'house_blacksmith_zhang', name: 'Blacksmith Zhang', role: 'smith', dx: 4, dz: 26, facing: -1.5, scale: 1.04, cause: 'The smith\'s house and forge — the forge stands where the north wind clears the smoke, on level ground clear of the stream.' },
   { id: 'house_old_li', name: 'Old Li', role: 'elder', dx: 0, dz: -19, facing: 0.2, scale: 1.04, cause: 'Old Li\'s house, nearest the gate — he watches who comes and goes.' },
   { id: 'house_granny_sun', name: 'Granny Sun', role: 'elder', dx: 0, dz: 19, facing: 3.0, scale: 1.04, cause: 'Granny Sun\'s house — her loom faces the square.' },
   { id: 'house_liu_xiaomei', name: 'Liu Xiaomei', role: 'youth', dx: -19, dz: -19, facing: 0.7, scale: 0.8, cause: 'The youngest house — Xiaomei dreams of the sect from its roof.' },
