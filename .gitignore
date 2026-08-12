@@ -133,3 +133,5 @@ handoffs/*/artifacts/
 
 # game build output (bun bundler)
 .game-dist/
+
+.gym-dist/
