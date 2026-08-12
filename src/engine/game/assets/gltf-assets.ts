@@ -20,6 +20,10 @@ export interface PlacedAssetDef {
   x: number;
   z: number;
   scale?: number;
+  /** Yaw (radians, three.js Y-up). */
+  ry?: number;
+  /** Component kind for the editor + law-checker. */
+  kind: string;
   cause: string;
 }
 
@@ -29,8 +33,15 @@ export const PLACED_ASSETS: PlacedAssetDef[] = [
     id: 'sacred_pine',
     label: 'The Sacred Pine',
     modelUrl: '/src/engine/game/assets/models/sacred_pine.glb',
-    x: 244, z: -130, scale: 1,
+    x: 244, z: -130, scale: 1, kind: 'tree',
     cause: 'The wind-bent pine at the shrine — the village was built around the spirit node, and the tree marks the spot they would never cut.',
+  },
+  {
+    id: 'family_shrine',
+    label: 'The Family Shrine',
+    modelUrl: '/src/engine/game/assets/models/family_shrine.glb',
+    x: 248, z: -128, scale: 1, ry: -Math.PI / 2, kind: 'shrine',
+    cause: 'The Wang lineage\'s ancestor shrine — incense for the ancestors and the mountain dao, with the sacred pine at its spirit node and its door to the village square.',
   },
 ];
 
@@ -58,6 +69,7 @@ export class GltfAssetLibrary {
     const gy = planet.heightAt(def.x, def.z);
     root.position.set(def.x, gy, def.z);
     if (def.scale) root.scale.setScalar(def.scale);
+    if (def.ry) root.rotation.y = def.ry;
     scene.add(root);
     // the asset lives: wind + glow
     if (animation) animation.attach(def.id, root, 0.6);
@@ -73,7 +85,7 @@ export class GltfAssetLibrary {
     });
     const comp: SelectableComponent = {
       id: def.id,
-      type: 'tree',
+      type: def.kind,
       label: def.label,
       root,
       bounds: new THREE.Box3().setFromObject(root),

@@ -38,7 +38,8 @@ export function mountVillage(planet: PlanetMount, scene: THREE.Scene): VillageMo
     houses.set(house.id, g);
   }
 
-  // fixed features: well (stone ring + water), shrine, gate
+  // fixed features: well (stone ring + water), gate. The shrine itself is
+  // no longer a blockout — the family shrine GLB (GATE 5) stands here.
   const well = new THREE.Group();
   const wellRing = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 1.1, 10), materials.stone);
   wellRing.castShadow = wellRing.receiveShadow = true;
@@ -53,22 +54,6 @@ export function mountVillage(planet: PlanetMount, scene: THREE.Scene): VillageMo
   const fWell = FEATURES.find((f) => f.id === 'well')!;
   well.position.set(center.x + fWell.dx, planet.field.evaluate(center.x + fWell.dx, center.z + fWell.dz).height, center.z + fWell.dz);
   group.add(well);
-
-  const shrine = new THREE.Group();
-  const shrineBase = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.4, 1.2), materials.stone);
-  shrineBase.castShadow = shrineBase.receiveShadow = true;
-  shrine.add(shrineBase);
-  const shrinePillar = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 2.0, 8), materials.timber);
-  shrinePillar.position.y = 1.2;
-  shrinePillar.castShadow = true;
-  shrine.add(shrinePillar);
-  const shrineRoof = new THREE.Mesh(new THREE.ConeGeometry(0.9, 0.7, 8), materials.slate);
-  shrineRoof.position.y = 2.4;
-  shrineRoof.castShadow = true;
-  shrine.add(shrineRoof);
-  const fShrine = FEATURES.find((f) => f.id === 'shrine')!;
-  shrine.position.set(center.x + fShrine.dx, planet.field.evaluate(center.x + fShrine.dx, center.z + fShrine.dz).height, center.z + fShrine.dz);
-  group.add(shrine);
 
   const gate = new THREE.Group();
   for (const sx of [-3, 3] as const) {

@@ -28,6 +28,11 @@ PALETTE = {
     'jade': (0.10, 0.36, 0.30),          # #2f9a8a spirit jade (linear)
     'stone': (0.22, 0.21, 0.18),         # #6d6a64 cool grey rock
     'glow': (0.15, 0.85, 0.60),          # #7ae8d0 spirit glow (emissive)
+    'lime': (0.30, 0.29, 0.27),          # #8b8a80 lime-washed wall
+    'slate': (0.17, 0.18, 0.19),         # #4a5054 grey clay tile
+    'lantern': (0.95, 0.45, 0.10),       # #ff8a26 warm spirit lantern (emissive)
+    'bronze': (0.28, 0.20, 0.10),        # #5e4b2a bronze incense tripod
+    'smoke': (0.75, 0.74, 0.72),         # pale incense smoke ribbon
 }
 
 
@@ -171,6 +176,119 @@ def build_sacred_pine(seed):
     return trunk
 
 
+# ---------------------------------------------------------------------------
+# The family shrine (祠) — the second asset through the pipeline
+# ---------------------------------------------------------------------------
+# The Wang lineage's ancestor shrine at the village heart: two-step stone
+# plinth, lime-washed timber walls, dark doorway to the tablets, and the
+# one curved roof a mortal building may wear (style grammar §2 — curved
+# eaves belong to shrines and sects alone). A spirit lantern hangs at the
+# gable; a bronze tripod holds incense before the door.
+
+def build_family_shrine(seed):
+    rng = Seeded(seed)
+    lime = make_material('shrine_lime', PALETTE['lime'], roughness=0.95)
+    timber = make_material('shrine_timber', PALETTE['bark'], roughness=0.9)
+    slate = make_material('shrine_slate', PALETTE['slate'], roughness=0.8)
+    stone = make_material('shrine_stone', PALETTE['stone'], roughness=0.95)
+    lantern = make_material('shrine_lantern', PALETTE['lantern'], roughness=0.35,
+                            emissive=PALETTE['lantern'], emissive_strength=1.6)
+    bronze = make_material('shrine_bronze', PALETTE['bronze'], roughness=0.6, metalness=0.5)
+    smoke = make_material('shrine_smoke', PALETTE['smoke'], roughness=1.0)
+    interior = make_material('shrine_interior', (0.05, 0.04, 0.03), roughness=1.0)
+    lichen_mat = make_material('shrine_lichen', PALETTE['moss'], roughness=1.0)
+
+    parts = []
+
+    def spawn(mesh_op, name, mat):
+        mesh_op()
+        obj = bpy.context.object
+        obj.name = name
+        if mat:
+            assign(obj, mat)
+        parts.append(obj)
+        return obj
+
+    def bake(obj, location=True, rotation=True, scale=True):
+        bpy.ops.object.select_all(action='DESELECT')
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.transform_apply(location=location, rotation=rotation, scale=scale)
+
+    def cube(name, mat, loc, scale):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cube_add(size=1, location=loc), name, mat)
+        obj.scale = scale
+        bake(obj)
+        return obj
+
+    def cyl(name, mat, radius, depth, loc, verts=10, rot=None):
+        obj = spawn(lambda: bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts,
+                                                                location=loc), name, mat)
+        if rot:
+            obj.rotation_euler = rot
+        obj.data.polygons[0].use_smooth = True
+        bake(obj)
+        return obj
+
+    # ---- two-step stone plinth (2.6 x 2.2 m, 0.34 m total) ----
+    cube('shrine_plinth_lower', stone, (0, 0, 0.08), (1.35, 1.15, 0.08))
+    cube('shrine_plinth_upper', stone, (0, 0, 0.22), (1.15, 0.95, 0.09))
+    # ---- walls: the hall body (2.1 x 1.5 m footprint, 1.7 m tall) ----
+    cube('shrine_walls', lime, (0, 0, 0.98), (1.05, 0.75, 0.8))
+    # ---- the dark doorway on the +Y face (the tablets inside) ----
+    cube('shrine_doorway', interior, (0, 0.62, 0.95), (0.42, 0.02, 0.6))
+    # ---- the one curved roof: 8 flat discs, upturned eave tips ----
+    # Blender cylinders are Z-axis = thin in depth already: unrotated, each
+    # is a flat plate spanning X (the ridge) and Y (the eave depth); only
+    # the ridge cap rolls over Y to lie along the spine.
+    half = 0.95
+    for s in range(8):
+        t = s / 7.0
+        curl = math.sin(t * math.pi) * 0.10 + (0.05 if t < 0.2 else 0.0) + (0.05 if t > 0.8 else 0.0)
+        cyl(f'shrine_eave_{s}', slate, 0.92, 0.12, (-half + t * 2 * half, 0, 1.95 + curl), verts=10)
+    cyl('shrine_ridge', slate, 0.09, 2.0, (0, 0, 2.14), verts=10, rot=(0, math.radians(90), 0))
+    # ---- a tiny ridge fin: the mountain dao's marker ----
+    fin = spawn(lambda: bpy.ops.mesh.primitive_cone_add(vertices=4, radius1=0.09, radius2=0.02, depth=0.16,
+                                                        location=(0, 0, 2.3)),
+                'shrine_fin', stone)
+    # ---- the spirit lantern: hangs under the ridge, warm and lit ----
+    cyl('shrine_lantern', lantern, 0.11, 0.22, (0, 0, 1.72), verts=12)
+    cyl('shrine_lantern_cord', timber, 0.012, 0.5, (0, 0, 2.02), verts=6)
+    # ---- the bronze tripod before the door ----
+    cyl('shrine_tripod', bronze, 0.16, 0.13, (0, 0.78, 0.32), verts=10)
+    # ---- lichen weathering on the plinth ----
+    for k in range(3):
+        ang = rng.range(0, 2 * math.pi)
+        rad = rng.range(0.9, 1.2)
+        lichen = spawn(lambda: bpy.ops.mesh.primitive_uv_sphere_add(radius=0.08, segments=6, ring_count=4,
+                                                                    location=(0, 0, 0)),
+                       f'shrine_lichen_{k}', lichen_mat)
+        lichen.location = (math.cos(ang) * rad, math.sin(ang) * rad, 0.06)
+        lichen.scale = (1.0, 1.0, 0.4)
+        bake(lichen)
+
+    # ---- the smoke ribbon: separate object (the animation lifts it) ----
+    bpy.ops.mesh.primitive_plane_add(size=0.5, location=(0, 0.76, 1.55))
+    ribbon = bpy.context.object
+    ribbon.name = 'shrine_smoke'
+    assign(ribbon, smoke.copy())
+    ribbon.scale = (0.16, 1.0, 1.0)
+    ribbon.rotation_euler.x = -math.pi / 2  # vertical plane facing +Y (the door side)
+    bake(ribbon, location=False, scale=True)  # keep its rotation a node transform
+    ribbon.select_set(False)
+
+    # ---- join every part except the smoke ribbon into one shrine mesh ----
+    for obj in parts:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = parts[0]
+    bpy.ops.object.join()
+    joined = bpy.context.object
+    joined.name = 'family_shrine'
+    joined.select_set(True)
+    ribbon.select_set(True)  # the smoke ribbon rides along in the export
+    return joined
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--asset', required=True)
@@ -182,6 +300,10 @@ def main():
     clear_scene()
     if args.asset == 'sacred_pine':
         root = build_sacred_pine(args.seed)
+        root.select_set(True)
+        bpy.context.view_layer.objects.active = root
+    elif args.asset == 'family_shrine':
+        root = build_family_shrine(args.seed)
         root.select_set(True)
         bpy.context.view_layer.objects.active = root
     else:

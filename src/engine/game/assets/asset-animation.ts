@@ -20,8 +20,12 @@ export class AssetAnimation {
   private time = 0;
   /** Per-asset wind strength (edited via the editor's wind param). */
   private wind = new Map<string, number>();
+  /** Authored emissive intensity per material (the pulse preserves it). */
+  private glowBase = new Map<THREE.MeshStandardMaterial, number>();
   private glows = new Map<string, THREE.MeshStandardMaterial[]>();
   private shaders = new Map<string, WindUniforms>();
+  /** Incense smoke ribbons: the shrine's breath (rises + fades). */
+  private smokes = new Map<string, { ribbon: THREE.Object3D; mat: THREE.MeshStandardMaterial; baseY: number }>();
 
   /** Register an asset's materials for wind + glow animation. */
   attach(id: string, root: THREE.Object3D, windStrength: number): void {
@@ -38,6 +42,16 @@ export class AssetAnimation {
       }
     });
     this.glows.set(id, mats.filter((m) => m.emissive && m.emissiveIntensity > 0));
+    for (const m of this.glows.get(id) ?? []) {
+      if (!this.glowBase.has(m)) this.glowBase.set(m, m.emissiveIntensity);
+    }
+    // the incense smoke ribbon (named in the builder): rises and breathes
+    const ribbon = root.getObjectByName('shrine_smoke');
+    if (ribbon) {
+      const mat = (ribbon as THREE.Mesh).material as THREE.MeshStandardMaterial;
+      mat.transparent = true;
+      this.smokes.set(id, { ribbon, mat, baseY: ribbon.position.y });
+    }
   }
 
   /** Set the wind strength for an asset (editor param). */
@@ -68,7 +82,7 @@ export class AssetAnimation {
     };
   }
 
-  /** Advance the animation: wind + glow pulse (dusk-boosted). */
+  /** Advance the animation: wind + glow pulse (dusk-boosted) + incense. */
   update(dt: number, duskFactor: number): void {
     this.time += dt;
     for (const [id, uniforms] of this.shaders) {
@@ -76,11 +90,22 @@ export class AssetAnimation {
       uniforms.uWindStrength.value = this.wind.get(id) ?? 0;
     }
     for (const [id, mats] of this.glows) {
-      const pulse = 0.12 + 0.06 * Math.sin(this.time * 0.8 + id.length);
-      const duskBoost = duskFactor * 0.5;
+      const pulse = 0.85 + 0.15 * Math.sin(this.time * 0.8 + id.length);
+      const duskBoost = 1 + duskFactor * 0.7;
       for (const m of mats) {
-        m.emissiveIntensity = pulse + duskBoost;
+        const base = this.glowBase.get(m) ?? 0.15;
+        m.emissiveIntensity = base * pulse * duskBoost;
       }
+    }
+    for (const [, smoke] of this.smokes) {
+      // the incense breath: the ribbon rises, stretches, thins — then
+      // the next breath starts (deterministic, from the shared clock)
+      const t = this.time * 0.7;
+      const breath = 0.5 + 0.5 * Math.sin(t + smoke.baseY);
+      smoke.ribbon.position.y = smoke.baseY + 0.18 * breath;
+      smoke.ribbon.scale.y = 0.85 + 0.45 * breath;
+      smoke.ribbon.position.x += 0.01 * Math.sin(this.time * 0.9);
+      smoke.mat.opacity = 0.28 + 0.16 * breath;
     }
   }
 

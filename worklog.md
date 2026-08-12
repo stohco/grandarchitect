@@ -1967,3 +1967,38 @@ run in the actual scene; the planet will have WAY more than this.
 - Gates: all 8 conformance suites + tsc + lint (evidence/tools excluded)
   + ai:check + maturity 156.
 
+
+## 2026-08-12 — THE FAMILY SHRINE (祠) — the second asset through the pipeline
+
+The shrine proxy (stone base + pillar + cone) is GONE. The Blender-built
+family shrine stands at its lawful spot with the sacred pine at its spirit
+node, living: incense smoke ribbon breathes, the lantern burns warm
+(authored emissive strength preserved — the old glow pulse crushed it to
+0.5; it now runs 0.85-1.55x base + dusk boost, reads ~1.9 at dusk), the
+door faces the village square (ry=-PI/2).
+
+Debugging story (the pipeline earns its gate): empty-group join fails ->
+spawn() return-value trap ('FINISHED' set) -> ribbon joined into the mesh
+(auto-selected on creation) -> the ACTIVE object's scale flattened the
+join (transform applied BEFORE scale was set) -> eave discs were vertical
+rings (rotY on a Z-cylinder) -> no rotation, only the ridge cap rolls ->
+geometry probe (world extents per material) caught every one of these
+before the VLM could misread it. The VLM reads this scene as a 'broken
+blockout' at this fidelity — pixels + probes are the evidence of record.
+
+- build_asset.py: build_family_shrine() — plinth, lime walls, dark
+  doorway, the ONE curved roof (8 flat discs + ridge cap + stone fin),
+  hanging lantern + cord, bronze tripod, 3 lichen patches, smoke ribbon.
+- gltf-assets.ts: kind + ry fields; family_shrine placed at the shrine
+  spot (248,-128), kind 'shrine'.
+- village-mount.ts: the shrine blockout removed.
+- asset-animation.ts: smoke ribbons (rise + stretch + fade, deterministic
+  shared clock) + glow pulse preserves each material's authored base.
+- NEW GATE 6: game:assets-conformance (33/33) — GLB magic/chunks, geometry
+  spans, stable ground, causes, kinds, shrine-pine spirit distance, shrine
+  clear of houses/well. All 9 conformance suites + tsc + lint + ai:check
+  + maturity 156 green.
+- Evidence: shrine-door-noon/dusk frames; smoke moves (y 1.654->1.599,
+  opacity 0.372->0.323); lantern glow 1.93 at dusk; 1607 warm lantern px
+  at dusk; lime 8.6k px, slate 13.8k px at noon.
+

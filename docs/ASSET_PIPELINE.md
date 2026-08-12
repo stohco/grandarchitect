@@ -25,6 +25,18 @@
 #   jade glow at dusk, needles like ink strokes. It exists because the
 #   shrine was built at the node — the tree marks the spot the villagers
 #   would never cut.
+#
+# Second asset (the same pipeline, run end to end):
+#   THE FAMILY SHRINE (祠) — the Wang lineage's ancestor shrine at the heart
+#   of the village, where the sacred pine marks the spirit node. A tiny
+#   ~2 m square hall on a two-step stone plinth: lime-washed timber walls,
+#   a dark doorway to the ancestor tablets, and the one curved roof a
+#   mortal building may wear (style grammar §2 — curved eaves belong to
+#   shrines and sects alone), grey clay tiles worn by a hundred winters.
+#   From the gable hangs a spirit lantern, warm as the incense that burns
+#   before the door in a small bronze tripod. It exists because the
+#   village was built around the node — the family owes the mountain dao
+#   for the valley, and the shrine is the debt kept in good standing.
 
 # ---------------------------------------------------------------------------
 # GATE 2 — CONCEPT (visual verification BEFORE modeling)

@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "8b20dd9eb12f038c0c98f66c253b79d34ac3e8fc",
-    "commitShort": "8b20dd9eb12f",
+    "commit": "204d40a2692fe8d01e287e21f25130f6f4c8730d",
+    "commitShort": "204d40a2692f",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 13 modified file(s): .ai/project.manifest.json, eslint.config.mjs, src/engine/game/bootstrap.ts, tsconfig.tsbuildinfo, docs/ASSET_PIPELINE.md…",
-    "generatedAt": "2026-08-12T04:14:12.693Z",
+    "dirtyReason": "Working tree has 16 modified file(s): docs/ASSET_PIPELINE.md, package.json, src/engine/game/assets/asset-animation.ts, src/engine/game/assets/gltf-assets.ts, src/engine/game/village/village-mount.ts…",
+    "generatedAt": "2026-08-12T04:47:02.754Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -263,6 +263,15 @@
       "verified": true,
       "source": "package.json scripts.game:director-conformance",
       "expandsTo": "bun run src/engine/game/conformance/director-conformance.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "game:assets-conformance": {
+      "command": "bun run game:assets-conformance",
+      "verified": true,
+      "source": "package.json scripts.game:assets-conformance",
+      "expandsTo": "bun run src/engine/game/conformance/assets-conformance.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""
