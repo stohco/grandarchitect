@@ -1,4 +1,4 @@
-/**
+﻿/**
  * game/village/villagers.ts — the village's people, on the frontier cognition.
  *
  * Every villager carries the canonical NPC brain (frontier/npc-cognition):
@@ -98,6 +98,10 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
     );
     head.position.y = 0.62;
     body.add(head);
+    // position the body NOW — a body left at the origin until the first
+    // update frame renders a villager flash at (0,0,0) and breaks the
+    // law-checker (everything at the origin reads as buried)
+    body.position.set(homeX, field.evaluate(homeX, homeZ).height, homeZ);
     scene.add(body);
 
     const state = {
@@ -109,7 +113,7 @@ export function buildVillagers(field: PlanetHeightField, scene: THREE.Scene): Vi
     };
 
     const handle: VillagerHandle = {
-      id: house.id,
+      id: `villager_${house.id}`,
       name,
       role,
       houseId: house.id,

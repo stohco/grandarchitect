@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "520a2076630e720d34c169caddcdae56eb783ac9",
-    "commitShort": "520a2076630e",
+    "commit": "fc9ba5ccea09e495592b6545fd0f926ff29673b1",
+    "commitShort": "fc9ba5ccea09",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 11 modified file(s): .ai/project.manifest.json, evidence/village-house_close.png, evidence/village-stream_gate.png, evidence/village-village_overview.png, evidence/village-village_square.png…",
-    "generatedAt": "2026-08-12T01:09:28.303Z",
+    "dirtyReason": "Working tree has 11 modified file(s): .ai/project.manifest.json, evidence/probe-stream.cjs, package.json, src/engine/game/bootstrap.ts, src/engine/game/planet/chunk-mesh.ts…",
+    "generatedAt": "2026-08-12T01:41:48.230Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -236,6 +236,24 @@
       "verified": true,
       "source": "package.json scripts.game:sky-conformance",
       "expandsTo": "bun run src/engine/game/conformance/sky-conformance.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "game:editor-conformance": {
+      "command": "bun run game:editor-conformance",
+      "verified": true,
+      "source": "package.json scripts.game:editor-conformance",
+      "expandsTo": "bun run src/engine/game/conformance/editor-conformance.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "game:validator-conformance": {
+      "command": "bun run game:validator-conformance",
+      "verified": true,
+      "source": "package.json scripts.game:validator-conformance",
+      "expandsTo": "bun run src/engine/game/conformance/validator-conformance.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""

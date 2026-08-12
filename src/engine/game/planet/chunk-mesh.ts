@@ -59,8 +59,13 @@ export function chunkOriginOf(key: string): { x: number; z: number } {
   return { x: cx * CHUNK_M, z: cz * CHUNK_M };
 }
 
-/** Build one watertight chunk mesh from the field. */
-export function buildChunkMesh(field: PlanetHeightField, key: string): ChunkMesh | null {
+/** Build one watertight chunk mesh from the field (or a custom height fn —
+ * the terrain editor layers deltas over the deterministic field). */
+export function buildChunkMesh(
+  field: PlanetHeightField,
+  key: string,
+  heightFn?: (x: number, z: number) => number,
+): ChunkMesh | null {
   const { x: ox, z: oz } = chunkOriginOf(key);
   const n = CELLS + 1; // 9 vertices per side
 
@@ -70,6 +75,8 @@ export function buildChunkMesh(field: PlanetHeightField, key: string): ChunkMesh
   const materials = new Uint8Array(CELLS * CELLS);
   const biomes: (Biome | string)[] = new Array(CELLS * CELLS);
 
+  const heightAt = (wx: number, wz: number) => (heightFn ? heightFn(wx, wz) : field.evaluate(wx, wz).height);
+
   for (let iz = 0; iz < n; iz++) {
     for (let ix = 0; ix < n; ix++) {
       const wx = ox + ix * CELL_M;
@@ -77,9 +84,9 @@ export function buildChunkMesh(field: PlanetHeightField, key: string): ChunkMesh
       const s = field.evaluate(wx, wz);
       const i = iz * n + ix;
       positions[i * 3] = ix * CELL_M;
-      positions[i * 3 + 1] = s.height;
+      positions[i * 3 + 1] = heightAt(wx, wz);
       positions[i * 3 + 2] = iz * CELL_M;
-      collisionHeights[i] = s.height;
+      collisionHeights[i] = positions[i * 3 + 1];
       const c = MATERIAL_COLORS[s.material] ?? MATERIAL_COLORS[0];
       colors[i * 3] = c[0];
       colors[i * 3 + 1] = c[1];

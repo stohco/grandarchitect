@@ -1863,3 +1863,46 @@ VLM misreads dim dawn water; pixel evidence is the truth.
 Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village
 58/58, villagers 23/23, time 20/20, sky 14/14.
 
+
+## 2026-08-11 — the in-world editor + the multiverse law-checker
+
+User: 'make an edit mode where everything is modularly selectable... think
+Blender but in three.js... this way I can tell you to learn from what I do...
+also have a debugging system that puts everything within the laws of the
+xianxia multiverse — no floating structures, no clipping, unless legitimately
+buried through emergence.'
+
+- editor/types.ts — SelectableComponent + param schemas (number/color/
+  toggle/select) + EditorRegistry (raycast resolution, marquee box query,
+  bounds refresh).
+- editor/registry.ts — every authored component registers: 12 houses
+  (position/facing/scale + stucco/slate/timber colors + lantern glow),
+  12 villagers, well, ground strips, water ribbons.
+- editor/selection.ts — click selects (raycast), right-drag marquee,
+  double-click opens the panel, three.js TransformControls gizmos (W/E/R),
+  bounding-box highlight. Middle-drag orbits the camera, wheel zooms.
+- editor/terrain-edit.ts — the terrain brush (raise/lower/flatten/smooth)
+  as REPLAYABLE DELTAS over the deterministic field; chunk rebuilds keep
+  mesh == collision; undo; serialize/load.
+- editor/panel.ts — the DOM parameter panel (Tab toggles edit mode).
+- editor/world-validator.ts — the LAW-CHECKER: grounding (nothing floats >
+  0.35 m, nothing clips > 1.5 m, unless the BurialLedger records the reason
+  — emergence), water inside its channels, drainage (unexplained basins
+  deeper than 1 m flagged), semantics (every component has a cause; brush
+  slips > 50 m flagged). F5 runs it; B buries the selection (legitimate
+  burial); Ctrl+S exports the whole world as JSON (components + deltas +
+  burials + validation) — that export is what the architect reads to learn
+  from the user's edits.
+- FOUND AND FIXED BY THE VALIDATOR: (1) villager bodies sat at the world
+  origin until the first update frame (a 12-villager flash at (0,0,0) and
+  everything-at-the-origin read as buried) — bodies positioned at build;
+  (2) the drainage check flagged 0.4 m swell hollows — now requires a
+  basin > 1 m deep; (3) villagers and houses SHARED ids — the villagers
+  overwrote the houses in the editor registry — villager ids prefixed.
+- Editor conformance 10/10 + validator conformance 12/12 (the authored
+  world passes; a floated object is caught; a buried object is exempt
+  with a reason; a 500 m spike is a brush slip; export roundtrips).
+- Browser probe: 26 components (12 houses w/ 8 style params, 12 villagers,
+  2 water), lawsPass TRUE with 0 violations across all four categories.
+Gates: all 7 conformance suites + tsc + lint + ai:check + maturity 156.
+

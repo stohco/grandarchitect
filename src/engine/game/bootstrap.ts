@@ -1,4 +1,4 @@
-/**
+﻿/**
  * game/bootstrap.ts — the game: frontier engine + three.js, nothing else.
  *
  * This is the whole game loop in one place: the planet streams in from the
@@ -19,6 +19,13 @@ import { RaidVisuals } from './village/raid-visuals';
 import { SkyDome } from './sky';
 import { PlanetTimeSystem } from './time/planet-time';
 import { Inventory, ITEMS } from './inventory';
+import { EditorRegistry } from './editor/types';
+import { registerVillageComponents, registerVillagerComponents } from './editor/registry';
+import { SelectionManager } from './editor/selection';
+import { TerrainEditStore } from './editor/terrain-edit';
+import { EditorPanel } from './editor/panel';
+import { WorldValidator, BurialLedger } from './editor/world-validator';
+import { exportWorld, downloadWorld } from './editor/world-export';
 
 export const GAME_SEED = 89274613;
 
@@ -35,6 +42,7 @@ export interface GameHandle {
   inventory: Inventory;
   sky: SkyDome;
   raidVisuals: RaidVisuals;
+  editor: { on: boolean; registry: InstanceType<typeof EditorRegistry>; selection: SelectionManager; terrain: TerrainEditStore; panel: EditorPanel; dragging: boolean };
   gate: ReturnType<typeof runWorldQualityGate>;
   /** Last interaction line (HUD). */
   lastLine: string;
@@ -113,6 +121,132 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const raidVisuals = new RaidVisuals(scene, planet.field);
   let raidActive = false;
 
+  // 5e. THE EDITOR — Blender-style in-world editing (Tab to toggle).
+  // Every authored component is selectable and parameter-editable; the
+  // terrain has a brush with replayable deltas; gizmos move things.
+  const editorRegistry = new EditorRegistry();
+  registerVillageComponents(editorRegistry, village, { x: spawn.x, z: spawn.z });
+  registerVillagerComponents(editorRegistry, villagers);
+  const selection = new SelectionManager(editorRegistry, scene, camera, renderer.domElement);
+  const terrainStore = new TerrainEditStore(planet.field, planet);
+  const editorPanel = new EditorPanel(selection, editorRegistry, terrainStore, planet, camera, renderer.domElement);
+  const editor = {
+    registry: editorRegistry,
+    selection,
+    terrain: terrainStore,
+    panel: editorPanel,
+    on: false,
+    /** Set true while the gizmo drags (the loop pauses player input). */
+    dragging: false,
+  };
+  // the multiverse law-checker + the world-as-data export
+  const burialLedger = new BurialLedger();
+  const validator = new WorldValidator(editorRegistry, planet, terrainStore, burialLedger);
+  let lastValidation: ReturnType<typeof validator.validate> | null = null;
+  (editor as unknown as { validator: WorldValidator; ledger: BurialLedger; exportWorld: () => string }).validator = validator;
+  (editor as unknown as { validator: WorldValidator; ledger: BurialLedger; exportWorld: () => string }).ledger = burialLedger;
+  (editor as unknown as { validator: WorldValidator; ledger: BurialLedger; exportWorld: () => string }).exportWorld = () => {
+    const report = validator.validate();
+    lastValidation = report;
+    const json = exportWorld(editorRegistry, terrainStore, burialLedger, report);
+    return downloadWorld(json);
+  };
+  editorPanel.setValidator(validator, burialLedger);
+  // rebuild the player's collision after a terrain edit
+  const rebuildCollision = () => {
+    const merged = mergeChunkMeshes(planet.chunks, planet);
+    if (merged.positions.length > 0) player.rebuild(merged);
+  };
+  selection.onDragging = (d) => { editor.dragging = d; };
+  selection.onChanged = () => { if (editor.dragging) rebuildCollision(); };
+  let lastPaint = 0;
+  // minimal orbit camera for edit mode (middle-drag orbits, wheel zooms)
+  const orbit = { yaw: 0, pitch: -0.3, dist: 18, pivot: new THREE.Vector3(spawn.x, spawnY, spawn.z), lastX: 0, lastY: 0, active: false };
+  const applyOrbit = () => {
+    camera.position.set(
+      orbit.pivot.x + Math.sin(orbit.yaw) * Math.cos(orbit.pitch) * orbit.dist,
+      orbit.pivot.y + Math.sin(orbit.pitch) * orbit.dist,
+      orbit.pivot.z + Math.cos(orbit.yaw) * Math.cos(orbit.pitch) * orbit.dist,
+    );
+    camera.lookAt(orbit.pivot);
+  };
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Tab') {
+      e.preventDefault();
+      editor.on = !editor.on;
+      selection.setEnabled(editor.on);
+      editorPanel.setEditMode(editor.on);
+      if (editor.on) applyOrbit();
+    }
+    if (!editor.on) return;
+    if (e.code === 'KeyW') selection.setMode('translate');
+    if (e.code === 'KeyE') selection.setMode('rotate');
+    if (e.code === 'KeyR') selection.setMode('scale');
+    if (e.code === 'KeyU') { terrainStore.undo(); rebuildCollision(); }
+    if (e.code === 'F5') {
+      e.preventDefault();
+      const report = validator.validate();
+      lastValidation = report;
+      editorPanel.showValidation(report);
+    }
+    if (e.code === 'KeyS' && e.ctrlKey) {
+      e.preventDefault();
+      (editor as unknown as { exportWorld: () => string }).exportWorld();
+    }
+    if (e.code === 'KeyB') {
+      // B: bury the selected component (legitimate burial — emergence)
+      for (const c of selection.selected) {
+        burialLedger.bury(c.id, 'buried by the user in edit mode (emergence)');
+      }
+    }
+  });
+  renderer.domElement.addEventListener('dblclick', (e) => {
+    if (!editor.on) return;
+    const c = selection.click((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    if (c) editorPanel.render();
+  });
+  renderer.domElement.addEventListener('mousedown', (e) => {
+    if (!editor.on) return;
+    if (e.button === 1) { orbit.active = true; orbit.lastX = e.clientX; orbit.lastY = e.clientY; return; }
+    if (e.button === 2) { selection.startMarquee(e.clientX, e.clientY); return; }
+    if (e.button === 0) {
+      const c = selection.click((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+      if (c && !c.type.startsWith('terrain')) {
+        orbit.pivot.copy(c.bounds.getCenter(new THREE.Vector3()));
+      }
+    }
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!editor.on) return;
+    if (orbit.active) {
+      orbit.yaw -= (e.clientX - orbit.lastX) * 0.008;
+      orbit.pitch = Math.max(-1.4, Math.min(-0.05, orbit.pitch + (e.clientY - orbit.lastY) * 0.005));
+      orbit.lastX = e.clientX; orbit.lastY = e.clientY;
+      applyOrbit();
+      return;
+    }
+    if (e.buttons & 2) { selection.updateMarquee(e.clientX, e.clientY); return; }
+    if (editor.dragging) return;
+    if ((e.buttons & 1) === 0) return;
+    // painting the terrain brush with the left button on empty ground
+    const now = performance.now();
+    if (now - lastPaint > 90) {
+      lastPaint = now;
+      editorPanel.paintAt(e.clientX, e.clientY);
+      rebuildCollision();
+    }
+  });
+  window.addEventListener('mouseup', (e) => {
+    if (e.button === 1) orbit.active = false;
+    if (!editor.on) return;
+    if (e.button === 2) selection.endMarquee(e.clientX, e.clientY);
+  });
+  window.addEventListener('wheel', (e) => {
+    if (!editor.on) return;
+    orbit.dist = Math.max(3, Math.min(400, orbit.dist * (e.deltaY > 0 ? 1.1 : 0.9)));
+    applyOrbit();
+  }, { passive: true });
+
   // 6. Input + loop.
   const input = new GameInput(window);
   const clock = new THREE.Clock();
@@ -190,14 +324,13 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     }
 
     // over-the-shoulder camera (skip when an evidence harness holds the camera)
-    if (!(window as unknown as { __FREE_CAMERA?: boolean }).__FREE_CAMERA) {
+    if (!(window as unknown as { __FREE_CAMERA?: boolean }).__FREE_CAMERA && !editor.on) {
       camera.position.set(p.x - 3.2, p.y + 2.0, p.z - 3.2);
       camera.lookAt(player.lookTarget);
     }
     renderer.render(scene, camera);
   };
   loop();
-
   return {
     scene,
     camera,
@@ -211,6 +344,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     inventory,
     sky,
     raidVisuals,
+    editor,
     gate,
     lastLine,
     dispose: () => {

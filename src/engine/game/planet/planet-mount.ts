@@ -200,6 +200,18 @@ export class PlanetMount {
     return this.field.evaluate(wx, wz).height;
   }
 
+  /** Rebuild ONE resident chunk from a custom height function (the terrain
+   * editor layers deltas over the deterministic field). */
+  rebuildChunk(key: string, heightFn: (x: number, z: number) => number): void {
+    const mesh = this.chunks.get(key);
+    if (!mesh) return;
+    const cm = buildChunkMesh(this.field, key, heightFn);
+    if (!cm) return;
+    this.group.remove(mesh);
+    mesh.geometry.dispose();
+    this.chunks.set(key, this.mountChunk(cm));
+  }
+
   /** Deterministic residency hash (evidence). */
   residencyHash(): string {
     return [...this.resident].sort().join('|');
