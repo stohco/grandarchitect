@@ -7,10 +7,23 @@
   <style>
     html, body { margin: 0; height: 100%; background: #14161a; overflow: hidden; }
     #game { width: 100vw; height: 100vh; }
+    #hud {
+      position: fixed; right: 12px; top: 12px; z-index: 9;
+      font: 12px/1.9 ui-monospace, monospace; color: #cfd6de;
+      background: #1a1e24e8; padding: 6px 12px; border-radius: 6px;
+      text-align: right; pointer-events: none;
+    }
+    #hud a { color: #ffd9a0; pointer-events: auto; }
+    #hud b { color: #ffd9a0; }
   </style>
 </head>
 <body>
   <div id="game"></div>
+  <div id="hud">
+    <b>GRAND ARCHITECT</b><br />
+    <a href="/gym">⛩ Character Gym →</a><br />
+    V free camera · Tab edit · U undo
+  </div>
   <script type="module" src="./index.ts"></script>
 </body>
 </html>

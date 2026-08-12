@@ -28,7 +28,7 @@ const server = serve({
     let path = url.pathname;
     if (path === '/') path = '/src/engine/gym/gym.html';
     // TS entrypoints serve the BUNDLE (never the raw TypeScript)
-    const bundled = Bun.file('.gym-dist/gym-main.js');
+    const bundled = Bun.file('.gym-dist/gym/gym-main.js');
     if (path.endsWith('/gym-main.ts') && bundled.size > 0 && bundled.exists()) return new Response(bundled);
     const file = Bun.file('.' + path);
     if (file.size > 0 && file.exists()) return new Response(file);
