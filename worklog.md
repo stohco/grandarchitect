@@ -1938,3 +1938,32 @@ and 'we can have our own higgsfield that acts like a studio director.'
   local-time shift, review catches bright night/waterless stream/black
   frames). All 8 conformance suites + tsc/lint/ai:check/maturity green.
 
+
+## 2026-08-11 — the asset pipeline + the animated sacred pine (GATE 6)
+
+User: describe -> concept -> Blender -> iterate -> three.js -> animate ->
+run in the actual scene; the planet will have WAY more than this.
+
+- docs/ASSET_PIPELINE.md — the six-gate directive (describe/concept/build/
+  iterate/import/ship), grounded in the style bible, art direction, master
+  directive, and ASSET_PIPELINE_RESEARCH.md (Blender/glTF-Transform/three).
+- tools/blender/build_asset.py — the deterministic headless-Blender 4.2
+  generator (seeded, art-bible linear palette, GLB export). First asset:
+  THE SACRED PINE — wind-bent twisted trunk, root flare, layered canopy
+  plates (moss + jade), stone ring. Iterated once (materials were half
+  strength — brightened to read at distance).
+- src/engine/game/assets/gltf-assets.ts — GATE 5: loads the GLB, grounds
+  it, registers it as an editable component (pos/scale + per-material glow
+  + wind), the law-checker passes (0 violations).
+- src/engine/game/assets/asset-animation.ts — THE ASSET LIVES: wind sway
+  injected via onBeforeCompile into the GLB materials (bend grows with
+  height — the crown moves most, two frequencies), deterministic clock;
+  the jade glow pulses and is dusk-boosted.
+- Evidence: the pine runs in the live scene — probe (4 meshes loaded,
+  editable, laws pass), sway verified (wind clock advances 2.815 -> 4.303,
+  2079 px differ between two frames 2 s apart), jade glow 0.529 at dusk.
+  VLM misreads the asset as absent (unreliable at this fidelity); the
+  pixel + probe evidence is definitive.
+- Gates: all 8 conformance suites + tsc + lint (evidence/tools excluded)
+  + ai:check + maturity 156.
+

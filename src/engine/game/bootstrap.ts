@@ -25,6 +25,8 @@ import { SelectionManager } from './editor/selection';
 import { TerrainEditStore } from './editor/terrain-edit';
 import { EditorPanel } from './editor/panel';
 import { FlyCamera } from './editor/fly-camera';
+import { GltfAssetLibrary, PLACED_ASSETS } from './assets/gltf-assets';
+import { AssetAnimation } from './assets/asset-animation';
 import { WorldValidator, BurialLedger } from './editor/world-validator';
 import { exportWorld, downloadWorld } from './editor/world-export';
 import { Cinematic } from './cinematic/cinematic';
@@ -132,6 +134,20 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const editorRegistry = new EditorRegistry();
   registerVillageComponents(editorRegistry, village, { x: spawn.x, z: spawn.z });
   registerVillagerComponents(editorRegistry, villagers);
+  // GATE 5: the Blender-built assets enter the world (sacred pine at the
+  // shrine's spirit node), animated by the wind + the dusk glow
+  const assetAnimation = new AssetAnimation();
+  const placedAssets: Array<Awaited<ReturnType<typeof GltfAssetLibrary.place>>> = [];
+  (async () => {
+    for (const def of PLACED_ASSETS) {
+      try {
+        const comp = await GltfAssetLibrary.place(def, scene, planet, editorRegistry, assetAnimation);
+        if (comp) placedAssets.push(comp);
+      } catch (err) {
+        console.error('[assets]', def.id, err);
+      }
+    }
+  })();
   const selection = new SelectionManager(editorRegistry, scene, camera, renderer.domElement);
   const terrainStore = new TerrainEditStore(planet.field, planet);
   const editorPanel = new EditorPanel(selection, editorRegistry, terrainStore, planet, camera, renderer.domElement);
@@ -144,6 +160,7 @@ export function bootGame(container: HTMLElement): GameHandle | null {
     /** Set true while the gizmo drags (the loop pauses player input). */
     dragging: false,
   };
+  (editor as unknown as { animation: AssetAnimation }).animation = assetAnimation;
   // the multiverse law-checker + the world-as-data export
   const burialLedger = new BurialLedger();
   const validator = new WorldValidator(editorRegistry, planet, terrainStore, burialLedger);
@@ -327,6 +344,13 @@ export function bootGame(container: HTMLElement): GameHandle | null {
       camera.lookAt(player.lookTarget);
     }
     if (editor.on) flyCamera.update(dt);
+    // the placed assets live: wind + the dusk glow
+    if (assetAnimation) {
+      const elev = Math.max(0, time.sunElevationAt(p.x, p.z));
+      const duskFactor = Math.exp(-(elev * elev) * 120) * (1 - elev * 0.5);
+      assetAnimation.update(dt, duskFactor);
+    }
+
     if (activeCinematic && activeCinematic.active) {
       activeCinematic.update(dt);
       // the cinematic owns the camera and the shot clock
