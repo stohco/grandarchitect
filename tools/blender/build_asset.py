@@ -7,7 +7,7 @@ the art bible palette (linear working space). Every builder module
 registers one asset and exports a GLB.
 
 Usage:
-  blender --background --python tools/blender/build_asset.py -- --asset sacred_pine --out src/engine/game/assets/models/sacred_pine.glb --seed 7
+  blender --background --python tools/blender/build_asset.py -- --asset sacred_pine --out src/engine/game/assets/models/ENV_Tree_Pine_Sacred_A01.glb --seed 7
 """
 
 import argparse

@@ -32,14 +32,14 @@ export const PLACED_ASSETS: PlacedAssetDef[] = [
   {
     id: 'sacred_pine',
     label: 'The Sacred Pine',
-    modelUrl: '/src/engine/game/assets/models/sacred_pine.glb',
+    modelUrl: '/src/engine/game/assets/models/ENV_Tree_Pine_Sacred_A01.glb',
     x: 244, z: -130, scale: 1, kind: 'tree',
     cause: 'The wind-bent pine at the shrine — the village was built around the spirit node, and the tree marks the spot they would never cut.',
   },
   {
     id: 'family_shrine',
     label: 'The Family Shrine',
-    modelUrl: '/src/engine/game/assets/models/family_shrine.glb',
+    modelUrl: '/src/engine/game/assets/models/BLD_Shrine_Family_A01.glb',
     x: 248, z: -128, scale: 1, ry: -Math.PI / 2, kind: 'shrine',
     cause: 'The Wang lineage\'s ancestor shrine — incense for the ancestors and the mountain dao, with the sacred pine at its spirit node and its door to the village square.',
   },
@@ -99,8 +99,8 @@ export class GltfAssetLibrary {
         ...mats.map((m, i) => ({
           id: `glow${i}`, label: `${m.name || 'Material'} Glow`, kind: 'number' as const,
           min: 0, max: 3, step: 0.05,
-          get: () => m.emissiveIntensity,
-          set: (v) => { m.emissiveIntensity = v as number; },
+          get: () => animation?.getGlowBoost(m) ?? 1,
+          set: (v) => { animation?.setGlowBoost(m, v as number); },
         })),
         { id: 'wind', label: 'Wind', kind: 'number', min: 0, max: 3, step: 0.05,
           get: () => animation?.getWind(def.id) ?? 0,

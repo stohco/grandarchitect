@@ -125,7 +125,7 @@ function applyZones(parts: Map<string, THREE.Object3D[]>): void {
   }
 }
 
-baseLoader.load('/src/engine/game/assets/models/character_base.glb', (gltf) => {
+baseLoader.load('/src/engine/game/assets/models/CHR_BaseBody_Male_A01.glb', (gltf) => {
   const base = gltf.scene;
   const parts = zoneParts(base);
   base.traverse((o) => {
@@ -141,7 +141,7 @@ baseLoader.load('/src/engine/game/assets/models/character_base.glb', (gltf) => {
   applyZones(parts);
   (window as unknown as Record<string, unknown>).__gymParts = parts;
 });
-robeLoader.load('/src/engine/game/assets/models/robe.glb', (gltf) => {
+robeLoader.load('/src/engine/game/assets/models/CHR_Robe_Outer_Indigo_A01.glb', (gltf) => {
   robe = gltf.scene as THREE.Group;
   robe.traverse((o) => {
     const mesh = o as THREE.Mesh;

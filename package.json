@@ -28,7 +28,8 @@
                     "game:editor-conformance":  "bun run src/engine/game/conformance/editor-conformance.ts",
                     "game:validator-conformance":  "bun run src/engine/game/conformance/validator-conformance.ts",
                      "game:director-conformance":  "bun run src/engine/game/conformance/director-conformance.ts",
-                     "game:assets-conformance":  "bun run src/engine/game/conformance/assets-conformance.ts"
+                     "game:assets-conformance":  "bun run src/engine/game/conformance/assets-conformance.ts",
+                     "gates":  "bun run scripts/gates.ts"
                  },
     "dependencies":  {
                          "3d-tiles-renderer":  "^0.5.0",

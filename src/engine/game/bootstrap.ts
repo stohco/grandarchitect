@@ -138,14 +138,14 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   // the bible's staging: perfect the base first, add modular equipment
   // (the robe, the topknot, the sandals) when it passes in the gym
   const villagerLoader = new GLTFLoader();
-  villagerLoader.load('/src/engine/game/assets/models/character_base.glb', (gltf) => {
+  villagerLoader.load('/src/engine/game/assets/models/CHR_BaseBody_Male_A01.glb', (gltf) => {
     player.heightAt = (x, z) => planet.heightAt(x, z);
     player.setModel(gltf.scene);
   }, undefined, (err) => console.error('[character]', err));
   // the villagers keep the clothed villager (they are NPCs; the base is
   // the player's staging)
   const villagerClothLoader = new GLTFLoader();
-  villagerClothLoader.load('/src/engine/game/assets/models/villager.glb', (gltf) => {
+  villagerClothLoader.load('/src/engine/game/assets/models/CHR_Villager_Robe_A01.glb', (gltf) => {
     for (const v of villagers) v.wearModel(gltf.scene);
   }, undefined, (err) => console.error('[villager]', err));
   registerVillagerComponents(editorRegistry, villagers);

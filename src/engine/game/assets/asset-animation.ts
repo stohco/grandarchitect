@@ -22,6 +22,8 @@ export class AssetAnimation {
   private wind = new Map<string, number>();
   /** Authored emissive intensity per material (the pulse preserves it). */
   private glowBase = new Map<THREE.MeshStandardMaterial, number>();
+  /** Editor glow boost per material (1 = authored; slider owns this). */
+  private glowBoost = new Map<THREE.MeshStandardMaterial, number>();
   private glows = new Map<string, THREE.MeshStandardMaterial[]>();
   private shaders = new Map<string, WindUniforms>();
   /** Incense smoke ribbons: the shrine's breath (rises + fades). */
@@ -63,6 +65,16 @@ export class AssetAnimation {
     return this.wind.get(id) ?? 0;
   }
 
+  /** Set the editor glow boost for a material (1 = authored). */
+  setGlowBoost(mat: THREE.MeshStandardMaterial, boost: number): void {
+    this.glowBoost.set(mat, Math.max(0, Math.min(3, boost)));
+  }
+
+  /** The editor glow boost for a material (1 when unset). */
+  getGlowBoost(mat: THREE.MeshStandardMaterial): number {
+    return this.glowBoost.get(mat) ?? 1;
+  }
+
   /** Inject the wind bend into a material's vertex shader (deterministic). */
   private injectWind(material: THREE.MeshStandardMaterial, id: string): void {
     material.onBeforeCompile = (shader) => {
@@ -94,7 +106,8 @@ export class AssetAnimation {
       const duskBoost = 1 + duskFactor * 0.7;
       for (const m of mats) {
         const base = this.glowBase.get(m) ?? 0.15;
-        m.emissiveIntensity = base * pulse * duskBoost;
+        const boost = this.glowBoost.get(m) ?? 1;
+        m.emissiveIntensity = base * pulse * duskBoost * boost;
       }
     }
     for (const [, smoke] of this.smokes) {

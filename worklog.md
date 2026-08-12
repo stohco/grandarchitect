@@ -2027,7 +2027,7 @@ character per the art bible + images (the reference PNG is NOT in the repo
    underground views on slopes); V toggles the free camera anywhere
    (WASD/drag/QE/Shift/wheel, V/ESC to return) — plus the god's eye was
    already available in edit mode.
-4. THE CHARACTER: villager.glb through the pipeline (1.82 m, 7.75 heads
+4. THE CHARACTER: CHR_Villager_Robe_A01.glb through the pipeline (1.82 m, 7.75 heads
    per bible §3: indigo robe + rope sash + collar, head/haircap/topknot
    + wooden pin, eyes, sleeve arms + hands, straw sandals). The player
    swaps off the placeholder capsule; all 12 villagers wear it with
@@ -2053,7 +2053,7 @@ equipped; modular equipment once it's perfected'.
    lights, and a free camera ALWAYS unlocked (drag orbit, wheel dolly,
    presets 1-6: front/back/left/right/3-4/face close-up, T turntable,
    W walk, R robe, Z zone-cycle, Q/E height). window.__gym for harnesses.
-2. THE BASE BODY (character_base.glb, bible §4): nothing equipped —
+2. THE BASE BODY (CHR_BaseBody_Male_A01.glb, bible §4): nothing equipped —
    complete male base 1.82 m / 7.79 heads, modest linen briefs + chest
    band, scalp cap (HEAD_SCALP zone), stylized face (eyes, brows, nose,
    mouth — sized to READ at distance), 22 named body-hide zones (the
@@ -2063,7 +2063,7 @@ equipped; modular equipment once it's perfected'.
    on canon lines (eye 7.28 heads, navel 4.77, crotch 4.0, knee 2.21,
    ankle 0.38) and the rendered head top matches the projected line
    exactly (y 72 vs 73.6).
-3. THE ROBE (robe.glb) as a WEARABLE (slot OUTER_ROBE): toggled with R
+3. THE ROBE (CHR_Robe_Outer_Indigo_A01.glb) as a WEARABLE (slot OUTER_ROBE): toggled with R
    in the gym; when on it hides the covered zones (chest/back/arms/
    pelvis/thighs/calves) — the modular system proven.
 4. The main game: the PLAYER now wears the base body (nothing equipped)

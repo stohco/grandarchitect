@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "b11c8b52bc68d01db560eb1b023ac4f431037edf",
-    "commitShort": "b11c8b52bc68",
+    "commit": "3c238653da817090e3194602765c344f256dd294",
+    "commitShort": "3c238653da81",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 25 modified file(s): .ai/project.manifest.json, eslint.config.mjs, package.json, src/engine/game/bootstrap.ts, tools/blender/build_asset.py…",
-    "generatedAt": "2026-08-12T14:16:32.288Z",
+    "dirtyReason": "Working tree has 17 modified file(s): .ai/project.manifest.json, package.json, src/engine/game/assets/asset-animation.ts, src/engine/game/assets/gltf-assets.ts, src/engine/game/assets/models/family_shrine.glb -> src/engine/game/assets/models/BLD_Shrine_Family_A01.glb…",
+    "generatedAt": "2026-08-12T22:20:58.923Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
@@ -281,6 +281,15 @@
       "verified": true,
       "source": "package.json scripts.game:gym",
       "expandsTo": "bun run scripts/gym-dev.ts",
+      "lastRunExitCode": null,
+      "lastRunNotes": "",
+      "notes": ""
+    },
+    "gates": {
+      "command": "bun run gates",
+      "verified": true,
+      "source": "package.json scripts.gates",
+      "expandsTo": "bun run scripts/gates.ts",
       "lastRunExitCode": null,
       "lastRunNotes": "",
       "notes": ""
