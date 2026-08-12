@@ -1,0 +1,576 @@
+{
+ "mode": "gym",
+ "capturedAt": "2026-08-12T23:21:43.418Z",
+ "frames": {
+  "front": {
+   "frame": "frame-front.png",
+   "grid": "frame-front-grid.png",
+   "landmarks": [
+    {
+     "name": "head_top",
+     "y": 74,
+     "headUnits": 7.79
+    },
+    {
+     "name": "eye",
+     "y": 116,
+     "headUnits": 7.28
+    },
+    {
+     "name": "chin",
+     "y": 141,
+     "headUnits": 6.98
+    },
+    {
+     "name": "shoulder",
+     "y": 183,
+     "headUnits": 6.47
+    },
+    {
+     "name": "chest",
+     "y": 218,
+     "headUnits": 6.04
+    },
+    {
+     "name": "navel",
+     "y": 320,
+     "headUnits": 4.77
+    },
+    {
+     "name": "hip",
+     "y": 360,
+     "headUnits": 4.26
+    },
+    {
+     "name": "crotch",
+     "y": 380,
+     "headUnits": 4
+    },
+    {
+     "name": "knee",
+     "y": 516,
+     "headUnits": 2.21
+    },
+    {
+     "name": "ankle",
+     "y": 650,
+     "headUnits": 0.38
+    },
+    {
+     "name": "feet",
+     "y": 677,
+     "headUnits": 0
+    }
+   ],
+   "pixelStats": {
+    "topColors": [
+     {
+      "rgb": "32,32,32",
+      "count": 85687
+     },
+     {
+      "rgb": "0,0,32",
+      "count": 3329
+     },
+     {
+      "rgb": "0,0,0",
+      "count": 3234
+     },
+     {
+      "rgb": "160,128,96",
+      "count": 1031
+     },
+     {
+      "rgb": "32,0,0",
+      "count": 895
+     },
+     {
+      "rgb": "128,96,64",
+      "count": 843
+     }
+    ],
+    "samples": 102000
+   }
+  },
+  "back": {
+   "frame": "frame-back.png",
+   "grid": "frame-back-grid.png",
+   "landmarks": [
+    {
+     "name": "head_top",
+     "y": 74,
+     "headUnits": 7.79
+    },
+    {
+     "name": "eye",
+     "y": 116,
+     "headUnits": 7.28
+    },
+    {
+     "name": "chin",
+     "y": 141,
+     "headUnits": 6.98
+    },
+    {
+     "name": "shoulder",
+     "y": 183,
+     "headUnits": 6.47
+    },
+    {
+     "name": "chest",
+     "y": 218,
+     "headUnits": 6.04
+    },
+    {
+     "name": "navel",
+     "y": 320,
+     "headUnits": 4.77
+    },
+    {
+     "name": "hip",
+     "y": 360,
+     "headUnits": 4.26
+    },
+    {
+     "name": "crotch",
+     "y": 380,
+     "headUnits": 4
+    },
+    {
+     "name": "knee",
+     "y": 516,
+     "headUnits": 2.21
+    },
+    {
+     "name": "ankle",
+     "y": 650,
+     "headUnits": 0.38
+    },
+    {
+     "name": "feet",
+     "y": 677,
+     "headUnits": 0
+    }
+   ],
+   "pixelStats": {
+    "topColors": [
+     {
+      "rgb": "32,32,32",
+      "count": 88478
+     },
+     {
+      "rgb": "0,0,0",
+      "count": 3133
+     },
+     {
+      "rgb": "64,64,64",
+      "count": 1655
+     },
+     {
+      "rgb": "64,64,96",
+      "count": 946
+     },
+     {
+      "rgb": "96,96,128",
+      "count": 813
+     },
+     {
+      "rgb": "64,96,96",
+      "count": 770
+     }
+    ],
+    "samples": 102000
+   }
+  },
+  "left": {
+   "frame": "frame-left.png",
+   "grid": "frame-left-grid.png",
+   "landmarks": [
+    {
+     "name": "head_top",
+     "y": 74,
+     "headUnits": 7.79
+    },
+    {
+     "name": "eye",
+     "y": 116,
+     "headUnits": 7.28
+    },
+    {
+     "name": "chin",
+     "y": 141,
+     "headUnits": 6.98
+    },
+    {
+     "name": "shoulder",
+     "y": 183,
+     "headUnits": 6.47
+    },
+    {
+     "name": "chest",
+     "y": 218,
+     "headUnits": 6.04
+    },
+    {
+     "name": "navel",
+     "y": 320,
+     "headUnits": 4.77
+    },
+    {
+     "name": "hip",
+     "y": 360,
+     "headUnits": 4.26
+    },
+    {
+     "name": "crotch",
+     "y": 380,
+     "headUnits": 4
+    },
+    {
+     "name": "knee",
+     "y": 516,
+     "headUnits": 2.21
+    },
+    {
+     "name": "ankle",
+     "y": 650,
+     "headUnits": 0.38
+    },
+    {
+     "name": "feet",
+     "y": 677,
+     "headUnits": 0
+    }
+   ],
+   "pixelStats": {
+    "topColors": [
+     {
+      "rgb": "32,32,32",
+      "count": 74911
+     },
+     {
+      "rgb": "64,64,64",
+      "count": 9838
+     },
+     {
+      "rgb": "64,32,32",
+      "count": 4868
+     },
+     {
+      "rgb": "64,64,32",
+      "count": 3743
+     },
+     {
+      "rgb": "96,96,128",
+      "count": 1453
+     },
+     {
+      "rgb": "64,96,96",
+      "count": 1280
+     }
+    ],
+    "samples": 102000
+   }
+  },
+  "right": {
+   "frame": "frame-right.png",
+   "grid": "frame-right-grid.png",
+   "landmarks": [
+    {
+     "name": "head_top",
+     "y": 74,
+     "headUnits": 7.79
+    },
+    {
+     "name": "eye",
+     "y": 116,
+     "headUnits": 7.28
+    },
+    {
+     "name": "chin",
+     "y": 141,
+     "headUnits": 6.98
+    },
+    {
+     "name": "shoulder",
+     "y": 183,
+     "headUnits": 6.47
+    },
+    {
+     "name": "chest",
+     "y": 218,
+     "headUnits": 6.04
+    },
+    {
+     "name": "navel",
+     "y": 320,
+     "headUnits": 4.77
+    },
+    {
+     "name": "hip",
+     "y": 360,
+     "headUnits": 4.26
+    },
+    {
+     "name": "crotch",
+     "y": 380,
+     "headUnits": 4
+    },
+    {
+     "name": "knee",
+     "y": 516,
+     "headUnits": 2.21
+    },
+    {
+     "name": "ankle",
+     "y": 650,
+     "headUnits": 0.38
+    },
+    {
+     "name": "feet",
+     "y": 677,
+     "headUnits": 0
+    }
+   ],
+   "pixelStats": {
+    "topColors": [
+     {
+      "rgb": "32,32,32",
+      "count": 84011
+     },
+     {
+      "rgb": "32,32,64",
+      "count": 5707
+     },
+     {
+      "rgb": "0,0,32",
+      "count": 2578
+     },
+     {
+      "rgb": "0,0,0",
+      "count": 1881
+     },
+     {
+      "rgb": "128,96,64",
+      "count": 1163
+     },
+     {
+      "rgb": "160,128,96",
+      "count": 1017
+     }
+    ],
+    "samples": 102000
+   }
+  },
+  "three-quarter": {
+   "frame": "frame-three-quarter.png",
+   "grid": "frame-three-quarter-grid.png",
+   "landmarks": [
+    {
+     "name": "head_top",
+     "y": 104,
+     "headUnits": 7.79
+    },
+    {
+     "name": "eye",
+     "y": 142,
+     "headUnits": 7.28
+    },
+    {
+     "name": "chin",
+     "y": 164,
+     "headUnits": 6.98
+    },
+    {
+     "name": "shoulder",
+     "y": 202,
+     "headUnits": 6.47
+    },
+    {
+     "name": "chest",
+     "y": 233,
+     "headUnits": 6.04
+    },
+    {
+     "name": "navel",
+     "y": 324,
+     "headUnits": 4.77
+    },
+    {
+     "name": "hip",
+     "y": 360,
+     "headUnits": 4.26
+    },
+    {
+     "name": "crotch",
+     "y": 378,
+     "headUnits": 4
+    },
+    {
+     "name": "knee",
+     "y": 500,
+     "headUnits": 2.21
+    },
+    {
+     "name": "ankle",
+     "y": 621,
+     "headUnits": 0.38
+    },
+    {
+     "name": "feet",
+     "y": 646,
+     "headUnits": 0
+    }
+   ],
+   "pixelStats": {
+    "topColors": [
+     {
+      "rgb": "32,32,32",
+      "count": 61912
+     },
+     {
+      "rgb": "64,64,64",
+      "count": 20698
+     },
+     {
+      "rgb": "64,32,32",
+      "count": 5783
+     },
+     {
+      "rgb": "64,64,32",
+      "count": 4729
+     },
+     {
+      "rgb": "64,96,96",
+      "count": 1609
+     },
+     {
+      "rgb": "96,96,128",
+      "count": 1515
+     }
+    ],
+    "samples": 102000
+   }
+  },
+  "face": {
+   "frame": "frame-face.png",
+   "grid": "frame-face-grid.png",
+   "landmarks": [
+    {
+     "name": "head_top",
+     "y": -296,
+     "headUnits": 7.79
+    },
+    {
+     "name": "eye",
+     "y": -201,
+     "headUnits": 7.28
+    },
+    {
+     "name": "chin",
+     "y": -146,
+     "headUnits": 6.98
+    },
+    {
+     "name": "shoulder",
+     "y": -51,
+     "headUnits": 6.47
+    },
+    {
+     "name": "chest",
+     "y": 28,
+     "headUnits": 6.04
+    },
+    {
+     "name": "navel",
+     "y": 265,
+     "headUnits": 4.77
+    },
+    {
+     "name": "hip",
+     "y": 360,
+     "headUnits": 4.26
+    },
+    {
+     "name": "crotch",
+     "y": 407,
+     "headUnits": 4
+    },
+    {
+     "name": "knee",
+     "y": 739,
+     "headUnits": 2.21
+    },
+    {
+     "name": "ankle",
+     "y": 1079,
+     "headUnits": 0.38
+    },
+    {
+     "name": "feet",
+     "y": 1150,
+     "headUnits": 0
+    }
+   ],
+   "pixelStats": {
+    "topColors": [
+     {
+      "rgb": "32,32,32",
+      "count": 64717
+     },
+     {
+      "rgb": "0,0,0",
+      "count": 7995
+     },
+     {
+      "rgb": "160,128,96",
+      "count": 3886
+     },
+     {
+      "rgb": "32,0,0",
+      "count": 2706
+     },
+     {
+      "rgb": "32,32,0",
+      "count": 2395
+     },
+     {
+      "rgb": "128,96,64",
+      "count": 2334
+     }
+    ],
+    "samples": 102000
+   }
+  }
+ },
+ "probes": {
+  "heads": 7.79,
+  "zones": [
+   "zone_FOOT_L",
+   "zone_FOOT_R",
+   "zone_CALF_L",
+   "zone_CALF_R",
+   "zone_THIGH_L",
+   "zone_THIGH_R",
+   "zone_PELVIS",
+   "zone_GLUTE_L",
+   "zone_GLUTE_R",
+   "zone_CHEST_LOWER",
+   "zone_BACK_LOWER",
+   "zone_CHEST_UPPER",
+   "zone_BACK_UPPER",
+   "zone_SHOULDER_L",
+   "zone_SHOULDER_R",
+   "zone_UPPER_ARM_L",
+   "zone_FOREARM_L",
+   "zone_UPPER_ARM_R",
+   "zone_FOREARM_R",
+   "zone_HAND_L",
+   "zone_HAND_R",
+   "zone_NECK",
+   "zone_HEAD_SCALP"
+  ],
+  "walkState": "37.06|0.00"
+ },
+ "errors": []
+}

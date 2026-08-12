@@ -19,7 +19,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CharacterRig } from '../game/characters/character-rig';
-import { SLOT_MASKS } from '../game/characters/slots';
+import { SLOT_MASKS, ALL_ZONES as SLOT_ALL_ZONES, zoneIdOf } from '../game/characters/slots';
 
 const container = document.getElementById('hud')!;
 
@@ -39,16 +39,16 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 document.body.appendChild(renderer.domElement);
 
-// ---- deterministic studio lights: warm key, cool rim, soft fill ----
-const key = new THREE.DirectionalLight(0xffe4c0, 3.2);
+// ---- deterministic studio lights: soft key, cool rim, generous fill ----
+const key = new THREE.DirectionalLight(0xffe4c0, 2.4);
 key.position.set(-2.5, 3.2, 2.0);
 key.castShadow = true;
 key.shadow.mapSize.set(1024, 1024);
 scene.add(key);
-const rim = new THREE.DirectionalLight(0x7fb4e8, 1.6);
+const rim = new THREE.DirectionalLight(0x7fb4e8, 2.0);
 rim.position.set(2.6, 2.2, -2.4);
 scene.add(rim);
-const fill = new THREE.HemisphereLight(0xcfd6de, 0x1a1e24, 0.5);
+const fill = new THREE.HemisphereLight(0xcfd6de, 0x1a1e24, 0.85);
 scene.add(fill);
 
 // ---- the studio ground: a clean neutral disc ----
@@ -69,6 +69,10 @@ scene.add(ring);
 // ---- the character ----
 const baseLoader = new GLTFLoader();
 const robeLoader = new GLTFLoader();
+const hairLoader = new GLTFLoader();
+
+let hair: THREE.Group | null = null;
+let hairOn = true;
 
 const character = new THREE.Group();
 scene.add(character);
@@ -83,22 +87,15 @@ let zoneCycle = 0;
 /** The zones the robe covers (the poster's OUTER_ROBE slot mask — §2). */
 const ROBE_HIDES = SLOT_MASKS.OUTER_ROBE ?? [];
 /** Every zone, for the Z-cycle demo. */
-const ALL_ZONES = [
-  'zone_HEAD_SCALP', 'zone_NECK', 'zone_CHEST_UPPER', 'zone_CHEST_LOWER',
-  'zone_BACK_UPPER', 'zone_BACK_LOWER', 'zone_SHOULDER_L', 'zone_SHOULDER_R',
-  'zone_UPPER_ARM_L', 'zone_UPPER_ARM_R', 'zone_FOREARM_L', 'zone_FOREARM_R',
-  'zone_HAND_L', 'zone_HAND_R', 'zone_PELVIS', 'zone_GLUTE',
-  'zone_THIGH_L', 'zone_THIGH_R', 'zone_CALF_L', 'zone_CALF_R', 'zone_FOOT_L', 'zone_FOOT_R',
-];
+const ALL_ZONES: string[] = [...SLOT_ALL_ZONES];
 const zoneGroups: Record<string, THREE.Object3D[]> = {};
 const charFace: THREE.Object3D[] = [];
 
 function zoneParts(root: THREE.Object3D): Map<string, THREE.Object3D[]> {
   const m = new Map<string, THREE.Object3D[]>();
   root.traverse((o) => {
-    // Blender dedupes repeated names with a '.001'/'-001' suffix —
-    // normalize to the zone ID
-    const zone = o.name && o.name.startsWith('zone_') ? o.name.replace(/[.-]?\d+$/, '') : null;
+    // normalize Blender dedup + feature suffixes to the zone ID
+    const zone = o.name && o.name.startsWith('zone_') ? zoneIdOf(o.name) : null;
     if (zone) {
       if (!m.has(zone)) m.set(zone, []);
       m.get(zone)!.push(o);
@@ -109,8 +106,9 @@ function zoneParts(root: THREE.Object3D): Map<string, THREE.Object3D[]> {
 
 function applyZones(parts: Map<string, THREE.Object3D[]>): void {
   for (const [zone, objs] of parts) {
-    const visible = !robeOn || !ROBE_HIDES.includes(zone);
-    for (const o of objs) o.visible = visible;
+    const hiddenByRobe = robeOn && ROBE_HIDES.includes(zone);
+    const hiddenByHair = hairOn && zone === 'zone_HEAD_SCALP';
+    for (const o of objs) o.visible = !hiddenByRobe && !hiddenByHair;
   }
   if (zoneCycle > 0) {
     // the Z-cycle: hide everything EXCEPT one zone (prove the zones)
@@ -149,6 +147,22 @@ robeLoader.load('/src/engine/game/assets/models/CHR_Robe_Outer_Indigo_A01.glb', 
   });
   robe.visible = false;
   character.add(robe);
+});
+// the HAIR wearable (slot HAIR): equipped by default — when on, the base's
+// scalp cap (zone_HEAD_SCALP) hides under it
+hairLoader.load('/src/engine/game/assets/models/CHR_Hair_LongBlack_A02.glb', (gltf) => {
+  hair = gltf.scene as THREE.Group;
+  hair.traverse((o) => {
+    const mesh = o as THREE.Mesh;
+    if (mesh.isMesh) {
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+    }
+  });
+  character.add(hair);
+  hairOn = true;
+  const parts = (window as unknown as Record<string, unknown>).__gymParts as Map<string, THREE.Object3D[]> | undefined;
+  if (parts) applyZones(parts);
 });
 
 // ---- the free camera: orbit always unlocked ----
@@ -198,7 +212,7 @@ const PRESETS: Array<[number, number, number]> = [
   [Math.PI / 2, 0.12, 2.6], // 3 left
   [-Math.PI / 2, 0.12, 2.6], // 4 right
   [1.9, 0.12, 2.9],    // 5 three-quarter
-  [0.65, 0.0, 1.1],    // 6 face close-up
+  [0.65, 0.0, 0.9],    // 6 face close-up
 ];
 window.addEventListener('keydown', (e) => {
   if (e.code >= 'Digit1' && e.code <= 'Digit6') {
@@ -208,6 +222,12 @@ window.addEventListener('keydown', (e) => {
   }
   if (e.code === 'KeyT') turntable = !turntable;
   if (e.code === 'KeyW') walking = !walking;
+  if (e.code === 'KeyH' && hair) {
+    hairOn = !hairOn;
+    hair.visible = hairOn;
+    const parts = (window as unknown as Record<string, unknown>).__gymParts as Map<string, THREE.Object3D[]> | undefined;
+    if (parts) applyZones(parts);
+  }
   if (e.code === 'KeyR' && robe) {
     robeOn = !robeOn;
     robe.visible = robeOn;
@@ -288,7 +308,9 @@ function landmarkScreenPositions(): Array<{ name: string; y: number; headUnits: 
 
 // ---- the evidence harness surface ----
 const gym = {
-  scene, camera, renderer, rig, character,
+  scene, camera, renderer, character,
+  /** The rig arrives async — expose it as a getter, not a stale value. */
+  get rig(): CharacterRig | null { return rig; },
   orbit,
   setAngle: (i: number) => {
     const p = PRESETS[i - 1];

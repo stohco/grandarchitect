@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 build_asset.py — the deterministic Blender asset generator (GATE 3).
 
@@ -455,165 +455,323 @@ ZONE = {
 
 
 def build_character_base(seed):
+    import bmesh
+
     rng = Seeded(seed)
-    skin = make_material('char_skin', PALETTE['skin'], roughness=0.78)
+    skin = make_material('char_skin', (0.80, 0.66, 0.58), roughness=0.72)  # fair (reference)
     hair = make_material('char_hair', PALETTE['hair'], roughness=0.9)
     eye = make_material('char_eye', (0.015, 0.015, 0.015), roughness=0.2)
     brow = make_material('char_brow', (0.06, 0.05, 0.045), roughness=0.9)
+    under = make_material('char_underwear', (0.05, 0.05, 0.06), roughness=0.9)  # matte black
     linen = make_material('char_linen', PALETTE['linen'], roughness=0.95)
 
     objects = []
+    name_counts = {}
 
-    def spawn(mesh_op, name, mat):
-        mesh_op()
-        obj = bpy.context.object
-        obj.name = name
-        if mat:
-            assign(obj, mat)
+    def loft(name, mat, slices, segments=16, half=None, xo=0.0):
+        """A smooth parametric body part: elliptical profile rings lofted
+        together. slices: [(y, rx, rdepth, yf)] bottom→top; yf shifts the
+        ring forward (+Y, the face direction) so feet, knees and chests
+        lean naturally. half: None | 'front' | 'back' — the torso splits
+        into chest (front) and back halves. Winding is checked by signed
+        volume and flipped if inside-out."""
+        n = name_counts.get(name, 0) + 1
+        name_counts[name] = n
+        objname = name if n == 1 else f'{name}.{n:03d}'
+        me = bpy.data.meshes.new(objname)
+        bm = bmesh.new()
+        if half is None:
+            idx = list(range(segments))
+        elif half == 'front':
+            # one ring vertex PAST the mid-line on each side: the halves
+            # overlap and the side seam reads continuous
+            idx = list(range(segments // 2 + 2))
+        else:
+            idx = list(range(segments // 2 - 1, segments)) + [0, 1]
+        rings = []
+        for (y, rx, rd, yf) in slices:
+            ring = []
+            for i in idx:
+                a = (i / segments) * 2.0 * math.pi
+                ring.append(bm.verts.new((xo + rx * math.cos(a), yf + rd * math.sin(a), y)))
+            rings.append(ring)
+        for k in range(len(rings) - 1):
+            lo, hi = rings[k], rings[k + 1]
+            for i in range(len(lo) - 1):
+                bm.faces.new((lo[i], lo[i + 1], hi[i + 1], hi[i]))
+        # caps: fan-triangulated (no ngons in deform areas)
+        for ring, (y, rx, rd, yf) in [(rings[0], slices[0]), (rings[-1], slices[-1])]:
+            pole = bm.verts.new((xo, yf, y))
+            if half is None:
+                rev = list(reversed(ring))
+                for i in range(len(rev) - 1):
+                    bm.faces.new((pole, rev[i], rev[i + 1]))
+            else:
+                for i in range(len(ring) - 1):
+                    bm.faces.new((pole, ring[i], ring[i + 1]))
+        obj = bpy.data.objects.new(objname, me)
+        bm.to_mesh(me)
+        bm.free()
+        assign(obj, mat)
+        me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
+        # signed volume: negative = inside-out → flip
+        vol = 0.0
+        for p in me.polygons:
+            vs = p.vertices
+            if len(vs) >= 3:
+                a = me.vertices[vs[0]].co
+                b = me.vertices[vs[1]].co
+                c = me.vertices[vs[2]].co
+                vol += a.dot(b.cross(c)) / 6.0
+        if vol < 0:
+            me.flip_normals()
+        bpy.context.collection.objects.link(obj)
         objects.append(obj)
         return obj
 
-    def bake(obj, location=True, rotation=True, scale=True):
-        bpy.ops.object.select_all(action='DESELECT')
-        obj.select_set(True)
-        bpy.context.view_layer.objects.active = obj
-        bpy.ops.object.transform_apply(location=location, rotation=rotation, scale=scale)
-
-    def sph(name, mat, radius, loc, verts=12, rings=9, squash=None, zone=None):
-        obj = spawn(lambda: bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, segments=verts, ring_count=rings,
-                                                                 location=loc), zone or name, mat)
+    def sph(name, mat, radius, loc, verts=12, rings=9, squash=None):
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, segments=verts, ring_count=rings,
+                                             location=loc)
+        obj = bpy.context.object
+        obj.name = name
         if squash:
             obj.scale = squash
         obj.data.polygons[0].use_smooth = True
-        bake(obj)
+        assign(obj, mat)
+        objects.append(obj)
         return obj
 
-    def cyl(name, mat, radius, depth, loc, verts=10, rot=None, zone=None):
-        obj = spawn(lambda: bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts,
-                                                                location=loc), zone or name, mat)
+    def cyl(name, mat, radius, depth, loc, verts=8, rot=None):
+        bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts,
+                                            location=loc)
+        obj = bpy.context.object
+        obj.name = name
         if rot:
             obj.rotation_euler = rot
         obj.data.polygons[0].use_smooth = True
-        bake(obj)
+        assign(obj, mat)
+        objects.append(obj)
         return obj
 
-    def cube(name, mat, loc, scale, zone=None):
-        obj = spawn(lambda: bpy.ops.mesh.primitive_cube_add(size=1, location=loc), zone or name, mat)
-        obj.scale = scale
-        bake(obj)
-        return obj
-
-    def box(name, mat, w, h, d, loc, zone=None):
-        obj = spawn(lambda: bpy.ops.mesh.primitive_cube_add(size=1, location=loc), zone or name, mat)
+    def box(name, mat, w, h, d, loc):
+        bpy.ops.mesh.primitive_cube_add(size=1, location=loc)
+        obj = bpy.context.object
+        obj.name = name
         obj.scale = (w, d, h)
-        bake(obj)
+        assign(obj, mat)
+        objects.append(obj)
         return obj
 
-    # ---- pelvis + glute (hip width 0.34) ----
-    sph('pelvis', skin, 0.17, (0, 0, 1.00), verts=14, rings=10, squash=(1.0, 0.82, 0.86), zone=ZONE['pelvis'])
-    sph('glute_l', skin, 0.105, (-0.115, -0.06, 0.99), verts=10, rings=7, squash=(1.0, 0.8, 0.9), zone=ZONE['glute'])
-    sph('glute_r', skin, 0.105, (0.115, -0.06, 0.99), verts=10, rings=7, squash=(1.0, 0.8, 0.9), zone=ZONE['glute'])
+    S = 0.095  # leg half-spacing (hip width 0.34 → ±0.095)
+    A = 0.235  # shoulder half-spacing (acromion 0.46 → ±0.23)
 
-    # ---- torso: gentle taper so the silhouette reads smooth, not blocky ----
-    cyl('waist', skin, 0.155, 0.30, (0, 0, 1.15), verts=12, zone=ZONE['chest_lo'])
-    cyl('chest', skin, 0.175, 0.34, (0, 0, 1.42), verts=12, zone=ZONE['chest_up'])
-    cyl('back_lo', skin, 0.16, 0.26, (0, -0.02, 1.13), verts=12, rot=(math.pi / 2, 0, 0), zone=ZONE['back_lo'])
-    cyl('back_up', skin, 0.18, 0.30, (0, -0.02, 1.40), verts=12, rot=(math.pi / 2, 0, 0), zone=ZONE['back_up'])
+    # ---- feet: sloped wedges, toes forward ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        loft(f'zone_FOOT_{side}', skin, [
+            (0.0, 0.046, 0.036, 0.16), (0.03, 0.048, 0.040, 0.10),
+            (0.06, 0.050, 0.042, 0.05), (0.09, 0.046, 0.040, 0.0)], xo=sgn * S)
+    # ---- calves: the bulge, then the ankle ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        loft(f'zone_CALF_{side}', skin, [
+            (0.09, 0.044, 0.040, 0.0), (0.28, 0.062, 0.056, 0.0),
+            (0.52, 0.066, 0.060, 0.0)], xo=sgn * S)
+    # ---- thighs: knee to hip ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        loft(f'zone_THIGH_{side}', skin, [
+            (0.50, 0.062, 0.056, 0.0), (0.74, 0.094, 0.088, 0.0),
+            (0.94, 0.105, 0.095, 0.0)], xo=sgn * S)
+    # the calves OVERLAP the thighs at the knee — no seam spheres; the
+    # overlap band hides the zone boundary
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        loft(f'zone_CALF_{side}', skin, [
+            (0.09, 0.044, 0.040, 0.0), (0.26, 0.060, 0.054, 0.0),
+            (0.55, 0.062, 0.056, 0.0)], xo=sgn * S)
 
-    # ---- shoulders (acromion-acromion 0.46) ----
-    sph('shoulder_l', skin, 0.075, (-0.23, 0.02, 1.52), verts=10, rings=7, zone=ZONE['shl'])
-    sph('shoulder_r', skin, 0.075, (0.23, 0.02, 1.52), verts=10, rings=7, zone=ZONE['shr'])
+    # ---- pelvis (hip 0.34/0.30) ----
+    loft('zone_PELVIS', skin, [
+        (0.85, 0.150, 0.140, 0.0), (0.95, 0.168, 0.152, 0.0),
+        (1.04, 0.172, 0.155, 0.0)])
+    # ---- glutes: the pelvis's back mass ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        sph(f'zone_GLUTE_{side}', skin, 0.105, (sgn * 0.115, -0.06, 0.99),
+            verts=10, rings=7, squash=(1.0, 0.8, 0.9))
 
-    # ---- arms: upper + forearm with a knee-style elbow bulge, hands ----
-    cyl('upper_arm_l', skin, 0.052, 0.30, (-0.24, 0.03, 1.36), verts=8, zone=ZONE['armu_l'])
-    cyl('upper_arm_r', skin, 0.052, 0.30, (0.24, 0.03, 1.36), verts=8, zone=ZONE['armu_r'])
-    cyl('forearm_l', skin, 0.042, 0.28, (-0.245, 0.05, 1.10), verts=8, zone=ZONE['armf_l'])
-    cyl('forearm_r', skin, 0.042, 0.28, (0.245, 0.05, 1.10), verts=8, zone=ZONE['armf_r'])
+    # ---- torso: front (chest) + back halves, waist pinch, chest flare ----
+    loft('zone_CHEST_LOWER', skin, [
+        (1.04, 0.172, 0.155, 0.0), (1.15, 0.150, 0.135, 0.0),
+        (1.26, 0.160, 0.140, 0.0)], half='front')
+    loft('zone_BACK_LOWER', skin, [
+        (1.04, 0.172, 0.155, 0.0), (1.15, 0.150, 0.135, 0.0),
+        (1.26, 0.160, 0.140, 0.0)], half='back')
+    loft('zone_CHEST_UPPER', skin, [
+        (1.26, 0.160, 0.140, 0.0), (1.38, 0.178, 0.150, 0.0),
+        (1.49, 0.188, 0.156, 0.0)], half='front')
+    loft('zone_BACK_UPPER', skin, [
+        (1.26, 0.160, 0.140, 0.0), (1.38, 0.178, 0.150, 0.0),
+        (1.49, 0.188, 0.156, 0.0)], half='back')
 
-    # hands: palm + 4 fingers + thumb (hand length 0.19)
-    box('hand_l', skin, 0.075, 0.05, 0.11, (-0.25, 0.05, 0.965), zone=ZONE['hand_l'])
-    box('hand_r', skin, 0.075, 0.05, 0.11, (0.25, 0.05, 0.965), zone=ZONE['hand_r'])
-    for f, zbase, side in [(0, -0.265, -1), (1, -0.265, 1)]:
-        pass
-    for k, dx in enumerate([-0.028, -0.009, 0.009, 0.028]):
-        box(f'finger_l_{k}', skin, 0.016, 0.05, 0.05, (dx - 0.25, 0.04, 0.925), zone=ZONE['hand_l'])
-        box(f'finger_r_{k}', skin, 0.016, 0.05, 0.05, (dx + 0.25, 0.04, 0.925), zone=ZONE['hand_r'])
-    box('thumb_l', skin, 0.017, 0.045, 0.045, (-0.30, 0.0, 0.95), zone=ZONE['hand_l'])
-    box('thumb_r', skin, 0.017, 0.045, 0.045, (0.30, 0.0, 0.95), zone=ZONE['hand_r'])
+    # ---- shoulders (deltoid spheres + traps bridging torso and arms) ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        sph(f'zone_SHOULDER_{side}', skin, 0.082, (sgn * A, 0.02, 1.50),
+            verts=10, rings=7)
+        sph(f'zone_BACK_UPPER.trap{side}', skin, 0.055, (sgn * 0.135, -0.05, 1.545),
+            verts=10, rings=6, squash=(1.1, 0.8, 0.7))
 
-    # ---- legs: thigh + knee + calf (feet on the ground) ----
-    cyl('thigh_l', skin, 0.082, 0.40, (-0.095, 0.0, 0.74), verts=10, zone=ZONE['thigh_l'])
-    cyl('thigh_r', skin, 0.082, 0.40, (0.095, 0.0, 0.74), verts=10, zone=ZONE['thigh_r'])
-    sph('knee_l', skin, 0.055, (-0.10, 0.02, 0.52), verts=8, rings=6, squash=(1.0, 1.15, 0.8), zone=ZONE['thigh_l'])
-    sph('knee_r', skin, 0.055, (0.10, 0.02, 0.52), verts=8, rings=6, squash=(1.0, 1.15, 0.8), zone=ZONE['thigh_r'])
-    cyl('calf_l', skin, 0.06, 0.42, (-0.095, 0.0, 0.28), verts=10, zone=ZONE['calf_l'])
-    cyl('calf_r', skin, 0.06, 0.42, (0.095, 0.0, 0.28), verts=10, zone=ZONE['calf_r'])
-    sph('ankle_l', skin, 0.042, (-0.095, 0.02, 0.075), verts=8, rings=6, zone=ZONE['calf_l'])
-    sph('ankle_r', skin, 0.042, (0.095, 0.02, 0.075), verts=8, rings=6, zone=ZONE['calf_r'])
+    # ---- arms: shoulder → elbow → wrist, hanging slightly forward; the
+    # forearm OVERLAPS the upper arm at the elbow (no seam spheres) ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        loft(f'zone_UPPER_ARM_{side}', skin, [
+            (1.20, 0.048, 0.044, 0.03), (1.36, 0.062, 0.058, 0.02),
+            (1.52, 0.064, 0.060, 0.02)], xo=sgn * A)
+        loft(f'zone_FOREARM_{side}', skin, [
+            (1.00, 0.036, 0.032, 0.05), (1.12, 0.046, 0.042, 0.05),
+            (1.24, 0.050, 0.046, 0.04)], xo=sgn * (A + 0.012))
 
-    # ---- feet: 0.27 long wedges with a toe hint, ground at y=0 ----
-    box('foot_l', skin, 0.09, 0.07, 0.27, (-0.095, 0.0, 0.075), zone=ZONE['foot_l'])
-    box('foot_r', skin, 0.09, 0.07, 0.27, (0.095, 0.0, 0.075), zone=ZONE['foot_r'])
-    box('toe_l', skin, 0.075, 0.03, 0.05, (-0.095, 0.0, 0.205), zone=ZONE['foot_l'])
-    box('toe_r', skin, 0.075, 0.03, 0.05, (0.095, 0.0, 0.205), zone=ZONE['foot_r'])
+    # ---- hands: palm loft + rounded fingers + thumb ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        loft(f'zone_HAND_{side}', skin, [
+            (0.94, 0.038, 0.028, 0.06), (1.02, 0.036, 0.026, 0.07)],
+            xo=sgn * (A + 0.012))
+        for k, dx in enumerate([-0.026, -0.008, 0.008, 0.026]):
+            cyl(f'zone_HAND_{side}.finger{k}', skin, 0.010, 0.055,
+                (sgn * (A + 0.012) + dx, 0.115, 0.92), verts=6)
+        cyl(f'zone_HAND_{side}.thumb', skin, 0.011, 0.05,
+            (sgn * (A + 0.012) + sgn * 0.045, 0.05, 0.95), verts=6, rot=(0, math.pi / 2, 0))
 
-    # ---- neck + head (0.235, eye line 1.70) ----
-    cyl('neck', skin, 0.052, 0.10, (0, 0, 1.585), verts=10, zone=ZONE['neck'])
-    sph('head', skin, 0.1175, (0, 0, 1.715), verts=16, rings=12, squash=(0.94, 0.92, 1.0), zone='char_head')
-    sph('ear_l', skin, 0.022, (-0.115, 0.01, 1.70), verts=8, rings=5, zone='char_head')
-    sph('ear_r', skin, 0.022, (0.115, 0.01, 1.70), verts=8, rings=5, zone='char_head')
-    # jaw + chin hint
-    sph('chin', skin, 0.05, (0, 0.085, 1.635), verts=8, rings=6, squash=(1.0, 0.7, 0.8), zone='char_head')
+    # ---- neck ----
+    loft('zone_NECK', skin, [
+        (1.56, 0.055, 0.050, 0.0), (1.62, 0.050, 0.046, 0.0)])
 
-    # eyes: dark almonds + brows + nose + mouth (stylized — features must
-    # READ at gameplay distance, so they are larger than real anatomy)
-    sph('eye_l', eye, 0.019, (-0.04, 0.104, 1.71), verts=8, rings=5, squash=(0.75, 1.0, 0.65), zone='char_face')
-    sph('eye_r', eye, 0.019, (0.04, 0.104, 1.71), verts=8, rings=5, squash=(0.75, 1.0, 0.65), zone='char_face')
-    box('brow_l', brow, 0.038, 0.009, 0.009, (-0.04, 0.117, 1.716), zone='char_face')
-    box('brow_r', brow, 0.038, 0.009, 0.009, (0.04, 0.117, 1.716), zone='char_face')
-    box('nose', skin, 0.026, 0.03, 0.018, (0, 0.105, 1.678), zone='char_face')
-    box('mouth', brow, 0.032, 0.008, 0.008, (0, 0.088, 1.665), zone='char_face')
+    # ---- the head: a smooth lathe profile (jaw taper + skull) ----
+    loft('char_head', skin, [
+        (1.50, 0.046, 0.042, 0.0), (1.58, 0.058, 0.052, 0.0),
+        (1.66, 0.105, 0.098, 0.0), (1.72, 0.112, 0.108, 0.0),
+        (1.78, 0.104, 0.100, 0.0), (1.83, 0.085, 0.082, 0.0)], segments=20)
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        sph(f'char_head.ear{side}', skin, 0.022, (sgn * 0.112, 0.0, 1.68), verts=8, rings=5)
 
-    # the scalp cap: the HEAD_SCALP zone (hair itself is a wearable) —
-    # a standardized hairline ring + the cap
-    sph('scalp', hair, 0.118, (0, 0, 1.745), verts=14, rings=8, squash=(1.0, 0.98, 0.72), zone=ZONE['scalp'])
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.105, minor_radius=0.012, major_segments=14,
+    # eyes: dark almonds + brows + nose + mouth (stylized, must READ)
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        sph(f'char_face.eye{side}', eye, 0.024, (sgn * 0.040, 0.104, 1.71),
+            verts=8, rings=5, squash=(0.75, 1.0, 0.65))
+        box(f'char_face.brow{side}', brow, 0.038, 0.009, 0.009,
+            (sgn * 0.040, 0.117, 1.716))
+    bpy.ops.mesh.primitive_cone_add(vertices=8, radius1=0.014, radius2=0.007, depth=0.03,
+                                    location=(0, 0.106, 1.678))
+    nose = bpy.context.object
+    nose.name = 'char_face.nose'
+    nose.rotation_euler = (math.pi / 2, 0, 0)
+    nose.data.polygons[0].use_smooth = True
+    assign(nose, skin)
+    objects.append(nose)
+    box('char_face.mouth', brow, 0.036, 0.008, 0.007, (0, 0.088, 1.665))
+
+    # the scalp cap (HEAD_SCALP zone — hair itself is a wearable)
+    sph('zone_HEAD_SCALP', hair, 0.113, (0, -0.01, 1.745), verts=14, rings=8,
+        squash=(1.0, 0.98, 0.72))
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.100, minor_radius=0.012, major_segments=14,
                                      minor_segments=5, location=(0, 0.075, 1.70))
     hairline = bpy.context.object
-    hairline.name = ZONE['scalp']
+    hairline.name = 'zone_HEAD_SCALP.hairline'
     hairline.rotation_euler.x = math.pi / 2 + 0.35
     assign(hairline, brow)
     objects.append(hairline)
-    bake(hairline)
 
-    # ---- the modest undergarments (no genitals, no nipples) ----
-    # briefs: a short tapered shell over the pelvis/glute
-    bpy.ops.mesh.primitive_cone_add(vertices=12, radius1=0.175, radius2=0.165, depth=0.20,
-                                    location=(0, 0, 0.99))
-    briefs = bpy.context.object
-    briefs.name = 'underwear_briefs'
-    briefs.scale = (1.0, 0.85, 1.0)
-    briefs.data.polygons[0].use_smooth = True
-    assign(briefs, linen)
-    objects.append(briefs)
-    bake(briefs)
-    # chest band (binding cloth) — INNER_TORSO layer, modest
-    bpy.ops.mesh.primitive_cylinder_add(radius=0.178, depth=0.14, vertices=12, location=(0, 0, 1.37))
-    band = bpy.context.object
-    band.name = 'underwear_chest_band'
-    band.data.polygons[0].use_smooth = True
-    assign(band, linen)
-    objects.append(band)
-    bake(band)
+    # ---- the athletic chest + abdomen definition (the reference: lean,
+    # defined, not bulky) ----
+    for side, sgn in [('L', -1.0), ('R', 1.0)]:
+        sph(f'zone_CHEST_UPPER.pec{side}', skin, 0.052, (sgn * 0.078, 0.10, 1.395),
+            verts=10, rings=7, squash=(1.0, 0.55, 0.78))
+        sph(f'zone_BACK_UPPER.blade{side}', skin, 0.045, (sgn * 0.095, -0.085, 1.40),
+            verts=10, rings=6, squash=(1.0, 0.6, 0.75))
+    for k, zy in enumerate([1.30, 1.24, 1.18, 1.12]):
+        box(f'zone_CHEST_LOWER.ab{k}', skin, 0.085, 0.011, 0.030, (0, 0.132, zy))
+
+    # ---- the modest undergarments (the reference: matte black,
+    # form-fitting boxer shorts) ----
+    loft('underwear_boxers', under, [
+        (0.62, 0.150, 0.128, 0.0), (0.80, 0.162, 0.142, 0.0),
+        (0.95, 0.172, 0.152, 0.0), (1.06, 0.174, 0.154, 0.0)])
 
     # group the exports
     return objects
 
 
 # ---------------------------------------------------------------------------
-# The robe — a WEARABLE (slot OUTER_ROBE), built separately so equipment
-# can be swapped on and off the base body
+# The hair — a WEARABLE (slot HAIR): long black, tied at the nape, flowing
+# down the back (the reference base body wears its hair)
 # ---------------------------------------------------------------------------
+
+def build_hair(seed):
+    rng = Seeded(seed)
+    hair = make_material('hair_black', PALETTE['hair'], roughness=0.88)
+    tie = make_material('hair_tie', (0.25, 0.10, 0.08), roughness=0.7)
+    objects = []
+    name_counts = {}
+
+    def loft(name, mat, slices, segments=16, xo=0.0):
+        import bmesh
+        n = name_counts.get(name, 0) + 1
+        name_counts[name] = n
+        objname = name if n == 1 else f'{name}.{n:03d}'
+        me = bpy.data.meshes.new(objname)
+        bm = bmesh.new()
+        rings = []
+        for (y, rx, rd, yf) in slices:
+            ring = []
+            for i in range(segments):
+                a = (i / segments) * 2.0 * math.pi
+                ring.append(bm.verts.new((xo + rx * math.cos(a), yf + rd * math.sin(a), y)))
+            rings.append(ring)
+        for k in range(len(rings) - 1):
+            lo, hi = rings[k], rings[k + 1]
+            for i in range(len(lo) - 1):
+                bm.faces.new((lo[i], lo[i + 1], hi[i + 1], hi[i]))
+        for ring, (y, rx, rd, yf) in [(rings[0], slices[0]), (rings[-1], slices[-1])]:
+            pole = bm.verts.new((xo, yf, y))
+            rev = list(reversed(ring))
+            for i in range(len(rev) - 1):
+                bm.faces.new((pole, rev[i], rev[i + 1]))
+        obj = bpy.data.objects.new(objname, me)
+        bm.to_mesh(me)
+        bm.free()
+        assign(obj, mat)
+        me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
+        bpy.context.collection.objects.link(obj)
+        objects.append(obj)
+        return obj
+
+    # the scalp cap (covers the head top — hides the base's HEAD_SCALP)
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=0.112, segments=16, ring_count=10,
+                                         location=(0, -0.01, 1.75))
+    cap = bpy.context.object
+    cap.name = 'hair_cap'
+    cap.scale = (1.0, 0.98, 0.72)
+    cap.data.polygons[0].use_smooth = True
+    assign(cap, hair)
+    objects.append(cap)
+
+    # the tail: TWO overlapping tiers from the crown down the back —
+    # the upper tier is the tied mass, the lower flows free (the
+    # reference's long tied-back hair, not a single blob)
+    loft('hair_tail_upper', hair, [
+        (1.78, 0.095, 0.088, -0.03), (1.66, 0.088, 0.082, -0.09),
+        (1.50, 0.075, 0.068, -0.14)], segments=14)
+    loft('hair_tail_lower', hair, [
+        (1.52, 0.070, 0.062, -0.155), (1.34, 0.052, 0.046, -0.19),
+        (1.12, 0.036, 0.032, -0.21)], segments=12)
+
+    # the tie at the nape
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.052, minor_radius=0.014, major_segments=12,
+                                     minor_segments=6, location=(0, -0.105, 1.56))
+    tie_obj = bpy.context.object
+    tie_obj.name = 'hair_tie'
+    tie_obj.rotation_euler.x = math.pi / 2
+    assign(tie_obj, tie)
+    objects.append(tie_obj)
+
+    return objects
+
 
 def build_robe(seed):
     rng = Seeded(seed)
@@ -717,6 +875,10 @@ def main():
         root = build_robe(args.seed)
         root.select_set(True)
         bpy.context.view_layer.objects.active = root
+    elif args.asset == 'hair':
+        roots = build_hair(args.seed)
+        for root in roots:
+            root.select_set(True)
     else:
         raise SystemExit(f'unknown asset: {args.asset}')
 
