@@ -124,7 +124,7 @@ export class PlanetMount {
     this.farLodInnerKey = innerKey;
 
     if (innerChanged || !this.farLod) {
-      this.farLod = this.buildRing(cx, cz, px, pz, 2400, 12, 175, 900);
+      this.farLod = this.buildRing(cx, cz, px, pz, 2400, 12, 150, 900);
     }
     if (outerChanged || !this.farLodOuter) {
       if (this.farLodOuter) {

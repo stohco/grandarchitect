@@ -1834,3 +1834,32 @@ Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village
 sky-*.png. VLM confirms noon/dusk/night skies + window glow; its remaining
 reads are material fidelity (Phase 3).
 
+
+## 2026-08-11 — the valley reads as ground, the stream as water (user field report)
+
+User: 'green floor like a tarp covering the whole riverbank/valley… when you
+walk into it you go down the slope.' Root causes and fixes:
+
+1. TARP VALLEY — the floor's swells were +-0.06 m (invisible): a uniform
+   green sheet. Now TWO swell octaves (6 m at +-0.2, 20 m at +-0.3) — a
+   1-2 deg roll that reads as ground at every distance, still walkable,
+   still deterministic. Conformance: valley relief > 0.25 m over 100 m.
+2. STREAM HAD NO WATER — the carved channel showed its green floor.
+   Added water ribbons along every authored river at the water level
+   (50.1), plus MUDDY BANKS (bank zone material = sand/mud) and a
+   FLOODPLAIN (1.5 m descent over 45 m) so the bank reads as a bank.
+   Conformance: water exists at the exact level in the carved channel;
+   ground descends toward the stream; bank material is mud.
+3. FAR-LOD GAP RING — the ring hole (175 m) exceeded the fine keep-alive
+   (160 m): a 15 m ring of nothing around the player. Hole now 150 m
+   (the fine chunks always cover the edge).
+4. Water material tuned to read as water at noon (roughness 0.4, opacity
+   0.95 — not a sky mirror).
+
+Pixel evidence (stream-dawn.png): a uniform blue-grey water band
+(109,114,123, B>R) filling the channel, distinct from the dark green banks
+(39,51,37). valley-above.png shows three distinct tones (rolling floor).
+VLM misreads dim dawn water; pixel evidence is the truth.
+Gates: tsc 0, lint 0, ai:check, maturity 156/156, game 19/19, village
+58/58, villagers 23/23, time 20/20, sky 14/14.
+

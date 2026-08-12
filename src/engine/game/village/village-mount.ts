@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import type { PlanetMount } from '../planet/planet-mount';
 import { villageCenter, HOUSES, FEATURES, GROUND_STRIPS, type HouseNode } from './village-authoring';
 import { buildHouse, buildVillageMaterials } from './house-kit';
+import { buildRiverWater } from './stream-water';
 
 export interface VillageMount {
   group: THREE.Group;
@@ -18,6 +19,8 @@ export interface VillageMount {
   materials: ReturnType<typeof buildVillageMaterials>;
   /** Painted ground meshes (for evidence). */
   grounds: THREE.Mesh[];
+  /** Water ribbons (the stream's water). */
+  water: THREE.Mesh[];
 }
 
 /** Mount the village; returns a handle for updates/evidence. */
@@ -104,5 +107,8 @@ export function mountVillage(planet: PlanetMount, scene: THREE.Scene): VillageMo
     grounds.push(mesh);
   }
 
-  return { group, houses, materials, grounds };
+  // the stream's water — the channel must read as water, not green floor
+  const water = buildRiverWater(scene);
+
+  return { group, houses, materials, grounds, water };
 }

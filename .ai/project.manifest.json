@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "cfa012b41ab1b65f90d15b6eda891fa584d9bd2e",
-    "commitShort": "cfa012b41ab1",
+    "commit": "520a2076630e720d34c169caddcdae56eb783ac9",
+    "commitShort": "520a2076630e",
     "branch": "swarm/integration",
     "dirty": true,
-    "dirtyReason": "Working tree has 42 modified file(s): .ai/project.manifest.json, package.json, src/engine/game/bootstrap.ts, src/engine/game/conformance/village-conformance.ts, src/engine/game/planet/planet-mount.ts…",
-    "generatedAt": "2026-08-12T00:58:27.769Z",
+    "dirtyReason": "Working tree has 11 modified file(s): .ai/project.manifest.json, evidence/village-house_close.png, evidence/village-stream_gate.png, evidence/village-village_overview.png, evidence/village-village_square.png…",
+    "generatedAt": "2026-08-12T01:09:28.303Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },

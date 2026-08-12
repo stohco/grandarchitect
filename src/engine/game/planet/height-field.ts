@@ -117,8 +117,30 @@ export class PlanetHeightField {
       }
     }
 
-    /* ---- 5. Micro detail — the ONLY noise, ±0.1 m, never shaping ---- */
-    h += this.microRough(wx, wz);
+    /* ---- 4b. Floodplains: the ground descends toward the stream so the
+       bank reads as a bank, not a tarp edge cut by a knife. Gentle 1.5 m
+       over 45 m — a riverbank, not a cliff. ---- */
+    for (const rv of RIVERS) {
+      let bestD = Infinity;
+      for (let i = 0; i < rv.points.length - 1; i++) {
+        const d = pointSegDist(wx, wz, rv.points[i][0], rv.points[i][1], rv.points[i + 1][0], rv.points[i + 1][1]);
+        if (d < bestD) bestD = d;
+      }
+      if (bestD < rv.width + 45 && bestD >= rv.width) {
+        const t = 1 - (bestD - rv.width) / 45;
+        h -= 1.5 * t * t;
+        // the bank zone is mud — the stream's edge reads as a wet bank
+        if (bestD < rv.width + 6 && material === 0) material = 2;
+      }
+    }
+
+    /* ---- 5. Meso relief — the ONLY detail, and it never shapes ----
+       Two gentle swell octaves (6 m at ±0.2 m, 20 m at ±0.3 m): rolling
+       ground that reads as terrain from every distance, still walkable,
+       still deterministic. A flat floor is a tarp; a floor with a 1-2 deg
+       roll is ground. */
+    h += this.microRough(wx, wz, 6, 0.2);
+    h += this.microRough(wx, wz, 20, 0.3);
 
     /* ---- biome fallback by elevation ---- */
     if (biome === 'plains') {
@@ -144,11 +166,9 @@ export class PlanetHeightField {
     return { height: Math.max(2, h), biome, material };
   }
 
-  /** Micro detail — smooth, CORRELATED swells at ~6 m wavelength, ±0.06 m.
-   * Per-meter uncorrelated dice tilts every 1 m cell a different way and
-   * shows a checkerboard under the sun; a real surface rolls in swells. */
-  private microRough(wx: number, wz: number): number {
-    const L = 6; // swell wavelength (m)
+  /** Deterministic smooth swells at a given wavelength — correlated,
+   * walkable, and they make the floor read as ground, not a tarp. */
+  private microRough(wx: number, wz: number, L: number, amp: number): number {
     const gx = Math.floor(wx / L);
     const gz = Math.floor(wz / L);
     const fx = wx / L - gx;
@@ -161,7 +181,7 @@ export class PlanetHeightField {
     const n11 = this.hashUnit(gx + 1, gz + 1);
     const a = n00 + (n10 - n00) * sx;
     const b = n01 + (n11 - n01) * sx;
-    return (a + (b - a) * sz - 0.5) * 0.12;
+    return (a + (b - a) * sz - 0.5) * amp * 2;
   }
 
   /** Deterministic unit hash of a lattice cell (0..1). */
