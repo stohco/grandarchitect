@@ -18,38 +18,20 @@ fs.mkdirSync(outDir, { recursive: true });
 
 // angle name → [gym preset, reference crop]
 const ANGLES = [
-  ['front', 1, 'evidence/refs/ref-base-front.png'],
+  ['front', 1, 'evidence/refs/character-reference.png'],
   ['left', 3, 'evidence/refs/ref-robed-side.png'],
   ['back', 2, 'evidence/refs/ref-robed-back.png'],
 ];
 
-/** Crop a frame to the non-background content (the character). */
+/** Crop a frame to a FIXED window (the subject detector drops dark parts —
+ * the legs and briefs against the dark studio floor). The presets frame
+ * the character predictably, so the window is stable per angle. */
 function cropToSubject(frame, bgTol = 30) {
   const img = PNG.sync.read(fs.readFileSync(frame));
-  const px = (x, y) => {
-    const i = (y * img.width + x) * 4;
-    return [img.data[i], img.data[i + 1], img.data[i + 2]];
-  };
-  // the gym background is #141a18 — find content bounds
-  let x0 = img.width, y0 = img.height, x1 = 0, y1 = 0;
-  for (let y = 40; y < img.height - 20; y += 2) {
-    for (let x = 0; x < img.width; x += 2) {
-      const c = px(x, y);
-      const bright = c[0] + c[1] + c[2];
-      if (bright > 120 || (c[0] > 60 && c[1] > 40 && c[2] > 30)) {
-        if (x < x0) x0 = x;
-        if (x > x1) x1 = x;
-        if (y < y0) y0 = y;
-        if (y > y1) y1 = y;
-      }
-    }
-  }
-  if (x1 <= x0 || y1 <= y0) return { img, x0: 0, y0: 0, x1: img.width, y1: img.height };
-  const pad = 8;
-  x0 = Math.max(0, x0 - pad);
-  x1 = Math.min(img.width, x1 + pad);
-  y0 = Math.max(0, y0 - pad);
-  y1 = Math.min(img.height, y1 + pad);
+  // fixed window: the character fills the frame's middle third at every
+  // canonical preset
+  const x0 = Math.round(img.width * 0.37), x1 = Math.round(img.width * 0.63);
+  const y0 = Math.round(img.height * 0.06), y1 = Math.round(img.height * 0.94);
   const w = x1 - x0, h = y1 - y0;
   const out = new PNG({ width: w, height: h });
   for (let y = 0; y < h; y++) {

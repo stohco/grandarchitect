@@ -1,4 +1,4 @@
-/**
+﻿/**
  * gym/gym-main.ts — THE CHARACTER GYM.
  *
  * A tiny isolated scene for iterating on the character in a tight causal
@@ -70,7 +70,6 @@ scene.add(ring);
 // ---- the character ----
 const baseLoader = new GLTFLoader();
 const robeLoader = new GLTFLoader();
-const hairLoader = new GLTFLoader();
 // the TripoSR-generated figure (the generator comparison lane — it stands
 // to the side; preset 7 frames it)
 const triposrLoader = new GLTFLoader();
@@ -105,7 +104,6 @@ triposrLoader.load('/src/engine/game/assets/models/CHR_TripoSR_A01.glb', (gltf) 
   );
 }, undefined, (e) => console.error('[triposr]', e));
 
-let hair: THREE.Group | null = null;
 let hairOn = true;
 
 const character = new THREE.Group();
@@ -221,9 +219,10 @@ for (const [key, label, min, max, step] of SLIDERS) {
 }
 document.body.appendChild(panel);
 
-// the reference pane: the poster's base-body figure, ghosted beside ours
+// the reference pane: the CANONICAL reference (eeeeeeeeeee.png → the
+// character-reference), ghosted beside ours for the forge loop
 const refPane = document.createElement('img');
-refPane.src = '/evidence/refs/ref-base-front-4x.png';
+refPane.src = '/evidence/refs/character-reference.png';
 refPane.style.cssText = 'position:fixed;left:270px;top:12px;z-index:8;height:88vh;opacity:0.35;pointer-events:none;filter:brightness(1.1);display:none;';
 document.body.appendChild(refPane);
 window.addEventListener('keydown', (e) => {
@@ -242,22 +241,9 @@ robeLoader.load('/src/engine/game/assets/models/CHR_Robe_Outer_Indigo_A01.glb', 
   robe.visible = false;
   character.add(robe);
 });
-// the HAIR wearable (slot HAIR): equipped by default — when on, the base's
-// scalp cap (zone_HEAD_SCALP) hides under it
-hairLoader.load('/src/engine/game/assets/models/CHR_Hair_LongBlack_A02.glb', (gltf) => {
-  hair = gltf.scene as THREE.Group;
-  hair.traverse((o) => {
-    const mesh = o as THREE.Mesh;
-    if (mesh.isMesh) {
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-    }
-  });
-  character.add(hair);
-  hairOn = true;
-  const parts = (window as unknown as Record<string, unknown>).__gymParts as Map<string, THREE.Object3D[]> | undefined;
-  if (parts) applyZones(parts);
-});
+// the hair is now CODE (the factory's fitted scalp cap + compact topknot,
+// per the canonical reference) — no oversized GLB wearable. The H key
+// still toggles the whole HEAD_SCALP group.
 
 // ---- the free camera: orbit always unlocked ----
 const orbit = {
@@ -317,9 +303,8 @@ window.addEventListener('keydown', (e) => {
   }
   if (e.code === 'KeyT') turntable = !turntable;
   if (e.code === 'KeyW') walking = !walking;
-  if (e.code === 'KeyH' && hair) {
+  if (e.code === 'KeyH') {
     hairOn = !hairOn;
-    hair.visible = hairOn;
     const parts = (window as unknown as Record<string, unknown>).__gymParts as Map<string, THREE.Object3D[]> | undefined;
     if (parts) applyZones(parts);
   }

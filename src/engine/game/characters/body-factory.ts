@@ -1,4 +1,4 @@
-/**
+﻿/**
  * game/characters/body-factory.ts — the character body as PURE CODE.
  *
  * The img2threejs method: rebuild the reference as a code-only procedural
@@ -37,21 +37,23 @@ export interface BodyParams {
   neckRadius: number;
 }
 
-/** The MEASURED defaults (the reference figure: ~8.3 HU, slender, lean —
- * widths and tapers measured from the reference crop, in fractions of
- * height; see evidence/character-forge/intake.md). */
+/** The MEASURED defaults — from the CANONICAL reference (eeeeeeeeeee.png),
+ * pixel-measured by evidence/measure-reference.cjs (PASS 2): broad
+ * shoulders, tan skin, black briefs, compact head. The width bands below
+ * the shoulder include the arms, so the torso radii are the band minus
+ * the arm mass. */
 export const BODY_DEFAULTS: BodyParams = {
   height: 1.82,
-  shoulderWidth: 0.4,   // ref: 0.22 × height
-  chestRadius: 0.164,   // ref: 0.18 × height / 2
-  waistRadius: 0.109,   // ref: 0.12 × height / 2 — the dramatic pinch
-  hipRadius: 0.136,     // ref: 0.15 × height / 2
-  thighRadius: 0.073,   // ref: 0.08 × height / 2
-  calfRadius: 0.055,    // ref: 0.06 × height / 2
-  upperArmRadius: 0.054,
-  forearmRadius: 0.044,
-  headSize: 0.105,      // ref: ~8.3 HU — a longer, narrower head
-  neckRadius: 0.045,
+  shoulderWidth: 0.47,  // pixel band 0.289 of height, deltoid-to-deltoid
+  chestRadius: 0.18,   // the lats read broad in the canonical (band 0.332)
+  waistRadius: 0.125,
+  hipRadius: 0.15,
+  thighRadius: 0.08,
+  calfRadius: 0.058,
+  upperArmRadius: 0.056,
+  forearmRadius: 0.046,
+  headSize: 0.09,       // pixel head width 0.10 of height (narrow, 7.75 HU)
+  neckRadius: 0.048,
 };
 
 export interface BodyMaterials {
@@ -63,15 +65,19 @@ export interface BodyMaterials {
 }
 
 export function buildBodyMaterials(): BodyMaterials {
-  return {
-    // the reference: fair/pale cool skin (#F5E8D3 measured), black hair,
-    // WHITE underwear (the reference's briefs are white, down the thigh)
-    skin: new THREE.MeshStandardMaterial({ color: 0xf5e8d3, roughness: 0.7 }),
-    hair: new THREE.MeshStandardMaterial({ color: 0x1c1816, roughness: 0.88 }),
+  // the canonical reference, pixel-sampled: warm tan skin (208,166,131),
+  // near-black warm hair (29,21,14), BLACK fitted boxer-briefs.
+  // DoubleSide everywhere: the torso half-shells and limb caps are open
+  // edges — single-sided culling shows the interior as holes.
+  const mats: BodyMaterials = {
+    skin: new THREE.MeshStandardMaterial({ color: 0xd0a683, roughness: 0.7 }),
+    hair: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.88 }),
     eye: new THREE.MeshStandardMaterial({ color: 0x070707, roughness: 0.2 }),
-    brow: new THREE.MeshStandardMaterial({ color: 0x181512, roughness: 0.9 }),
-    under: new THREE.MeshStandardMaterial({ color: 0xe6e2da, roughness: 0.9 }),
+    brow: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.9 }),
+    under: new THREE.MeshStandardMaterial({ color: 0x1c1b1a, roughness: 0.85 }),
   };
+  for (const m of Object.values(mats)) m.side = THREE.DoubleSide;
+  return mats;
 }
 
 /** Loft a profile of elliptical rings into a smooth BufferGeometry.
@@ -84,11 +90,11 @@ function loftGeometry(
 ): THREE.BufferGeometry {
   let idx: number[];
   if (half === null) idx = Array.from({ length: segments }, (_, i) => i);
-  else if (half === 'front') idx = Array.from({ length: segments / 2 + 2 }, (_, i) => i);
+  else if (half === 'front') idx = Array.from({ length: segments / 2 + 3 }, (_, i) => i); // +3: past the mid-line
   else {
     const list: number[] = [];
-    for (let i = segments / 2 - 1; i < segments; i++) list.push(i);
-    list.push(0, 1);
+    for (let i = segments / 2 - 2; i < segments; i++) list.push(i); // -2: into the front
+    list.push(0, 1, 2);
     idx = list;
   }
   const rings: THREE.Vector3[][] = slices.map((s) =>
@@ -107,10 +113,16 @@ function loftGeometry(
   for (let k = 0; k < rings.length - 1; k++) {
     const lo = ringStart[k], hi = ringStart[k + 1], n = idx.length - 1;
     for (let i = 0; i < n; i++) {
-      faces.push(lo + i, lo + i + 1, hi + i + 1, hi + i);
+      // each quad becomes TWO triangles (the index buffer is triangles —
+      // feeding quads produced the disconnected-floating-triangles mess)
+      // outward winding: (lo, hi, hi+1) + (lo, hi+1, lo+1)
+      faces.push(lo + i, hi + i, hi + i + 1);
+      faces.push(lo + i, hi + i + 1, lo + i + 1);
     }
   }
-  // caps: fan-triangulated around a pole at the ring center
+  // caps: fan-triangulated around a pole at the ring center. The TOP cap
+  // winds CCW (outward); the BOTTOM cap must wind the OTHER way, or it
+  // reads inside-out and gets culled — the transparent-triangle bug.
   for (const k of [0, rings.length - 1]) {
     const pole = verts.length / 3;
     const s = slices[k];
@@ -119,10 +131,14 @@ function loftGeometry(
     if (half === null) {
       for (let i = 0; i < n; i++) {
         const a = start + (i % n), b = start + ((i + 1) % n);
-        faces.push(pole, a, b);
+        if (k === 0) faces.push(pole, b, a);
+        else faces.push(pole, a, b);
       }
     } else {
-      for (let i = 0; i < n - 1; i++) faces.push(pole, start + i, start + i + 1);
+      for (let i = 0; i < n - 1; i++) {
+        if (k === 0) faces.push(pole, start + i + 1, start + i);
+        else faces.push(pole, start + i, start + i + 1);
+      }
     }
   }
   const geo = new THREE.BufferGeometry();
@@ -173,13 +189,13 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
     make(`zone_CALF_${side}`, [
       { y: f(0.09), rx: f(0.044), rd: f(0.04), yf: 0 },
       { y: f(0.26), rx: params.calfRadius, rd: params.calfRadius * 0.9, yf: 0 },
-      { y: f(0.55), rx: f(0.062), rd: f(0.056), yf: 0 },
+      { y: f(0.57), rx: f(0.062), rd: f(0.056), yf: 0 },
     ], skin, null, sgn * S);
   }
   // thighs
   for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
     make(`zone_THIGH_${side}`, [
-      { y: f(0.5), rx: f(0.062), rd: f(0.056), yf: 0 },
+      { y: f(0.48), rx: f(0.062), rd: f(0.056), yf: 0 },
       { y: f(0.74), rx: params.thighRadius, rd: params.thighRadius * 0.94, yf: 0 },
       { y: f(0.94), rx: f(0.105), rd: f(0.095), yf: 0 },
     ], skin, null, sgn * S);
@@ -188,7 +204,7 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
   make('zone_PELVIS', [
     { y: f(0.85), rx: f(0.15), rd: f(0.14), yf: 0 },
     { y: f(0.95), rx: params.hipRadius * 0.98, rd: params.hipRadius * 0.9, yf: 0 },
-    { y: f(1.07), rx: params.hipRadius, rd: params.hipRadius * 0.9, yf: 0 },
+    { y: f(1.09), rx: params.hipRadius, rd: params.hipRadius * 0.9, yf: 0 },
   ], skin);
   for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
     const geo = new THREE.SphereGeometry(f(0.105), 10, 7);
@@ -236,14 +252,14 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
   // arms: upper + forearm overlapping at the elbow
   for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
     make(`zone_UPPER_ARM_${side}`, [
-      { y: f(1.2), rx: f(0.048), rd: f(0.044), yf: f(0.03) },
+      { y: f(1.18), rx: f(0.048), rd: f(0.044), yf: f(0.03) },
       { y: f(1.36), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.9, yf: f(0.02) },
       { y: f(1.52), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.94, yf: f(0.02) },
     ], skin, null, sgn * A, 12);
     make(`zone_FOREARM_${side}`, [
       { y: f(1.0), rx: f(0.036), rd: f(0.032), yf: f(0.05) },
       { y: f(1.12), rx: params.forearmRadius * 0.92, rd: params.forearmRadius * 0.84, yf: f(0.05) },
-      { y: f(1.24), rx: params.forearmRadius, rd: params.forearmRadius * 0.92, yf: f(0.04) },
+      { y: f(1.26), rx: params.forearmRadius, rd: params.forearmRadius * 0.92, yf: f(0.04) },
     ], skin, null, sgn * (A + f(0.012)), 12);
     // hands: palm loft + fingers
     make(`zone_HAND_${side}`, [
@@ -298,12 +314,23 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
   mouth.name = 'char_face_mouth';
   mouth.position.set(0, f(1.665), f(0.088));
   g.add(mouth);
-  // scalp cap (HEAD_SCALP zone — the hair wearable covers it)
-  const scalp = new THREE.Mesh(new THREE.SphereGeometry(f(0.113), 14, 8), hair);
+  // the hair (CODE, per the reference): the scalp cap fitted to the head,
+  // plus the compact TOPKNOT bun at the crown — black, pulled back
+  const scalp = new THREE.Mesh(new THREE.SphereGeometry(f(0.088), 14, 8), hair);
   scalp.name = 'zone_HEAD_SCALP';
-  scalp.position.set(0, f(1.745), -f(0.01));
-  scalp.scale.set(1, 0.72, 0.98);
+  scalp.position.set(0, f(1.755), -f(0.008));
+  scalp.scale.set(1, 0.66, 0.95);
   g.add(scalp);
+  const bun = new THREE.Mesh(new THREE.SphereGeometry(f(0.042), 10, 7), hair);
+  bun.name = 'zone_HEAD_SCALP_topknot';
+  bun.position.set(0, f(1.855), -f(0.02));
+  bun.scale.set(0.85, 0.9, 1);
+  g.add(bun);
+  const tie = new THREE.Mesh(new THREE.TorusGeometry(f(0.02), f(0.006), 8, 12), hair);
+  tie.name = 'zone_HEAD_SCALP_tie';
+  tie.position.set(0, f(1.815), -f(0.03));
+  tie.rotation.x = Math.PI / 2;
+  g.add(tie);
   // the modest undergarments: briefs (the reference's are white and reach
   // ~0.15 down the thigh — a short brief, not long shorts)
   make('underwear_briefs', [
