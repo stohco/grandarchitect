@@ -57,3 +57,18 @@ hair silhouette, the painted-material softness.
 - gauntlet width-profile delta per angle (evidence/gauntlet/round-*)
 - croquis landmark alignment (head-units live in the gym)
 - rig walk test (arm pivots, head steady, no seam at joints)
+
+## PASS 3 — the welded L0 core (img2threejs implicit SDF + visual hull)
+The atrocity is DELETED — the stacked-zone loft is replaced with the
+skill's actual method: ONE implicit surface. The torso is smooth-unioned
+primitive masses CLAMPED to the reference's measured silhouette profile
+(the visual hull from the pixel measurement); the limbs are smooth-unioned
+capsules keeping their round tubes and armpit gaps. A surface-nets
+polygonizer welds it into one mesh; faces sort into the 22 body-hide
+zones as INDEX SUBSETS of ONE shared vertex pool with ONE normal pass —
+continuous normals across every zone boundary, no seams. The painterly
+vertex shade + the L3 face isolates (eyes/brows/nose/mouth/topknot) sit
+on top.
+- evidence: 5,778 tris, 22 zones, rig intact; the pixel width profile
+  shows the real V-taper (waist 128-141px vs chest/hips 167-173px)
+

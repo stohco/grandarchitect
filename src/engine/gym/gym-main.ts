@@ -21,6 +21,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CharacterRig } from '../game/characters/character-rig';
 import { SLOT_MASKS, ALL_ZONES as SLOT_ALL_ZONES, zoneIdOf } from '../game/characters/slots';
 import { buildBody, buildBodyMaterials, bodyLandmarks, BODY_DEFAULTS, type BodyParams } from '../game/characters/body-factory';
+import { buildWeldedBody } from '../game/characters/sdf-body';
 
 const container = document.getElementById('hud')!;
 
@@ -165,16 +166,18 @@ function rebuildBody(): void {
       if (mesh.isMesh) mesh.geometry.dispose();
     });
   }
-  const body = buildBody(bodyParams, bodyMats);
-  const parts = zoneParts(body);
+  // the img2threejs L0 core: ONE welded implicit surface (visual hull +
+  // smooth SDF unions) split into zones that share a single normal pass
+  const welded = buildWeldedBody(bodyParams, bodyMats);
   charFace.length = 0;
-  body.traverse((o) => {
+  welded.root.traverse((o) => {
     if ((o as THREE.Mesh).isMesh && o.name.startsWith('char_face')) charFace.push(o);
   });
-  rig = new CharacterRig(body);
+  rig = new CharacterRig(welded.root);
   character.add(rig.root);
-  applyZones(parts);
-  (window as unknown as Record<string, unknown>).__gymParts = parts;
+  applyZones(welded.zoneParts);
+  (window as unknown as Record<string, unknown>).__gymParts = welded.zoneParts;
+  (window as unknown as Record<string, unknown>).__gymTris = welded.triCount;
 }
 rebuildBody();
 
