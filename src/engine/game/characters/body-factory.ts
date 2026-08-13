@@ -28,11 +28,11 @@ export interface BodyParams {
 
 export const BODY_DEFAULTS: BodyParams = {
   height: 1.82,
-  shoulderWidth: 0.5,
+  shoulderWidth: 0.47,
   chestRadius: 0.17,
-  waistRadius: 0.108,
+  waistRadius: 0.12,
   hipRadius: 0.165,
-  thighRadius: 0.073,
+  thighRadius: 0.078,
   calfRadius: 0.055,
   upperArmRadius: 0.055,
   forearmRadius: 0.045,
