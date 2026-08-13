@@ -12,12 +12,12 @@
     "maturityReason": "Engine kernel and conformance tests pass, but production readiness is not established. Frontier technologies (Z3, 3D Tiles, Cedar, Rapier) are at varying sub-integration levels. See docs/FRONTIER_SELF_CRITIQUE.md."
   },
   "provenance": {
-    "commit": "ff4f8759e310ee88a6195667c38301c57f7a98da",
-    "commitShort": "ff4f8759e310",
+    "commit": "840c3e717900fb05fb64de2502f7a822cedf20a1",
+    "commitShort": "840c3e717900",
     "branch": "swarm/integration",
-    "dirty": true,
-    "dirtyReason": "Working tree has 14 modified file(s): evidence/forge-back.png, evidence/forge-front.png, evidence/forge-left.png, evidence/forge-right.png, evidence/forge-three.png…",
-    "generatedAt": "2026-08-13T21:48:39.103Z",
+    "dirty": false,
+    "dirtyReason": "Working tree clean.",
+    "generatedAt": "2026-08-13T22:13:57.885Z",
     "generatorVersion": "1.0.0",
     "generatedBy": "scripts/ai-context/build.ts"
   },
