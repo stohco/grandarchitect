@@ -20,6 +20,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CharacterRig } from '../game/characters/character-rig';
 import { SLOT_MASKS, ALL_ZONES as SLOT_ALL_ZONES, zoneIdOf } from '../game/characters/slots';
+import { buildBody, buildBodyMaterials, bodyLandmarks, BODY_DEFAULTS, type BodyParams } from '../game/characters/body-factory';
 
 const container = document.getElementById('hud')!;
 
@@ -153,22 +154,82 @@ function applyZones(parts: Map<string, THREE.Object3D[]>): void {
   }
 }
 
-baseLoader.load('/src/engine/game/assets/models/CHR_BaseBody_Male_A01.glb', (gltf) => {
-  const base = gltf.scene;
-  const parts = zoneParts(base);
-  base.traverse((o) => {
-    const mesh = o as THREE.Mesh;
-    if (mesh.isMesh) {
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      if (mesh.name.startsWith('char_face')) charFace.push(mesh);
-    }
+// ---- THE CODE-ONLY BODY (img2threejs method): the base is built from
+// BODY_DEFAULTS at runtime — the asset editor sliders rebuild it live ----
+let bodyParams: BodyParams = { ...BODY_DEFAULTS };
+const bodyMats = buildBodyMaterials();
+
+function rebuildBody(): void {
+  if (rig) {
+    character.remove(rig.root);
+    rig.root.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (mesh.isMesh) mesh.geometry.dispose();
+    });
+  }
+  const body = buildBody(bodyParams, bodyMats);
+  const parts = zoneParts(body);
+  charFace.length = 0;
+  body.traverse((o) => {
+    if ((o as THREE.Mesh).isMesh && o.name.startsWith('char_face')) charFace.push(o);
   });
-  rig = new CharacterRig(base);
+  rig = new CharacterRig(body);
   character.add(rig.root);
   applyZones(parts);
   (window as unknown as Record<string, unknown>).__gymParts = parts;
+}
+rebuildBody();
+
+// ---- the ASSET EDITOR panel: live parameters + the reference pane ----
+const panel = document.createElement('div');
+panel.id = 'asset-editor';
+panel.style.cssText = 'position:fixed;left:12px;top:12px;z-index:9;font:11px/1.5 ui-monospace,monospace;color:#cfd6de;background:#141a18e8;padding:8px 10px;border-radius:6px;border-left:2px solid #2f9a8a;max-width:230px;';
+panel.innerHTML = '<b>BODY PARAMS (code-only)</b><br/><span style="color:#7ae8d0">G</span> reference pane · sliders rebuild live';
+const SLIDERS: Array<[keyof BodyParams, string, number, number, number]> = [
+  ['height', 'height', 1.5, 2.0, 0.01],
+  ['shoulderWidth', 'shoulders', 0.36, 0.56, 0.005],
+  ['chestRadius', 'chest', 0.13, 0.24, 0.005],
+  ['waistRadius', 'waist', 0.1, 0.21, 0.005],
+  ['hipRadius', 'hips', 0.13, 0.23, 0.005],
+  ['thighRadius', 'thighs', 0.06, 0.13, 0.005],
+  ['calfRadius', 'calves', 0.04, 0.09, 0.002],
+  ['upperArmRadius', 'upper arm', 0.04, 0.09, 0.002],
+  ['forearmRadius', 'forearm', 0.03, 0.07, 0.002],
+  ['headSize', 'head', 0.09, 0.15, 0.002],
+];
+for (const [key, label, min, max, step] of SLIDERS) {
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:6px;margin-top:3px;';
+  const name = document.createElement('span');
+  name.style.cssText = 'width:62px;color:#8a7f6d;';
+  name.textContent = label;
+  const slider = document.createElement('input');
+  slider.type = 'range';
+  slider.min = String(min); slider.max = String(max); slider.step = String(step);
+  slider.value = String(bodyParams[key]);
+  slider.style.cssText = 'flex:1;accent-color:#2f9a8a;';
+  const val = document.createElement('span');
+  val.style.cssText = 'width:34px;text-align:right;color:#7ae8d0;';
+  val.textContent = Number(bodyParams[key]).toFixed(3);
+  slider.addEventListener('input', () => {
+    (bodyParams as unknown as Record<string, number>)[key] = parseFloat(slider.value);
+    val.textContent = parseFloat(slider.value).toFixed(3);
+    rebuildBody();
+  });
+  row.append(name, slider, val);
+  panel.appendChild(row);
+}
+document.body.appendChild(panel);
+
+// the reference pane: the poster's base-body figure, ghosted beside ours
+const refPane = document.createElement('img');
+refPane.src = '/evidence/refs/ref-base-front-4x.png';
+refPane.style.cssText = 'position:fixed;left:270px;top:12px;z-index:8;height:88vh;opacity:0.35;pointer-events:none;filter:brightness(1.1);display:none;';
+document.body.appendChild(refPane);
+window.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyG') refPane.style.display = refPane.style.display === 'none' ? 'block' : 'none';
 });
+
 robeLoader.load('/src/engine/game/assets/models/CHR_Robe_Outer_Indigo_A01.glb', (gltf) => {
   robe = gltf.scene as THREE.Group;
   robe.traverse((o) => {
@@ -307,21 +368,11 @@ window.addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
 });
 
-/** The authored anatomy landmarks (world Y, meters — the builder's layout).
- * Ideal proportions (bible §3 + human canon, ~7.75 heads of 0.235 m): */
-const LANDMARKS: Array<[string, number]> = [
-  ['head_top', 1.83],
-  ['eye', 1.71],
-  ['chin', 1.64],
-  ['shoulder', 1.52],
-  ['chest', 1.42],
-  ['navel', 1.12],
-  ['hip', 1.0],
-  ['crotch', 0.94],
-  ['knee', 0.52],
-  ['ankle', 0.09],
-  ['feet', 0.0],
-];
+/** The authored anatomy landmarks — DERIVED from the live body params
+ * (img2threejs: measured head-units, not assumed ones). */
+function landmarkList(): Array<[string, number]> {
+  return bodyLandmarks(bodyParams).map((l) => [l.name, l.y]);
+}
 
 /** Project the landmarks through the camera → screen space (for the
  * proportion overlay: the fashion-croquis head-unit check). */
@@ -329,7 +380,7 @@ function landmarkScreenPositions(): Array<{ name: string; y: number; headUnits: 
   const v = new THREE.Vector3();
   const out: Array<{ name: string; y: number; headUnits: number }> = [];
   camera.updateMatrixWorld();
-  for (const [name, worldY] of LANDMARKS) {
+  for (const [name, worldY] of landmarkList()) {
     v.set(0, worldY, 0).project(camera);
     out.push({
       name,
@@ -369,7 +420,7 @@ const gym = {
   /** The head-unit proportion check (fashion-croquis method). */
   get landmarks() { return landmarkScreenPositions(); },
   get headUnits(): number {
-    return LANDMARKS.reduce((max, [n, y]) => Math.max(max, y), 0) / 0.235;
+    return landmarkList().reduce((max, [, y]) => Math.max(max, y), 0) / 0.235;
   },
 };
 (window as unknown as Record<string, unknown>).__gym = gym;
