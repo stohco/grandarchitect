@@ -50,14 +50,25 @@ function cropToSubject(frame, bgTol = 30) {
 /** Silhouette metrics: subject mask + width profile (head/shoulder/waist/
  * hip/knee/ankle) — the QUANTITATIVE fidelity record. The critic only
  * verifies these numbers, per docs/VISUAL_QA.md. */
+/** The reference's MEASURED anatomy (evidence/measure-reference.cjs +
+ * the vision intake): the figures are sampled at THESE rows (fractions
+ * from the BOTTOM) so the comparison is apples-to-apples. */
+const LANDMARK_FRACTIONS = [
+  ['head_max', 0.94], ['eye', 0.85], ['chin', 0.75], ['shoulder', 0.7],
+  ['chest', 0.62], ['waist', 0.52], ['hip', 0.45], ['crotch', 0.42],
+  ['knee', 0.23], ['ankle', 0.05],
+];
+
 function silhouette(src, tol = 60) {
   const img = PNG.sync.read(fs.readFileSync(src));
   const isBody = (x, y) => {
     const i = (y * img.width + x) * 4;
     const r = img.data[i], g = img.data[i + 1], b = img.data[i + 2];
     // body-ish: warm skin OR dark hair/cloth — exclude the pale poster
-    // panel (cream 256,256,224) and the gym's near-black studio floor
-    return (r + g + b > 100 && r + g + b < 660) && !(r > 230 && g > 230 && b > 200) && !(r < 45 && g < 50 && b < 55);
+    // panel (cream 256,256,224), the gym's near-black studio floor, and
+    // the COOL rim-lit disc edge (blue-grey, not warm body)
+    return (r + g + b > 100 && r + g + b < 660) && !(r > 230 && g > 230 && b > 200)
+      && !(r < 45 && g < 50 && b < 55) && !(b > r + 6 && b >= g);
   };
   let top = img.height, bottom = 0, left = img.width, right = 0;
   for (let y = 0; y < img.height; y += 1) {
@@ -70,13 +81,19 @@ function silhouette(src, tol = 60) {
       }
     }
   }
-  if (bottom <= top) return { top: 0, bottom: img.height, height: img.height, widths: new Array(12).fill(0) };
+  if (bottom <= top) return { top: 0, bottom: img.height, height: img.height, widths: new Array(LANDMARK_FRACTIONS.length).fill(0) };
   const height = bottom - top;
-  const widths = new Array(12).fill(0);
-  for (let k = 0; k < 12; k++) {
-    const y = top + Math.round((k + 0.5) * height / 12);
+  const widths = new Array(LANDMARK_FRACTIONS.length).fill(0);
+  for (let k = 0; k < LANDMARK_FRACTIONS.length; k++) {
+    // sample a 3-row band around the landmark row for stability
+    const yF = LANDMARK_FRACTIONS[k][1];
     let min = Infinity, max = -1;
-    for (let x = left; x <= right; x++) if (isBody(x, y)) { min = Math.min(min, x); max = Math.max(max, x); }
+    for (let dy = -1; dy <= 1; dy++) {
+      const y = top + Math.round((1 - yF) * height) + dy;
+      for (let x = left; x <= right; x++) {
+        if (isBody(x, y)) { min = Math.min(min, x); max = Math.max(max, x); }
+      }
+    }
     widths[k] = max >= min ? max - min : 0;
   }
   return { top, bottom, height, widths };
@@ -85,9 +102,13 @@ function silhouette(src, tol = 60) {
 function profileDiff(a, b) {
   const norm = (w) => w.map((v) => v / (w.reduce((m, x) => Math.max(m, x), 1) || 1));
   const na = norm(a.widths), nb = norm(b.widths);
-  let d = 0;
-  for (let k = 0; k < 12; k++) d += Math.abs(na[k] - nb[k]);
-  return { meanWidthDelta: +(d / 12).toFixed(3), profileA: na.map((v) => +v.toFixed(2)), profileB: nb.map((v) => +v.toFixed(2)) };
+  let d = 0, n = 0;
+  for (let k = 0; k < 10; k++) {
+    if (na[k] === 0 || nb[k] === 0) continue; // the zero bands (hair/dark) don't count
+    d += Math.abs(na[k] - nb[k]);
+    n++;
+  }
+  return { meanWidthDelta: n ? +(d / n).toFixed(3) : NaN, profileA: na.map((v) => +v.toFixed(2)), profileB: nb.map((v) => +v.toFixed(2)) };
 }
 
 /** Compose the A/B plate: two figures side by side, scaled to the same height. */
