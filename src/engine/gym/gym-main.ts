@@ -70,6 +70,39 @@ scene.add(ring);
 const baseLoader = new GLTFLoader();
 const robeLoader = new GLTFLoader();
 const hairLoader = new GLTFLoader();
+// the TripoSR-generated figure (the generator comparison lane — it stands
+// to the side; preset 7 frames it)
+const triposrLoader = new GLTFLoader();
+const triposrFigure = new THREE.Group();
+triposrFigure.position.set(4.5, 0, 0);
+scene.add(triposrFigure);
+triposrLoader.load('/src/engine/game/assets/models/CHR_TripoSR_A01.glb', (gltf) => {
+  gltf.scene.traverse((o) => {
+    const mesh = o as THREE.Mesh;
+    if (mesh.isMesh) {
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      if (mesh.material) {
+        const m = mesh.material as THREE.MeshStandardMaterial;
+        m.side = THREE.DoubleSide; // generated meshes have no guaranteed winding
+        m.roughness = 0.8;
+      }
+    }
+  });
+  // LOCAL bounds before parenting: scale to ~1.83 m tall, then place the
+  // LOCAL center at the lane position (4.5, 0, 0) with feet on the floor
+  const localBox = new THREE.Box3().setFromObject(gltf.scene);
+  const localSize = localBox.getSize(new THREE.Vector3());
+  const localCenter = localBox.getCenter(new THREE.Vector3());
+  const s = 1.83 / Math.max(0.001, localSize.y);
+  triposrFigure.add(gltf.scene);
+  triposrFigure.scale.setScalar(s);
+  triposrFigure.position.set(
+    4.5 - localCenter.x * s,
+    -localBox.min.y * s, // feet on the floor
+    0 - localCenter.z * s,
+  );
+}, undefined, (e) => console.error('[triposr]', e));
 
 let hair: THREE.Group | null = null;
 let hairOn = true;
@@ -213,6 +246,7 @@ const PRESETS: Array<[number, number, number]> = [
   [-Math.PI / 2, 0.12, 2.6], // 4 right
   [1.9, 0.12, 2.9],    // 5 three-quarter
   [0.65, 0.0, 0.9],    // 6 face close-up
+  [0.65, 0.1, 2.9],    // 7 the TripoSR comparison figure
 ];
 window.addEventListener('keydown', (e) => {
   if (e.code >= 'Digit1' && e.code <= 'Digit6') {
@@ -315,6 +349,8 @@ const gym = {
   setAngle: (i: number) => {
     const p = PRESETS[i - 1];
     orbit.yaw = p[0]; orbit.pitch = p[1]; orbit.dist = p[2];
+    // preset 7 frames the TripoSR comparison figure
+    orbit.target.set(i === 7 ? 4.5 : 0, 1.0, 0);
     applyOrbit();
   },
   setRobe: (on: boolean) => {
