@@ -10,6 +10,7 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { buildBody, buildBodyMaterials, BODY_DEFAULTS } from './characters/body-factory';
 import { PlanetMount, villageSpawn } from './planet/planet-mount';
 import { GamePlayer, GameInput } from './player-mount';
 import { runWorldQualityGate } from './world-quality-gate';
@@ -135,13 +136,13 @@ export function bootGame(container: HTMLElement): GameHandle | null {
   const editorRegistry = new EditorRegistry();
   registerVillageComponents(editorRegistry, village, { x: spawn.x, z: spawn.z });
   // the character: the player wears the BASE BODY (nothing equipped) —
-  // the bible's staging: perfect the base first, add modular equipment
-  // (the robe, the topknot, the sandals) when it passes in the gym
-  const villagerLoader = new GLTFLoader();
-  villagerLoader.load('/src/engine/game/assets/models/CHR_BaseBody_Male_A01.glb', (gltf) => {
-    player.heightAt = (x, z) => planet.heightAt(x, z);
-    player.setModel(gltf.scene);
-  }, undefined, (err) => console.error('[character]', err));
+  // the player wears the code-built DEFAULT BODY (the forge's current
+  // pass — measured proportions, painterly shading, continuous lofts)
+  player.heightAt = (x, z) => planet.heightAt(x, z);
+  const bodyMats = buildBodyMaterials();
+  bodyMats.skin.vertexColors = true;
+  const body = buildBody(BODY_DEFAULTS, bodyMats);
+  player.setModel(body);
   // the villagers keep the clothed villager (they are NPCs; the base is
   // the player's staging)
   const villagerClothLoader = new GLTFLoader();

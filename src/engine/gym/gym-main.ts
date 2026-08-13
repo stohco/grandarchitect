@@ -40,16 +40,18 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 document.body.appendChild(renderer.domElement);
 
-// ---- deterministic studio lights: soft key, cool rim, generous fill ----
-const key = new THREE.DirectionalLight(0xffe4c0, 2.4);
+// ---- the painterly lighting pass (img2threejs): warm key, cool rim
+// for silhouette separation, gentle fill, soft shadows ----
+const key = new THREE.DirectionalLight(0xffd9a0, 2.6);
 key.position.set(-2.5, 3.2, 2.0);
 key.castShadow = true;
 key.shadow.mapSize.set(1024, 1024);
+key.shadow.radius = 6; // soft contact shadows
 scene.add(key);
-const rim = new THREE.DirectionalLight(0x7fb4e8, 2.0);
+const rim = new THREE.DirectionalLight(0x8fc4ff, 2.4);
 rim.position.set(2.6, 2.2, -2.4);
 scene.add(rim);
-const fill = new THREE.HemisphereLight(0xcfd6de, 0x1a1e24, 0.85);
+const fill = new THREE.HemisphereLight(0xd8dce2, 0x2a2430, 0.9);
 scene.add(fill);
 
 // ---- the studio ground: a clean neutral disc ----
