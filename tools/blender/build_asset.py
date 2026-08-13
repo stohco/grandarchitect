@@ -458,12 +458,12 @@ def build_character_base(seed):
     import bmesh
 
     rng = Seeded(seed)
-    skin = make_material('char_skin', (0.80, 0.66, 0.58), roughness=0.72)  # fair (reference)
+    skin = make_material('char_skin', (0.64, 0.39, 0.23), roughness=0.68)  # the measured tan (208,166,131)
     hair = make_material('char_hair', PALETTE['hair'], roughness=0.9)
     eye = make_material('char_eye', (0.015, 0.015, 0.015), roughness=0.2)
     brow = make_material('char_brow', (0.06, 0.05, 0.045), roughness=0.9)
     under = make_material('char_underwear', (0.05, 0.05, 0.06), roughness=0.9)  # matte black
-    linen = make_material('char_linen', PALETTE['linen'], roughness=0.95)
+    linen = make_material('char_under', (0.014, 0.013, 0.012), roughness=0.85)  # matte black briefs
 
     objects = []
     name_counts = {}
@@ -573,23 +573,23 @@ def build_character_base(seed):
     # ---- calves: the bulge, then the ankle ----
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
         loft(f'zone_CALF_{side}', skin, [
-            (0.09, 0.044, 0.040, 0.0), (0.28, 0.062, 0.056, 0.0),
+            (0.09, 0.042, 0.038, 0.0), (0.28, 0.058, 0.052, 0.0),
             (0.52, 0.066, 0.060, 0.0)], xo=sgn * S)
     # ---- thighs: knee to hip ----
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
         loft(f'zone_THIGH_{side}', skin, [
-            (0.50, 0.062, 0.056, 0.0), (0.74, 0.094, 0.088, 0.0),
-            (0.94, 0.105, 0.095, 0.0)], xo=sgn * S)
+            (0.50, 0.058, 0.052, 0.0), (0.74, 0.080, 0.074, 0.0),
+            (0.94, 0.098, 0.090, 0.0)], xo=sgn * S)
     # the calves OVERLAP the thighs at the knee — no seam spheres; the
     # overlap band hides the zone boundary
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
         loft(f'zone_CALF_{side}', skin, [
             (0.09, 0.044, 0.040, 0.0), (0.26, 0.060, 0.054, 0.0),
-            (0.55, 0.062, 0.056, 0.0)], xo=sgn * S)
+            (0.55, 0.058, 0.052, 0.0)], xo=sgn * S)
 
     # ---- pelvis (hip 0.34/0.30) ----
     loft('zone_PELVIS', skin, [
-        (0.85, 0.150, 0.140, 0.0), (0.95, 0.168, 0.152, 0.0),
+        (0.85, 0.140, 0.130, 0.0), (0.95, 0.148, 0.136, 0.0),
         (1.04, 0.172, 0.155, 0.0)])
     # ---- glutes: the pelvis's back mass ----
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
@@ -598,17 +598,17 @@ def build_character_base(seed):
 
     # ---- torso: front (chest) + back halves, waist pinch, chest flare ----
     loft('zone_CHEST_LOWER', skin, [
-        (1.04, 0.172, 0.155, 0.0), (1.15, 0.150, 0.135, 0.0),
-        (1.26, 0.160, 0.140, 0.0)], half='front')
+        (1.04, 0.150, 0.136, 0.0), (1.15, 0.125, 0.112, 0.0),
+        (1.26, 0.155, 0.136, 0.0)], half='front')
     loft('zone_BACK_LOWER', skin, [
-        (1.04, 0.172, 0.155, 0.0), (1.15, 0.150, 0.135, 0.0),
-        (1.26, 0.160, 0.140, 0.0)], half='back')
+        (1.04, 0.150, 0.136, 0.0), (1.15, 0.125, 0.112, 0.0),
+        (1.26, 0.155, 0.136, 0.0)], half='back')
     loft('zone_CHEST_UPPER', skin, [
-        (1.26, 0.160, 0.140, 0.0), (1.38, 0.178, 0.150, 0.0),
-        (1.49, 0.188, 0.156, 0.0)], half='front')
+        (1.26, 0.160, 0.140, 0.0), (1.38, 0.176, 0.148, 0.0),
+        (1.49, 0.180, 0.150, 0.0)], half='front')
     loft('zone_BACK_UPPER', skin, [
-        (1.26, 0.160, 0.140, 0.0), (1.38, 0.178, 0.150, 0.0),
-        (1.49, 0.188, 0.156, 0.0)], half='back')
+        (1.26, 0.160, 0.140, 0.0), (1.38, 0.176, 0.148, 0.0),
+        (1.49, 0.180, 0.150, 0.0)], half='back')
 
     # ---- shoulders (deltoid spheres + traps bridging torso and arms) ----
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
@@ -621,11 +621,11 @@ def build_character_base(seed):
     # forearm OVERLAPS the upper arm at the elbow (no seam spheres) ----
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
         loft(f'zone_UPPER_ARM_{side}', skin, [
-            (1.20, 0.048, 0.044, 0.03), (1.36, 0.062, 0.058, 0.02),
-            (1.52, 0.064, 0.060, 0.02)], xo=sgn * A)
+            (1.20, 0.046, 0.042, 0.03), (1.36, 0.056, 0.052, 0.02),
+            (1.52, 0.058, 0.054, 0.02)], xo=sgn * A)
         loft(f'zone_FOREARM_{side}', skin, [
-            (1.00, 0.036, 0.032, 0.05), (1.12, 0.046, 0.042, 0.05),
-            (1.24, 0.050, 0.046, 0.04)], xo=sgn * (A + 0.012))
+            (1.00, 0.034, 0.030, 0.05), (1.12, 0.044, 0.040, 0.05),
+            (1.24, 0.046, 0.042, 0.04)], xo=sgn * (A + 0.012))
 
     # ---- hands: palm loft + rounded fingers + thumb ----
     for side, sgn in [('L', -1.0), ('R', 1.0)]:
@@ -751,19 +751,19 @@ def build_hair(seed):
     assign(cap, hair)
     objects.append(cap)
 
-    # the tail: TWO overlapping tiers from the crown down the back —
-    # the upper tier is the tied mass, the lower flows free (the
-    # reference's long tied-back hair, not a single blob)
-    loft('hair_tail_upper', hair, [
-        (1.78, 0.095, 0.088, -0.03), (1.66, 0.088, 0.082, -0.09),
-        (1.50, 0.075, 0.068, -0.14)], segments=14)
-    loft('hair_tail_lower', hair, [
-        (1.52, 0.070, 0.062, -0.155), (1.34, 0.052, 0.046, -0.19),
-        (1.12, 0.036, 0.032, -0.21)], segments=12)
+    # the reference: a COMPACT topknot bun at the crown (not a long tail)
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=0.042, segments=12, ring_count=8,
+                                         location=(0, -0.02, 1.855))
+    bun = bpy.context.object
+    bun.name = 'hair_topknot'
+    bun.scale = (0.85, 0.9, 1.0)
+    bun.data.polygons[0].use_smooth = True
+    assign(bun, hair)
+    objects.append(bun)
 
-    # the tie at the nape
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.052, minor_radius=0.014, major_segments=12,
-                                     minor_segments=6, location=(0, -0.105, 1.56))
+    # the tie around the bun
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.028, minor_radius=0.008, major_segments=10,
+                                     minor_segments=6, location=(0, -0.03, 1.82))
     tie_obj = bpy.context.object
     tie_obj.name = 'hair_tie'
     tie_obj.rotation_euler.x = math.pi / 2

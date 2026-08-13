@@ -1,30 +1,19 @@
 ﻿/**
- * game/characters/body-factory.ts — the character body as PURE CODE.
+ * game/characters/body-factory.ts — the DEFAULT BODY.
  *
- * The img2threejs method: rebuild the reference as a code-only procedural
- * three.js model, driven by MEASURED parameters (head-units, widths,
- * tapers), editable live in the gym's asset editor. The body is a lofted
- * profile — elliptical rings at every landmark, quads between them,
- * smooth normals — deterministic for a given param set. Zones carry the
- * bible's body-hide IDs so the rig and the equipment masks keep working.
+ * The definitive construction, combining everything the harsh-critic
+ * loop demanded: ONE continuous loft profile per body region (torso,
+ * head, each leg, each arm, each foot) — no junction stacks, no seam
+ * rings — with triangulated outward-wound faces, ONE shared vertex pool
+ * and ONE normal pass, then the body-hide zones as index subsets of the
+ * same surface (no zone seams either). The painterly global gradient
+ * rides on the shared vertex colors.
  */
 
 import * as THREE from 'three';
 
-export interface Slice {
-  /** ring height (meters) */
-  y: number;
-  /** radius along X (side-to-side) */
-  rx: number;
-  /** radius along Z (front-to-back) */
-  rd: number;
-  /** forward shift (+Z — the face direction) */
-  yf: number;
-}
-
 export interface BodyParams {
   height: number;
-  /** acromion-to-acromion */
   shoulderWidth: number;
   chestRadius: number;
   waistRadius: number;
@@ -37,23 +26,18 @@ export interface BodyParams {
   neckRadius: number;
 }
 
-/** The MEASURED defaults — from the CANONICAL reference (eeeeeeeeeee.png),
- * pixel-measured by evidence/measure-reference.cjs (PASS 2): broad
- * shoulders, tan skin, black briefs, compact head. The width bands below
- * the shoulder include the arms, so the torso radii are the band minus
- * the arm mass. */
 export const BODY_DEFAULTS: BodyParams = {
   height: 1.82,
-  shoulderWidth: 0.47,  // pixel band 0.289 of height, deltoid-to-deltoid
-  chestRadius: 0.18,   // the lats read broad in the canonical (band 0.332)
-  waistRadius: 0.125,
-  hipRadius: 0.15,
-  thighRadius: 0.08,
-  calfRadius: 0.058,
-  upperArmRadius: 0.056,
-  forearmRadius: 0.046,
-  headSize: 0.09,       // pixel head width 0.10 of height (narrow, 7.75 HU)
-  neckRadius: 0.048,
+  shoulderWidth: 0.5,
+  chestRadius: 0.17,
+  waistRadius: 0.108,
+  hipRadius: 0.165,
+  thighRadius: 0.073,
+  calfRadius: 0.055,
+  upperArmRadius: 0.055,
+  forearmRadius: 0.045,
+  headSize: 0.118,
+  neckRadius: 0.05,
 };
 
 export interface BodyMaterials {
@@ -65,12 +49,8 @@ export interface BodyMaterials {
 }
 
 export function buildBodyMaterials(): BodyMaterials {
-  // the canonical reference, pixel-sampled: warm tan skin (208,166,131),
-  // near-black warm hair (29,21,14), BLACK fitted boxer-briefs.
-  // DoubleSide everywhere: the torso half-shells and limb caps are open
-  // edges — single-sided culling shows the interior as holes.
   const mats: BodyMaterials = {
-    skin: new THREE.MeshStandardMaterial({ color: 0xd0a683, roughness: 0.7 }),
+    skin: new THREE.MeshStandardMaterial({ color: 0xd0a683, roughness: 0.68 }),
     hair: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.88 }),
     eye: new THREE.MeshStandardMaterial({ color: 0x070707, roughness: 0.2 }),
     brow: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.9 }),
@@ -80,106 +60,20 @@ export function buildBodyMaterials(): BodyMaterials {
   return mats;
 }
 
-/** Loft a profile of elliptical rings into a smooth BufferGeometry.
- * half: null | 'front' | 'back' — the torso splits into chest/back. */
-function loftGeometry(
-  slices: Slice[],
-  segments: number,
-  half: 'front' | 'back' | null,
-  xo = 0,
-): THREE.BufferGeometry {
-  let idx: number[];
-  if (half === null) idx = Array.from({ length: segments }, (_, i) => i);
-  else if (half === 'front') idx = Array.from({ length: segments / 2 + 3 }, (_, i) => i); // +3: past the mid-line
-  else {
-    const list: number[] = [];
-    for (let i = segments / 2 - 2; i < segments; i++) list.push(i); // -2: into the front
-    list.push(0, 1, 2);
-    idx = list;
-  }
-  const rings: THREE.Vector3[][] = slices.map((s) =>
-    idx.map((i) => {
-      const a = (i / segments) * Math.PI * 2;
-      return new THREE.Vector3(xo + s.rx * Math.cos(a), s.y, s.yf + s.rd * Math.sin(a));
-    }),
-  );
-  const verts: number[] = [];
-  const faces: number[] = [];
-  const ringStart: number[] = [];
-  for (const ring of rings) {
-    ringStart.push(verts.length / 3);
-    for (const v of ring) verts.push(v.x, v.y, v.z);
-  }
-  for (let k = 0; k < rings.length - 1; k++) {
-    const lo = ringStart[k], hi = ringStart[k + 1], n = idx.length - 1;
-    for (let i = 0; i < n; i++) {
-      // each quad becomes TWO triangles (the index buffer is triangles —
-      // feeding quads produced the disconnected-floating-triangles mess)
-      // outward winding: (lo, hi, hi+1) + (lo, hi+1, lo+1)
-      faces.push(lo + i, hi + i, hi + i + 1);
-      faces.push(lo + i, hi + i + 1, lo + i + 1);
-    }
-  }
-  // caps: fan-triangulated around a pole at the ring center. The TOP cap
-  // winds CCW (outward); the BOTTOM cap must wind the OTHER way, or it
-  // reads inside-out and gets culled — the transparent-triangle bug.
-  for (const k of [0, rings.length - 1]) {
-    const pole = verts.length / 3;
-    const s = slices[k];
-    verts.push(xo, s.y, s.yf);
-    const start = ringStart[k], n = idx.length;
-    if (half === null) {
-      for (let i = 0; i < n; i++) {
-        const a = start + (i % n), b = start + ((i + 1) % n);
-        if (k === 0) faces.push(pole, b, a);
-        else faces.push(pole, a, b);
-      }
-    } else {
-      for (let i = 0; i < n - 1; i++) {
-        if (k === 0) faces.push(pole, start + i + 1, start + i);
-        else faces.push(pole, start + i, start + i + 1);
-      }
-    }
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
-  geo.setIndex(faces);
-  geo.computeVertexNormals();
-  return geo;
-}
-
-function part(group: THREE.Group, name: string, geo: THREE.BufferGeometry, mat: THREE.Material, paint = false): void {
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.name = name;
-  mesh.castShadow = true;
-  mesh.receiveShadow = true;
-  if (paint) paintSkin(geo);
-  group.add(mesh);
-}
-
-/**
- * The painterly pass (img2threejs LookDev): bake a hand-painted-style
- * vertex shade into the skin — brighter toward the FRONT and the TOP of
- * each mass, cooler and darker toward the back and the bottoms. The
- * material color is the measured tan; these vertex colors carry the
- * shade, so the body reads as softly lit anatomy instead of cardboard.
- */
-function paintSkin(geo: THREE.BufferGeometry): void {
+/** The painterly vertex shade (global vertical gradient + front light). */
+export function paintSkin(geo: THREE.BufferGeometry, bodyHeight = 1.82): void {
   const pos = geo.attributes.position as THREE.BufferAttribute;
   geo.computeBoundingBox();
   const bb = geo.boundingBox!;
   const cx = (bb.min.x + bb.max.x) / 2;
-  const cy = (bb.min.y + bb.max.y) / 2;
   const cz = (bb.min.z + bb.max.z) / 2;
-  const h = Math.max(0.01, bb.max.y - bb.min.y);
   const cols = new Float32Array(pos.count * 3);
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
     const a = Math.atan2(z - cz, x - cx);
     const front = Math.max(0, Math.sin(a));
-    const yNorm = Math.min(1, Math.max(0, (y - bb.min.y) / h));
-    const shade = 0.74 + 0.26 * front - 0.16 * yNorm;
-    // the shadows cool slightly (warm light, cool cavity)
+    const yNorm = Math.max(0, Math.min(1, y / bodyHeight));
+    const shade = 0.74 + 0.26 * front - 0.14 * yNorm;
     cols[i * 3] = shade;
     cols[i * 3 + 1] = shade * (1 - 0.03 * (1 - front));
     cols[i * 3 + 2] = shade * (1 - 0.06 * (1 - front));
@@ -187,256 +81,6 @@ function paintSkin(geo: THREE.BufferGeometry): void {
   geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
 }
 
-/**
- * Build the whole body as code. Deterministic: same params → same mesh.
- * All 22 zone IDs are present so the rig + SLOT_MASKS work unchanged.
- */
-export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group {
-  const H = params.height;
-  const f = (v: number) => v * H / 1.82; // profile is authored at 1.82 m
-  const g = new THREE.Group();
-  g.name = 'body_code';
-
-  const S = f(0.095); // leg half-spacing
-  const A = params.shoulderWidth / 2; // acromion half-width
-  const make = (
-    name: string, slices: Slice[], mat: THREE.Material,
-    half: 'front' | 'back' | null = null, xo = 0, segments = 16,
-  ) => part(g, name, loftGeometry(slices, segments, half, xo), mat, mat === mats.skin);
-
-  const skin = mats.skin, hair = mats.hair, eye = mats.eye, brow = mats.brow, under = mats.under;
-  // the painterly shade rides on vertex colors — the material carries the
-  // measured tan and multiplies the shade channel
-  skin.vertexColors = true;
-
-  // feet: sloped wedges, toes forward
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    make(`zone_FOOT_${side}`, [
-      { y: f(0.0), rx: f(0.046), rd: f(0.036), yf: f(0.16) },
-      { y: f(0.03), rx: f(0.048), rd: f(0.04), yf: f(0.1) },
-      { y: f(0.06), rx: f(0.05), rd: f(0.042), yf: f(0.05) },
-      { y: f(0.09), rx: f(0.046), rd: f(0.04), yf: 0 },
-    ], skin, null, sgn * S);
-  }
-  // calves (overlap the thighs at the knee — no seam spheres)
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    make(`zone_CALF_${side}`, [
-      { y: f(0.09), rx: f(0.044), rd: f(0.04), yf: 0 },
-      { y: f(0.26), rx: params.calfRadius, rd: params.calfRadius * 0.9, yf: 0 },
-      { y: f(0.57), rx: f(0.062), rd: f(0.056), yf: 0 },
-    ], skin, null, sgn * S);
-  }
-  // thighs
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    make(`zone_THIGH_${side}`, [
-      { y: f(0.48), rx: f(0.062), rd: f(0.056), yf: 0 },
-      { y: f(0.74), rx: params.thighRadius, rd: params.thighRadius * 0.94, yf: 0 },
-      { y: f(0.94), rx: f(0.105), rd: f(0.095), yf: 0 },
-    ], skin, null, sgn * S);
-    // the knee cap
-    const kneeGeo = new THREE.SphereGeometry(f(0.036), 10, 6);
-    const knee = new THREE.Mesh(kneeGeo, skin);
-    knee.name = `zone_THIGH_${side}_kneecap`;
-    knee.position.set(sgn * S, f(0.52), f(0.032));
-    knee.scale.set(1.1, 0.75, 0.75);
-    knee.castShadow = true;
-    g.add(knee);
-    // the ankle bones (malleoli)
-    for (const [az, azf] of [[f(0.03), f(0.028)], [f(-0.03), f(0.028)]] as const) {
-      const ankleGeo = new THREE.SphereGeometry(f(0.014), 8, 5);
-      const ankle = new THREE.Mesh(ankleGeo, skin);
-      ankle.name = `zone_CALF_${side}_malleolus`;
-      ankle.position.set(sgn * S, f(0.1), az);
-      ankle.castShadow = true;
-      g.add(ankle);
-    }
-  }
-  // pelvis + glutes
-  make('zone_PELVIS', [
-    { y: f(0.85), rx: f(0.15), rd: f(0.14), yf: 0 },
-    { y: f(0.95), rx: params.hipRadius * 0.98, rd: params.hipRadius * 0.9, yf: 0 },
-    { y: f(1.09), rx: params.hipRadius, rd: params.hipRadius * 0.9, yf: 0 },
-  ], skin);
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    const geo = new THREE.SphereGeometry(f(0.105), 10, 7);
-    const m = new THREE.Mesh(geo, skin);
-    m.name = `zone_GLUTE_${side}`;
-    m.position.set(sgn * f(0.115), f(0.99), -f(0.06));
-    m.scale.set(1, 0.9, 0.8);
-    m.castShadow = true;
-    g.add(m);
-  }
-  // torso: front (chest) + back halves with the waist pinch
-  const chestLower: Slice[] = [
-    { y: f(1.02), rx: params.hipRadius * 0.99, rd: params.hipRadius * 0.89, yf: 0 },
-    { y: f(1.16), rx: params.waistRadius, rd: params.waistRadius * 0.9, yf: 0 },
-    { y: f(1.24), rx: f(0.14), rd: f(0.124), yf: 0 },
-  ];
-  // the reference's chest mass sits LOWER (nipple line at 0.74 from the
-  // bottom ≈ y 1.35 — not 1.42)
-  const chestUpper: Slice[] = [
-    { y: f(1.24), rx: f(0.14), rd: f(0.124), yf: 0 },
-    { y: f(1.34), rx: params.chestRadius * 0.96, rd: params.chestRadius * 0.81, yf: 0 },
-    { y: f(1.46), rx: params.chestRadius, rd: params.chestRadius * 0.83, yf: 0 },
-  ];
-  make('zone_CHEST_LOWER', chestLower, skin, 'front');
-  make('zone_BACK_LOWER', chestLower, skin, 'back');
-  make('zone_CHEST_UPPER', chestUpper, skin, 'front');
-  make('zone_BACK_UPPER', chestUpper, skin, 'back');
-  // ---- the anatomy relief (the reference's defined lean physique) ----
-  // pectorals: two flattened plates
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    const geo = new THREE.SphereGeometry(f(0.048), 10, 7);
-    const m = new THREE.Mesh(geo, skin);
-    m.name = `zone_CHEST_UPPER_pec${side}`;
-    m.position.set(sgn * f(0.062), f(1.36), f(0.075));
-    m.scale.set(0.95, 0.5, 0.72);
-    m.castShadow = true;
-    g.add(m);
-  }
-  // the ab shelf: 4 subtle plates down the belly + the navel
-  for (let k = 0; k < 4; k++) {
-    const geo = new THREE.SphereGeometry(f(0.042), 10, 6);
-    const m = new THREE.Mesh(geo, skin);
-    m.name = `zone_CHEST_LOWER_ab${k}`;
-    m.position.set(0, f(1.28 - k * 0.045), f(0.115));
-    m.scale.set(1.15, 0.22, 0.4);
-    m.castShadow = true;
-    g.add(m);
-  }
-  const navel = new THREE.Mesh(new THREE.SphereGeometry(f(0.009), 8, 5), skin);
-  navel.name = 'zone_CHEST_LOWER_navel';
-  navel.position.set(0, f(1.075), f(0.125));
-  g.add(navel);
-  // collarbones: two thin ridges
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    const geo = new THREE.CylinderGeometry(f(0.008), f(0.008), f(0.085), 6);
-    const m = new THREE.Mesh(geo, skin);
-    m.name = `zone_CHEST_UPPER_clavicle${side}`;
-    m.position.set(sgn * f(0.07), f(1.475), f(0.075));
-    m.rotation.z = sgn * 0.5;
-    m.castShadow = true;
-    g.add(m);
-  }
-  // shoulders (deltoids + traps) — the shoulder line sits at ~1.49
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    const geo = new THREE.SphereGeometry(f(0.07), 10, 7);
-    const m = new THREE.Mesh(geo, skin);
-    m.name = `zone_SHOULDER_${side}`;
-    m.position.set(sgn * A, f(1.48), f(0.02));
-    m.scale.set(1, 0.85, 0.9);
-    m.castShadow = true;
-    g.add(m);
-    const geo2 = new THREE.SphereGeometry(f(0.05), 10, 6);
-    const m2 = new THREE.Mesh(geo2, skin);
-    m2.name = `zone_BACK_UPPER_trap${side}`;
-    m2.position.set(sgn * f(0.13), f(1.52), -f(0.045));
-    m2.scale.set(1.1, 0.7, 0.8);
-    m2.castShadow = true;
-    g.add(m2);
-  }
-  // arms: upper + forearm overlapping at the elbow
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    make(`zone_UPPER_ARM_${side}`, [
-      { y: f(1.18), rx: f(0.048), rd: f(0.044), yf: f(0.03) },
-      { y: f(1.36), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.9, yf: f(0.02) },
-      { y: f(1.52), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.94, yf: f(0.02) },
-    ], skin, null, sgn * A, 12);
-    // the elbow point
-    const elbowGeo = new THREE.SphereGeometry(f(0.02), 8, 5);
-    const elbow = new THREE.Mesh(elbowGeo, skin);
-    elbow.name = `zone_UPPER_ARM_${side}_elbow`;
-    elbow.position.set(sgn * (A + f(0.012)), f(1.2), f(0.04));
-    elbow.castShadow = true;
-    g.add(elbow);
-    make(`zone_FOREARM_${side}`, [
-      { y: f(1.0), rx: f(0.036), rd: f(0.032), yf: f(0.05) },
-      { y: f(1.12), rx: params.forearmRadius * 0.92, rd: params.forearmRadius * 0.84, yf: f(0.05) },
-      { y: f(1.26), rx: params.forearmRadius, rd: params.forearmRadius * 0.92, yf: f(0.04) },
-    ], skin, null, sgn * (A + f(0.012)), 12);
-    // hands: palm loft + fingers
-    make(`zone_HAND_${side}`, [
-      { y: f(0.94), rx: f(0.038), rd: f(0.028), yf: f(0.06) },
-      { y: f(1.02), rx: f(0.036), rd: f(0.026), yf: f(0.07) },
-    ], skin, null, sgn * (A + f(0.012)), 10);
-    for (let k = 0; k < 4; k++) {
-      const dx = [-0.026, -0.008, 0.008, 0.026][k];
-      const geo = new THREE.CylinderGeometry(f(0.01), f(0.01), f(0.055), 6);
-      const m = new THREE.Mesh(geo, skin);
-      m.name = `zone_HAND_${side}_finger${k}`;
-      m.position.set(sgn * (A + f(0.012)) + f(dx), f(0.92), f(0.115));
-      m.castShadow = true;
-      g.add(m);
-    }
-  }
-  // neck + head (lathe profile)
-  make('zone_NECK', [
-    { y: f(1.56), rx: params.neckRadius, rd: params.neckRadius * 0.91, yf: 0 },
-    { y: f(1.62), rx: f(0.05), rd: f(0.046), yf: 0 },
-  ], skin);
-  make('char_head', [
-    { y: f(1.5), rx: f(0.042), rd: f(0.04), yf: 0 },
-    { y: f(1.58), rx: f(0.052), rd: f(0.048), yf: 0 },
-    { y: f(1.66), rx: params.headSize * 0.62, rd: params.headSize * 0.6, yf: 0 },
-    { y: f(1.72), rx: params.headSize * 0.72, rd: params.headSize * 0.68, yf: 0 },
-    { y: f(1.78), rx: params.headSize * 0.68, rd: params.headSize * 0.64, yf: 0 },
-    { y: f(1.83), rx: params.headSize * 0.56, rd: params.headSize * 0.54, yf: 0 },
-  ], skin, null, 0, 20);
-  // face: eyes, brows, nose, mouth (stylized, must READ)
-  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    const geo = new THREE.SphereGeometry(f(0.024), 8, 5);
-    const m = new THREE.Mesh(geo, eye);
-    m.name = `char_face_eye${side}`;
-    m.position.set(sgn * f(0.04), f(1.71), f(0.104));
-    m.scale.set(0.75, 0.65, 1);
-    m.castShadow = true;
-    g.add(m);
-    const geo2 = new THREE.BoxGeometry(f(0.038), f(0.009), f(0.009));
-    const m2 = new THREE.Mesh(geo2, brow);
-    m2.name = `char_face_brow${side}`;
-    m2.position.set(sgn * f(0.04), f(1.716), f(0.117));
-    g.add(m2);
-  }
-  const nose = new THREE.ConeGeometry(f(0.014), f(0.03), 8);
-  const nm = new THREE.Mesh(nose, skin);
-  nm.name = 'char_face_nose';
-  nm.position.set(0, f(1.678), f(0.106));
-  nm.rotation.x = Math.PI / 2;
-  g.add(nm);
-  const mouth = new THREE.Mesh(new THREE.BoxGeometry(f(0.036), f(0.008), f(0.007)), brow);
-  mouth.name = 'char_face_mouth';
-  mouth.position.set(0, f(1.665), f(0.088));
-  g.add(mouth);
-  // the hair (CODE, per the reference): the scalp cap fitted to the head,
-  // plus the compact TOPKNOT bun at the crown — black, pulled back
-  const scalp = new THREE.Mesh(new THREE.SphereGeometry(f(0.088), 14, 8), hair);
-  scalp.name = 'zone_HEAD_SCALP';
-  scalp.position.set(0, f(1.755), -f(0.008));
-  scalp.scale.set(1, 0.66, 0.95);
-  g.add(scalp);
-  const bun = new THREE.Mesh(new THREE.SphereGeometry(f(0.042), 10, 7), hair);
-  bun.name = 'zone_HEAD_SCALP_topknot';
-  bun.position.set(0, f(1.855), -f(0.02));
-  bun.scale.set(0.85, 0.9, 1);
-  g.add(bun);
-  const tie = new THREE.Mesh(new THREE.TorusGeometry(f(0.02), f(0.006), 8, 12), hair);
-  tie.name = 'zone_HEAD_SCALP_tie';
-  tie.position.set(0, f(1.815), -f(0.03));
-  tie.rotation.x = Math.PI / 2;
-  g.add(tie);
-  // the modest undergarments: briefs (the reference's are white and reach
-  // ~0.15 down the thigh — a short brief, not long shorts)
-  make('underwear_briefs', [
-    { y: f(0.76), rx: f(0.146), rd: f(0.124), yf: 0 },
-    { y: f(0.88), rx: f(0.158), rd: f(0.136), yf: 0 },
-    { y: f(0.95), rx: params.hipRadius, rd: params.hipRadius * 0.88, yf: 0 },
-    { y: f(1.06), rx: params.hipRadius * 1.01, rd: params.hipRadius * 0.89, yf: 0 },
-  ], under);
-
-  return g;
-}
-
-/** The landmark heights for the croquis overlay, derived from the params. */
 export function bodyLandmarks(params: BodyParams): Array<{ name: string; y: number }> {
   const H = params.height;
   const f = (v: number) => v * H / 1.82;
@@ -453,4 +97,241 @@ export function bodyLandmarks(params: BodyParams): Array<{ name: string; y: numb
     { name: 'ankle', y: f(0.09) },
     { name: 'feet', y: f(0.0) },
   ];
+}
+
+interface Slice { y: number; rx: number; rd: number; yf: number; }
+interface LoftPart { name: string; slices: Slice[]; zone: string; xo: number; segments: number; }
+
+/** One continuous loft: elliptical rings → triangulated outward faces. */
+function loftGeometry(slices: Slice[], segments: number, xo: number): THREE.BufferGeometry {
+  const rings: number[][] = [];
+  const verts: number[] = [];
+  for (const s of slices) {
+    const ring: number[] = [];
+    for (let i = 0; i < segments; i++) {
+      const a = (i / segments) * Math.PI * 2;
+      ring.push(verts.length / 3);
+      verts.push(xo + s.rx * Math.cos(a), s.y, s.yf + s.rd * Math.sin(a));
+    }
+    rings.push(ring);
+  }
+  const faces: number[] = [];
+  for (let k = 0; k < rings.length - 1; k++) {
+    const lo = rings[k], hi = rings[k + 1];
+    for (let i = 0; i < segments; i++) {
+      const j = (i + 1) % segments;
+      faces.push(lo[i], hi[i], hi[j]);
+      faces.push(lo[i], hi[j], lo[j]);
+    }
+  }
+  // caps: fan around a pole, bottom reversed
+  for (const k of [0, rings.length - 1]) {
+    const s = slices[k];
+    const pole = verts.length / 3;
+    verts.push(xo, s.y, s.yf);
+    const ring = rings[k];
+    for (let i = 0; i < segments; i++) {
+      const a = ring[i], b = ring[(i + 1) % segments];
+      if (k === 0) faces.push(pole, b, a);
+      else faces.push(pole, a, b);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+  geo.setIndex(faces);
+  return geo;
+}
+
+/** Build the body: continuous lofts → one pool → one normal pass →
+ * zone index subsets. */
+export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group {
+  const H = params.height;
+  const f = (v: number) => v * H / 1.82;
+  const S = f(0.095);
+  const A = params.shoulderWidth / 2;
+
+  const parts: LoftPart[] = [
+    // the TORSO: ONE profile from the hips up through the neck — the
+    // waist pinch and the chest/lat flare are rings, not junctions
+    {
+      name: 'torso', zone: 'torso', xo: 0, segments: 20,
+      slices: [
+        { y: f(0.85), rx: f(0.135), rd: f(0.12), yf: 0 },
+        { y: f(0.97), rx: params.hipRadius, rd: params.hipRadius * 0.9, yf: 0 },
+        { y: f(1.05), rx: f(0.15), rd: f(0.135), yf: 0 },
+        { y: f(1.15), rx: params.waistRadius, rd: params.waistRadius * 0.9, yf: 0 },
+        { y: f(1.26), rx: f(0.155), rd: f(0.138), yf: 0 },
+        { y: f(1.38), rx: params.chestRadius, rd: params.chestRadius * 0.82, yf: f(0.005) },
+        { y: f(1.47), rx: params.chestRadius * 0.98, rd: params.chestRadius * 0.8, yf: f(0.01) },
+        // the DELTOID mass: the shoulders WIDEN for a real band, then
+        // taper into the neck (the reference's broad-shouldered read)
+        { y: f(1.49), rx: params.shoulderWidth * 0.47, rd: params.chestRadius * 0.75, yf: f(0.01) },
+        { y: f(1.53), rx: params.shoulderWidth * 0.5, rd: params.chestRadius * 0.72, yf: f(0.012) },
+        { y: f(1.56), rx: params.shoulderWidth * 0.44, rd: params.chestRadius * 0.7, yf: f(0.01) },
+        { y: f(1.59), rx: f(0.085), rd: f(0.075), yf: f(0.005) },
+        { y: f(1.62), rx: f(0.05), rd: f(0.045), yf: 0 }, // the neck, same loft
+      ],
+    },
+    // the HEAD (overlaps the neck)
+    {
+      name: 'head', zone: 'head', xo: 0, segments: 20,
+      slices: [
+        { y: f(1.56), rx: f(0.045), rd: f(0.042), yf: 0 },
+        { y: f(1.62), rx: f(0.06), rd: f(0.055), yf: f(0.002) }, // jaw base
+        { y: f(1.68), rx: params.headSize * 0.9, rd: params.headSize * 0.86, yf: f(0.004) },
+        { y: f(1.74), rx: params.headSize, rd: params.headSize * 0.95, yf: f(0.004) },
+        { y: f(1.79), rx: params.headSize * 0.82, rd: params.headSize * 0.78, yf: f(0.003) },
+        { y: f(1.83), rx: params.headSize * 0.6, rd: params.headSize * 0.58, yf: f(0.002) },
+      ],
+    },
+  ];
+  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
+    const s = side;
+    parts.push(
+      // each LEG: thigh → knee → calf → ankle, ONE loft
+      {
+        name: `leg_${s}`, zone: `leg_${s}`, xo: sgn * S, segments: 14,
+        slices: [
+          { y: f(0.02), rx: f(0.042), rd: f(0.038), yf: f(0.06) },
+          { y: f(0.09), rx: f(0.045), rd: f(0.04), yf: f(0.02) },
+          { y: f(0.3), rx: params.calfRadius, rd: params.calfRadius * 0.9, yf: 0 },
+          { y: f(0.5), rx: f(0.058), rd: f(0.052), yf: f(0.005) }, // the knee ring
+          { y: f(0.74), rx: params.thighRadius, rd: params.thighRadius * 0.94, yf: 0 },
+          { y: f(0.94), rx: f(0.1), rd: f(0.09), yf: 0 },
+        ],
+      },
+      // each ARM: shoulder → elbow → wrist, ONE loft, slightly out
+      {
+        name: `arm_${s}`, zone: `arm_${s}`, xo: sgn * (A + f(0.012)), segments: 12,
+        slices: [
+          { y: f(0.98), rx: f(0.036), rd: f(0.032), yf: f(0.06) }, // hand-ish base
+          { y: f(1.12), rx: params.forearmRadius, rd: params.forearmRadius * 0.9, yf: f(0.05) },
+          { y: f(1.24), rx: f(0.048), rd: f(0.044), yf: f(0.04) }, // elbow
+          { y: f(1.42), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.9, yf: f(0.02) },
+          { y: f(1.5), rx: f(0.058), rd: f(0.054), yf: f(0.015) },
+        ],
+      },
+      // the FOOT: one tapered wedge
+      {
+        name: `foot_${s}`, zone: `foot_${s}`, xo: sgn * S, segments: 10,
+        slices: [
+          { y: f(0.0), rx: f(0.045), rd: f(0.034), yf: f(0.16) },
+          { y: f(0.03), rx: f(0.048), rd: f(0.038), yf: f(0.1) },
+          { y: f(0.06), rx: f(0.05), rd: f(0.04), yf: f(0.05) },
+          { y: f(0.09), rx: f(0.045), rd: f(0.038), yf: 0 },
+        ],
+      },
+    );
+  }
+
+  // ---- one pool, one normal pass, zone index subsets ----
+  const pool: number[] = [];
+  const triZones: Array<{ zone: string; tris: number[] }> = [];
+  const matOf = new Map<string, THREE.Material>();
+  for (const part of parts) {
+    const geo = loftGeometry(part.slices, part.segments, part.xo);
+    geo.computeVertexNormals();
+    const posAttr = geo.attributes.position as THREE.BufferAttribute;
+    const normAttr = geo.attributes.normal as THREE.BufferAttribute;
+    const idx = Array.from(geo.index!.array as ArrayLike<number>);
+    const base = pool.length / 3;
+    for (let i = 0; i < posAttr.count; i++) pool.push(posAttr.getX(i), posAttr.getY(i), posAttr.getZ(i));
+    const tris: number[] = [];
+    for (const v of idx) tris.push(base + v);
+    const entry = { zone: part.zone, tris };
+    triZones.push(entry);
+    matOf.set(part.zone, mats.skin);
+  }
+
+  const globalGeo = new THREE.BufferGeometry();
+  globalGeo.setAttribute('position', new THREE.Float32BufferAttribute(pool, 3));
+  const globalIdx: number[] = [];
+  for (const tz of triZones) for (const v of tz.tris) globalIdx.push(v);
+  globalGeo.setIndex(globalIdx);
+  globalGeo.computeVertexNormals();
+  paintSkin(globalGeo, H);
+  const gNorm = globalGeo.attributes.normal as THREE.BufferAttribute;
+  const gCol = globalGeo.attributes.color as THREE.BufferAttribute;
+
+  const g = new THREE.Group();
+  g.name = 'body_lofted';
+  const zoneNames = new Map<string, string[]>();
+  const zoneOf = (n: string, cy: number): string => {
+    if (n === 'torso') return cy < f(0.99) ? 'zone_PELVIS' : cy < f(1.2) ? 'zone_CHEST_LOWER' : cy < f(1.5) ? 'zone_CHEST_UPPER' : 'zone_NECK';
+    if (n === 'head') return 'char_head';
+    if (n.startsWith('leg_')) return cy > f(0.55) ? `zone_THIGH_${n.slice(4)}` : `zone_CALF_${n.slice(4)}`;
+    if (n.startsWith('arm_')) return cy > f(1.26) ? `zone_UPPER_ARM_${n.slice(4)}` : cy > f(1.05) ? `zone_FOREARM_${n.slice(4)}` : `zone_HAND_${n.slice(4)}`;
+    if (n.startsWith('foot_')) return `zone_FOOT_${n.slice(5)}`;
+    return 'char_head';
+  };
+  const zoneTris = new Map<string, number[]>();
+  const posArr = globalGeo.attributes.position as THREE.BufferAttribute;
+  for (const tz of triZones) {
+    for (let t = 0; t < tz.tris.length; t += 3) {
+      const a = tz.tris[t], b = tz.tris[t + 1], c = tz.tris[t + 2];
+      const cy = (posArr.getY(a) + posArr.getY(b) + posArr.getY(c)) / 3;
+      const z = zoneOf(tz.zone, cy);
+      if (!zoneTris.has(z)) zoneTris.set(z, []);
+      zoneTris.get(z)!.push(a, b, c);
+    }
+  }
+  for (const [zone, tris] of zoneTris) {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', globalGeo.attributes.position);
+    geo.setAttribute('normal', gNorm);
+    geo.setAttribute('color', gCol);
+    geo.setIndex(tris);
+    const mesh = new THREE.Mesh(geo, mats.skin);
+    mesh.name = zone;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    g.add(mesh);
+  }
+
+  // the scalp + topknot (the hair mass over the head top)
+  for (const spec of [
+    { name: 'zone_HEAD_SCALP', geo: new THREE.SphereGeometry(f(0.105), 16, 12), pos: [0, f(1.73), -f(0.008)] as [number, number, number], scale: [0.95, 0.62, 0.98] as [number, number, number] },
+    { name: 'zone_HEAD_SCALP_topknot', geo: new THREE.SphereGeometry(f(0.04), 10, 8), pos: [0, f(1.855), -f(0.015)] as [number, number, number], scale: [0.85, 0.9, 1] as [number, number, number] },
+  ]) {
+    const m = new THREE.Mesh(spec.geo, mats.hair);
+    m.name = spec.name;
+    m.position.set(...spec.pos);
+    m.scale.set(...spec.scale);
+    m.castShadow = true;
+    g.add(m);
+  }
+  // the face: eyes, brows, nose, mouth (L3 isolates)
+  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(f(0.02), 8, 6), mats.eye);
+    eye.name = `char_face_eye${side}`;
+    eye.position.set(sgn * f(0.036), f(1.7), f(0.105));
+    eye.scale.set(0.7, 0.55, 1);
+    g.add(eye);
+    const brow = new THREE.Mesh(new THREE.BoxGeometry(f(0.032), f(0.007), f(0.008)), mats.brow);
+    brow.name = `char_face_brow${side}`;
+    brow.position.set(sgn * f(0.036), f(1.712), f(0.111));
+    g.add(brow);
+  }
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(f(0.012), f(0.026), 8), mats.skin);
+  nose.name = 'char_face_nose';
+  nose.position.set(0, f(1.672), f(0.11));
+  nose.rotation.x = Math.PI / 2;
+  g.add(nose);
+  const mouth = new THREE.Mesh(new THREE.BoxGeometry(f(0.03), f(0.006), f(0.006)), mats.brow);
+  mouth.name = 'char_face_mouth';
+  mouth.position.set(0, f(1.648), f(0.105));
+  g.add(mouth);
+  // the black fitted boxer-briefs (a lofted shell over the pelvis)
+  const briefsGeo = loftGeometry([
+    { y: f(0.76), rx: f(0.14), rd: f(0.12), yf: 0 },
+    { y: f(0.9), rx: params.hipRadius * 1.02, rd: params.hipRadius * 0.92, yf: 0 },
+    { y: f(1.05), rx: params.hipRadius * 1.03, rd: params.hipRadius * 0.9, yf: 0 },
+  ], 18, 0);
+  briefsGeo.computeVertexNormals();
+  const briefs = new THREE.Mesh(briefsGeo, mats.under);
+  briefs.name = 'underwear_briefs';
+  briefs.castShadow = true;
+  g.add(briefs);
+
+  return g;
 }
