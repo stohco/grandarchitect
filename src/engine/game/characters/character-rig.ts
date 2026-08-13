@@ -118,6 +118,29 @@ export class CharacterRig {
     return this.robe;
   }
 
+  /**
+   * The bible §9 attachment sockets — named marker points the equipment
+   * system attaches to. Positions are relative to the body root (the
+   * measured proportions).
+   */
+  get sockets(): Array<{ name: string; position: THREE.Vector3 }> {
+    return [
+      { name: 'SOCKET_HAND_R', position: new THREE.Vector3(0.31, 0.95, 0.06) },
+      { name: 'SOCKET_HAND_L', position: new THREE.Vector3(-0.31, 0.95, 0.06) },
+      { name: 'SOCKET_HEAD_TOP', position: new THREE.Vector3(0, 1.86, -0.02) },
+      { name: 'SOCKET_FACE', position: new THREE.Vector3(0, 1.7, 0.11) },
+      { name: 'SOCKET_CHEST', position: new THREE.Vector3(0, 1.36, 0.1) },
+      { name: 'SOCKET_SHOULDER_L', position: new THREE.Vector3(-0.235, 1.49, 0.02) },
+      { name: 'SOCKET_SHOULDER_R', position: new THREE.Vector3(0.235, 1.49, 0.02) },
+      { name: 'SOCKET_BACK_CENTER', position: new THREE.Vector3(0, 1.4, -0.1) },
+      { name: 'SOCKET_WAIST_L', position: new THREE.Vector3(-0.15, 1.02, 0.1) },
+      { name: 'SOCKET_WAIST_R', position: new THREE.Vector3(0.15, 1.02, 0.1) },
+      { name: 'SOCKET_FX_PALM_L', position: new THREE.Vector3(-0.3, 0.98, 0.1) },
+      { name: 'SOCKET_FX_PALM_R', position: new THREE.Vector3(0.3, 0.98, 0.1) },
+      { name: 'SOCKET_FX_FEET', position: new THREE.Vector3(0, 0.05, 0.1) },
+    ];
+  }
+
   /** Advance the walk: arms swing, head steadies, torso breathes. */
   update(dt: number, speed: number, heading: number): void {
     this.clock += dt;
