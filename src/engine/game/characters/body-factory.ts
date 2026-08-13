@@ -148,12 +148,43 @@ function loftGeometry(
   return geo;
 }
 
-function part(group: THREE.Group, name: string, geo: THREE.BufferGeometry, mat: THREE.Material): void {
+function part(group: THREE.Group, name: string, geo: THREE.BufferGeometry, mat: THREE.Material, paint = false): void {
   const mesh = new THREE.Mesh(geo, mat);
   mesh.name = name;
   mesh.castShadow = true;
   mesh.receiveShadow = true;
+  if (paint) paintSkin(geo);
   group.add(mesh);
+}
+
+/**
+ * The painterly pass (img2threejs LookDev): bake a hand-painted-style
+ * vertex shade into the skin — brighter toward the FRONT and the TOP of
+ * each mass, cooler and darker toward the back and the bottoms. The
+ * material color is the measured tan; these vertex colors carry the
+ * shade, so the body reads as softly lit anatomy instead of cardboard.
+ */
+function paintSkin(geo: THREE.BufferGeometry): void {
+  const pos = geo.attributes.position as THREE.BufferAttribute;
+  geo.computeBoundingBox();
+  const bb = geo.boundingBox!;
+  const cx = (bb.min.x + bb.max.x) / 2;
+  const cy = (bb.min.y + bb.max.y) / 2;
+  const cz = (bb.min.z + bb.max.z) / 2;
+  const h = Math.max(0.01, bb.max.y - bb.min.y);
+  const cols = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    const a = Math.atan2(z - cz, x - cx);
+    const front = Math.max(0, Math.sin(a));
+    const yNorm = Math.min(1, Math.max(0, (y - bb.min.y) / h));
+    const shade = 0.74 + 0.26 * front - 0.16 * yNorm;
+    // the shadows cool slightly (warm light, cool cavity)
+    cols[i * 3] = shade;
+    cols[i * 3 + 1] = shade * (1 - 0.03 * (1 - front));
+    cols[i * 3 + 2] = shade * (1 - 0.06 * (1 - front));
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
 }
 
 /**
@@ -171,9 +202,12 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
   const make = (
     name: string, slices: Slice[], mat: THREE.Material,
     half: 'front' | 'back' | null = null, xo = 0, segments = 16,
-  ) => part(g, name, loftGeometry(slices, segments, half, xo), mat);
+  ) => part(g, name, loftGeometry(slices, segments, half, xo), mat, mat === mats.skin);
 
   const skin = mats.skin, hair = mats.hair, eye = mats.eye, brow = mats.brow, under = mats.under;
+  // the painterly shade rides on vertex colors — the material carries the
+  // measured tan and multiplies the shade channel
+  skin.vertexColors = true;
 
   // feet: sloped wedges, toes forward
   for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
@@ -199,6 +233,23 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
       { y: f(0.74), rx: params.thighRadius, rd: params.thighRadius * 0.94, yf: 0 },
       { y: f(0.94), rx: f(0.105), rd: f(0.095), yf: 0 },
     ], skin, null, sgn * S);
+    // the knee cap
+    const kneeGeo = new THREE.SphereGeometry(f(0.036), 10, 6);
+    const knee = new THREE.Mesh(kneeGeo, skin);
+    knee.name = `zone_THIGH_${side}_kneecap`;
+    knee.position.set(sgn * S, f(0.52), f(0.032));
+    knee.scale.set(1.1, 0.75, 0.75);
+    knee.castShadow = true;
+    g.add(knee);
+    // the ankle bones (malleoli)
+    for (const [az, azf] of [[f(0.03), f(0.028)], [f(-0.03), f(0.028)]] as const) {
+      const ankleGeo = new THREE.SphereGeometry(f(0.014), 8, 5);
+      const ankle = new THREE.Mesh(ankleGeo, skin);
+      ankle.name = `zone_CALF_${side}_malleolus`;
+      ankle.position.set(sgn * S, f(0.1), az);
+      ankle.castShadow = true;
+      g.add(ankle);
+    }
   }
   // pelvis + glutes
   make('zone_PELVIS', [
@@ -232,6 +283,41 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
   make('zone_BACK_LOWER', chestLower, skin, 'back');
   make('zone_CHEST_UPPER', chestUpper, skin, 'front');
   make('zone_BACK_UPPER', chestUpper, skin, 'back');
+  // ---- the anatomy relief (the reference's defined lean physique) ----
+  // pectorals: two flattened plates
+  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
+    const geo = new THREE.SphereGeometry(f(0.048), 10, 7);
+    const m = new THREE.Mesh(geo, skin);
+    m.name = `zone_CHEST_UPPER_pec${side}`;
+    m.position.set(sgn * f(0.062), f(1.36), f(0.075));
+    m.scale.set(0.95, 0.5, 0.72);
+    m.castShadow = true;
+    g.add(m);
+  }
+  // the ab shelf: 4 subtle plates down the belly + the navel
+  for (let k = 0; k < 4; k++) {
+    const geo = new THREE.SphereGeometry(f(0.042), 10, 6);
+    const m = new THREE.Mesh(geo, skin);
+    m.name = `zone_CHEST_LOWER_ab${k}`;
+    m.position.set(0, f(1.28 - k * 0.045), f(0.115));
+    m.scale.set(1.15, 0.22, 0.4);
+    m.castShadow = true;
+    g.add(m);
+  }
+  const navel = new THREE.Mesh(new THREE.SphereGeometry(f(0.009), 8, 5), skin);
+  navel.name = 'zone_CHEST_LOWER_navel';
+  navel.position.set(0, f(1.075), f(0.125));
+  g.add(navel);
+  // collarbones: two thin ridges
+  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
+    const geo = new THREE.CylinderGeometry(f(0.008), f(0.008), f(0.085), 6);
+    const m = new THREE.Mesh(geo, skin);
+    m.name = `zone_CHEST_UPPER_clavicle${side}`;
+    m.position.set(sgn * f(0.07), f(1.475), f(0.075));
+    m.rotation.z = sgn * 0.5;
+    m.castShadow = true;
+    g.add(m);
+  }
   // shoulders (deltoids + traps) — the shoulder line sits at ~1.49
   for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
     const geo = new THREE.SphereGeometry(f(0.07), 10, 7);
@@ -256,6 +342,13 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
       { y: f(1.36), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.9, yf: f(0.02) },
       { y: f(1.52), rx: params.upperArmRadius, rd: params.upperArmRadius * 0.94, yf: f(0.02) },
     ], skin, null, sgn * A, 12);
+    // the elbow point
+    const elbowGeo = new THREE.SphereGeometry(f(0.02), 8, 5);
+    const elbow = new THREE.Mesh(elbowGeo, skin);
+    elbow.name = `zone_UPPER_ARM_${side}_elbow`;
+    elbow.position.set(sgn * (A + f(0.012)), f(1.2), f(0.04));
+    elbow.castShadow = true;
+    g.add(elbow);
     make(`zone_FOREARM_${side}`, [
       { y: f(1.0), rx: f(0.036), rd: f(0.032), yf: f(0.05) },
       { y: f(1.12), rx: params.forearmRadius * 0.92, rd: params.forearmRadius * 0.84, yf: f(0.05) },
