@@ -157,15 +157,15 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
       name: 'torso', zone: 'torso', xo: 0, segments: 20,
       slices: [
         { y: f(0.85), rx: f(0.135), rd: f(0.12), yf: 0 },
-        { y: f(0.97), rx: params.hipRadius, rd: params.hipRadius * 0.9, yf: 0 },
-        { y: f(1.05), rx: f(0.15), rd: f(0.135), yf: 0 },
-        { y: f(1.15), rx: params.waistRadius, rd: params.waistRadius * 0.9, yf: 0 },
-        { y: f(1.26), rx: f(0.155), rd: f(0.138), yf: 0 },
-        { y: f(1.38), rx: params.chestRadius, rd: params.chestRadius * 0.82, yf: f(0.005) },
-        { y: f(1.47), rx: params.chestRadius * 0.98, rd: params.chestRadius * 0.8, yf: f(0.01) },
+        { y: f(0.97), rx: params.hipRadius, rd: params.hipRadius * 0.92, yf: -f(0.02) }, // glutes bulge back
+        { y: f(1.05), rx: f(0.15), rd: f(0.135), yf: -f(0.01) },
+        { y: f(1.15), rx: params.waistRadius, rd: params.waistRadius * 0.9, yf: 0 }, // the waist, the S-curve in
+        { y: f(1.26), rx: f(0.155), rd: f(0.138), yf: f(0.01) },
+        { y: f(1.38), rx: params.chestRadius, rd: params.chestRadius * 0.84, yf: f(0.028) }, // the chest thrusts forward
+        { y: f(1.47), rx: params.chestRadius * 0.98, rd: params.chestRadius * 0.8, yf: f(0.022) },
         // the DELTOID mass: the shoulders WIDEN for a real band, then
         // taper into the neck (the reference's broad-shouldered read)
-        { y: f(1.49), rx: params.shoulderWidth * 0.47, rd: params.chestRadius * 0.75, yf: f(0.01) },
+        { y: f(1.49), rx: params.shoulderWidth * 0.47, rd: params.chestRadius * 0.75, yf: f(0.015) },
         { y: f(1.53), rx: params.shoulderWidth * 0.5, rd: params.chestRadius * 0.72, yf: f(0.012) },
         { y: f(1.56), rx: params.shoulderWidth * 0.44, rd: params.chestRadius * 0.7, yf: f(0.01) },
         { y: f(1.59), rx: f(0.085), rd: f(0.075), yf: f(0.005) },
@@ -194,8 +194,9 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
         slices: [
           { y: f(0.02), rx: f(0.042), rd: f(0.038), yf: f(0.06) },
           { y: f(0.09), rx: f(0.045), rd: f(0.04), yf: f(0.02) },
-          { y: f(0.3), rx: params.calfRadius, rd: params.calfRadius * 0.9, yf: 0 },
-          { y: f(0.5), rx: f(0.058), rd: f(0.052), yf: f(0.005) }, // the knee ring
+          { y: f(0.3), rx: f(0.06), rd: f(0.054), yf: 0 }, // the CALF bulge
+          { y: f(0.42), rx: f(0.052), rd: f(0.048), yf: f(0.003) },
+          { y: f(0.5), rx: f(0.056), rd: f(0.05), yf: f(0.006) }, // the knee
           { y: f(0.74), rx: params.thighRadius, rd: params.thighRadius * 0.94, yf: 0 },
           { y: f(0.94), rx: f(0.1), rd: f(0.09), yf: 0 },
         ],
