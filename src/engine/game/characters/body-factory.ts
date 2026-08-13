@@ -49,11 +49,13 @@ export interface BodyMaterials {
 }
 
 export function buildBodyMaterials(): BodyMaterials {
+  // the style bible §8: skin roughness 0.42–0.62 (subtle subsurface,
+  // never waxy), hair 0.30–0.55 (sheen), matte black undergarments
   const mats: BodyMaterials = {
-    skin: new THREE.MeshStandardMaterial({ color: 0xd0a683, roughness: 0.68 }),
-    hair: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.88 }),
+    skin: new THREE.MeshStandardMaterial({ color: 0xd0a683, roughness: 0.55 }),
+    hair: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.45 }),
     eye: new THREE.MeshStandardMaterial({ color: 0x070707, roughness: 0.2 }),
-    brow: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.9 }),
+    brow: new THREE.MeshStandardMaterial({ color: 0x1d150e, roughness: 0.55 }),
     under: new THREE.MeshStandardMaterial({ color: 0x1c1b1a, roughness: 0.85 }),
   };
   for (const m of Object.values(mats)) m.side = THREE.DoubleSide;
@@ -212,14 +214,14 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
           { y: f(1.5), rx: f(0.058), rd: f(0.054), yf: f(0.015) },
         ],
       },
-      // the FOOT: one tapered wedge
+      // each FOOT: one tapered wedge, 0.27 m long per the bible §3
       {
         name: `foot_${s}`, zone: `foot_${s}`, xo: sgn * S, segments: 10,
         slices: [
-          { y: f(0.0), rx: f(0.045), rd: f(0.034), yf: f(0.16) },
-          { y: f(0.03), rx: f(0.048), rd: f(0.038), yf: f(0.1) },
-          { y: f(0.06), rx: f(0.05), rd: f(0.04), yf: f(0.05) },
-          { y: f(0.09), rx: f(0.045), rd: f(0.038), yf: 0 },
+          { y: f(0.0), rx: f(0.046), rd: f(0.034), yf: f(0.24) },
+          { y: f(0.03), rx: f(0.049), rd: f(0.038), yf: f(0.17) },
+          { y: f(0.06), rx: f(0.05), rd: f(0.04), yf: f(0.1) },
+          { y: f(0.09), rx: f(0.045), rd: f(0.038), yf: f(0.03) },
         ],
       },
     );
@@ -287,6 +289,37 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     g.add(mesh);
+  }
+
+  // ---- the HANDS (bible §3: 0.19 m) — palm + four fingers per side ----
+  for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
+    const handX = sgn * (A + f(0.012) + f(0.02));
+    const palmGeo = new THREE.CapsuleGeometry(f(0.03), f(0.05), 4, 10);
+    const palm = new THREE.Mesh(palmGeo, mats.skin);
+    palm.name = `zone_HAND_${side}_palm`;
+    palm.position.set(handX, f(0.95), f(0.06));
+    palm.castShadow = true;
+    palm.receiveShadow = true;
+    g.add(palm);
+    const fingerSpecs: Array<[number, number, number]> = [
+      [-f(0.022), f(0.99), 0.9], [-f(0.008), f(0.99), 1],
+      [f(0.008), f(0.99), 1], [f(0.022), f(0.99), 0.9],
+    ];
+    fingerSpecs.forEach(([dx, dz, lenScale], k) => {
+      const fg = new THREE.CapsuleGeometry(f(0.009), f(0.045 * lenScale), 4, 8);
+      const fm = new THREE.Mesh(fg, mats.skin);
+      fm.name = `zone_HAND_${side}_finger${k}`;
+      fm.position.set(handX + dx, f(0.95), f(0.1 + 0.03 * lenScale));
+      fm.castShadow = true;
+      g.add(fm);
+    });
+    const tg = new THREE.CapsuleGeometry(f(0.01), f(0.04), 4, 8);
+    const thumb = new THREE.Mesh(tg, mats.skin);
+    thumb.name = `zone_HAND_${side}_thumb`;
+    thumb.position.set(handX - sgn * f(0.035), f(0.98), f(0.07));
+    thumb.rotation.z = sgn * 0.9;
+    thumb.castShadow = true;
+    g.add(thumb);
   }
 
   // the scalp + topknot (the hair mass over the head top)
