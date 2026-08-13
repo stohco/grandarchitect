@@ -62,9 +62,13 @@ export function buildBodyMaterials(): BodyMaterials {
   return mats;
 }
 
-/** The painterly vertex shade (global vertical gradient + front light). */
+/** The painterly vertex shade (img2threejs + the bible's weathered
+ * language): front-bright, cavity-dark — underside surfaces (under the
+ * pecs, the armpits, the glutes) pick up a normal-aware AO term so the
+ * body reads as hand-painted volume, not flat PBR. */
 export function paintSkin(geo: THREE.BufferGeometry, bodyHeight = 1.82): void {
   const pos = geo.attributes.position as THREE.BufferAttribute;
+  const norm = geo.attributes.normal as THREE.BufferAttribute;
   geo.computeBoundingBox();
   const bb = geo.boundingBox!;
   const cx = (bb.min.x + bb.max.x) / 2;
@@ -75,7 +79,10 @@ export function paintSkin(geo: THREE.BufferGeometry, bodyHeight = 1.82): void {
     const a = Math.atan2(z - cz, x - cx);
     const front = Math.max(0, Math.sin(a));
     const yNorm = Math.max(0, Math.min(1, y / bodyHeight));
-    const shade = 0.74 + 0.26 * front - 0.14 * yNorm;
+    // normal-aware cavity AO: undersides are darker (hand-painted wear)
+    const ny = norm ? norm.getY(i) : 0;
+    const underside = Math.max(0, -ny);
+    const shade = 0.74 + 0.26 * front - 0.14 * yNorm - 0.16 * underside;
     cols[i * 3] = shade;
     cols[i * 3 + 1] = shade * (1 - 0.03 * (1 - front));
     cols[i * 3 + 2] = shade * (1 - 0.06 * (1 - front));
