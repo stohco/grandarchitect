@@ -159,16 +159,17 @@ export class CharacterRig {
     // the robe breathes with the walk (a micro-sway of the cloth)
     this.inner.rotation.z = moving ? Math.sin(this.phase * 4 * Math.PI) * 0.02 : 0;
 
-    // arms swing from the SHOULDERS, in antiphase; at rest they ride OUT
-    // from the sides (the reference's lats push them ~17° out)
+    // arms swing from the SHOULDERS, in antiphase; at rest they hang
+    // slightly OUT (the reference's relaxed stance — the hands clear
+    // the thighs but the shoulder sockets stay connected)
     const swing = moving ? step * 0.5 * walk : Math.sin(this.clock * 1.2) * 0.03;
     if (this.armL) {
       this.armL.rotation.x = swing;
-      this.armL.rotation.z = -0.3;
+      this.armL.rotation.z = -0.12;
     }
     if (this.armR) {
       this.armR.rotation.x = -swing;
-      this.armR.rotation.z = 0.3;
+      this.armR.rotation.z = 0.12;
     }
 
     // the head steadies: counter the lean AND the pitch, keep the gaze

@@ -212,7 +212,7 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
       },
       // each ARM: shoulder → elbow → wrist, ONE loft, slightly out
       {
-        name: `arm_${s}`, zone: `arm_${s}`, xo: sgn * (A + f(0.012)), segments: 12,
+        name: `arm_${s}`, zone: `arm_${s}`, xo: sgn * (A + f(0.005)), segments: 12,
         slices: [
           { y: f(0.98), rx: f(0.036), rd: f(0.032), yf: f(0.06) }, // hand-ish base
           { y: f(1.12), rx: params.forearmRadius, rd: params.forearmRadius * 0.9, yf: f(0.05) },
@@ -300,7 +300,7 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
 
   // ---- the HANDS (bible §3: 0.19 m) — palm + four fingers per side ----
   for (const [side, sgn] of [['L', -1], ['R', 1]] as const) {
-    const handX = sgn * (A + f(0.012) + f(0.02));
+    const handX = sgn * (A + f(0.005) + f(0.02));
     const palmGeo = new THREE.CapsuleGeometry(f(0.03), f(0.05), 4, 10);
     const palm = new THREE.Mesh(palmGeo, mats.skin);
     palm.name = `zone_HAND_${side}_palm`;
