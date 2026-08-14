@@ -82,7 +82,11 @@ export function paintSkin(geo: THREE.BufferGeometry, bodyHeight = 1.82): void {
     // normal-aware cavity AO: undersides are darker (hand-painted wear)
     const ny = norm ? norm.getY(i) : 0;
     const underside = Math.max(0, -ny);
-    const shade = 0.74 + 0.26 * front - 0.14 * yNorm - 0.16 * underside;
+    // the hand-painted mottle: deterministic per-vertex variation (the
+    // bible's 'hand-painted textures, no tiling repetition')
+    const h = (Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453) % 1;
+    const mottle = 1 + (Math.abs(h) - 0.5) * 0.045;
+    const shade = (0.74 + 0.26 * front - 0.14 * yNorm - 0.16 * underside) * mottle;
     cols[i * 3] = shade;
     cols[i * 3 + 1] = shade * (1 - 0.03 * (1 - front));
     cols[i * 3 + 2] = shade * (1 - 0.06 * (1 - front));

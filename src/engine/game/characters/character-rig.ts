@@ -160,16 +160,17 @@ export class CharacterRig {
     this.inner.rotation.z = moving ? Math.sin(this.phase * 4 * Math.PI) * 0.02 : 0;
 
     // arms swing from the SHOULDERS, in antiphase; at rest they hang
-    // slightly OUT (the reference's relaxed stance — the hands clear
-    // the thighs but the shoulder sockets stay connected)
+    // near-straight (the reference's stance — palms slightly back)
     const swing = moving ? step * 0.5 * walk : Math.sin(this.clock * 1.2) * 0.03;
     if (this.armL) {
       this.armL.rotation.x = swing;
-      this.armL.rotation.z = -0.12;
+      this.armL.rotation.z = -0.06;
+      this.armL.rotation.y = 0.14; // the palms face slightly back
     }
     if (this.armR) {
       this.armR.rotation.x = -swing;
-      this.armR.rotation.z = 0.12;
+      this.armR.rotation.z = 0.06;
+      this.armR.rotation.y = 0.14; // the palms face slightly back
     }
 
     // the head steadies: counter the lean AND the pitch, keep the gaze
