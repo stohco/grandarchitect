@@ -364,9 +364,9 @@ export function buildBody(params: BodyParams, mats: BodyMaterials): THREE.Group 
   g.add(mouth);
   // the black fitted boxer-briefs (a lofted shell over the pelvis)
   const briefsGeo = loftGeometry([
-    { y: f(0.76), rx: f(0.14), rd: f(0.12), yf: 0 },
-    { y: f(0.9), rx: params.hipRadius * 1.02, rd: params.hipRadius * 0.92, yf: 0 },
-    { y: f(1.05), rx: params.hipRadius * 1.03, rd: params.hipRadius * 0.9, yf: 0 },
+    { y: f(0.76), rx: f(0.138), rd: f(0.115), yf: 0 },      // the leg openings
+    { y: f(0.9), rx: params.hipRadius * 1.0, rd: params.hipRadius * 0.9, yf: 0 }, // the hip
+    { y: f(1.06), rx: f(0.152), rd: f(0.132), yf: 0 },      // the waistband
   ], 18, 0);
   briefsGeo.computeVertexNormals();
   const briefs = new THREE.Mesh(briefsGeo, mats.under);
